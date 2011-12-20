@@ -1,0 +1,13 @@
+//
+// Prefix header for all source files of the 'ccBuilder' target in the 'ccBuilder' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
+
+#ifdef DEBUG
+#   define DLog(fmt, ...) NSLog((@"%s, line %d: " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#   define DLog(...)
+#endif
