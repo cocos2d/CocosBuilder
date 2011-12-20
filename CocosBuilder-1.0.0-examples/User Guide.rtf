@@ -1,0 +1,120 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red42\green42\blue42;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11200\viewh15580\viewkind0
+\deftab720
+\pard\pardeftab720\sa200\ql\qnatural
+
+\f0\fs24 \cf2 With CocosBuilder you can graphically layout your Cocos2D node graphs and scenes and add them to your project with a single line of code. Currently supported objects are 
+\i CCNode
+\i0 , 
+\i CCLayer
+\i0 , 
+\i CCLayerColor
+\i0 , 
+\i CCLayerGradient
+\i0 , 
+\i CCSprite
+\i0 , 
+\i CCMenu
+\i0 , 
+\i CCMenuItemImage
+\i0 , 
+\i CCLabelBMFont
+\i0 , 
+\i CCParticleSystem
+\i0 .\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b\fs36 \cf2 \
+Working in CocosBuilder\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b0\fs26 \cf2 When creating a new document, make sure it is in the same directory as you other assets you want to use with CocosBuilder and in your project. Only assets in the same directory will show up in the program. The stage size can be up to a million points. The center of origin option will tell if the stage\'92s origin is set to the bottom left corner or the center of the stage. You can change the stage size and origin at any time in the View menu.
+\b\fs36 \
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 Use the selection tool to select objects to change their properties. Hold down the command key and drag the stage to instantly switch to the scroll view tool. Add objects by using the 
+\i Object
+\i0  -> 
+\i Add Object
+\i0  menu. You can also add CCSprite\'92s by dragging images from the Image Assets palette to the stage. If you drop images on a CCMenu they will automatically be added as CCMenuItemImages.\
+Edit the objects you have added by selecting them. If the object you have clicked on is obscured by another object, you can use the Select Behind option in the Object menu right after clicking. When an object is selected its properties will show up on the right side of the main window. Any updates you make in the properties view will be immediately reflected in your objects. You can move, rotate and scale objects by dragging their transform handles, it\'92s also possible to nudge them by using cmd-arrowkeys.\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b\fs36 \cf2 \
+Loading scenes and nodes\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 CocosBuilder files, or 
+\i ccb-files
+\i0  can be easily loaded into your application with a single line of code. To load a node graph, add the 
+\i CCBReader.h
+\i0  and 
+\i CCBReader.m
+\i0  files to your Cocos2D project, then call the 
+\i nodeGraphFromFile:
+\i0  method as follows.\
+\pard\pardeftab720\ql\qnatural
+
+\f1 \cf2 CCNode* myNode = [CCBReader nodeGraphFromFile:@"MyNodeGraph.ccb"];\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\f0 \cf2 You may need to cast the returned value depending on what sort of object is the root node in your ccb-file and how you will use it in your code. For instance, if you load a CCParticleSystem, use the following code.\
+\pard\pardeftab720\ql\qnatural
+
+\f1 \cf2 CCParticleSystem* myParticles = (CCParticleSystem*) [CCBReader nodeGraphFromFile:@"MyParticleSystem.ccb"];\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\f0 \cf2 For your convenience, CCBReader can also wrap your node graph in a scene. To load your ccb-file in a scene call 
+\i sceneWithNodeGraphFromFile:
+\i0 \
+\pard\pardeftab720\ql\qnatural
+
+\f1 \cf2 CCScene* myScene = [CCBReader sceneWithNodeGraphFromFile:@"MyScene.ccb"];\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\f0\b\fs36 \cf2 \
+Using custom classes\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 The way you can link your code with CocosBuilder is to use custom classes. To assign a custom class to an object in CocosBuilder, just select the object then enter the name of your custom class in the property inspector. Remember that your custom class needs to be a sub class of the selected object. When loading the ccb-file CCBReader will attempt to create your custom class using the super class\'92s init methods. If you need to do any extra initialization of your class, CCBReader will call the didLoadFromCCB method right after the class has been initiated. Do not override the init methods in your custom class.\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b\fs36 \cf2 \
+Linking member variables\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 References to objects in your ccb-file can be linked to member variables when the file is loaded. These member variables can be either in the root node of the document, in which case it must have been assigned a custom class. You can also assign them to a custom object, which is optionally passed as the owner object to the CCBReader.\
+To load ccb-file and assign members to it\'92s owner, the node graph needs to be loaded by calling either the nodeGraphFromFile:owner: or the sceneWithNodeGraphFromFile:owner: methods.\
+To link an object, simply declare them in the header file, either in the object you plan to pass as the owner or in the custom class of your document root object. Select the object in CocosBuilder, under Code Connections change the 
+\i Don\'92t assign
+\i0  popup menu to either 
+\i Doc root var
+\i0  or 
+\i Owner var
+\i0 . Then enter the name of your member variable to the right of the popup menu.\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b\fs36 \cf2 \
+Adding callbacks to buttons\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 To add a callback when a CCMenuItemImage is tapped, simply select the CCMenuItemImage in CocosBuilder, then add the name of the method you want to call in the Selector field. Set the target either to the 
+\i Document root
+\i0  or the 
+\i Owner
+\i0 .\
+\pard\pardeftab720\sa320\ql\qnatural
+
+\b\fs36 \cf2 \
+Next steps\
+\pard\pardeftab720\sa200\ql\qnatural
+
+\b0\fs24 \cf2 There is an example included in this distribution. You can find it in the 
+\i Example/CocosBuilderTest/ 
+\i0 folder. Open the XCode project and read the 
+\i HelloCocosBuilder.m
+\i0  and 
+\i HelloCocosBuilder.h
+\i0  files.}
