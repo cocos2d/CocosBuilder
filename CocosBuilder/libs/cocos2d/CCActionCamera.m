@@ -2,6 +2,7 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2008-2010 Ricardo Quesada
+ * Copyright (c) 2011 Zynga Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -9,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -64,7 +65,7 @@
 -(id) initWithDuration:(float)t radius:(float)r deltaRadius:(float) dr angleZ:(float)z deltaAngleZ:(float)dz angleX:(float)x deltaAngleX:(float)dx
 {
 	if((self=[super initWithDuration:t]) ) {
-	
+
 		radius_ = r;
 		deltaRadius_ = dr;
 		angleZ_ = z;
@@ -75,7 +76,7 @@
 		radDeltaZ_ = (CGFloat)CC_DEGREES_TO_RADIANS(dz);
 		radDeltaX_ = (CGFloat)CC_DEGREES_TO_RADIANS(dx);
 	}
-	
+
 	return self;
 }
 
@@ -83,16 +84,16 @@
 {
 	[super startWithTarget:aTarget];
 	float r, zenith, azimuth;
-	
+
 	[self sphericalRadius: &r zenith:&zenith azimuth:&azimuth];
-	
+
 #if 0 // isnan() is not supported on the simulator, and isnan() always returns false.
 	if( isnan(radius_) )
 		radius_ = r;
-	
+
 	if( isnan( angleZ_) )
 		angleZ_ = (CGFloat)CC_RADIANS_TO_DEGREES(zenith);
-	
+
 	if( isnan( angleX_ ) )
 		angleX_ = (CGFloat)CC_RADIANS_TO_DEGREES(azimuth);
 #endif
@@ -111,7 +112,7 @@
 	float j = sinf(za) * sinf(xa) * r + centerYOrig_;
 	float k = cosf(za) * r + centerZOrig_;
 
-	[[target_ camera] setEyeX:i eyeY:j eyeZ:k];	
+	[[target_ camera] setEyeX:i eyeY:j eyeZ:k];
 }
 
 -(void) sphericalRadius:(float*) newRadius zenith:(float*) zenith azimuth:(float*) azimuth
@@ -119,15 +120,15 @@
 	float ex, ey, ez, cx, cy, cz, x, y, z;
 	float r; // radius
 	float s;
-	
+
 	CCCamera *camera = [target_ camera];
 	[camera eyeX:&ex eyeY:&ey eyeZ:&ez];
 	[camera centerX:&cx centerY:&cy centerZ:&cz];
-	
+
 	x = ex-cx;
 	y = ey-cy;
 	z = ez-cz;
-	
+
 	r = sqrtf( x*x + y*y + z*z);
 	s = sqrtf( x*x + y*y);
 	if(s==0.0f)
@@ -140,7 +141,7 @@
 		*azimuth = (float)M_PI - asinf(y/s);
 	else
 		*azimuth = asinf(y/s);
-					
-	*newRadius = r / [CCCamera getZEye];					
+
+	*newRadius = r / [CCCamera getZEye];
 }
 @end

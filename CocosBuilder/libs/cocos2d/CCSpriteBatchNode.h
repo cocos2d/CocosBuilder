@@ -1,19 +1,21 @@
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
- * Copyright (c) 2009-2010 Ricardo Quesada
  * Copyright (C) 2009 Matt Oswald
- * 
+ *
+ * Copyright (c) 2009-2010 Ricardo Quesada
+ * Copyright (c) 2011 Zynga Inc.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -46,7 +48,7 @@
  * Limitations:
  *  - The only object that is accepted as child (or grandchild, grand-grandchild, etc...) is CCSprite or any subclass of CCSprite. eg: particles, labels and layer can't be added to a CCSpriteBatchNode.
  *  - Either all its children are Aliased or Antialiased. It can't be a mix. This is because "alias" is a property of the texture, and all the sprites share the same texture.
- * 
+ *
  * @since v0.7.1
  */
 @interface CCSpriteBatchNode : CCNode <CCTextureProtocol>
@@ -71,27 +73,23 @@
  The capacity will be increased in 33% in runtime if it run out of space.
  */
 +(id)batchNodeWithTexture:(CCTexture2D *)tex;
-+(id)spriteSheetWithTexture:(CCTexture2D *)tex DEPRECATED_ATTRIBUTE;
 
 /** creates a CCSpriteBatchNode with a texture2d and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  */
 +(id)batchNodeWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
-+(id)spriteSheetWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity DEPRECATED_ATTRIBUTE;
 
 /** creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) with a default capacity of 29 children.
  The capacity will be increased in 33% in runtime if it run out of space.
  The file will be loaded using the TextureMgr.
  */
 +(id)batchNodeWithFile:(NSString*) fileImage;
-+(id)spriteSheetWithFile:(NSString*) fileImage DEPRECATED_ATTRIBUTE;
 
 /** creates a CCSpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
  The file will be loaded using the TextureMgr.
 */
 +(id)batchNodeWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity;
-+(id)spriteSheetWithFile:(NSString*)fileImage capacity:(NSUInteger)capacity DEPRECATED_ATTRIBUTE;
 
 /** initializes a CCSpriteBatchNode with a texture2d and capacity of children.
  The capacity will be increased in 33% in runtime if it run out of space.
@@ -105,25 +103,6 @@
 
 -(void) increaseAtlasCapacity;
 
-/** creates an sprite with a rect in the CCSpriteBatchNode.
- It's the same as:
-   - create an standard CCSsprite
-   - set the usingSpriteSheet = YES
-   - set the textureAtlas to the same texture Atlas as the CCSpriteBatchNode
- @deprecated Use [CCSprite spriteWithBatchNode:rect:] instead;
- */
--(CCSprite*) createSpriteWithRect:(CGRect)rect DEPRECATED_ATTRIBUTE;
-
-/** initializes a previously created sprite with a rect. This sprite will have the same texture as the CCSpriteBatchNode.
- It's the same as:
- - initialize an standard CCSsprite
- - set the usingBatchNode = YES
- - set the textureAtlas to the same texture Atlas as the CCSpriteBatchNode
- @since v0.99.0
- @deprecated Use [CCSprite initWithBatchNode:rect:] instead;
-*/ 
--(void) initSprite:(CCSprite*)sprite rect:(CGRect)rect DEPRECATED_ATTRIBUTE;
-
 /** removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.
  @warning Removing a child from a CCSpriteBatchNode is very slow
  */
@@ -135,9 +114,12 @@
 -(void)removeChild: (CCSprite *)sprite cleanup:(BOOL)doCleanup;
 
 -(void) insertChild:(CCSprite*)child inAtlasAtIndex:(NSUInteger)index;
+-(void) appendChild:(CCSprite*)sprite;
 -(void) removeSpriteFromAtlas:(CCSprite*)sprite;
 
 -(NSUInteger) rebuildIndexInOrder:(CCSprite*)parent atlasIndex:(NSUInteger)index;
--(NSUInteger) atlasIndexForChild:(CCSprite*)sprite atZ:(int)z;
+-(NSUInteger) atlasIndexForChild:(CCSprite*)sprite atZ:(NSInteger)z;
+/* Sprites use this to start sortChildren, don't call this manually */
+- (void) reorderBatch:(BOOL) reorder;
 
 @end

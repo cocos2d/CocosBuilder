@@ -9,10 +9,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -87,8 +87,8 @@
 /** CCAccelDeccelAmplitude action */
 @interface CCAccelDeccelAmplitude : CCActionInterval
 {
-	float			rate;
-	CCActionInterval *other;
+	float			rate_;
+	CCActionInterval *other_;
 }
 
 /** amplitude rate */
@@ -106,8 +106,8 @@
 /** CCAccelAmplitude action */
 @interface CCAccelAmplitude : CCActionInterval
 {
-	float			rate;
-	CCActionInterval *other;
+	float			rate_;
+	CCActionInterval *other_;
 }
 
 /** amplitude rate */
@@ -125,8 +125,8 @@
 /** CCDeccelAmplitude action */
 @interface CCDeccelAmplitude : CCActionInterval
 {
-	float			rate;
-	CCActionInterval *other;
+	float			rate_;
+	CCActionInterval *other_;
 }
 
 /** amplitude rate */
@@ -156,7 +156,7 @@
 /** CCReuseGrid action */
 @interface CCReuseGrid : CCActionInstant
 {
-	int t;
+	int t_;
 }
 /** creates an action with the number of times that the current grid will be reused */
 +(id) actionWithTimes: (int) times;
