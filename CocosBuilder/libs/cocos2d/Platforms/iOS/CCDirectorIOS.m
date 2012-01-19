@@ -2,17 +2,18 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2010 Ricardo Quesada
- * 
+ * Copyright (c) 2011 Zynga Inc.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,8 +26,8 @@
 
 // Only compile this code on iOS. These files should NOT be included on your Mac project.
 // But in case they are included, it won't be compiled.
-#import <Availability.h>
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#import "../../ccMacros.h"
+#ifdef __CC_PLATFORM_IOS
 
 #import <unistd.h>
 
@@ -39,13 +40,17 @@
 #import "../../CCTextureCache.h"
 #import "../../ccMacros.h"
 #import "../../CCScene.h"
+#import "../../CCGLProgram.h"
+#import "../../ccGLState.h"
+#import "../../CCLayer.h"
 
 // support imports
-#import "glu.h"
 #import "../../Support/OpenGL_Internal.h"
 #import "../../Support/CGPointExtension.h"
+#import "../../Support/TransformUtils.h"
 
-#import "CCLayer.h"
+#import "kazmath/kazmath.h"
+#import "kazmath/GL/matrix.h"
 
 #if CC_ENABLE_PROFILERS
 #import "../../Support/CCProfiling.h"
@@ -58,50 +63,36 @@
 CGFloat	__ccContentScaleFactor = 1;
 
 #pragma mark -
-#pragma mark Director iOS
+#pragma mark Director
 
 @interface CCDirector ()
 -(void) setNextScene;
--(void) showFPS;
+-(void) showStats;
 -(void) calculateDeltaTime;
+-(void) calculateMPF;
 @end
 
 @implementation CCDirector (iOSExtensionClassMethods)
 
 +(Class) defaultDirector
 {
-	return [CCDirectorTimer class];
+	return [CCDirectorDisplayLink class];
 }
 
-+ (BOOL) setDirectorType:(ccDirectorType)type
+-(void) setInterfaceOrientationDelegate:(id)delegate
 {
-	if( type == CCDirectorTypeDisplayLink ) {
-		NSString *reqSysVer = @"3.1";
-		NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
-		
-		if([currSysVer compare:reqSysVer options:NSNumericSearch] == NSOrderedAscending)
-			return NO;
-	}
-	switch (type) {
-		case CCDirectorTypeNSTimer:
-			[CCDirectorTimer sharedDirector];
-			break;
-		case CCDirectorTypeDisplayLink:
-			[CCDirectorDisplayLink sharedDirector];
-			break;
-		case CCDirectorTypeMainLoop:
-			[CCDirectorFast sharedDirector];
-			break;
-		case CCDirectorTypeThreadMainLoop:
-			[CCDirectorFastThreaded sharedDirector];
-			break;
-		default:
-			NSAssert(NO,@"Unknown director type");
-	}
-	
-	return YES;
+	// override me
 }
 
+-(CCTouchDispatcher*) touchDispatcher
+{
+	return nil;
+}
+
+-(void) setTouchDispatcher:(CCTouchDispatcher*)touchDispatcher
+{
+	//
+}
 @end
 
 
@@ -110,41 +101,31 @@ CGFloat	__ccContentScaleFactor = 1;
 #pragma mark CCDirectorIOS
 
 @interface CCDirectorIOS ()
--(BOOL)isOpenGLAttached;
--(BOOL)initOpenGLViewWithView:(UIView *)view withFrame:(CGRect)rect;
-
 -(void) updateContentScaleFactor;
-
 @end
 
 @implementation CCDirectorIOS
 
-@synthesize pixelFormat=pixelFormat_;
-
 - (id) init
-{  
+{
 	if( (self=[super init]) ) {
-				
-		
-		// default values
-		pixelFormat_ = kCCPixelFormatDefault;		// DEPRECATED. Will be removed in 1.0
-		depthBufferFormat_ = 0;						// DEPRECATED. Will be removed in 1.0
-		
-		// portrait mode default
-		deviceOrientation_ = CCDeviceOrientationPortrait;
-		
+
 		__ccContentScaleFactor = 1;
 		isContentScaleSupported_ = NO;
-		
+
+		touchDispatcher_ = [[CCTouchDispatcher alloc] init];
+
 		// running thread is main thread on iOS
 		runningThread_ = [NSThread currentThread];
 	}
-	
+
 	return self;
 }
 
 - (void) dealloc
-{	
+{
+	[touchDispatcher_ release];
+
 	[super dealloc];
 }
 
@@ -152,264 +133,119 @@ CGFloat	__ccContentScaleFactor = 1;
 // Draw the Scene
 //
 - (void) drawScene
-{    
+{
 	/* calculate "global" dt */
 	[self calculateDeltaTime];
-	
+
+	CCGLView *openGLview = (CCGLView*)[self view];
+
+	[EAGLContext setCurrentContext: [openGLview context]];
+
 	/* tick before glClear: issue #533 */
-	if( ! isPaused_ ) {
-		[[CCScheduler sharedScheduler] tick: dt];	
-	}
-	
+	if( ! isPaused_ )
+		[scheduler_ update: dt];
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	/* to avoid flickr, nextScene MUST be here: after tick and before draw.
 	 XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
 	if( nextScene_ )
 		[self setNextScene];
-	
-	glPushMatrix();
-	
-	[self applyOrientation];
-	
-	// By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
-	CC_ENABLE_DEFAULT_GL_STATES();
-	
-	/* draw the scene */
+
+	kmGLPushMatrix();
+
 	[runningScene_ visit];
-	
-	/* draw the notification node */
+
 	[notificationNode_ visit];
 
-	if( displayFPS_ )
-		[self showFPS];
-	
-#if CC_ENABLE_PROFILERS
-	[self showProfilers];
-#endif
-	
-	CC_DISABLE_DEFAULT_GL_STATES();
-	
-	glPopMatrix();
-	
-	[openGLView_ swapBuffers];
+	if( displayStats_ )
+		[self showStats];
+
+	kmGLPopMatrix();
+
+	totalFrames_++;
+
+	[openGLview swapBuffers];
+
+	if( displayStats_ )
+		[self calculateMPF];
 }
 
 -(void) setProjection:(ccDirectorProjection)projection
 {
 	CGSize size = winSizeInPixels_;
-	
+	CGSize sizePoint = winSizeInPoints_;
+
+	glViewport(0, 0, size.width * CC_CONTENT_SCALE_FACTOR(), size.height * CC_CONTENT_SCALE_FACTOR() );
+
 	switch (projection) {
 		case kCCDirectorProjection2D:
-			glViewport(0, 0, size.width, size.height);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			ccglOrtho(0, size.width, 0, size.height, -1024 * CC_CONTENT_SCALE_FACTOR(), 1024 * CC_CONTENT_SCALE_FACTOR());
-			glMatrixMode(GL_MODELVIEW);
-			glLoadIdentity();
+
+			kmGLMatrixMode(KM_GL_PROJECTION);
+			kmGLLoadIdentity();
+
+			kmMat4 orthoMatrix;
+			kmMat4OrthographicProjection(&orthoMatrix, 0, size.width, 0, size.height, -1024, 1024 );
+			kmGLMultMatrix( &orthoMatrix );
+
+			kmGLMatrixMode(KM_GL_MODELVIEW);
+			kmGLLoadIdentity();
 			break;
-			
+
 		case kCCDirectorProjection3D:
-			glViewport(0, 0, size.width, size.height);
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			gluPerspective(60, (GLfloat)size.width/size.height, 0.5f, 1500.0f);
-			
-			glMatrixMode(GL_MODELVIEW);	
-			glLoadIdentity();
-			gluLookAt( size.width/2, size.height/2, [self getZEye],
-					  size.width/2, size.height/2, 0,
-					  0.0f, 1.0f, 0.0f);			
+		{
+			// reset the viewport if 3d proj & retina display
+			if( CC_CONTENT_SCALE_FACTOR() != 1 )
+				glViewport(-size.width/2, -size.height/2, size.width * CC_CONTENT_SCALE_FACTOR(), size.height * CC_CONTENT_SCALE_FACTOR() );
+
+			float zeye = [self getZEye];
+
+			kmMat4 matrixPerspective, matrixLookup;
+
+			kmGLMatrixMode(KM_GL_PROJECTION);
+			kmGLLoadIdentity();
+
+			kmMat4PerspectiveProjection( &matrixPerspective, 60, (GLfloat)sizePoint.width/sizePoint.height, 0.5f, 1500.0f );
+			kmGLMultMatrix(&matrixPerspective);
+
+			kmGLMatrixMode(KM_GL_MODELVIEW);
+			kmGLLoadIdentity();
+			kmVec3 eye, center, up;
+			kmVec3Fill( &eye, sizePoint.width/2, sizePoint.height/2, zeye );
+			kmVec3Fill( &center, sizePoint.width/2, sizePoint.height/2, 0 );
+			kmVec3Fill( &up, 0, 1, 0);
+			kmMat4LookAt(&matrixLookup, &eye, &center, &up);
+			kmGLMultMatrix(&matrixLookup);
 			break;
-			
+		}
+
 		case kCCDirectorProjectionCustom:
-			if( projectionDelegate_ )
-				[projectionDelegate_ updateProjection];
+			if( [delegate_ respondsToSelector:@selector(updateProjection)] )
+				[delegate_ updateProjection];
 			break;
-			
+
 		default:
 			CCLOG(@"cocos2d: Director: unrecognized projecgtion");
 			break;
 	}
-	
+
 	projection_ = projection;
+
+	ccSetProjectionMatrixDirty();
 }
 
-#pragma mark Director Scene iPhone Specific
+#pragma mark Director - TouchDispatcher
 
--(void) setPixelFormat: (tPixelFormat) format
-{	
-	NSAssert( ! [self isOpenGLAttached], @"Can't change the pixel format after the director was initialized" );	
-	pixelFormat_ = format;
-}
-
--(void) setDepthBufferFormat: (tDepthBufferFormat) format
+-(CCTouchDispatcher*) touchDispatcher
 {
-	NSAssert( ! [self isOpenGLAttached], @"Can't change the depth buffer format after the director was initialized");
-	depthBufferFormat_ = format;
+	return touchDispatcher_;
 }
 
-#pragma mark Director Integration with a UIKit view
-
-// is the view currently attached
--(BOOL)isOpenGLAttached
+-(void) setTouchDispatcher:(CCTouchDispatcher*)touchDispatcher
 {
-	return ([openGLView_ superview]!=nil);
-}
-
-// XXX: deprecated
--(BOOL)detach
-{
-	NSAssert([self isOpenGLAttached], @"FATAL: Director: Can't detach the OpenGL View, because it is not attached. Attach it first.");
-	
-	// remove from the superview
-	[openGLView_ removeFromSuperview];
-	
-	NSAssert(![self isOpenGLAttached], @"FATAL: Director: Can't detach the OpenGL View, it is still attached to the superview.");
-	
-	
-	return YES;
-}
-
-// XXX: Deprecated method
--(BOOL)attachInWindow:(UIWindow *)window
-{
-	if([self initOpenGLViewWithView:window withFrame:[window bounds]])
-	{
-		return YES;
-	}
-	
-	return NO;
-}
-
-// XXX: Deprecated method
--(BOOL)attachInView:(UIView *)view
-{
-	if([self initOpenGLViewWithView:view withFrame:[view bounds]])
-	{
-		return YES;
-	}
-	
-	return NO;
-}
-
-// XXX: Deprecated method
--(BOOL)attachInView:(UIView *)view withFrame:(CGRect)frame
-{
-	if([self initOpenGLViewWithView:view withFrame:frame])
-	{
-		return YES;
-	}
-	
-	return NO;
-}
-
-// XXX: Deprecated method
--(BOOL)initOpenGLViewWithView:(UIView *)view withFrame:(CGRect)rect
-{
-	NSAssert( ! [self isOpenGLAttached], @"FATAL: Can't re-attach the OpenGL View, because it is already attached. Detach it first");
-	
-	// check if the view is not initialized
-	if(!openGLView_)
-	{
-		// define the pixel format
-		NSString	*pFormat = nil;
-	    GLuint		depthFormat = 0;
-		
-		if(pixelFormat_==kCCPixelFormatRGBA8888)
-			pFormat = kEAGLColorFormatRGBA8;
-		else if(pixelFormat_== kCCPixelFormatRGB565)
-			pFormat = kEAGLColorFormatRGB565;
-		else {
-			CCLOG(@"cocos2d: Director: Unknown pixel format.");
-		}
-		
-		if(depthBufferFormat_ == kCCDepthBuffer16)
-			depthFormat = GL_DEPTH_COMPONENT16_OES;
-		else if(depthBufferFormat_ == kCCDepthBuffer24)
-			depthFormat = GL_DEPTH_COMPONENT24_OES;
-		else if(depthBufferFormat_ == kCCDepthBufferNone)
-			depthFormat = 0;
-		else {
-			CCLOG(@"cocos2d: Director: Unknown buffer depth.");
-		}
-		
-		// alloc and init the opengl view
-		openGLView_ = [[EAGLView alloc] initWithFrame:rect
-										  pixelFormat:pFormat
-										  depthFormat:depthFormat
-								   preserveBackbuffer:NO 
-										   sharegroup:nil
-										multiSampling:NO
-									  numberOfSamples:0];
-		
-		// check if the view was alloced and initialized
-		NSAssert( openGLView_, @"FATAL: Could not alloc and init the OpenGL view. ");
-		
-		// opaque by default (faster)
-		openGLView_.opaque = YES;		
-	}
-	else
-	{
-		// set the (new) frame of the glview
-		[openGLView_ setFrame:rect];
-	}
-	
-	winSizeInPoints_ = rect.size;
-	winSizeInPixels_ = CGSizeMake(winSizeInPoints_.width * __ccContentScaleFactor, winSizeInPoints_.height * __ccContentScaleFactor);
-	
-	
-	// set the touch delegate of the glview to self
-	[openGLView_ setTouchDelegate: [CCTouchDispatcher sharedDispatcher]];
-	
-	
-	// check if the superview has touchs enabled and enable it in our view
-	if([view isUserInteractionEnabled])
-	{
-		[openGLView_ setUserInteractionEnabled:YES];
-		[[CCTouchDispatcher sharedDispatcher] setDispatchEvents: YES];
-	}
-	else
-	{
-		[openGLView_ setUserInteractionEnabled:NO];
-		[[CCTouchDispatcher sharedDispatcher] setDispatchEvents: NO];
-	}
-	
-	// check if multi touches are enabled and set them
-	if([view isMultipleTouchEnabled])
-	{
-		[openGLView_ setMultipleTouchEnabled:YES];
-	}
-	else
-	{
-		[openGLView_ setMultipleTouchEnabled:NO];
-	}
-	
-	// add the glview to his (new) superview
-	[view addSubview:openGLView_];
-	
-	
-	NSAssert( [self isOpenGLAttached], @"FATAL: Director: Could not attach OpenGL view");
-	
-	[self setGLDefaultValues];
-	return YES;
-}
-
--(void) setOpenGLView:(EAGLView *)view
-{
-	if( view != openGLView_ ) {
-
-		[super setOpenGLView:view];
-
-		// set size
-		winSizeInPixels_ = CGSizeMake(winSizeInPoints_.width * __ccContentScaleFactor, winSizeInPoints_.height *__ccContentScaleFactor);
-		
-		if( __ccContentScaleFactor != 1 )
-			[self updateContentScaleFactor];
-		
-		CCTouchDispatcher *touchDispatcher = [CCTouchDispatcher sharedDispatcher];
-		[openGLView_ setTouchDelegate: touchDispatcher];
-		[touchDispatcher setDispatchEvents: YES];
+	if( touchDispatcher != touchDispatcher_ ) {
+		[touchDispatcher_ release];
+		touchDispatcher_ = [touchDispatcher retain];
 	}
 }
 
@@ -423,13 +259,13 @@ CGFloat	__ccContentScaleFactor = 1;
 -(void) setContentScaleFactor:(CGFloat)scaleFactor
 {
 	if( scaleFactor != __ccContentScaleFactor ) {
-		
+
 		__ccContentScaleFactor = scaleFactor;
 		winSizeInPixels_ = CGSizeMake( winSizeInPoints_.width * scaleFactor, winSizeInPoints_.height * scaleFactor );
-		
-		if( openGLView_ )
+
+		if( self.view )
 			[self updateContentScaleFactor];
-		
+
 		// update projection
 		[self setProjection:projection_];
 	}
@@ -437,15 +273,10 @@ CGFloat	__ccContentScaleFactor = 1;
 
 -(void) updateContentScaleFactor
 {
-	// Based on code snippet from: http://developer.apple.com/iphone/prerelease/library/snippets/sp2010/sp28.html
-	if ([openGLView_ respondsToSelector:@selector(setContentScaleFactor:)])
-	{			
-		[openGLView_ setContentScaleFactor: __ccContentScaleFactor];
-		
-		isContentScaleSupported_ = YES;
-	}
-	else
-		CCLOG(@"cocos2d: 'setContentScaleFactor:' is not supported on this device");
+	NSAssert( [self.view respondsToSelector:@selector(setContentScaleFactor:)], @"cocos2d v2.0+ runs on iOS 4 or later");
+
+	[self.view setContentScaleFactor: __ccContentScaleFactor];
+	isContentScaleSupported_ = YES;
 }
 
 -(BOOL) enableRetinaDisplay:(BOOL)enabled
@@ -453,13 +284,13 @@ CGFloat	__ccContentScaleFactor = 1;
 	// Already enabled ?
 	if( enabled && __ccContentScaleFactor == 2 )
 		return YES;
-	
+
 	// Already disabled
 	if( ! enabled && __ccContentScaleFactor == 1 )
 		return YES;
 
 	// setContentScaleFactor is not supported
-	if (! [openGLView_ respondsToSelector:@selector(setContentScaleFactor:)])
+	if (! [self.view respondsToSelector:@selector(setContentScaleFactor:)])
 		return NO;
 
 	// SD device
@@ -468,392 +299,151 @@ CGFloat	__ccContentScaleFactor = 1;
 
 	float newScale = enabled ? 2 : 1;
 	[self setContentScaleFactor:newScale];
-	
+
+	// Load Hi-Res FPS label
+	[self createStatsLabel];
+
 	return YES;
 }
 
 // overriden, don't call super
 -(void) reshapeProjection:(CGSize)size
 {
-	winSizeInPoints_ = [openGLView_ bounds].size;
+	winSizeInPoints_ = [self.view bounds].size;
 	winSizeInPixels_ = CGSizeMake(winSizeInPoints_.width * __ccContentScaleFactor, winSizeInPoints_.height *__ccContentScaleFactor);
-	
+
 	[self setProjection:projection_];
 }
 
-#pragma mark Director Scene Landscape
+#pragma mark Director Point Convertion
 
 -(CGPoint)convertToGL:(CGPoint)uiPoint
 {
 	CGSize s = winSizeInPoints_;
 	float newY = s.height - uiPoint.y;
-	float newX = s.width - uiPoint.x;
-	
-	CGPoint ret = CGPointZero;
-	switch ( deviceOrientation_) {
-		case CCDeviceOrientationPortrait:
-			ret = ccp( uiPoint.x, newY );
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			ret = ccp(newX, uiPoint.y);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			ret.x = uiPoint.y;
-			ret.y = uiPoint.x;
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			ret.x = newY;
-			ret.y = newX;
-			break;
-	}
-	
-//	if( __ccContentScaleFactor != 1 && isContentScaleSupported_ )
-//		ret = ccpMult(ret, __ccContentScaleFactor);
-	return ret;
+
+	return ccp( uiPoint.x, newY );
 }
 
 -(CGPoint)convertToUI:(CGPoint)glPoint
 {
 	CGSize winSize = winSizeInPoints_;
-	int oppositeX = winSize.width - glPoint.x;
 	int oppositeY = winSize.height - glPoint.y;
-	CGPoint uiPoint = CGPointZero;
-	switch ( deviceOrientation_) {
-		case CCDeviceOrientationPortrait:
-			uiPoint = ccp(glPoint.x, oppositeY);
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			uiPoint = ccp(oppositeX, glPoint.y);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			uiPoint = ccp(glPoint.y, glPoint.x);
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			// Can't use oppositeX/Y because x/y are flipped
-			uiPoint = ccp(winSize.width-glPoint.y, winSize.height-glPoint.x);
-			break;
-	}
-	
-	uiPoint = ccpMult(uiPoint, 1/__ccContentScaleFactor);
-	return uiPoint;
-}
 
-// get the current size of the glview
--(CGSize) winSize
-{
-	CGSize s = winSizeInPoints_;
-	
-	if( deviceOrientation_ == CCDeviceOrientationLandscapeLeft || deviceOrientation_ == CCDeviceOrientationLandscapeRight ) {
-		// swap x,y in landscape mode
-		CGSize tmp = s;
-		s.width = tmp.height;
-		s.height = tmp.width;
-	}
-	return s;
-}
-
--(CGSize) winSizeInPixels
-{
-	CGSize s = [self winSize];
-	
-	s.width *= CC_CONTENT_SCALE_FACTOR();
-	s.height *= CC_CONTENT_SCALE_FACTOR();
-	
-	return s;
-}
-
--(ccDeviceOrientation) deviceOrientation
-{
-	return deviceOrientation_;
-}
-
-- (void) setDeviceOrientation:(ccDeviceOrientation) orientation
-{
-	if( deviceOrientation_ != orientation ) {
-		deviceOrientation_ = orientation;
-		switch( deviceOrientation_) {
-			case CCDeviceOrientationPortrait:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationPortrait animated:NO];
-				break;
-			case CCDeviceOrientationPortraitUpsideDown:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIDeviceOrientationPortraitUpsideDown animated:NO];
-				break;
-			case CCDeviceOrientationLandscapeLeft:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeRight animated:NO];
-				break;
-			case CCDeviceOrientationLandscapeRight:
-				[[UIApplication sharedApplication] setStatusBarOrientation: UIInterfaceOrientationLandscapeLeft animated:NO];
-				break;
-			default:
-				NSLog(@"Director: Unknown device orientation");
-				break;
-		}
-	}
-}
-
--(void) applyOrientation
-{	
-	CGSize s = winSizeInPixels_;
-	float w = s.width / 2;
-	float h = s.height / 2;
-	
-	// XXX it's using hardcoded values.
-	// What if the the screen size changes in the future?
-	switch ( deviceOrientation_ ) {
-		case CCDeviceOrientationPortrait:
-			// nothing
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			// upside down
-			glTranslatef(w,h,0);
-			glRotatef(180,0,0,1);
-			glTranslatef(-w,-h,0);
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			glTranslatef(w,h,0);
-			glRotatef(90,0,0,1);
-			glTranslatef(-h,-w,0);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			glTranslatef(w,h,0);
-			glRotatef(-90,0,0,1);
-			glTranslatef(-h,-w,0);
-			break;
-	}	
+	return ccp(glPoint.x, oppositeY);
 }
 
 -(void) end
 {
 	// don't release the event handlers
 	// They are needed in case the director is run again
-	[[CCTouchDispatcher sharedDispatcher] removeAllDelegates];
-	
+	[touchDispatcher_ removeAllDelegates];
+
 	[super end];
 }
 
-@end
+#pragma mark Director - UIViewController delegate
 
 
-#pragma mark -
-#pragma mark Director TimerDirector
-
-@implementation CCDirectorTimer
-- (void)startAnimation
+-(void) setView:(CCGLView *)view
 {
-	NSAssert( animationTimer == nil, @"animationTimer must be nil. Calling startAnimation twice?");
-	
-	if( gettimeofday( &lastUpdate_, NULL) != 0 ) {
-		CCLOG(@"cocos2d: Director: Error in gettimeofday");
-	}
-	
-	animationTimer = [NSTimer scheduledTimerWithTimeInterval:animationInterval_ target:self selector:@selector(mainLoop) userInfo:nil repeats:YES];
-	
-	//
-	//	If you want to attach the opengl view into UIScrollView
-	//  uncomment this line to prevent 'freezing'.
-	//	It doesn't work on with the Fast Director
-	//
-	//	[[NSRunLoop currentRunLoop] addTimer:animationTimer
-	//								 forMode:NSRunLoopCommonModes];
+	[super setView:view];
+
+	// set size
+	winSizeInPixels_ = CGSizeMake(winSizeInPoints_.width * __ccContentScaleFactor, winSizeInPoints_.height *__ccContentScaleFactor);
+
+	if( __ccContentScaleFactor != 1 )
+		[self updateContentScaleFactor];
+
+	[view setTouchDelegate: touchDispatcher_];
+	[touchDispatcher_ setDispatchEvents: YES];
 }
 
--(void) mainLoop
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	[self drawScene];
+	BOOL ret =YES;
+	if( [delegate_ respondsToSelector:_cmd] )
+		ret = (BOOL) [delegate_ shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+
+	return ret;
 }
 
-- (void)stopAnimation
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-	[animationTimer invalidate];
-	animationTimer = nil;
+	// do something ?
 }
 
-- (void)setAnimationInterval:(NSTimeInterval)interval
+
+-(void) viewWillAppear:(BOOL)animated
 {
-	animationInterval_ = interval;
-	
-	if(animationTimer) {
-		[self stopAnimation];
-		[self startAnimation];
-	}
+	[super viewWillAppear:animated];
+	[self startAnimation];
 }
 
--(void) dealloc
+-(void) viewDidAppear:(BOOL)animated
 {
-	[animationTimer release];
-	[super dealloc];
-}
-@end
-
-
-#pragma mark -
-#pragma mark Director DirectorFast
-
-@implementation CCDirectorFast
-
-- (id) init
-{
-	if(( self = [super init] )) {
-		
-#if CC_DIRECTOR_DISPATCH_FAST_EVENTS
-		CCLOG(@"cocos2d: Fast Events enabled");
-#else
-		CCLOG(@"cocos2d: Fast Events disabled");
-#endif		
-		isRunning = NO;
-		
-		// XXX:
-		// XXX: Don't create any autorelease object before calling "fast director"
-		// XXX: else it will be leaked
-		// XXX:
-		autoreleasePool = [NSAutoreleasePool new];
-	}
-
-	return self;
+	[super viewDidAppear:animated];
+//	[self startAnimation];
 }
 
-- (void) startAnimation
+-(void) viewWillDisappear:(BOOL)animated
 {
-	// XXX:
-	// XXX: release autorelease objects created
-	// XXX: between "use fast director" and "runWithScene"
-	// XXX:
-	[autoreleasePool release];
-	autoreleasePool = nil;
+//	[self stopAnimation];
 
-	if ( gettimeofday( &lastUpdate_, NULL) != 0 ) {
-		CCLOG(@"cocos2d: Director: Error in gettimeofday");
-	}
-	
-
-	isRunning = YES;
-
-	SEL selector = @selector(mainLoop);
-	NSMethodSignature* sig = [[[CCDirector sharedDirector] class]
-							  instanceMethodSignatureForSelector:selector];
-	NSInvocation* invocation = [NSInvocation
-								invocationWithMethodSignature:sig];
-	[invocation setTarget:[CCDirector sharedDirector]];
-	[invocation setSelector:selector];
-	[invocation performSelectorOnMainThread:@selector(invokeWithTarget:)
-								 withObject:[CCDirector sharedDirector] waitUntilDone:NO];
-	
-//	NSInvocationOperation *loopOperation = [[[NSInvocationOperation alloc]
-//											 initWithTarget:self selector:@selector(mainLoop) object:nil]
-//											autorelease];
-//	
-//	[loopOperation performSelectorOnMainThread:@selector(start) withObject:nil
-//								 waitUntilDone:NO];
+	[super viewWillDisappear:animated];
 }
 
--(void) mainLoop
+-(void) viewDidDisappear:(BOOL)animated
 {
-	while (isRunning) {
-	
-		NSAutoreleasePool *loopPool = [NSAutoreleasePool new];
+	[self stopAnimation];
 
-#if CC_DIRECTOR_DISPATCH_FAST_EVENTS
-		while( CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.004f, FALSE) == kCFRunLoopRunHandledSource);
-#else
-		while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource);
-#endif
-
-		if (isPaused_) {
-			usleep(250000); // Sleep for a quarter of a second (250,000 microseconds) so that the framerate is 4 fps.
-		}
-		
-		[self drawScene];		
-
-#if CC_DIRECTOR_DISPATCH_FAST_EVENTS
-		while( CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.004f, FALSE) == kCFRunLoopRunHandledSource);
-#else
-		while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, TRUE) == kCFRunLoopRunHandledSource);
-#endif
-
-		[loopPool release];
-	}	
-}
-- (void) stopAnimation
-{
-	isRunning = NO;
+	[super viewDidDisappear:animated];
 }
 
-- (void)setAnimationInterval:(NSTimeInterval)interval
+- (void)didReceiveMemoryWarning
 {
-	NSLog(@"FastDirectory doesn't support setAnimationInterval, yet");
+	// Release any cached data, images, etc that aren't in use.
+	[super purgeCachedData];
+
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+}
+
+-(void) viewDidLoad
+{
+	CCLOG(@"cocos2d: viewDidLoad");
+
+	[super viewDidLoad];
+}
+
+
+- (void)viewDidUnload
+{
+	CCLOG(@"cocos2d: viewDidUnload");
+
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 @end
 
-#pragma mark -
-#pragma mark Director DirectorThreadedFast
-
-@implementation CCDirectorFastThreaded
-
-- (id) init
-{
-	if(( self = [super init] )) {		
-		isRunning = NO;		
-	}
-	
-	return self;
-}
-
-- (void) startAnimation
-{
-	
-	if ( gettimeofday( &lastUpdate_, NULL) != 0 ) {
-		CCLOG(@"cocos2d: ThreadedFastDirector: Error on gettimeofday");
-	}
-
-	isRunning = YES;
-
-	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(mainLoop) object:nil];
-	[thread start];
-	[thread release];
-}
-
--(void) mainLoop
-{
-	while( ![[NSThread currentThread] isCancelled] ) {
-		if( isRunning )
-			[self performSelectorOnMainThread:@selector(drawScene) withObject:nil waitUntilDone:YES];
-				
-		if (isPaused_) {
-			usleep(250000); // Sleep for a quarter of a second (250,000 microseconds) so that the framerate is 4 fps.
-		} else {
-//			usleep(2000);
-		}
-	}	
-}
-- (void) stopAnimation
-{
-	isRunning = NO;
-}
-
-- (void)setAnimationInterval:(NSTimeInterval)interval
-{
-	NSLog(@"FastDirector doesn't support setAnimationInterval, yet");
-}
-@end
 
 #pragma mark -
 #pragma mark DirectorDisplayLink
 
-// Allows building DisplayLinkDirector for pre-3.1 SDKS
-// without getting compiler warnings.
-@interface NSObject(CADisplayLink)
-+ (id) displayLinkWithTarget:(id)arg1 selector:(SEL)arg2;
-- (void) addToRunLoop:(id)arg1 forMode:(id)arg2;
-- (void) setFrameInterval:(int)interval;
-- (void) invalidate;
-@end
-
 @implementation CCDirectorDisplayLink
+
+
+-(void) mainLoop:(id)sender
+{
+	[self drawScene];
+}
 
 - (void)setAnimationInterval:(NSTimeInterval)interval
 {
 	animationInterval_ = interval;
-	if(displayLink){
+	if(displayLink_){
 		[self stopAnimation];
 		[self startAnimation];
 	}
@@ -861,37 +451,94 @@ CGFloat	__ccContentScaleFactor = 1;
 
 - (void) startAnimation
 {
-	if ( gettimeofday( &lastUpdate_, NULL) != 0 ) {
-		CCLOG(@"cocos2d: DisplayLinkDirector: Error on gettimeofday");
-	}
-	
+	NSAssert( displayLink_ == nil, @"displayLink must be nil. Calling startAnimation twice?");
+
+	gettimeofday( &lastUpdate_, NULL);
+
 	// approximate frame rate
 	// assumes device refreshes at 60 fps
 	int frameInterval = (int) floor(animationInterval_ * 60.0f);
-	
-	CCLOG(@"cocos2d: Frame interval: %d", frameInterval);
 
-	displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(mainLoop:)];
-	[displayLink setFrameInterval:frameInterval];
-	[displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-}
+	CCLOG(@"cocos2d: animation started with frame interval: %.2f", 60.0f/frameInterval);
 
--(void) mainLoop:(id)sender
-{
-	[self drawScene];	
+	displayLink_ = [CADisplayLink displayLinkWithTarget:self selector:@selector(mainLoop:)];
+	[displayLink_ setFrameInterval:frameInterval];
+
+#if CC_DIRECTOR_IOS_USE_BACKGROUND_THREAD
+	//
+	runningThread_ = [[NSThread alloc] initWithTarget:self selector:@selector(threadMainLoop) object:nil];
+	[runningThread_ start];
+
+#else
+	// setup DisplayLink in main thread
+	[displayLink_ addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+#endif
+
+
 }
 
 - (void) stopAnimation
 {
-	[displayLink invalidate];
-	displayLink = nil;
+	CCLOG(@"cocos2d: animation stopped");
+
+#if CC_DIRECTOR_IOS_USE_BACKGROUND_THREAD
+	[runningThread_ cancel];
+	[runningThread_ release];
+	runningThread_ = nil;
+#endif
+
+	[displayLink_ invalidate];
+	displayLink_ = nil;
+}
+
+// Overriden in order to use a more stable delta time
+-(void) calculateDeltaTime
+{
+    // New delta time
+    if( nextDeltaTimeZero_ ) {
+        dt = 0;
+        nextDeltaTimeZero_ = NO;
+    } else {
+        dt = displayLink_.timestamp - lastDisplayTime_;
+        dt = MAX(0,dt);
+    }
+    // Store this timestamp for next time
+    lastDisplayTime_ = displayLink_.timestamp;
+
+	// needed for SPF
+	if( displayStats_ )
+		gettimeofday( &lastUpdate_, NULL);
+
+#ifdef DEBUG
+	// If we are debugging our code, prevent big delta time
+	if( dt > 0.2f )
+		dt = 1/60.0f;
+#endif
+}
+
+
+#pragma mark Director Thread
+
+//
+// Director has its own thread
+//
+-(void) threadMainLoop
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	[displayLink_ addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+	// start the run loop
+	[[NSRunLoop currentRunLoop] run];
+
+	[pool release];
 }
 
 -(void) dealloc
 {
-	[displayLink release];
+	[displayLink_ release];
 	[super dealloc];
 }
 @end
 
-#endif // __IPHONE_OS_VERSION_MAX_ALLOWED
+#endif // __CC_PLATFORM_IOS

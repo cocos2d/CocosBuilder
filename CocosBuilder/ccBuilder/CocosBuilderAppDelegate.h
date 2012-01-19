@@ -28,7 +28,7 @@ enum {
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
     // Cocos2D view
-    IBOutlet MacGLView* cocosView;
+    IBOutlet CCGLView* cocosView;
     IBOutlet NSView* mainView;
     
     // Inspector views
@@ -109,7 +109,7 @@ enum {
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
 @property (nonatomic,retain) NSString* assetsPath;
-@property (nonatomic,readonly) MacGLView* cocosView;
+@property (nonatomic,readonly) CCGLView* cocosView;
 
 @property (nonatomic,assign) BOOL canEditContentSize;
 @property (nonatomic,assign) BOOL defaultCanvasSize;
