@@ -1687,6 +1687,11 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ccBuilder/CocosBuilder-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"COCOS2D_DEBUG=1",
+					"CC_ENABLE_GL_STATE_CACHE=1",
+					DEBUG,
+				);
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
@@ -1706,6 +1711,11 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ccBuilder/CocosBuilder-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NDEBUG,
+					NS_BLOCK_ASSERTIONS,
+					"CC_ENABLE_GL_STATE_CACHE=1",
+				);
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
