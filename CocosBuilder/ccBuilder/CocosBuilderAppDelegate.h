@@ -46,6 +46,7 @@ enum {
     IBOutlet NSView* inspectorLayerGradientView;
     IBOutlet NSView* inspectorLabelTTFView;
     IBOutlet NSView* inspectorLabelBMFontView;
+    IBOutlet NSView* inspectorButtonView;
     
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
@@ -212,10 +213,14 @@ enum {
 
 // LabelTTF
 @property (nonatomic, retain) NSString* pFontName;
+@property (nonatomic, assign) float pFontSize;
 
 // LabelBMFont
 @property (nonatomic, retain) NSString* pString;
 @property (nonatomic, retain) NSString* pFontFile;
+
+// Button
+@property (nonatomic, retain) NSString* pImageNameFormat;
 
 // Methods
 - (void) updateInspectorFromSelection;
@@ -241,6 +246,8 @@ enum {
 - (IBAction) menuAddMenuItemImage:(id)sender;
 - (IBAction) menuAddLabelTTF:(id)sender;
 - (IBAction) menuAddLabelBMFont:(id)sender;
+- (IBAction) menuAddCCButton:(id)sender;
+- (IBAction) menuAddCCNineSlice:(id)sender;
 
 - (IBAction) menuAddParticleExplosion:(id)sender;
 - (IBAction) menuAddParticleFire:(id)sender;

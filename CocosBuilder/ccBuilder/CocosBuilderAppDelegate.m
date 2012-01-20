@@ -37,6 +37,7 @@
     [NSBundle loadNibNamed:@"InspectorLayerGradientView" owner:self];
     [NSBundle loadNibNamed:@"InspectorLabelTTFView" owner:self];
     [NSBundle loadNibNamed:@"InspectorLabelBMFontView" owner:self];
+    [NSBundle loadNibNamed:@"InspectorButtonView" owner:self];
     
     inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
@@ -51,6 +52,7 @@
     [inspectorDocumentView addSubview:inspectorLayerGradientView];
     [inspectorDocumentView addSubview:inspectorLabelTTFView];
     [inspectorDocumentView addSubview:inspectorLabelBMFontView];
+    [inspectorDocumentView addSubview:inspectorButtonView];
     
     [inspectorNodeView setAutoresizingMask:NSViewNotSizable];
     [inspectorLayerView setAutoresizingMask:NSViewNotSizable];
@@ -62,6 +64,7 @@
     [inspectorLayerGradientView setAutoresizingMask:NSViewNotSizable];
     [inspectorLabelTTFView setAutoresizingMask:NSViewNotSizable];
     [inspectorLabelBMFontView setAutoresizingMask:NSViewNotSizable];
+    [inspectorButtonView setAutoresizingMask:NSViewNotSizable];
     
     [inspectorScroll setDocumentView:inspectorDocumentView];
 }
@@ -783,6 +786,7 @@
     */
     [self populateProperty:@"pString"];
     [self populateProperty:@"pFontName"];
+    [self populateProperty:@"pFontSize"];
     [self populateProperty:@"canEditContentSize"];
     
     [inspectorSpriteName setEnabled:NO];
@@ -1011,6 +1015,15 @@
     self.canEditCustomClass = NO;
 }
 
+- (void) populateInspectorButtonView
+{
+    [self populateProperty:@"pImageNameFormat"];
+
+    
+    self.canEditContentSize = NO;
+    self.canEditCustomClass = NO;
+}
+
 - (void) populateInspectorViews
 {
     if ([selectedNode isKindOfClass:[CCNode class]])
@@ -1057,6 +1070,10 @@
     if ([selectedNode isKindOfClass:[CCBTemplateNode class]])
     {
         [self populateInspectorTemplateNodeView];
+    }
+    if ([selectedNode isKindOfClass:[CCButton class]])
+    {
+        [self populateInspectorButtonView];
     }
 }
 
@@ -1116,6 +1133,10 @@
     if ([selectedNode isKindOfClass:[CCLabelBMFont class]])
     {
         paneOffset = [self addInspectorPane:inspectorLabelBMFontView offset:paneOffset];
+    }
+    if ([selectedNode isKindOfClass:[CCButton class]])
+    {
+        paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
     }
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
@@ -3015,6 +3036,47 @@
     return [label fontName];
 }
 
+- (void) setPFontSize: (float)size
+{
+    if (![self isSelectedLabelTTF]) return;
+    [self saveUndoState];
+    
+    if (!size) size = 24;
+    CCLabelTTF* label = (CCLabelTTF*) selectedNode;
+    
+    [label setFontSize:size];
+    
+    // Update dimensions
+    self.pContentSizeW = label.contentSize.width;
+    self.pContentSizeH = label.contentSize.height;
+}
+
+- (float) pFontSize
+{
+    if (![self isSelectedLabelTTF]) return 24;
+    CCLabelTTF* label = (CCLabelTTF*) selectedNode;
+    return [label fontSize];
+}
+
+#pragma mark Properties Button
+- (void)setPImageNameFormat:(NSString *)imageNameFormat
+{
+    if (![self isSelectedMenuItem]) return;
+    [self saveUndoState];
+    if (!imageNameFormat) imageNameFormat = @"btn_red_pos%d.png";
+    
+    CCButton* button = (CCButton*) selectedNode;
+    [button setImageNameFormat:imageNameFormat];
+}
+
+- (NSString*) pImageNameFormat
+{
+    if (![self isSelectedMenuItem]) return @"";
+    
+    CCButton* button = (CCButton*) selectedNode;
+    return [button imageNameFormat];
+}
+
 #pragma mark Document handling
 
 /*
@@ -3514,6 +3576,18 @@
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     [self addCCObject:[cs createDefaultLabelBMFont] asChild:[sender tag]];
+}
+
+- (IBAction) menuAddCCButton:(id)sender
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [self addCCObject:[cs createDefaultButton] asChild:[sender tag]];
+}
+
+- (IBAction) menuAddCCNineSlice:(id)sender
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [self addCCObject:[cs createDefaultNineSlice] asChild:[sender tag]];
 }
 
 - (IBAction) menuAddParticleExplosion:(id)sender
