@@ -6,6 +6,8 @@
 #import "CCBReader.h"
 //#import "CCBTemplateNode.h"
 //#import "CCBTemplate.h"
+#import "CCNineSlice.h"
+#import "CCButton.h"
 
 @implementation CCBWriter
 
@@ -150,10 +152,28 @@
         [CCBWriter addPropToDict:props key:@"vector" pointVal: layer.vector];
     }
     
+    // CCLabelTTF
+    if([node isKindOfClass:[CCLabelTTF class]])
+    {
+        class = @"CCLabelTTF";
+        CCLabelTTF* label = (CCLabelTTF*)node;
+        [CCBWriter addPropToDict:props key:@"string" stringVal:[[[label string] copy] autorelease]];
+        [CCBWriter addPropToDict:props key:@"fontSize" floatVal:[label fontSize]];
+        [CCBWriter addPropToDict:props key:@"fontName" stringVal:[label fontName]];
+        
+        [CCBWriter addPropToDict:props key:@"spriteFile" stringVal:@""];
+        [CCBWriter addPropToDict:props key:@"opacity" intVal:(int)label.opacity];
+        [CCBWriter addPropToDict:props key:@"color" color3Val:label.color];
+        [CCBWriter addPropToDict:props key:@"flipX" boolVal:label.flipX];
+        [CCBWriter addPropToDict:props key:@"flipY" boolVal:label.flipY];
+        [CCBWriter addPropToDict:props key:@"blendFunc" blendFuncVal:label.blendFunc];
+    }
+    
     // CCSprite props
     if ([node isKindOfClass:[CCSprite class]]
-        && ![node isKindOfClass:[CCBTemplateNode class]
-                                                   ])
+        && ![node isKindOfClass:[CCBTemplateNode class]]
+        && ![node isKindOfClass:[CCLabelTTF class]]
+                                                   )
     {
         class = @"CCSprite";
         CCSprite* sprite = (CCSprite*) node;
@@ -186,6 +206,15 @@
         [CCBWriter addPropToDict:props key:@"isEnabled" boolVal:[item isEnabled]];
         [CCBWriter addPropToDict:props key:@"selector" stringVal:[extraProps objectForKey:@"selector"]];
         [CCBWriter addPropToDict:props key:@"target" intVal:[[extraProps objectForKey:@"target"] intValue]];
+    }
+    
+    // CCButton props
+    if ([node isKindOfClass:[CCButton class]])
+    {
+        class = @"CCButton";
+        CCButton* button = (CCButton*)node;
+        NSString* imageNameFormat = [[[button imageNameFormat] copy] autorelease];
+        [CCBWriter addPropToDict:props key:@"imageNameFormat" stringVal:imageNameFormat];
     }
     
     // CCMenuItemImage props
@@ -280,6 +309,12 @@
             [CCBWriter addPropToDict:props key:@"rotatePerSecond" intVal:(int)sys.rotatePerSecond];
             [CCBWriter addPropToDict:props key:@"rotatePerSecondVar" intVal:(int)sys.rotatePerSecondVar];
         }
+    }
+    
+    // CCMenu props
+    if ([node isKindOfClass:[CCNineSlice class]])
+    {
+        class = @"CCNineSlice";
     }
     
     // Templates

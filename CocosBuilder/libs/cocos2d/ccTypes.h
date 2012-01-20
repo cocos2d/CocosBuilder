@@ -256,6 +256,30 @@ typedef struct _ccBlendFunc
 	GLenum dst;
 } ccBlendFunc;
 
+//! a Point with a vertex point, a tex coord point and a color 4B
+typedef struct _ccV2F_C4B_T2F
+{
+	//! vertices (2F)
+	ccVertex2F		vertices;
+	//! colors (4B)
+	ccColor4B		colors;
+	//! tex coords (2F)
+	ccTex2F			texCoords;
+} ccV2F_C4B_T2F;
+
+//! 4 ccVertex2FTex2FColor4B Quad
+typedef struct _ccV2F_C4B_T2F_Quad
+{
+	//! bottom left
+	ccV2F_C4B_T2F	bl;
+	//! bottom right
+	ccV2F_C4B_T2F	br;
+	//! top left
+	ccV2F_C4B_T2F	tl;
+	//! top right
+	ccV2F_C4B_T2F	tr;
+} ccV2F_C4B_T2F_Quad;
+
 //! delta time type
 //! if you want more resolution redefine it as a double
 typedef float ccTime;

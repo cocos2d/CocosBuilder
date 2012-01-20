@@ -432,6 +432,23 @@
     return node;
 }
 
+- (CCButton*) createDefaultButton
+{
+    CCButton* button = [CCButton node];
+    [self setupExtraPropsForNode:button];
+    [self setExtraProp:@"" forKey:@"selector" andNode:button];
+    CCLabelTTF* label = [self createDefaultLabelTTF];
+    [button addChild:label];
+    return button;
+}
+
+- (CCNineSlice*) createDefaultNineSlice
+{
+    CCNineSlice* node = [CCNineSlice node];
+    [self setupExtraPropsForNode:node];
+    return node;
+}
+
 #pragma mark Replacing content
 
 - (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep

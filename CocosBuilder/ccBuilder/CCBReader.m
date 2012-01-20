@@ -4,6 +4,8 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+#import "CCNineSlice.h"
+#import "CCButton.h"
 
 @implementation CCBReader
 
@@ -248,6 +250,11 @@
     }
 }
 
++ (void) setPropsForLabelTTF: (CCLabelTTF*) node props:(NSDictionary*)props extraProps:(NSMutableDictionary*)extraProps
+{
+    
+}
+
 + (void) setPropsForParticleSystem: (CCParticleSystem*) node props:(NSDictionary*)props extraProps:(NSMutableDictionary*) extraProps
 {
     
@@ -446,6 +453,62 @@
         [CCBReader setPropsForNode:node props:props extraProps:extraProps];
         [CCBReader setPropsForLayer:(CCLayer*)node props:props extraProps:extraProps];
         [CCBReader setPropsForMenu:(CCMenu*)node props:props extraProps:extraProps];
+    }
+    else if ([class isEqualToString:@"CCNineSlice"])
+    {
+        node = [CCNineSlice node];
+        [CCBReader setPropsForNode:node props:props extraProps:extraProps];
+    }
+    else if([class isEqualToString:@"CCButton"])
+    {
+        NSObject* target = NULL;
+        SEL selector = NULL;
+        if (!extraProps)
+        {
+            int targetType = [[props objectForKey:@"target"] intValue];
+            if (targetType == kCCBMemberVarAssignmentTypeDocumentRoot) target = root;
+            else if (targetType == kCCBMemberVarAssignmentTypeOwner) target = owner;
+            
+            NSString* selectorName = [props objectForKey:@"selector"];
+            if (selectorName && ![selectorName isEqualToString:@""] && target)
+            {
+                selector = NSSelectorFromString(selectorName);
+            }
+            if (!selector) target = NULL;
+            
+            if (target && selector)
+            {
+                if (![target respondsToSelector:selector])
+                {
+                    NSLog(@"WARNING! CCMenuItemImage target doesn't respond to selector %@",selectorName);
+                    target = NULL;
+                    selector = NULL;
+                }
+            }
+        }
+        NSString* imageNameFormat = [props objectForKey:@"imageNameFormat"];
+        
+        node = [CCButton buttonWithTarget:target selector:selector];
+        [(CCButton*)node setImageNameFormat:imageNameFormat];
+        [CCBReader setPropsForNode:node props:props extraProps:extraProps];
+        [CCBReader setPropsForMenuItem:(CCButton*)node props:props extraProps:extraProps];
+    }
+    else if ([class isEqualToString:@"CCLabelTTF"])
+    {
+        NSString* fontName = [props objectForKey:@"fontName"];
+        NSString* string = [props objectForKey:@"string"];
+        float fontSize = [CCBReader floatValFromDict:props forKey:@"fontSize"];
+        @try {
+            node = [CCLabelTTF labelWithString:string fontName:fontName fontSize:fontSize];
+        }
+        @catch (NSException *exception) {
+            node = NULL;
+        }
+        if (!node) node = [CCLabelTTF labelWithString:string fontName:@"Helvetica" fontSize:24];
+        
+        [CCBReader setPropsForNode:node props:props extraProps:extraProps];
+        [CCBReader setPropsForLabelTTF:(CCLabelTTF*)node props:props extraProps:extraProps];
+        [CCBReader setPropsForSprite:(CCLabelTTF*)node props:props extraProps:extraProps];
     }
     else if ([class isEqualToString:@"CCLabelBMFont"])
     {

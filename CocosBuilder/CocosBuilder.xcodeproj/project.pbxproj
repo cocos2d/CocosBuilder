@@ -195,6 +195,9 @@
 		77E1995D13858DE0006C361B /* TabNewMetalRollover.png in Resources */ = {isa = PBXBuildFile; fileRef = 77E1995113858DE0006C361B /* TabNewMetalRollover.png */; };
 		77E7D04B138F777A00E8EE67 /* CCBModalSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E7D04A138F777A00E8EE67 /* CCBModalSheetController.m */; };
 		77E7D04F138F78F600E8EE67 /* StageSizeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E7D04E138F78F600E8EE67 /* StageSizeWindow.m */; };
+		E5E3F37014C8C8BA006FF6EC /* CCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E3F36D14C8C8BA006FF6EC /* CCButton.m */; };
+		E5E3F37114C8C8BA006FF6EC /* CCNineSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E3F36F14C8C8BA006FF6EC /* CCNineSlice.m */; };
+		E5E3F37314C8C907006FF6EC /* InspectorButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5E3F37214C8C907006FF6EC /* InspectorButtonView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -537,6 +540,11 @@
 		77E7D04A138F777A00E8EE67 /* CCBModalSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBModalSheetController.m; sourceTree = "<group>"; };
 		77E7D04D138F78F600E8EE67 /* StageSizeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StageSizeWindow.h; sourceTree = "<group>"; };
 		77E7D04E138F78F600E8EE67 /* StageSizeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StageSizeWindow.m; sourceTree = "<group>"; };
+		E5E3F36C14C8C8BA006FF6EC /* CCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCButton.h; sourceTree = "<group>"; };
+		E5E3F36D14C8C8BA006FF6EC /* CCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCButton.m; sourceTree = "<group>"; };
+		E5E3F36E14C8C8BA006FF6EC /* CCNineSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNineSlice.h; sourceTree = "<group>"; };
+		E5E3F36F14C8C8BA006FF6EC /* CCNineSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNineSlice.m; sourceTree = "<group>"; };
+		E5E3F37214C8C907006FF6EC /* InspectorButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorButtonView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -800,6 +808,7 @@
 		7789ABC8133AA82000CEFCC7 /* CocosBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				E5E3F36A14C8C817006FF6EC /* Extensions */,
 				776041E31498F5E80078095D /* AppDelegate & Cocos2D Scene */,
 				776041E21498F5A70078095D /* Util */,
 				776041E11498F56D0078095D /* Application Settings & Globals */,
@@ -1078,6 +1087,7 @@
 				77576AB3137ABF6C0032B609 /* InspectorLabelTTFView.xib */,
 				77787252137B1D3A0001B6C7 /* InspectorLabelBMFontView.xib */,
 				7765C14C13F2702E00279451 /* InspectorTemplateNodeView.xib */,
+				E5E3F37214C8C907006FF6EC /* InspectorButtonView.xib */,
 			);
 			name = Inspectors;
 			sourceTree = "<group>";
@@ -1161,6 +1171,17 @@
 				77E1995113858DE0006C361B /* TabNewMetalRollover.png */,
 			);
 			name = res;
+			sourceTree = "<group>";
+		};
+		E5E3F36A14C8C817006FF6EC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E5E3F36C14C8C8BA006FF6EC /* CCButton.h */,
+				E5E3F36D14C8C8BA006FF6EC /* CCButton.m */,
+				E5E3F36E14C8C8BA006FF6EC /* CCNineSlice.h */,
+				E5E3F36F14C8C8BA006FF6EC /* CCNineSlice.m */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1277,6 +1298,7 @@
 				7765C14D13F2703100279451 /* InspectorTemplateNodeView.xib in Resources */,
 				7765C19D13F4123400279451 /* TemplateWindow.xib in Resources */,
 				77D260CF13F8F0BF00CAB1D2 /* EditTemplateWindow.xib in Resources */,
+				E5E3F37314C8C907006FF6EC /* InspectorButtonView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1403,6 +1425,8 @@
 				776A37B61398D6BF00960E94 /* CCBGLView.m in Sources */,
 				7765C1C113F50FA600279451 /* TemplateWindowController.m in Sources */,
 				77D260D313F8F40D00CAB1D2 /* EditTemplateWindowController.m in Sources */,
+				E5E3F37014C8C8BA006FF6EC /* CCButton.m in Sources */,
+				E5E3F37114C8C8BA006FF6EC /* CCNineSlice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
