@@ -223,6 +223,9 @@
 		A032F27F14C89F3A006ADEAF /* PositionTextureColor.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A032F27214C89F3A006ADEAF /* PositionTextureColor.fsh */; };
 		A032F28014C89F3A006ADEAF /* PositionTextureColor.vsh in Resources */ = {isa = PBXBuildFile; fileRef = A032F27314C89F3A006ADEAF /* PositionTextureColor.vsh */; };
 		A032F28114C89F3A006ADEAF /* PositionTextureColorAlphaTest.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A032F27414C89F3A006ADEAF /* PositionTextureColorAlphaTest.fsh */; };
+		A08FFA8A14CA1C1200634EEF /* InspectorButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08FFA8914CA1C1200634EEF /* InspectorButtonView.xib */; };
+		A08FFA9014CA1FDB00634EEF /* CCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8D14CA1FDA00634EEF /* CCButton.m */; };
+		A08FFA9114CA1FDB00634EEF /* CCNineSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -607,6 +610,11 @@
 		A032F27214C89F3A006ADEAF /* PositionTextureColor.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PositionTextureColor.fsh; sourceTree = "<group>"; };
 		A032F27314C89F3A006ADEAF /* PositionTextureColor.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PositionTextureColor.vsh; sourceTree = "<group>"; };
 		A032F27414C89F3A006ADEAF /* PositionTextureColorAlphaTest.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PositionTextureColorAlphaTest.fsh; sourceTree = "<group>"; };
+		A08FFA8914CA1C1200634EEF /* InspectorButtonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorButtonView.xib; sourceTree = "<group>"; };
+		A08FFA8C14CA1FDA00634EEF /* CCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCButton.h; sourceTree = "<group>"; };
+		A08FFA8D14CA1FDA00634EEF /* CCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCButton.m; sourceTree = "<group>"; };
+		A08FFA8E14CA1FDB00634EEF /* CCNineSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNineSlice.h; sourceTree = "<group>"; };
+		A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNineSlice.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -925,6 +933,7 @@
 				776041EC1498FBAB0078095D /* Template Palette */,
 				776041EA1498FB600078095D /* Dialogs */,
 				776041EE1498FC320078095D /* Util */,
+				A08FFA9214CA1FE400634EEF /* Extensions */,
 				776A37B41398D6B900960E94 /* CCBGLView.h */,
 				776A37B51398D6BD00960E94 /* CCBGLView.m */,
 			);
@@ -934,6 +943,7 @@
 		7789ACF9133BFAB600CEFCC7 /* Inspectors */ = {
 			isa = PBXGroup;
 			children = (
+				A08FFA8914CA1C1200634EEF /* InspectorButtonView.xib */,
 				7789ACF2133BF80200CEFCC7 /* InspectorNodeView.xib */,
 				7789ACF4133BF87500CEFCC7 /* InspectorLayerView.xib */,
 				7789ACF6133BF92600CEFCC7 /* InspectorSpriteView.xib */,
@@ -1339,6 +1349,17 @@
 			path = Shaders;
 			sourceTree = "<group>";
 		};
+		A08FFA9214CA1FE400634EEF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A08FFA8C14CA1FDA00634EEF /* CCButton.h */,
+				A08FFA8D14CA1FDA00634EEF /* CCButton.m */,
+				A08FFA8E14CA1FDB00634EEF /* CCNineSlice.h */,
+				A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1468,6 +1489,7 @@
 				77D260CF13F8F0BF00CAB1D2 /* EditTemplateWindow.xib in Resources */,
 				A032F22714C8914F006ADEAF /* ChangeLog in Resources */,
 				A032F22814C8914F006ADEAF /* CMakeLists.txt in Resources */,
+				A08FFA8A14CA1C1200634EEF /* InspectorButtonView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1607,6 +1629,8 @@
 				A032F23214C8914F006ADEAF /* vec2.c in Sources */,
 				A032F23314C8914F006ADEAF /* vec3.c in Sources */,
 				A032F23414C8914F006ADEAF /* vec4.c in Sources */,
+				A08FFA9014CA1FDB00634EEF /* CCButton.m in Sources */,
+				A08FFA9114CA1FDB00634EEF /* CCNineSlice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

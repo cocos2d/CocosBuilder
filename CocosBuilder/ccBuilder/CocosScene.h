@@ -3,6 +3,8 @@
 //
 
 #import "cocos2d.h"
+#import "CCButton.h"
+#import "CCNineSlice.h"
 @class CocosBuilderAppDelegate;
 @class CCBTemplateNode;
 
@@ -103,6 +105,8 @@ enum {
 - (CCLabelBMFont*) createDefaultLabelBMFont;
 - (CCParticleSystemQuad*) createDefaultParticleOfType:(int)type;
 - (CCBTemplateNode*) createDefaultTemplateNodeWithFile:(NSString*)file assetsPath:(NSString*)assetsPath;
+- (CCButton*) createDefaultButton;
+- (CCNineSlice*) createDefaultNineSlice;
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
