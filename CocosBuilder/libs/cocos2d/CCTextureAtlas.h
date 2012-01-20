@@ -2,17 +2,18 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2008-2010 Ricardo Quesada
- * 
+ * Copyright (c) 2011 Zynga Inc.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +38,7 @@
    * The TextureAtlas capacity can be increased or decreased in runtime
    * OpenGL component: V3F, C4B, T2F.
  The quads are rendered using an OpenGL ES VBO.
- To render the quads using an interleaved vertex array list, you should modify the ccConfig.h file 
+ To render the quads using an interleaved vertex array list, you should modify the ccConfig.h file
  */
 @interface CCTextureAtlas : NSObject
 {
@@ -46,9 +47,9 @@
 	ccV3F_C4B_T2F_Quad	*quads_;	// quads to be rendered
 	GLushort			*indices_;
 	CCTexture2D			*texture_;
-#if CC_USES_VBO
+	GLuint				VAOname_;
 	GLuint				buffersVBO_[2]; //0: vertex  1: indices
-#endif // CC_USES_VBO
+	BOOL				dirty_; //indicates whether or not the array buffer of the VBO needs to be updated
 }
 
 /** quantity of quads that are going to be drawn */
@@ -73,13 +74,13 @@
 -(id) initWithFile: (NSString*) file capacity:(NSUInteger)capacity;
 
 /** creates a TextureAtlas with a previously initialized Texture2D object, and
- * with an initial capacity for n Quads. 
+ * with an initial capacity for n Quads.
  * The TextureAtlas capacity can be increased in runtime.
  */
 +(id) textureAtlasWithTexture:(CCTexture2D *)tex capacity:(NSUInteger)capacity;
 
 /** initializes a TextureAtlas with a previously initialized Texture2D object, and
- * with an initial capacity for Quads. 
+ * with an initial capacity for Quads.
  * The TextureAtlas capacity can be increased in runtime.
  *
  * WARNING: Do not reinitialize the TextureAtlas because it will leak memory (issue #706)
@@ -98,6 +99,13 @@
  */
 -(void) insertQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger)index;
 
+/** Inserts a c array of quads at a given index
+ index must be between 0 and the atlas capacity - 1
+ this method doesn't enlarge the array when amount + index > totalQuads
+ @since v1.1
+*/
+-(void) insertQuads:(ccV3F_C4B_T2F_Quad*)quads atIndex:(NSUInteger)index amount:(NSUInteger)amount;
+
 /** Removes the quad that is located at a certain index and inserts it at a new index
  This operation is faster than removing and inserting in a quad in 2 different steps
  @since v0.7.2
@@ -110,26 +118,64 @@
  */
 -(void) removeQuadAtIndex:(NSUInteger) index;
 
+/** removes a amount of quads starting from index
+	@since 1.1
+ */
+- (void) removeQuadsAtIndex:(NSUInteger) index amount:(NSUInteger) amount;
+
 /** removes all Quads.
  The TextureAtlas capacity remains untouched. No memory is freed.
  The total number of quads to be drawn will be 0
  @since v0.7.2
  */
 -(void) removeAllQuads;
- 
 
-/** resize the capacity of the Texture Atlas.
+/** resize the capacity of the CCTextureAtlas.
  * The new capacity can be lower or higher than the current one
  * It returns YES if the resize was successful.
  * If it fails to resize the capacity it will return NO with a new capacity of 0.
  */
 -(BOOL) resizeCapacity: (NSUInteger) n;
 
+/**
+ Used internally by CCParticleBatchNode
+ don't use this unless you know what you're doing
+ @since 1.1
+*/
+- (void) increaseTotalQuadsWith:(NSUInteger) amount;
+
+/** Moves an amount of quads from oldIndex at newIndex
+ @since v1.1
+ */
+-(void) moveQuadsFromIndex:(NSUInteger)oldIndex amount:(NSUInteger) amount atIndex:(NSUInteger)newIndex;
+
+/**
+ Moves quads from index till totalQuads to the newIndex
+ Used internally by CCParticleBatchNode
+ This method doesn't enlarge the array if newIndex + quads to be moved > capacity
+ @since 1.1
+*/
+- (void) moveQuadsFromIndex:(NSUInteger) index to:(NSUInteger) newIndex;
+
+/**
+ Ensures that after a realloc quads are still empty
+ Used internally by CCParticleBatchNode
+ @since 1.1
+*/
+- (void) fillWithEmptyQuadsFromIndex:(NSUInteger) index amount:(NSUInteger) amount;
 
 /** draws n quads
  * n can't be greater than the capacity of the Atlas
  */
+
 -(void) drawNumberOfQuads: (NSUInteger) n;
+
+/** draws n quads from an index (offset).
+ n + start can't be greater than the capacity of the atlas
+
+ @since v1.0
+ */
+-(void) drawNumberOfQuads: (NSUInteger) n fromIndex: (NSUInteger) start;
 
 /** draws all the Atlas's Quads
  */

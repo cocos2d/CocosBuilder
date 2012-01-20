@@ -2,6 +2,7 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2008-2010 Ricardo Quesada
+ * Copyright (c) 2011 Zynga Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -9,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,7 +52,7 @@ enum {
 @property (nonatomic,readonly,assign) id target;
 
 /** The original target, since target can be nil.
- Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
+ Is the target that were used to run the action. Unless you are doing something complex, like CCActionManager, you should NOT call this method.
  @since v0.8.2
 */
 @property (nonatomic,readonly,assign) id originalTarget;
@@ -75,10 +76,10 @@ enum {
 //! called after the action has finished. It will set the 'target' to nil.
 //! IMPORTANT: You should never call "[action stop]" manually. Instead, use: "[target stopAction:action];"
 -(void) stop;
-//! called every frame with it's delta time. DON'T override unless you know what you are doing.
+//! called every frame with its delta time. DON'T override unless you know what you are doing.
 -(void) step: (ccTime) dt;
 //! called once per frame. time a value between 0 and 1
-//! For example: 
+//! For example:
 //! * 0 means that the action just started
 //! * 0.5 means that the action is in the middle
 //! * 1 means that the action is over
@@ -112,8 +113,11 @@ enum {
  */
 @interface CCRepeatForever : CCAction <NSCopying>
 {
-	CCActionInterval *other;
+	CCActionInterval *innerAction_;
 }
+/** Inner action */
+@property (nonatomic, readwrite, retain) CCActionInterval *innerAction;
+
 /** creates the action */
 +(id) actionWithAction: (CCActionInterval*) action;
 /** initializes the action */
@@ -123,15 +127,18 @@ enum {
 /** Changes the speed of an action, making it take longer (speed>1)
  or less (speed<1) time.
  Useful to simulate 'slow motion' or 'fast forward' effect.
- @warning This action can't be Sequenceable because it is not an IntervalAction
+ @warning This action can't be Sequenceable because it is not an CCIntervalAction
  */
 @interface CCSpeed : CCAction <NSCopying>
 {
-	CCActionInterval	*other;
-	float speed;
+	CCActionInterval	*innerAction_;
+	float speed_;
 }
 /** alter the speed of the inner function in runtime */
 @property (nonatomic,readwrite) float speed;
+/** Inner action of CCSpeed */
+@property (nonatomic, readwrite, retain) CCActionInterval *innerAction;
+
 /** creates the action */
 +(id) actionWithAction: (CCActionInterval*) action speed:(float)rate;
 /** initializes the action */
@@ -140,10 +147,10 @@ enum {
 
 @class CCNode;
 /** CCFollow is an action that "follows" a node.
- 
+
  Eg:
 	[layer runAction: [CCFollow actionWithTarget:hero]];
- 
+
  Instead of using CCCamera as a "follower", use this action instead.
  @since v0.99.2
  */
@@ -151,17 +158,17 @@ enum {
 {
 	/* node to follow */
 	CCNode	*followedNode_;
-	
+
 	/* whether camera should be limited to certain area */
 	BOOL boundarySet;
-	
+
 	/* if screensize is bigger than the boundary - update not needed */
 	BOOL boundaryFullyCovered;
-	
+
 	/* fast access to the screen dimensions */
 	CGPoint halfScreenSize;
 	CGPoint fullScreenSize;
-	
+
 	/* world boundaries */
 	float leftBoundary;
 	float rightBoundary;

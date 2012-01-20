@@ -2,17 +2,18 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2008-2010 Ricardo Quesada
- * 
+ * Copyright (c) 2011 Zynga Inc.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +31,7 @@
 #import "CCTextureCache.h"
 
 @implementation CCAnimation
-@synthesize name = name_, delay = delay_, frames = frames_;
+@synthesize delay = delay_, frames = frames_;
 
 +(id) animation
 {
@@ -47,26 +48,6 @@
 	return [[[self alloc] initWithFrames:frames delay:delay] autorelease];
 }
 
-+(id) animationWithName:(NSString*)name
-{
-	return [[[self alloc] initWithName:name] autorelease];
-}
-
-+(id) animationWithName:(NSString*)name frames:(NSArray*)frames
-{
-	return [[[self alloc] initWithName:name frames:frames] autorelease];
-}
-
-+(id) animationWithName:(NSString*)aname delay:(float)d frames:(NSArray*)array
-{
-	return [[[self alloc] initWithName:aname delay:d frames:array] autorelease];
-}
-
-+(id) animationWithName:(NSString*)aname delay:(float)d
-{
-	return [[[self alloc] initWithName:aname delay:d] autorelease];
-}
-
 -(id) init
 {
 	return [self initWithFrames:nil delay:0];
@@ -80,34 +61,8 @@
 -(id) initWithFrames:(NSArray*)array delay:(float)delay
 {
 	if( (self=[super init]) ) {
-		
+
 		delay_ = delay;
-		self.frames = [NSMutableArray arrayWithArray:array];
-	}
-	return self;
-}
-
--(id) initWithName:(NSString*)name
-{
-	return [self initWithName:name delay:0 frames:nil];
-}
-
--(id) initWithName:(NSString*)name frames:(NSArray*)frames
-{
-	return [self initWithName:name delay:0 frames:frames];
-}
-
--(id) initWithName:(NSString*)t delay:(float)d
-{
-	return [self initWithName:t delay:d frames:nil];
-}
-
--(id) initWithName:(NSString*)name delay:(float)delay frames:(NSArray*)array
-{
-	if( (self=[super init]) ) {
-		
-		delay_ = delay;
-		self.name = name;
 		self.frames = [NSMutableArray arrayWithArray:array];
 	}
 	return self;
@@ -124,7 +79,6 @@
 -(void) dealloc
 {
 	CCLOGINFO( @"cocos2d: deallocing %@",self);
-	[name_ release];
 	[frames_ release];
 	[super dealloc];
 }
