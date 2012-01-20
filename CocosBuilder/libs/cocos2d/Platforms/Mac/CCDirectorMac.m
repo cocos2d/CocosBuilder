@@ -445,6 +445,11 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	}
 }
 
+-(void) setAnimationInterval:(NSTimeInterval)animationInterval
+{
+	// do something!
+}
+
 -(void) dealloc
 {
 	if( displayLink ) {
