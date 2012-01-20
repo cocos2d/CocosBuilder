@@ -74,11 +74,11 @@
     // Insert code here to initialize your application
     CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
 	
-	[director setDisplayFPS:NO];
-	[director setProjection:CCDirectorProjection2D];
+	[director setDisplayStats:NO];
+	[director setProjection:kCCDirectorProjection2D];
     //[cocosView openGLContext];
     
-	[director setOpenGLView:cocosView];
+	[director setView:cocosView];
     
 	// EXPERIMENTAL stuff.
 	// 'Effects' don't work correctly when autoscale is turned on.

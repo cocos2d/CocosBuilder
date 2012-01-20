@@ -442,7 +442,7 @@
             }
         }
         
-        node = [CCMenuItemImage itemFromNormalSprite:spriteNormal selectedSprite:spriteSelected disabledSprite:spriteDisabled target:target selector:selector];
+        node = [CCMenuItemImage itemWithNormalSprite:spriteNormal selectedSprite:spriteSelected disabledSprite:spriteDisabled target:target selector:selector];
         
         [CCBReader setPropsForNode:node props:props extraProps:extraProps];
         [CCBReader setPropsForMenuItem:(CCMenuItem*)node props:props extraProps:extraProps];

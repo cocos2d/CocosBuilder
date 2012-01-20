@@ -6,7 +6,7 @@
 #import "cocos2d.h"
 @class CocosBuilderAppDelegate;
 
-@interface CCBGLView : MacGLView {
+@interface CCBGLView : CCGLView {
     
     NSTrackingRectTag trackingTag;
     

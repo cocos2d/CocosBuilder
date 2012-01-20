@@ -2,17 +2,18 @@
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2010 Ricardo Quesada
- * 
+ * Copyright (c) 2011 Zynga Inc.
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,13 +25,12 @@
 
 // Only compile this code on Mac. These files should not be included on your iOS project.
 // But in case they are included, it won't be compiled.
-#import <Availability.h>
-#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-#elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
+#import "../../ccMacros.h"
+#ifdef __CC_PLATFORM_MAC
 
 #import <Cocoa/Cocoa.h>
 
-#import "MacGLView.h"
+#import "CCGLView.h"
 #import "../../Support/uthash.h"	// hack: uthash needs to be imported before utlist to prevent warning
 #import "../../Support/utlist.h"
 #import "../../ccConfig.h"
@@ -156,34 +156,76 @@
 -(BOOL) ccFlagsChanged:(NSEvent*)event;
 @end
 
-
 #pragma mark -
-#pragma mark CCEventDispatcher
+#pragma mark CCTouchEventDelegate
+
+/** CCTouchEventDelegate protocol.
+ Implement it in your node to receive any of touch events
+ */
+@protocol CCTouchEventDelegate <NSObject>
+@optional
+/** called when the "touchesBegan" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccTouchesBeganWithEvent:(NSEvent *)event;
+
+/** called when the "touchesMoved" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccTouchesMovedWithEvent:(NSEvent *)event;
+
+/** called when the "touchesEnded" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccTouchesEndedWithEvent:(NSEvent *)event;
+
+/** called when the "touchesCancelled" event is received.
+ Return YES to avoid propagating the event to other delegates.
+ */
+- (BOOL)ccTouchesCancelledWithEvent:(NSEvent *)event;
+
+@end
+
+#pragma mark - CCEventObject
+
+@interface CCEventObject : NSObject
+{
+@public
+	NSEvent		*event;
+	SEL			selector;
+}
+@end
+
+#pragma mark - CCEventDispatcher
 
 struct _listEntry;
+struct _listDeletedEntry;
+struct _listAddedEntry;
 
 /** CCEventDispatcher
- 
+
  This is object is responsible for dispatching the events:
 	- Mouse events
 	- Keyboard events
 	- Touch events
- 
+
  Only available on Mac
  */
-@interface CCEventDispatcher : NSObject <MacEventDelegate> {
+@interface CCEventDispatcher : NSObject <CCEventDelegate> {
 
 	BOOL					dispatchEvents_;
-	
+	BOOL					dispatchingInProgress_;
+
 	struct	_listEntry		*keyboardDelegates_;
 	struct	_listEntry		*mouseDelegates_;
+	struct	_listEntry		*touchDelegates_;
+	
+	struct	_listDeletedEntry	*delegatesToBeRemoved_;
+	struct	_listAddedEntry		*delegatesToBeAdded_;
+	
 }
 
 @property (nonatomic, readwrite) BOOL dispatchEvents;
-
-
-/** CCEventDispatcher singleton */
-+(CCEventDispatcher*) sharedDispatcher;
 
 #pragma mark CCEventDispatcher - Mouse
 
@@ -206,7 +248,7 @@ struct _listEntry;
 /** Adds a Keyboard delegate to the dispatcher's list.
  Delegates with a lower priority value will be called before higher priority values.
  All the events will be propgated to all the delegates, unless the one delegate returns YES.
- 
+
  IMPORTANT: The delegate will be retained.
  */
 -(void) addKeyboardDelegate:(id<CCKeyboardEventDelegate>) delegate priority:(NSInteger)priority;
@@ -219,15 +261,23 @@ struct _listEntry;
 
 #pragma mark CCEventDispatcher - Touches
 
-// XXX
+/** Adds a Touch delegate to the dispatcher's list.
+ Delegates with a lower priority value will be called before higher priority values.
+ All the events will be propgated to all the delegates, unless the one delegate returns YES.
 
-#pragma mark CCEventDispatcher - Dispatch Events
+ IMPORTANT: The delegate will be retained.
+ */
+- (void)addTouchDelegate:(id<CCTouchEventDelegate>)delegate priority:(NSInteger)priority;
 
-#if CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD
--(void) dispatchQueuedEvents;
-#endif
+/** Removes a touch delegate */
+- (void)removeTouchDelegate:(id) delegate;
+
+/** Removes all touch delegates, releasing all the delegates */
+- (void)removeAllTouchDelegates;
+
+-(void) dispatchEvent:(CCEventObject*)event;
 
 @end
 
 
-#endif // __MAC_OS_X_VERSION_MAX_ALLOWED
+#endif // __CC_PLATFORM_MAC

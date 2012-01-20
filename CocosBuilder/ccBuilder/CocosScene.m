@@ -328,7 +328,7 @@
 
 - (CCMenuItemImage*) createDefaultMenuItemImage
 {
-    CCMenuItemImage* node = [CCMenuItemImage itemFromNormalImage:@"missing-texture.png" selectedImage:@"missing-texture.png" disabledImage:@"missing-texture.png" target:NULL selector:NULL];
+    CCMenuItemImage* node = [CCMenuItemImage itemWithNormalImage:@"missing-texture.png" selectedImage:@"missing-texture.png" disabledImage:@"missing-texture.png" target:NULL selector:NULL];
     [self setupExtraPropsForNode:node];
     [self setExtraProp:@"" forKey:@"spriteFileNormal" andNode:node];
     [self setExtraProp:@"" forKey:@"spriteFileSelected" andNode:node];
