@@ -8,6 +8,7 @@
 //#import "CCBTemplate.h"
 #import "CCNineSlice.h"
 #import "CCButton.h"
+#import "CCThreeSlice.h"
 
 @implementation CCBWriter
 
@@ -214,6 +215,15 @@
         class = @"CCButton";
         CCButton* button = (CCButton*)node;
         NSString* imageNameFormat = [[[button imageNameFormat] copy] autorelease];
+        [CCBWriter addPropToDict:props key:@"imageNameFormat" stringVal:imageNameFormat];
+    }
+    
+    // CCThreeSlice props
+    if ([node isKindOfClass:[CCThreeSlice class]])
+    {
+        class = @"CCThreeSlice";
+        CCThreeSlice* slice = (CCThreeSlice*)node;
+        NSString* imageNameFormat = [[[slice imageNameFormat] copy] autorelease];
         [CCBWriter addPropToDict:props key:@"imageNameFormat" stringVal:imageNameFormat];
     }
     

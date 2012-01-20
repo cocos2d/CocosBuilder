@@ -248,6 +248,7 @@ enum {
 - (IBAction) menuAddLabelBMFont:(id)sender;
 - (IBAction) menuAddCCButton:(id)sender;
 - (IBAction) menuAddCCNineSlice:(id)sender;
+- (IBAction) menuAddCCThreeSlice:(id)sender;
 
 - (IBAction) menuAddParticleExplosion:(id)sender;
 - (IBAction) menuAddParticleFire:(id)sender;

@@ -1021,7 +1021,16 @@
 
     
     self.canEditContentSize = NO;
-    self.canEditCustomClass = NO;
+    self.canEditCustomClass = YES;
+}
+
+- (void) populateInspectorSliceView
+{
+    [self populateProperty:@"pImageNameFormat"];
+    
+    
+    self.canEditContentSize = YES;
+    self.canEditCustomClass = YES;
 }
 
 - (void) populateInspectorViews
@@ -1074,6 +1083,10 @@
     if ([selectedNode isKindOfClass:[CCButton class]])
     {
         [self populateInspectorButtonView];
+    }
+    if ([selectedNode isKindOfClass:[CCThreeSlice class]])
+    {
+        [self populateInspectorSliceView];
     }
 }
 
@@ -1135,6 +1148,10 @@
         paneOffset = [self addInspectorPane:inspectorLabelBMFontView offset:paneOffset];
     }
     if ([selectedNode isKindOfClass:[CCButton class]])
+    {
+        paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
+    }
+    if ([selectedNode isKindOfClass:[CCThreeSlice class]])
     {
         paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
     }
@@ -1218,6 +1235,13 @@
 {
     if (!selectedNode) return NO;
     if (![selectedNode isKindOfClass:[CCLabelBMFont class]]) return NO;
+    return YES;
+}
+
+- (BOOL) isSelectedThreeSlice
+{
+    if (!selectedNode) return NO;
+    if (![selectedNode isKindOfClass:[CCThreeSlice class]]) return NO;
     return YES;
 }
 
@@ -3065,16 +3089,37 @@
     [self saveUndoState];
     if (!imageNameFormat) imageNameFormat = @"btn_red_pos%d.png";
     
-    CCButton* button = (CCButton*) selectedNode;
-    [button setImageNameFormat:imageNameFormat];
+    if([selectedNode isKindOfClass:[CCButton class]])
+    {
+        CCButton* button = (CCButton*) selectedNode;
+        [button setImageNameFormat:imageNameFormat];
+    }
+    else if([selectedNode isKindOfClass:[CCThreeSlice class]])
+    {
+        CCThreeSlice* slice = (CCThreeSlice*) selectedNode;
+        [slice setImageNameFormat:imageNameFormat];
+    }
 }
 
 - (NSString*) pImageNameFormat
 {
-    if (![self isSelectedMenuItem]) return @"";
+    if (![self isSelectedNode]) return @"";
     
-    CCButton* button = (CCButton*) selectedNode;
-    return [button imageNameFormat];
+    if([selectedNode isKindOfClass:[CCButton class]])
+    {
+        CCButton* button = (CCButton*) selectedNode;
+        return [button imageNameFormat];
+    }
+    else if([selectedNode isKindOfClass:[CCThreeSlice class]])
+    {
+        CCThreeSlice* slice = (CCThreeSlice*) selectedNode;
+        return [slice imageNameFormat];
+    }
+    else
+    {
+        return @"";
+    }
+    
 }
 
 #pragma mark Document handling
@@ -3588,6 +3633,12 @@
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     [self addCCObject:[cs createDefaultNineSlice] asChild:[sender tag]];
+}
+
+- (IBAction) menuAddCCThreeSlice:(id)sender
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [self addCCObject:[cs createDefaultThreeSlice] asChild:[sender tag]];
 }
 
 - (IBAction) menuAddParticleExplosion:(id)sender

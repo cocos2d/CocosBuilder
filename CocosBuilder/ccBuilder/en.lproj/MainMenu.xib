@@ -818,7 +818,7 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="195521578">
+											<object class="NSMenuItem" id="253236783">
 												<reference key="NSMenu" ref="136977524"/>
 												<string key="NSTitle">CCLabelTTF</string>
 												<string key="NSKeyEquiv"/>
@@ -827,7 +827,7 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="732067679">
+											<object class="NSMenuItem" id="4567331">
 												<reference key="NSMenu" ref="136977524"/>
 												<string key="NSTitle">CCButton</string>
 												<string key="NSKeyEquiv"/>
@@ -836,9 +836,18 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="455747459">
+											<object class="NSMenuItem" id="364774826">
 												<reference key="NSMenu" ref="136977524"/>
 												<string key="NSTitle">CCNineSlice</string>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="35465992"/>
+												<reference key="NSMixedImage" ref="502551668"/>
+												<int key="NSTag">1</int>
+											</object>
+											<object class="NSMenuItem" id="994637243">
+												<reference key="NSMenu" ref="136977524"/>
+												<string key="NSTitle">CCThreeSlice</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -1069,7 +1078,7 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="508162031">
+											<object class="NSMenuItem" id="180535068">
 												<reference key="NSMenu" ref="105471957"/>
 												<string key="NSTitle">CCLabelTTF</string>
 												<string key="NSKeyEquiv"/>
@@ -1078,7 +1087,7 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="701316364">
+											<object class="NSMenuItem" id="627132220">
 												<reference key="NSMenu" ref="105471957"/>
 												<string key="NSTitle">CCButton</string>
 												<string key="NSKeyEquiv"/>
@@ -1087,9 +1096,18 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
-											<object class="NSMenuItem" id="149065487">
+											<object class="NSMenuItem" id="75960595">
 												<reference key="NSMenu" ref="105471957"/>
 												<string key="NSTitle">CCNineSlice</string>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="35465992"/>
+												<reference key="NSMixedImage" ref="502551668"/>
+												<int key="NSTag">1</int>
+											</object>
+											<object class="NSMenuItem" id="1003975160">
+												<reference key="NSMenu" ref="105471957"/>
+												<string key="NSTitle">CCThreeSlice</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -2381,7 +2399,7 @@
 					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{800, 370}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
@@ -3502,7 +3520,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddLabelTTF:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="508162031"/>
+						<reference key="destination" ref="180535068"/>
 					</object>
 					<int key="connectionID">1395</int>
 				</object>
@@ -3510,7 +3528,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddCCButton:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="701316364"/>
+						<reference key="destination" ref="627132220"/>
 					</object>
 					<int key="connectionID">1396</int>
 				</object>
@@ -3518,7 +3536,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddCCNineSlice:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="149065487"/>
+						<reference key="destination" ref="75960595"/>
 					</object>
 					<int key="connectionID">1397</int>
 				</object>
@@ -3526,7 +3544,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddCCButton:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="732067679"/>
+						<reference key="destination" ref="4567331"/>
 					</object>
 					<int key="connectionID">1401</int>
 				</object>
@@ -3534,7 +3552,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddCCNineSlice:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="455747459"/>
+						<reference key="destination" ref="364774826"/>
 					</object>
 					<int key="connectionID">1402</int>
 				</object>
@@ -3542,9 +3560,25 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddLabelTTF:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="195521578"/>
+						<reference key="destination" ref="253236783"/>
 					</object>
 					<int key="connectionID">1403</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuAddCCThreeSlice:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="994637243"/>
+					</object>
+					<int key="connectionID">1406</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuAddCCThreeSlice:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1003975160"/>
+					</object>
+					<int key="connectionID">1408</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4417,9 +4451,10 @@
 							<reference ref="990167929"/>
 							<reference ref="132068368"/>
 							<reference ref="375100346"/>
-							<reference ref="195521578"/>
-							<reference ref="732067679"/>
-							<reference ref="455747459"/>
+							<reference ref="253236783"/>
+							<reference ref="4567331"/>
+							<reference ref="364774826"/>
+							<reference ref="994637243"/>
 						</object>
 						<reference key="parent" ref="848269849"/>
 					</object>
@@ -4464,9 +4499,10 @@
 							<reference ref="113179657"/>
 							<reference ref="1016476942"/>
 							<reference ref="1058292012"/>
-							<reference ref="508162031"/>
-							<reference ref="149065487"/>
-							<reference ref="701316364"/>
+							<reference ref="180535068"/>
+							<reference ref="75960595"/>
+							<reference ref="627132220"/>
+							<reference ref="1003975160"/>
 						</object>
 						<reference key="parent" ref="852912379"/>
 					</object>
@@ -5279,33 +5315,43 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1389</int>
-						<reference key="object" ref="508162031"/>
+						<reference key="object" ref="180535068"/>
 						<reference key="parent" ref="105471957"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1391</int>
-						<reference key="object" ref="149065487"/>
+						<reference key="object" ref="75960595"/>
 						<reference key="parent" ref="105471957"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1393</int>
-						<reference key="object" ref="701316364"/>
+						<reference key="object" ref="627132220"/>
 						<reference key="parent" ref="105471957"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1398</int>
-						<reference key="object" ref="195521578"/>
+						<reference key="object" ref="253236783"/>
 						<reference key="parent" ref="136977524"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1399</int>
-						<reference key="object" ref="732067679"/>
+						<reference key="object" ref="4567331"/>
 						<reference key="parent" ref="136977524"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1400</int>
-						<reference key="object" ref="455747459"/>
+						<reference key="object" ref="364774826"/>
 						<reference key="parent" ref="136977524"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1404</int>
+						<reference key="object" ref="994637243"/>
+						<reference key="parent" ref="136977524"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1407</int>
+						<reference key="object" ref="1003975160"/>
+						<reference key="parent" ref="105471957"/>
 					</object>
 				</object>
 			</object>
@@ -5461,6 +5507,8 @@
 					<string>1398.IBPluginDependency</string>
 					<string>1399.IBPluginDependency</string>
 					<string>1400.IBPluginDependency</string>
+					<string>1404.IBPluginDependency</string>
+					<string>1407.IBPluginDependency</string>
 					<string>143.IBPluginDependency</string>
 					<string>144.IBPluginDependency</string>
 					<string>145.IBPluginDependency</string>
@@ -5756,6 +5804,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5824,7 +5874,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1403</int>
+			<int key="maxID">1408</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5876,6 +5926,7 @@
 							<string>debugPrintStructure:</string>
 							<string>menuAddCCButton:</string>
 							<string>menuAddCCNineSlice:</string>
+							<string>menuAddCCThreeSlice:</string>
 							<string>menuAddLabelBMFont:</string>
 							<string>menuAddLabelTTF:</string>
 							<string>menuAddLayer:</string>
@@ -5970,6 +6021,7 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -5981,6 +6033,7 @@
 							<string>debugPrintStructure:</string>
 							<string>menuAddCCButton:</string>
 							<string>menuAddCCNineSlice:</string>
+							<string>menuAddCCThreeSlice:</string>
 							<string>menuAddLabelBMFont:</string>
 							<string>menuAddLabelTTF:</string>
 							<string>menuAddLayer:</string>
@@ -6045,6 +6098,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuAddCCNineSlice:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuAddCCThreeSlice:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
