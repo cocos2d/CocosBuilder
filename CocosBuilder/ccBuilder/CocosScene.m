@@ -449,6 +449,13 @@
     return node;
 }
 
+- (CCThreeSlice*) createDefaultThreeSlice
+{
+    CCThreeSlice* node = [CCThreeSlice node];
+    [self setupExtraPropsForNode:node];
+    return node;
+}
+
 #pragma mark Replacing content
 
 - (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep

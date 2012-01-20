@@ -6,6 +6,7 @@
 #import <objc/runtime.h>
 #import "CCNineSlice.h"
 #import "CCButton.h"
+#import "CCThreeSlice.h"
 
 @implementation CCBReader
 
@@ -492,6 +493,14 @@
         [(CCButton*)node setImageNameFormat:imageNameFormat];
         [CCBReader setPropsForNode:node props:props extraProps:extraProps];
         [CCBReader setPropsForMenuItem:(CCButton*)node props:props extraProps:extraProps];
+    }
+    else if([class isEqualToString:@"CCThreeSlice"])
+    {
+        NSString* imageNameFormat = [props objectForKey:@"imageNameFormat"];
+        
+        node = [CCThreeSlice node];
+        [(CCThreeSlice*)node setImageNameFormat:imageNameFormat];
+        [CCBReader setPropsForNode:node props:props extraProps:extraProps];
     }
     else if ([class isEqualToString:@"CCLabelTTF"])
     {

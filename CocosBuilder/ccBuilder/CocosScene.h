@@ -5,6 +5,7 @@
 #import "cocos2d.h"
 #import "CCButton.h"
 #import "CCNineSlice.h"
+#import "CCThreeSlice.h"
 @class CocosBuilderAppDelegate;
 @class CCBTemplateNode;
 
@@ -107,6 +108,7 @@ enum {
 - (CCBTemplateNode*) createDefaultTemplateNodeWithFile:(NSString*)file assetsPath:(NSString*)assetsPath;
 - (CCButton*) createDefaultButton;
 - (CCNineSlice*) createDefaultNineSlice;
+- (CCThreeSlice*) createDefaultThreeSlice;
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
