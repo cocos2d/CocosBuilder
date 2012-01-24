@@ -37,9 +37,7 @@
     if( (self=[super initWithTarget:target selector:selector]) )
     {
         self.anchorPoint = ccp(0.5, 0.5);
-#if !CCBUTTON_COCOS_BUILDER
         shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
-#endif
         [self initTextures];
     }
     return self;
@@ -175,11 +173,13 @@
 
 - (void) draw
 {
-	[super draw];
-    
 #if !CCBUTTON_COCOS_BUILDER
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
+	[super draw];
+#else
+    CC_NODE_DRAW_SETUP();
 #endif
+    
+    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
     
     for(int i = 0; i < BUTTON_TEXTURE_COUNT; i++) {
         NSString* filename = [textures_ objectAtIndex:i];

@@ -30,9 +30,7 @@
     if(self = [super init])
     {
         self.anchorPoint = ccp(0.5, 0.5);
-#if !CCNINESLICE_COCOS_BUILDER
         shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
-#endif
         [self initTextures];
         [self updateLayout];
     }
@@ -54,17 +52,10 @@
     quad.tl.vertices = (ccVertex2F){left, top};
     quad.tr.vertices = (ccVertex2F){right, top};
     quad.br.vertices = (ccVertex2F){right, bottom};
-#if CCNINESLICE_COCOS_BUILDER
-    quad.bl.texCoords = (ccTex2F){0,texture.contentSizeInPixels.height / texture.pixelsHigh};
-    quad.tl.texCoords = (ccTex2F){0,0};
-    quad.tr.texCoords = (ccTex2F){texture.contentSizeInPixels.width / texture.pixelsWide,0};
-    quad.br.texCoords = (ccTex2F){texture.contentSizeInPixels.width / texture.pixelsWide,texture.contentSizeInPixels.height / texture.pixelsHigh};
-#else
     quad.bl.texCoords = (ccTex2F){0,1};
     quad.tl.texCoords = (ccTex2F){0,0};
     quad.tr.texCoords = (ccTex2F){1,0};
     quad.br.texCoords = (ccTex2F){1,1};
-#endif
     return quad;
 }
 
@@ -163,11 +154,13 @@
 
 - (void) draw
 {
-	[super draw];
-
 #if !CCNINESLICE_COCOS_BUILDER
-    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
+	[super draw];
+#else
+    CC_NODE_DRAW_SETUP();
 #endif
+
+    ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
     
     for(int i = 0; i < 9; i++) {
         NSString* filename = [textures_ objectAtIndex:i];
@@ -179,30 +172,11 @@
 
 +(void)drawQuad:(ccV2F_C4B_T2F_Quad)quad texture:(CCTexture2D*)texture
 {
-#if CCNINESLICE_COCOS_BUILDER
-    glBindTexture(GL_TEXTURE_2D, [texture name]);
-#else
     ccGLBindTexture2D( [texture name] );
-#endif
     
 #define kQuadSize sizeof(quad.bl)
 	long offset = (long)&quad;
 	
-#if CCNINESLICE_COCOS_BUILDER
-    // vertex
-	NSInteger diff = offsetof( ccV2F_C4B_T2F, vertices);
-    glVertexPointer(2, GL_FLOAT, kQuadSize, (void*) (offset + diff) );
-	
-	// texCoods
-	diff = offsetof( ccV2F_C4B_T2F, texCoords);
-    glTexCoordPointer(2, GL_FLOAT, kQuadSize, (void*)(offset + diff));
-    
-	// color
-	diff = offsetof( ccV2F_C4B_T2F, colors);
-    glColorPointer(4, GL_UNSIGNED_BYTE, kQuadSize, (void*)(offset + diff));
-    
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-#else
 	// vertex
 	NSInteger diff = offsetof( ccV2F_C4B_T2F, vertices);
 	glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
@@ -218,7 +192,6 @@
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	
 	CHECK_GL_ERROR_DEBUG();
-#endif
 	
 #if CC_SPRITE_DEBUG_DRAW == 1
 	// draw bounding box
