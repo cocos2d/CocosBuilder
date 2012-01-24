@@ -3085,7 +3085,7 @@
 #pragma mark Properties Button
 - (void)setPImageNameFormat:(NSString *)imageNameFormat
 {
-    if (![self isSelectedMenuItem]) return;
+    if (![self isSelectedNode]) return;
     [self saveUndoState];
     if (!imageNameFormat) imageNameFormat = @"btn_red_pos%d.png";
     

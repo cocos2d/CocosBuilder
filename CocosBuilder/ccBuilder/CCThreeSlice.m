@@ -82,9 +82,7 @@
     {
         horizontal_ = true;
         self.anchorPoint = ccp(0.5, 0.5);
-#if !CCTHREESLICE_COCOS_BUILDER
         shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
-#endif
         [self initTextures];
     }
     return self;
@@ -175,7 +173,11 @@
 
 - (void) draw
 {
+#if !CCTHREESLICE_COCOS_BUILDER
 	[super draw];
+#else
+    CC_NODE_DRAW_SETUP();
+#endif
     
 #if !CCTHREESLICE_COCOS_BUILDER
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
