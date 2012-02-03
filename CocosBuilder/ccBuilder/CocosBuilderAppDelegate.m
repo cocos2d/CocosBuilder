@@ -243,7 +243,7 @@
 
 - (void) setupDefaultDocument
 {
-    self.currentDocument = [[CCBDocument alloc] init];
+	currentDocument = [[CCBDocument alloc] init];
 }
 
 - (void) setupAssetsWindow
