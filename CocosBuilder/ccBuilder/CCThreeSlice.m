@@ -88,6 +88,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [textures_ release];
+    [super dealloc];
+}
+
 -(void)initTextures
 {
     NSMutableArray* textures = [[NSMutableArray alloc] init];
@@ -108,9 +114,11 @@
 
 -(void) setTextures:(NSArray*)textures
 {
-    [textures_ release];
-    textures_ = textures;
-    [self updateLayout];
+	if( textures != textures_ ) {
+		[textures_ release];
+		textures_ = [textures retain];
+		[self updateLayout];
+	}
 }
 
 -(void)updateLayout
