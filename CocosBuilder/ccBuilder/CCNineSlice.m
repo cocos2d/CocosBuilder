@@ -30,7 +30,7 @@
     if(self = [super init])
     {
         self.anchorPoint = ccp(0.5, 0.5);
-        shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
+        self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
         [self initTextures];
         [self updateLayout];
     }
