@@ -169,10 +169,10 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 	// It should be an iPhone in non Retina Display mode. So, do nothing
 	else
-		*resolutionType = kCCResolutionStandard;
+		*resolutionType = kCCResolutioniPhone;
 
 	if( ! ret ) {
-		*resolutionType = kCCResolutionStandard;
+		*resolutionType = kCCResolutioniPhone;
 		ret = fullpath;
 	}
 
@@ -180,7 +180,7 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 #elif defined(__CC_PLATFORM_MAC)
 
-	*resolutionType = kCCResolutionStandard;
+	*resolutionType = kCCResolutioniPhone;
 
 	return fullpath;
 

@@ -445,11 +445,6 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	}
 }
 
--(void) setAnimationInterval:(NSTimeInterval)animationInterval
-{
-	// do something!
-}
-
 -(void) dealloc
 {
 	if( displayLink ) {
@@ -488,8 +483,13 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 	// Add a mutex around to avoid the threads accessing the context simultaneously	when resizing
 
 	CCGLView *openGLview = (CCGLView*) self.view;
-	CGLLockContext([[openGLview openGLContext] CGLContextObj]);
-	[[openGLview openGLContext] makeCurrentContext];
+
+	NSOpenGLContext *openGLContext = [openGLview openGLContext];
+	if( ! openGLContext )
+		return;
+
+	CGLLockContext([openGLContext CGLContextObj]);
+	[openGLContext makeCurrentContext];
 
 	/* tick before glClear: issue #533 */
 	if( ! isPaused_ )
@@ -518,8 +518,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink, const CVTime
 
 	totalFrames_++;
 	
-	[[openGLview openGLContext] flushBuffer];
-	CGLUnlockContext([[openGLview openGLContext] CGLContextObj]);
+	[openGLContext flushBuffer];
+	CGLUnlockContext([openGLContext CGLContextObj]);
 
 	if( displayStats_ )
 		[self calculateMPF];

@@ -30,11 +30,18 @@
     if(self = [super init])
     {
         self.anchorPoint = ccp(0.5, 0.5);
-        shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
+        self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
         [self initTextures];
         [self updateLayout];
     }
     return self;
+}
+
+- (void)dealloc
+{
+	[textures_ release];
+
+    [super dealloc];
 }
 
 +(ccV2F_C4B_T2F_Quad) createQuad:(CGRect)rect texture:(CCTexture2D*) texture
@@ -138,9 +145,11 @@
 
 -(void) setTextures: (NSArray*)textures
 {
-    [textures_ release];
-    textures_ = textures;
-    [self updateLayout];
+	if( textures != textures_ ) {
+		[textures_ release];
+		textures_ = [textures retain];
+		[self updateLayout];
+	}
 }
 
 - (CGAffineTransform)nodeToParentTransform
@@ -166,7 +175,6 @@
         NSString* filename = [textures_ objectAtIndex:i];
         CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage: filename];
         [CCNineSlice drawQuad: quads_[i] texture: texture];
-        
 	}
 }
 
