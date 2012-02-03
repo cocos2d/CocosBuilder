@@ -31,13 +31,19 @@
     return [self initWithTarget:nil selector:nil];
 }
 
+- (void)dealloc
+{
+    [textures_ release];
+    [super dealloc];
+}
+
 -(id) initWithTarget:(id)target selector:(SEL)selector
 {
     imageNameFormat = @"btn_red_pos%d.png";
     if( (self=[super initWithTarget:target selector:selector]) )
     {
         self.anchorPoint = ccp(0.5, 0.5);
-        shaderProgram_ = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
+		self.shaderProgram = [[CCShaderCache sharedShaderCache] programForKey:kCCShader_PositionTextureColor];
         [self initTextures];
     }
     return self;
@@ -90,9 +96,11 @@
 
 -(void) setTextures:(NSArray*)textures
 {
-    [textures_ release];
-    textures_ = textures;
-    [self updateLayout];
+	if( textures_ != textures ) {
+		[textures_ release];
+		textures_ = [textures retain];
+		[self updateLayout];
+	}
 }
 
 -(NSString*) imageNameFormat
