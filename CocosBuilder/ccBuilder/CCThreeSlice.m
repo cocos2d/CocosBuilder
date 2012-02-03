@@ -34,8 +34,32 @@
 }
 -(void) setInnerSize: (float)w
 {
-    innerSize_ = w;
-    [self updateLayout];
+    if(w != innerSize_)
+    {
+        innerSize_ = w;
+        [self updateLayout];
+    }
+}
+
+-(float) innerMin
+{
+    CCTexture2D* tex0 = [[CCTextureCache sharedTextureCache] addImage: [textures_ objectAtIndex:0]];
+    float min;
+    if(horizontal_)
+    {
+        float texWidth= tex0.contentSize.width;
+        min = -contentSize_.width * anchorPoint_.x + texWidth;
+    }
+    else
+    {
+        min = -contentSize_.height * anchorPoint_.y + tex0.contentSize.height;
+    }
+    return min;
+}
+-(float) innerMax
+{
+    float max = self.innerMin + innerSize_;
+    return max;
 }
 
 -(NSString*) imageNameFormat
@@ -152,13 +176,6 @@
         quads_[i] = quad;
     }
     
-    if(self.children && [self.children count] > 0)
-    {
-        for(CCNode* node in self.children)
-        {
-            node.position = ccp(width/2, height/2);
-        }
-    }
     self.contentSize = CGSizeMake(width, height);
 }
 
@@ -179,9 +196,7 @@
     CC_NODE_DRAW_SETUP();
 #endif
     
-#if !CCTHREESLICE_COCOS_BUILDER
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
-#endif
     
     for(int i = 0; i < 3; i++) {
         NSString* filename = [textures_ objectAtIndex:i];
