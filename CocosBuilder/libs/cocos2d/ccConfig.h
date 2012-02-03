@@ -81,13 +81,13 @@
 #define CC_DIRECTOR_FPS_INTERVAL (0.1f)
 #endif
 
-/** @def CC_DIRECTOR_FPS_POSITION
+/** @def CC_DIRECTOR_STATS_POSITION
  Position of the FPS
 
  Default: 0,0 (bottom-left corner)
  */
-#ifndef CC_DIRECTOR_FPS_POSITION
-#define CC_DIRECTOR_FPS_POSITION ccp(0,0)
+#ifndef CC_DIRECTOR_STATS_POSITION
+#define CC_DIRECTOR_STATS_POSITION ccp(0,0)
 #endif
 
 /** @def CC_DIRECTOR_IOS_USE_BACKGROUND_THREAD
@@ -148,6 +148,18 @@
  */
 #ifndef CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 #define CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP 0
+#endif
+
+/** @def CC_TEXTURE_ATLAS_USE_VAO
+ By default, CCTextureAtlas (used by many cocos2d classes) will use VAO (Vertex Array Objects).
+ Apple recommends its usage but they might consume a lot of memory, specially if you use many of them.
+ So for certain cases, where you might need hundreds of VAO objects, it might be a good idea to disable it.
+ 
+ To disable it set it to 0. Enabled by default.
+ 
+ */
+#ifndef CC_TEXTURE_ATLAS_USE_VAO
+#define CC_TEXTURE_ATLAS_USE_VAO 1
 #endif
 
 
