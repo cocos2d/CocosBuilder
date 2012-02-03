@@ -184,9 +184,20 @@
     
     if (size.width > 0 && size.height > 0 && size.width <= 1024 && size.height <= 1024)
     {
+        CCGLView *view = [[CCDirector sharedDirector] view];
+        NSOpenGLContext *glContext = [view openGLContext];
+        if( ! glContext )
+            return;        
+        CGLLockContext([glContext CGLContextObj]);	
+        [glContext makeCurrentContext];
+
+        
         renderedScene = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
         renderedScene.anchorPoint = ccp(0.5f,0.5f);
         [self addChild:renderedScene];
+        
+        
+        CGLUnlockContext( [glContext CGLContextObj] );
     }
 }
 
