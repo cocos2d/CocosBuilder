@@ -83,9 +83,9 @@
     widths[2] = tex2.contentSize.width;
     
     CGFloat heights[3];
-    heights[0] = tex0.contentSize.height;
+    heights[0] = tex6.contentSize.height;
     heights[1] = innerHeight;
-    heights[2] = tex6.contentSize.height;
+    heights[2] = tex0.contentSize.height;
     
     CGFloat rows[3];
     rows[0] = 0;

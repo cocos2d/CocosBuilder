@@ -862,7 +862,7 @@
     
     
     self.canEditContentSize = NO;
-    self.canEditCustomClass = NO;
+    self.canEditCustomClass = YES;
     //[inspectorSpriteName setValue:self.pSpriteFile];
 }
 
