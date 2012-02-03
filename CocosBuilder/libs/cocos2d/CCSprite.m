@@ -111,11 +111,6 @@
 	return [[[self alloc] initWithCGImage:image key:key] autorelease];
 }
 
-+(id) spriteWithBatchNode:(CCSpriteBatchNode*)batchNode rect:(CGRect)rect
-{
-	return [[[self alloc] initWithBatchNode:batchNode rect:rect] autorelease];
-}
-
 -(id) init
 {
 	return [self initWithTexture:nil rect:CGRectZero];
@@ -240,19 +235,6 @@
 	rect.size = texture.contentSize;
 
 	return [self initWithTexture:texture rect:rect];
-}
-
--(id) initWithBatchNode:(CCSpriteBatchNode*)batchNode rect:(CGRect)rect
-{
-	return [self initWithBatchNode:batchNode rect:rect rotated:NO];
-}
-
--(id) initWithBatchNode:(CCSpriteBatchNode*)batchNode rect:(CGRect)rect rotated:(BOOL)rotated
-{
-	id ret = [self initWithTexture:batchNode.texture rect:rect rotated:rotated];
-	[self setBatchNode:batchNode];
-
-	return ret;
 }
 
 - (NSString*) description
@@ -428,7 +410,7 @@
 
 -(void)updateTransform
 {
-	NSAssert( batchNode_, @"updateTransform is only valid when CCSprite is being renderd using an CCSpriteBatchNode");
+	NSAssert( batchNode_, @"updateTransform is only valid when CCSprite is being rendered using an CCSpriteBatchNode");
 
 	// recaculate matrix only if it is dirty
 	if( self.dirty ) {
@@ -570,6 +552,7 @@
 	ccDrawPoly(vertices, 4, YES);
 #endif // CC_SPRITE_DEBUG_DRAW
 
+	CC_INCREMENT_GL_DRAWS(1);
 
 	CC_PROFILER_STOP_CATEGORY(kCCProfilerCategorySprite, @"CCSprite - draw");
 }
@@ -682,7 +665,7 @@
 	{
 		isReorderChildDirty_ = YES;
 		CCNode* node = (CCNode*) parent_;
-		while (node != batchNode_)
+		while (node && node != batchNode_)
 		{
 			[(CCSprite*)node setReorderChildDirtyRecursively];
 			node=node.parent;
@@ -855,9 +838,9 @@
 	color_ = colorUnmodified_ = color3;
 
 	if( opacityModifyRGB_ ){
-		color_.r = color3.r * opacity_/255;
-		color_.g = color3.g * opacity_/255;
-		color_.b = color3.b * opacity_/255;
+		color_.r = color3.r * opacity_/255.0f;
+		color_.g = color3.g * opacity_/255.0f;
+		color_.b = color3.b * opacity_/255.0f;
 	}
 
 	[self updateColor];
@@ -903,11 +886,11 @@
 
 	NSAssert( a, @"CCSprite#setDisplayFrameWithAnimationName: Frame not found");
 
-	CCSpriteFrame *frame = [[a frames] objectAtIndex:frameIndex];
+	CCAnimationFrame *frame = [[a frames] objectAtIndex:frameIndex];
 
 	NSAssert( frame, @"CCSprite#setDisplayFrame. Invalid frame");
 
-	[self setDisplayFrame:frame];
+	[self setDisplayFrame:frame.spriteFrame];
 }
 
 
@@ -953,10 +936,12 @@
 	// accept texture==nil as argument
 	NSAssert( !texture || [texture isKindOfClass:[CCTexture2D class]], @"setTexture expects a CCTexture2D. Invalid argument");
 
-	[texture_ release];
-	texture_ = [texture retain];
+	if( texture_ != texture ) {
+		[texture_ release];
+		texture_ = [texture retain];
 
-	[self updateBlendFunc];
+		[self updateBlendFunc];
+	}
 }
 
 -(CCTexture2D*) texture
