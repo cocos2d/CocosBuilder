@@ -15,7 +15,7 @@
 		771B2B321353818200B260BA /* NewDocWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771B2B311353818000B260BA /* NewDocWindowController.m */; };
 		7729F03A1390215400CAA44F /* frame-iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729F0391390215400CAA44F /* frame-iphone.png */; };
 		7729F03D1390600200CAA44F /* frame-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7729F03C1390600200CAA44F /* frame-ipad.png */; };
-		7729F03F1390F25C00CAA44F /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7729F03E1390F25C00CAA44F /* Sparkle.framework */; };
+		7729F03F1390F25C00CAA44F /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = 7729F03E1390F25C00CAA44F /* Sparkle.framework */; };
 		772BE565133C06320009B5B9 /* NSFlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE564133C06320009B5B9 /* NSFlippedView.m */; };
 		772BE567133E40D60009B5B9 /* missing-texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 772BE566133E40D60009B5B9 /* missing-texture.png */; };
 		772BE572133E48350009B5B9 /* CCBGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE571133E48340009B5B9 /* CCBGlobals.m */; };
@@ -226,18 +226,51 @@
 		A08FFA8A14CA1C1200634EEF /* InspectorButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08FFA8914CA1C1200634EEF /* InspectorButtonView.xib */; };
 		A08FFA9014CA1FDB00634EEF /* CCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8D14CA1FDA00634EEF /* CCButton.m */; };
 		A08FFA9114CA1FDB00634EEF /* CCNineSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */; };
+		E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AECA14E3193500DFD402 /* InfoPlist.strings */; };
+		E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B7AEC514E3193500DFD402 /* CCNode.bundle */; };
+		E3B7AED814E31FB700DFD402 /* CCBPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AED714E31FB700DFD402 /* CCBPNode.m */; };
+		E3B7AEDD14E3246100DFD402 /* PlugInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDC14E3246100DFD402 /* PlugInManager.m */; };
+		E3B7AEE014E32E7F00DFD402 /* PlugInNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */; };
+		E3B7AEE214E336C300DFD402 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE114E336C300DFD402 /* CCBPProperties.plist */; };
+		E3B7AEE514E33D2200DFD402 /* CCBPDNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */; };
+		E3B7AEE914E33F4C00DFD402 /* InspectorPosition.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */; };
+		E3B7AEEC14E342E200DFD402 /* InspectorPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */; };
+		E3B7AEEF14E34A4D00DFD402 /* InspectorValue.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */; };
 		E59A7AD914CA2E680072A48D /* CCThreeSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A7AD814CA2E680072A48D /* CCThreeSlice.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E3B7AED214E31AEF00DFD402 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3B7AEC414E3193500DFD402;
+			remoteInfo = CCNode;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		776C6897138878FB00153214 /* CopyFiles */ = {
+		776C6897138878FB00153214 /* Copy Files (Sparkle framework) */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7729F03F1390F25C00CAA44F /* Sparkle.framework in CopyFiles */,
+				7729F03F1390F25C00CAA44F /* Sparkle.framework in Copy Files (Sparkle framework) */,
 			);
+			name = "Copy Files (Sparkle framework)";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B7AED414E31E5D00DFD402 /* Copy PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */,
+			);
+			name = "Copy PlugIns";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -616,6 +649,25 @@
 		A08FFA8D14CA1FDA00634EEF /* CCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCButton.m; sourceTree = "<group>"; };
 		A08FFA8E14CA1FDB00634EEF /* CCNineSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNineSlice.h; sourceTree = "<group>"; };
 		A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNineSlice.m; sourceTree = "<group>"; };
+		E3B7AEC514E3193500DFD402 /* CCNode.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCNode.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3B7AEC914E3193500DFD402 /* CCNode-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCNode-Info.plist"; sourceTree = "<group>"; };
+		E3B7AECB14E3193500DFD402 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E3B7AECD14E3193500DFD402 /* CCNode-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCNode-Prefix.pch"; sourceTree = "<group>"; };
+		E3B7AED614E31FB700DFD402 /* CCBPNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPNode.h; sourceTree = "<group>"; };
+		E3B7AED714E31FB700DFD402 /* CCBPNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPNode.m; sourceTree = "<group>"; };
+		E3B7AED914E3205F00DFD402 /* CCBP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBP.h; sourceTree = "<group>"; };
+		E3B7AEDB14E3246100DFD402 /* PlugInManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInManager.h; sourceTree = "<group>"; };
+		E3B7AEDC14E3246100DFD402 /* PlugInManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlugInManager.m; sourceTree = "<group>"; };
+		E3B7AEDE14E32E7F00DFD402 /* PlugInNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInNode.h; sourceTree = "<group>"; };
+		E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlugInNode.m; sourceTree = "<group>"; };
+		E3B7AEE114E336C300DFD402 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E3B7AEE314E33D2200DFD402 /* CCBPDNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPDNode.h; sourceTree = "<group>"; };
+		E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPDNode.m; sourceTree = "<group>"; };
+		E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorPosition.xib; sourceTree = "<group>"; };
+		E3B7AEEA14E342E200DFD402 /* InspectorPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorPosition.h; sourceTree = "<group>"; };
+		E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorPosition.m; sourceTree = "<group>"; };
+		E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */ = {isa = PBXFileReference; fileEncoding = 4; path = InspectorValue.h; sourceTree = "<group>"; };
+		E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorValue.m; sourceTree = "<group>"; };
 		E59A7AD714CA2E680072A48D /* CCThreeSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCThreeSlice.h; sourceTree = "<group>"; };
 		E59A7AD814CA2E680072A48D /* CCThreeSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCThreeSlice.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -633,6 +685,14 @@
 				7789ABE8133AB10500CEFCC7 /* ApplicationServices.framework in Frameworks */,
 				7789ABC3133AA82000CEFCC7 /* Cocoa.framework in Frameworks */,
 				776C68941388730300153214 /* Sparkle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B7AEC214E3193500DFD402 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,6 +896,7 @@
 			children = (
 				7789ABC8133AA82000CEFCC7 /* CocosBuilder */,
 				7789ACEB133AB6A700CEFCC7 /* Resources */,
+				E3B7AED114E31A7800DFD402 /* PlugIns */,
 				7789ABEF133AB17100CEFCC7 /* libs */,
 				7789ABC1133AA82000CEFCC7 /* Frameworks */,
 				7789ABBF133AA82000CEFCC7 /* Products */,
@@ -846,6 +907,7 @@
 			isa = PBXGroup;
 			children = (
 				7789ABBE133AA82000CEFCC7 /* CocosBuilder.app */,
+				E3B7AEC514E3193500DFD402 /* CCNode.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -886,6 +948,7 @@
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Reader & Writer */,
 				7789ACF8133BFA9700CEFCC7 /* Interface */,
+				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				7789ABC9133AA82000CEFCC7 /* Supporting Files */,
 			);
 			name = CocosBuilder;
@@ -931,6 +994,7 @@
 			children = (
 				7789ABD7133AA82000CEFCC7 /* MainMenu.xib */,
 				7789ACF9133BFAB600CEFCC7 /* Inspectors */,
+				E3B7AEE614E33E5700DFD402 /* New Inspector */,
 				776041ED1498FBE70078095D /* Styled Components */,
 				776041EB1498FB830078095D /* Assets Palette */,
 				776041EC1498FBAB0078095D /* Template Palette */,
@@ -1365,6 +1429,61 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		E3B7AEC714E3193500DFD402 /* CCNode */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7AEC814E3193500DFD402 /* Supporting Files */,
+				E3B7AED614E31FB700DFD402 /* CCBPNode.h */,
+				E3B7AED714E31FB700DFD402 /* CCBPNode.m */,
+				E3B7AEE314E33D2200DFD402 /* CCBPDNode.h */,
+				E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */,
+			);
+			path = CCNode;
+			sourceTree = "<group>";
+		};
+		E3B7AEC814E3193500DFD402 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7AEC914E3193500DFD402 /* CCNode-Info.plist */,
+				E3B7AECA14E3193500DFD402 /* InfoPlist.strings */,
+				E3B7AECD14E3193500DFD402 /* CCNode-Prefix.pch */,
+				E3B7AEE114E336C300DFD402 /* CCBPProperties.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E3B7AED114E31A7800DFD402 /* PlugIns */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7AED914E3205F00DFD402 /* CCBP.h */,
+				E3B7AEC714E3193500DFD402 /* CCNode */,
+			);
+			name = PlugIns;
+			sourceTree = "<group>";
+		};
+		E3B7AEDA14E3242600DFD402 /* PlugIn Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7AEDB14E3246100DFD402 /* PlugInManager.h */,
+				E3B7AEDC14E3246100DFD402 /* PlugInManager.m */,
+				E3B7AEDE14E32E7F00DFD402 /* PlugInNode.h */,
+				E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */,
+			);
+			name = "PlugIn Manager";
+			sourceTree = "<group>";
+		};
+		E3B7AEE614E33E5700DFD402 /* New Inspector */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */,
+				E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */,
+				E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */,
+				E3B7AEEA14E342E200DFD402 /* InspectorPosition.h */,
+				E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */,
+			);
+			name = "New Inspector";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1375,16 +1494,35 @@
 				7789ABBA133AA82000CEFCC7 /* Sources */,
 				7789ABBB133AA82000CEFCC7 /* Frameworks */,
 				7789ABBC133AA82000CEFCC7 /* Resources */,
-				776C6897138878FB00153214 /* CopyFiles */,
+				776C6897138878FB00153214 /* Copy Files (Sparkle framework) */,
+				E3B7AED414E31E5D00DFD402 /* Copy PlugIns */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */,
 			);
 			name = CocosBuilder;
 			productName = ccBuilder;
 			productReference = 7789ABBE133AA82000CEFCC7 /* CocosBuilder.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E3B7AEC414E3193500DFD402 /* CCNode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3B7AECE14E3193500DFD402 /* Build configuration list for PBXNativeTarget "CCNode" */;
+			buildPhases = (
+				E3B7AEC114E3193500DFD402 /* Sources */,
+				E3B7AEC214E3193500DFD402 /* Frameworks */,
+				E3B7AEC314E3193500DFD402 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCNode;
+			productName = CCNode;
+			productReference = E3B7AEC514E3193500DFD402 /* CCNode.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -1406,6 +1544,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E3B7AEC414E3193500DFD402 /* CCNode */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 			);
 		};
@@ -1495,6 +1634,16 @@
 				A032F22714C8914F006ADEAF /* ChangeLog in Resources */,
 				A032F22814C8914F006ADEAF /* CMakeLists.txt in Resources */,
 				A08FFA8A14CA1C1200634EEF /* InspectorButtonView.xib in Resources */,
+				E3B7AEE914E33F4C00DFD402 /* InspectorPosition.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B7AEC314E3193500DFD402 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */,
+				E3B7AEE214E336C300DFD402 /* CCBPProperties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1637,10 +1786,31 @@
 				A08FFA9014CA1FDB00634EEF /* CCButton.m in Sources */,
 				A08FFA9114CA1FDB00634EEF /* CCNineSlice.m in Sources */,
 				E59A7AD914CA2E680072A48D /* CCThreeSlice.m in Sources */,
+				E3B7AEDD14E3246100DFD402 /* PlugInManager.m in Sources */,
+				E3B7AEE014E32E7F00DFD402 /* PlugInNode.m in Sources */,
+				E3B7AEEC14E342E200DFD402 /* InspectorPosition.m in Sources */,
+				E3B7AEEF14E34A4D00DFD402 /* InspectorValue.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B7AEC114E3193500DFD402 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3B7AED814E31FB700DFD402 /* CCBPNode.m in Sources */,
+				E3B7AEE514E33D2200DFD402 /* CCBPDNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3B7AEC414E3193500DFD402 /* CCNode */;
+			targetProxy = E3B7AED214E31AEF00DFD402 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7789ABCB133AA82000CEFCC7 /* InfoPlist.strings */ = {
@@ -1665,6 +1835,14 @@
 				7789ABD8133AA82000CEFCC7 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		E3B7AECA14E3193500DFD402 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3B7AECB14E3193500DFD402 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1754,6 +1932,48 @@
 			};
 			name = Release;
 		};
+		E3B7AECF14E3193500DFD402 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCNode/CCNode-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCNode/CCNode-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		E3B7AED014E3193500DFD402 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCNode/CCNode-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCNode/CCNode-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1774,6 +1994,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E3B7AECE14E3193500DFD402 /* Build configuration list for PBXNativeTarget "CCNode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3B7AECF14E3193500DFD402 /* Debug */,
+				E3B7AED014E3193500DFD402 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -16,6 +16,8 @@
 #import "StageSizeWindow.h"
 #import "AssetsWindowController.h"
 #import "TemplateWindowController.h"
+#import "PlugInManager.h"
+#import "InspectorPosition.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -294,6 +296,10 @@
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
+    
+    NSLog(@"Load PlugIns!");
+    PlugInManager* pim = [PlugInManager sharedManager];
+    [pim loadPlugIns];
 }
 
 #pragma mark Notifications to user
@@ -1155,6 +1161,26 @@
     {
         paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
     }
+    
+    
+#warning Foo
+    InspectorPosition* inspectorPos = [InspectorPosition inspectorWithSelection:selectedNode andPropertyName:@"position" andDisplayName:@"Position"];
+    [NSBundle loadNibNamed:@"InspectorPosition" owner:inspectorPos];
+    NSView* pane = inspectorPos.view;
+    
+    NSLog(@"pane=%@",pane);
+    
+    [inspectorDocumentView addSubview:pane];
+    [pane setAutoresizingMask:NSViewNotSizable];
+    
+    NSRect frame = [pane frame];
+    [pane setFrame:NSMakeRect(0, paneOffset, frame.size.width, frame.size.height)];
+    
+    NSLog(@"frame size: %f x %f (offset: %d)", frame.size.width, frame.size.height, paneOffset);
+    //return offset+frame.size.height;
+    paneOffset += frame.size.height;
+    
+    NSLog(@"paneOffset: %d",paneOffset);
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     

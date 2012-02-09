@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CCBP.h"
 
 @interface PlugInNode : NSObject
+{
+    NSBundle* bundle;
+    id<CCBP> instance;
+    
+    NSString* nodeClassName;
+}
+
+@property (nonatomic,readonly) NSString* nodeClassName;
+
+- (id) initWithBundle:(NSBundle*) b;
 
 @end

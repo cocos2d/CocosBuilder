@@ -7,7 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
-@interface Inspector : NSObject
+@interface InspectorValue : NSObject
+{
+    CCNode* selection;
+    NSString* propertyName;
+    NSString* displayName;
+    
+    IBOutlet NSView* view;
+}
+
+@property (nonatomic,readonly) NSString* displayName;
+@property (nonatomic,readonly) NSView* view;
+
++ (id) inspectorWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
+
+- (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
+
+- (id) propertyForSelection;
+- (void) setPropertyForSelection:(id)value;
 
 @end

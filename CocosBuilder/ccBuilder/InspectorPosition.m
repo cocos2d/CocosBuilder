@@ -10,4 +10,28 @@
 
 @implementation InspectorPosition
 
+- (void) setPosX:(float)posX
+{
+    CGPoint pt = [[self propertyForSelection] pointValue];
+    pt.x = posX;
+    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+}
+
+- (float) posX
+{
+    return [[self propertyForSelection] pointValue].x;
+}
+
+- (void) setPosY:(float)posY
+{
+    CGPoint pt = [[self propertyForSelection] pointValue];
+    pt.y = posY;
+    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+}
+
+- (float) posY
+{
+    return [[self propertyForSelection] pointValue].y;
+}
+
 @end
