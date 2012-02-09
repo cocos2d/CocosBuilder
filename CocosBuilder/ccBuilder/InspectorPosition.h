@@ -6,8 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "InspectorValue.h"
 
-@interface InspectorPosition : NSObject
+@interface InspectorPosition : InspectorValue
+{
+}
 
+@property (nonatomic, assign) float posX;
+@property (nonatomic, assign) float posY;
 @end

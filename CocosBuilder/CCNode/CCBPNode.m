@@ -8,6 +8,13 @@
 
 #import "CCBPNode.h"
 
+#import "cocos2d.h"
+
 @implementation CCBPNode
+
+- (NSString*) nodeClassName
+{
+    return @"CCNode";
+}
 
 @end

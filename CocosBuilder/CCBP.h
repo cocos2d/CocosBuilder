@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "cocos2d.h"
+
 @protocol CCBP <NSObject>
+
+- (NSString*) nodeClassName;
 
 @end

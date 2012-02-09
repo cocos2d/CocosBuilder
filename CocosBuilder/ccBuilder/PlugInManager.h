@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface PlugInManager : NSObject
+{
+    NSMutableDictionary* plugInsNode;
+}
 
++ (PlugInManager*) sharedManager;
+- (void) loadPlugIns;
 @end

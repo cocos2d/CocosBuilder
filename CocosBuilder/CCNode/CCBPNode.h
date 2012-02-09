@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CCBP.h"
 
-@interface CCBPNode : NSObject
+@interface CCBPNode : NSObject<CCBP>
 
 @end

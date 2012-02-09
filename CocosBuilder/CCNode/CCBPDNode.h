@@ -8,6 +8,6 @@
 
 #import "CCNode.h"
 
-@interface CCBPDNode : CCNode
+@interface CCBPDNode : NSObject
 
 @end
