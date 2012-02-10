@@ -30,7 +30,7 @@
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">InspectorPosition</string>
+				<string key="NSClassName">InspectorSize</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -237,7 +237,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="12859463">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">138544128</int>
-							<string key="NSContents">Y</string>
+							<string key="NSContents">Height</string>
 							<object class="NSFont" key="NSSupport" id="22">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">9</double>
@@ -275,7 +275,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="240871878">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">138544128</int>
-							<string key="NSContents">X</string>
+							<string key="NSContents">Width</string>
 							<reference key="NSSupport" ref="22"/>
 							<reference key="NSControlView" ref="241435556"/>
 							<reference key="NSBackgroundColor" ref="418687809"/>
@@ -293,7 +293,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="749965992">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">71435264</int>
-							<string key="NSContents">Position</string>
+							<string key="NSContents">Size</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="647233470"/>
 							<reference key="NSBackgroundColor" ref="418687809"/>
@@ -343,35 +343,35 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: posX</string>
+						<string key="label">value: width</string>
 						<reference key="source" ref="26311432"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="26311432"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: posX</string>
+							<string key="NSLabel">value: width</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">posX</string>
+							<string key="NSKeyPath">width</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">23</int>
+					<int key="connectionID">30</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: posY</string>
+						<string key="label">value: height</string>
 						<reference key="source" ref="864032865"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="864032865"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: posY</string>
+							<string key="NSLabel">value: height</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">posY</string>
+							<string key="NSKeyPath">height</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">26</int>
+					<int key="connectionID">33</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -572,17 +572,17 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">27</int>
+			<int key="maxID">33</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">InspectorPosition</string>
+					<string key="className">InspectorSize</string>
 					<string key="superclassName">InspectorValue</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/InspectorPosition.h</string>
+						<string key="minorKey">./Classes/InspectorSize.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

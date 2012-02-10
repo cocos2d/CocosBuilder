@@ -21,11 +21,17 @@
 @property (nonatomic,readonly) NSString* displayName;
 @property (nonatomic,readonly) NSView* view;
 
-+ (id) inspectorWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
++ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
 - (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
 - (id) propertyForSelection;
 - (void) setPropertyForSelection:(id)value;
+
+- (id) propertyForSelectionX;
+- (void) setPropertyForSelectionX:(id)value;
+
+- (id) propertyForSelectionY;
+- (void) setPropertyForSelectionY:(id)value;
 
 @end

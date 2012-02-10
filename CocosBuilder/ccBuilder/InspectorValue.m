@@ -12,9 +12,11 @@
 
 @synthesize displayName,view;
 
-+ (id) inspectorWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
++ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
 {
-    return [[[self alloc] initWithSelection:s andPropertyName:pn andDisplayName:dn] autorelease];
+    NSString* inspectorClassName = [NSString stringWithFormat:@"Inspector%@",t];
+    
+    return [[[NSClassFromString(inspectorClassName) alloc] initWithSelection:s andPropertyName:pn andDisplayName:dn] autorelease];
 }
 
 - (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
@@ -37,6 +39,26 @@
 - (void) setPropertyForSelection:(id)value
 {
     [selection setValue:value forKey:propertyName];
+}
+
+- (id) propertyForSelectionX
+{
+    return [selection valueForKey:[propertyName stringByAppendingString:@"X"]];
+}
+
+- (void) setPropertyForSelectionX:(id)value
+{
+    [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
+}
+
+- (id) propertyForSelectionY
+{
+    return [selection valueForKey:[propertyName stringByAppendingString:@"X"]];
+}
+
+- (void) setPropertyForSelectionY:(id)value
+{
+    [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
 }
 
 - (void)dealloc

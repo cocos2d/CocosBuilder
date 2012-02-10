@@ -1096,6 +1096,28 @@
     }
 }
 
+- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName atOffset:(int)offset
+{
+    NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
+    
+    // Create inspector
+    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName];
+    
+    // Load it's associated view
+    [NSBundle loadNibNamed:inspectorNibName owner:inspectorValue];
+    NSView* view = inspectorValue.view;
+    
+    // Add view to inspector and place it at the bottom
+    [inspectorDocumentView addSubview:view];
+    [view setAutoresizingMask:NSViewWidthSizable];
+    
+    NSRect frame = [view frame];
+    [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
+    offset += frame.size.height;
+    
+    return offset;
+}
+
 - (void) updateInspectorFromSelection
 {
     // Hide all inspector panes
@@ -1164,23 +1186,15 @@
     
     
 #warning Foo
-    InspectorPosition* inspectorPos = [InspectorPosition inspectorWithSelection:selectedNode andPropertyName:@"position" andDisplayName:@"Position"];
-    [NSBundle loadNibNamed:@"InspectorPosition" owner:inspectorPos];
-    NSView* pane = inspectorPos.view;
+    paneOffset = [self addInspectorPropertyOfType:@"Position" name:@"position" displayName:@"Position" atOffset:paneOffset];
     
-    NSLog(@"pane=%@",pane);
+    paneOffset = [self addInspectorPropertyOfType:@"Size" name:@"contentSize" displayName:@"Content size" atOffset:paneOffset];
     
-    [inspectorDocumentView addSubview:pane];
-    [pane setAutoresizingMask:NSViewNotSizable];
+    paneOffset = [self addInspectorPropertyOfType:@"Point" name:@"anchorPoint" displayName:@"Anchor point" atOffset:paneOffset];
     
-    NSRect frame = [pane frame];
-    [pane setFrame:NSMakeRect(0, paneOffset, frame.size.width, frame.size.height)];
+    paneOffset = [self addInspectorPropertyOfType:@"ScaleLock" name:@"scale" displayName:@"Scale" atOffset:paneOffset];
     
-    NSLog(@"frame size: %f x %f (offset: %d)", frame.size.width, frame.size.height, paneOffset);
-    //return offset+frame.size.height;
-    paneOffset += frame.size.height;
-    
-    NSLog(@"paneOffset: %d",paneOffset);
+    paneOffset = [self addInspectorPropertyOfType:@"Degrees" name:@"rotation" displayName:@"Rotation" atOffset:paneOffset];
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     
