@@ -226,6 +226,9 @@
 		A08FFA8A14CA1C1200634EEF /* InspectorButtonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08FFA8914CA1C1200634EEF /* InspectorButtonView.xib */; };
 		A08FFA9014CA1FDB00634EEF /* CCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8D14CA1FDA00634EEF /* CCButton.m */; };
 		A08FFA9114CA1FDB00634EEF /* CCNineSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */; };
+		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
+		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
+		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
 		E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AECA14E3193500DFD402 /* InfoPlist.strings */; };
 		E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B7AEC514E3193500DFD402 /* CCNode.bundle */; };
@@ -247,6 +250,7 @@
 		E3FEA8B914E492DA00119FBE /* InspectorScaleLock.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8B814E492D900119FBE /* InspectorScaleLock.m */; };
 		E3FEA8BB14E4989A00119FBE /* InspectorDegrees.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8BA14E4989900119FBE /* InspectorDegrees.xib */; };
 		E3FEA8BE14E498B700119FBE /* InspectorDegrees.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8BD14E498B700119FBE /* InspectorDegrees.m */; };
+		E3FEA8C014E49D8300119FBE /* InspectorInteger.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8BF14E49D8300119FBE /* InspectorInteger.xib */; };
 		E59A7AD914CA2E680072A48D /* CCThreeSlice.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A7AD814CA2E680072A48D /* CCThreeSlice.m */; };
 /* End PBXBuildFile section */
 
@@ -659,6 +663,11 @@
 		A08FFA8D14CA1FDA00634EEF /* CCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCButton.m; sourceTree = "<group>"; };
 		A08FFA8E14CA1FDB00634EEF /* CCNineSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNineSlice.h; sourceTree = "<group>"; };
 		A08FFA8F14CA1FDB00634EEF /* CCNineSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNineSlice.m; sourceTree = "<group>"; };
+		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
+		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
+		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
+		E3B4221414E4A380004547D6 /* InspectorCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorCheck.h; sourceTree = "<group>"; };
+		E3B4221514E4A381004547D6 /* InspectorCheck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCheck.m; sourceTree = "<group>"; };
 		E3B7AEC514E3193500DFD402 /* CCNode.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCNode.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B7AEC914E3193500DFD402 /* CCNode-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCNode-Info.plist"; sourceTree = "<group>"; };
 		E3B7AECB14E3193500DFD402 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -693,6 +702,7 @@
 		E3FEA8BA14E4989900119FBE /* InspectorDegrees.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorDegrees.xib; sourceTree = "<group>"; };
 		E3FEA8BC14E498B600119FBE /* InspectorDegrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorDegrees.h; sourceTree = "<group>"; };
 		E3FEA8BD14E498B700119FBE /* InspectorDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorDegrees.m; sourceTree = "<group>"; };
+		E3FEA8BF14E49D8300119FBE /* InspectorInteger.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorInteger.xib; sourceTree = "<group>"; };
 		E59A7AD714CA2E680072A48D /* CCThreeSlice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCThreeSlice.h; sourceTree = "<group>"; };
 		E59A7AD814CA2E680072A48D /* CCThreeSlice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCThreeSlice.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1520,6 +1530,12 @@
 				E3FEA8BA14E4989900119FBE /* InspectorDegrees.xib */,
 				E3FEA8BC14E498B600119FBE /* InspectorDegrees.h */,
 				E3FEA8BD14E498B700119FBE /* InspectorDegrees.m */,
+				E3FEA8BF14E49D8300119FBE /* InspectorInteger.xib */,
+				E3B4220F14E49DEB004547D6 /* InspectorInteger.h */,
+				E3B4221014E49DEB004547D6 /* InspectorInteger.m */,
+				E3B4221214E4A350004547D6 /* InspectorCheck.xib */,
+				E3B4221414E4A380004547D6 /* InspectorCheck.h */,
+				E3B4221514E4A381004547D6 /* InspectorCheck.m */,
 			);
 			name = "New Inspector";
 			sourceTree = "<group>";
@@ -1680,6 +1696,8 @@
 				E3FEA8B114E4872D00119FBE /* InspectorPointLock.xib in Resources */,
 				E3FEA8B614E4929300119FBE /* InspectorScaleLock.xib in Resources */,
 				E3FEA8BB14E4989A00119FBE /* InspectorDegrees.xib in Resources */,
+				E3FEA8C014E49D8300119FBE /* InspectorInteger.xib in Resources */,
+				E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1840,6 +1858,8 @@
 				E3FEA8B414E4874C00119FBE /* InspectorPointLock.m in Sources */,
 				E3FEA8B914E492DA00119FBE /* InspectorScaleLock.m in Sources */,
 				E3FEA8BE14E498B700119FBE /* InspectorDegrees.m in Sources */,
+				E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */,
+				E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

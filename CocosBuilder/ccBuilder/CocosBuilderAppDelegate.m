@@ -1196,6 +1196,14 @@
     
     paneOffset = [self addInspectorPropertyOfType:@"Degrees" name:@"rotation" displayName:@"Rotation" atOffset:paneOffset];
     
+    paneOffset = [self addInspectorPropertyOfType:@"Integer" name:@"zOrder" displayName:@"zOrder" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Integer" name:@"tag" displayName:@"Tag" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"isRelativeAnchorPoint" displayName:@"Is relative anchor point" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"visible" displayName:@"Visible" atOffset:paneOffset];
+    
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     
     [self populateInspectorViews];
