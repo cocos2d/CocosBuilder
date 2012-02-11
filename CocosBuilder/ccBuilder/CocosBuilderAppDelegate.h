@@ -24,6 +24,7 @@ enum {
 @class CCBDocument;
 @class AssetsWindowController;
 @class TemplateWindowController;
+@class PlugInManager;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -95,6 +96,10 @@ enum {
     CCBDocument* currentDocument;
     BOOL hasOpenedDocument;
     
+    // PlugIns (nodes)
+    PlugInManager* plugInManager;
+    IBOutlet NSMenu* menuAddObject;
+    
 @private
     NSWindow *window;
     
@@ -119,6 +124,9 @@ enum {
 - (void) updateAssetsView;
 
 - (void) setSelectedNode:(CCNode*) selection;
+
+// PlugIns
+@property (nonatomic,readonly) PlugInManager* plugInManager;
 
 // Inspector properties
 
