@@ -23,12 +23,13 @@
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize;
+@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager;
 
 #pragma mark Setup functions
 
 - (void) setupInspectorPane
 {
+    /*
     [NSBundle loadNibNamed:@"InspectorNodeView" owner:self];
     [NSBundle loadNibNamed:@"InspectorLayerView" owner:self];
     [NSBundle loadNibNamed:@"InspectorSpriteView" owner:self];
@@ -40,10 +41,12 @@
     [NSBundle loadNibNamed:@"InspectorLabelTTFView" owner:self];
     [NSBundle loadNibNamed:@"InspectorLabelBMFontView" owner:self];
     [NSBundle loadNibNamed:@"InspectorButtonView" owner:self];
+     */
     
     inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
     
+    /*
     [inspectorDocumentView addSubview:inspectorNodeView];
     [inspectorDocumentView addSubview:inspectorLayerView];
     [inspectorDocumentView addSubview:inspectorSpriteView];
@@ -67,6 +70,7 @@
     [inspectorLabelTTFView setAutoresizingMask:NSViewNotSizable];
     [inspectorLabelBMFontView setAutoresizingMask:NSViewNotSizable];
     [inspectorButtonView setAutoresizingMask:NSViewNotSizable];
+     */
     
     [inspectorScroll setDocumentView:inspectorDocumentView];
 }
@@ -297,9 +301,23 @@
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
     
-    NSLog(@"Load PlugIns!");
-    PlugInManager* pim = [PlugInManager sharedManager];
-    [pim loadPlugIns];
+    // Load plug-ins
+    plugInManager = [PlugInManager sharedManager];
+    [plugInManager loadPlugIns];
+    
+    // Populate object menus
+    [menuAddObject removeAllItems];
+    
+    NSArray* plugInNames = plugInManager.plugInsNodeNames;
+    for (int i = 0; i < [plugInNames count]; i++)
+    {
+        NSString* plugInName = [plugInNames objectAtIndex:i];
+        
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:plugInName action:@selector(menuAddPlugInNode:) keyEquivalent:@""] autorelease];
+        [item setTarget:self];
+        [item setTag:0];
+        [menuAddObject addItem:item];
+    }
 }
 
 #pragma mark Notifications to user
@@ -1102,6 +1120,7 @@
     
     // Create inspector
     InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName];
+    inspectorValue.resourceManager = self;
     
     // Load it's associated view
     [NSBundle loadNibNamed:inspectorNibName owner:inspectorValue];
@@ -1120,12 +1139,13 @@
 
 - (void) updateInspectorFromSelection
 {
-    // Hide all inspector panes
+    // Remove all old inspector panes
     NSArray* panes = [inspectorDocumentView subviews];
-    for (int i = 0; i < [panes count]; i++)
+    for (int i = [panes count]-1; i >= 0 ; i--)
     {
         NSView* pane = [panes objectAtIndex:i];
-        [pane setHidden:YES];
+        //[pane setHidden:YES];
+        [pane removeFromSuperview];
     }
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, 1)];
@@ -1134,6 +1154,7 @@
     // Add show panes according to selections
     if (!selectedNode) return;
     
+    /*
     if ([selectedNode isKindOfClass:[CCNode class]])
     {
         paneOffset = [self addInspectorPane:inspectorNodeView offset:paneOffset];
@@ -1182,10 +1203,12 @@
     if ([selectedNode isKindOfClass:[CCThreeSlice class]])
     {
         paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
-    }
+    }*/
     
     
 #warning Foo
+    paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:@"CCNode" atOffset:paneOffset];
+    
     paneOffset = [self addInspectorPropertyOfType:@"Position" name:@"position" displayName:@"Position" atOffset:paneOffset];
     
     paneOffset = [self addInspectorPropertyOfType:@"Size" name:@"contentSize" displayName:@"Content size" atOffset:paneOffset];
@@ -1203,6 +1226,18 @@
     paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"isRelativeAnchorPoint" displayName:@"Is relative anchor point" atOffset:paneOffset];
     
     paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"visible" displayName:@"Visible" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:@"CCSprite" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Texture" name:@"texture" displayName:@"Texture" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Byte" name:@"opacity" displayName:@"Opacity" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Color3" name:@"color" displayName:@"Color" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Flip" name:@"flip" displayName:@"" atOffset:paneOffset];
+    
+    paneOffset = [self addInspectorPropertyOfType:@"Blendmode" name:@"blendFunc" displayName:@"" atOffset:paneOffset];
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     
@@ -3537,6 +3572,11 @@
     }
     
     return [self addCCObject:obj toParent:parent];
+}
+
+- (IBAction) menuAddPlugInNode:(id)sender
+{
+    NSLog(@"Add object of type: %@", [sender title]);
 }
 
 - (IBAction) menuAddNode:(id)sender

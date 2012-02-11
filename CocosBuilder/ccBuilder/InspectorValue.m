@@ -7,10 +7,11 @@
 //
 
 #import "InspectorValue.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorValue
 
-@synthesize displayName,view;
+@synthesize displayName,view,resourceManager;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
 {
@@ -53,12 +54,12 @@
 
 - (id) propertyForSelectionY
 {
-    return [selection valueForKey:[propertyName stringByAppendingString:@"X"]];
+    return [selection valueForKey:[propertyName stringByAppendingString:@"Y"]];
 }
 
 - (void) setPropertyForSelectionY:(id)value
 {
-    [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
+    [selection setValue:value forKey:[propertyName stringByAppendingString:@"Y"]];
 }
 
 - (void)dealloc

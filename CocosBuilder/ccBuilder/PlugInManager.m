@@ -11,6 +11,8 @@
 
 @implementation PlugInManager
 
+@synthesize plugInsNodeNames;
+
 + (PlugInManager*) sharedManager
 {
     static PlugInManager* manager = NULL;
@@ -24,6 +26,7 @@
     if (!self) return NULL;
     
     plugInsNode = [[NSMutableDictionary alloc] init];
+    plugInsNodeNames = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -53,6 +56,7 @@
             if (plugIn)
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
+                [plugInsNodeNames addObject:plugIn.nodeClassName];
             }
         }
     }
@@ -62,6 +66,11 @@
 {
     [plugInsNode release];
     [super dealloc];
+}
+
+- (PlugInNode*) plugInNodeNamed:(NSString*)name
+{
+    return [plugInsNode objectForKey:name];
 }
 
 @end

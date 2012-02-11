@@ -8,11 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+@class PlugInNode;
+
 @interface PlugInManager : NSObject
 {
     NSMutableDictionary* plugInsNode;
+    NSMutableArray* plugInsNodeNames;
 }
+
+@property (nonatomic,readonly) NSMutableArray* plugInsNodeNames;
 
 + (PlugInManager*) sharedManager;
 - (void) loadPlugIns;
+
+- (PlugInNode*) plugInNodeNamed:(NSString*)name;
+
 @end

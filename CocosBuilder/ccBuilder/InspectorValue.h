@@ -9,17 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+@class CocosBuilderAppDelegate;
+
 @interface InspectorValue : NSObject
 {
     CCNode* selection;
     NSString* propertyName;
     NSString* displayName;
     
+    CocosBuilderAppDelegate* resourceManager;
+    
     IBOutlet NSView* view;
 }
 
 @property (nonatomic,readonly) NSString* displayName;
 @property (nonatomic,readonly) NSView* view;
+@property (nonatomic,assign) CocosBuilderAppDelegate* resourceManager;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
