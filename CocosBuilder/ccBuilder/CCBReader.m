@@ -512,6 +512,9 @@
         
         if (!node) node = [CCSprite spriteWithFile:@"missing-texture.png"];
         
+#warning FIX!
+        node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
+        
         [CCBReader setPropsForNode:node props:props];
         [CCBReader setPropsForSprite:(CCSprite*)node props:props];
     }
@@ -576,6 +579,8 @@
             }
         }
         if (!node) node = [CCLayer node];
+        
+        node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
         
         [CCBReader setPropsForNode:node props:props];
         [CCBReader setPropsForLayer:(CCLayer*)node props:props];
