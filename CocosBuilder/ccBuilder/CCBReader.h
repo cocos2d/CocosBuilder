@@ -26,8 +26,8 @@ enum {
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict owner:(NSObject*) owner;
 
 
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict extraProps: (NSMutableDictionary*) extraProps assetsDir:(NSString*)path owner:(NSObject*)owner;
-+ (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict extraProps: (NSMutableDictionary*) extraProps assetsDir:(NSString*)path owner:(NSObject*)owner;
++ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict assetsDir:(NSString*)path owner:(NSObject*)owner;
++ (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner;
 @end
 
 // CCBTemplate

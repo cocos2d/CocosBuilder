@@ -235,20 +235,30 @@
 
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
 {
+    /*
     NSMutableDictionary* props = [extraProps objectForKey:[NSNumber numberWithInt:(int)node.tag]];
     return [props objectForKey:key];
+     */
+    NodeInfo* info = node.userData;
+    return [info.extraProps objectForKey:key];
 }
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node
 {
+    /*
     NSMutableDictionary* props = [extraProps objectForKey:[NSNumber numberWithInt:(int)node.tag]];
     [props setObject:val forKey:key];
+     */
+    NodeInfo* info = node.userData;
+    [info.extraProps setObject:val forKey:key];
 }
 
+/*
 - (NSMutableDictionary*) extraPropsDict
 {
     return extraProps;
 }
+ */
 
 - (void) setupExtraPropsForNode:(CCNode*) node
 {
@@ -277,8 +287,7 @@
     CCNode* node = [CCNode node];
     [self setupExtraPropsForNode: node];
     
-#warning Remove retain
-    node.userData = [[NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retain];
+    node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
     
     return node;
 }

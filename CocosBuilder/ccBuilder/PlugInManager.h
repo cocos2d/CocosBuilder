@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 @class PlugInNode;
 
@@ -22,5 +23,5 @@
 - (void) loadPlugIns;
 
 - (PlugInNode*) plugInNodeNamed:(NSString*)name;
-
+- (CCNode*) createDefaultNodeOfType:(NSString*)name;
 @end

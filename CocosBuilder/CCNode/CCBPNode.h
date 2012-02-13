@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CCBP.h"
+#import "cocos2d.h"
 
-@interface CCBPNode : NSObject<CCBP>
+@interface CCBPNode : CCNode
 
 @end

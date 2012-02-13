@@ -10,6 +10,8 @@
 #import "CCButton.h"
 #import "CCThreeSlice.h"
 
+#import "NodeInfo.h"
+
 @implementation CCBWriter
 
 - (id)init
@@ -94,10 +96,12 @@
 
 #pragma mark Writer
 
-+ (NSMutableDictionary*) dictionaryFromCCObject: (CCNode*) node extraProps:(NSDictionary*) extraPropsDict
++ (NSMutableDictionary*) dictionaryFromCCObject: (CCNode*) node
 {
+    NodeInfo* info = node.userData;
+    
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    NSMutableDictionary* extraProps = [extraPropsDict objectForKey:[NSNumber numberWithInt:(int)node.tag]];
+    NSMutableDictionary* extraProps = info.extraProps;
     
     // CCNode props
     NSString* class = @"CCNode";
@@ -345,7 +349,7 @@
         // Visit all children of this node
         for (int i = 0; i < [[node children] count]; i++)
         {
-            [children addObject:[CCBWriter dictionaryFromCCObject:[[node children] objectAtIndex:i] extraProps:extraPropsDict]];
+            [children addObject:[CCBWriter dictionaryFromCCObject:[[node children] objectAtIndex:i]]];
         }
     }
     
