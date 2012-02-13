@@ -541,12 +541,12 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
 {
     CCBGlobals* g = [CCBGlobals globals];
-    CocosScene* cs = [g cocosScene];
+    //CocosScene* cs = [g cocosScene];
     
     CCNode* draggedNode = [items objectAtIndex:0];
     if (draggedNode == g.rootNode) return NO;
     
-    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:draggedNode extraProps:[cs extraPropsDict]];
+    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:draggedNode];
     
     [clipDict setObject:[NSNumber numberWithLongLong:(long long)draggedNode] forKey:@"srcNode"];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
@@ -586,7 +586,7 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
     NSPasteboard* pb = [info draggingPasteboard];
     
     NSData* clipData = [pb dataForType:@"com.cocosbuilder.node"];
@@ -594,7 +594,7 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict extraProps:[cs extraPropsDict] assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         if (![self addCCObject:clipNode toParent:item]) return NO;
         
         // Remove old node
@@ -1222,6 +1222,10 @@
             
             paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName atOffset:paneOffset];
         }
+    }
+    else
+    {
+        NSLog(@"WARNING info:%@ plugIn:%@", info, plugIn);
     }
     
 #warning Foo
@@ -3257,7 +3261,7 @@
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
     
     // Add node graph
-    NSMutableDictionary* nodeGraph = [CCBWriter dictionaryFromCCObject:g.rootNode extraProps:[g.cocosScene extraPropsDict]];
+    NSMutableDictionary* nodeGraph = [CCBWriter dictionaryFromCCObject:g.rootNode];
     [doc setObject:nodeGraph forKey:@"nodeGraph"];
     
     // Add meta data
@@ -3288,7 +3292,7 @@
 {
     // Process contents
     NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
-    CCNode* loadedRoot = [CCBReader nodeGraphFromDictionary:doc extraProps:extraProps assetsDir:assetsPath owner:NULL];
+    CCNode* loadedRoot = [CCBReader nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
     
     // Replace open document
     CCBGlobals* g = [CCBGlobals globals];
@@ -3834,8 +3838,8 @@
     if (!selectedNode) return;
     
     // Serialize selected node
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:selectedNode extraProps:[cs extraPropsDict]];
+    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:selectedNode];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
     
@@ -3845,7 +3849,7 @@
 
 - (void) doPasteAsChild:(BOOL)asChild
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
     NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.node", nil]];
     
@@ -3854,7 +3858,7 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict extraProps:[cs extraPropsDict] assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         [self addCCObject:clipNode asChild:asChild];
     }
 }

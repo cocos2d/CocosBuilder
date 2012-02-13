@@ -249,7 +249,6 @@
 		E3B7AEDD14E3246100DFD402 /* PlugInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDC14E3246100DFD402 /* PlugInManager.m */; };
 		E3B7AEE014E32E7F00DFD402 /* PlugInNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */; };
 		E3B7AEE214E336C300DFD402 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE114E336C300DFD402 /* CCBPProperties.plist */; };
-		E3B7AEE514E33D2200DFD402 /* CCBPDNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */; };
 		E3B7AEE914E33F4C00DFD402 /* InspectorPosition.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */; };
 		E3B7AEEC14E342E200DFD402 /* InspectorPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */; };
 		E3B7AEEF14E34A4D00DFD402 /* InspectorValue.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */; };
@@ -707,14 +706,11 @@
 		E3B7AECD14E3193500DFD402 /* CCNode-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCNode-Prefix.pch"; sourceTree = "<group>"; };
 		E3B7AED614E31FB700DFD402 /* CCBPNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPNode.h; sourceTree = "<group>"; };
 		E3B7AED714E31FB700DFD402 /* CCBPNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPNode.m; sourceTree = "<group>"; };
-		E3B7AED914E3205F00DFD402 /* CCBP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBP.h; sourceTree = "<group>"; };
 		E3B7AEDB14E3246100DFD402 /* PlugInManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInManager.h; sourceTree = "<group>"; };
 		E3B7AEDC14E3246100DFD402 /* PlugInManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlugInManager.m; sourceTree = "<group>"; };
 		E3B7AEDE14E32E7F00DFD402 /* PlugInNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInNode.h; sourceTree = "<group>"; };
 		E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlugInNode.m; sourceTree = "<group>"; };
 		E3B7AEE114E336C300DFD402 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
-		E3B7AEE314E33D2200DFD402 /* CCBPDNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPDNode.h; sourceTree = "<group>"; };
-		E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPDNode.m; sourceTree = "<group>"; };
 		E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorPosition.xib; sourceTree = "<group>"; };
 		E3B7AEEA14E342E200DFD402 /* InspectorPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorPosition.h; sourceTree = "<group>"; };
 		E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorPosition.m; sourceTree = "<group>"; };
@@ -1497,8 +1493,6 @@
 				E3B7AEC814E3193500DFD402 /* Supporting Files */,
 				E3B7AED614E31FB700DFD402 /* CCBPNode.h */,
 				E3B7AED714E31FB700DFD402 /* CCBPNode.m */,
-				E3B7AEE314E33D2200DFD402 /* CCBPDNode.h */,
-				E3B7AEE414E33D2200DFD402 /* CCBPDNode.m */,
 			);
 			path = CCNode;
 			sourceTree = "<group>";
@@ -1517,7 +1511,6 @@
 		E3B7AED114E31A7800DFD402 /* PlugIns */ = {
 			isa = PBXGroup;
 			children = (
-				E3B7AED914E3205F00DFD402 /* CCBP.h */,
 				E3B7AEC714E3193500DFD402 /* CCNode */,
 			);
 			name = PlugIns;
@@ -1928,7 +1921,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3B7AED814E31FB700DFD402 /* CCBPNode.m in Sources */,
-				E3B7AEE514E33D2200DFD402 /* CCBPDNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

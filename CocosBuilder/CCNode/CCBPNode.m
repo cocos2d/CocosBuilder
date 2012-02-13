@@ -12,9 +12,5 @@
 
 @implementation CCBPNode
 
-- (NSString*) nodeClassName
-{
-    return @"CCNode";
-}
 
 @end

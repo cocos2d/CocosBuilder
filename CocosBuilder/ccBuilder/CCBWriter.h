@@ -11,5 +11,5 @@
 @private
     
 }
-+ (NSMutableDictionary*) dictionaryFromCCObject: (CCNode*) node extraProps:(NSDictionary*) extraPropsDict;
++ (NSMutableDictionary*) dictionaryFromCCObject: (CCNode*) node;
 @end

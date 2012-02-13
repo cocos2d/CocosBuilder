@@ -8,6 +8,7 @@
 
 #import "PlugInManager.h"
 #import "PlugInNode.h"
+#import "NodeInfo.h"
 
 @implementation PlugInManager
 
@@ -72,6 +73,19 @@
 - (PlugInNode*) plugInNodeNamed:(NSString*)name
 {
     return [plugInsNode objectForKey:name];
+}
+
+- (CCNode*) createDefaultNodeOfType:(NSString*)name
+{
+    PlugInNode* plugin = [self plugInNodeNamed:name];
+    if (!plugin) return NULL;
+    
+    Class editorClass = NSClassFromString(plugin.nodeEditorClassName);
+    NSLog(@"nodeEditorClassName:%@ editorClass:%@",plugin.nodeEditorClassName, editorClass);
+    CCNode* node = [[[editorClass alloc] init] autorelease];
+    node.userData = [NodeInfo nodeInfoWithPlugIn:plugin];
+    
+    return node;
 }
 
 @end

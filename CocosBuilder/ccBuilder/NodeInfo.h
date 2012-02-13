@@ -13,9 +13,11 @@
 @interface NodeInfo : NSObject
 {
     PlugInNode* plugIn;
+    NSMutableDictionary* extraProps;
 }
 
 @property (nonatomic,assign) PlugInNode* plugIn;
+@property (nonatomic,readonly) NSMutableDictionary* extraProps;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin;
 
