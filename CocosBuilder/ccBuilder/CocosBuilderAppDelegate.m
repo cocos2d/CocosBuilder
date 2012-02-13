@@ -18,6 +18,8 @@
 #import "TemplateWindowController.h"
 #import "PlugInManager.h"
 #import "InspectorPosition.h"
+#import "NodeInfo.h"
+#import "PlugInNode.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1205,8 +1207,26 @@
         paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
     }*/
     
+    NodeInfo* info = selectedNode.userData;
+    PlugInNode* plugIn = info.plugIn;
+    
+    if (plugIn)
+    {
+        NSArray* propInfos = plugIn.nodeProperties;
+        for (int i = 0; i < [propInfos count]; i++)
+        {
+            NSDictionary* propInfo = [propInfos objectAtIndex:i];
+            NSString* type = [propInfo objectForKey:@"type"];
+            NSString* name = [propInfo objectForKey:@"name"];
+            NSString* displayName = [propInfo objectForKey:@"displayName"];
+            
+            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName atOffset:paneOffset];
+        }
+    }
     
 #warning Foo
+    
+    /*
     paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:@"CCNode" atOffset:paneOffset];
     
     paneOffset = [self addInspectorPropertyOfType:@"Position" name:@"position" displayName:@"Position" atOffset:paneOffset];
@@ -1238,15 +1258,17 @@
     paneOffset = [self addInspectorPropertyOfType:@"Flip" name:@"flip" displayName:@"" atOffset:paneOffset];
     
     paneOffset = [self addInspectorPropertyOfType:@"Blendmode" name:@"blendFunc" displayName:@"" atOffset:paneOffset];
+     */
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     
     [self populateInspectorViews];
 }
 
+/*
 - (IBAction) updateSelectionFromInspector
 {
-}
+}*/
 
 #pragma mark Properties
 

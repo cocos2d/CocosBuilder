@@ -15,9 +15,12 @@
     id<CCBP> instance;
     
     NSString* nodeClassName;
+    
+    NSMutableArray* nodeProperties;
 }
 
 @property (nonatomic,readonly) NSString* nodeClassName;
+@property (nonatomic,readonly) NSMutableArray* nodeProperties;
 
 - (id) initWithBundle:(NSBundle*) b;
 

@@ -6,6 +6,8 @@
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBReader.h"
+#import "NodeInfo.h"
+#import "PlugInManager.h"
 
 @implementation CocosScene
 
@@ -274,6 +276,10 @@
 {
     CCNode* node = [CCNode node];
     [self setupExtraPropsForNode: node];
+    
+#warning Remove retain
+    node.userData = [[NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retain];
+    
     return node;
 }
 

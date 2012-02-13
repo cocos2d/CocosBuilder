@@ -7,9 +7,17 @@
 //
 
 #import "NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation NodeInfo
 
 @synthesize plugIn;
+
++ (id) nodeInfoWithPlugIn:(PlugInNode*)pin
+{
+    NodeInfo* info = [[[NodeInfo alloc] init] autorelease];
+    info.plugIn = pin;
+    return info;
+}
 
 @end

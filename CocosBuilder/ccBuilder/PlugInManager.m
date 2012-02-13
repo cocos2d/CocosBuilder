@@ -65,6 +65,7 @@
 - (void) dealloc
 {
     [plugInsNode release];
+    [plugInsNodeNames release];
     [super dealloc];
 }
 

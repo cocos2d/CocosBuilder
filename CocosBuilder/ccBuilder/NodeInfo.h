@@ -17,4 +17,6 @@
 
 @property (nonatomic,assign) PlugInNode* plugIn;
 
++ (id) nodeInfoWithPlugIn:(PlugInNode*)pin;
+
 @end
