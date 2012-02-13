@@ -10,7 +10,7 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName;
+@synthesize nodeClassName, nodeProperties;
 
 - (id) initWithBundle:(NSBundle*) b
 {
@@ -29,15 +29,18 @@
     
     // Load properties
     NSURL* propsURL = [bundle URLForResource:@"CCBPProperties" withExtension:@"plist"];
-    NSDictionary* props = [NSDictionary dictionaryWithContentsOfURL:propsURL];
+    NSMutableDictionary* props = [NSMutableDictionary dictionaryWithContentsOfURL:propsURL];
     
     NSLog(@"Props: %@ URL: %@", props, propsURL);
+    
+    nodeProperties = [[props objectForKey:@"properties"] retain];
     
     return self;
 }
 
 - (void) dealloc
 {
+    [nodeProperties release];
     [nodeClassName release];
     [bundle release];
     [instance release];

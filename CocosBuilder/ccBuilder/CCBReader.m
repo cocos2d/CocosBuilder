@@ -8,6 +8,10 @@
 #import "CCButton.h"
 #import "CCThreeSlice.h"
 
+#import "NodeInfo.h"
+#import "PlugInNode.h"
+#import "PlugInManager.h"
+
 @implementation CCBReader
 
 - (id)init
@@ -146,6 +150,10 @@
     {
         node.tag = [CCBReader intValFromDict:props forKey:@"tag"];
     }
+    
+#warning remove retain!
+    
+    node.userData = [[NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retain];
 }
 
 + (void) setPropsForLayer: (CCLayer*) node props:(NSDictionary*)props extraProps:(NSMutableDictionary*) extraProps
@@ -659,6 +667,7 @@
     }
     else if ([class isEqualToString:@"CCNode"])
     {
+        /*
         node = [CCBReader createCustomClassWithName:customClass];
         if (node)
         {
@@ -673,6 +682,10 @@
             }
         }
         if (!node) node = [CCNode node];
+         */
+        Class c = NSClassFromString(@"CCBPDNode");
+        NSLog(@"Class = %@",c);
+        node = [[[c alloc] init] autorelease];
         
         [CCBReader setPropsForNode:node props:props extraProps:extraProps];
     }
