@@ -986,8 +986,28 @@
     
 }
 
+- (void) printExtraProps:(CCNode*)node level:(int)level
+{
+    if ([node.parent isKindOfClass:[CCMenuItemImage class]]) return;
+    if ([node.parent isKindOfClass:[CCLabelBMFont class]]) return;
+    
+    NSString* indent = @"";
+    for (int i = 0; i < level; i++) indent = [indent stringByAppendingString:@"-"];
+    
+    NSLog(@"%@%@",indent,[node className]);
+    NodeInfo* info = node.userData;
+    NSLog(@"%@",info.extraProps);
+    
+    for (int i = 0; i < [[node children] count]; i++)
+    {
+        [self printExtraProps:[[node children] objectAtIndex:i] level:level+1];
+    }
+    
+}
+
 - (void) printExtraProps
 {
+    /*
     NSArray* keys = [extraProps allKeys];
     NSMutableArray* sortedKeys = [NSMutableArray arrayWithArray:keys];
     [sortedKeys sortUsingSelector: @selector(compare:)];
@@ -996,6 +1016,8 @@
     {
         NSLog(@"%@", [keys objectAtIndex:i]);
     }
+     */
+    [self printExtraProps:rootNode level:0];
 }
 
 - (void) printExtraPropsForNode:(CCNode*)node
