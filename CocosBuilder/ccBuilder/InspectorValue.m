@@ -8,6 +8,7 @@
 
 #import "InspectorValue.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCBGlobals.h"
 
 @implementation InspectorValue
 
@@ -28,6 +29,8 @@
     propertyName = [pn retain];
     displayName = [dn retain];
     selection = [s retain];
+    
+    self.resourceManager = [[CCBGlobals globals] appDelegate];
     
     return self;
 }

@@ -30,8 +30,8 @@ static NSInteger strSort(id num1, id num2, void *context)
 {
     NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithContentsOfFile:file];
     
-    NSLog(@"isSpriteSheetFile: %@",file);
-    NSLog(@"dict=%@",dict);
+    //NSLog(@"isSpriteSheetFile: %@",file);
+    //NSLog(@"dict=%@",dict);
     
     NSNumber* docVersion = [[dict objectForKey:@"metadata"] objectForKey:@"format"];
     if (!docVersion) return NO;
