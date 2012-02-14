@@ -85,7 +85,7 @@
     Class editorClass = NSClassFromString(plugin.nodeEditorClassName);
     NSLog(@"nodeEditorClassName:%@ editorClass:%@",plugin.nodeEditorClassName, editorClass);
     CCNode* node = [[[editorClass alloc] init] autorelease];
-    node.userData = [NodeInfo nodeInfoWithPlugIn:plugin];
+    [node setUserData: [NodeInfo nodeInfoWithPlugIn:plugin] retainData:YES];
     
     return node;
 }

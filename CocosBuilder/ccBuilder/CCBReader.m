@@ -182,11 +182,11 @@
     node.blendFunc = [CCBReader blendFuncValFromDict:props forKey:@"blendFunc"];
     
     
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"spriteFile" andNode:node];
+    [CCBReader setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
     NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
     if (spriteFramesFile)
     {
-        [CCBReader setExtraProp:spriteFramesFile forKey:@"spriteSheetFile" andNode:node];
+        [CCBReader setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
     }
 }
 
@@ -585,7 +585,7 @@
         }
         if (!node) node = [CCLayer node];
         
-        node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
+        [node setUserData: [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retainData:YES];
         
         [CCBReader setPropsForNode:node props:props];
         [CCBReader setPropsForLayer:(CCLayer*)node props:props];
