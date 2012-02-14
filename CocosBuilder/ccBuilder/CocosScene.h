@@ -62,10 +62,6 @@ enum {
     CGPoint scrollOffset;
     CGPoint panningStartScrollOffset;
     
-    // Custom properties
-    int currentTagId;
-    NSMutableDictionary* extraProps;
-    
     // Selection
     NSMutableArray* nodesAtSelectionPt;
     int currentNodeAtSelectionPtIdx;
@@ -112,7 +108,6 @@ enum {
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
-//- (NSMutableDictionary*) extraPropsDict;
 
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin;
 - (CGSize) stageSize;
