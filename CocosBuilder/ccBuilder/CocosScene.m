@@ -5,7 +5,7 @@
 #import "CocosScene.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 #import "NodeInfo.h"
 #import "PlugInManager.h"
 

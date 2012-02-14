@@ -3,7 +3,7 @@
 //
 
 #import "EditTemplateWindowController.h"
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 #import "CCBUtil.h"
 
 @implementation EditTemplateWindowController
