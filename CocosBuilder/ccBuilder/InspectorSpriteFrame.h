@@ -9,8 +9,14 @@
 #import "InspectorValue.h"
 
 @interface InspectorSpriteFrame : InspectorValue
+{
+    NSMutableArray* assetsImgList;
+    BOOL isSetSpriteSheet;
+}
+
+@property (nonatomic,retain) NSMutableArray* assetsImgList;
 
 @property (nonatomic,assign) NSString* spriteFile;
-//@property (nonatomic,assign) NSString* spriteSheetFile;
+@property (nonatomic,assign) NSString* spriteSheetFile;
 
 @end

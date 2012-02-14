@@ -42,7 +42,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1005">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -51,6 +51,8 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{75, 9}, {155, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="940077208">
 							<int key="NSCellFlags">-2076049856</int>
@@ -131,6 +133,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{75, 30}, {155, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="801384018"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="784432357">
@@ -198,6 +201,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{-3, 14}, {76, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1025883255"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="483078966">
@@ -226,6 +230,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{-3, 35}, {76, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="122538199"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="749965992">
@@ -243,6 +248,8 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{233, 54}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="647233470"/>
 				<string key="NSClassName">NSView</string>
 			</object>
@@ -266,7 +273,7 @@
 						<string key="label">contentValues: resourceManager.assetsSpriteSheetList</string>
 						<reference key="source" ref="122538199"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="997474036">
 							<reference key="NSSource" ref="122538199"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">contentValues: resourceManager.assetsSpriteSheetList</string>
@@ -275,23 +282,40 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">47</int>
+					<int key="connectionID">64</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentValues: resourceManager.assestsImgList</string>
-						<reference key="source" ref="1025883255"/>
+						<string key="label">selectedValue: spriteSheetFile</string>
+						<reference key="source" ref="122538199"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="266745764">
-							<reference key="NSSource" ref="1025883255"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="122538199"/>
 							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentValues: resourceManager.assestsImgList</string>
-							<string key="NSBinding">contentValues</string>
-							<string key="NSKeyPath">resourceManager.assestsImgList</string>
+							<string key="NSLabel">selectedValue: spriteSheetFile</string>
+							<string key="NSBinding">selectedValue</string>
+							<string key="NSKeyPath">spriteSheetFile</string>
+							<reference key="NSPreviousConnector" ref="997474036"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">51</int>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentValues: assetsImgList</string>
+						<reference key="source" ref="1025883255"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector" id="923830034">
+							<reference key="NSSource" ref="1025883255"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">contentValues: assetsImgList</string>
+							<string key="NSBinding">contentValues</string>
+							<string key="NSKeyPath">assetsImgList</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -304,11 +328,11 @@
 							<string key="NSLabel">selectedValue: spriteFile</string>
 							<string key="NSBinding">selectedValue</string>
 							<string key="NSKeyPath">spriteFile</string>
-							<reference key="NSPreviousConnector" ref="266745764"/>
+							<reference key="NSPreviousConnector" ref="923830034"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">53</int>
+					<int key="connectionID">61</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -538,9 +562,40 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">53</int>
+			<int key="maxID">65</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">InspectorSpriteFrame</string>
+					<string key="superclassName">InspectorValue</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/InspectorSpriteFrame.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">InspectorValue</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">view</string>
+						<string key="NS.object.0">NSView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">view</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">view</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/InspectorValue.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

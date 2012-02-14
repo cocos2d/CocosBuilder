@@ -9,15 +9,16 @@
 #import "TexturePropertySetter.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
+#import "CCBWriter.h"
 
 @implementation TexturePropertySetter
 
 + (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
-    CCSpriteFrame* spriteFrame;
+    CCSpriteFrame* spriteFrame = NULL;
     
-    if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""]
+    if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile]
         && spriteFile && ![spriteFile isEqualToString:@""])
     {
         // Load the sprite sheet and get the frame
@@ -40,9 +41,12 @@
         NSString* fileName = [NSString stringWithFormat:@"%@%@", ad.assetsPath, spriteFile];
         CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         
-        CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
+        if (texture)
+        {
+            CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
         
-        spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds] ;
+            spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+        }
     }
     
     if (!spriteFrame)
@@ -54,6 +58,7 @@
         spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds] ;
     }
 
+    // Actually set the sprite frame
     [node setValue:spriteFrame forKey:prop];
 }
 
