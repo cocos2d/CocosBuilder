@@ -3,7 +3,7 @@
 //
 
 #import "CCBWriter.h"
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 //#import "CCBTemplateNode.h"
 //#import "CCBTemplate.h"
 #import "CCNineSlice.h"
@@ -182,14 +182,14 @@
     {
         class = @"CCSprite";
         CCSprite* sprite = (CCSprite*) node;
-        [CCBWriter addPropToDict:props key:@"spriteFile" stringVal:[extraProps objectForKey:@"spriteFile"]];
+        [CCBWriter addPropToDict:props key:@"spriteFile" stringVal:[extraProps objectForKey:@"displayFrame"]];
         [CCBWriter addPropToDict:props key:@"opacity" intVal:(int)sprite.opacity];
         [CCBWriter addPropToDict:props key:@"color" color3Val:sprite.color];
         [CCBWriter addPropToDict:props key:@"flipX" boolVal:sprite.flipX];
         [CCBWriter addPropToDict:props key:@"flipY" boolVal:sprite.flipY];
         [CCBWriter addPropToDict:props key:@"blendFunc" blendFuncVal:sprite.blendFunc];
         
-        NSString* spriteSheetFile = [extraProps objectForKey:@"spriteSheetFile"];
+        NSString* spriteSheetFile = [extraProps objectForKey:@"displayFrameSheet"];
         if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile])
         {
             [CCBWriter addPropToDict:props key:@"spriteFramesFile" stringVal:spriteSheetFile];

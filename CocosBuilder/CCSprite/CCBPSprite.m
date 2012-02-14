@@ -10,14 +10,4 @@
 
 @implementation CCBPSprite
 
-- (id) init
-{
-    self = [super initWithFile:@"missing-texture.png"];
-    if (!self) return NULL;
-    
-    
-    
-    return self;
-}
-
 @end

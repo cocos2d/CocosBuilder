@@ -4,7 +4,7 @@
 
 #import "TemplateWindowController.h"
 #import "AssetsItem.h"
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 #import "EditTemplateWindowController.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"

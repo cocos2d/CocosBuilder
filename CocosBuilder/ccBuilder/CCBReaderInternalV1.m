@@ -2,7 +2,7 @@
 //  Copyright 2011 Viktor Lidholt. All rights reserved.
 //
 
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 #import <objc/runtime.h>
 #import "CCNineSlice.h"
 #import "CCButton.h"
@@ -12,7 +12,9 @@
 #import "PlugInNode.h"
 #import "PlugInManager.h"
 
-@implementation CCBReader
+#import "TexturePropertySetter.h"
+
+@implementation CCBReaderInternalV1
 
 - (id)init
 {
@@ -117,28 +119,28 @@
 
 + (void) setPropsForNode: (CCNode*) node props:(NSDictionary*)props
 {
-    node.position = [CCBReader pointValFromDict:props forKey:@"position"];
+    node.position = [CCBReaderInternalV1 pointValFromDict:props forKey:@"position"];
     
     if (![node isKindOfClass:[CCSprite class]] &&
         ![node isKindOfClass:[CCMenuItemImage class]] &&
         ![node isKindOfClass:[CCLabelBMFont class]])
     {
-        node.contentSize = [CCBReader sizeValFromDict:props forKey:@"contentSize"];
+        node.contentSize = [CCBReaderInternalV1 sizeValFromDict:props forKey:@"contentSize"];
     }
-    node.scaleX = [CCBReader floatValFromDict:props forKey:@"scaleX"];
-    node.scaleY = [CCBReader floatValFromDict:props forKey:@"scaleY"];
-    node.anchorPoint = [CCBReader pointValFromDict:props forKey:@"anchorPoint"];
-    node.rotation = [CCBReader floatValFromDict:props forKey:@"rotation"];
-    node.isRelativeAnchorPoint = [CCBReader boolValFromDict:props forKey:@"isRelativeAnchorPoint"];
-    node.visible = [CCBReader boolValFromDict:props forKey:@"visible"];
-    node.tag = [CCBReader intValFromDict:props forKey:@"tag"];
+    node.scaleX = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleX"];
+    node.scaleY = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleY"];
+    node.anchorPoint = [CCBReaderInternalV1 pointValFromDict:props forKey:@"anchorPoint"];
+    node.rotation = [CCBReaderInternalV1 floatValFromDict:props forKey:@"rotation"];
+    node.isRelativeAnchorPoint = [CCBReaderInternalV1 boolValFromDict:props forKey:@"isRelativeAnchorPoint"];
+    node.visible = [CCBReaderInternalV1 boolValFromDict:props forKey:@"visible"];
+    node.tag = [CCBReaderInternalV1 intValFromDict:props forKey:@"tag"];
     
     NSLog(@"Setting customClass=%@", [props objectForKey:@"customClass"]);
         
-        [CCBReader setExtraProp:[props objectForKey:@"customClass"] forKey:@"customClass" andNode:node];
-        [CCBReader setExtraProp:[props objectForKey:@"memberVarAssignmentType"] forKey:@"memberVarAssignmentType" andNode:node];
-        [CCBReader setExtraProp:[props objectForKey:@"memberVarAssignmentName"] forKey:@"memberVarAssignmentName" andNode:node];
-        [CCBReader setExtraProp:[props objectForKey:@"lockedScaleRatio"] forKey:@"lockedScaleRatio" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"customClass"] forKey:@"customClass" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"memberVarAssignmentType"] forKey:@"memberVarAssignmentType" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"memberVarAssignmentName"] forKey:@"memberVarAssignmentName" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"lockedScaleRatio"] forKey:@"lockedScaleRatio" andNode:node];
         
         // Expanded nodes
         BOOL isExpanded;
@@ -146,48 +148,50 @@
         if (isExpandedObj) isExpanded = [isExpandedObj boolValue];
         else isExpanded = YES;
         
-        [CCBReader setExtraProp:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:[NSNumber numberWithBool:isExpanded] forKey:@"isExpanded" andNode:node];
 }
 
 + (void) setPropsForLayer: (CCLayer*) node props:(NSDictionary*)props
 {
-    [CCBReader setExtraProp:[props objectForKey:@"touchEnabled"] forKey:@"touchEnabled" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"accelerometerEnabled"] forKey:@"accelerometerEnabled" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"mouseEnabled"] forKey:@"mouseEnabled" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"keyboardEnabled"] forKey:@"keyboardEnabled" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"touchEnabled"] forKey:@"touchEnabled" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"accelerometerEnabled"] forKey:@"accelerometerEnabled" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"mouseEnabled"] forKey:@"mouseEnabled" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"keyboardEnabled"] forKey:@"keyboardEnabled" andNode:node];
 }
 
 + (void) setPropsForLayerColor: (CCLayerColor*) node props:(NSDictionary*)props
 {
-    [node setColor: [CCBReader color3ValFromDict:props forKey:@"color"]];
-    [node setOpacity: [CCBReader intValFromDict:props forKey:@"opacity"]];
-    node.blendFunc = [CCBReader blendFuncValFromDict:props forKey:@"blendFunc"];
+    [node setColor: [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"]];
+    [node setOpacity: [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"]];
+    node.blendFunc = [CCBReaderInternalV1 blendFuncValFromDict:props forKey:@"blendFunc"];
 }
 
 + (void) setPropsForLayerGradient: (CCLayerGradient*) node props:(NSDictionary*)props
 {
-    [node setStartColor: [CCBReader color3ValFromDict:props forKey:@"color"]];
-    [node setStartOpacity: [CCBReader intValFromDict:props forKey:@"opacity"]];
-    [node setEndColor: [CCBReader color3ValFromDict:props forKey:@"endColor"]];
-    [node setEndOpacity: [CCBReader intValFromDict:props forKey:@"endOpacity"]];
-    node.vector = [CCBReader pointValFromDict:props forKey:@"vector"];
+    [node setStartColor: [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"]];
+    [node setStartOpacity: [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"]];
+    [node setEndColor: [CCBReaderInternalV1 color3ValFromDict:props forKey:@"endColor"]];
+    [node setEndOpacity: [CCBReaderInternalV1 intValFromDict:props forKey:@"endOpacity"]];
+    node.vector = [CCBReaderInternalV1 pointValFromDict:props forKey:@"vector"];
 }
 
 + (void) setPropsForSprite: (CCSprite*) node props:(NSDictionary*)props
 {
-    node.opacity = [CCBReader intValFromDict:props forKey:@"opacity"];
-    node.color = [CCBReader color3ValFromDict:props forKey:@"color"];
-    node.flipX = [CCBReader boolValFromDict:props forKey:@"flipX"];
-    node.flipY = [CCBReader boolValFromDict:props forKey:@"flipY"];
-    node.blendFunc = [CCBReader blendFuncValFromDict:props forKey:@"blendFunc"];
+    node.opacity = [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"];
+    node.color = [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"];
+    node.flipX = [CCBReaderInternalV1 boolValFromDict:props forKey:@"flipX"];
+    node.flipY = [CCBReaderInternalV1 boolValFromDict:props forKey:@"flipY"];
+    node.blendFunc = [CCBReaderInternalV1 blendFuncValFromDict:props forKey:@"blendFunc"];
     
     
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
     NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
     if (spriteFramesFile)
     {
-        [CCBReader setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
     }
+    
+    [TexturePropertySetter setTextureForNode:node andProperty:@"displayFrame" withFile:[props objectForKey:@"spriteFile"] andSheetFile:[props objectForKey:@"spriteFramesFile"]];
 }
 
 + (void) setPropsForMenu: (CCMenu*) node props:(NSDictionary*)props
@@ -197,29 +201,29 @@
 
 + (void) setPropsForMenuItem: (CCMenuItem*) node props:(NSDictionary*)props
 {
-    [node setIsEnabled:[CCBReader boolValFromDict:props forKey:@"isEnabled"]];
-    [CCBReader setExtraProp:[props objectForKey:@"selector"] forKey:@"selector" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"target"] forKey:@"target" andNode:node];
+    [node setIsEnabled:[CCBReaderInternalV1 boolValFromDict:props forKey:@"isEnabled"]];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"selector"] forKey:@"selector" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"target"] forKey:@"target" andNode:node];
     NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
     if (spriteFramesFile)
     {
-        [CCBReader setExtraProp:spriteFramesFile forKey:@"spriteSheetFile" andNode:node];
+        [CCBReaderInternalV1 setExtraProp:spriteFramesFile forKey:@"spriteSheetFile" andNode:node];
     }
 }
 
 + (void) setPropsForMenuItemImage: (CCMenuItemImage*) node props:(NSDictionary*)props
 {
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFileNormal"] forKey:@"spriteFileNormal" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFileSelected"] forKey:@"spriteFileSelected" andNode:node];
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFileDisabled"] forKey:@"spriteFileDisabled" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFileNormal"] forKey:@"spriteFileNormal" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFileSelected"] forKey:@"spriteFileSelected" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFileDisabled"] forKey:@"spriteFileDisabled" andNode:node];
 }
 
 + (void) setPropsForLabelBMFont: (CCLabelBMFont*) node props:(NSDictionary*)props
 {
-    node.opacity = [CCBReader intValFromDict:props forKey:@"opacity"];
-    node.color = [CCBReader color3ValFromDict:props forKey:@"color"];
+    node.opacity = [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"];
+    node.color = [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"];
     
-    [CCBReader setExtraProp:[props objectForKey:@"fontFile"] forKey:@"fontFile" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"fontFile"] forKey:@"fontFile" andNode:node];
 }
 
 + (void) setPropsForLabelTTF: (CCLabelTTF*) node props:(NSDictionary*)props
@@ -229,54 +233,54 @@
 
 + (void) setPropsForParticleSystem: (CCParticleSystem*) node props:(NSDictionary*)props
 {
-    node.emitterMode = [CCBReader intValFromDict:props forKey:@"emitterMode"];
-    node.emissionRate = [CCBReader floatValFromDict:props forKey:@"emissionRate"];
-    node.duration = [CCBReader floatValFromDict:props forKey:@"duration"];
-    node.posVar = [CCBReader pointValFromDict:props forKey:@"posVar"];
-    node.totalParticles = [CCBReader intValFromDict:props forKey:@"totalParticles"];
-    node.life = [CCBReader floatValFromDict:props forKey:@"life"];
-    node.lifeVar = [CCBReader floatValFromDict:props forKey:@"lifeVar"];
-    node.startSize = [CCBReader intValFromDict:props forKey:@"startSize"];
-    node.startSizeVar = [CCBReader intValFromDict:props forKey:@"startSizeVar"];
-    node.endSize = [CCBReader intValFromDict:props forKey:@"endSize"];
-    node.endSizeVar = [CCBReader intValFromDict:props forKey:@"endSizeVar"];
+    node.emitterMode = [CCBReaderInternalV1 intValFromDict:props forKey:@"emitterMode"];
+    node.emissionRate = [CCBReaderInternalV1 floatValFromDict:props forKey:@"emissionRate"];
+    node.duration = [CCBReaderInternalV1 floatValFromDict:props forKey:@"duration"];
+    node.posVar = [CCBReaderInternalV1 pointValFromDict:props forKey:@"posVar"];
+    node.totalParticles = [CCBReaderInternalV1 intValFromDict:props forKey:@"totalParticles"];
+    node.life = [CCBReaderInternalV1 floatValFromDict:props forKey:@"life"];
+    node.lifeVar = [CCBReaderInternalV1 floatValFromDict:props forKey:@"lifeVar"];
+    node.startSize = [CCBReaderInternalV1 intValFromDict:props forKey:@"startSize"];
+    node.startSizeVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"startSizeVar"];
+    node.endSize = [CCBReaderInternalV1 intValFromDict:props forKey:@"endSize"];
+    node.endSizeVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"endSizeVar"];
     if ([node isKindOfClass:[CCParticleSystemQuad class]])
     {
-        node.startSpin = [CCBReader intValFromDict:props forKey:@"startSpin"];
-        node.startSpinVar = [CCBReader intValFromDict:props forKey:@"startSpinVar"];
-        node.endSpin = [CCBReader intValFromDict:props forKey:@"endSpin"];
-        node.endSpinVar = [CCBReader intValFromDict:props forKey:@"endSpinVar"];
+        node.startSpin = [CCBReaderInternalV1 intValFromDict:props forKey:@"startSpin"];
+        node.startSpinVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"startSpinVar"];
+        node.endSpin = [CCBReaderInternalV1 intValFromDict:props forKey:@"endSpin"];
+        node.endSpinVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"endSpinVar"];
     }
-    node.startColor = [CCBReader color4fValFromDict:props forKey:@"startColor"];
-    node.startColorVar = [CCBReader color4fValFromDict:props forKey:@"startColorVar"];
-    node.endColor = [CCBReader color4fValFromDict:props forKey:@"endColor"];
-    node.endColorVar = [CCBReader color4fValFromDict:props forKey:@"endColorVar"];
-    node.blendFunc = [CCBReader blendFuncValFromDict:props forKey:@"blendFunc"];
+    node.startColor = [CCBReaderInternalV1 color4fValFromDict:props forKey:@"startColor"];
+    node.startColorVar = [CCBReaderInternalV1 color4fValFromDict:props forKey:@"startColorVar"];
+    node.endColor = [CCBReaderInternalV1 color4fValFromDict:props forKey:@"endColor"];
+    node.endColorVar = [CCBReaderInternalV1 color4fValFromDict:props forKey:@"endColorVar"];
+    node.blendFunc = [CCBReaderInternalV1 blendFuncValFromDict:props forKey:@"blendFunc"];
     
     if (node.emitterMode == kCCParticleModeGravity)
     {
-        node.gravity = [CCBReader pointValFromDict:props forKey:@"gravity"];
-        node.angle = [CCBReader intValFromDict:props forKey:@"angle"];
-        node.angleVar = [CCBReader intValFromDict:props forKey:@"angleVar"];
-        node.speed = [CCBReader intValFromDict:props forKey:@"speed"];
-        node.speedVar = [CCBReader intValFromDict:props forKey:@"speedVar"];
-        node.tangentialAccel = [CCBReader intValFromDict:props forKey:@"tangentialAccel"];
-        node.tangentialAccelVar = [CCBReader intValFromDict:props forKey:@"tangentialAccelVar"];
-        node.radialAccel = [CCBReader intValFromDict:props forKey:@"radialAccel"];
-        node.radialAccelVar = [CCBReader intValFromDict:props forKey:@"radialAccelVar"];
+        node.gravity = [CCBReaderInternalV1 pointValFromDict:props forKey:@"gravity"];
+        node.angle = [CCBReaderInternalV1 intValFromDict:props forKey:@"angle"];
+        node.angleVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"angleVar"];
+        node.speed = [CCBReaderInternalV1 intValFromDict:props forKey:@"speed"];
+        node.speedVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"speedVar"];
+        node.tangentialAccel = [CCBReaderInternalV1 intValFromDict:props forKey:@"tangentialAccel"];
+        node.tangentialAccelVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"tangentialAccelVar"];
+        node.radialAccel = [CCBReaderInternalV1 intValFromDict:props forKey:@"radialAccel"];
+        node.radialAccelVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"radialAccelVar"];
     }
     else
     {
-        node.startRadius = [CCBReader intValFromDict:props forKey:@"startRadius"];
-        node.startRadiusVar = [CCBReader intValFromDict:props forKey:@"startRadiusVar"];
-        node.endRadius = [CCBReader intValFromDict:props forKey:@"endRadius"];
-        node.endRadiusVar = [CCBReader intValFromDict:props forKey:@"endRadiusVar"];
-        node.rotatePerSecond = [CCBReader intValFromDict:props forKey:@"rotatePerSecond"];
-        node.rotatePerSecondVar = [CCBReader intValFromDict:props forKey:@"rotatePerSecondVar"];
+        node.startRadius = [CCBReaderInternalV1 intValFromDict:props forKey:@"startRadius"];
+        node.startRadiusVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"startRadiusVar"];
+        node.endRadius = [CCBReaderInternalV1 intValFromDict:props forKey:@"endRadius"];
+        node.endRadiusVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"endRadiusVar"];
+        node.rotatePerSecond = [CCBReaderInternalV1 intValFromDict:props forKey:@"rotatePerSecond"];
+        node.rotatePerSecondVar = [CCBReaderInternalV1 intValFromDict:props forKey:@"rotatePerSecondVar"];
     }
     
     
-    [CCBReader setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"spriteFile" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"spriteFile" andNode:node];
     
     node.positionType = kCCPositionTypeGrouped;
 }
@@ -343,8 +347,8 @@
         CCParticleSystem* sys = [[[ARCH_OPTIMAL_PARTICLE_SYSTEM alloc] initWithTotalParticles:2048] autorelease];
         sys.texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
         node = sys;
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForParticleSystem:(CCParticleSystem*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForParticleSystem:(CCParticleSystem*)node props:props];
     }
     else if ([class isEqualToString:@"CCMenuItemImage"])
     {
@@ -396,21 +400,21 @@
             node = [CCMenuItemImage itemWithNormalSprite:spriteNormal selectedSprite:spriteSelected disabledSprite:spriteDisabled target:NULL selector:NULL];
         }
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForMenuItem:(CCMenuItem*)node props:props];
-        [CCBReader setPropsForMenuItemImage:(CCMenuItemImage*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForMenuItem:(CCMenuItem*)node props:props];
+        [CCBReaderInternalV1 setPropsForMenuItemImage:(CCMenuItemImage*)node props:props];
     }
     else if ([class isEqualToString:@"CCMenu"])
     {
         node = [CCMenu menuWithItems: nil];
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLayer:(CCLayer*)node props:props];
-        [CCBReader setPropsForMenu:(CCMenu*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
+        [CCBReaderInternalV1 setPropsForMenu:(CCMenu*)node props:props];
     }
     else if ([class isEqualToString:@"CCNineSlice"])
     {
         node = [CCNineSlice node];
-        [CCBReader setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
     }
     else if([class isEqualToString:@"CCButton"])
     {
@@ -445,8 +449,8 @@
         
         node = [CCButton buttonWithTarget:target selector:selector];
         [(CCButton*)node setImageNameFormat:imageNameFormat];
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForMenuItem:(CCButton*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForMenuItem:(CCButton*)node props:props];
     }
     else if([class isEqualToString:@"CCThreeSlice"])
     {
@@ -454,13 +458,13 @@
         
         node = [CCThreeSlice node];
         [(CCThreeSlice*)node setImageNameFormat:imageNameFormat];
-        [CCBReader setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
     }
     else if ([class isEqualToString:@"CCLabelTTF"])
     {
         NSString* fontName = [props objectForKey:@"fontName"];
         NSString* string = [props objectForKey:@"string"];
-        float fontSize = [CCBReader floatValFromDict:props forKey:@"fontSize"];
+        float fontSize = [CCBReaderInternalV1 floatValFromDict:props forKey:@"fontSize"];
         @try {
             node = [CCLabelTTF labelWithString:string fontName:fontName fontSize:fontSize];
         }
@@ -469,9 +473,9 @@
         }
         if (!node) node = [CCLabelTTF labelWithString:string fontName:@"Helvetica" fontSize:24];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLabelTTF:(CCLabelTTF*)node props:props];
-        [CCBReader setPropsForSprite:(CCLabelTTF*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLabelTTF:(CCLabelTTF*)node props:props];
+        [CCBReaderInternalV1 setPropsForSprite:(CCLabelTTF*)node props:props];
     }
     else if ([class isEqualToString:@"CCLabelBMFont"])
     {
@@ -485,8 +489,8 @@
         }
         if (!node) node = [CCLabelBMFont labelWithString:string fntFile:@"missing-font.fnt"];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLabelBMFont:(CCLabelBMFont*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLabelBMFont:(CCLabelBMFont*)node props:props];
     }
     else if ([class isEqualToString:@"CCSprite"])
     {
@@ -520,8 +524,8 @@
 #warning FIX!
         //node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForSprite:(CCSprite*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForSprite:(CCSprite*)node props:props];
     }
     else if ([class isEqualToString:@"CCLayerGradient"])
     {
@@ -541,10 +545,10 @@
         }
         if (!node) node = [CCLayerGradient node];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLayer:(CCLayer*)node props:props];
-        [CCBReader setPropsForLayerColor:(CCLayerColor*)node props:props];
-        [CCBReader setPropsForLayerGradient:(CCLayerGradient*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
+        [CCBReaderInternalV1 setPropsForLayerColor:(CCLayerColor*)node props:props];
+        [CCBReaderInternalV1 setPropsForLayerGradient:(CCLayerGradient*)node props:props];
     }
     else if ([class isEqualToString:@"CCLayerColor"])
     {
@@ -564,9 +568,9 @@
         }
         if (!node) node = [CCLayerColor node];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLayer:(CCLayer*)node props:props];
-        [CCBReader setPropsForLayerColor:(CCLayerColor*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
+        [CCBReaderInternalV1 setPropsForLayerColor:(CCLayerColor*)node props:props];
     }
     else if ([class isEqualToString:@"CCLayer"])
     {
@@ -587,8 +591,8 @@
         
         [node setUserData: [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retainData:YES];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setPropsForLayer:(CCLayer*)node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
     }
     else if ([class isEqualToString:@"CCBTemplateNode"])
     {
@@ -596,8 +600,8 @@
         CCBTemplate* t = [[[CCBTemplate alloc] initWithFile:templateFile assetsPath:path] autorelease];
         node = [[[CCBTemplateNode alloc] initWithTemplate:t] autorelease];
         
-        [CCBReader setPropsForNode:node props:props];
-        [CCBReader setExtraProp:t.customClass forKey:@"customClass" andNode:node];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setExtraProp:t.customClass forKey:@"customClass" andNode:node];
     }
     else if ([class isEqualToString:@"CCNode"])
     {
@@ -626,7 +630,7 @@
         
         node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
         
-        [CCBReader setPropsForNode:node props:props];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
     }
     else
     {
@@ -640,7 +644,7 @@
     for (int i = 0; i < [children count]; i++)
     {
         NSDictionary* childDict = [children objectAtIndex:i];
-        CCNode* child = [CCBReader ccObjectFromDictionary:childDict assetsDir:path owner:owner root:root];
+        CCNode* child = [CCBReaderInternalV1 ccObjectFromDictionary:childDict assetsDir:path owner:owner root:root];
         int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
         if (child && node)
         {
@@ -695,7 +699,7 @@
 
 + (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner
 {
-    return [CCBReader ccObjectFromDictionary:dict assetsDir:path owner:owner root:NULL];
+    return [CCBReaderInternalV1 ccObjectFromDictionary:dict assetsDir:path owner:owner root:NULL];
 }
 
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject *)owner
@@ -721,38 +725,38 @@
     }
     
     NSDictionary* nodeGraph = [dict objectForKey:@"nodeGraph"];
-    return [CCBReader ccObjectFromDictionary:nodeGraph assetsDir:path owner:(NSObject*) owner];
+    return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:path owner:(NSObject*) owner];
 }
 
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary *)dict owner:(id) owner
 {
-    return [CCBReader nodeGraphFromDictionary:dict assetsDir:@"" owner:owner];
+    return [CCBReaderInternalV1 nodeGraphFromDictionary:dict assetsDir:@"" owner:owner];
 }
 
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict
 {
-    return [CCBReader nodeGraphFromDictionary:dict assetsDir:@"" owner:NULL];
+    return [CCBReaderInternalV1 nodeGraphFromDictionary:dict assetsDir:@"" owner:NULL];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner
 {
     NSString* path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:file];
-    return [CCBReader nodeGraphFromDictionary:[NSMutableDictionary dictionaryWithContentsOfFile:path] owner:owner];
+    return [CCBReaderInternalV1 nodeGraphFromDictionary:[NSMutableDictionary dictionaryWithContentsOfFile:path] owner:owner];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString *)file
 {
-    return [CCBReader nodeGraphFromFile:file owner:NULL];
+    return [CCBReaderInternalV1 nodeGraphFromFile:file owner:NULL];
 }
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file
 {
-    return [CCBReader sceneWithNodeGraphFromFile:file owner:NULL];
+    return [CCBReaderInternalV1 sceneWithNodeGraphFromFile:file owner:NULL];
 }
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner
 {
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner];
+    CCNode* node = [CCBReaderInternalV1 nodeGraphFromFile:file owner:owner];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;

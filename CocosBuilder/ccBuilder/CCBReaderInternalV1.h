@@ -12,7 +12,7 @@ enum {
 };
 
 // CCBReader
-@interface CCBReader : NSObject {
+@interface CCBReaderInternalV1 : NSObject {
 @private
     
 }

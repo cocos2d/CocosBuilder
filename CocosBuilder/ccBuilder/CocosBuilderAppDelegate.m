@@ -8,7 +8,7 @@
 #import "CCBGlobals.h"
 #import "cocos2d.h"
 #import "CCBWriter.h"
-#import "CCBReader.h"
+#import "CCBReaderInternalV1.h"
 #import "CCBDocument.h"
 #import "NewDocWindowController.h"
 #import "CCBSpriteSheetParser.h"
@@ -594,7 +594,7 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         if (![self addCCObject:clipNode toParent:item]) return NO;
         
         // Remove old node
@@ -3292,7 +3292,7 @@
 {
     // Process contents
     NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
-    CCNode* loadedRoot = [CCBReader nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
+    CCNode* loadedRoot = [CCBReaderInternalV1 nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
     
     // Replace open document
     CCBGlobals* g = [CCBGlobals globals];
@@ -3858,7 +3858,7 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReader ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         [self addCCObject:clipNode asChild:asChild];
     }
 }
