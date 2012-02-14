@@ -143,13 +143,6 @@
 
 - (void) setupDefaultNodes
 {
-    /*
-    CCBGlobals* g = [CCBGlobals globals];
-    
-    rootNode = [self createDefaultLayer];
-    g.rootNode = rootNode;
-    [contentLayer addChild:rootNode];
-     */
 }
 
 /*
@@ -235,41 +228,19 @@
 
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
 {
-    /*
-    NSMutableDictionary* props = [extraProps objectForKey:[NSNumber numberWithInt:(int)node.tag]];
-    return [props objectForKey:key];
-     */
     NodeInfo* info = node.userData;
     return [info.extraProps objectForKey:key];
 }
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node
 {
-    /*
-    NSMutableDictionary* props = [extraProps objectForKey:[NSNumber numberWithInt:(int)node.tag]];
-    [props setObject:val forKey:key];
-     */
     NodeInfo* info = node.userData;
     [info.extraProps setObject:val forKey:key];
 }
 
-/*
-- (NSMutableDictionary*) extraPropsDict
-{
-    return extraProps;
-}
- */
 
 - (void) setupExtraPropsForNode:(CCNode*) node
 {
-    //currentTagId++;
-    //node.tag = currentTagId;
-    int tagId = (int)[extraProps count] + 1;
-    node.tag = tagId;
-    NSMutableDictionary* props = [NSMutableDictionary dictionary];
-    
-    //[extraProps setObject:props forKey:[NSNumber numberWithInt:currentTagId]];
-    [extraProps setObject:props forKey:[NSNumber numberWithInt:tagId]];
     [self setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag" andNode:node];
     [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"lockedScaleRatio" andNode:node];
     
@@ -490,20 +461,12 @@
     
     [contentLayer removeChild:rootNode cleanup:YES];
     
-    // Some weird bug, this helps for some reason :/
-    //[NSThread sleepForTimeInterval:0.1];
-    
-    [extraProps release];
-    extraProps = ep;
-    [extraProps retain];
-    
     self.rootNode = node;
     g.rootNode = node;
     
     if (!node) return;
     
     [contentLayer addChild:node];
-    currentTagId = (int)[extraProps count];
 }
 
 - (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template
@@ -511,8 +474,6 @@
     CCBGlobals* g = [CCBGlobals globals];
     
     [contentLayer removeChild:rootNode cleanup:YES];
-    [extraProps removeAllObjects];
-    currentTagId = 1;
     
     CCNode* node;
     
@@ -882,7 +843,6 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] ))
     {
-        extraProps = [[NSMutableDictionary dictionary] retain];
         
         [self setupEditorNodes];
         [self setupDefaultNodes];
@@ -933,7 +893,6 @@
     [self updateSelection];
     
     // Setup border layer
-    //[borderLayer removeAllChildrenWithCleanup:YES];
     CGRect bounds = [stageBgLayer boundingBox];
     
     borderBottom.position = ccp(0,0);
@@ -956,7 +915,7 @@
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
-    [extraProps release];
+    //[extraProps release];
     [nodesAtSelectionPt release];
     
 	// in case you have something to dealloc, do it in this method
@@ -1007,23 +966,11 @@
 
 - (void) printExtraProps
 {
-    /*
-    NSArray* keys = [extraProps allKeys];
-    NSMutableArray* sortedKeys = [NSMutableArray arrayWithArray:keys];
-    [sortedKeys sortUsingSelector: @selector(compare:)];
-    
-    for (int i = 0; i < [sortedKeys count]; i++)
-    {
-        NSLog(@"%@", [keys objectAtIndex:i]);
-    }
-     */
     [self printExtraProps:rootNode level:0];
 }
 
 - (void) printExtraPropsForNode:(CCNode*)node
 {
-    NSDictionary* props = [extraProps objectForKey:[NSNumber numberWithInt:(int)node.tag]];
-    NSLog(@"%@",props);
 }
 
 @end

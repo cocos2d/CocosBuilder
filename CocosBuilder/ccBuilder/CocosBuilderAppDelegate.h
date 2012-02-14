@@ -235,7 +235,7 @@ enum {
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
 
-- (IBAction) updateSelectionFromInspector;
+//- (IBAction) updateSelectionFromInspector;
 - (IBAction) setBlendModeNormal:(id)sender;
 - (IBAction) setBlendModeAdditive:(id)sender;
 - (IBAction) updateLabelBMFontString:(id)sender;
