@@ -8,7 +8,7 @@
 
 #import "InspectorValue.h"
 
-@interface InspectorTexture : InspectorValue
+@interface InspectorSpriteFrame : InspectorValue
 
 @property (nonatomic,assign) NSString* spriteFile;
 //@property (nonatomic,assign) NSString* spriteSheetFile;

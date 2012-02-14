@@ -258,7 +258,7 @@
     CCNode* node = [CCNode node];
     [self setupExtraPropsForNode: node];
     
-    node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
+    [node setUserData: [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retainData:YES];
     
     return node;
 }
