@@ -490,6 +490,7 @@
     }
     else if ([class isEqualToString:@"CCSprite"])
     {
+        /*
         NSString* spriteFile = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFile"]];
         NSString* spriteSheetFile = [props objectForKey:@"spriteFramesFile"];
         if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""]) spriteSheetFile = [NSString stringWithFormat:@"%@%@", path, spriteSheetFile];
@@ -511,9 +512,13 @@
         }
         
         if (!node) node = [CCSprite spriteWithFile:@"missing-texture.png"];
+         */
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCSprite"];
+        
+        NSLog(@"Loaded CCSprite: %@",node);
         
 #warning FIX!
-        node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
+        //node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
         
         [CCBReader setPropsForNode:node props:props];
         [CCBReader setPropsForSprite:(CCSprite*)node props:props];

@@ -14,7 +14,7 @@
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
-    NSURL* propsURL = [bundle URLForResource:@"CCBPProperties" withExtension:@"plist"];
+    NSURL* propsURL = [b URLForResource:@"CCBPProperties" withExtension:@"plist"];
     NSMutableDictionary* props = [NSMutableDictionary dictionaryWithContentsOfURL:propsURL];
     
     // Add properties from super classes
@@ -24,7 +24,10 @@
         NSBundle* appBundle = [NSBundle mainBundle];
         NSURL* plugInDir = [appBundle builtInPlugInsURL];
         
-        NSBundle* superBundle = [NSBundle bundleWithURL:[NSURL URLWithString:[NSString stringWithFormat:@".bundle",inheritsFrom] relativeToURL:plugInDir]];
+        NSURL* superBundleURL = [plugInDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle",inheritsFrom]];
+        NSLog(@"superBundleURL: %@", superBundleURL);
+        
+        NSBundle* superBundle = [NSBundle bundleWithURL:superBundleURL];
         [superBundle load];
         
         [self loadPropertiesForBundle:superBundle intoArray:arr];
