@@ -255,6 +255,8 @@
 		E3C365EC14E9E4D1007CD5FF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3C365F214E9E4D1007CD5FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F014E9E4D1007CD5FF /* InfoPlist.strings */; };
 		E3C365FA14E9E599007CD5FF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F914E9E599007CD5FF /* CCBPProperties.plist */; };
+		E3C365FD14E9EE80007CD5FF /* CCBPSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C365FC14E9EE80007CD5FF /* CCBPSprite.m */; };
+		E3C365FE14E9F147007CD5FF /* CCSprite.bundle in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3C365EB14E9E4D1007CD5FF /* CCSprite.bundle */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
 		E3FEA8AA14E45F1000119FBE /* InspectorSize.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8A914E45F1000119FBE /* InspectorSize.m */; };
 		E3FEA8AC14E47C5700119FBE /* InspectorPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8AB14E47C5700119FBE /* InspectorPoint.xib */; };
@@ -304,6 +306,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E3C365FE14E9F147007CD5FF /* CCSprite.bundle in Copy PlugIns */,
 				E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */,
 			);
 			name = "Copy PlugIns";
@@ -731,6 +734,8 @@
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E3C365F314E9E4D1007CD5FF /* CCSprite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCSprite-Prefix.pch"; sourceTree = "<group>"; };
 		E3C365F914E9E599007CD5FF /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E3C365FB14E9EE80007CD5FF /* CCBPSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPSprite.h; sourceTree = "<group>"; };
+		E3C365FC14E9EE80007CD5FF /* CCBPSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPSprite.m; sourceTree = "<group>"; };
 		E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSize.xib; sourceTree = "<group>"; };
 		E3FEA8A814E45F1000119FBE /* InspectorSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSize.h; sourceTree = "<group>"; };
 		E3FEA8A914E45F1000119FBE /* InspectorSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSize.m; sourceTree = "<group>"; };
@@ -1609,6 +1614,8 @@
 			isa = PBXGroup;
 			children = (
 				E3C365EE14E9E4D1007CD5FF /* Supporting Files */,
+				E3C365FB14E9EE80007CD5FF /* CCBPSprite.h */,
+				E3C365FC14E9EE80007CD5FF /* CCBPSprite.m */,
 			);
 			path = CCSprite;
 			sourceTree = "<group>";
@@ -2000,6 +2007,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C365FD14E9EE80007CD5FF /* CCBPSprite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

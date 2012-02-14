@@ -58,6 +58,8 @@
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
                 [plugInsNodeNames addObject:plugIn.nodeClassName];
+                
+                NSLog(@"LOADED PLUGIN: %@", plugIn.nodeClassName);
             }
         }
     }

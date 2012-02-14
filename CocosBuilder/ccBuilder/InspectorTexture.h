@@ -10,4 +10,7 @@
 
 @interface InspectorTexture : InspectorValue
 
+@property (nonatomic,assign) NSString* spriteFile;
+//@property (nonatomic,assign) NSString* spriteSheetFile;
+
 @end
