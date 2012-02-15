@@ -60,12 +60,14 @@
         NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
         [appDelegate dropAddSpriteNamed:[pdDict objectForKey:@"spriteFile"] inSpriteSheet:[pdDict objectForKey:@"spriteSheetFile"] at:ccp(pt.x,pt.y)];
     }
+    /*
     pdData = [pb dataForType:@"com.cocosbuilder.template"];
     if (pdData)
     {
         NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
         [appDelegate dropAddTemplateNamed:[pdDict objectForKey:@"templateFile"] at:ccp(pt.x,pt.y)];
     }
+     */
     return YES;
 }
 
