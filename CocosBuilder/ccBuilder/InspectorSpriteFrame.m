@@ -61,6 +61,8 @@
     [cs setExtraProp:spriteFile forKey:propertyName andNode:selection];
     
     [TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:spriteFile andSheetFile:self.spriteSheetFile];
+    
+    [self updateAffectedProperties];
 }
 
 - (NSString*) spriteFile

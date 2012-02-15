@@ -21,18 +21,21 @@
     
     IBOutlet NSView* view;
     BOOL readOnly;
+    NSArray* affectsProperties;
 }
 
 @property (nonatomic,readonly) NSString* displayName;
 @property (nonatomic,readonly) NSView* view;
 //@property (nonatomic,assign) CocosBuilderAppDelegate* resourceManager;
 @property (nonatomic,assign) BOOL readOnly;
+@property (nonatomic,retain) NSArray* affectsProperties;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
 - (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
 - (void) refresh;
+- (void) updateAffectedProperties;
 
 - (id) propertyForSelection;
 - (void) setPropertyForSelection:(id)value;
