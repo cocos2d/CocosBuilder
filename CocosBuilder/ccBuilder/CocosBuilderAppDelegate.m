@@ -1109,57 +1109,6 @@
     // Add show panes according to selections
     if (!selectedNode) return;
     
-    /*
-    if ([selectedNode isKindOfClass:[CCNode class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorNodeView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCLayer class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorLayerView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCLayerColor class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorLayerColorView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCLayerGradient class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorLayerGradientView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCSprite class]]
-        && ![selectedNode isKindOfClass:[CCBTemplateNode class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorSpriteView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCMenuItem class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorMenuItemView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCMenuItemImage class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorMenuItemImageView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCParticleSystem class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorParticleSystemView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCLabelTTF class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorLabelTTFView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCLabelBMFont class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorLabelBMFontView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCButton class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
-    }
-    if ([selectedNode isKindOfClass:[CCThreeSlice class]])
-    {
-        paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
-    }*/
-    
     // Always add the code connections pane
     paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" atOffset:paneOffset];
     
@@ -1187,51 +1136,11 @@
         NSLog(@"WARNING info:%@ plugIn:%@", info, plugIn);
     }
     
-#warning Foo
-    
-    /*
-    paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:@"CCNode" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Position" name:@"position" displayName:@"Position" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Size" name:@"contentSize" displayName:@"Content size" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Point" name:@"anchorPoint" displayName:@"Anchor point" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"ScaleLock" name:@"scale" displayName:@"Scale" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Degrees" name:@"rotation" displayName:@"Rotation" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Integer" name:@"zOrder" displayName:@"zOrder" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Integer" name:@"tag" displayName:@"Tag" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"isRelativeAnchorPoint" displayName:@"Is relative anchor point" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Check" name:@"visible" displayName:@"Visible" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:@"CCSprite" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Texture" name:@"texture" displayName:@"Texture" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Byte" name:@"opacity" displayName:@"Opacity" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Color3" name:@"color" displayName:@"Color" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Flip" name:@"flip" displayName:@"" atOffset:paneOffset];
-    
-    paneOffset = [self addInspectorPropertyOfType:@"Blendmode" name:@"blendFunc" displayName:@"" atOffset:paneOffset];
-     */
-    
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
     
     [self populateInspectorViews];
 }
 
-/*
-- (IBAction) updateSelectionFromInspector
-{
-}*/
 
 #pragma mark Properties
 
@@ -3192,12 +3101,6 @@
 
 #pragma mark Document handling
 
-/*
-- (void) replaceTopDocWithRootNode:(CCNode*)node extraProps:(NSMutableDictionary*)extraProps
-{
-    
-}
- */
 - (BOOL) hasDirtyDocument
 {
     NSArray* docs = [tabView tabViewItems];
