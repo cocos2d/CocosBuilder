@@ -765,7 +765,7 @@
 										</object>
 									</object>
 								</object>
-								<object class="NSMenuItem" id="574080514">
+								<object class="NSMenuItem" id="195586168">
 									<reference key="NSMenu" ref="300359301"/>
 									<string key="NSTitle">Add Object as Child</string>
 									<string key="NSKeyEquiv"/>
@@ -773,12 +773,12 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="287716160">
+									<object class="NSMenu" key="NSSubmenu" id="849264933">
 										<string key="NSTitle">Add Object as Child</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="979307890">
-												<reference key="NSMenu" ref="287716160"/>
+											<object class="NSMenuItem" id="492653529">
+												<reference key="NSMenu" ref="849264933"/>
 												<string key="NSTitle">Item</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -1233,14 +1233,6 @@
 									<reference key="NSMenu" ref="835318025"/>
 									<string key="NSTitle">Image Assets</string>
 									<string key="NSKeyEquiv"></string>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
-								<object class="NSMenuItem" id="932170836">
-									<reference key="NSMenu" ref="835318025"/>
-									<string key="NSTitle">Templates</string>
-									<string key="NSKeyEquiv"></string>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
@@ -1921,7 +1913,7 @@
 					<string key="NSFrameSize">{1000, 550}</string>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{800, 370}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
@@ -2711,14 +2703,6 @@
 					<int key="connectionID">1370</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuOpenTemplatePanel:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="932170836"/>
-					</object>
-					<int key="connectionID">1388</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">menuAddObject</string>
 						<reference key="source" ref="976324537"/>
@@ -2730,7 +2714,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">menuAddObjectAsChild</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="287716160"/>
+						<reference key="destination" ref="849264933"/>
 					</object>
 					<int key="connectionID">1416</int>
 				</object>
@@ -2829,22 +2813,6 @@
 						</object>
 					</object>
 					<int key="connectionID">1362</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: hasOpenedDocument</string>
-						<reference key="source" ref="932170836"/>
-						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="932170836"/>
-							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">enabled: hasOpenedDocument</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">hasOpenedDocument</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1387</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3260,7 +3228,6 @@
 							<reference ref="1011231497"/>
 							<reference ref="704218311"/>
 							<reference ref="410009360"/>
-							<reference ref="932170836"/>
 						</object>
 						<reference key="parent" ref="713487014"/>
 					</object>
@@ -3576,7 +3543,7 @@
 							<reference ref="695901406"/>
 							<reference ref="278118034"/>
 							<reference ref="264745812"/>
-							<reference ref="574080514"/>
+							<reference ref="195586168"/>
 						</object>
 						<reference key="parent" ref="330765285"/>
 					</object>
@@ -4091,11 +4058,6 @@
 						<reference key="parent" ref="846315550"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1382</int>
-						<reference key="object" ref="932170836"/>
-						<reference key="parent" ref="835318025"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1409</int>
 						<reference key="object" ref="264745812"/>
 						<object class="NSMutableArray" key="children">
@@ -4120,26 +4082,26 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1413</int>
-						<reference key="object" ref="574080514"/>
+						<reference key="object" ref="195586168"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="287716160"/>
+							<reference ref="849264933"/>
 						</object>
 						<reference key="parent" ref="300359301"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1414</int>
-						<reference key="object" ref="287716160"/>
+						<reference key="object" ref="849264933"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="979307890"/>
+							<reference ref="492653529"/>
 						</object>
-						<reference key="parent" ref="574080514"/>
+						<reference key="parent" ref="195586168"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1415</int>
-						<reference key="object" ref="979307890"/>
-						<reference key="parent" ref="287716160"/>
+						<reference key="object" ref="492653529"/>
+						<reference key="parent" ref="849264933"/>
 					</object>
 				</object>
 			</object>
@@ -4234,7 +4196,6 @@
 					<string>1366.IBPluginDependency</string>
 					<string>1367.IBPluginDependency</string>
 					<string>1371.IBPluginDependency</string>
-					<string>1382.IBPluginDependency</string>
 					<string>1409.IBPluginDependency</string>
 					<string>1410.IBPluginDependency</string>
 					<string>1411.IBPluginDependency</string>
@@ -4481,7 +4442,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4648,20 +4608,10 @@
 							<string>pressedZoom:</string>
 							<string>redo:</string>
 							<string>saveDocument:</string>
-							<string>setBlendModeAdditive:</string>
-							<string>setBlendModeNormal:</string>
-							<string>startSelectedParticle:</string>
-							<string>stopSelectedParticle:</string>
 							<string>undo:</string>
-							<string>updateLabelBMFontString:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4755,12 +4705,7 @@
 							<string>pressedZoom:</string>
 							<string>redo:</string>
 							<string>saveDocument:</string>
-							<string>setBlendModeAdditive:</string>
-							<string>setBlendModeNormal:</string>
-							<string>startSelectedParticle:</string>
-							<string>stopSelectedParticle:</string>
 							<string>undo:</string>
-							<string>updateLabelBMFontString:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4937,27 +4882,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">setBlendModeAdditive:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setBlendModeNormal:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">startSelectedParticle:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">stopSelectedParticle:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">undo:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">updateLabelBMFontString:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
