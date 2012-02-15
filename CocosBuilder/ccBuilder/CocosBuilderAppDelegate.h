@@ -23,7 +23,7 @@ enum {
 
 @class CCBDocument;
 @class AssetsWindowController;
-@class TemplateWindowController;
+//@class TemplateWindowController;
 @class PlugInManager;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
@@ -73,8 +73,6 @@ enum {
     CGSize defaultCanvasSizes[5];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
-    IBOutlet NSMenu* menuTemplates;
-    IBOutlet NSMenu* menuTemplatesAsChild;
     
     // Assets
     NSString* assetsPath;
@@ -90,7 +88,7 @@ enum {
     AssetsWindowController* assetsWindowController;
     
     // Template Panel
-    TemplateWindowController* templateWindowController;
+//    TemplateWindowController* templateWindowController;
     
     // Documents
     CCBDocument* currentDocument;
