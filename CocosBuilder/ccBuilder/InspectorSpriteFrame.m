@@ -12,7 +12,7 @@
 #import "CocosScene.h"
 #import "CocosBuilderAppDelegate.h"
 #import "TexturePropertySetter.h"
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 #import "CCBSpriteSheetParser.h"
 
 @implementation InspectorSpriteFrame

@@ -11,7 +11,7 @@
 #import "PlugInManager.h"
 #import "PlugInNode.h"
 #import "NodeInfo.h"
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 #import "TexturePropertySetter.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
@@ -64,7 +64,7 @@
     return bf;
 }
 
-+ (CCNode*) ccObjectFromDictionary:(NSDictionary*) dict
++ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict
 {
     NSArray* props = [dict objectForKey:@"properties"];
     NSString* baseClass = [dict objectForKey:@"baseClass"];
@@ -159,14 +159,14 @@
     
     for (int i = 0; i < [children count]; i++)
     {
-        CCNode* child = [CCBReaderInternal ccObjectFromDictionary:[children objectAtIndex:i]];
+        CCNode* child = [CCBReaderInternal nodeGraphFromDictionary:[children objectAtIndex:i]];
         [node addChild:child];
     }
     
     return node;
 }
 
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary *)dict
++ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary *)dict
 {
     if (!dict)
     {
@@ -197,7 +197,7 @@
         return NULL;
     }
     
-    return [CCBReaderInternal ccObjectFromDictionary:nodeGraph];
+    return [CCBReaderInternal nodeGraphFromDictionary:nodeGraph];
 }
 
 @end

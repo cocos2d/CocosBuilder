@@ -2,7 +2,7 @@
 //  Copyright 2011 Viktor Lidholt. All rights reserved.
 //
 
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 #import "CCBReaderInternalV1.h"
 //#import "CCBTemplateNode.h"
 //#import "CCBTemplate.h"
@@ -13,7 +13,7 @@
 #import "NodeInfo.h"
 #import "PlugInNode.h"
 
-@implementation CCBWriter
+@implementation CCBWriterInternal
 
 - (id)init
 {
@@ -195,61 +195,61 @@
             || [type isEqualToString:@"PointLock"])
         {
             CGPoint pt = [[node valueForKey:name] pointValue];
-            serializedValue = [CCBWriter serializePoint:pt];
+            serializedValue = [CCBWriterInternal serializePoint:pt];
         }
         else if ([type isEqualToString:@"Size"])
         {
             CGSize size = [[node valueForKey:name] sizeValue];
-            serializedValue = [CCBWriter serializeSize:size];
+            serializedValue = [CCBWriterInternal serializeSize:size];
         }
         else if ([type isEqualToString:@"Scale"]
                  || [type isEqualToString:@"ScaleLock"])
         {
             float x = [[node valueForKey:[NSString stringWithFormat:@"%@X",name]] floatValue];
             float y = [[node valueForKey:[NSString stringWithFormat:@"%@Y",name]] floatValue];
-            serializedValue = [CCBWriter serializePoint:ccp(x,y)];
+            serializedValue = [CCBWriterInternal serializePoint:ccp(x,y)];
         }
         else if ([type isEqualToString:@"Degrees"])
         {
             float f = [[node valueForKey:name] floatValue];
-            serializedValue = [CCBWriter serializeFloat:f];
+            serializedValue = [CCBWriterInternal serializeFloat:f];
         }
         else if ([type isEqualToString:@"Integer"]
                  || [type isEqualToString:@"Byte"])
         {
             int d = [[node valueForKey:name] intValue];
-            serializedValue = [CCBWriter serializeInt:d];
+            serializedValue = [CCBWriterInternal serializeInt:d];
         }
         else if ([type isEqualToString:@"Check"])
         {
             BOOL check = [[node valueForKey:name] boolValue];
-            serializedValue = [CCBWriter serializeBool:check];
+            serializedValue = [CCBWriterInternal serializeBool:check];
         }
         else if ([type isEqualToString:@"Flip"])
         {
             BOOL x = [[node valueForKey:[NSString stringWithFormat:@"%@X",name]] boolValue];
             BOOL y = [[node valueForKey:[NSString stringWithFormat:@"%@Y",name]] boolValue];
-            serializedValue = [CCBWriter serializeBoolPairX:x Y:y];
+            serializedValue = [CCBWriterInternal serializeBoolPairX:x Y:y];
         }
         else if ([type isEqualToString:@"SpriteFrame"])
         {
             NSString* spriteFile = [extraProps objectForKey:name];
             NSString* spriteSheetFile = [extraProps objectForKey:[NSString stringWithFormat:@"%@Sheet",name]];
-            serializedValue = [CCBWriter serializeSpriteFrame:spriteFile sheet:spriteSheetFile];
+            serializedValue = [CCBWriterInternal serializeSpriteFrame:spriteFile sheet:spriteSheetFile];
         }
         else if ([type isEqualToString:@"Color3"])
         {
             NSValue* colorValue = [node valueForKey:name];
             ccColor3B c;
             [colorValue getValue:&c];
-            serializedValue = [CCBWriter serializeColor3:c];
+            serializedValue = [CCBWriterInternal serializeColor3:c];
         }
         else if ([type isEqualToString:@"Blendmode"])
         {
             NSValue* blendValue = [node valueForKey:name];
             ccBlendFunc bf;
             [blendValue getValue:&bf];
-            serializedValue = [CCBWriter serializeBlendFunc:bf];
+            serializedValue = [CCBWriterInternal serializeBlendFunc:bf];
         }
         else
         {
@@ -272,7 +272,7 @@
     // Visit all children of this node
     for (int i = 0; i < [[node children] count]; i++)
     {
-        [children addObject:[CCBWriter dictionaryFromCCObject:[[node children] objectAtIndex:i]]];
+        [children addObject:[CCBWriterInternal dictionaryFromCCObject:[[node children] objectAtIndex:i]]];
     }
     
     // Create node

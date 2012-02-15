@@ -4,7 +4,7 @@
 
 #import "AssetsWindowController.h"
 #import "AssetsItem.h"
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 #import "CCBSpriteSheetParser.h"
 
 @implementation AssetsWindowController

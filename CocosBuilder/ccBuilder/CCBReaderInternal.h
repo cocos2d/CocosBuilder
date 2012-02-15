@@ -11,7 +11,7 @@
 
 @interface CCBReaderInternal : NSObject
 
-+ (CCNode*) ccObjectFromDictionary:(NSDictionary*) dict;
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
++ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
 
 @end

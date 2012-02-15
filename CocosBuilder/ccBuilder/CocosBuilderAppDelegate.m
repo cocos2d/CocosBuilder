@@ -7,7 +7,7 @@
 #import "NSFlippedView.h"
 #import "CCBGlobals.h"
 #import "cocos2d.h"
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
 #import "CCBReaderInternalV1.h"
 #import "CCBDocument.h"
@@ -547,7 +547,7 @@
     CCNode* draggedNode = [items objectAtIndex:0];
     if (draggedNode == g.rootNode) return NO;
     
-    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:draggedNode];
+    NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:draggedNode];
     
     [clipDict setObject:[NSNumber numberWithLongLong:(long long)draggedNode] forKey:@"srcNode"];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
@@ -596,7 +596,7 @@
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
-        CCNode* clipNode= [CCBReaderInternal ccObjectFromDictionary:clipDict];
+        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict];
         if (![self addCCObject:clipNode toParent:item]) return NO;
         
         // Remove old node
@@ -3269,7 +3269,7 @@
     NSMutableDictionary* doc = [NSMutableDictionary dictionary];
     
     // Add node graph
-    NSMutableDictionary* nodeGraph = [CCBWriter dictionaryFromCCObject:g.rootNode];
+    NSMutableDictionary* nodeGraph = [CCBWriterInternal dictionaryFromCCObject:g.rootNode];
     [doc setObject:nodeGraph forKey:@"nodeGraph"];
     
     // Add meta data
@@ -3302,7 +3302,7 @@
     NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
     
     //CCNode* loadedRoot = [CCBReaderInternalV1 nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
-    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDictionary:doc];
+    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
     
     // Replace open document
     CCBGlobals* g = [CCBGlobals globals];
@@ -3849,7 +3849,7 @@
     
     // Serialize selected node
     //CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSMutableDictionary* clipDict = [CCBWriter dictionaryFromCCObject:selectedNode];
+    NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:selectedNode];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
     
@@ -3869,7 +3869,7 @@
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
-        CCNode* clipNode = [CCBReaderInternal ccObjectFromDictionary:clipDict];
+        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict];
         [self addCCObject:clipNode asChild:asChild];
     }
 }

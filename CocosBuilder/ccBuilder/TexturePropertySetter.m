@@ -9,7 +9,7 @@
 #import "TexturePropertySetter.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
-#import "CCBWriter.h"
+#import "CCBWriterInternal.h"
 
 @implementation TexturePropertySetter
 
