@@ -99,6 +99,7 @@ enum {
     // PlugIns (nodes)
     PlugInManager* plugInManager;
     IBOutlet NSMenu* menuAddObject;
+    IBOutlet NSMenu* menuAddObjectAsChild;
     
 @private
     NSWindow *window;

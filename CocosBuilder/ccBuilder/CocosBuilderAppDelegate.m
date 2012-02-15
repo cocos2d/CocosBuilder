@@ -32,49 +32,8 @@
 
 - (void) setupInspectorPane
 {
-    /*
-    [NSBundle loadNibNamed:@"InspectorNodeView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorLayerView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorSpriteView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorMenuItemView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorMenuItemImageView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorParticleSystemView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorLayerColorView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorLayerGradientView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorLabelTTFView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorLabelBMFontView" owner:self];
-    [NSBundle loadNibNamed:@"InspectorButtonView" owner:self];
-     */
-    
     inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
-    
-    /*
-    [inspectorDocumentView addSubview:inspectorNodeView];
-    [inspectorDocumentView addSubview:inspectorLayerView];
-    [inspectorDocumentView addSubview:inspectorSpriteView];
-    [inspectorDocumentView addSubview:inspectorMenuItemView];
-    [inspectorDocumentView addSubview:inspectorMenuItemImageView];
-    [inspectorDocumentView addSubview:inspectorParticleSystemView];
-    [inspectorDocumentView addSubview:inspectorLayerColorView];
-    [inspectorDocumentView addSubview:inspectorLayerGradientView];
-    [inspectorDocumentView addSubview:inspectorLabelTTFView];
-    [inspectorDocumentView addSubview:inspectorLabelBMFontView];
-    [inspectorDocumentView addSubview:inspectorButtonView];
-    
-    [inspectorNodeView setAutoresizingMask:NSViewNotSizable];
-    [inspectorLayerView setAutoresizingMask:NSViewNotSizable];
-    [inspectorSpriteView setAutoresizingMask:NSViewNotSizable];
-    [inspectorMenuItemView setAutoresizingMask:NSViewNotSizable];
-    [inspectorMenuItemImageView setAutoresizingMask:NSViewNotSizable];
-    [inspectorParticleSystemView setAutoresizingMask:NSViewNotSizable];
-    [inspectorLayerColorView setAutoresizingMask:NSViewNotSizable];
-    [inspectorLayerGradientView setAutoresizingMask:NSViewNotSizable];
-    [inspectorLabelTTFView setAutoresizingMask:NSViewNotSizable];
-    [inspectorLabelBMFontView setAutoresizingMask:NSViewNotSizable];
-    [inspectorButtonView setAutoresizingMask:NSViewNotSizable];
-     */
-    
     [inspectorScroll setDocumentView:inspectorDocumentView];
 }
 
@@ -229,7 +188,7 @@
 - (void) setupTabBar
 {
     // Create tabView
-    tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0, 0, 500, 30)];//kPSMTabBarControlHeight)];
+    tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0, 0, 500, 30)];
     [tabBar setTabView:tabView];
     [tabView setDelegate:tabBar];
     [tabBar setDelegate:self];
@@ -245,9 +204,6 @@
     [tabBar setCanCloseOnlyTab:YES];
     
     [window setShowsToolbarButton:NO];
-    
-    //[tabBar retain];
-    //[tabBar removeFromSuperview];
 }
 
 - (void) setupDefaultDocument
@@ -284,8 +240,6 @@
     defaultCanvasSizes[kCCBCanvasSizeIPadLandscape] = CGSizeMake(1024, 768);
     defaultCanvasSizes[kCCBCanvasSizeIPadPortrait] = CGSizeMake(768, 1024);
     
-    //DMTracker *tracker = [DMTracker defaultTracker];
-    //[tracker startApp];
     [window setDelegate:self];
     
     [self setupTabBar];
@@ -310,6 +264,7 @@
     
     // Populate object menus
     [menuAddObject removeAllItems];
+    [menuAddObjectAsChild removeAllItems];
     
     NSArray* plugInNames = plugInManager.plugInsNodeNames;
     for (int i = 0; i < [plugInNames count]; i++)
@@ -320,6 +275,11 @@
         [item setTarget:self];
         [item setTag:0];
         [menuAddObject addItem:item];
+        
+        item = [[[NSMenuItem alloc] initWithTitle:plugInName action:@selector(menuAddPlugInNode:) keyEquivalent:@""] autorelease];
+        [item setTarget:self];
+        [item setTag:1];
+        [menuAddObjectAsChild addItem:item];
     }
 }
 
@@ -403,7 +363,6 @@
     NSMutableArray* nodesToExpand = [NSMutableArray array];
     while (node != g.rootNode && node != NULL)
     {
-        //[outlineHierarchy expandItem:node.parent];
         [nodesToExpand insertObject:node atIndex:0];
         node = node.parent;
     }
@@ -436,9 +395,6 @@
     CCArray* arr = [node children];
     
     return [arr count];
-    
-    //NSMutableArray* children = [item objectForKey:@"children"];
-    //return [children count];
 }
 
 
@@ -452,9 +408,6 @@
     return ([arr count] > 0 &&
             ![item isKindOfClass:[CCMenuItemImage class]] &&
             ![item isKindOfClass:[CCLabelBMFont class]]);
-    
-    //NSMutableArray* children = [item objectForKey:@"children"];
-    //return ([children count] > 0);
 }
 
 
@@ -467,10 +420,6 @@
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
     return [arr objectAtIndex:index];
-    
-    
-    //NSMutableArray* children = [item objectForKey:@"children"];
-    //return [children objectAtIndex:index];
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
@@ -501,12 +450,15 @@
     
     if (item == nil) return @"Root";
     
+    CCNode* node = item;
+    NodeInfo* info = node.userData;
+    
     // Get class name
     NSString* className = @"";
     NSString* customClass = [cs extraPropForKey:@"customClass" andNode:item];
     if (customClass && ![customClass isEqualToString:@""]) className = customClass;
     else if ([item isKindOfClass:[CCParticleSystem class]]) className = @"CCParticleSystem";
-    else className = NSStringFromClass([item class]);
+    else className = info.plugIn.nodeClassName;
     
     // Assignment name
     NSString* assignmentName = [cs extraPropForKey:@"memberVarAssignmentName" andNode:item];
@@ -542,7 +494,6 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
 {
     CCBGlobals* g = [CCBGlobals globals];
-    //CocosScene* cs = [g cocosScene];
     
     CCNode* draggedNode = [items objectAtIndex:0];
     if (draggedNode == g.rootNode) return NO;
@@ -3613,6 +3564,9 @@
 - (IBAction) menuAddPlugInNode:(id)sender
 {
     NSLog(@"Add object of type: %@", [sender title]);
+    
+    CCNode* node = [plugInManager createDefaultNodeOfType:[sender title]];
+    [self addCCObject:node asChild:[sender tag]];
 }
 
 - (IBAction) menuAddNode:(id)sender
