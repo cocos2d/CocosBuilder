@@ -8,6 +8,19 @@
 	<string>CCSprite</string>
 	<key>editorClassName</key>
 	<string>CCBPSprite</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
 	<key>properties</key>
 	<array>
 		<dict>
@@ -17,6 +30,10 @@
 			<string>Separator</string>
 		</dict>
 		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
 			<key>displayName</key>
 			<string>Sprite frame</string>
 			<key>type</key>

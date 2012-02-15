@@ -34,7 +34,27 @@
     
     [arr addObjectsFromArray:[props objectForKey:@"properties"]];
     
-    // TODO: Fix overrides
+    // Handle overridden properties
+    NSArray* overrides = [props objectForKey:@"propertiesOverridden"];
+    if (overrides)
+    {
+        for (int i = 0; i < [overrides count]; i++)
+        {
+            NSDictionary* propInfo = [overrides objectAtIndex:i];
+            NSString* propName = [propInfo objectForKey:@"name"];
+            
+            // Find the old property
+            for (int oldPropIdx = 0; oldPropIdx < [arr count]; oldPropIdx++)
+            {
+                NSDictionary* oldPropInfo = [arr objectAtIndex:oldPropIdx];
+                if ([[oldPropInfo objectForKey:@"name"] isEqualToString:propName])
+                {
+                    // This property should be replaced
+                    [arr replaceObjectAtIndex:oldPropIdx withObject:propInfo];
+                }
+            }
+        }
+    }
 }
 
 - (id) initWithBundle:(NSBundle*) b
