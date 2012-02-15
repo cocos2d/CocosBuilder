@@ -70,15 +70,19 @@
     NSString* baseClass = [dict objectForKey:@"baseClass"];
     NSArray* children = [dict objectForKey:@"children"];
     
+    // Create the node
     CCNode* node = [[PlugInManager sharedManager] createDefaultNodeOfType:baseClass];
     if (!node)
     {
         NSLog(@"WARNING! Plug-in missing for %@", baseClass);
         return NULL;
     }
+    
+    // Fetch info and extra properties
     NodeInfo* nodeInfo = node.userData;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     
+    // Set properties for the node
     int numProps = [props count];
     for (int i = 0; i < numProps; i++)
     {
@@ -156,6 +160,17 @@
             NSLog(@"WARNING Unrecognized property type: %@", type);
         }
     }
+    
+    // Set extra properties for code connections
+    NSString* customClass = [dict objectForKey:@"customClass"];
+    if (!customClass) customClass = @"";
+    NSString* memberVarName = [dict objectForKey:@"memberVarAssignmentName"];
+    if (!memberVarName) memberVarName = @"";
+    int memberVarType = [[dict objectForKey:@"memberVarAssignmentType"] intValue];
+    
+    [extraProps setObject:customClass forKey:@"customClass"];
+    [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
+    [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
     for (int i = 0; i < [children count]; i++)
     {
