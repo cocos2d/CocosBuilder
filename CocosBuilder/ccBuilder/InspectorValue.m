@@ -12,7 +12,7 @@
 
 @implementation InspectorValue
 
-@synthesize displayName,view,resourceManager;
+@synthesize displayName, view, readOnly;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
 {
@@ -30,9 +30,13 @@
     displayName = [dn retain];
     selection = [s retain];
     
-    self.resourceManager = [[CCBGlobals globals] appDelegate];
+    resourceManager = [[CCBGlobals globals] appDelegate];
     
     return self;
+}
+
+- (void) refresh
+{
 }
 
 - (id) propertyForSelection

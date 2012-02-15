@@ -30,4 +30,13 @@
     return [[self propertyForSelectionY] floatValue];
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"scaleX"];
+    [self didChangeValueForKey:@"scaleX"];
+    
+    [self willChangeValueForKey:@"scaleY"];
+    [self didChangeValueForKey:@"scaleY"];
+}
+
 @end

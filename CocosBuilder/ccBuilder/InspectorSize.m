@@ -34,4 +34,13 @@
     return [[self propertyForSelection] sizeValue].height;
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"width"];
+    [self didChangeValueForKey:@"width"];
+    
+    [self willChangeValueForKey:@"height"];
+    [self didChangeValueForKey:@"height"];
+}
+
 @end

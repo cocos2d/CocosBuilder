@@ -757,6 +757,9 @@
         
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
+        
+        appDelegate.selectedNode.position = newLocalPos;
+        [appDelegate refreshProperty:@"position"];
         //appDelegate.pPositionX = newLocalPos.x;
         //appDelegate.pPositionY = newLocalPos.y;
     }
@@ -766,6 +769,10 @@
         //float yDelta = pos.y - mouseDownPos.y;
         float delta = xDelta;
         //if (fabsf(xDelta) < fabsf(yDelta)) delta = yDelta;
+        
+        appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
+        appDelegate.selectedNode.scaleY = transformStartScaleY + delta/100.0f;
+        [appDelegate refreshProperty:@"scale"];
         
         //appDelegate.pScaleX = transformStartScaleX + delta/100.0f;
         //appDelegate.pScaleY = transformStartScaleY + delta/100.0f;
@@ -777,6 +784,8 @@
         float delta = xDelta;
         //if (fabsf(xDelta) < fabsf(yDelta)) delta = yDelta;
         
+        appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
+        [appDelegate refreshProperty:@"rotation"];
         //appDelegate.pRotation = transformStartRotation + delta/4.0f;
     }
     else if (isPanning)

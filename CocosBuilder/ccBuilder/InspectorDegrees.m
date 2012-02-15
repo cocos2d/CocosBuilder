@@ -20,4 +20,10 @@
     return [[self propertyForSelection] floatValue];
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"degrees"];
+    [self didChangeValueForKey:@"degrees"];
+}
+
 @end

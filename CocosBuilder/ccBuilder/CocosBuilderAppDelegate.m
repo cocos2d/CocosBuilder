@@ -32,6 +32,8 @@
 
 - (void) setupInspectorPane
 {
+    currentInspectorValues = [[NSMutableDictionary alloc] init];
+    
     inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
     [inspectorScroll setDocumentView:inspectorDocumentView];
@@ -389,6 +391,11 @@
     if (currentDocument) currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
 }
 
+- (CCNode*) selectedNode
+{
+    return selectedNode;
+}
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     
     if ([[CCBGlobals globals] rootNode] == NULL) return 0;
@@ -630,22 +637,14 @@
 
 #pragma mark Populate Inspector
 
-/*
-- (int) addInspectorPane:(NSView*)pane offset:(int)offset
+- (void) refreshProperty:(NSString*) name
 {
-    NSRect frame = [pane frame];
-    [pane setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
-    [pane setHidden:NO];
-    return offset+frame.size.height;
-}*/
-
-/*
-- (void) populateProperty:(NSString*) propName
-{
-    [self willChangeValueForKey:propName];
-    [self didChangeValueForKey:propName];
+    InspectorValue* inspectorValue = [currentInspectorValues objectForKey:name];
+    if (inspectorValue)
+    {
+        [inspectorValue refresh];
+    }
 }
- */
 
 - (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName atOffset:(int)offset
 {
@@ -653,7 +652,13 @@
     
     // Create inspector
     InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName];
-    inspectorValue.resourceManager = self;
+    //inspectorValue.resourceManager = self;
+    
+    // Save a reference in case it needs to be updated
+    if (prop)
+    {
+        [currentInspectorValues setObject:inspectorValue forKey:prop];
+    }
     
     // Load it's associated view
     [NSBundle loadNibNamed:inspectorNibName owner:inspectorValue];
@@ -680,6 +685,8 @@
         //[pane setHidden:YES];
         [pane removeFromSuperview];
     }
+    
+    [currentInspectorValues removeAllObjects];
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, 1)];
     int paneOffset = 0;
@@ -715,8 +722,6 @@
     }
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
-    
-    //[self populateInspectorViews];
 }
 
 
@@ -1431,25 +1436,33 @@
 - (IBAction) menuNudgeObject:(id)sender
 {
     int dir = (int)[sender tag];
-    // TODO: Fix!
-    /*
-    if (dir == 0) self.pPositionX = self.pPositionX - 1;
-    if (dir == 1) self.pPositionX = self.pPositionX + 1;
-    if (dir == 2) self.pPositionY = self.pPositionY + 1;
-    if (dir == 3) self.pPositionY = self.pPositionY - 1;
-     */
+    
+    if (!selectedNode) return;
+    
+    CGPoint delta;
+    if (dir == 0) delta = ccp(-1, 0);
+    else if (dir == 1) delta = ccp(1, 0);
+    else if (dir == 2) delta = ccp(0, 1);
+    else if (dir == 3) delta = ccp(0, -1);
+    
+    selectedNode.position = ccpAdd(selectedNode.position, delta);
+    [self refreshProperty:@"position"];
 }
 
 - (IBAction) menuMoveObject:(id)sender
 {
     int dir = (int)[sender tag];
-    // TODO: Fix!
-    /*
-    if (dir == 0) self.pPositionX = self.pPositionX - 10;
-    if (dir == 1) self.pPositionX = self.pPositionX + 10;
-    if (dir == 2) self.pPositionY = self.pPositionY + 10;
-    if (dir == 3) self.pPositionY = self.pPositionY - 10;
-     */
+    
+    if (!selectedNode) return;
+    
+    CGPoint delta;
+    if (dir == 0) delta = ccp(-10, 0);
+    else if (dir == 1) delta = ccp(10, 0);
+    else if (dir == 2) delta = ccp(0, 10);
+    else if (dir == 3) delta = ccp(0, -10);
+    
+    selectedNode.position = ccpAdd(selectedNode.position, delta);
+    [self refreshProperty:@"position"];
 }
 
 - (IBAction) saveDocumentAs:(id)sender

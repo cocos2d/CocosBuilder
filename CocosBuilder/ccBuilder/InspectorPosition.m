@@ -34,4 +34,13 @@
     return [[self propertyForSelection] pointValue].y;
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"posX"];
+    [self didChangeValueForKey:@"posX"];
+    
+    [self willChangeValueForKey:@"posY"];
+    [self didChangeValueForKey:@"posY"];
+}
+
 @end

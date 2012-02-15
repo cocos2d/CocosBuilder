@@ -20,15 +20,19 @@
     CocosBuilderAppDelegate* resourceManager;
     
     IBOutlet NSView* view;
+    BOOL readOnly;
 }
 
 @property (nonatomic,readonly) NSString* displayName;
 @property (nonatomic,readonly) NSView* view;
-@property (nonatomic,assign) CocosBuilderAppDelegate* resourceManager;
+//@property (nonatomic,assign) CocosBuilderAppDelegate* resourceManager;
+@property (nonatomic,assign) BOOL readOnly;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
 
 - (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
+
+- (void) refresh;
 
 - (id) propertyForSelection;
 - (void) setPropertyForSelection:(id)value;
