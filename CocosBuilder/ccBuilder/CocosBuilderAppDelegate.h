@@ -35,19 +35,7 @@ enum {
     // Inspector views
     IBOutlet NSScrollView* inspectorScroll;
     NSView* inspectorDocumentView;
-    IBOutlet NSView* inspectorNodeView;
-    IBOutlet NSView* inspectorLayerView;
-    IBOutlet NSView* inspectorSpriteView;
-    IBOutlet NSView* inspectorMenuItemView;
-    IBOutlet NSView* inspectorMenuItemImageView;
-    IBOutlet NSView* inspectorParticleSystemView;
-    IBOutlet NSView* inspectorParticleSystemViewGravity;
-    IBOutlet NSView* inspectorParticleSystemViewRadius;
-    IBOutlet NSView* inspectorLayerColorView;
-    IBOutlet NSView* inspectorLayerGradientView;
-    IBOutlet NSView* inspectorLabelTTFView;
-    IBOutlet NSView* inspectorLabelBMFontView;
-    IBOutlet NSView* inspectorButtonView;
+    NSMutableDictionary* currentInspectorValues;
     
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
@@ -122,10 +110,11 @@ enum {
 
 - (void) updateAssetsView;
 
-- (void) setSelectedNode:(CCNode*) selection;
+@property (nonatomic,assign) CCNode* selectedNode;
 
-// PlugIns
+// PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;
+- (void) refreshProperty:(NSString*) name;
 
 // Methods
 - (void) updateInspectorFromSelection;
