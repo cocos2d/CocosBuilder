@@ -27,6 +27,11 @@
     
     extraProps = [[NSMutableDictionary alloc] init];
     
+    [extraProps setObject:@"" forKey:@"customClass"];
+    [extraProps setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
+    [extraProps setObject:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
+    [extraProps setObject:@"" forKey:@"memberVarAssignmentName"];
+    
     return self;
 }
 
