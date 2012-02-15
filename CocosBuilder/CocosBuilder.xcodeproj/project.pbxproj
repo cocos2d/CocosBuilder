@@ -226,6 +226,8 @@
 		A09AB6F414E9938B009C8B91 /* PositionTextureColor.vsh in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6D814E9938B009C8B91 /* PositionTextureColor.vsh */; };
 		A09AB6F514E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6D914E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh */; };
 		A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6F614E993AA009C8B91 /* fps_images.png */; };
+		E32D8CC514EC257000F4BD5E /* InspectorCodeConnections.xib in Resources */ = {isa = PBXBuildFile; fileRef = E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */; };
+		E32D8CC814EC25D800F4BD5E /* InspectorCodeConnections.m in Sources */ = {isa = PBXBuildFile; fileRef = E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */; };
 		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
 		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
 		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
@@ -690,6 +692,9 @@
 		A09AB6D814E9938B009C8B91 /* PositionTextureColor.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = PositionTextureColor.vsh; path = "libs/cocos2d-iphone/Resources/Shaders/PositionTextureColor.vsh"; sourceTree = SOURCE_ROOT; };
 		A09AB6D914E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = PositionTextureColorAlphaTest.fsh; path = "libs/cocos2d-iphone/Resources/Shaders/PositionTextureColorAlphaTest.fsh"; sourceTree = SOURCE_ROOT; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
+		E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCodeConnections.xib; sourceTree = "<group>"; };
+		E32D8CC614EC25D800F4BD5E /* InspectorCodeConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorCodeConnections.h; sourceTree = "<group>"; };
+		E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCodeConnections.m; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -1574,6 +1579,9 @@
 			children = (
 				E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */,
 				E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */,
+				E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */,
+				E32D8CC614EC25D800F4BD5E /* InspectorCodeConnections.h */,
+				E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */,
 				E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */,
 				E3B4223514E5E6AC004547D6 /* InspectorSeparator.h */,
 				E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */,
@@ -1824,6 +1832,7 @@
 				A09AB6B014E9935F009C8B91 /* ChangeLog in Resources */,
 				A09AB6B114E9935F009C8B91 /* CMakeLists.txt in Resources */,
 				A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */,
+				E32D8CC514EC257000F4BD5E /* InspectorCodeConnections.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2004,6 +2013,7 @@
 				A09AB6BD14E9935F009C8B91 /* vec4.c in Sources */,
 				E3C3660114EA0507007CD5FF /* TexturePropertySetter.m in Sources */,
 				E3C3660414EB2C1B007CD5FF /* CCBReaderInternal.m in Sources */,
+				E32D8CC814EC25D800F4BD5E /* InspectorCodeConnections.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2305,6 +2315,7 @@
 				E3C365F614E9E4D1007CD5FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

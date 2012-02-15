@@ -1209,6 +1209,12 @@
         paneOffset = [self addInspectorPane:inspectorButtonView offset:paneOffset];
     }*/
     
+    // Always add the code connections pane
+    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" atOffset:paneOffset];
+    
+    NSLog(@"ADDED CodeConnections offset: %d",paneOffset);
+    
+    // Add panes for each property
     NodeInfo* info = selectedNode.userData;
     PlugInNode* plugIn = info.plugIn;
     
