@@ -646,7 +646,7 @@
     }
 }
 
-- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName readOnly:(BOOL)readOnly atOffset:(int)offset
+- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps atOffset:(int)offset
 {
     NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
     
@@ -658,6 +658,11 @@
     if (prop)
     {
         [currentInspectorValues setObject:inspectorValue forKey:prop];
+    }
+    
+    if (affectsProps)
+    {
+        inspectorValue.affectsProperties = affectsProps;
     }
     
     // Load it's associated view
@@ -695,7 +700,7 @@
     if (!selectedNode) return;
     
     // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" readOnly:YES atOffset:paneOffset];
+    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" readOnly:YES affectsProps:NULL atOffset:paneOffset];
     
     NSLog(@"ADDED CodeConnections offset: %d",paneOffset);
     
@@ -713,10 +718,11 @@
             NSString* name = [propInfo objectForKey:@"name"];
             NSString* displayName = [propInfo objectForKey:@"displayName"];
             BOOL readOnly = [[propInfo objectForKey:@"readOnly"] boolValue];
+            NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
             
             if (readOnly) NSLog(@"READ ONLY!!");
             
-            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName readOnly:readOnly atOffset:paneOffset];
+            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
     }
     else

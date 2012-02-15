@@ -12,7 +12,7 @@
 
 @implementation InspectorValue
 
-@synthesize displayName, view, readOnly;
+@synthesize displayName, view, readOnly, affectsProperties;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
 {
@@ -39,6 +39,19 @@
 {
 }
 
+- (void) updateAffectedProperties
+{
+    if (affectsProperties)
+    {
+        for (int i = 0; i < [affectsProperties count]; i++)
+        {
+            NSString* propName = [affectsProperties objectAtIndex:i];
+            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            [ad refreshProperty:propName];
+        }
+    }
+}
+
 - (id) propertyForSelection
 {
     return [selection valueForKey:propertyName];
@@ -47,6 +60,7 @@
 - (void) setPropertyForSelection:(id)value
 {
     [selection setValue:value forKey:propertyName];
+    [self updateAffectedProperties];
 }
 
 - (id) propertyForSelectionX
@@ -57,6 +71,7 @@
 - (void) setPropertyForSelectionX:(id)value
 {
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
+    [self updateAffectedProperties];
 }
 
 - (id) propertyForSelectionY
@@ -67,12 +82,14 @@
 - (void) setPropertyForSelectionY:(id)value
 {
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Y"]];
+    [self updateAffectedProperties];
 }
 
 - (void)dealloc
 {
     NSLog(@"DEALLOC");
     
+    self.affectsProperties = NULL;
     [selection release];
     [propertyName release];
     [displayName release];
