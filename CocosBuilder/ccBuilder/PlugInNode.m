@@ -28,7 +28,6 @@
         NSLog(@"superBundleURL: %@", superBundleURL);
         
         NSBundle* superBundle = [NSBundle bundleWithURL:superBundleURL];
-        [superBundle load];
         
         [self loadPropertiesForBundle:superBundle intoArray:arr];
     }
