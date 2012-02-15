@@ -147,6 +147,7 @@
     
     [assetsWindowController reloadData];
     
+    /*
     // Update templates
     [menuTemplates removeAllItems];
     [menuTemplatesAsChild removeAllItems];
@@ -183,6 +184,7 @@
     
     templateWindowController.templateFiles = templates;
     [templateWindowController reloadData];
+     */
 }
 
 - (void) setupTabBar
@@ -224,10 +226,11 @@
         [[assetsWindowController window] setIsVisible:visible];
 }
 
+/*
 - (void) setupTemplateWindow
 {
     templateWindowController = [[TemplateWindowController alloc] initWithWindowNibName:@"TemplateWindow"];
-}
+}*/
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -249,7 +252,7 @@
     [self setupOutlineView];
     [self updateInspectorFromSelection];
     [self setupAssetsWindow];
-    [self setupTemplateWindow];
+    //[self setupTemplateWindow];
     [self updateAssetsView];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -627,13 +630,14 @@
 
 #pragma mark Populate Inspector
 
+/*
 - (int) addInspectorPane:(NSView*)pane offset:(int)offset
 {
     NSRect frame = [pane frame];
     [pane setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
     [pane setHidden:NO];
     return offset+frame.size.height;
-}
+}*/
 
 /*
 - (void) populateProperty:(NSString*) propName
@@ -926,7 +930,7 @@
     [self updateAssetsView];
     
     [[assetsWindowController window] setIsVisible:NO];
-    [[templateWindowController window] setIsVisible:NO];
+//    [[templateWindowController window] setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
 }
@@ -1706,10 +1710,11 @@
     [[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
 }
 
+/*
 - (IBAction) menuOpenTemplatePanel:(id)sender
 {
     [[templateWindowController window] setIsVisible:![[templateWindowController window] isVisible]];
-}
+}*/
 
 - (IBAction) menuReloadAssets:(id)sender
 {
