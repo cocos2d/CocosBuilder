@@ -8,6 +8,7 @@
 #import "CCBGlobals.h"
 #import "cocos2d.h"
 #import "CCBWriter.h"
+#import "CCBReaderInternal.h"
 #import "CCBReaderInternalV1.h"
 #import "CCBDocument.h"
 #import "NewDocWindowController.h"
@@ -594,7 +595,8 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode= [CCBReaderInternal ccObjectFromDictionary:clipDict];
         if (![self addCCObject:clipNode toParent:item]) return NO;
         
         // Remove old node
@@ -3266,7 +3268,7 @@
     
     // Add meta data
     [doc setObject:@"CocosBuilder" forKey:@"fileType"];
-    [doc setObject:[NSNumber numberWithInt:2] forKey:@"fileVersion"];
+    [doc setObject:[NSNumber numberWithInt:3] forKey:@"fileVersion"];
     
     [doc setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
     [doc setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
@@ -3292,7 +3294,9 @@
 {
     // Process contents
     NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
-    CCNode* loadedRoot = [CCBReaderInternalV1 nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
+    
+    //CCNode* loadedRoot = [CCBReaderInternalV1 nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
+    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDictionary:doc];
     
     // Replace open document
     CCBGlobals* g = [CCBGlobals globals];
@@ -3858,7 +3862,8 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
+        CCNode* clipNode = [CCBReaderInternal ccObjectFromDictionary:clipDict];
         [self addCCObject:clipNode asChild:asChild];
     }
 }
