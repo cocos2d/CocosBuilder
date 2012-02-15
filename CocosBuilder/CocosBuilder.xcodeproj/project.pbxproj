@@ -20,7 +20,7 @@
 		772BE567133E40D60009B5B9 /* missing-texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 772BE566133E40D60009B5B9 /* missing-texture.png */; };
 		772BE572133E48350009B5B9 /* CCBGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE571133E48340009B5B9 /* CCBGlobals.m */; };
 		772BE57C134398EE0009B5B9 /* NewDocWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 772BE57B134398EE0009B5B9 /* NewDocWindow.xib */; };
-		772BE5801343A6EF0009B5B9 /* CCBWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE57F1343A6EE0009B5B9 /* CCBWriter.m */; };
+		772BE5801343A6EF0009B5B9 /* CCBWriterInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE57F1343A6EE0009B5B9 /* CCBWriterInternal.m */; };
 		772BE58E134BB6C00009B5B9 /* CCBDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE58D134BB6BE0009B5B9 /* CCBDocument.m */; };
 		772BE594134BC2BF0009B5B9 /* CCBReaderInternalV1.m in Sources */ = {isa = PBXBuildFile; fileRef = 772BE593134BC2BA0009B5B9 /* CCBReaderInternalV1.m */; };
 		774E4EC2136D98AB0025D0A8 /* select-bl.png in Resources */ = {isa = PBXBuildFile; fileRef = 774E4EBD136D98AB0025D0A8 /* select-bl.png */; };
@@ -336,8 +336,8 @@
 		772BE570133E48340009B5B9 /* CCBGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBGlobals.h; sourceTree = "<group>"; };
 		772BE571133E48340009B5B9 /* CCBGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBGlobals.m; sourceTree = "<group>"; };
 		772BE57B134398EE0009B5B9 /* NewDocWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDocWindow.xib; sourceTree = "<group>"; };
-		772BE57E1343A6ED0009B5B9 /* CCBWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBWriter.h; sourceTree = "<group>"; };
-		772BE57F1343A6EE0009B5B9 /* CCBWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBWriter.m; sourceTree = "<group>"; };
+		772BE57E1343A6ED0009B5B9 /* CCBWriterInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CCBWriterInternal.h; sourceTree = "<group>"; };
+		772BE57F1343A6EE0009B5B9 /* CCBWriterInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBWriterInternal.m; sourceTree = "<group>"; };
 		772BE58C134BB6BD0009B5B9 /* CCBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBDocument.h; sourceTree = "<group>"; };
 		772BE58D134BB6BE0009B5B9 /* CCBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBDocument.m; sourceTree = "<group>"; };
 		772BE592134BC2B90009B5B9 /* CCBReaderInternalV1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBReaderInternalV1.h; sourceTree = "<group>"; };
@@ -807,8 +807,8 @@
 			children = (
 				772BE58C134BB6BD0009B5B9 /* CCBDocument.h */,
 				772BE58D134BB6BE0009B5B9 /* CCBDocument.m */,
-				772BE57E1343A6ED0009B5B9 /* CCBWriter.h */,
-				772BE57F1343A6EE0009B5B9 /* CCBWriter.m */,
+				772BE57E1343A6ED0009B5B9 /* CCBWriterInternal.h */,
+				772BE57F1343A6EE0009B5B9 /* CCBWriterInternal.m */,
 				772BE592134BC2B90009B5B9 /* CCBReaderInternalV1.h */,
 				772BE593134BC2BA0009B5B9 /* CCBReaderInternalV1.m */,
 				E3C3660214EB2C1B007CD5FF /* CCBReaderInternal.h */,
@@ -1866,7 +1866,7 @@
 				7789ACEA133AB47A00CEFCC7 /* CocosScene.m in Sources */,
 				772BE565133C06320009B5B9 /* NSFlippedView.m in Sources */,
 				772BE572133E48350009B5B9 /* CCBGlobals.m in Sources */,
-				772BE5801343A6EF0009B5B9 /* CCBWriter.m in Sources */,
+				772BE5801343A6EF0009B5B9 /* CCBWriterInternal.m in Sources */,
 				772BE58E134BB6C00009B5B9 /* CCBDocument.m in Sources */,
 				772BE594134BC2BF0009B5B9 /* CCBReaderInternalV1.m in Sources */,
 				771B2B321353818200B260BA /* NewDocWindowController.m in Sources */,

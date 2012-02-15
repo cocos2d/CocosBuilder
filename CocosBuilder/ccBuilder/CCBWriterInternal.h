@@ -7,7 +7,7 @@
 
 #define kCCBUseRegularFile @"Use regular file"
 
-@interface CCBWriter : NSObject {
+@interface CCBWriterInternal : NSObject {
 @private
     
 }
