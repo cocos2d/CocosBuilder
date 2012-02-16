@@ -21,6 +21,7 @@ enum {
     kCCBBorderNone
 };
 
+
 @class CCBDocument;
 @class AssetsWindowController;
 //@class TemplateWindowController;
@@ -162,6 +163,8 @@ enum {
 // Undo / Redo
 - (void) updateDirtyMark;
 - (void) saveUndoState;
+- (void) saveUndoStateWillChangeProperty:(NSString*)prop;
+
 - (IBAction) undo:(id)sender;
 - (IBAction) redo:(id)sender;
 

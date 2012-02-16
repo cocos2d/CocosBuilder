@@ -91,21 +91,6 @@ enum {
 
 - (void) scrollWheel:(NSEvent *)theEvent;
 
-- (CCNode*) createDefaultNode;
-- (CCLayer*) createDefaultLayer;
-- (CCLayer*) createDefaultLayerColor;
-- (CCLayer*) createDefaultLayerGradient;
-- (CCSprite*) createDefaultSprite;
-- (CCMenu*) createDefaultMenu;
-- (CCMenuItemImage*) createDefaultMenuItemImage;
-- (CCLabelTTF*) createDefaultLabelTTF;
-- (CCLabelBMFont*) createDefaultLabelBMFont;
-- (CCParticleSystemQuad*) createDefaultParticleOfType:(int)type;
-- (CCBTemplateNode*) createDefaultTemplateNodeWithFile:(NSString*)file assetsPath:(NSString*)assetsPath;
-- (CCButton*) createDefaultButton;
-- (CCNineSlice*) createDefaultNineSlice;
-- (CCThreeSlice*) createDefaultThreeSlice;
-
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
 
@@ -119,7 +104,7 @@ enum {
 - (float) stageZoom;
 
 - (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep;
-- (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template;
+//- (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template;
 
 - (void) setSelectedNode:(CCNode*) node;
 - (void) updateSelection;
