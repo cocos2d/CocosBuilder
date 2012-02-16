@@ -9,6 +9,7 @@
 #import "PlugInManager.h"
 #import "PlugInNode.h"
 #import "NodeInfo.h"
+#import "CCBReaderInternal.h"
 
 @implementation PlugInManager
 
@@ -45,7 +46,7 @@
         NSURL* plugInPath = [plugInPaths objectAtIndex:i];
         
         // Verify that this is a plug in
-        if (![[plugInPath pathExtension] isEqualToString:@"bundle"]) continue;
+        if (![[plugInPath pathExtension] isEqualToString:@"ccbPlugNode"]) continue;
         
         // Load the bundle
         NSBundle* bundle = [NSBundle bundleWithURL:plugInPath];
@@ -58,8 +59,6 @@
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
                 [plugInsNodeNames addObject:plugIn.nodeClassName];
-                
-                NSLog(@"LOADED PLUGIN: %@", plugIn.nodeClassName);
             }
         }
     }
@@ -83,9 +82,27 @@
     if (!plugin) return NULL;
     
     Class editorClass = NSClassFromString(plugin.nodeEditorClassName);
-    NSLog(@"nodeEditorClassName:%@ editorClass:%@",plugin.nodeEditorClassName, editorClass);
+    
     CCNode* node = [[[editorClass alloc] init] autorelease];
     [node setUserData: [NodeInfo nodeInfoWithPlugIn:plugin] retainData:YES];
+    
+    // Set default data
+    NSMutableArray* plugInProps = plugin.nodeProperties;
+    for (int i = 0; i < [plugInProps count]; i++)
+    {
+        
+        NSDictionary* propInfo = [plugInProps objectAtIndex:i];
+        
+        id defaultValue = [propInfo objectForKey:@"default"];
+         
+        if (defaultValue)
+        {
+            NSString* name = [propInfo objectForKey:@"name"];
+            NSString* type = [propInfo objectForKey:@"type"];
+            
+            [CCBReaderInternal setProp:name ofType:type toValue:defaultValue forNode:node];
+        }
+    }
     
     return node;
 }

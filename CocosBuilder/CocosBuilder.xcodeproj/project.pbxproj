@@ -246,7 +246,7 @@
 		E3B4223714E5E6AD004547D6 /* InspectorSeparator.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */; };
 		E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AECA14E3193500DFD402 /* InfoPlist.strings */; };
-		E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B7AEC514E3193500DFD402 /* CCNode.bundle */; };
+		E3B7AED514E31E6C00DFD402 /* CCNode.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */; };
 		E3B7AED814E31FB700DFD402 /* CCBPNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AED714E31FB700DFD402 /* CCBPNode.m */; };
 		E3B7AEDD14E3246100DFD402 /* PlugInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDC14E3246100DFD402 /* PlugInManager.m */; };
 		E3B7AEE014E32E7F00DFD402 /* PlugInNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDF14E32E7F00DFD402 /* PlugInNode.m */; };
@@ -258,7 +258,7 @@
 		E3C365F214E9E4D1007CD5FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F014E9E4D1007CD5FF /* InfoPlist.strings */; };
 		E3C365FA14E9E599007CD5FF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F914E9E599007CD5FF /* CCBPProperties.plist */; };
 		E3C365FD14E9EE80007CD5FF /* CCBPSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C365FC14E9EE80007CD5FF /* CCBPSprite.m */; };
-		E3C365FE14E9F147007CD5FF /* CCSprite.bundle in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3C365EB14E9E4D1007CD5FF /* CCSprite.bundle */; };
+		E3C365FE14E9F147007CD5FF /* CCSprite.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */; };
 		E3C3660114EA0507007CD5FF /* TexturePropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3660014EA0507007CD5FF /* TexturePropertySetter.m */; };
 		E3C3660414EB2C1B007CD5FF /* CCBReaderInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3660314EB2C1B007CD5FF /* CCBReaderInternal.m */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
@@ -310,8 +310,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				E3C365FE14E9F147007CD5FF /* CCSprite.bundle in Copy PlugIns */,
-				E3B7AED514E31E6C00DFD402 /* CCNode.bundle in Copy PlugIns */,
+				E3C365FE14E9F147007CD5FF /* CCSprite.ccbPlugNode in Copy PlugIns */,
+				E3B7AED514E31E6C00DFD402 /* CCNode.ccbPlugNode in Copy PlugIns */,
 			);
 			name = "Copy PlugIns";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,7 +336,7 @@
 		772BE570133E48340009B5B9 /* CCBGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBGlobals.h; sourceTree = "<group>"; };
 		772BE571133E48340009B5B9 /* CCBGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBGlobals.m; sourceTree = "<group>"; };
 		772BE57B134398EE0009B5B9 /* NewDocWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewDocWindow.xib; sourceTree = "<group>"; };
-		772BE57E1343A6ED0009B5B9 /* CCBWriterInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CCBWriterInternal.h; sourceTree = "<group>"; };
+		772BE57E1343A6ED0009B5B9 /* CCBWriterInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBWriterInternal.h; sourceTree = "<group>"; };
 		772BE57F1343A6EE0009B5B9 /* CCBWriterInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBWriterInternal.m; sourceTree = "<group>"; };
 		772BE58C134BB6BD0009B5B9 /* CCBDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBDocument.h; sourceTree = "<group>"; };
 		772BE58D134BB6BE0009B5B9 /* CCBDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBDocument.m; sourceTree = "<group>"; };
@@ -720,7 +720,7 @@
 		E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSeparator.xib; sourceTree = "<group>"; };
 		E3B4223514E5E6AC004547D6 /* InspectorSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSeparator.h; sourceTree = "<group>"; };
 		E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSeparator.m; sourceTree = "<group>"; };
-		E3B7AEC514E3193500DFD402 /* CCNode.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCNode.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCNode.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B7AEC914E3193500DFD402 /* CCNode-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCNode-Info.plist"; sourceTree = "<group>"; };
 		E3B7AECB14E3193500DFD402 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E3B7AECD14E3193500DFD402 /* CCNode-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCNode-Prefix.pch"; sourceTree = "<group>"; };
@@ -736,7 +736,7 @@
 		E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorPosition.m; sourceTree = "<group>"; };
 		E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorValue.h; sourceTree = "<group>"; };
 		E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorValue.m; sourceTree = "<group>"; };
-		E3C365EB14E9E4D1007CD5FF /* CCSprite.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E3C365F314E9E4D1007CD5FF /* CCSprite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCSprite-Prefix.pch"; sourceTree = "<group>"; };
@@ -1014,8 +1014,8 @@
 			isa = PBXGroup;
 			children = (
 				7789ABBE133AA82000CEFCC7 /* CocosBuilder.app */,
-				E3B7AEC514E3193500DFD402 /* CCNode.bundle */,
-				E3C365EB14E9E4D1007CD5FF /* CCSprite.bundle */,
+				E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */,
+				E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1687,7 +1687,7 @@
 			);
 			name = CCNode;
 			productName = CCNode;
-			productReference = E3B7AEC514E3193500DFD402 /* CCNode.bundle */;
+			productReference = E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E3C365EA14E9E4D1007CD5FF /* CCSprite */ = {
@@ -1704,7 +1704,7 @@
 			);
 			name = CCSprite;
 			productName = CCSprite;
-			productReference = E3C365EB14E9E4D1007CD5FF /* CCSprite.bundle */;
+			productReference = E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -2200,7 +2200,7 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = ccbPlugNode;
 			};
 			name = Debug;
 		};
@@ -2224,7 +2224,7 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = ccbPlugNode;
 			};
 			name = Release;
 		};
@@ -2251,7 +2251,7 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = ccbPlugNode;
 			};
 			name = Debug;
 		};
@@ -2274,7 +2274,7 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = bundle;
+				WRAPPER_EXTENSION = ccbPlugNode;
 			};
 			name = Release;
 		};

@@ -64,6 +64,82 @@
     return bf;
 }
 
++ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node
+{
+    // Fetch info and extra properties
+    NodeInfo* nodeInfo = node.userData;
+    NSMutableDictionary* extraProps = nodeInfo.extraProps;
+    
+    if ([type isEqualToString:@"Position"]
+        || [type isEqualToString:@"Point"]
+        || [type isEqualToString:@"PointLock"])
+    {
+        CGPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
+        [node setValue:[NSValue valueWithPoint:pt] forKey:name];
+    }
+    else if ([type isEqualToString:@"Size"])
+    {
+        CGSize size = [CCBReaderInternal deserializeSize: serializedValue];
+        [node setValue:[NSValue valueWithSize:size] forKey:name];
+    }
+    else if ([type isEqualToString:@"Scale"]
+             || [type isEqualToString:@"ScaleLock"])
+    {
+        [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
+        [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
+    }
+    else if ([type isEqualToString:@"Degrees"])
+    {
+        float f = [CCBReaderInternal deserializeFloat: serializedValue];
+        [node setValue:[NSNumber numberWithFloat:f] forKey:name];
+    }
+    else if ([type isEqualToString:@"Integer"]
+             || [type isEqualToString:@"Byte"])
+    {
+        int d = [CCBReaderInternal deserializeInt: serializedValue];
+        [node setValue:[NSNumber numberWithInt:d] forKey:name];
+    }
+    else if ([type isEqualToString:@"Check"])
+    {
+        BOOL check = [CCBReaderInternal deserializeBool:serializedValue];
+        [node setValue:[NSNumber numberWithBool:check] forKey:name];
+    }
+    else if ([type isEqualToString:@"Flip"])
+    {
+        [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
+        [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
+    }
+    else if ([type isEqualToString:@"SpriteFrame"])
+    {
+        NSString* spriteSheetFile = [serializedValue objectAtIndex:0];
+        NSString* spriteFile = [serializedValue objectAtIndex:1];
+        if (!spriteSheetFile || [spriteSheetFile isEqualToString:@""])
+        {
+            spriteSheetFile = kCCBUseRegularFile;
+        }
+        
+        [extraProps setObject:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",name]];
+        [extraProps setObject:spriteFile forKey:name];
+        [TexturePropertySetter setTextureForNode:node andProperty:name withFile:spriteFile andSheetFile:spriteSheetFile];
+    }
+    else if ([type isEqualToString:@"Color3"])
+    {
+        ccColor3B c = [CCBReaderInternal deserializeColor3:serializedValue];
+        NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor3B)];
+        [node setValue:colorValue forKey:name];
+    }
+    else if ([type isEqualToString:@"Blendmode"])
+    {
+        ccBlendFunc bf = [CCBReaderInternal deserializeBlendFunc:serializedValue];
+        NSValue* blendValue = [NSValue value:&bf withObjCType:@encode(ccBlendFunc)];
+        [node setValue:blendValue forKey:name];
+    }
+    else
+    {
+        NSLog(@"WARNING Unrecognized property type: %@", type);
+    }
+}
+
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict
 {
     NSArray* props = [dict objectForKey:@"properties"];
@@ -78,6 +154,7 @@
         return NULL;
     }
     
+    
     // Fetch info and extra properties
     NodeInfo* nodeInfo = node.userData;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
@@ -91,74 +168,7 @@
         NSString* name = [propInfo objectForKey:@"name"];
         id serializedValue = [propInfo objectForKey:@"value"];
         
-        if ([type isEqualToString:@"Position"]
-            || [type isEqualToString:@"Point"]
-            || [type isEqualToString:@"PointLock"])
-        {
-            CGPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
-            [node setValue:[NSValue valueWithPoint:pt] forKey:name];
-        }
-        else if ([type isEqualToString:@"Size"])
-        {
-            CGSize size = [CCBReaderInternal deserializeSize: serializedValue];
-            [node setValue:[NSValue valueWithSize:size] forKey:name];
-        }
-        else if ([type isEqualToString:@"Scale"]
-                 || [type isEqualToString:@"ScaleLock"])
-        {
-            [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
-            [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
-        }
-        else if ([type isEqualToString:@"Degrees"])
-        {
-            float f = [CCBReaderInternal deserializeFloat: serializedValue];
-            [node setValue:[NSNumber numberWithFloat:f] forKey:name];
-        }
-        else if ([type isEqualToString:@"Integer"]
-                 || [type isEqualToString:@"Byte"])
-        {
-            int d = [CCBReaderInternal deserializeInt: serializedValue];
-            [node setValue:[NSNumber numberWithInt:d] forKey:name];
-        }
-        else if ([type isEqualToString:@"Check"])
-        {
-            BOOL check = [CCBReaderInternal deserializeBool:serializedValue];
-            [node setValue:[NSNumber numberWithBool:check] forKey:name];
-        }
-        else if ([type isEqualToString:@"Flip"])
-        {
-            [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
-            [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
-        }
-        else if ([type isEqualToString:@"SpriteFrame"])
-        {
-            NSString* spriteSheetFile = [serializedValue objectAtIndex:0];
-            NSString* spriteFile = [serializedValue objectAtIndex:1];
-            if (!spriteSheetFile || [spriteSheetFile isEqualToString:@""])
-            {
-                spriteSheetFile = kCCBUseRegularFile;
-            }
-            
-            [extraProps setObject:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",name]];
-            [extraProps setObject:spriteFile forKey:name];
-            [TexturePropertySetter setTextureForNode:node andProperty:name withFile:spriteFile andSheetFile:spriteSheetFile];
-        }
-        else if ([type isEqualToString:@"Color3"])
-        {
-            ccColor3B c = [CCBReaderInternal deserializeColor3:serializedValue];
-            NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor3B)];
-            [node setValue:colorValue forKey:name];
-        }
-        else if ([type isEqualToString:@"Blendmode"])
-        {
-            ccBlendFunc bf = [CCBReaderInternal deserializeBlendFunc:serializedValue];
-            NSValue* blendValue = [NSValue value:&bf withObjCType:@encode(ccBlendFunc)];
-            [node setValue:blendValue forKey:name];
-        }
-        else
-        {
-            NSLog(@"WARNING Unrecognized property type: %@", type);
-        }
+        [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node];
     }
     
     // Set extra properties for code connections

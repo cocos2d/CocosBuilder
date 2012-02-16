@@ -13,5 +13,5 @@
 
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
 + (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
-
++ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node;
 @end
