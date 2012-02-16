@@ -145,22 +145,6 @@
 {
 }
 
-/*
-- (void) setupDebugNodes
-{
-    CCSprite* test = [self createDefaultSprite];
-    test.position = ccp(50, 50);
-    [rootNode addChild:test];
-    
-    CCSprite* test2 = [self createDefaultSprite];
-    test2.position = ccp(200, 50);
-    [rootNode addChild:test2];
-    
-    CCLayer* test3 = [self createDefaultLayer];
-    [rootNode addChild:test3];
-}
-*/
-
 #pragma mark Stage properties
 
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin
