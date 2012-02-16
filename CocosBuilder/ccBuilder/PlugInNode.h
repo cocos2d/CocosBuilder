@@ -15,12 +15,18 @@
     NSString* nodeClassName;
     NSString* nodeEditorClassName;
     
+    NSString* dropTargetSpriteFrameClass;
+    NSString* dropTargetSpriteFrameProperty;
+    
     NSMutableArray* nodeProperties;
 }
 
 @property (nonatomic,readonly) NSString* nodeClassName;
 @property (nonatomic,readonly) NSString* nodeEditorClassName;
 @property (nonatomic,readonly) NSMutableArray* nodeProperties;
+@property (nonatomic,readonly) NSString* dropTargetSpriteFrameClass;
+@property (nonatomic,readonly) NSString* dropTargetSpriteFrameProperty;
+@property (nonatomic,readonly) BOOL acceptsDroppedSpriteFrameChildren;
 
 - (id) initWithBundle:(NSBundle*) b;
 
