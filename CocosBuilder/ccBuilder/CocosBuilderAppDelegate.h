@@ -122,31 +122,9 @@ enum {
 - (void) closeLastDocument;
 
 // Menu options
-- (IBAction) menuAddNode:(id)sender;
-- (IBAction) menuAddLayer:(id)sender;
-- (IBAction) menuAddSprite:(id)sender;
+
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
-
-- (IBAction) menuAddMenu:(id)sender;
-- (IBAction) menuAddMenuItemImage:(id)sender;
-- (IBAction) menuAddLabelTTF:(id)sender;
-- (IBAction) menuAddLabelBMFont:(id)sender;
-- (IBAction) menuAddCCButton:(id)sender;
-- (IBAction) menuAddCCNineSlice:(id)sender;
-- (IBAction) menuAddCCThreeSlice:(id)sender;
-
-- (IBAction) menuAddParticleExplosion:(id)sender;
-- (IBAction) menuAddParticleFire:(id)sender;
-- (IBAction) menuAddParticleFireworks:(id)sender;
-- (IBAction) menuAddParticleFlower:(id)sender;
-- (IBAction) menuAddParticleGalaxy:(id)sender;
-- (IBAction) menuAddParticleMeteor:(id)sender;
-- (IBAction) menuAddParticleRain:(id)sender;
-- (IBAction) menuAddParticleSmoke:(id)sender;
-- (IBAction) menuAddParticleSnow:(id)sender;
-- (IBAction) menuAddParticleSun:(id)sender;
-- (IBAction) menuAddParticleSpiral:(id)sender;
 
 
 - (IBAction) menuNudgeObject:(id)sender;

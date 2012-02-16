@@ -743,7 +743,6 @@
 
 - (BOOL) ccMouseDragged:(NSEvent *)event
 {
-#warning TODO!
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos;
     pos.x = posRaw.x; pos.y = posRaw.y;
@@ -760,33 +759,23 @@
         
         appDelegate.selectedNode.position = newLocalPos;
         [appDelegate refreshProperty:@"position"];
-        //appDelegate.pPositionX = newLocalPos.x;
-        //appDelegate.pPositionY = newLocalPos.y;
     }
     else if (currentMouseTransform == kCCBTransformHandleScale)
     {
         float xDelta = pos.x - mouseDownPos.x;
-        //float yDelta = pos.y - mouseDownPos.y;
         float delta = xDelta;
-        //if (fabsf(xDelta) < fabsf(yDelta)) delta = yDelta;
         
         appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
         appDelegate.selectedNode.scaleY = transformStartScaleY + delta/100.0f;
         [appDelegate refreshProperty:@"scale"];
-        
-        //appDelegate.pScaleX = transformStartScaleX + delta/100.0f;
-        //appDelegate.pScaleY = transformStartScaleY + delta/100.0f;
     }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
         float xDelta = pos.x - mouseDownPos.x;
-        //float yDelta = pos.y - mouseDownPos.y;
         float delta = xDelta;
-        //if (fabsf(xDelta) < fabsf(yDelta)) delta = yDelta;
         
         appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
         [appDelegate refreshProperty:@"rotation"];
-        //appDelegate.pRotation = transformStartRotation + delta/4.0f;
     }
     else if (isPanning)
     {
@@ -800,7 +789,6 @@
 - (BOOL) ccMouseUp:(NSEvent *)event
 {
     isMouseTransforming = NO;
-    //[self ccMouseDragged:event];
     
     if (isPanning)
     {

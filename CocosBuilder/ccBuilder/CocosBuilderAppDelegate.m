@@ -81,20 +81,15 @@
     
     if (currentDocument && currentDocument.fileName && ![currentDocument.fileName isEqualToString:@""])
     {
-        NSString* a = [currentDocument.fileName stringByDeletingLastPathComponent];// @"/Users/viktor/ccbAssets/";
+        NSString* a = [currentDocument.fileName stringByDeletingLastPathComponent];
         self.assetsPath = [NSString stringWithFormat:@"%@/",a];
         NSArray* dir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:assetsPath error:NULL];
-    
-        //[[assetsList mutableArrayValueForKey:@"filename"] removeAllObjects];
-        
         
         self.assestsImgList = [NSMutableArray array];
         self.assetsFontList = [NSMutableArray array];
         self.assetsTemplates = [NSMutableArray array];
         self.assetsSpriteSheetList = [CCBSpriteSheetParser findSpriteSheetsAtPath:assetsPath];
         [self.assetsSpriteSheetList insertObject:kCCBUseRegularFile atIndex:0];
-        
-        //[self.assestsImgList addObject:@""];
         
         for (int i = 0; i < [dir count]; i++)
         {
@@ -148,45 +143,6 @@
     //self.assetsFontList = [CCBFontUtil createFontList];
     
     [assetsWindowController reloadData];
-    
-    /*
-    // Update templates
-    [menuTemplates removeAllItems];
-    [menuTemplatesAsChild removeAllItems];
-    
-    NSMutableArray* templates = [NSMutableArray arrayWithCapacity:[assetsTemplates count]];
-    
-    for (int i = 0; i < [assetsTemplates count]; i++)
-    {
-        CCBTemplate* t = [[[CCBTemplate alloc] initWithFile:[assetsTemplates objectAtIndex:i] assetsPath:assetsPath] autorelease];
-        if (!t) continue;
-        
-        [templates addObject:t];
-        
-        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:[assetsTemplates objectAtIndex:i] action:@selector(menuAddTemplate:) keyEquivalent:@""] autorelease];
-        [item setTarget:self];
-        [item setTag:0];
-        [menuTemplates addItem:item];
-        
-        NSMenuItem* itemC = [[[NSMenuItem alloc] initWithTitle:[assetsTemplates objectAtIndex:i] action:@selector(menuAddTemplate:) keyEquivalent:@""] autorelease];
-        [itemC setTarget:self];
-        [itemC setTag:1];
-        [menuTemplatesAsChild addItem:itemC];
-    }
-    if ([assetsTemplates count] == 0)
-    {
-        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:@"No Templates Found" action:NULL keyEquivalent:@""] autorelease];
-        [item setEnabled:NO];
-        [menuTemplates addItem:item];
-        
-        NSMenuItem* itemC = [[[NSMenuItem alloc] initWithTitle:@"No Templates Found" action:NULL keyEquivalent:@""] autorelease];
-        [item setEnabled:NO];
-        [menuTemplates addItem:itemC];
-    }
-    
-    templateWindowController.templateFiles = templates;
-    [templateWindowController reloadData];
-     */
 }
 
 - (void) setupTabBar
@@ -228,12 +184,6 @@
         [[assetsWindowController window] setIsVisible:visible];
 }
 
-/*
-- (void) setupTemplateWindow
-{
-    templateWindowController = [[TemplateWindowController alloc] initWithWindowNibName:@"TemplateWindow"];
-}*/
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [[CCBGlobals globals] setAppDelegate:self];
@@ -254,7 +204,6 @@
     [self setupOutlineView];
     [self updateInspectorFromSelection];
     [self setupAssetsWindow];
-    //[self setupTemplateWindow];
     [self updateAssetsView];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -556,7 +505,6 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict];
         if (![self addCCObject:clipNode toParent:item]) return NO;
         
@@ -576,18 +524,6 @@
         
         return YES;
     }
-    /*
-    clipData = [pb dataForType:@"com.cocosbuilder.template"];
-    if (clipData)
-    {
-        NSDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
-        
-        //[self dropAddSpriteName
-        [self dropAddTemplateNamed:[clipDict objectForKey:@"templateFile"] at:ccp(0,0) parent:item];
-        
-        return YES;
-    }
-     */
     
     return NO;
 }
@@ -687,7 +623,6 @@
     for (int i = [panes count]-1; i >= 0 ; i--)
     {
         NSView* pane = [panes objectAtIndex:i];
-        //[pane setHidden:YES];
         [pane removeFromSuperview];
     }
     
@@ -701,8 +636,6 @@
     
     // Always add the code connections pane
     paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" readOnly:YES affectsProps:NULL atOffset:paneOffset];
-    
-    NSLog(@"ADDED CodeConnections offset: %d",paneOffset);
     
     // Add panes for each property
     NodeInfo* info = selectedNode.userData;
@@ -719,8 +652,6 @@
             NSString* displayName = [propInfo objectForKey:@"displayName"];
             BOOL readOnly = [[propInfo objectForKey:@"readOnly"] boolValue];
             NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
-            
-            if (readOnly) NSLog(@"READ ONLY!!");
             
             paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
@@ -864,7 +795,6 @@
     [self setSelectedNode:NULL];
     CCBGlobals* g = [CCBGlobals globals];
     CocosScene* cs = [g cocosScene];
-    //[g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:NO];
     
     if (![self hasOpenedDocument]) return;
     currentDocument.docData = [self docDataFromCurrentNodeGraph];
@@ -877,7 +807,6 @@
     // Process contents
     NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
     
-    //CCNode* loadedRoot = [CCBReaderInternalV1 nodeGraphFromDictionary:doc assetsDir:assetsPath owner:NULL];
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
     
     // Replace open document
@@ -944,7 +873,6 @@
     [self updateAssetsView];
     
     [[assetsWindowController window] setIsVisible:NO];
-//    [[templateWindowController window] setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
 }
@@ -1153,36 +1081,6 @@
     [self addCCObject:node asChild:[sender tag]];
 }
 
-- (IBAction) menuAddNode:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultNode] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddLayer:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultLayer] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddLayerColor:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultLayerColor] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddLayerGradient:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultLayerGradient] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddSprite:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultSprite] asChild:[sender tag]];
-}
-
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent
 {
     // TODO: Fix!
@@ -1248,132 +1146,12 @@
      */
 }
 
-- (IBAction) menuAddMenu:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultMenu] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddMenuItemImage:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultMenuItemImage] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddLabelTTF:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultLabelTTF] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddLabelBMFont:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultLabelBMFont] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddCCButton:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultButton] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddCCNineSlice:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultNineSlice] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddCCThreeSlice:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultThreeSlice] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleExplosion:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeExplosion] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleFire:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeFire] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleFireworks:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeFireworks] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleFlower:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeFlower] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleGalaxy:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeGalaxy] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleMeteor:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeMeteor] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleRain:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeRain] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleSmoke:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeSmoke] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleSnow:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeSnow] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleSpiral:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeSpiral] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddParticleSun:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultParticleOfType:kCCBParticleTypeSun] asChild:[sender tag]];
-}
-
-- (IBAction) menuAddTemplate:(id)sender
-{
-    if (!currentDocument) return;
-    
-    NSMenuItem* item = sender;
-    NSLog(@"Add template: %@", [item title]);
-    //NSString* fileName = [NSString stringWithFormat:@"%@%@", assetsPath, [item title]];
-    
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [self addCCObject:[cs createDefaultTemplateNodeWithFile:[item title] assetsPath:assetsPath] asChild:[sender tag]];
-}
 
 - (IBAction) copy:(id) sender
 {
     if (!selectedNode) return;
     
     // Serialize selected node
-    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
     NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:selectedNode];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
@@ -1393,7 +1171,6 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        //CCNode* clipNode = [CCBReaderInternalV1 ccObjectFromDictionary:clipDict assetsDir:assetsPath owner:NULL];
         CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict];
         [self addCCObject:clipNode asChild:asChild];
     }
@@ -1731,12 +1508,6 @@
 {
     [[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
 }
-
-/*
-- (IBAction) menuOpenTemplatePanel:(id)sender
-{
-    [[templateWindowController window] setIsVisible:![[templateWindowController window] isVisible]];
-}*/
 
 - (IBAction) menuReloadAssets:(id)sender
 {
