@@ -24,7 +24,7 @@
         NSBundle* appBundle = [NSBundle mainBundle];
         NSURL* plugInDir = [appBundle builtInPlugInsURL];
         
-        NSURL* superBundleURL = [plugInDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle",inheritsFrom]];
+        NSURL* superBundleURL = [plugInDir URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.ccbPlugNode",inheritsFrom]];
         NSLog(@"superBundleURL: %@", superBundleURL);
         
         NSBundle* superBundle = [NSBundle bundleWithURL:superBundleURL];
