@@ -494,35 +494,7 @@
     }
     else if ([class isEqualToString:@"CCSprite"])
     {
-        /*
-        NSString* spriteFile = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFile"]];
-        NSString* spriteSheetFile = [props objectForKey:@"spriteFramesFile"];
-        if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""]) spriteSheetFile = [NSString stringWithFormat:@"%@%@", path, spriteSheetFile];
-        
-        if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""])
-        {
-            @try
-            {
-                [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spriteSheetFile];
-                node = [CCSprite spriteWithSpriteFrameName:[props objectForKey:@"spriteFile"]];
-            }
-            @catch (NSException *exception) {
-                node = NULL;
-            }
-        }
-        else
-        {
-            node = [CCSprite spriteWithFile:spriteFile];
-        }
-        
-        if (!node) node = [CCSprite spriteWithFile:@"missing-texture.png"];
-         */
         node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCSprite"];
-        
-        NSLog(@"Loaded CCSprite: %@",node);
-        
-#warning FIX!
-        //node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForSprite:(CCSprite*)node props:props];
@@ -605,29 +577,6 @@
     }
     else if ([class isEqualToString:@"CCNode"])
     {
-        /*
-        node = [CCBReader createCustomClassWithName:customClass];
-        if (node)
-        {
-            if (![node isKindOfClass:[CCNode class]])
-            {
-                NSLog(@"WARNING! %@ is not subclass of CCNode",customClass);
-                node = NULL;
-            }
-            else
-            {
-                node = [[node init] autorelease];
-            }
-        }
-        if (!node) node = [CCNode node];
-         */
-        
-        /*
-        Class c = NSClassFromString(@"CCBPNode");
-        node = [[[c alloc] init] autorelease];
-        node.userData = [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]];
-         */
-        
         node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
@@ -821,8 +770,6 @@
     self.previewImage = @"";
     self.previewAnchorpoint = ccp(0.5f,0.5f);
     self.properties = NULL;
-    
-    NSLog(@"assetsPath: %@ fileName: %@", assetsPath, fileName);
     
     return self;
 }
