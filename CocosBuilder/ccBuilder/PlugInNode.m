@@ -10,7 +10,7 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties;
+@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
@@ -75,11 +75,30 @@
     nodeProperties = [[NSMutableArray alloc] init];
     [self loadPropertiesForBundle:bundle intoArray:nodeProperties];
     
+    // Support for spriteFrame drop targets
+    NSDictionary* spriteFrameDrop = [props objectForKey:@"spriteFrameDrop"];
+    if (spriteFrameDrop)
+    {
+        dropTargetSpriteFrameClass = [spriteFrameDrop objectForKey:@"className"];
+        dropTargetSpriteFrameProperty = [spriteFrameDrop objectForKey:@"property"];
+        
+        [dropTargetSpriteFrameClass retain];
+        [dropTargetSpriteFrameProperty retain];
+    }
+    
     return self;
+}
+
+- (BOOL) acceptsDroppedSpriteFrameChildren
+{
+    if (dropTargetSpriteFrameClass && dropTargetSpriteFrameProperty) return YES;
+    return NO;
 }
 
 - (void) dealloc
 {
+    [dropTargetSpriteFrameClass release];
+    [dropTargetSpriteFrameProperty release];
     [nodeProperties release];
     [nodeClassName release];
     [bundle release];

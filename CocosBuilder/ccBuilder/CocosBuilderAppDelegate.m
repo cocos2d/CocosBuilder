@@ -21,6 +21,7 @@
 #import "InspectorPosition.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "TexturePropertySetter.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1083,6 +1084,38 @@
 
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent
 {
+    NodeInfo* info = parent.userData;
+    PlugInNode* plugIn = info.plugIn;
+    
+    if (!spriteFile) spriteFile = @"";
+    if (!spriteSheetFile) spriteSheetFile = @"";
+    
+    NSString* class = plugIn.dropTargetSpriteFrameClass;
+    NSString* prop = plugIn.dropTargetSpriteFrameProperty;
+    
+    NSLog(@"dropAdding to %@", plugIn.nodeClassName);
+    
+    if (class && prop)
+    {
+        // Create the node
+        CCNode* node = [plugInManager createDefaultNodeOfType:class];
+        
+        // Set its position
+        node.position = pt;
+        
+        [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node];
+        
+        /*
+        // Set its sprite frame
+        [TexturePropertySetter setTextureForNode:node andProperty:plugIn.dropTargetSpriteFrameProperty withFile:spriteFile andSheetFile:spriteSheetFile];
+        
+        // Set extra properties
+        [cs setExtraProp:spriteFile forKey:prop andNode:node];
+        [cs setExtraProp:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",prop] andNode:node];*/
+        
+        [self addCCObject:node toParent:parent];
+    }
+    
     // TODO: Fix!
     /*
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -1104,10 +1137,34 @@
     [self setPPositionX:pt.x];
     [self setPPositionY:pt.y];
      */
+    
+    
 }
 
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt
 {
+    // Sprite dropped in working canvas
+    
+    if (!selectedNode) return;
+    
+    CCNode* parent = selectedNode.parent;
+    NodeInfo* info = parent.userData;
+    
+    if (info.plugIn.acceptsDroppedSpriteFrameChildren)
+    {
+        [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[parent convertToNodeSpace:pt] parent:parent];
+        return;
+    }
+    
+    info = selectedNode.userData;
+    if (info.plugIn.acceptsDroppedSpriteFrameChildren)
+    {
+        [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[selectedNode convertToNodeSpace:pt] parent:selectedNode];
+    }
+    /*
+    [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[selectedNode.parent convertToNodeSpace: pt] parent:selectedNode];
+     */
+    
     // TODO: Fix!
     /*
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
