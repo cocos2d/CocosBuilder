@@ -235,208 +235,6 @@
     [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded" andNode:node];
 }
 
-#pragma mark Factory for default CC objects
-
-- (CCNode*) createDefaultNode
-{
-    CCNode* node = [CCNode node];
-    [self setupExtraPropsForNode: node];
-    
-    [node setUserData: [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retainData:YES];
-    
-    return node;
-}
-
-- (CCLayer*) createDefaultLayer
-{
-    CCLayer* node = [CCLayer node];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"touchEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"accelerometerEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"mouseEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"keyboardEnabled" andNode:node];
-    
-    CGRect bounds = [stageBgLayer boundingBox];
-    [node setContentSize:bounds.size];
-    return node;
-}
-
-- (CCLayer*) createDefaultLayerColor
-{
-    CCLayer* node = [CCLayerColor layerWithColor:ccc4(127, 127, 127, 127) width:64 height:64];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"touchEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"accelerometerEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"mouseEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"keyboardEnabled" andNode:node];
-    return node;
-}
-
-- (CCLayer*) createDefaultLayerGradient
-{
-    CCLayerGradient* node = [CCLayerGradient layerWithColor:ccc4(0, 0, 0, 255) fadingTo:ccc4(255, 255, 255, 255)];
-    [node setContentSize:CGSizeMake(64, 64)];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"touchEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"accelerometerEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"mouseEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"keyboardEnabled" andNode:node];
-    return node;
-}
-
-- (CCSprite*) createDefaultSprite
-{
-    CCSprite* node = [CCSprite spriteWithFile:@"missing-texture.png"];
-    [self setupExtraPropsForNode: node];
-    [self setExtraProp:@"" forKey:@"spriteFile" andNode:node];
-    return node;
-}
-
-- (CCMenu*) createDefaultMenu
-{
-    CCMenu* node = [CCMenu menuWithItems: nil];
-    node.position = ccp(0,0);
-    node.anchorPoint = ccp(0,0);
-    node.contentSize = CGSizeMake(0, 0);
-    [node setIsMouseEnabled:NO];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"touchEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"accelerometerEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"mouseEnabled" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:NO] forKey:@"keyboardEnabled" andNode:node];
-    return node;
-}
-
-- (CCMenuItemImage*) createDefaultMenuItemImage
-{
-    CCMenuItemImage* node = [CCMenuItemImage itemWithNormalImage:@"missing-texture.png" selectedImage:@"missing-texture.png" disabledImage:@"missing-texture.png" target:NULL selector:NULL];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:@"" forKey:@"spriteFileNormal" andNode:node];
-    [self setExtraProp:@"" forKey:@"spriteFileSelected" andNode:node];
-    [self setExtraProp:@"" forKey:@"spriteFileDisabled" andNode:node];
-    [self setExtraProp:@"" forKey:@"selector" andNode:node];
-    return node;
-}
-
-- (CCLabelTTF*) createDefaultLabelTTF
-{
-    //CCLabelTTF* node = [CCLabelTTF labelWithString:@"Label" dimensions:CGSizeMake(200, 100) alignment:CCTextAlignmentLeft fontName:@"Helvetica" fontSize:20];
-    
-    CCLabelTTF* node = [CCLabelTTF labelWithString:@"Label" fontName:@"Helvetica" fontSize:24];
-    [self setupExtraPropsForNode:node];
-    return node;
-}
-
-- (CCLabelBMFont*) createDefaultLabelBMFont
-{
-    CCLabelBMFont* node = [CCLabelBMFont labelWithString:@"Label" fntFile:@"missing-font.fnt"];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:@"" forKey:@"fontFile" andNode:node];
-    //[self setExtraProp:@"Label" forKey:@"string" andNode:node];
-    return node;
-}
-
-- (CCParticleSystem*) createDefaultParticleOfType:(int)type
-{
-    CCParticleSystem* node = NULL;
-    if (type == kCCBParticleTypeExplosion)
-    {
-        node = [CCParticleExplosion node];
-        node.endSize = 0;
-    }
-    else if (type == kCCBParticleTypeFire)
-    {
-        node = [CCParticleFire node];
-        node.endSize = 0;
-    }
-    else if (type == kCCBParticleTypeFireworks)
-    {
-        node = [CCParticleFireworks node];
-        node.endSize = 0;
-    }
-    else if (type == kCCBParticleTypeFlower)
-    {
-        node = [CCParticleFlower node];
-        node.endSize = 0;
-    }
-    else if (type == kCCBParticleTypeGalaxy)
-    {
-        node = [CCParticleGalaxy node];
-        node.endSize = 0;
-    }
-    else if (type == kCCBParticleTypeMeteor)
-    {
-        node = [CCParticleMeteor node];
-        node.endSize = 60;
-    }
-    else if (type == kCCBParticleTypeRain)
-    {
-        node = [CCParticleRain node];
-        node.endSize = 4;
-    }
-    else if (type == kCCBParticleTypeSmoke)
-    {
-        node = [CCParticleSmoke node];
-        node.endSize = 60;
-    }
-    else if (type == kCCBParticleTypeSnow)
-    {
-        node = [CCParticleSnow node];
-        node.endSize = 10;
-    }
-    else if (type == kCCBParticleTypeSpiral)
-    {
-        node = [CCParticleSpiral node];
-        node.endSize = 20;
-    }
-    else if (type == kCCBParticleTypeSun)
-    {
-        node = [CCParticleSun node];
-        node.endSize = 0;
-    }
-    
-    [self setupExtraPropsForNode: node];
-    [self setExtraProp:@"" forKey:@"spriteFile" andNode:node];
-    node.position = ccp(0,0);
-    node.positionType = kCCPositionTypeGrouped;
-    
-    return node;
-}
-
-- (CCBTemplateNode*) createDefaultTemplateNodeWithFile:(NSString*)file assetsPath:(NSString*)assetsPath
-{
-    CCBTemplate* t = [[[CCBTemplate alloc] initWithFile:file assetsPath:assetsPath] autorelease];
-    CCBTemplateNode* node = [[[CCBTemplateNode alloc] initWithTemplate:t] autorelease];
-    [self setupExtraPropsForNode:node];
-    [self setExtraProp:t.customClass forKey:@"customClass" andNode:node];
-    
-    return node;
-}
-
-- (CCButton*) createDefaultButton
-{
-    CCButton* button = [CCButton node];
-    [self setupExtraPropsForNode:button];
-    [self setExtraProp:@"" forKey:@"selector" andNode:button];
-    CCLabelTTF* label = [self createDefaultLabelTTF];
-    [button addChild:label];
-    return button;
-}
-
-- (CCNineSlice*) createDefaultNineSlice
-{
-    CCNineSlice* node = [CCNineSlice node];
-    [self setupExtraPropsForNode:node];
-    return node;
-}
-
-- (CCThreeSlice*) createDefaultThreeSlice
-{
-    CCThreeSlice* node = [CCThreeSlice node];
-    [self setupExtraPropsForNode:node];
-    return node;
-}
-
 #pragma mark Replacing content
 
 - (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep
@@ -453,6 +251,7 @@
     [contentLayer addChild:node];
 }
 
+/*
 - (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template
 {
     CCBGlobals* g = [CCBGlobals globals];
@@ -491,6 +290,7 @@
     self.rootNode = node;
     g.rootNode = node;
 }
+ */
 
 #pragma mark Handle selections
 
@@ -741,6 +541,7 @@
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
+        [appDelegate saveUndoStateWillChangeProperty:@"position"];
         appDelegate.selectedNode.position = newLocalPos;
         [appDelegate refreshProperty:@"position"];
     }
@@ -749,6 +550,7 @@
         float xDelta = pos.x - mouseDownPos.x;
         float delta = xDelta;
         
+        [appDelegate saveUndoStateWillChangeProperty:@"scale"];
         appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
         appDelegate.selectedNode.scaleY = transformStartScaleY + delta/100.0f;
         [appDelegate refreshProperty:@"scale"];
@@ -758,6 +560,7 @@
         float xDelta = pos.x - mouseDownPos.x;
         float delta = xDelta;
         
+        [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
         [appDelegate refreshProperty:@"rotation"];
     }

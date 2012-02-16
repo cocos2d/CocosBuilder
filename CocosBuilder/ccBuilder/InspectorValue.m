@@ -59,6 +59,8 @@
 
 - (void) setPropertyForSelection:(id)value
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     [selection setValue:value forKey:propertyName];
     [self updateAffectedProperties];
 }
@@ -70,6 +72,8 @@
 
 - (void) setPropertyForSelectionX:(id)value
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
     [self updateAffectedProperties];
 }
@@ -81,6 +85,8 @@
 
 - (void) setPropertyForSelectionY:(id)value
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Y"]];
     [self updateAffectedProperties];
 }

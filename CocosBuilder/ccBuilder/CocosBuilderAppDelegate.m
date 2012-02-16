@@ -338,7 +338,7 @@
     selectedNode = selection;
     [self updateOutlineViewSelection];
     
-    if (currentDocument) currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
+    if (currentDocument) currentDocument.lastEditedProperty = NULL;
 }
 
 - (CCNode*) selectedNode
@@ -949,7 +949,7 @@
     }
         
     [currentDocument.undoManager removeAllActions];
-    currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
+    currentDocument.lastEditedProperty = NULL;
 }
 
 - (void) newFile:(NSString*) fileName type:(NSString*) type template:(int)template stageSize:(CGSize)stageSize origin:(int)origin
@@ -971,7 +971,9 @@
     
     selectedNode = NULL;
     [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
-    [g.cocosScene replaceRootNodeWithDefaultObjectOfType:type template:template];
+    
+#warning FIX!
+//    [g.cocosScene replaceRootNodeWithDefaultObjectOfType:type template:template];
     
     [outlineHierarchy reloadData];
     [self updateOutlineViewSelection];
@@ -1005,19 +1007,33 @@
     [self replaceDocumentData:state];
 }
 
-- (void) saveUndoState
+- (void) saveUndoStateWillChangeProperty:(NSString*)prop
 {
     if (!currentDocument) return;
+ 
+    NSLog(@"saveUndoStateChangedProperty: %@", prop);
+    
+    if (prop && [currentDocument.lastEditedProperty isEqualToString:prop])
+    {
+        return;
+    }
+    
+    NSLog(@" - storing state");
     
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
     
     [currentDocument.undoManager registerUndoWithTarget:self selector:@selector(revertToState:) object:doc];
-    currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
+    currentDocument.lastEditedProperty = prop;
     
     currentDocument.isDirty = YES;
     NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
     [tabBar setIsEdited:YES ForTabViewItem:item];
     [self updateDirtyMark];
+}
+
+- (void) saveUndoState
+{
+    [self saveUndoStateWillChangeProperty:NULL];
 }
 
 #pragma mark Menu options
@@ -1076,8 +1092,6 @@
 
 - (IBAction) menuAddPlugInNode:(id)sender
 {
-    NSLog(@"Add object of type: %@", [sender title]);
-    
     CCNode* node = [plugInManager createDefaultNodeOfType:[sender title]];
     [self addCCObject:node asChild:[sender tag]];
 }
@@ -1093,8 +1107,6 @@
     NSString* class = plugIn.dropTargetSpriteFrameClass;
     NSString* prop = plugIn.dropTargetSpriteFrameProperty;
     
-    NSLog(@"dropAdding to %@", plugIn.nodeClassName);
-    
     if (class && prop)
     {
         // Create the node
@@ -1105,40 +1117,8 @@
         
         [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node];
         
-        /*
-        // Set its sprite frame
-        [TexturePropertySetter setTextureForNode:node andProperty:plugIn.dropTargetSpriteFrameProperty withFile:spriteFile andSheetFile:spriteSheetFile];
-        
-        // Set extra properties
-        [cs setExtraProp:spriteFile forKey:prop andNode:node];
-        [cs setExtraProp:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",prop] andNode:node];*/
-        
         [self addCCObject:node toParent:parent];
     }
-    
-    // TODO: Fix!
-    /*
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    if ([parent isKindOfClass:[CCMenu class]])
-    {
-        BOOL added = [self addCCObject:[cs createDefaultMenuItemImage] toParent:parent];
-        if (!added) return;
-        if (spriteSheetFile) [self setPSpriteSheetFile:spriteSheetFile];
-        [self setPSpriteFileNormal:spriteFile];
-    }
-    else
-    {
-        BOOL added = [self addCCObject:[cs createDefaultSprite] toParent:parent];
-        if (!added) return;
-        if (spriteSheetFile) [self setPSpriteSheetFile:spriteSheetFile];
-        [self setPSpriteFile:spriteFile];
-    }
-    [self setPPositionX:pt.x];
-    [self setPPositionY:pt.y];
-     */
-    
-    
 }
 
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt
@@ -1161,46 +1141,6 @@
     {
         [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[selectedNode convertToNodeSpace:pt] parent:selectedNode];
     }
-    /*
-    [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[selectedNode.parent convertToNodeSpace: pt] parent:selectedNode];
-     */
-    
-    // TODO: Fix!
-    /*
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    BOOL added = NO;
-    if ([[selectedNode parent] isKindOfClass:[CCMenu class]])
-    {
-        added = [self addCCObject:[cs createDefaultMenuItemImage] asChild:NO];
-        if (!added) return;
-    }
-    else if ([selectedNode isKindOfClass:[CCMenu class]])
-    {
-        added = [self addCCObject:[cs createDefaultMenuItemImage] asChild:YES];
-        if (!added) return;
-    }
-    if (added)
-    {
-        // Added as menu item
-        if (spriteSheetFile) [self setPSpriteSheetFile:spriteSheetFile];
-        [self setPSpriteFileNormal:spriteFile];
-    }
-    else
-    {
-        // Add as sprite
-        added = [self addCCObject:[cs createDefaultSprite] asChild:NO];
-        if (!added) return;
-        
-        if (spriteSheetFile) [self setPSpriteSheetFile:spriteSheetFile];
-        [self setPSpriteFile:spriteFile];
-    }
-    
-    // Set position
-    pt = [[selectedNode parent] convertToNodeSpace:pt];
-    [self setPPositionX:pt.x];
-    [self setPPositionY:pt.y];
-     */
 }
 
 
@@ -1219,7 +1159,6 @@
 
 - (void) doPasteAsChild:(BOOL)asChild
 {
-    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
     NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.node", nil]];
     
@@ -1413,14 +1352,14 @@
 {
     if (!currentDocument) return;
     [currentDocument.undoManager undo];
-    currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
+    currentDocument.lastEditedProperty = NULL;
 }
 
 - (IBAction) redo:(id)sender
 {
     if (!currentDocument) return;
     [currentDocument.undoManager redo];
-    currentDocument.lastOperationType = kCCBOperationTypeUnspecified;
+    currentDocument.lastEditedProperty = NULL;
 }
 
 - (int) orientedDeviceTypeForSize:(CGSize)size

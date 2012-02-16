@@ -7,7 +7,7 @@
 
 @implementation CCBDocument
 
-@synthesize fileName,docData,undoManager, lastOperationType, isDirty, stageScrollOffset, stageZoom;
+@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom;
 
 - (id)init
 {
@@ -25,6 +25,7 @@
 
 - (void)dealloc
 {
+    self.lastEditedProperty = NULL;
     self.fileName = NULL;
     self.docData = NULL;
     self.undoManager = NULL;
