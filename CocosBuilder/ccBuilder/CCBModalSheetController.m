@@ -7,10 +7,6 @@
 
 @implementation CCBModalSheetController
 
-- (void) finishEditing
-{
-}
-
 - (IBAction)acceptSheet:(id)sender
 {
     if ([[self window] makeFirstResponder:[self window]])
