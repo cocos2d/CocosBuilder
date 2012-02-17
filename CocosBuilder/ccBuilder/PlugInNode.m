@@ -10,7 +10,7 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty;
+@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
@@ -85,6 +85,9 @@
         [dropTargetSpriteFrameClass retain];
         [dropTargetSpriteFrameProperty retain];
     }
+    
+    // Check if node type can be root node
+    canBeRoot = [[props objectForKey:@"canBeRootNode"] boolValue];
     
     return self;
 }

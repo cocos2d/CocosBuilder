@@ -237,7 +237,7 @@
 
 #pragma mark Replacing content
 
-- (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep
+- (void) replaceRootNodeWith:(CCNode*)node
 {
     CCBGlobals* g = [CCBGlobals globals];
     

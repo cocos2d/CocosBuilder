@@ -13,7 +13,7 @@
 
 @implementation PlugInManager
 
-@synthesize plugInsNodeNames;
+@synthesize plugInsNodeNames, plugInsNodeNamesCanBeRoot;
 
 + (PlugInManager*) sharedManager
 {
@@ -29,6 +29,7 @@
     
     plugInsNode = [[NSMutableDictionary alloc] init];
     plugInsNodeNames = [[NSMutableArray alloc] init];
+    plugInsNodeNamesCanBeRoot = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -50,15 +51,21 @@
         
         // Load the bundle
         NSBundle* bundle = [NSBundle bundleWithURL:plugInPath];
-        [bundle load];
         
         if (bundle)
         {
+            [bundle load];
+            
             PlugInNode* plugIn = [[PlugInNode alloc] initWithBundle:bundle];
             if (plugIn)
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
                 [plugInsNodeNames addObject:plugIn.nodeClassName];
+                
+                if (plugIn.canBeRoot)
+                {
+                    [plugInsNodeNamesCanBeRoot addObject:plugIn.nodeClassName];
+                }
             }
         }
     }
@@ -68,6 +75,7 @@
 {
     [plugInsNode release];
     [plugInsNodeNames release];
+    [plugInsNodeNamesCanBeRoot release];
     [super dealloc];
 }
 

@@ -7,25 +7,22 @@
 
 @interface NewDocWindowController : NSWindowController
 {
-    IBOutlet NSPopUpButton* rootObjectPop;
-    IBOutlet NSPopUpButton* templatePop;
-    IBOutlet NSTextField* wTextField;
-    IBOutlet NSTextField* hTextField;
-    IBOutlet NSMatrix* radioBtns;
-    
-@private
+    NSArray* rootObjectTypes;
+    NSString* rootObjectType;
+
     int wStage;
     int hStage;
+    
+    int centeredStageOrigin;
 }
 
-@property (nonatomic,readonly) NSString* rootObjectType;
-@property (nonatomic,readonly) int templateType;
-@property (nonatomic,readonly) int originPos;
+@property (nonatomic,retain) NSArray* rootObjectTypes;
+@property (nonatomic,retain) NSString* rootObjectType;
 @property (nonatomic,assign) int wStage;
 @property (nonatomic,assign) int hStage;
+@property (nonatomic,assign) int centeredStageOrigin;
 
 - (IBAction)acceptSheet:(id)sender;
 - (IBAction)cancelSheet:(id)sender;
-- (IBAction)changedRootObject:(id)sender;
 
 @end

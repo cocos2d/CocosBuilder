@@ -15,9 +15,11 @@
 {
     NSMutableDictionary* plugInsNode;
     NSMutableArray* plugInsNodeNames;
+    NSMutableArray* plugInsNodeNamesCanBeRoot;
 }
 
 @property (nonatomic,readonly) NSMutableArray* plugInsNodeNames;
+@property (nonatomic,readonly) NSMutableArray* plugInsNodeNamesCanBeRoot;
 
 + (PlugInManager*) sharedManager;
 - (void) loadPlugIns;

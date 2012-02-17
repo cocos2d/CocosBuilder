@@ -7,30 +7,6 @@
 
 @implementation CCBUtil
 
-+ (void) endEditingForView:(NSView*)view
-{
-    [[view window] makeFirstResponder:[view window]];
-    
-    /*
-    if ([view isKindOfClass:[NSTextField class]])
-    {
-        NSTextField* tf = (NSTextField*)view;
-        [[tf window] endEditingFor:tf];
-        return;
-    }
-    else if ([view isKindOfClass:[NSTextView class]])
-    {
-        NSTextView* tv = (NSTextView*)view;
-        [[tv window] endEditingFor:tv];
-        return;
-    }
-    
-    NSArray* arr = [view subviews];
-    for (int i = 0; i < [arr count]; i++)
-    {
-        [self endEditingForView:[arr objectAtIndex:i]];
-    }*/
-}
 
 + (void) setSelectedSubmenuItemForMenu:(NSMenu*)menu tag:(int)tag
 {
@@ -62,7 +38,6 @@
         }
     }
     
-    NSLog(@"findFilesOfType: %@",result);
     return result;
 }
 

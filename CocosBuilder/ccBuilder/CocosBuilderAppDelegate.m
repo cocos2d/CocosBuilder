@@ -333,7 +333,10 @@
 
 - (void) setSelectedNode:(CCNode*) selection
 {
-    [CCBUtil endEditingForView:mainView];
+    if (![[self window] makeFirstResponder:[self window]])
+    {
+        return;
+    }
     
     selectedNode = selection;
     [self updateOutlineViewSelection];
@@ -806,7 +809,7 @@
 - (void) replaceDocumentData:(NSMutableDictionary*)doc
 {
     // Process contents
-    NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
+    //NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
     
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
     
@@ -814,7 +817,7 @@
     CCBGlobals* g = [CCBGlobals globals];
     
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:loadedRoot extraProps:extraProps];
+    [g.cocosScene replaceRootNodeWith:loadedRoot];
     [outlineHierarchy reloadData];
     [self updateOutlineViewSelection];
     [self updateInspectorFromSelection];
@@ -865,7 +868,7 @@
 {
     CCBGlobals* g = [CCBGlobals globals];
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:NULL extraProps:[NSMutableDictionary dictionary]];
+    [g.cocosScene replaceRootNodeWith:NULL];
     currentDocument.docData = NULL;
     currentDocument.fileName = NULL;
     [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
@@ -952,7 +955,7 @@
     currentDocument.lastEditedProperty = NULL;
 }
 
-- (void) newFile:(NSString*) fileName type:(NSString*) type template:(int)template stageSize:(CGSize)stageSize origin:(int)origin
+- (void) newFile:(NSString*) fileName type:(NSString*)type stageSize:(CGSize)stageSize origin:(int)origin
 {
     // Close old doc if neccessary
     CCBDocument* oldDoc = [self findDocumentFromFile:fileName];
@@ -971,6 +974,8 @@
     
     selectedNode = NULL;
     [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
+    
+    [g.cocosScene replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
 #warning FIX!
 //    [g.cocosScene replaceRootNodeWithDefaultObjectOfType:type template:template];
@@ -1125,9 +1130,10 @@
 {
     // Sprite dropped in working canvas
     
-    if (!selectedNode) return;
+    CCNode* node = selectedNode;
+    if (!node) node = [[CCBGlobals globals] cocosScene].rootNode;
     
-    CCNode* parent = selectedNode.parent;
+    CCNode* parent = node.parent;
     NodeInfo* info = parent.userData;
     
     if (info.plugIn.acceptsDroppedSpriteFrameChildren)
@@ -1136,10 +1142,10 @@
         return;
     }
     
-    info = selectedNode.userData;
+    info = node.userData;
     if (info.plugIn.acceptsDroppedSpriteFrameChildren)
     {
-        [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[selectedNode convertToNodeSpace:pt] parent:selectedNode];
+        [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[node convertToNodeSpace:pt] parent:node];
     }
 }
 
@@ -1314,7 +1320,7 @@
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
             if (result == NSOKButton)
             {
-                [self newFile:[[saveDlg URL] path] type:wc.rootObjectType template:wc.templateType stageSize:CGSizeMake(wc.wStage, wc.hStage) origin:wc.originPos];
+                [self newFile:[[saveDlg URL] path] type:wc.rootObjectType stageSize:CGSizeMake(wc.wStage, wc.hStage) origin:wc.centeredStageOrigin];
             }
             [wc release];
         }];

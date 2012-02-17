@@ -3,43 +3,35 @@
 //
 
 #import "NewDocWindowController.h"
-
+#import "PlugInManager.h"
 
 @implementation NewDocWindowController
 
-@synthesize wStage, hStage;
+@synthesize wStage, hStage,rootObjectType, rootObjectTypes, centeredStageOrigin;
 
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
-    if (self) {
-        // Initialization code here.
-    }
+    if (!self) return NULL;
     
     self.wStage = 480;
     self.hStage = 320;
     
-    return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
+    self.rootObjectTypes = [PlugInManager sharedManager].plugInsNodeNamesCanBeRoot;
+    self.rootObjectType = [rootObjectTypes objectAtIndex:0];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    self.centeredStageOrigin = 0;
+    
+    return self;
 }
 
 - (IBAction)acceptSheet:(id)sender
 {
-    [[self window] endEditingFor:hTextField];
-    [[self window] endEditingFor:wTextField];
-    NSLog(@"acceptSheet");
-    [NSApp stopModalWithCode:1];
+    if ([[self window] makeFirstResponder:[self window]])
+    {
+        NSLog(@"acceptSheet");
+        [NSApp stopModalWithCode:1];
+    }
 }
 
 - (IBAction)cancelSheet:(id)sender
@@ -48,33 +40,10 @@
     [NSApp stopModalWithCode:0];
 }
 
-- (IBAction)changedRootObject:(id)sender
+- (void) dealloc
 {
-    NSLog(@"changedRootObject");
-    BOOL selectedParticleSystem = ([[[rootObjectPop selectedItem] title] isEqualToString:@"CCParticleSystem"]);
-    
-    [templatePop setEnabled:selectedParticleSystem];
-}
-
-/*
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    NSLog(@"sheetDidEnd");
-}*/
-
-- (NSString*) rootObjectType
-{
-    return [[rootObjectPop selectedItem] title];
-}
-
-- (int) templateType
-{
-    return (int)[[templatePop selectedItem] tag];
-}
-
-- (int) originPos
-{
-    return (int)[radioBtns selectedRow];
+    self.rootObjectType = NULL;
+    [super dealloc];
 }
 
 @end
