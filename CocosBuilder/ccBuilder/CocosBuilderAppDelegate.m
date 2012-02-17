@@ -809,8 +809,6 @@
 - (void) replaceDocumentData:(NSMutableDictionary*)doc
 {
     // Process contents
-    //NSMutableDictionary* extraProps = [NSMutableDictionary dictionary];
-    
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
     
     // Replace open document
@@ -977,9 +975,6 @@
     
     [g.cocosScene replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
-#warning FIX!
-//    [g.cocosScene replaceRootNodeWithDefaultObjectOfType:type template:template];
-    
     [outlineHierarchy reloadData];
     [self updateOutlineViewSelection];
     [self updateInspectorFromSelection];
@@ -989,6 +984,7 @@
     [self saveFile:fileName];
     
     [self addDocument:currentDocument];
+    
     self.hasOpenedDocument = YES;
     
     [self updateCanvasSizeMenu];
@@ -1015,15 +1011,11 @@
 - (void) saveUndoStateWillChangeProperty:(NSString*)prop
 {
     if (!currentDocument) return;
- 
-    NSLog(@"saveUndoStateChangedProperty: %@", prop);
     
     if (prop && [currentDocument.lastEditedProperty isEqualToString:prop])
     {
         return;
     }
-    
-    NSLog(@" - storing state");
     
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
     
