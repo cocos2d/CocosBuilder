@@ -104,7 +104,6 @@ enum {
 - (float) stageZoom;
 
 - (void) replaceRootNodeWith:(CCNode*)node;
-//- (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template;
 
 - (void) setSelectedNode:(CCNode*) node;
 - (void) updateSelection;

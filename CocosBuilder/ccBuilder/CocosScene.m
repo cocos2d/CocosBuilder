@@ -106,10 +106,6 @@
             borderDeviceIPad.visible = YES;
             borderDeviceIPad.rotation = 90;
         }
-        else
-        {
-            //borderDeviceIPhone.visible = NO;
-        }
     }
     else if (type == kCCBBorderTransparent)
     {
@@ -250,47 +246,6 @@
     
     [contentLayer addChild:node];
 }
-
-/*
-- (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template
-{
-    CCBGlobals* g = [CCBGlobals globals];
-    
-    [contentLayer removeChild:rootNode cleanup:YES];
-    
-    CCNode* node;
-    
-    if ([type isEqualToString:@"CCNode"])
-    {
-        node = [self createDefaultNode];
-    }
-    else if ([type isEqualToString:@"CCLayer"])
-    {
-        node = [self createDefaultLayer];
-    }
-    else if ([type isEqualToString:@"CCSprite"])
-    {
-        node = [self createDefaultSprite];
-    }
-    else if ([type isEqualToString:@"CCMenu"])
-    {
-        node = [self createDefaultMenu];
-    }
-    else if ([type isEqualToString:@"CCParticleSystem"])
-    {
-        node = [self createDefaultParticleOfType:template];
-    }
-    else
-    {
-        NSLog(@"WARNING! Invalid node type in new document");
-        node = [self createDefaultNode];
-    }
-    
-    [contentLayer addChild:node];
-    self.rootNode = node;
-    g.rootNode = node;
-}
- */
 
 #pragma mark Handle selections
 
@@ -454,7 +409,7 @@
     
     CCNode* parent = node.parent;
     CGPoint ptLocal = [parent convertToNodeSpace:pt];
-    //if (NSPointInRect(ptLocal, hitRect))
+    
     if (CGRectContainsPoint(hitRect, ptLocal))
     {
         [nodes addObject:node];
@@ -471,7 +426,7 @@
 - (BOOL) ccMouseDown:(NSEvent *)event
 {
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos;// = [event locationInWindow];
+    CGPoint pos;
     pos.x = posRaw.x;
     pos.y = posRaw.y;
     pos.x -= [appDelegate.cocosView frame].origin.x;
@@ -491,7 +446,6 @@
     int th = [self transformHandleUnderPt:pos];
     if (th)
     {
-        //mouseDownPos = pos;
         if (th == kCCBTransformHandleMove)
         {
             transformStartPosition = [selectedNode.parent convertToWorldSpace:selectedNode.position];
@@ -616,22 +570,17 @@
 
 #pragma mark Init and dealloc
 
-// on "init" you need to initialize your instance
 -(id) initWithAppDelegate:(CocosBuilderAppDelegate*)app;
 {
     appDelegate = app;
     
     nodesAtSelectionPt = [[NSMutableArray array] retain];
     
-	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] ))
     {
         
         [self setupEditorNodes];
         [self setupDefaultNodes];
-        
-        //[self setupDebugNodes];
         
         [self schedule:@selector(nextFrame:)];
         
@@ -696,17 +645,9 @@
     borderDeviceIPad.position = center;
 }
 
-// on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
-    //[extraProps release];
     [nodesAtSelectionPt release];
-    
-	// in case you have something to dealloc, do it in this method
-	// in this particular example nothing needs to be released.
-	// cocos2d will automatically release all the children (Label)
-	
-	// don't forget to call "super dealloc"
 	[super dealloc];
 }
 
