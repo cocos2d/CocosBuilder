@@ -103,7 +103,7 @@ enum {
 - (void) setStageZoom:(float) zoom;
 - (float) stageZoom;
 
-- (void) replaceRootNodeWith:(CCNode*)node extraProps:(NSMutableDictionary*)ep;
+- (void) replaceRootNodeWith:(CCNode*)node;
 //- (void) replaceRootNodeWithDefaultObjectOfType:(NSString*)type template:(int)template;
 
 - (void) setSelectedNode:(CCNode*) node;

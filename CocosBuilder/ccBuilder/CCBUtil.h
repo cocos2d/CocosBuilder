@@ -5,9 +5,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface CCBUtil : NSObject {  
-}
-+ (void) endEditingForView:(NSView*)view;
+@interface CCBUtil : NSObject
 + (void) setSelectedSubmenuItemForMenu:(NSMenu*)menu tag:(int)tag;
 + (NSArray*) findFilesOfType:(NSString*)type inDirectory:(NSString*)d;
 @end
