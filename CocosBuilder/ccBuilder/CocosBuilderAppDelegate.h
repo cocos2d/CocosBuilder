@@ -24,7 +24,6 @@ enum {
 
 @class CCBDocument;
 @class AssetsWindowController;
-//@class TemplateWindowController;
 @class PlugInManager;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
@@ -65,7 +64,6 @@ enum {
     
     // Assets
     NSString* assetsPath;
-    //IBOutlet NSTableView* assetsTable;
     IBOutlet NSArrayController* assetsList;
     NSMutableArray* assestsImgList;
     NSMutableArray* assetsImgListFiles;
@@ -75,9 +73,6 @@ enum {
     
     // Assets Panel
     AssetsWindowController* assetsWindowController;
-    
-    // Template Panel
-//    TemplateWindowController* templateWindowController;
     
     // Documents
     CCBDocument* currentDocument;
