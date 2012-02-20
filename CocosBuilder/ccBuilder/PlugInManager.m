@@ -54,6 +54,8 @@
         
         if (bundle)
         {
+            NSLog(@"Loading PlugIn: %@", [plugInPath lastPathComponent]);
+            
             [bundle load];
             
             PlugInNode* plugIn = [[PlugInNode alloc] initWithBundle:bundle];
