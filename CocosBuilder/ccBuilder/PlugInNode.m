@@ -57,6 +57,22 @@
     }
 }
 
+- (void) setupNodePropsDict
+{
+    // Transform the nodes info array to a dictionary for quicker lookups of properties
+    
+    for (int i = 0; i < [nodeProperties count]; i++)
+    {
+        NSDictionary* propInfo = [nodeProperties objectAtIndex:i];
+        
+        NSString* propName = [propInfo objectForKey:@"name"];
+        if (propName)
+        {
+            [nodePropertiesDict setObject:propInfo forKey:propName];
+        }
+    }
+}
+
 - (id) initWithBundle:(NSBundle*) b
 {
     self = [super init];
@@ -73,7 +89,9 @@
     nodeEditorClassName = [[props objectForKey:@"editorClassName"] retain];
     
     nodeProperties = [[NSMutableArray alloc] init];
+    nodePropertiesDict = [[NSMutableDictionary alloc] init];
     [self loadPropertiesForBundle:bundle intoArray:nodeProperties];
+    [self setupNodePropsDict];
     
     // Support for spriteFrame drop targets
     NSDictionary* spriteFrameDrop = [props objectForKey:@"spriteFrameDrop"];
@@ -98,11 +116,20 @@
     return NO;
 }
 
+- (BOOL) dontSetInEditorProperty: (NSString*) prop
+{
+    NSDictionary* propInfo = [nodePropertiesDict objectForKey:prop];
+    BOOL dontSetInEditor = [[propInfo objectForKey:@"dontSetInEditor"] boolValue];
+    
+    return dontSetInEditor;
+}
+
 - (void) dealloc
 {
     [dropTargetSpriteFrameClass release];
     [dropTargetSpriteFrameProperty release];
     [nodeProperties release];
+    [nodePropertiesDict release];
     [nodeClassName release];
     [bundle release];
     [super dealloc];

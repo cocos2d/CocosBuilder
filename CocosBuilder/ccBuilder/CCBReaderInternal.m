@@ -158,6 +158,7 @@
     // Fetch info and extra properties
     NodeInfo* nodeInfo = node.userData;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
+    PlugInNode* plugIn = nodeInfo.plugIn;
     
     // Set properties for the node
     int numProps = [props count];
@@ -168,7 +169,14 @@
         NSString* name = [propInfo objectForKey:@"name"];
         id serializedValue = [propInfo objectForKey:@"value"];
         
-        [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node];
+        if ([plugIn dontSetInEditorProperty:name])
+        {
+            [extraProps setObject:serializedValue forKey:name];
+        }
+        else
+        {
+            [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node];
+        }
     }
     
     // Set extra properties for code connections
