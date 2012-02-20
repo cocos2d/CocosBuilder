@@ -224,6 +224,10 @@
 		E35DBB8714F225D30070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB8514F225D30070A6E4 /* InfoPlist.strings */; };
 		E35DBB8C14F226190070A6E4 /* CCLayerColor.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBB8014F225D30070A6E4 /* CCLayerColor.ccbPlugNode */; };
 		E35DBB9014F226560070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB8F14F226560070A6E4 /* CCBPProperties.plist */; };
+		E35DBB9914F244BC0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		E35DBB9F14F244BC0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB9D14F244BC0070A6E4 /* InfoPlist.strings */; };
+		E35DBBA614F245030070A6E4 /* CCLayerGradient.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBB9814F244BB0070A6E4 /* CCLayerGradient.ccbPlugNode */; };
+		E35DBBA814F245490070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBA714F245490070A6E4 /* CCBPProperties.plist */; };
 		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
 		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
 		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
@@ -284,6 +288,13 @@
 			remoteGlobalIDString = E35DBB7F14F225D30070A6E4;
 			remoteInfo = CCLayerColor;
 		};
+		E35DBBA414F244FA0070A6E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E35DBB9714F244BB0070A6E4;
+			remoteInfo = CCLayerGradient;
+		};
 		E3B7AED214E31AEF00DFD402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
@@ -318,6 +329,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E35DBBA614F245030070A6E4 /* CCLayerGradient.ccbPlugNode in Copy PlugIns */,
 				E35DBB8C14F226190070A6E4 /* CCLayerColor.ccbPlugNode in Copy PlugIns */,
 				E35DBB7414F21EEE0070A6E4 /* CCLayer.ccbPlugNode in Copy PlugIns */,
 				E3C365FE14E9F147007CD5FF /* CCSprite.ccbPlugNode in Copy PlugIns */,
@@ -703,6 +715,11 @@
 		E35DBB8614F225D30070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E35DBB8814F225D30070A6E4 /* CCLayerColor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCLayerColor-Prefix.pch"; sourceTree = "<group>"; };
 		E35DBB8F14F226560070A6E4 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E35DBB9814F244BB0070A6E4 /* CCLayerGradient.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCLayerGradient.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
+		E35DBB9C14F244BC0070A6E4 /* CCLayerGradient-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLayerGradient-Info.plist"; sourceTree = "<group>"; };
+		E35DBB9E14F244BC0070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E35DBBA014F244BC0070A6E4 /* CCLayerGradient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCLayerGradient-Prefix.pch"; sourceTree = "<group>"; };
+		E35DBBA714F245490070A6E4 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -800,6 +817,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E35DBB8114F225D30070A6E4 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35DBB9514F244BB0070A6E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35DBB9914F244BC0070A6E4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,6 +1063,7 @@
 				E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */,
 				E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */,
 				E35DBB8014F225D30070A6E4 /* CCLayerColor.ccbPlugNode */,
+				E35DBB9814F244BB0070A6E4 /* CCLayerGradient.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1571,6 +1597,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E35DBB9A14F244BC0070A6E4 /* CCLayerGradient */ = {
+			isa = PBXGroup;
+			children = (
+				E35DBB9B14F244BC0070A6E4 /* Supporting Files */,
+			);
+			path = CCLayerGradient;
+			sourceTree = "<group>";
+		};
+		E35DBB9B14F244BC0070A6E4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E35DBB9C14F244BC0070A6E4 /* CCLayerGradient-Info.plist */,
+				E35DBB9D14F244BC0070A6E4 /* InfoPlist.strings */,
+				E35DBBA014F244BC0070A6E4 /* CCLayerGradient-Prefix.pch */,
+				E35DBBA714F245490070A6E4 /* CCBPProperties.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E3B7AEC714E3193500DFD402 /* CCNode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1597,6 +1642,7 @@
 				E3C365ED14E9E4D1007CD5FF /* CCSprite */,
 				E35DBB6A14F21E7D0070A6E4 /* CCLayer */,
 				E35DBB8214F225D30070A6E4 /* CCLayerColor */,
+				E35DBB9A14F244BC0070A6E4 /* CCLayerGradient */,
 			);
 			name = PlugIns;
 			sourceTree = "<group>";
@@ -1707,6 +1753,7 @@
 				E3C365F814E9E4DD007CD5FF /* PBXTargetDependency */,
 				E35DBB7614F21EF50070A6E4 /* PBXTargetDependency */,
 				E35DBB8E14F226230070A6E4 /* PBXTargetDependency */,
+				E35DBBA514F244FA0070A6E4 /* PBXTargetDependency */,
 			);
 			name = CocosBuilder;
 			productName = ccBuilder;
@@ -1745,6 +1792,23 @@
 			name = CCLayerColor;
 			productName = CCLayerColor;
 			productReference = E35DBB8014F225D30070A6E4 /* CCLayerColor.ccbPlugNode */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E35DBB9714F244BB0070A6E4 /* CCLayerGradient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E35DBBA114F244BC0070A6E4 /* Build configuration list for PBXNativeTarget "CCLayerGradient" */;
+			buildPhases = (
+				E35DBB9414F244BB0070A6E4 /* Sources */,
+				E35DBB9514F244BB0070A6E4 /* Frameworks */,
+				E35DBB9614F244BB0070A6E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCLayerGradient;
+			productName = CCLayerGradient;
+			productReference = E35DBB9814F244BB0070A6E4 /* CCLayerGradient.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E3B7AEC414E3193500DFD402 /* CCNode */ = {
@@ -1805,6 +1869,7 @@
 				E3C365EA14E9E4D1007CD5FF /* CCSprite */,
 				E35DBB6714F21E7D0070A6E4 /* CCLayer */,
 				E35DBB7F14F225D30070A6E4 /* CCLayerColor */,
+				E35DBB9714F244BB0070A6E4 /* CCLayerGradient */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 			);
 		};
@@ -1915,6 +1980,15 @@
 			files = (
 				E35DBB8714F225D30070A6E4 /* InfoPlist.strings in Resources */,
 				E35DBB9014F226560070A6E4 /* CCBPProperties.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35DBB9614F244BB0070A6E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35DBB9F14F244BC0070A6E4 /* InfoPlist.strings in Resources */,
+				E35DBBA814F245490070A6E4 /* CCBPProperties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2113,6 +2187,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E35DBB9414F244BB0070A6E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E3B7AEC114E3193500DFD402 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2139,6 +2220,11 @@
 			isa = PBXTargetDependency;
 			target = E35DBB7F14F225D30070A6E4 /* CCLayerColor */;
 			targetProxy = E35DBB8D14F226230070A6E4 /* PBXContainerItemProxy */;
+		};
+		E35DBBA514F244FA0070A6E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E35DBB9714F244BB0070A6E4 /* CCLayerGradient */;
+			targetProxy = E35DBBA414F244FA0070A6E4 /* PBXContainerItemProxy */;
 		};
 		E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2189,6 +2275,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				E35DBB8614F225D30070A6E4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E35DBB9D14F244BC0070A6E4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E35DBB9E14F244BC0070A6E4 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2396,6 +2490,56 @@
 			};
 			name = Release;
 		};
+		E35DBBA214F244BC0070A6E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCLayerGradient/CCLayerGradient-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCLayerGradient/CCLayerGradient-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Debug;
+		};
+		E35DBBA314F244BC0070A6E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCLayerGradient/CCLayerGradient-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCLayerGradient/CCLayerGradient-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Release;
+		};
 		E3B7AECF14E3193500DFD402 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2532,6 +2676,14 @@
 			buildConfigurations = (
 				E35DBB8A14F225D30070A6E4 /* Debug */,
 				E35DBB8B14F225D30070A6E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E35DBBA114F244BC0070A6E4 /* Build configuration list for PBXNativeTarget "CCLayerGradient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35DBBA214F244BC0070A6E4 /* Debug */,
+				E35DBBA314F244BC0070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
