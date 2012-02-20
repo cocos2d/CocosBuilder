@@ -124,7 +124,12 @@
         if ([type isEqualToString:@"Separator"]) continue;
         
         // Handle different type of properties
-        if ([type isEqualToString:@"Position"]
+        if ([plugIn dontSetInEditorProperty:name])
+        {
+            // Get the serialized value from the extra props
+            serializedValue = [extraProps objectForKey:name];
+        }
+        else if ([type isEqualToString:@"Position"]
             || [type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"])
         {

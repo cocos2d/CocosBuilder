@@ -19,6 +19,7 @@
     NSString* dropTargetSpriteFrameProperty;
     
     NSMutableArray* nodeProperties;
+    NSMutableDictionary* nodePropertiesDict;
     
     BOOL canBeRoot;
 }
@@ -30,6 +31,7 @@
 @property (nonatomic,readonly) NSString* dropTargetSpriteFrameProperty;
 @property (nonatomic,readonly) BOOL acceptsDroppedSpriteFrameChildren;
 @property (nonatomic,readonly) BOOL canBeRoot;
+- (BOOL) dontSetInEditorProperty: (NSString*) prop;
 
 - (id) initWithBundle:(NSBundle*) b;
 

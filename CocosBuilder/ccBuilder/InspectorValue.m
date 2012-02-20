@@ -9,6 +9,8 @@
 #import "InspectorValue.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
+#import "NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation InspectorValue
 
@@ -54,14 +56,35 @@
 
 - (id) propertyForSelection
 {
-    return [selection valueForKey:propertyName];
+    NodeInfo* nodeInfo = selection.userData;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    if ([plugIn dontSetInEditorProperty:propertyName])
+    {
+        return [nodeInfo.extraProps objectForKey:propertyName];
+    }
+    else
+    {
+        return [selection valueForKey:propertyName];
+    }
+    
 }
 
 - (void) setPropertyForSelection:(id)value
 {
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
-    [selection setValue:value forKey:propertyName];
+    NodeInfo* nodeInfo = selection.userData;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    if ([plugIn dontSetInEditorProperty:propertyName])
+    {
+        // Set the property in the extra props dict
+        [nodeInfo.extraProps setObject:value forKey:propertyName];
+    }
+    else
+    {
+        // Set real property
+        [selection setValue:value forKey:propertyName];
+    }
     [self updateAffectedProperties];
 }
 

@@ -94,6 +94,9 @@
     CCNode* node = [[[editorClass alloc] init] autorelease];
     [node setUserData: [NodeInfo nodeInfoWithPlugIn:plugin] retainData:YES];
     
+    NodeInfo* nodeInfo = node.userData;
+    NSMutableDictionary* extraProps = nodeInfo.extraProps;
+    
     // Set default data
     NSMutableArray* plugInProps = plugin.nodeProperties;
     for (int i = 0; i < [plugInProps count]; i++)
@@ -108,7 +111,16 @@
             NSString* name = [propInfo objectForKey:@"name"];
             NSString* type = [propInfo objectForKey:@"type"];
             
-            [CCBReaderInternal setProp:name ofType:type toValue:defaultValue forNode:node];
+            if ([[propInfo objectForKey:@"dontSetInEditor"] boolValue])
+            {
+                // Use an extra prop instead of the real object property
+                [extraProps setObject:defaultValue forKey:name];
+            }
+            else
+            {
+                // Set the property on the object
+                [CCBReaderInternal setProp:name ofType:type toValue:defaultValue forNode:node];
+            }
         }
     }
     
