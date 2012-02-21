@@ -62,4 +62,30 @@
     [node setValue:spriteFrame forKey:prop];
 }
 
++ (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
+{
+    // TODO: Add error check!
+    
+    NSString* absPath = NULL;
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
+    if (!fontFile || [fontFile isEqualToString:@""])
+    {
+        absPath = @"missing-font.fnt";
+    }
+    else
+    {
+        absPath = [NSString stringWithFormat:@"%@%@", ad.assetsPath, fontFile];
+    }
+    
+    [node setValue:absPath forKey:prop];
+}
+
++ (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop
+{
+    NSString* fntFile = [node valueForKey:prop];
+    if ([fntFile isEqualToString:@"missing-font.fnt"]) return NULL;
+    return [fntFile lastPathComponent];
+}
+
 @end

@@ -3,32 +3,40 @@
 <plist version="1.0">
 <dict>
 	<key>inheritsFrom</key>
-	<string>CCLayer</string>
+	<string>CCNode</string>
 	<key>canHaveChildren</key>
-	<true/>
+	<false/>
 	<key>className</key>
-	<string>CCLayerColor</string>
+	<string>CCLabelTTF</string>
+	<key>editorClassName</key>
+	<string>CCLabelTTF</string>
 	<key>properties</key>
 	<array>
 		<dict>
 			<key>displayName</key>
-			<string>CCLayerColor</string>
+			<string>CCLabelTTF</string>
 			<key>type</key>
 			<string>Separator</string>
 		</dict>
 		<dict>
 			<key>default</key>
-			<array>
-				<integer>255</integer>
-				<integer>0</integer>
-				<integer>0</integer>
-			</array>
+			<string>Helvetica</string>
 			<key>displayName</key>
-			<string>Color</string>
+			<string>Font name</string>
 			<key>type</key>
-			<string>Color3</string>
+			<string>FontTTF</string>
 			<key>name</key>
-			<string>color</string>
+			<string>fontName</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>12</integer>
+			<key>displayName</key>
+			<string>Font size</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>fontSize</string>
 		</dict>
 		<dict>
 			<key>default</key>
@@ -41,38 +49,29 @@
 			<string>opacity</string>
 		</dict>
 		<dict>
-			<key>displayName</key>
-			<string></string>
-			<key>type</key>
-			<string>Blendmode</string>
-			<key>name</key>
-			<string>blendFunc</string>
-		</dict>
-	</array>
-	<key>editorClassName</key>
-	<string>CCLayerColor</string>
-	<key>propertiesOverridden</key>
-	<array>
-		<dict>
 			<key>default</key>
 			<array>
-				<integer>100</integer>
-				<integer>100</integer>
+				<integer>255</integer>
+				<integer>255</integer>
+				<integer>255</integer>
 			</array>
-			<key>type</key>
-			<string>Size</string>
-			<key>name</key>
-			<string>contentSize</string>
 			<key>displayName</key>
-			<string>Content size</string>
+			<string>Color</string>
+			<key>type</key>
+			<string>Color3</string>
+			<key>name</key>
+			<string>color</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<string>Sample Text</string>
+			<key>displayName</key>
+			<string>Label text</string>
+			<key>type</key>
+			<string>Text</string>
+			<key>name</key>
+			<string>string</string>
 		</dict>
 	</array>
-	<key>spriteFrameDrop</key>
-	<dict>
-		<key>className</key>
-		<string>CCSprite</string>
-		<key>property</key>
-		<string>displayFrame</string>
-	</dict>
 </dict>
 </plist>

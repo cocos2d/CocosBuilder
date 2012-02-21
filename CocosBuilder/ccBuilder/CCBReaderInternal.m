@@ -88,7 +88,8 @@
         [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
         [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
     }
-    else if ([type isEqualToString:@"Degrees"])
+    else if ([type isEqualToString:@"Float"]
+             || [type isEqualToString:@"Degrees"])
     {
         float f = [CCBReaderInternal deserializeFloat: serializedValue];
         [node setValue:[NSNumber numberWithFloat:f] forKey:name];
@@ -133,6 +134,22 @@
         ccBlendFunc bf = [CCBReaderInternal deserializeBlendFunc:serializedValue];
         NSValue* blendValue = [NSValue value:&bf withObjCType:@encode(ccBlendFunc)];
         [node setValue:blendValue forKey:name];
+    }
+    else if ([type isEqualToString:@"FntFile"])
+    {
+        [TexturePropertySetter setFontForNode:node andProperty:name withFile:serializedValue];
+    }
+    else if ([type isEqualToString:@"Text"])
+    {
+        NSString* str = serializedValue;
+        if (!str) str = @"";
+        [node setValue:str forKey:name];
+    }
+    else if ([type isEqualToString:@"FontTTF"])
+    {
+        NSString* str = serializedValue;
+        if (!str) str = @"";
+        [node setValue:str forKey:name];
     }
     else
     {

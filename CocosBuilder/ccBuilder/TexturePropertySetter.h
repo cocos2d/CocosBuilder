@@ -13,4 +13,8 @@
 
 + (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile;
 
++ (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile;
+
++ (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop;
+
 @end

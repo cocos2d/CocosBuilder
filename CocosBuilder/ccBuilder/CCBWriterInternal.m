@@ -10,6 +10,7 @@
 
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "TexturePropertySetter.h"
 
 @implementation CCBWriterInternal
 
@@ -148,7 +149,8 @@
             float y = [[node valueForKey:[NSString stringWithFormat:@"%@Y",name]] floatValue];
             serializedValue = [CCBWriterInternal serializePoint:ccp(x,y)];
         }
-        else if ([type isEqualToString:@"Degrees"])
+        else if ([type isEqualToString:@"Float"]
+                 || [type isEqualToString:@"Degrees"])
         {
             float f = [[node valueForKey:name] floatValue];
             serializedValue = [CCBWriterInternal serializeFloat:f];
@@ -190,6 +192,24 @@
             [blendValue getValue:&bf];
             serializedValue = [CCBWriterInternal serializeBlendFunc:bf];
         }
+        else if ([type isEqualToString:@"FntFile"])
+        {
+            NSString* str = [TexturePropertySetter fontForNode:node andProperty:name];
+            if (!str) str = @"";
+            serializedValue = str;
+        }
+        else if ([type isEqualToString:@"Text"])
+        {
+            NSString* str = [node valueForKey:name];
+            if (!str) str = @"";
+            serializedValue = str;
+        }
+        else if ([type isEqualToString:@"FontTTF"])
+        {
+            NSString* str = [node valueForKey:name];
+            if (!str) str = @"";
+            serializedValue = str;
+        }
         else
         {
             NSLog(@"WARNING Unrecognized property type: %@", type);
@@ -209,10 +229,15 @@
     NSMutableArray* children = [NSMutableArray array];
     
     // Visit all children of this node
-    for (int i = 0; i < [[node children] count]; i++)
+    if (plugIn.canHaveChildren)
     {
-        [children addObject:[CCBWriterInternal dictionaryFromCCObject:[[node children] objectAtIndex:i]]];
+        for (int i = 0; i < [[node children] count]; i++)
+        {
+            [children addObject:[CCBWriterInternal dictionaryFromCCObject:[[node children] objectAtIndex:i]]];
+        }
     }
+    
+    if (!baseClass) NSLog(@"baseClass: %@ plugIn: %@ nodeInfo: %@ node: %@", baseClass, plugIn, info, node);
     
     // Create node
     [dict setObject:props forKey:@"properties"];
