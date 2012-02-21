@@ -128,7 +128,6 @@
 		A09AB65014E9934F009C8B91 /* CCDirector.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5B914E9934F009C8B91 /* CCDirector.m */; };
 		A09AB65114E9934F009C8B91 /* CCDrawingPrimitives.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5BB14E9934F009C8B91 /* CCDrawingPrimitives.m */; };
 		A09AB65214E9934F009C8B91 /* CCGLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5BD14E9934F009C8B91 /* CCGLProgram.m */; };
-		A09AB65314E9934F009C8B91 /* ccGLState.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5BF14E9934F009C8B91 /* ccGLState.m */; };
 		A09AB65414E9934F009C8B91 /* CCGrabber.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5C114E9934F009C8B91 /* CCGrabber.m */; };
 		A09AB65514E9934F009C8B91 /* CCGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5C314E9934F009C8B91 /* CCGrid.m */; };
 		A09AB65614E9934F009C8B91 /* CCLabelAtlas.m in Sources */ = {isa = PBXBuildFile; fileRef = A09AB5C514E9934F009C8B91 /* CCLabelAtlas.m */; };
@@ -249,6 +248,8 @@
 		E35DBBF914F3E29E0070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBF814F3E29E0070A6E4 /* CCBPProperties.plist */; };
 		E35DBBFB14F3EE210070A6E4 /* InspectorFloat.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBFA14F3EE210070A6E4 /* InspectorFloat.xib */; };
 		E35DBBFE14F3EE410070A6E4 /* InspectorFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */; };
+		E35DBC0314F41E2B0070A6E4 /* ccDeprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC0014F41E2A0070A6E4 /* ccDeprecated.m */; };
+		E35DBC0414F41E2B0070A6E4 /* ccGLStateCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC0214F41E2B0070A6E4 /* ccGLStateCache.m */; };
 		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
 		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
 		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
@@ -579,8 +580,6 @@
 		A09AB5BB14E9934F009C8B91 /* CCDrawingPrimitives.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCDrawingPrimitives.m; sourceTree = "<group>"; };
 		A09AB5BC14E9934F009C8B91 /* CCGLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGLProgram.h; sourceTree = "<group>"; };
 		A09AB5BD14E9934F009C8B91 /* CCGLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCGLProgram.m; sourceTree = "<group>"; };
-		A09AB5BE14E9934F009C8B91 /* ccGLState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccGLState.h; sourceTree = "<group>"; };
-		A09AB5BF14E9934F009C8B91 /* ccGLState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccGLState.m; sourceTree = "<group>"; };
 		A09AB5C014E9934F009C8B91 /* CCGrabber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGrabber.h; sourceTree = "<group>"; };
 		A09AB5C114E9934F009C8B91 /* CCGrabber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCGrabber.m; sourceTree = "<group>"; };
 		A09AB5C214E9934F009C8B91 /* CCGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGrid.h; sourceTree = "<group>"; };
@@ -793,6 +792,10 @@
 		E35DBBFA14F3EE210070A6E4 /* InspectorFloat.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorFloat.xib; sourceTree = "<group>"; };
 		E35DBBFC14F3EE400070A6E4 /* InspectorFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloat.h; sourceTree = "<group>"; };
 		E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloat.m; sourceTree = "<group>"; };
+		E35DBBFF14F41E2A0070A6E4 /* ccDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccDeprecated.h; sourceTree = "<group>"; };
+		E35DBC0014F41E2A0070A6E4 /* ccDeprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccDeprecated.m; sourceTree = "<group>"; };
+		E35DBC0114F41E2A0070A6E4 /* ccGLStateCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccGLStateCache.h; sourceTree = "<group>"; };
+		E35DBC0214F41E2B0070A6E4 /* ccGLStateCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccGLStateCache.m; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -1380,6 +1383,10 @@
 		A09AB59414E9934F009C8B91 /* cocos2d */ = {
 			isa = PBXGroup;
 			children = (
+				E35DBBFF14F41E2A0070A6E4 /* ccDeprecated.h */,
+				E35DBC0014F41E2A0070A6E4 /* ccDeprecated.m */,
+				E35DBC0114F41E2A0070A6E4 /* ccGLStateCache.h */,
+				E35DBC0214F41E2B0070A6E4 /* ccGLStateCache.m */,
 				A09AB59514E9934F009C8B91 /* CCAction.h */,
 				A09AB59614E9934F009C8B91 /* CCAction.m */,
 				A09AB59714E9934F009C8B91 /* CCActionCamera.h */,
@@ -1421,8 +1428,6 @@
 				A09AB5BB14E9934F009C8B91 /* CCDrawingPrimitives.m */,
 				A09AB5BC14E9934F009C8B91 /* CCGLProgram.h */,
 				A09AB5BD14E9934F009C8B91 /* CCGLProgram.m */,
-				A09AB5BE14E9934F009C8B91 /* ccGLState.h */,
-				A09AB5BF14E9934F009C8B91 /* ccGLState.m */,
 				A09AB5C014E9934F009C8B91 /* CCGrabber.h */,
 				A09AB5C114E9934F009C8B91 /* CCGrabber.m */,
 				A09AB5C214E9934F009C8B91 /* CCGrid.h */,
@@ -2367,7 +2372,6 @@
 				A09AB65014E9934F009C8B91 /* CCDirector.m in Sources */,
 				A09AB65114E9934F009C8B91 /* CCDrawingPrimitives.m in Sources */,
 				A09AB65214E9934F009C8B91 /* CCGLProgram.m in Sources */,
-				A09AB65314E9934F009C8B91 /* ccGLState.m in Sources */,
 				A09AB65414E9934F009C8B91 /* CCGrabber.m in Sources */,
 				A09AB65514E9934F009C8B91 /* CCGrid.m in Sources */,
 				A09AB65614E9934F009C8B91 /* CCLabelAtlas.m in Sources */,
@@ -2444,6 +2448,8 @@
 				E35DBBC714F2A2A50070A6E4 /* InspectorText.m in Sources */,
 				E35DBBE414F3DD0B0070A6E4 /* InspectorFontTTF.m in Sources */,
 				E35DBBFE14F3EE410070A6E4 /* InspectorFloat.m in Sources */,
+				E35DBC0314F41E2B0070A6E4 /* ccDeprecated.m in Sources */,
+				E35DBC0414F41E2B0070A6E4 /* ccGLStateCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
