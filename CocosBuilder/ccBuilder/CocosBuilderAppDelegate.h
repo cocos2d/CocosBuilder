@@ -70,6 +70,7 @@ enum {
     NSMutableArray* assetsFontList;
     NSMutableArray* assetsSpriteSheetList;
     NSMutableArray* assetsTemplates;
+    NSMutableArray* assetsFontListTTF;
     
     // Assets Panel
     AssetsWindowController* assetsWindowController;
@@ -94,6 +95,7 @@ enum {
 @property (nonatomic,retain) NSMutableArray* assetsFontList;
 @property (nonatomic,retain) NSMutableArray* assetsSpriteSheetList;
 @property (nonatomic,retain) NSMutableArray* assetsTemplates;
+@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;

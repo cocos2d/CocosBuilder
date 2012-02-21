@@ -10,12 +10,10 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot;
+@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
-    NSLog(@"loadPropertiesForBundle");
-    
     NSURL* propsURL = [b URLForResource:@"CCBPProperties" withExtension:@"plist"];
     NSMutableDictionary* props = [NSMutableDictionary dictionaryWithContentsOfURL:propsURL];
     
@@ -33,11 +31,7 @@
         [self loadPropertiesForBundle:superBundle intoArray:arr];
     }
     
-    NSLog(@"props loaded from super class");
-    
     [arr addObjectsFromArray:[props objectForKey:@"properties"]];
-    
-    NSLog(@"properties added");
     
     // Handle overridden properties
     NSArray* overrides = [props objectForKey:@"propertiesOverridden"];
@@ -61,8 +55,7 @@
         }
     }
     
-    NSLog(@"override complete");
-    
+    /*
     // Print loaded properties
     for (int i = 0; i < [arr count]; i++)
     {
@@ -71,8 +64,7 @@
         
         NSLog(@" - %@", propName);
     }
-    
-    NSLog(@"printed properties");
+    */
 }
 
 
@@ -125,6 +117,7 @@
     
     // Check if node type can be root node
     canBeRoot = [[props objectForKey:@"canBeRootNode"] boolValue];
+    canHaveChildren = [[props objectForKey:@"canHaveChildren"] boolValue];
     
     return self;
 }

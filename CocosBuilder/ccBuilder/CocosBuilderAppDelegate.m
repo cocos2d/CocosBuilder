@@ -27,7 +27,7 @@
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager;
+@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates,assetsFontListTTF, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager;
 
 #pragma mark Setup functions
 
@@ -69,6 +69,12 @@
     [outlineHierarchy reloadData];
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
+}
+
+- (void) loadFontListTTF
+{
+    NSMutableDictionary* fontInfo = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FontListTTF" ofType:@"plist"]];
+    self.assetsFontListTTF = [fontInfo objectForKey:@"supportedFonts"];
 }
 
 - (void) updateAssetsView
@@ -144,6 +150,8 @@
     //self.assetsFontList = [CCBFontUtil createFontList];
     
     [assetsWindowController reloadData];
+    
+    [self loadFontListTTF];
 }
 
 - (void) setupTabBar
@@ -662,7 +670,7 @@
     }
     else
     {
-        NSLog(@"WARNING info:%@ plugIn:%@", info, plugIn);
+        NSLog(@"WARNING info:%@ plugIn:%@ selectedNode: %@", info, plugIn, selectedNode);
     }
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
@@ -1039,6 +1047,14 @@
 {
     if (!obj || !parent) return NO;
     
+    NodeInfo* nodeInfo = parent.userData;
+    if (!nodeInfo.plugIn.canHaveChildren)
+    {
+        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add children to a %@",nodeInfo.plugIn.nodeClassName]];
+        return NO;
+    }
+    
+    /*
     if ([parent isKindOfClass:[CCMenuItemImage class]])
     {
         [self modalDialogTitle:@"Failed to add item" message:@"You cannot add children to a CCMenuItemImage"];
@@ -1058,7 +1074,7 @@
     {
         [self modalDialogTitle:@"Failed to add item" message:@"You cannot add children to a CCLabelBMFont"];
         return NO;
-    }
+    }*/
     
     [self saveUndoState];
     [parent addChild:obj];
