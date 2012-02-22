@@ -13,7 +13,7 @@
 
 @implementation TexturePropertySetter
 
-+ (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
++ (void) setSpriteFrameForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     CCSpriteFrame* spriteFrame = NULL;
@@ -60,6 +60,31 @@
 
     // Actually set the sprite frame
     [node setValue:spriteFrame forKey:prop];
+}
+
++ (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) spriteFile
+{
+    CCTexture2D* texture = NULL;
+    
+    if (spriteFile && ![spriteFile isEqualToString:@""])
+    {
+        @try
+        {
+            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            NSString* fileName = [NSString stringWithFormat:@"%@%@", ad.assetsPath, spriteFile];
+            texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
+        }
+        @catch (NSException *exception)
+        {
+            texture = NULL;
+        }
+    }
+    
+    if (!texture) texture = [[CCTextureCache sharedTextureCache] addImage:@"missing-texture.png"];
+    
+    NSLog(@"setTexture file:%@ prop:%@ texture:%@", spriteFile,prop, texture);
+    
+    [node setValue:texture forKey:prop];
 }
 
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile

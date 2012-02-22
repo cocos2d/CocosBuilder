@@ -35,9 +35,9 @@
     }
 }
 
-- (id) initWithSelection:(CCNode *)s andPropertyName:(NSString *)pn andDisplayName:(NSString *)dn
+- (id) initWithSelection:(CCNode *)s andPropertyName:(NSString *)pn andDisplayName:(NSString *)dn andExtra:(NSString *)e
 {
-    self = [super initWithSelection:s andPropertyName:pn andDisplayName:dn];
+    self = [super initWithSelection:s andPropertyName:pn andDisplayName:dn andExtra:e];
     if (!self) return NULL;
     
     NSString* sf = self.spriteFile;
@@ -60,7 +60,7 @@
 
     [cs setExtraProp:spriteFile forKey:propertyName andNode:selection];
     
-    [TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:spriteFile andSheetFile:self.spriteSheetFile];
+    [TexturePropertySetter setSpriteFrameForNode:selection andProperty:propertyName withFile:spriteFile andSheetFile:self.spriteSheetFile];
     
     [self updateAffectedProperties];
 }

@@ -16,6 +16,7 @@
     CCNode* selection;
     NSString* propertyName;
     NSString* displayName;
+    NSString* extra;
     
     CocosBuilderAppDelegate* resourceManager;
     
@@ -26,13 +27,13 @@
 
 @property (nonatomic,readonly) NSString* displayName;
 @property (nonatomic,readonly) NSView* view;
-//@property (nonatomic,assign) CocosBuilderAppDelegate* resourceManager;
+@property (nonatomic,readonly) NSString* extra;
 @property (nonatomic,assign) BOOL readOnly;
 @property (nonatomic,retain) NSArray* affectsProperties;
 
-+ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
++ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 
-- (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn;
+- (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 
 - (void) refresh;
 - (void) updateAffectedProperties;
@@ -45,5 +46,8 @@
 
 - (id) propertyForSelectionY;
 - (void) setPropertyForSelectionY:(id)value;
+
+- (id) propertyForSelectionVar;
+- (void) setPropertyForSelectionVar:(id)value;
 
 @end

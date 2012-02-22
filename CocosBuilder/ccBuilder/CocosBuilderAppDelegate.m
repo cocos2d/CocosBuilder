@@ -594,12 +594,12 @@
     }
 }
 
-- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps atOffset:(int)offset
+- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps atOffset:(int)offset
 {
     NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
     
     // Create inspector
-    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName];
+    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName andExtra:e];
     inspectorValue.readOnly = readOnly;
     
     // Save a reference in case it needs to be updated
@@ -647,7 +647,7 @@
     if (!selectedNode) return;
     
     // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" readOnly:YES affectsProps:NULL atOffset:paneOffset];
+    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
     
     // Add panes for each property
     NodeInfo* info = selectedNode.userData;
@@ -664,8 +664,9 @@
             NSString* displayName = [propInfo objectForKey:@"displayName"];
             BOOL readOnly = [[propInfo objectForKey:@"readOnly"] boolValue];
             NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
+            NSString* extra = [propInfo objectForKey:@"extra"];
             
-            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
+            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
     }
     else

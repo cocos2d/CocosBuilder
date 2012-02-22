@@ -14,16 +14,16 @@
 
 @implementation InspectorValue
 
-@synthesize displayName, view, readOnly, affectsProperties;
+@synthesize displayName, view, extra, readOnly, affectsProperties;
 
-+ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
++ (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e
 {
     NSString* inspectorClassName = [NSString stringWithFormat:@"Inspector%@",t];
     
-    return [[[NSClassFromString(inspectorClassName) alloc] initWithSelection:s andPropertyName:pn andDisplayName:dn] autorelease];
+    return [[[NSClassFromString(inspectorClassName) alloc] initWithSelection:s andPropertyName:pn andDisplayName:dn andExtra:e] autorelease];
 }
 
-- (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn
+- (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 {
     self = [super init];
     if (!self) return NULL;
@@ -31,6 +31,7 @@
     propertyName = [pn retain];
     displayName = [dn retain];
     selection = [s retain];
+    extra = [e retain];
     
     resourceManager = [[CCBGlobals globals] appDelegate];
     
@@ -111,6 +112,19 @@
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Y"]];
+    [self updateAffectedProperties];
+}
+
+- (id) propertyForSelectionVar
+{
+    return [selection valueForKey:[propertyName stringByAppendingString:@"Var"]];
+}
+
+- (void) setPropertyForSelectionVar:(id)value
+{
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    [selection setValue:value forKey:[propertyName stringByAppendingString:@"Var"]];
     [self updateAffectedProperties];
 }
 

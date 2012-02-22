@@ -122,7 +122,11 @@
         id serializedValue; 
         
         // Ignore separators and graphical stuff
-        if ([type isEqualToString:@"Separator"]) continue;
+        if ([type isEqualToString:@"Separator"]
+            || [type isEqualToString:@"StartStop"])
+        {
+            continue;
+        }
         
         // Handle different type of properties
         if ([plugIn dontSetInEditorProperty:name])
@@ -155,7 +159,14 @@
             float f = [[node valueForKey:name] floatValue];
             serializedValue = [CCBWriterInternal serializeFloat:f];
         }
+        else if ([type isEqualToString:@"FloatVar"])
+        {
+            float x = [[node valueForKey:name] floatValue];
+            float y = [[node valueForKey:[NSString stringWithFormat:@"%@Var",name]] floatValue];
+            serializedValue = [CCBWriterInternal serializePoint:ccp(x,y)];
+        }
         else if ([type isEqualToString:@"Integer"]
+                 || [type isEqualToString:@"IntegerLabeled"]
                  || [type isEqualToString:@"Byte"])
         {
             int d = [[node valueForKey:name] intValue];
@@ -177,6 +188,13 @@
             NSString* spriteFile = [extraProps objectForKey:name];
             NSString* spriteSheetFile = [extraProps objectForKey:[NSString stringWithFormat:@"%@Sheet",name]];
             serializedValue = [CCBWriterInternal serializeSpriteFrame:spriteFile sheet:spriteSheetFile];
+        }
+        else if ([type isEqualToString:@"Texture"])
+        {
+            NSString* spriteFile = [extraProps objectForKey:name];
+            if (!spriteFile) spriteFile = @"";
+            
+            serializedValue = spriteFile;
         }
         else if ([type isEqualToString:@"Color3"])
         {
