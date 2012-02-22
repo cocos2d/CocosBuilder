@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCNode</string>
+	<key>canHaveChildren</key>
+	<false/>
+	<key>className</key>
+	<string>CCParticleSystemQuad</string>
+	<key>editorClassName</key>
+	<string>CCParticleSystemQuad</string>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>displayName</key>
+			<string>CCParticleSystem</string>
+			<key>type</key>
+			<string>Separator</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Start Particles|Stop Particles</string>
+			<key>type</key>
+			<string>StartStop</string>
+			<key>extra</key>
+			<string>resetSystem|stopSystem</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Mode</string>
+			<key>name</key>
+			<string>emitterMode</string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>extra</key>
+			<string>Gravity mode|0|Radius mode|1</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<string></string>
+			<key>displayName</key>
+			<string>Texture</string>
+			<key>name</key>
+			<string>texture</string>
+			<key>type</key>
+			<string>Texture</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>40</integer>
+				<integer>20</integer>
+			</array>
+			<key>displayName</key>
+			<string>Position var</string>
+			<key>type</key>
+			<string>Point</string>
+			<key>name</key>
+			<string>posVar</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>80</integer>
+			<key>displayName</key>
+			<string>Emit rate</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>emissionRate</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>-1</integer>
+			<key>displayName</key>
+			<string>Duration</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>duration</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>250</integer>
+			<key>displayName</key>
+			<string>Total particles</string>
+			<key>type</key>
+			<string>Integer</string>
+			<key>name</key>
+			<string>totalParticles</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>3</integer>
+				<real>0.25</real>
+			</array>
+			<key>displayName</key>
+			<string>Life</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>life</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>54</integer>
+				<integer>10</integer>
+			</array>
+			<key>displayName</key>
+			<string>Start size</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>startSize</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>End size</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>endSize</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Start spin</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>startSpin</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>End spin</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>endSpin</string>
+		</dict>
+	</array>
+</dict>
+</plist>

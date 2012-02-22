@@ -213,6 +213,8 @@
 		A09AB6F414E9938B009C8B91 /* PositionTextureColor.vsh in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6D814E9938B009C8B91 /* PositionTextureColor.vsh */; };
 		A09AB6F514E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6D914E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh */; };
 		A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6F614E993AA009C8B91 /* fps_images.png */; };
+		E325F64514F531F500D29BCF /* InspectorFloatVar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E325F64414F531F500D29BCF /* InspectorFloatVar.xib */; };
+		E325F64814F5336E00D29BCF /* InspectorFloatVar.m in Sources */ = {isa = PBXBuildFile; fileRef = E325F64714F5336E00D29BCF /* InspectorFloatVar.m */; };
 		E32D8CC514EC257000F4BD5E /* InspectorCodeConnections.xib in Resources */ = {isa = PBXBuildFile; fileRef = E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */; };
 		E32D8CC814EC25D800F4BD5E /* InspectorCodeConnections.m in Sources */ = {isa = PBXBuildFile; fileRef = E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */; };
 		E35DBB6914F21E7D0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
@@ -250,6 +252,16 @@
 		E35DBBFE14F3EE410070A6E4 /* InspectorFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */; };
 		E35DBC0314F41E2B0070A6E4 /* ccDeprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC0014F41E2A0070A6E4 /* ccDeprecated.m */; };
 		E35DBC0414F41E2B0070A6E4 /* ccGLStateCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC0214F41E2B0070A6E4 /* ccGLStateCache.m */; };
+		E35DBC0A14F4D72B0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		E35DBC1014F4D72B0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC0E14F4D72B0070A6E4 /* InfoPlist.strings */; };
+		E35DBC1714F4D79C0070A6E4 /* CCParticleSystem.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBC0914F4D72B0070A6E4 /* CCParticleSystem.ccbPlugNode */; };
+		E35DBC1914F4D7D50070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC1814F4D7D50070A6E4 /* CCBPProperties.plist */; };
+		E35DBC1B14F4DED00070A6E4 /* InspectorStartStop.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC1A14F4DED00070A6E4 /* InspectorStartStop.xib */; };
+		E35DBC1E14F4DF050070A6E4 /* InspectorStartStop.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC1D14F4DF040070A6E4 /* InspectorStartStop.m */; };
+		E35DBC2014F4ED0E0070A6E4 /* InspectorIntegerLabeled.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC1F14F4ED0D0070A6E4 /* InspectorIntegerLabeled.xib */; };
+		E35DBC2314F4ED980070A6E4 /* InspectorIntegerLabeled.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC2214F4ED970070A6E4 /* InspectorIntegerLabeled.m */; };
+		E35DBC2514F4FEF90070A6E4 /* InspectorTexture.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */; };
+		E35DBC2814F4FF410070A6E4 /* InspectorTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */; };
 		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
 		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
 		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
@@ -338,6 +350,13 @@
 			remoteGlobalIDString = E35DBBE814F3E2390070A6E4;
 			remoteInfo = CCLabelTTF;
 		};
+		E35DBC1514F4D7920070A6E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E35DBC0814F4D72B0070A6E4;
+			remoteInfo = CCParticleSystem;
+		};
 		E3B7AED214E31AEF00DFD402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
@@ -372,6 +391,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E35DBC1714F4D79C0070A6E4 /* CCParticleSystem.ccbPlugNode in Copy PlugIns */,
 				E35DBBF714F3E2750070A6E4 /* CCLabelTTF.ccbPlugNode in Copy PlugIns */,
 				E35DBBDA14F2AA7C0070A6E4 /* CCLabelBMFont.ccbPlugNode in Copy PlugIns */,
 				E35DBBBB14F27A940070A6E4 /* CCMenu.ccbPlugNode in Copy PlugIns */,
@@ -746,6 +766,9 @@
 		A09AB6D814E9938B009C8B91 /* PositionTextureColor.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = PositionTextureColor.vsh; path = "libs/cocos2d-iphone/Resources/Shaders/PositionTextureColor.vsh"; sourceTree = SOURCE_ROOT; };
 		A09AB6D914E9938B009C8B91 /* PositionTextureColorAlphaTest.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = PositionTextureColorAlphaTest.fsh; path = "libs/cocos2d-iphone/Resources/Shaders/PositionTextureColorAlphaTest.fsh"; sourceTree = SOURCE_ROOT; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
+		E325F64414F531F500D29BCF /* InspectorFloatVar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorFloatVar.xib; sourceTree = "<group>"; };
+		E325F64614F5336E00D29BCF /* InspectorFloatVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloatVar.h; sourceTree = "<group>"; };
+		E325F64714F5336E00D29BCF /* InspectorFloatVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloatVar.m; sourceTree = "<group>"; };
 		E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCodeConnections.xib; sourceTree = "<group>"; };
 		E32D8CC614EC25D800F4BD5E /* InspectorCodeConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorCodeConnections.h; sourceTree = "<group>"; };
 		E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCodeConnections.m; sourceTree = "<group>"; };
@@ -796,6 +819,20 @@
 		E35DBC0014F41E2A0070A6E4 /* ccDeprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccDeprecated.m; sourceTree = "<group>"; };
 		E35DBC0114F41E2A0070A6E4 /* ccGLStateCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccGLStateCache.h; sourceTree = "<group>"; };
 		E35DBC0214F41E2B0070A6E4 /* ccGLStateCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccGLStateCache.m; sourceTree = "<group>"; };
+		E35DBC0914F4D72B0070A6E4 /* CCParticleSystem.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCParticleSystem.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
+		E35DBC0D14F4D72B0070A6E4 /* CCParticleSystem-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCParticleSystem-Info.plist"; sourceTree = "<group>"; };
+		E35DBC0F14F4D72B0070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E35DBC1114F4D72B0070A6E4 /* CCParticleSystem-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCParticleSystem-Prefix.pch"; sourceTree = "<group>"; };
+		E35DBC1814F4D7D50070A6E4 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E35DBC1A14F4DED00070A6E4 /* InspectorStartStop.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorStartStop.xib; sourceTree = "<group>"; };
+		E35DBC1C14F4DF030070A6E4 /* InspectorStartStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorStartStop.h; sourceTree = "<group>"; };
+		E35DBC1D14F4DF040070A6E4 /* InspectorStartStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorStartStop.m; sourceTree = "<group>"; };
+		E35DBC1F14F4ED0D0070A6E4 /* InspectorIntegerLabeled.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorIntegerLabeled.xib; sourceTree = "<group>"; };
+		E35DBC2114F4ED960070A6E4 /* InspectorIntegerLabeled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorIntegerLabeled.h; sourceTree = "<group>"; };
+		E35DBC2214F4ED970070A6E4 /* InspectorIntegerLabeled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorIntegerLabeled.m; sourceTree = "<group>"; };
+		E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorTexture.xib; sourceTree = "<group>"; };
+		E35DBC2614F4FF3E0070A6E4 /* InspectorTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorTexture.h; sourceTree = "<group>"; };
+		E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorTexture.m; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -925,6 +962,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E35DBBEA14F3E2390070A6E4 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35DBC0614F4D72B0070A6E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35DBC0A14F4D72B0070A6E4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,6 +1212,7 @@
 				E35DBBAD14F2781D0070A6E4 /* CCMenu.ccbPlugNode */,
 				E35DBBCC14F2AA350070A6E4 /* CCLabelBMFont.ccbPlugNode */,
 				E35DBBE914F3E2390070A6E4 /* CCLabelTTF.ccbPlugNode */,
+				E35DBC0914F4D72B0070A6E4 /* CCParticleSystem.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1787,6 +1833,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E35DBC0B14F4D72B0070A6E4 /* CCParticleSystem */ = {
+			isa = PBXGroup;
+			children = (
+				E35DBC0C14F4D72B0070A6E4 /* Supporting Files */,
+			);
+			path = CCParticleSystem;
+			sourceTree = "<group>";
+		};
+		E35DBC0C14F4D72B0070A6E4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E35DBC0D14F4D72B0070A6E4 /* CCParticleSystem-Info.plist */,
+				E35DBC0E14F4D72B0070A6E4 /* InfoPlist.strings */,
+				E35DBC1114F4D72B0070A6E4 /* CCParticleSystem-Prefix.pch */,
+				E35DBC1814F4D7D50070A6E4 /* CCBPProperties.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E3B7AEC714E3193500DFD402 /* CCNode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1817,6 +1882,7 @@
 				E35DBBAF14F2781D0070A6E4 /* CCMenu */,
 				E35DBBCE14F2AA360070A6E4 /* CCLabelBMFont */,
 				E35DBBEB14F3E2390070A6E4 /* CCLabelTTF */,
+				E35DBC0B14F4D72B0070A6E4 /* CCParticleSystem */,
 			);
 			name = PlugIns;
 			sourceTree = "<group>";
@@ -1869,12 +1935,18 @@
 				E35DBBFA14F3EE210070A6E4 /* InspectorFloat.xib */,
 				E35DBBFC14F3EE400070A6E4 /* InspectorFloat.h */,
 				E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */,
+				E325F64414F531F500D29BCF /* InspectorFloatVar.xib */,
+				E325F64614F5336E00D29BCF /* InspectorFloatVar.h */,
+				E325F64714F5336E00D29BCF /* InspectorFloatVar.m */,
 				E3B4221214E4A350004547D6 /* InspectorCheck.xib */,
 				E3B4221414E4A380004547D6 /* InspectorCheck.h */,
 				E3B4221514E4A381004547D6 /* InspectorCheck.m */,
 				E3B4221714E4BE6B004547D6 /* InspectorSpriteFrame.xib */,
 				E3B4221914E4BE87004547D6 /* InspectorSpriteFrame.h */,
 				E3B4221A14E4BE87004547D6 /* InspectorSpriteFrame.m */,
+				E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */,
+				E35DBC2614F4FF3E0070A6E4 /* InspectorTexture.h */,
+				E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */,
 				E3B4221C14E58C35004547D6 /* InspectorByte.xib */,
 				E3B4221E14E58C75004547D6 /* InspectorByte.h */,
 				E3B4221F14E58C75004547D6 /* InspectorByte.m */,
@@ -1896,6 +1968,12 @@
 				E35DBBE014F3DCDE0070A6E4 /* InspectorFontTTF.xib */,
 				E35DBBE214F3DD0A0070A6E4 /* InspectorFontTTF.h */,
 				E35DBBE314F3DD0A0070A6E4 /* InspectorFontTTF.m */,
+				E35DBC1A14F4DED00070A6E4 /* InspectorStartStop.xib */,
+				E35DBC1C14F4DF030070A6E4 /* InspectorStartStop.h */,
+				E35DBC1D14F4DF040070A6E4 /* InspectorStartStop.m */,
+				E35DBC1F14F4ED0D0070A6E4 /* InspectorIntegerLabeled.xib */,
+				E35DBC2114F4ED960070A6E4 /* InspectorIntegerLabeled.h */,
+				E35DBC2214F4ED970070A6E4 /* InspectorIntegerLabeled.m */,
 			);
 			name = "Inspector Properties";
 			sourceTree = "<group>";
@@ -1943,6 +2021,7 @@
 				E35DBBBA14F27A890070A6E4 /* PBXTargetDependency */,
 				E35DBBD914F2AA720070A6E4 /* PBXTargetDependency */,
 				E35DBBF614F3E26B0070A6E4 /* PBXTargetDependency */,
+				E35DBC1614F4D7920070A6E4 /* PBXTargetDependency */,
 			);
 			name = CocosBuilder;
 			productName = ccBuilder;
@@ -2051,6 +2130,23 @@
 			productReference = E35DBBE914F3E2390070A6E4 /* CCLabelTTF.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E35DBC0814F4D72B0070A6E4 /* CCParticleSystem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E35DBC1214F4D72C0070A6E4 /* Build configuration list for PBXNativeTarget "CCParticleSystem" */;
+			buildPhases = (
+				E35DBC0514F4D72B0070A6E4 /* Sources */,
+				E35DBC0614F4D72B0070A6E4 /* Frameworks */,
+				E35DBC0714F4D72B0070A6E4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCParticleSystem;
+			productName = CCParticleSystem;
+			productReference = E35DBC0914F4D72B0070A6E4 /* CCParticleSystem.ccbPlugNode */;
+			productType = "com.apple.product-type.bundle";
+		};
 		E3B7AEC414E3193500DFD402 /* CCNode */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3B7AECE14E3193500DFD402 /* Build configuration list for PBXNativeTarget "CCNode" */;
@@ -2113,6 +2209,7 @@
 				E35DBBAC14F2781D0070A6E4 /* CCMenu */,
 				E35DBBCB14F2AA350070A6E4 /* CCLabelBMFont */,
 				E35DBBE814F3E2390070A6E4 /* CCLabelTTF */,
+				E35DBC0814F4D72B0070A6E4 /* CCParticleSystem */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 			);
 		};
@@ -2210,6 +2307,10 @@
 				E35DBBDF14F3D1B60070A6E4 /* FontListTTF.plist in Resources */,
 				E35DBBE114F3DCDF0070A6E4 /* InspectorFontTTF.xib in Resources */,
 				E35DBBFB14F3EE210070A6E4 /* InspectorFloat.xib in Resources */,
+				E35DBC1B14F4DED00070A6E4 /* InspectorStartStop.xib in Resources */,
+				E35DBC2014F4ED0E0070A6E4 /* InspectorIntegerLabeled.xib in Resources */,
+				E35DBC2514F4FEF90070A6E4 /* InspectorTexture.xib in Resources */,
+				E325F64514F531F500D29BCF /* InspectorFloatVar.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2264,6 +2365,15 @@
 			files = (
 				E35DBBF014F3E2390070A6E4 /* InfoPlist.strings in Resources */,
 				E35DBBF914F3E29E0070A6E4 /* CCBPProperties.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35DBC0714F4D72B0070A6E4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35DBC1014F4D72B0070A6E4 /* InfoPlist.strings in Resources */,
+				E35DBC1914F4D7D50070A6E4 /* CCBPProperties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2450,6 +2560,10 @@
 				E35DBBFE14F3EE410070A6E4 /* InspectorFloat.m in Sources */,
 				E35DBC0314F41E2B0070A6E4 /* ccDeprecated.m in Sources */,
 				E35DBC0414F41E2B0070A6E4 /* ccGLStateCache.m in Sources */,
+				E35DBC1E14F4DF050070A6E4 /* InspectorStartStop.m in Sources */,
+				E35DBC2314F4ED980070A6E4 /* InspectorIntegerLabeled.m in Sources */,
+				E35DBC2814F4FF410070A6E4 /* InspectorTexture.m in Sources */,
+				E325F64814F5336E00D29BCF /* InspectorFloatVar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2489,6 +2603,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E35DBBE514F3E2390070A6E4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35DBC0514F4D72B0070A6E4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2541,6 +2662,11 @@
 			isa = PBXTargetDependency;
 			target = E35DBBE814F3E2390070A6E4 /* CCLabelTTF */;
 			targetProxy = E35DBBF514F3E26B0070A6E4 /* PBXContainerItemProxy */;
+		};
+		E35DBC1614F4D7920070A6E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E35DBC0814F4D72B0070A6E4 /* CCParticleSystem */;
+			targetProxy = E35DBC1514F4D7920070A6E4 /* PBXContainerItemProxy */;
 		};
 		E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2623,6 +2749,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				E35DBBEF14F3E2390070A6E4 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E35DBC0E14F4D72B0070A6E4 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E35DBC0F14F4D72B0070A6E4 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3030,6 +3164,56 @@
 			};
 			name = Release;
 		};
+		E35DBC1314F4D72C0070A6E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCParticleSystem/CCParticleSystem-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCParticleSystem/CCParticleSystem-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Debug;
+		};
+		E35DBC1414F4D72C0070A6E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCParticleSystem/CCParticleSystem-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCParticleSystem/CCParticleSystem-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Release;
+		};
 		E3B7AECF14E3193500DFD402 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3160,6 +3344,7 @@
 				E35DBB7214F21E7D0070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBB8914F225D30070A6E4 /* Build configuration list for PBXNativeTarget "CCLayerColor" */ = {
 			isa = XCConfigurationList;
@@ -3168,6 +3353,7 @@
 				E35DBB8B14F225D30070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBBA114F244BC0070A6E4 /* Build configuration list for PBXNativeTarget "CCLayerGradient" */ = {
 			isa = XCConfigurationList;
@@ -3176,6 +3362,7 @@
 				E35DBBA314F244BC0070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBBB614F2781E0070A6E4 /* Build configuration list for PBXNativeTarget "CCMenu" */ = {
 			isa = XCConfigurationList;
@@ -3184,6 +3371,7 @@
 				E35DBBB814F2781E0070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBBD514F2AA360070A6E4 /* Build configuration list for PBXNativeTarget "CCLabelBMFont" */ = {
 			isa = XCConfigurationList;
@@ -3192,6 +3380,7 @@
 				E35DBBD714F2AA360070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBBF214F3E2390070A6E4 /* Build configuration list for PBXNativeTarget "CCLabelTTF" */ = {
 			isa = XCConfigurationList;
@@ -3200,6 +3389,16 @@
 				E35DBBF414F3E2390070A6E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E35DBC1214F4D72C0070A6E4 /* Build configuration list for PBXNativeTarget "CCParticleSystem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35DBC1314F4D72C0070A6E4 /* Debug */,
+				E35DBC1414F4D72C0070A6E4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E3B7AECE14E3193500DFD402 /* Build configuration list for PBXNativeTarget "CCNode" */ = {
 			isa = XCConfigurationList;

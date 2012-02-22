@@ -191,7 +191,7 @@
         [CCBReaderInternalV1 setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
     }
     
-    [TexturePropertySetter setTextureForNode:node andProperty:@"displayFrame" withFile:[props objectForKey:@"spriteFile"] andSheetFile:[props objectForKey:@"spriteFramesFile"]];
+    [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"displayFrame" withFile:[props objectForKey:@"spriteFile"] andSheetFile:[props objectForKey:@"spriteFramesFile"]];
 }
 
 + (void) setPropsForMenu: (CCMenu*) node props:(NSDictionary*)props

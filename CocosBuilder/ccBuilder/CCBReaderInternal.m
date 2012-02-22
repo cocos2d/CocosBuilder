@@ -94,7 +94,13 @@
         float f = [CCBReaderInternal deserializeFloat: serializedValue];
         [node setValue:[NSNumber numberWithFloat:f] forKey:name];
     }
+    else if ([type isEqualToString:@"FloatVar"])
+    {
+        [node setValue:[serializedValue objectAtIndex:0] forKey:name];
+        [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Var",name]];
+    }
     else if ([type isEqualToString:@"Integer"]
+             || [type isEqualToString:@"IntegerLabeled"]
              || [type isEqualToString:@"Byte"])
     {
         int d = [CCBReaderInternal deserializeInt: serializedValue];
@@ -121,7 +127,14 @@
         
         [extraProps setObject:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",name]];
         [extraProps setObject:spriteFile forKey:name];
-        [TexturePropertySetter setTextureForNode:node andProperty:name withFile:spriteFile andSheetFile:spriteSheetFile];
+        [TexturePropertySetter setSpriteFrameForNode:node andProperty:name withFile:spriteFile andSheetFile:spriteSheetFile];
+    }
+    else if ([type isEqualToString:@"Texture"])
+    {
+        NSString* spriteFile = serializedValue;
+        if (!spriteFile) spriteFile = @"";
+        [TexturePropertySetter setTextureForNode:node andProperty:name withFile:spriteFile];
+        [extraProps setObject:spriteFile forKey:name];
     }
     else if ([type isEqualToString:@"Color3"])
     {
@@ -137,7 +150,10 @@
     }
     else if ([type isEqualToString:@"FntFile"])
     {
-        [TexturePropertySetter setFontForNode:node andProperty:name withFile:serializedValue];
+        NSString* fntFile = serializedValue;
+        if (!fntFile) fntFile = @"";
+        [TexturePropertySetter setFontForNode:node andProperty:name withFile:fntFile];
+        [extraProps setObject:fntFile forKey:name];
     }
     else if ([type isEqualToString:@"Text"])
     {
