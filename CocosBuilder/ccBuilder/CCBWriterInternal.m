@@ -92,6 +92,26 @@
             nil];
 }
 
++ (id) serializeColor4:(ccColor4B)c
+{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithInt:c.r],
+            [NSNumber numberWithInt:c.g],
+            [NSNumber numberWithInt:c.b],
+            [NSNumber numberWithInt:c.a],
+            nil];
+}
+
++ (id) serializeColor4F:(ccColor4F)c
+{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithFloat:c.r],
+            [NSNumber numberWithFloat:c.g],
+            [NSNumber numberWithFloat:c.b],
+            [NSNumber numberWithFloat:c.a],
+            nil];
+}
+
 + (id) serializeBlendFunc:(ccBlendFunc)bf
 {
     return [NSArray arrayWithObjects:
@@ -202,6 +222,23 @@
             ccColor3B c;
             [colorValue getValue:&c];
             serializedValue = [CCBWriterInternal serializeColor3:c];
+        }
+        else if ([type isEqualToString:@"Color4FVar"])
+        {
+            NSValue* cValue = NULL;
+            NSValue* cVarValue = NULL;
+            NSString* nameVar = [NSString stringWithFormat:@"%@Var",name];
+            cValue = [node valueForKey:name];
+            cVarValue = [node valueForKey:nameVar];
+            ccColor4F c;
+            ccColor4F cVar;
+            [cValue getValue:&c];
+            [cVarValue getValue:&cVar];
+            
+            serializedValue = [NSArray arrayWithObjects:
+                               [CCBWriterInternal serializeColor4F:c],
+                               [CCBWriterInternal serializeColor4F:cVar],
+                               nil];
         }
         else if ([type isEqualToString:@"Blendmode"])
         {
