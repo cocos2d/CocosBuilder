@@ -3,6 +3,9 @@
 //
 
 #import "CCBReaderInternalV1.h"
+#import "CCBReaderInternal.h"
+#import "CCBWriterInternal.h"
+#import "CCBGlobals.h"
 #import <objc/runtime.h>
 #import "CCNineSlice.h"
 #import "CCButton.h"
@@ -93,6 +96,9 @@
     ccBlendFunc blendFunc;
     blendFunc.src = src;
     blendFunc.dst = dst;
+    
+    NSLog(@"BLENDFUNC src:%d dst:%d",src, dst);
+    
     return blendFunc;
 }
 
@@ -177,21 +183,24 @@
 
 + (void) setPropsForSprite: (CCSprite*) node props:(NSDictionary*)props
 {
+    NSLog(@"SPRITE: %@", [props objectForKey:@"spriteFile"]);
+    
+    
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
+    NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
+    if (!spriteFramesFile || [spriteFramesFile isEqualToString:@""])
+    {
+        spriteFramesFile = kCCBUseRegularFile;
+    }
+    [CCBReaderInternalV1 setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
+    
+    [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"displayFrame" withFile:[props objectForKey:@"spriteFile"] andSheetFile:[props objectForKey:@"spriteFramesFile"]];
+    
     node.opacity = [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"];
     node.color = [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"];
     node.flipX = [CCBReaderInternalV1 boolValFromDict:props forKey:@"flipX"];
     node.flipY = [CCBReaderInternalV1 boolValFromDict:props forKey:@"flipY"];
     node.blendFunc = [CCBReaderInternalV1 blendFuncValFromDict:props forKey:@"blendFunc"];
-    
-    
-    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
-    NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
-    if (spriteFramesFile)
-    {
-        [CCBReaderInternalV1 setExtraProp:spriteFramesFile forKey:@"displayFrameSheet" andNode:node];
-    }
-    
-    [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"displayFrame" withFile:[props objectForKey:@"spriteFile"] andSheetFile:[props objectForKey:@"spriteFramesFile"]];
 }
 
 + (void) setPropsForMenu: (CCMenu*) node props:(NSDictionary*)props
@@ -202,8 +211,8 @@
 + (void) setPropsForMenuItem: (CCMenuItem*) node props:(NSDictionary*)props
 {
     [node setIsEnabled:[CCBReaderInternalV1 boolValFromDict:props forKey:@"isEnabled"]];
-    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"selector"] forKey:@"selector" andNode:node];
-    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"target"] forKey:@"target" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"selector"] forKey:@"block" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"target"] forKey:@"blockTarget" andNode:node];
     NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
     if (spriteFramesFile)
     {
@@ -220,15 +229,24 @@
 
 + (void) setPropsForLabelBMFont: (CCLabelBMFont*) node props:(NSDictionary*)props
 {
+    NSString* string = [props objectForKey:@"string"];
+    
     node.opacity = [CCBReaderInternalV1 intValFromDict:props forKey:@"opacity"];
     node.color = [CCBReaderInternalV1 color3ValFromDict:props forKey:@"color"];
+    node.string = string;
     
     [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"fontFile"] forKey:@"fontFile" andNode:node];
 }
 
 + (void) setPropsForLabelTTF: (CCLabelTTF*) node props:(NSDictionary*)props
 {
+    NSString* fontName = [props objectForKey:@"fontName"];
+    NSString* string = [props objectForKey:@"string"];
+    float fontSize = [CCBReaderInternalV1 floatValFromDict:props forKey:@"fontSize"];
     
+    node.fontSize = fontSize;
+    node.string = string;
+    node.fontName = fontName;
 }
 
 + (void) setPropsForParticleSystem: (CCParticleSystem*) node props:(NSDictionary*)props
@@ -280,9 +298,9 @@
     }
     
     
-    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"spriteFile" andNode:node];
+    [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"texture" andNode:node];
     
-    node.positionType = kCCPositionTypeGrouped;
+    //node.positionType = kCCPositionTypeGrouped;
 }
 
 /*
@@ -299,6 +317,7 @@
     return [c alloc];
 }*/
 
+/*
 + (id) createClassFromCCBTemplate:(CCBTemplate*)t
 {
     if (!t.customClass) return NULL;
@@ -329,76 +348,55 @@
     [obj autorelease];
     
     return obj;
-}
+}*/
 
 + (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner root:(CCNode*) root
 {
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
     NSString* class = [dict objectForKey:@"class"];
     NSDictionary* props = [dict objectForKey:@"properties"];
     NSArray* children = [dict objectForKey:@"children"];
     //NSString* customClass = [props objectForKey:@"customClass"];
     //if (extraProps) customClass = NULL;
-    NSString* customClass = @"";
+    //NSString* customClass = @"";
     
     CCNode* node;
     if ([class isEqualToString:@"CCParticleSystem"])
     {
-        NSString* spriteFile = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFile"]];
-        CCParticleSystem* sys = [[[ARCH_OPTIMAL_PARTICLE_SYSTEM alloc] initWithTotalParticles:2048] autorelease];
-        sys.texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
-        node = sys;
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCParticleSystemQuad"];
+        //node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
+        
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForParticleSystem:(CCParticleSystem*)node props:props];
+        
+        [TexturePropertySetter setTextureForNode:node andProperty:@"texture" withFile:[props objectForKey:@"spriteFile"]];
     }
     else if ([class isEqualToString:@"CCMenuItemImage"])
     {
-        NSString* spriteFileNormal = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFileNormal"]];
-        NSString* spriteFileSelected = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFileSelected"]];
-        NSString* spriteFileDisabled = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"spriteFileDisabled"]];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCMenuItemImage"];
         
-        CCSprite* spriteNormal;
-        CCSprite* spriteSelected;
-        CCSprite* spriteDisabled;
+        NSString* fileNor = [props objectForKey:@"spriteFileNormal"];
+        NSString* fileSel = [props objectForKey:@"spriteFileSelected"];
+        NSString* fileDis = [props objectForKey:@"spriteFileDisabled"];
+        NSString* fileSheet = [props objectForKey:@"spriteFramesFile"];
         
-        NSString* spriteSheetFile = [props objectForKey:@"spriteFramesFile"];
-        if (spriteSheetFile  && ![spriteSheetFile isEqualToString:@""]) spriteSheetFile = [NSString stringWithFormat:@"%@%@", path, spriteSheetFile];
+        if (!fileNor) fileNor = @"";
+        if (!fileSel) fileSel = @"";
+        if (!fileDis) fileDis = @"";
+        if (!fileSheet || [fileSheet isEqualToString:@""]) fileSheet = kCCBUseRegularFile;
         
-        if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""])
-        {
-            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spriteSheetFile];
-            
-            @try {
-                spriteNormal = [CCSprite spriteWithSpriteFrameName:[props objectForKey:@"spriteFileNormal"]];
-                spriteSelected = [CCSprite spriteWithSpriteFrameName:[props objectForKey:@"spriteFileSelected"]];
-                spriteDisabled = [CCSprite spriteWithSpriteFrameName:[props objectForKey:@"spriteFileDisabled"]];
-            }
-            @catch (NSException *exception)
-            {
-                spriteNormal = NULL;
-                spriteSelected = NULL;
-                spriteDisabled = NULL;
-            }
-        }
-        else
-        {
-            spriteNormal = [CCSprite spriteWithFile:spriteFileNormal];
-            spriteSelected = [CCSprite spriteWithFile:spriteFileSelected];
-            spriteDisabled = [CCSprite spriteWithFile:spriteFileDisabled];
-        }
+        [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"normalSpriteFrame" withFile:fileNor andSheetFile:fileSheet];
+        [cs setExtraProp:fileNor forKey:@"normalSpriteFrame" andNode:node];
+        [cs setExtraProp:fileSheet forKey:@"normalSpriteFrameSheet" andNode:node];
         
-        if (!spriteNormal) spriteNormal = [CCSprite spriteWithFile:@"missing-texture.png"];
-        if (!spriteSelected) spriteSelected = [CCSprite spriteWithFile:@"missing-texture.png"];
-        if (!spriteDisabled) spriteDisabled = [CCSprite spriteWithFile:@"missing-texture.png"];
+        [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"selectedSpriteFrame" withFile:fileSel andSheetFile:fileSheet];
+        [cs setExtraProp:fileSel forKey:@"selectedSpriteFrame" andNode:node];
+        [cs setExtraProp:fileSheet forKey:@"selectedSpriteFrameSheet" andNode:node];
         
-        node = NULL;//[CCBReader createCustomClassWithName:customClass];
-        if(node)
-        {
-            [((CCMenuItemImage*)node) initWithNormalSprite:spriteNormal selectedSprite:spriteSelected disabledSprite:spriteDisabled target:NULL selector:NULL];
-        }
-        else
-        {
-            node = [CCMenuItemImage itemWithNormalSprite:spriteNormal selectedSprite:spriteSelected disabledSprite:spriteDisabled target:NULL selector:NULL];
-        }
+        [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"disabledSpriteFrame" withFile:fileDis andSheetFile:fileSheet];
+        [cs setExtraProp:fileDis forKey:@"disabledSpriteFrame" andNode:node];
+        [cs setExtraProp:fileSheet forKey:@"disabledSpriteFrameSheet" andNode:node];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForMenuItem:(CCMenuItem*)node props:props];
@@ -406,88 +404,60 @@
     }
     else if ([class isEqualToString:@"CCMenu"])
     {
-        node = [CCMenu menuWithItems: nil];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCMenu"];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
         [CCBReaderInternalV1 setPropsForMenu:(CCMenu*)node props:props];
     }
     else if ([class isEqualToString:@"CCNineSlice"])
     {
-        node = [CCNineSlice node];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
+        NSLog(@"WARNING! CCNineSlice not supported, replacing with CCNode!");
     }
     else if([class isEqualToString:@"CCButton"])
     {
+        /*
         NSObject* target = NULL;
         SEL selector = NULL;
-        /*
-        if (!extraProps)
-        {
-            int targetType = [[props objectForKey:@"target"] intValue];
-            if (targetType == kCCBMemberVarAssignmentTypeDocumentRoot) target = root;
-            else if (targetType == kCCBMemberVarAssignmentTypeOwner) target = owner;
-            
-            NSString* selectorName = [props objectForKey:@"selector"];
-            if (selectorName && ![selectorName isEqualToString:@""] && target)
-            {
-                selector = NSSelectorFromString(selectorName);
-            }
-            if (!selector) target = NULL;
-            
-            if (target && selector)
-            {
-                if (![target respondsToSelector:selector])
-                {
-                    NSLog(@"WARNING! CCMenuItemImage target doesn't respond to selector %@",selectorName);
-                    target = NULL;
-                    selector = NULL;
-                }
-            }
-        }
-         */
         NSString* imageNameFormat = [props objectForKey:@"imageNameFormat"];
         
         node = [CCButton buttonWithTarget:target selector:selector];
         [(CCButton*)node setImageNameFormat:imageNameFormat];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForMenuItem:(CCButton*)node props:props];
+         */
+        
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        NSLog(@"WARNING! CCButton not supported, replacing with CCNode!");
     }
     else if([class isEqualToString:@"CCThreeSlice"])
     {
+        /*
         NSString* imageNameFormat = [props objectForKey:@"imageNameFormat"];
         
         node = [CCThreeSlice node];
         [(CCThreeSlice*)node setImageNameFormat:imageNameFormat];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
+         */
+        
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
+        [CCBReaderInternalV1 setPropsForNode:node props:props];
+        NSLog(@"WARNING! CCButton not supported, replacing with CCNode!");
     }
     else if ([class isEqualToString:@"CCLabelTTF"])
     {
-        NSString* fontName = [props objectForKey:@"fontName"];
-        NSString* string = [props objectForKey:@"string"];
-        float fontSize = [CCBReaderInternalV1 floatValFromDict:props forKey:@"fontSize"];
-        @try {
-            node = [CCLabelTTF labelWithString:string fontName:fontName fontSize:fontSize];
-        }
-        @catch (NSException *exception) {
-            node = NULL;
-        }
-        if (!node) node = [CCLabelTTF labelWithString:string fontName:@"Helvetica" fontSize:24];
-        
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCLabelTTF"];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLabelTTF:(CCLabelTTF*)node props:props];
         [CCBReaderInternalV1 setPropsForSprite:(CCLabelTTF*)node props:props];
     }
     else if ([class isEqualToString:@"CCLabelBMFont"])
     {
-        NSString* fontFile = [NSString stringWithFormat:@"%@%@", path, [props objectForKey:@"fontFile"]];
-        NSString* string = [props objectForKey:@"string"];
-        @try {
-            node = [CCLabelBMFont labelWithString:string fntFile:fontFile];
-        }
-        @catch (NSException *exception) {
-            node = NULL;
-        }
-        if (!node) node = [CCLabelBMFont labelWithString:string fntFile:@"missing-font.fnt"];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCLabelBMFont"];
+        
+        [TexturePropertySetter setFontForNode:node andProperty:@"fntFile" withFile:[props objectForKey:@"fontFile"]];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLabelBMFont:(CCLabelBMFont*)node props:props];
@@ -501,21 +471,7 @@
     }
     else if ([class isEqualToString:@"CCLayerGradient"])
     {
-        node = [CCLayerGradient node];
-        node = NULL;//[CCBReader createCustomClassWithName:customClass];
-        if (node)
-        {
-            if (![node isKindOfClass:[CCLayerGradient class]])
-            {
-                NSLog(@"WARNING! %@ is not subclass of CCLayerGradient",customClass);
-                node = NULL;
-            }
-            else
-            {
-                node = [[node init] autorelease];
-            }
-        }
-        if (!node) node = [CCLayerGradient node];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCLayerGradient"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
@@ -524,21 +480,7 @@
     }
     else if ([class isEqualToString:@"CCLayerColor"])
     {
-        node = [CCLayerColor node];
-        //node = [CCBReader createCustomClassWithName:customClass];
-        if (node)
-        {
-            if (![node isKindOfClass:[CCLayerColor class]])
-            {
-                NSLog(@"WARNING! %@ is not subclass of CCLayerColor",customClass);
-                node = NULL;
-            }
-            else
-            {
-                node = [[node init] autorelease];
-            }
-        }
-        if (!node) node = [CCLayerColor node];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCLayerColor"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
@@ -546,34 +488,16 @@
     }
     else if ([class isEqualToString:@"CCLayer"])
     {
-        node = NULL;//[CCBReader createCustomClassWithName:customClass];
-        if (node)
-        {
-            if (![node isKindOfClass:[CCLayer class]])
-            {
-                NSLog(@"WARNING! %@ is not subclass of CCLayer",customClass);
-                node = NULL;
-            }
-            else
-            {
-                node = [[node init] autorelease];
-            }
-        }
-        if (!node) node = [CCLayer node];
-        
-        [node setUserData: [NodeInfo nodeInfoWithPlugIn:[[PlugInManager sharedManager] plugInNodeNamed:@"CCNode"]] retainData:YES];
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCLayer"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForLayer:(CCLayer*)node props:props];
     }
     else if ([class isEqualToString:@"CCBTemplateNode"])
     {
-        NSString* templateFile = [props objectForKey:@"templateFile"];
-        CCBTemplate* t = [[[CCBTemplate alloc] initWithFile:templateFile assetsPath:path] autorelease];
-        node = [[[CCBTemplateNode alloc] initWithTemplate:t] autorelease];
-        
+        node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
         [CCBReaderInternalV1 setPropsForNode:node props:props];
-        [CCBReaderInternalV1 setExtraProp:t.customClass forKey:@"customClass" andNode:node];
+        NSLog(@"WARNING! CCBTemplateNode not supported, replacing with CCNode!");
     }
     else if ([class isEqualToString:@"CCNode"])
     {
@@ -594,54 +518,18 @@
     {
         NSDictionary* childDict = [children objectAtIndex:i];
         CCNode* child = [CCBReaderInternalV1 ccObjectFromDictionary:childDict assetsDir:path owner:owner root:root];
-        int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
+        //int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
         if (child && node)
         {
-            [node addChild:child z:zOrder];
+#warning Fix zOrder
+            //[node addChild:child z:zOrder];
+            [node addChild:child];
         }
         else
         {
             NSLog(@"WARNING! Failed to add child=%@ to node=%@",child,node);
         }
     }
-    
-    /*
-    // Assign member variables
-    if (!extraProps)
-    {
-        NSString* assignmentName = [props objectForKey:@"memberVarAssignmentName"];
-        int assignmentType = [[props objectForKey:@"memberVarAssignmentType"] intValue];
-        if (assignmentName && ![assignmentName isEqualToString:@""] && assignmentType)
-        {
-            NSObject* assignTo = NULL;
-            if (assignmentType == kCCBMemberVarAssignmentTypeOwner) assignTo = owner;
-            else if (assignmentType == kCCBMemberVarAssignmentTypeDocumentRoot) assignTo = root;
-            
-            if (assignTo != NULL)
-            {
-                
-                Ivar ivar = class_getInstanceVariable([assignTo class], [assignmentName UTF8String]);
-                if (ivar)
-                {
-                    object_setIvar(assignTo, ivar, node);
-                }
-                else
-                {
-                    NSLog(@"WARNING! Couldn't find member variable %@",assignmentName);
-                }
-            }
-            else
-            {
-                NSLog(@"WARNING! Failed to find assignment object");
-            }
-        }
-        
-        // Call the didLoadFromCCB method
-        if ([node respondsToSelector:@selector(didLoadFromCCB)])
-        {
-            [node performSelector:@selector(didLoadFromCCB)];
-        }
-    }*/
     
     return node;
 }
@@ -714,6 +602,7 @@
 @end
 
 
+/*
 // CCBTemplate
 
 @implementation CCBTemplate
@@ -867,4 +756,6 @@
     [super dealloc];
 }
 
+
 @end
+ */

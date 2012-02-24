@@ -64,4 +64,13 @@
     self.blendDst = GL_ONE;
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"blendSrc"];
+    [self didChangeValueForKey:@"blendSrc"];
+    
+    [self willChangeValueForKey:@"blendDst"];
+    [self didChangeValueForKey:@"blendDst"];
+}
+
 @end
