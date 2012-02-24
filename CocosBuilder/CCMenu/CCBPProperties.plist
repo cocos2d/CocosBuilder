@@ -9,7 +9,11 @@
 	<key>className</key>
 	<string>CCMenu</string>
 	<key>editorClassName</key>
-	<string>CCMenu</string>
+	<string>CCBPMenu</string>
+	<key>requireChildClass</key>
+	<array>
+		<string>CCMenuItemImage</string>
+	</array>
 	<key>properties</key>
 	<array/>
 	<key>spriteFrameDrop</key>
@@ -20,6 +24,20 @@
 		<string>displayFrame</string>
 	</dict>
 	<key>propertiesOverridden</key>
-	<array/>
+	<array>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>0</integer>
+				<integer>0</integer>
+			</array>
+			<key>displayName</key>
+			<string>Position</string>
+			<key>type</key>
+			<string>Position</string>
+			<key>name</key>
+			<string>position</string>
+		</dict>
+	</array>
 </dict>
 </plist>

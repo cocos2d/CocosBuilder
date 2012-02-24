@@ -143,6 +143,7 @@
         
         // Ignore separators and graphical stuff
         if ([type isEqualToString:@"Separator"]
+            || [type isEqualToString:@"SeparatorSub"]
             || [type isEqualToString:@"StartStop"])
         {
             continue;
@@ -158,7 +159,16 @@
             || [type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"])
         {
-            CGPoint pt = [[node valueForKey:name] pointValue];
+            // TODO: Try/catch is quick fix for particle systems
+            CGPoint pt;
+            @try
+            {
+                pt = [[node valueForKey:name] pointValue];
+            }
+            @catch (NSException *exception)
+            {
+                pt = ccp(0,0);
+            }
             serializedValue = [CCBWriterInternal serializePoint:pt];
         }
         else if ([type isEqualToString:@"Size"])
@@ -181,8 +191,20 @@
         }
         else if ([type isEqualToString:@"FloatVar"])
         {
-            float x = [[node valueForKey:name] floatValue];
-            float y = [[node valueForKey:[NSString stringWithFormat:@"%@Var",name]] floatValue];
+            float x;
+            float y;
+            
+            // TODO: Try/catch is quick fix for particle systems
+            @try
+            {
+                x = [[node valueForKey:name] floatValue];
+                y = [[node valueForKey:[NSString stringWithFormat:@"%@Var",name]] floatValue];
+            }
+            @catch (NSException *exception)
+            {
+                x = 0;
+                y = 0;
+            }
             serializedValue = [CCBWriterInternal serializePoint:ccp(x,y)];
         }
         else if ([type isEqualToString:@"Integer"]
@@ -264,6 +286,15 @@
             NSString* str = [node valueForKey:name];
             if (!str) str = @"";
             serializedValue = str;
+        }
+        else if ([type isEqualToString:@"Block"])
+        {
+            NSString* selector = [extraProps objectForKey:name];
+            NSNumber* target = [extraProps objectForKey:[NSString stringWithFormat:@"%@Target",name]];
+            serializedValue = [NSArray arrayWithObjects:
+                               selector,
+                               target,
+                               nil];
         }
         else
         {

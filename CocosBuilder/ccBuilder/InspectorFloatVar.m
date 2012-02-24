@@ -12,22 +12,50 @@
 
 - (void) setF:(float)f
 {
-    [self setPropertyForSelection:[NSNumber numberWithFloat:f]];
+    // TODO: Try/catch is quick fix for particle systems
+    @try
+    {
+        [self setPropertyForSelection:[NSNumber numberWithFloat:f]];
+    }
+    @catch (NSException *exception)
+    {
+    }
+    
 }
 
 - (float) f
 {
-    return [[self propertyForSelection] floatValue];
+    @try
+    {
+        return [[self propertyForSelection] floatValue];
+    }
+    @catch (NSException *exception)
+    {
+        return 0;
+    }
 }
 
 - (void) setFVar:(float)fVar
 {
-    [self setPropertyForSelectionVar:[NSNumber numberWithFloat:fVar]];
+    @try
+    {
+        [self setPropertyForSelectionVar:[NSNumber numberWithFloat:fVar]];
+    }
+    @catch (NSException *exception)
+    {
+    }
 }
 
 - (float) fVar
 {
-    return [[self propertyForSelectionVar] floatValue];
+    @try
+    {
+        return [[self propertyForSelectionVar] floatValue];
+    }
+    @catch (NSException *exception)
+    {
+        return 0;
+    }
 }
 
 @end

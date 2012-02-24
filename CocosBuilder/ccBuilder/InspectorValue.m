@@ -83,7 +83,6 @@
     }
     else
     {
-        // Set real property
         [selection setValue:value forKey:propertyName];
     }
     [self updateAffectedProperties];
@@ -125,6 +124,7 @@
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Var"]];
+    
     [self updateAffectedProperties];
 }
 

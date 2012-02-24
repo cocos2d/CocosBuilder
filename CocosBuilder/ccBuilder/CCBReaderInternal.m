@@ -94,8 +94,15 @@
         || [type isEqualToString:@"Point"]
         || [type isEqualToString:@"PointLock"])
     {
-        CGPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
-        [node setValue:[NSValue valueWithPoint:pt] forKey:name];
+        // TODO: Try/catch is quick fix for particle systems
+        @try
+        {
+            CGPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
+            [node setValue:[NSValue valueWithPoint:pt] forKey:name];
+        }
+        @catch (NSException *exception)
+        {
+        }
     }
     else if ([type isEqualToString:@"Size"])
     {
@@ -116,8 +123,15 @@
     }
     else if ([type isEqualToString:@"FloatVar"])
     {
-        [node setValue:[serializedValue objectAtIndex:0] forKey:name];
-        [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Var",name]];
+        // TODO: Try/catch is quick fix for particle systems
+        @try
+        {
+            [node setValue:[serializedValue objectAtIndex:0] forKey:name];
+            [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Var",name]];
+        }
+        @catch (NSException *exception)
+        {
+        }
     }
     else if ([type isEqualToString:@"Integer"]
              || [type isEqualToString:@"IntegerLabeled"]
@@ -195,6 +209,15 @@
         NSString* str = serializedValue;
         if (!str) str = @"";
         [node setValue:str forKey:name];
+    }
+    else if ([type isEqualToString:@"Block"])
+    {
+        NSString* selector = [serializedValue objectAtIndex:0];
+        NSNumber* target = [serializedValue objectAtIndex:1];
+        if (!selector) selector = @"";
+        if (!target) target = [NSNumber numberWithInt:0];
+        [extraProps setObject: selector forKey:name];
+        [extraProps setObject:target forKey:[NSString stringWithFormat:@"%@Target",name]];
     }
     else
     {
