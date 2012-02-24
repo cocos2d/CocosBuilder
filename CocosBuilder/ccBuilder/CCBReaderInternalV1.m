@@ -104,19 +104,6 @@
 
 #pragma mark Store extra properties (only used by editor)
 
-/*
-+ (void) setExtraProp:(NSObject*) prop forKey: (NSString*) key andTag: (int)tag inDictionary:(NSMutableDictionary*)dict
-{
-    NSMutableDictionary* props = [dict objectForKey:[NSNumber numberWithInt:tag]];
-    if (!props)
-    {
-        props = [NSMutableDictionary dictionary];
-        [dict setObject:props forKey:[NSNumber numberWithInt:tag]];
-    }
-    
-    [props setObject:prop forKey:key];
-}*/
-
 + (void) setExtraProp:(NSObject*) prop forKey:(NSString *)key andNode:(CCNode*) node
 {
     NodeInfo* info = node.userData;
@@ -303,53 +290,6 @@
     //node.positionType = kCCPositionTypeGrouped;
 }
 
-/*
-+ (id) createCustomClassWithName:(NSString*)className
-{
-    if (!className) return NULL;
-    if ([className isEqualToString:@""]) return NULL;
-    Class c = NSClassFromString(className);
-    if (!c)
-    {
-        NSLog(@"WARNING! Class of type %@ couldn't be found",className);
-        return NULL;
-    }
-    return [c alloc];
-}*/
-
-/*
-+ (id) createClassFromCCBTemplate:(CCBTemplate*)t
-{
-    if (!t.customClass) return NULL;
-    if ([t.customClass isEqualToString:@""]) return NULL;
-    Class c = NSClassFromString(t.customClass);
-    if (!c)
-    {
-        NSLog(@"WARNING! Template class of type %@ couldn't be found",t.customClass);
-        return NULL;
-    }
-    id obj = [c alloc];
-    
-    if (![obj isKindOfClass:[CCNode class]])
-    {
-        NSLog(@"WARNING! Trying to add template class not sub class of CCNode (%@)",t.customClass);
-        [obj release];
-        return NULL;
-    }
-    
-    if ([obj respondsToSelector:@selector(initWithProperties:)])
-    {
-        [obj performSelector:@selector(initWithProperties:) withObject:t.properties];
-    }
-    else
-    {
-        NSLog(@"WARNING! Template object of type %@ does't respond to initWithProperties:", t.customClass);
-    }
-    [obj autorelease];
-    
-    return obj;
-}*/
-
 + (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner root:(CCNode*) root
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -518,12 +458,10 @@
     {
         NSDictionary* childDict = [children objectAtIndex:i];
         CCNode* child = [CCBReaderInternalV1 ccObjectFromDictionary:childDict assetsDir:path owner:owner root:root];
-        //int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
+        int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
         if (child && node)
         {
-#warning Fix zOrder
-            //[node addChild:child z:zOrder];
-            [node addChild:child];
+            [node addChild:child z:zOrder];
         }
         else
         {
@@ -600,162 +538,3 @@
 }
 
 @end
-
-
-/*
-// CCBTemplate
-
-@implementation CCBTemplate
-
-@synthesize fileName, assetsPath, propertyFile, customClass, previewImage, previewAnchorpoint, properties;
-
-- (id) initWithFile:(NSString*) f assetsPath:(NSString*)ap
-{
-    self = [super init];
-    if (!self) return NULL;
-    
-    self.assetsPath = ap;
-    
-    NSString* path = [NSString stringWithFormat:@"%@%@", assetsPath, f];
-    path = [CCFileUtils fullPathFromRelativePath:path];
-    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    
-    if (![[dict objectForKey:@"fileType"] isEqualToString:@"CocosBuilderTemplate"])
-    {
-        NSLog(@"CCBTemplate: Invalid fileType");
-        return NULL;
-    }
-    if (![[dict objectForKey:@"fileVersion"] intValue] > 1)
-    {
-        NSLog(@"CCBTemplate: File version not supported");
-        return NULL;
-    }
-    
-    self.fileName = f;
-    self.customClass = [dict objectForKey:@"customClass"];
-    self.propertyFile = [dict objectForKey:@"propertyFile"];
-    self.previewImage = [dict objectForKey:@"previewImage"];
-    
-    NSMutableArray* anchor = [dict objectForKey:@"previewAnchorpoint"];
-    previewAnchorpoint.x = [[anchor objectAtIndex:0] floatValue];
-    previewAnchorpoint.y = [[anchor objectAtIndex:1] floatValue];
-    
-    NSString* propsPath = [NSString stringWithFormat:@"%@%@", assetsPath, propertyFile];
-    propsPath = [CCFileUtils fullPathFromRelativePath:propsPath];
-    self.properties = [NSMutableDictionary dictionaryWithContentsOfFile:propsPath];
-    
-    return self;
-}
-
-- (id) initWithNonExistingPath:(NSString*)f
-{
-    self = [super init];
-    if (!self) return NULL;
-    
-    self.assetsPath = [NSString stringWithFormat:@"%@/",[f stringByDeletingLastPathComponent]];
-    self.fileName = [f lastPathComponent];
-    self.propertyFile = @"";
-    self.customClass = @"";
-    self.previewImage = @"";
-    self.previewAnchorpoint = ccp(0.5f,0.5f);
-    self.properties = NULL;
-    
-    return self;
-}
-
-- (void) store
-{
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    
-    [dict setObject:@"CocosBuilderTemplate" forKey:@"fileType"];
-    [dict setObject:[NSNumber numberWithInt:1] forKey:@"fileVersion"];
-    
-    if (!fileName) return;
-    [dict setObject:fileName forKey:@"fileName"];
-    
-    if (!customClass) self.customClass = @"CCNode";
-    [dict setObject:customClass forKey:@"customClass"];
-    
-    if (!propertyFile) self.propertyFile = @"";
-    [dict setObject:propertyFile forKey:@"propertyFile"];
-    
-    if (!previewImage) self.previewImage = @"";
-    [dict setObject:previewImage forKey:@"previewImage"];
-    
-    NSMutableArray* anchorArray = [NSMutableArray arrayWithCapacity:2];
-    [anchorArray addObject:[NSNumber numberWithFloat: previewAnchorpoint.x]];
-    [anchorArray addObject:[NSNumber numberWithFloat: previewAnchorpoint.y]];
-    [dict setObject:anchorArray forKey:@"previewAnchorpoint"];
-    
-    BOOL success = [dict writeToFile:[NSString stringWithFormat:@"%@%@", assetsPath,fileName] atomically:YES];
-    
-    NSLog(@"wrote ccbtemplate to %@ success=%d",[NSString stringWithFormat:@"%@%@", assetsPath,fileName], success);
-    
-    NSLog(@"wrote data: %@", dict);
-}
-
-- (void) dealloc
-{
-    self.fileName = NULL;
-    self.assetsPath = NULL;
-    self.customClass = NULL;
-    self.propertyFile = NULL;
-    self.previewImage = NULL;
-    self.properties = NULL;
-    
-    [super dealloc];
-}
-
-@end
-
-
-// CCBTemplateNode
-
-@implementation CCBTemplateNode
-
-@synthesize ccbTemplate;
-
-- (id)initWithTemplate:(CCBTemplate*)t
-{
-    if (!t) return NULL;
-    
-    NSString* file = t.previewImage;
-    if (!file || [file isEqualToString:@""])
-    {
-        file = @"missing-texture.png";
-    }
-    else if (t.assetsPath) file = [NSString stringWithFormat:@"%@%@",t.assetsPath,file];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:[CCFileUtils fullPathFromRelativePath:file]])
-    {
-        file = @"missing-texture.png";
-    }
-    
-    self = [super initWithFile:file];
-    if (!self)
-    {
-        NSLog(@"Failed to load template texture: %@", file);
-        self = [super initWithFile:@"missing-texture.png"];
-    }
-    if (!self)
-    {
-        NSLog(@"Still problem with missing texture! (%@)", file);
-        return NULL;
-    }
-    
-    // Initialization code here.
-    self.ccbTemplate = t;
-    self.anchorPoint = t.previewAnchorpoint;
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    self.ccbTemplate = NULL;
-    [super dealloc];
-}
-
-
-@end
- */
