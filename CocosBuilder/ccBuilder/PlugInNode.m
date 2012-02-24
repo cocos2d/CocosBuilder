@@ -10,7 +10,7 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren;
+@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren, requireParentClass, requireChildClass;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
@@ -115,9 +115,11 @@
         [dropTargetSpriteFrameProperty retain];
     }
     
-    // Check if node type can be root node
+    // Check if node type can be root node and which children are allowed
     canBeRoot = [[props objectForKey:@"canBeRootNode"] boolValue];
     canHaveChildren = [[props objectForKey:@"canHaveChildren"] boolValue];
+    requireChildClass = [[props objectForKey:@"requireChildClass"] retain];
+    requireParentClass = [[props objectForKey:@"requireParentClass"] retain];
     
     return self;
 }
@@ -138,6 +140,8 @@
 
 - (void) dealloc
 {
+    [requireChildClass release];
+    [requireParentClass release];
     [dropTargetSpriteFrameClass release];
     [dropTargetSpriteFrameProperty release];
     [nodeProperties release];

@@ -1048,13 +1048,31 @@
 {
     if (!obj || !parent) return NO;
     
-    NodeInfo* nodeInfo = parent.userData;
-    if (!nodeInfo.plugIn.canHaveChildren)
+    NodeInfo* nodeInfoParent = parent.userData;
+    NodeInfo* nodeInfo = obj.userData;
+    
+    // Check that the parent supports children
+    if (!nodeInfoParent.plugIn.canHaveChildren)
     {
-        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add children to a %@",nodeInfo.plugIn.nodeClassName]];
+        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add children to a %@",nodeInfoParent.plugIn.nodeClassName]];
         return NO;
     }
     
+    // Check if the added node requires a specific type of parent
+    NSString* requireParent = nodeInfo.plugIn.requireParentClass;
+    if (requireParent && ![requireParent isEqualToString: nodeInfoParent.plugIn.nodeClassName])
+    {
+        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"A %@ must be added to a %@",nodeInfo.plugIn.nodeClassName, requireParent]];
+        return NO;
+    }
+    
+    // Check if the parent require a specific type of children
+    NSArray* requireChild = nodeInfoParent.plugIn.requireChildClass;
+    if (requireChild && [requireChild indexOfObject:nodeInfo.plugIn.nodeClassName] == NSNotFound)
+    {
+        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName]];
+        return NO;
+    }
     /*
     if ([parent isKindOfClass:[CCMenuItemImage class]])
     {

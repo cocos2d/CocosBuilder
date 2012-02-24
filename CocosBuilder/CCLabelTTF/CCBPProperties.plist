@@ -10,6 +10,19 @@
 	<string>CCLabelTTF</string>
 	<key>editorClassName</key>
 	<string>CCLabelTTF</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
 	<key>properties</key>
 	<array>
 		<dict>
@@ -19,6 +32,10 @@
 			<string>Separator</string>
 		</dict>
 		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
 			<key>default</key>
 			<string>Helvetica</string>
 			<key>displayName</key>
@@ -29,6 +46,10 @@
 			<string>fontName</string>
 		</dict>
 		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
 			<key>default</key>
 			<integer>12</integer>
 			<key>displayName</key>
@@ -63,6 +84,10 @@
 			<string>color</string>
 		</dict>
 		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
 			<key>default</key>
 			<string>Sample Text</string>
 			<key>displayName</key>

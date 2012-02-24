@@ -12,26 +12,54 @@
 
 - (void) setPosX:(float)posX
 {
-    CGPoint pt = [[self propertyForSelection] pointValue];
-    pt.x = posX;
-    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    // TODO: Try/catch is quick fix for particle systems
+    @try
+    {
+        CGPoint pt = [[self propertyForSelection] pointValue];
+        pt.x = posX;
+        [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    }
+    @catch (NSException *exception)
+    {
+    }
+    
 }
 
 - (float) posX
 {
-    return [[self propertyForSelection] pointValue].x;
+    @try
+    {
+        return [[self propertyForSelection] pointValue].x;
+    }
+    @catch (NSException *exception)
+    {
+        return 0;
+    }
 }
 
 - (void) setPosY:(float)posY
 {
-    CGPoint pt = [[self propertyForSelection] pointValue];
-    pt.y = posY;
-    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    @try
+    {
+        CGPoint pt = [[self propertyForSelection] pointValue];
+        pt.y = posY;
+        [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    }
+    @catch (NSException *exception)
+    {
+    }
 }
 
 - (float) posY
 {
-    return [[self propertyForSelection] pointValue].y;
+    @try
+    {
+        return [[self propertyForSelection] pointValue].y;
+    }
+    @catch (NSException *exception)
+    {
+        return 0;
+    }
 }
 
 @end

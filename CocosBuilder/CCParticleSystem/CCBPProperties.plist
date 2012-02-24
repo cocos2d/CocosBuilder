@@ -8,8 +8,21 @@
 	<false/>
 	<key>className</key>
 	<string>CCParticleSystemQuad</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
 	<key>editorClassName</key>
-	<string>CCParticleSystemQuad</string>
+	<string>CCBPParticleSystem</string>
 	<key>properties</key>
 	<array>
 		<dict>
@@ -200,6 +213,12 @@
 		</dict>
 		<dict>
 			<key>displayName</key>
+			<string>Gravity mode</string>
+			<key>type</key>
+			<string>SeparatorSub</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
 			<string>Gravity</string>
 			<key>type</key>
 			<string>Point</string>
@@ -247,6 +266,36 @@
 			<string>FloatVar</string>
 			<key>name</key>
 			<string>radialAccel</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Radial mode</string>
+			<key>type</key>
+			<string>SeparatorSub</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Start radius</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>startRadius</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>End radius</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>endRadius</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Rotate</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>rotatePerSecond</string>
 		</dict>
 	</array>
 </dict>

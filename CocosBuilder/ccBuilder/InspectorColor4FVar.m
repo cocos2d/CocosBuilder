@@ -39,6 +39,7 @@
     ccColor4F c = ccc4f(r, g, b, a);
     
     NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor4F)];
+    
     [self setPropertyForSelectionVar:colorValue];
     
 }
