@@ -30,6 +30,7 @@ enum {
 + (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner;
 @end
 
+/*
 // CCBTemplate
 @interface CCBTemplate : NSObject
 {
@@ -70,3 +71,4 @@ enum {
 - (id)initWithTemplate:(CCBTemplate*)t;
 
 @end
+ */

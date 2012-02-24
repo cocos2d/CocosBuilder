@@ -16,7 +16,6 @@
 #import "CCBUtil.h"
 #import "StageSizeWindow.h"
 #import "AssetsWindowController.h"
-#import "TemplateWindowController.h"
 #import "PlugInManager.h"
 #import "InspectorPosition.h"
 #import "NodeInfo.h"
@@ -435,6 +434,7 @@
     NSString* assignmentName = [cs extraPropForKey:@"memberVarAssignmentName" andNode:item];
     if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
     
+    /*
     // Naming after textures
     if ([item isKindOfClass:[CCSprite class]] && ![item isKindOfClass:[CCBTemplateNode class]])
     {
@@ -444,7 +444,8 @@
             return [NSString stringWithFormat:@"CCSprite (%@)", textureName];
         }
     }
-    else if ([item isKindOfClass:[CCMenuItemImage class]])
+     */
+    if ([item isKindOfClass:[CCMenuItemImage class]])
     {
         NSString* textureName = [cs extraPropForKey:@"spriteFileNormal" andNode:item];
         if (textureName && ![textureName isEqualToString:@""])
@@ -452,11 +453,12 @@
             return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
         }
     }
+    /*
     else if ([item isKindOfClass:[CCBTemplateNode class]])
     {
         CCBTemplateNode* t = (CCBTemplateNode*) item;
         return t.ccbTemplate.customClass;
-    }
+    }*/
     
     // Fallback, just use the class name
     return className;
@@ -679,7 +681,7 @@
 
 
 #pragma mark Properties
-
+/*
 - (BOOL) isSelectedNode
 {
     if (!selectedNode) return NO;
@@ -712,7 +714,7 @@
 {
     if (!selectedNode) return NO;
     if (![selectedNode isKindOfClass:[CCSprite class]]) return NO;
-    if ([selectedNode isKindOfClass:[CCBTemplateNode class]]) return NO;
+    //if ([selectedNode isKindOfClass:[CCBTemplateNode class]]) return NO;
     return YES;
 }
 
@@ -763,7 +765,7 @@
     if (!selectedNode) return NO;
     if (![selectedNode isKindOfClass:[CCParticleSystem class]]) return NO;
     return YES;
-}
+}*/
 
 #pragma mark Document handling
 
@@ -1550,7 +1552,9 @@
 - (IBAction) menuAlignChildren:(id)sender
 {
     if (!currentDocument) return;
-    if (![self isSelectedNode]) return;
+    if (!selectedNode) return;
+    
+#warning Check if node can have children
     
     CCArray* children = [selectedNode children];
     if ([children count] == 0) return;
@@ -1582,6 +1586,7 @@
     }
 }
 
+/*
 - (IBAction) menuDistributeChildren:(id)sender
 {
     if (!currentDocument) return;
@@ -1591,7 +1596,7 @@
     if ([children count] <= 2) return;
     
     // TODO: Implement!
-}
+}*/
 
 - (BOOL) windowShouldClose:(id)sender
 {
@@ -1640,8 +1645,8 @@
         return;
     }
     
-    CCBGlobals* g = [CCBGlobals globals];
-    if (g.rootNode) [g.cocosScene printExtraPropsForNode:selectedNode];
+    NodeInfo* info = selectedNode.userData;
+    NSLog(@"%@",info.extraProps);
 }
 
 @end
