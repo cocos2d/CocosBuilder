@@ -7,6 +7,8 @@
 
 @interface CCBDocument : NSObject {
     NSString* fileName;
+    NSString* exportPath;
+    NSString* exportPlugIn;
     NSMutableDictionary* docData;
     NSUndoManager* undoManager;
     NSString* lastEditedProperty;
@@ -16,6 +18,8 @@
 }
 
 @property (nonatomic,retain) NSString* fileName;
+@property (nonatomic,retain) NSString* exportPath;
+@property (nonatomic,retain) NSString* exportPlugIn;
 @property (nonatomic,retain) NSMutableDictionary* docData;
 @property (nonatomic,retain) NSUndoManager* undoManager;
 @property (nonatomic,retain) NSString* lastEditedProperty;

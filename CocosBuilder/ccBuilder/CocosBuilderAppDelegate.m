@@ -20,7 +20,9 @@
 #import "InspectorPosition.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "PlugInExport.h"
 #import "TexturePropertySetter.h"
+#import "PublishTypeAccessoryView.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -788,21 +790,28 @@
 - (NSMutableDictionary*) docDataFromCurrentNodeGraph
 {
     CCBGlobals* g= [CCBGlobals globals];
-    NSMutableDictionary* doc = [NSMutableDictionary dictionary];
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    CCBDocument* doc = [self currentDocument];
     
     // Add node graph
     NSMutableDictionary* nodeGraph = [CCBWriterInternal dictionaryFromCCObject:g.rootNode];
-    [doc setObject:nodeGraph forKey:@"nodeGraph"];
+    [dict setObject:nodeGraph forKey:@"nodeGraph"];
     
     // Add meta data
-    [doc setObject:@"CocosBuilder" forKey:@"fileType"];
-    [doc setObject:[NSNumber numberWithInt:3] forKey:@"fileVersion"];
+    [dict setObject:@"CocosBuilder" forKey:@"fileType"];
+    [dict setObject:[NSNumber numberWithInt:3] forKey:@"fileVersion"];
     
-    [doc setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
-    [doc setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
-    [doc setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
+    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
+    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
+    [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
     
-    return doc;
+    if (doc.exportPath && doc.exportPlugIn)
+    {
+        [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
+        [dict setObject:doc.exportPath forKey:@"exportPath"];
+    }
+    
+    return dict;
 }
 
 - (void) prepareForDocumentSwitch
@@ -932,6 +941,8 @@
     CCBDocument* newDoc = [[[CCBDocument alloc] init] autorelease];
     newDoc.fileName = fileName;
     newDoc.docData = doc;
+    newDoc.exportPath = [doc objectForKey:@"exportPath"];
+    newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     
     [self switchToDocument:newDoc];
      
@@ -962,6 +973,26 @@
         
     [currentDocument.undoManager removeAllActions];
     currentDocument.lastEditedProperty = NULL;
+}
+
+- (void) exportFile:(NSString*) fileName withPlugIn:(NSString*) ext
+{
+    NSLog(@"exportFile: %@ withPlugIn: %@", fileName, ext);
+    
+    PlugInExport* plugIn = [[PlugInManager sharedManager] plugInExportForExtension:ext];
+    if (!plugIn)
+    {
+        [self modalDialogTitle:@"Plug-in missing" message:[NSString stringWithFormat:@"There is no extension available for publishing to %@-files. Please use the Publish As... option.",ext]];
+        return;
+    }
+    
+    NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
+    NSData* data = [plugIn exportDocument:doc];
+    BOOL success = [data writeToFile:fileName atomically:YES];
+    if (!success)
+    {
+        [self modalDialogTitle:@"Publish failed" message:@"Failed to publish the document, please try to publish to another location."];
+    }
 }
 
 - (void) newFile:(NSString*) fileName type:(NSString*)type stageSize:(CGSize)stageSize origin:(int)origin
@@ -1075,27 +1106,6 @@
         [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName]];
         return NO;
     }
-    /*
-    if ([parent isKindOfClass:[CCMenuItemImage class]])
-    {
-        [self modalDialogTitle:@"Failed to add item" message:@"You cannot add children to a CCMenuItemImage"];
-        return NO;
-    }
-    if ([obj isKindOfClass:[CCMenuItemImage class]] && ![parent isKindOfClass:[CCMenu class]])
-    {
-        [self modalDialogTitle:@"Failed to add item" message:@"A CCMenuItem must be a child of CCMenu."];
-        return NO;
-    }
-    if ([parent isKindOfClass:[CCMenu class]] && ![obj isKindOfClass:[CCMenuItem class]])
-    {
-        [self modalDialogTitle:@"Failed to add item" message:@"You can only add CCMenuItems to a CCMenu."];
-        return NO;
-    }
-    if ([parent isKindOfClass:[CCLabelBMFont class]])
-    {
-        [self modalDialogTitle:@"Failed to add item" message:@"You cannot add children to a CCLabelBMFont"];
-        return NO;
-    }*/
     
     [self saveUndoState];
     [parent addChild:obj];
@@ -1306,6 +1316,52 @@
     else
     {
         [self saveDocumentAs:sender];
+    }
+}
+
+- (IBAction) publishDocumentAs:(id)sender
+{
+    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    
+    // Setup accessory view
+    PublishTypeAccessoryView* accessoryView = [[PublishTypeAccessoryView alloc] init];
+    accessoryView.savePanel = saveDlg;
+    [NSBundle loadNibNamed:@"PublishTypeAccessoryView" owner:accessoryView];
+    NSView* view = accessoryView.view;
+    saveDlg.accessoryView = view;
+    
+    // Set allowed extension
+    NSString* defaultFileExtension = [[[PlugInManager sharedManager] plugInExportForIndex:0] extension];
+    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:defaultFileExtension]];
+    
+    // Set default name
+    NSString* exportName = [[currentDocument.fileName lastPathComponent] stringByDeletingPathExtension];
+    [saveDlg setNameFieldStringValue:exportName];
+    
+    // Run the dialog
+    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
+            currentDocument.exportPlugIn = exportTypeName;
+            currentDocument.exportPath = [[saveDlg URL] path];
+            
+            [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
+        }
+    }];
+}
+
+- (IBAction) publishDocument:(id)sender
+{
+    if (!currentDocument) return;
+    
+    if (currentDocument.exportPath && currentDocument.exportPlugIn)
+    {
+        [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
+    }
+    else
+    {
+        [self publishDocumentAs:sender];
     }
 }
 
