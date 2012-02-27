@@ -8,12 +8,13 @@
 
 #import "PlugInManager.h"
 #import "PlugInNode.h"
+#import "PlugInExport.h"
 #import "NodeInfo.h"
 #import "CCBReaderInternal.h"
 
 @implementation PlugInManager
 
-@synthesize plugInsNodeNames, plugInsNodeNamesCanBeRoot;
+@synthesize plugInsNodeNames, plugInsNodeNamesCanBeRoot, plugInsExporters;
 
 + (PlugInManager*) sharedManager
 {
@@ -31,6 +32,8 @@
     plugInsNodeNames = [[NSMutableArray alloc] init];
     plugInsNodeNamesCanBeRoot = [[NSMutableArray alloc] init];
     
+    plugInsExporters = [[NSMutableArray alloc] init];
+    
     return self;
 }
 
@@ -42,11 +45,12 @@
     
     NSArray* plugInPaths = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:plugInDir includingPropertiesForKeys:NULL options:NSDirectoryEnumerationSkipsHiddenFiles error:NULL];
     
+    // Load PlugIn nodes
     for (int i = 0; i < [plugInPaths count]; i++)
     {
         NSURL* plugInPath = [plugInPaths objectAtIndex:i];
         
-        // Verify that this is a plug in
+        // Verify that this is a node plug-in
         if (![[plugInPath pathExtension] isEqualToString:@"ccbPlugNode"]) continue;
         
         // Load the bundle
@@ -68,6 +72,33 @@
                 {
                     [plugInsNodeNamesCanBeRoot addObject:plugIn.nodeClassName];
                 }
+            }
+        }
+    }
+    
+    // Load PlugIn exporters
+    for (int i = 0; i < [plugInPaths count]; i++)
+    {
+        NSURL* plugInPath = [plugInPaths objectAtIndex:i];
+        
+        // Verify that this is an exporter plug-in
+        if (![[plugInPath pathExtension] isEqualToString:@"ccbPlugExport"]) continue;
+        
+        // Load the bundle
+        NSBundle* bundle = [NSBundle bundleWithURL:plugInPath];
+        if (bundle)
+        {
+            NSLog(@"Loading PlugIn: %@", [plugInPath lastPathComponent]);
+            
+            [bundle load];
+            
+            PlugInExport* plugIn = [[PlugInExport alloc] initWithBundle:bundle];
+            if (plugIn)
+            {
+                NSString* plugInName = [[plugInPath lastPathComponent] stringByDeletingPathExtension];
+                plugIn.pluginName = plugInName;
+                
+                [plugInsExporters addObject:plugIn];
             }
         }
     }
@@ -127,6 +158,37 @@
     }
     
     return node;
+}
+
+- (NSArray*) plugInsExportNames
+{
+    NSMutableArray* arr = [NSMutableArray array];
+    for (int i = 0; i < [plugInsExporters count]; i++)
+    {
+        PlugInExport* plugIn = [plugInsExporters objectAtIndex:i];
+        [arr addObject:plugIn.pluginName];
+        
+        NSLog(@"Adding plugInName: %@", plugIn.pluginName);
+    }
+    return arr;
+}
+
+- (PlugInExport*) plugInExportForIndex:(int)idx
+{
+    return [plugInsExporters objectAtIndex:idx];
+}
+
+- (PlugInExport*) plugInExportForExtension:(NSString*)ext
+{
+    for (int i = 0; i < [plugInsExporters count]; i++)
+    {
+        PlugInExport* plugIn = [plugInsExporters objectAtIndex:i];
+        if ([[plugIn extension] isEqualToString:ext])
+        {
+            return plugIn;
+        }
+    }
+    return NULL;
 }
 
 @end
