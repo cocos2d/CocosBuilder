@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "CCParticleSystemQuad.h"
+#import "cocos2d.h"
 
 @interface CCBPParticleSystem : CCParticleSystemQuad
 
