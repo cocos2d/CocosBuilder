@@ -7,18 +7,21 @@
 //
 
 #import "CCBXCocos2diPhone.h"
+#import "CCBXCocos2diPhoneWriter.h"
 
 @implementation CCBXCocos2diPhone
 
 - (NSString*) extension
 {
-    NSLog(@"GETTING EXT: ccbios");
-    return @"ccbios";
+    return @"ccbi";
 }
 
 - (NSData*) exportDocument:(NSDictionary *)doc
 {
-    return [NSData data];
+    CCBXCocos2diPhoneWriter* writer = [[CCBXCocos2diPhoneWriter alloc] init];
+    [writer writeDocument:doc];
+    
+    return writer.data;
 }
 
 @end

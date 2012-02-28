@@ -274,7 +274,6 @@
 		E398C02914FB81A30078E771 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E398C02714FB81A30078E771 /* InfoPlist.strings */; };
 		E398C03014FB82170078E771 /* Cocos2D iPhone.ccbPlugExport in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E398C02214FB81A30078E771 /* Cocos2D iPhone.ccbPlugExport */; };
 		E398C03314FB86D20078E771 /* PlugInExport.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03214FB86D20078E771 /* PlugInExport.m */; };
-		E398C03714FB8A430078E771 /* CCBX.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03614FB8A430078E771 /* CCBX.m */; };
 		E398C03814FB8A430078E771 /* CCBX.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03614FB8A430078E771 /* CCBX.m */; };
 		E398C03B14FB8F850078E771 /* CCBXCocos2diPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03A14FB8F850078E771 /* CCBXCocos2diPhone.m */; };
 		E398C04014FBC9D00078E771 /* PublishTypeAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */; };
@@ -310,6 +309,7 @@
 		E3C365FE14E9F147007CD5FF /* CCSprite.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */; };
 		E3C3660114EA0507007CD5FF /* TexturePropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3660014EA0507007CD5FF /* TexturePropertySetter.m */; };
 		E3C3660414EB2C1B007CD5FF /* CCBReaderInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C3660314EB2C1B007CD5FF /* CCBReaderInternal.m */; };
+		E3F2C21314FC157E007B660D /* CCBXCocos2diPhoneWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
 		E3FEA8AA14E45F1000119FBE /* InspectorSize.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8A914E45F1000119FBE /* InspectorSize.m */; };
 		E3FEA8AC14E47C5700119FBE /* InspectorPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8AB14E47C5700119FBE /* InspectorPoint.xib */; };
@@ -939,6 +939,8 @@
 		E3C3660014EA0507007CD5FF /* TexturePropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturePropertySetter.m; sourceTree = "<group>"; };
 		E3C3660214EB2C1B007CD5FF /* CCBReaderInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBReaderInternal.h; sourceTree = "<group>"; };
 		E3C3660314EB2C1B007CD5FF /* CCBReaderInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBReaderInternal.m; sourceTree = "<group>"; };
+		E3F2C21114FC157E007B660D /* CCBXCocos2diPhoneWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBXCocos2diPhoneWriter.h; sourceTree = "<group>"; };
+		E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBXCocos2diPhoneWriter.m; sourceTree = "<group>"; };
 		E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSize.xib; sourceTree = "<group>"; };
 		E3FEA8A814E45F1000119FBE /* InspectorSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSize.h; sourceTree = "<group>"; };
 		E3FEA8A914E45F1000119FBE /* InspectorSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSize.m; sourceTree = "<group>"; };
@@ -1956,6 +1958,8 @@
 				E398C02514FB81A30078E771 /* Supporting Files */,
 				E398C03914FB8F850078E771 /* CCBXCocos2diPhone.h */,
 				E398C03A14FB8F850078E771 /* CCBXCocos2diPhone.m */,
+				E3F2C21114FC157E007B660D /* CCBXCocos2diPhoneWriter.h */,
+				E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */,
 			);
 			name = "Cocos2D iPhone";
 			path = "../Cocos2D iPhone";
@@ -2823,8 +2827,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E398C03714FB8A430078E771 /* CCBX.m in Sources */,
 				E398C03B14FB8F850078E771 /* CCBXCocos2diPhone.m in Sources */,
+				E3F2C21314FC157E007B660D /* CCBXCocos2diPhoneWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
