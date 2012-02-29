@@ -36,7 +36,6 @@
     [propTypes addObject:@"FntFile"];
     [propTypes addObject:@"Text"];
     [propTypes addObject:@"FontTTF"];
-    [propTypes addObject:@"StartStop"];
     [propTypes addObject:@"IntegerLabeled"];
     [propTypes addObject:@"Block"];
 }
@@ -106,7 +105,7 @@
 
 - (void) putBit:(BOOL)b
 {
-    temp[tempByte] |= 1 << tempByte;
+    if (b) temp[tempByte] |= 1 << tempBit;
     
     tempBit++;
     if (tempBit >= 8)
@@ -119,7 +118,7 @@
 - (void) flushBits
 {
     int numBytes = tempByte;
-    if (tempBit == 0) numBytes++;
+    if (tempBit != 0) numBytes++;
     
     [data appendBytes:temp length:numBytes];
 }
@@ -150,6 +149,7 @@
     
     // Write number of bits used
     int l = log2(num);
+    
     for (int a = 0; a < l; a++)
     {
         [self putBit:NO];
@@ -195,19 +195,15 @@
     unsigned long len = [str lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
     NSAssert(len < 65536, @"ccbi export: Trying to write too long string");
     
-    NSLog(@"writeUTF8: %@",str);
-    
     // Write Length of string
     unsigned char bytesLen[2];
-    bytesLen[0] = (len << 8) & 0xff;
+    bytesLen[0] = (len >> 8) & 0xff;
     bytesLen[1] = len & 0xff;
     [data appendBytes:bytesLen length:2];
     
     // Write String as UTF8
     NSData *dataStr = [NSData dataWithBytes:[str UTF8String] length:len];
     [data appendData:dataStr];
-    
-    NSLog(@"wroteUTF8");
 }
 
 - (void) writeCachedString:(NSString*) str
@@ -218,13 +214,34 @@
     [self writeInt:[num intValue] withSign:NO];
 }
 
-- (void) writeProperty:(id) prop type:(NSString*)type name:(NSString*)name
+- (void) writeProperty:(id) prop type:(NSString*)type name:(NSString*)name platform:(NSString*)platform
 {
     int typeId = [self propTypeIdForName:type];
     NSAssert(typeId >= 0, @"ccbi export: Trying to write unkown property type %@",type);
     
+    // Property type
     [self writeInt:typeId withSign:NO];
+    
+    // Property name
     [self writeCachedString:name];
+    
+    // Supported platforms
+    if (!platform) [self writeByte:kCCBXPlatformAll];
+    else if ([platform isEqualToString:@"iOS"])
+    {
+        NSLog(@"iOS platform property");
+        [self writeByte:kCCBXPlatformIOS];
+    }
+    else if ([platform isEqualToString:@"Mac"])
+    {
+        NSLog(@"Mac platform property");
+        [self writeByte:kCCBXPlatformMac];
+    }
+    else
+    {
+        NSLog(@"ccbi export: Unknown platform for property");
+        [self writeByte:kCCBXPlatformAll];
+    }
     
     NSLog(@" - %@",name);
     
@@ -255,7 +272,7 @@
     else if ([type isEqualToString:@"Byte"])
     {
         int a = [prop intValue];
-        [self writeInt:a withSign:NO];
+        [self writeByte:a];
     }
     else if ([type isEqualToString:@"Check"])
     {
@@ -288,9 +305,9 @@
         int a = [[prop objectAtIndex:0] intValue];
         int b = [[prop objectAtIndex:1] intValue];
         int c = [[prop objectAtIndex:2] intValue];
-        [self writeInt:a withSign:NO];
-        [self writeInt:b withSign:NO];
-        [self writeInt:c withSign:NO];
+        [self writeByte:a];
+        [self writeByte:b];
+        [self writeByte:c];
     }
     else if ([type isEqualToString:@"Color4FVar"])
     {
@@ -398,8 +415,6 @@
 
 - (void) writeStringCache
 {
-    NSLog(@"writeStringCache %@", stringCache);
-    
     [self writeInt:(int)[stringCache count] withSign:NO];
     
     for (int i = 0; i < [stringCache count]; i++)
@@ -434,7 +449,7 @@
     for (int i = 0; i < [props count]; i++)
     {
         NSDictionary* prop = [props objectAtIndex:i];
-        [self writeProperty:[prop objectForKey:@"value"] type:[prop objectForKey:@"type"] name:[prop objectForKey:@"name"]];
+        [self writeProperty:[prop objectForKey:@"value"] type:[prop objectForKey:@"type"] name:[prop objectForKey:@"name"] platform:[prop objectForKey:@"platform"]];
     }
     
     // Write children

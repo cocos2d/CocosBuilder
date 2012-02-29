@@ -20,6 +20,12 @@ enum {
     kCCBXFloatFull
 };
 
+enum {
+    kCCBXPlatformAll = 0,
+    kCCBXPlatformIOS,
+    kCCBXPlatformMac
+};
+
 @interface CCBXCocos2diPhoneWriter : NSObject
 {
     NSMutableData* data;

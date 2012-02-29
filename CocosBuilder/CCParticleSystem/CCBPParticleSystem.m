@@ -167,4 +167,27 @@
     if (emitterMode_ == kCCParticleModeRadius) [super setRotatePerSecondVar:rotatePerSecondVar];
 }
 
+- (NSArray*) ccbExcludePropertiesForSave
+{
+    if (emitterMode_ == kCCParticleModeGravity)
+    {
+        return [NSArray arrayWithObjects:
+                @"startRadius",
+                @"endRadius",
+                @"rotatePerSecond",
+                nil];
+    }
+    else
+    {
+        return [NSArray arrayWithObjects:
+                @"gravity",
+                @"speed",
+                @"tangentialAccel",
+                @"radialAccel",
+                nil];
+    }
+    
+    return NULL;
+}
+
 @end
