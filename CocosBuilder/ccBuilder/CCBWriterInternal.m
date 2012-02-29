@@ -132,6 +132,13 @@
     
     NSMutableArray* props = [NSMutableArray array];
     
+    NSArray* excludeProps = NULL;
+    // Get list of properties to exclude from save (if any)
+    if ([node respondsToSelector:@selector(ccbExcludePropertiesForSave)])
+    {
+        excludeProps = [node performSelector:@selector(ccbExcludePropertiesForSave)];
+    }
+    
     NSMutableArray* plugInProps = plugIn.nodeProperties;
     int plugInPropsCount = [plugInProps count];
     for (int i = 0; i < plugInPropsCount; i++)
@@ -139,7 +146,14 @@
         NSMutableDictionary* propInfo = [plugInProps objectAtIndex:i];
         NSString* type = [propInfo objectForKey:@"type"];
         NSString* name = [propInfo objectForKey:@"name"];
-        id serializedValue; 
+        NSString* platform = [propInfo objectForKey:@"platform"];
+        id serializedValue;
+        
+        // Check if this property should be excluded
+        if (excludeProps && [excludeProps indexOfObject:name] != NSNotFound)
+        {
+            continue;
+        }
         
         // Ignore separators and graphical stuff
         if ([type isEqualToString:@"Separator"]
@@ -284,6 +298,7 @@
         [prop setValue:type forKey:@"type"];
         [prop setValue:name forKey:@"name"];
         [prop setValue:serializedValue forKey:@"value"];
+        if (platform) [prop setValue:platform forKey:@"platform"];
         
         [props addObject:prop];
     }
