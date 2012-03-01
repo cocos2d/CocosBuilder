@@ -185,7 +185,7 @@
 						<string key="label">contentValues: exporterNames</string>
 						<reference key="source" ref="461116785"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="940438560">
 							<reference key="NSSource" ref="461116785"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">contentValues: exporterNames</string>
@@ -195,6 +195,23 @@
 						</object>
 					</object>
 					<int key="connectionID">14</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: selectedIndex</string>
+						<reference key="source" ref="461116785"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="461116785"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">selectedTag: selectedIndex</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">selectedIndex</string>
+							<reference key="NSPreviousConnector" ref="940438560"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">16</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -348,7 +365,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">14</int>
+			<int key="maxID">16</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
