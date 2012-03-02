@@ -290,8 +290,12 @@
     
     NSDictionary* nodeGraph = [dict objectForKey:@"nodeGraph"];
     
-    if (fileVersion == 2)
+    NSLog(@"fileVersion=%d", fileVersion);
+    
+    if (fileVersion <= 2)
     {
+        NSLog(@"Using legacy reader!");
+        
         // Use legacy reader
         return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:[[CCBGlobals globals] appDelegate].assetsPath owner:NULL];
     }

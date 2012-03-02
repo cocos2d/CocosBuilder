@@ -429,7 +429,6 @@
     NSString* className = @"";
     NSString* customClass = [cs extraPropForKey:@"customClass" andNode:item];
     if (customClass && ![customClass isEqualToString:@""]) className = customClass;
-    else if ([item isKindOfClass:[CCParticleSystem class]]) className = @"CCParticleSystem";
     else className = info.plugIn.nodeClassName;
     
     // Assignment name
@@ -1266,12 +1265,14 @@
     
     if (!selectedNode) return;
     
+    
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
     else if (dir == 1) delta = ccp(1, 0);
     else if (dir == 2) delta = ccp(0, 1);
     else if (dir == 3) delta = ccp(0, -1);
     
+    [self saveUndoStateWillChangeProperty:@"position"];
     selectedNode.position = ccpAdd(selectedNode.position, delta);
     [self refreshProperty:@"position"];
 }
@@ -1288,6 +1289,7 @@
     else if (dir == 2) delta = ccp(0, 10);
     else if (dir == 3) delta = ccp(0, -10);
     
+    [self saveUndoStateWillChangeProperty:@"position"];
     selectedNode.position = ccpAdd(selectedNode.position, delta);
     [self refreshProperty:@"position"];
 }

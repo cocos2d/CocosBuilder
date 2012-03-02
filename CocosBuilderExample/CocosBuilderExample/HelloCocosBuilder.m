@@ -14,7 +14,7 @@
 - (void) didLoadFromCCB
 {    
     // Start rotating the burst sprite
-    [sprtBurst runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:5.0f angle:360]]];
+    [sprtBurst runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:20.0f angle:360]]];
 }
 
 // This method is set as an attribute to the CCMenuItemImage in
