@@ -2,8 +2,6 @@
 
 CocosBuilder is a free tool (released under MIT-licence) for graphically laying out sprites, layers and scenes for Cocos2D iPhone and Mac. It’s ideal for quickly and accurately creating menus and other parts of the interface, but can also be used to create levels, particle systems or any other kind of Cocos2D node graphs.
 
-![CocosBuilder screenshot](screenshot.png)
-
 It’s super easy to include the scenes you build in CocosBuilder into your project. Add the CCBReader files, then load the node graph or scene with a single line of code!
 
 CocosBuilder allows you to patch into the generated file at any point by automatically assigning variables and custom classes for the objects that you load through the CCBReader. Objects created by CocosBuilder also plays beautifully with your existing Cocos2D code.
