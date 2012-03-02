@@ -229,21 +229,16 @@
     if (!platform) [self writeByte:kCCBXPlatformAll];
     else if ([platform isEqualToString:@"iOS"])
     {
-        NSLog(@"iOS platform property");
         [self writeByte:kCCBXPlatformIOS];
     }
     else if ([platform isEqualToString:@"Mac"])
     {
-        NSLog(@"Mac platform property");
         [self writeByte:kCCBXPlatformMac];
     }
     else
     {
-        NSLog(@"ccbi export: Unknown platform for property");
         [self writeByte:kCCBXPlatformAll];
     }
-    
-    NSLog(@" - %@",name);
     
     if ([type isEqualToString:@"Position"]
         || [type isEqualToString:@"Size"]
@@ -432,8 +427,6 @@
         class = [node objectForKey:@"baseClass"];
     }
     [self writeCachedString:class];
-    
-    NSLog(@"writeNodeGraph class: %@",class);
     
     // Write assignment type and name
     int memberVarAssignmentType = [[node objectForKey:@"memberVarAssignmentType"] intValue];

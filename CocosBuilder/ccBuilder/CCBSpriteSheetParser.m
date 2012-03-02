@@ -57,8 +57,6 @@ static NSInteger strSort(id num1, id num2, void *context)
         {
             if (!isHDFile)
             {
-                NSLog(@"file is spriteSheet: %@", file);
-                
                 [array addObject:file];
                 [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:absFile];
             }

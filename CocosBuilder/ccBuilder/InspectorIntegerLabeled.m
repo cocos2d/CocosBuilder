@@ -37,16 +37,10 @@
     }
     
     [popup selectItemWithTag:[[self propertyForSelection] intValue]];
-    
-    /*
-    [self willChangeValueForKey:@"selectedTag"];
-    [self didChangeValueForKey:@"selectedTag"];
-     */
 }
 
 - (void) setSelectedTag:(int)selectedTag
 {
-    NSLog(@"setSelectedTag: %d", selectedTag);
     
     [self setPropertyForSelection:[NSNumber numberWithInt:selectedTag]];
 }
@@ -54,8 +48,6 @@
 - (int) selectedTag
 {
     int st = [[self propertyForSelection] intValue];
-    
-    NSLog(@"selectedTag=%d",st);
     return st;
 }
 

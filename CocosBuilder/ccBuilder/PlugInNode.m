@@ -54,17 +54,6 @@
             }
         }
     }
-    
-    /*
-    // Print loaded properties
-    for (int i = 0; i < [arr count]; i++)
-    {
-        NSDictionary* propInfo = [arr objectAtIndex:i];
-        NSString* propName = [propInfo objectForKey:@"name"];
-        
-        NSLog(@" - %@", propName);
-    }
-    */
 }
 
 

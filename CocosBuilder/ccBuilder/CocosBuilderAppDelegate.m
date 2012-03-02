@@ -976,8 +976,6 @@
 
 - (void) exportFile:(NSString*) fileName withPlugIn:(NSString*) ext
 {
-    NSLog(@"exportFile: %@ withPlugIn: %@", fileName, ext);
-    
     PlugInExport* plugIn = [[PlugInManager sharedManager] plugInExportForExtension:ext];
     if (!plugIn)
     {
@@ -1644,18 +1642,6 @@
     }
 }
 
-/*
-- (IBAction) menuDistributeChildren:(id)sender
-{
-    if (!currentDocument) return;
-    if (![self isSelectedNode]) return;
-    
-    CCArray* children = [selectedNode children];
-    if ([children count] <= 2) return;
-    
-    // TODO: Implement!
-}*/
-
 - (BOOL) windowShouldClose:(id)sender
 {
     if ([self hasDirtyDocument])
@@ -1699,7 +1685,6 @@
 {
     if (!selectedNode)
     {
-        NSLog(@"No selected node!");
         return;
     }
     

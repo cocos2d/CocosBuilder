@@ -167,8 +167,6 @@
     {
         PlugInExport* plugIn = [plugInsExporters objectAtIndex:i];
         [arr addObject:plugIn.pluginName];
-        
-        NSLog(@"Adding plugInName: %@", plugIn.pluginName);
     }
     return arr;
 }

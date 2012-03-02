@@ -29,14 +29,12 @@
 {
     if ([[self window] makeFirstResponder:[self window]])
     {
-        NSLog(@"acceptSheet");
         [NSApp stopModalWithCode:1];
     }
 }
 
 - (IBAction)cancelSheet:(id)sender
 {
-    NSLog(@"cancelSheet");
     [NSApp stopModalWithCode:0];
 }
 

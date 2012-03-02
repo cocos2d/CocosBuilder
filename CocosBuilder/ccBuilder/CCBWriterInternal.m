@@ -317,8 +317,6 @@
         }
     }
     
-    if (!baseClass) NSLog(@"baseClass: %@ plugIn: %@ nodeInfo: %@ node: %@", baseClass, plugIn, info, node);
-    
     // Create node
     [dict setObject:props forKey:@"properties"];
     [dict setObject:baseClass forKey:@"baseClass"];

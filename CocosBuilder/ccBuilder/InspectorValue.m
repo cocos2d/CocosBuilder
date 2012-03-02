@@ -130,8 +130,6 @@
 
 - (void)dealloc
 {
-    NSLog(@"DEALLOC");
-    
     self.affectsProperties = NULL;
     [selection release];
     [propertyName release];

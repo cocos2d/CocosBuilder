@@ -21,8 +21,6 @@
 
 - (void) populateImgList:(NSString*)ssf
 {
-    NSLog(@"populateImgList: %@", ssf);
-    
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     
     if (!ssf || [ssf isEqualToString:kCCBUseRegularFile])
@@ -40,13 +38,11 @@
     self = [super initWithSelection:s andPropertyName:pn andDisplayName:dn andExtra:e];
     if (!self) return NULL;
     
-    NSString* sf = self.spriteFile;
+    //NSString* sf = self.spriteFile;
     NSString* ssf = self.spriteSheetFile;
     
     //self.assetsImgList = [NSMutableArray array];
     [self populateImgList:ssf];
-    
-    NSLog(@"Initial spriteFile:%@ spriteSheetFile:%@",sf,ssf);
     
     self.spriteSheetFile = ssf;
     //self.spriteFile = sf;
@@ -76,8 +72,6 @@
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
     NSString* oldSpriteSheetFile = self.spriteSheetFile;
-    
-    NSLog(@"oldSpriteSheetFile: %@ newSpriteSheetFile: %@", oldSpriteSheetFile, spriteSheetFile);
     
     [self populateImgList:spriteSheetFile];
     

@@ -97,8 +97,6 @@
     blendFunc.src = src;
     blendFunc.dst = dst;
     
-    NSLog(@"BLENDFUNC src:%d dst:%d",src, dst);
-    
     return blendFunc;
 }
 
@@ -127,8 +125,6 @@
     node.isRelativeAnchorPoint = [CCBReaderInternalV1 boolValFromDict:props forKey:@"isRelativeAnchorPoint"];
     node.visible = [CCBReaderInternalV1 boolValFromDict:props forKey:@"visible"];
     node.tag = [CCBReaderInternalV1 intValFromDict:props forKey:@"tag"];
-    
-    NSLog(@"Setting customClass=%@", [props objectForKey:@"customClass"]);
         
         [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"customClass"] forKey:@"customClass" andNode:node];
         [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"memberVarAssignmentType"] forKey:@"memberVarAssignmentType" andNode:node];
@@ -170,9 +166,6 @@
 
 + (void) setPropsForSprite: (CCSprite*) node props:(NSDictionary*)props
 {
-    NSLog(@"SPRITE: %@", [props objectForKey:@"spriteFile"]);
-    
-    
     [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"displayFrame" andNode:node];
     NSString* spriteFramesFile = [props objectForKey:@"spriteFramesFile"];
     if (!spriteFramesFile || [spriteFramesFile isEqualToString:@""])

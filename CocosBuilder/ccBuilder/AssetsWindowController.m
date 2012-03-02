@@ -77,8 +77,6 @@
 
 - (void) clearContents
 {
-    //NSLog(@"clearContents !!");
-    
     [assetsItems removeAllObjects];
     self.spriteSheetList = [NSMutableArray array];
     [spriteSheetList addObject:@"All images"];
