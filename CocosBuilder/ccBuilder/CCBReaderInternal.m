@@ -285,17 +285,12 @@
     if (!fileType  || ![fileType isEqualToString:@"CocosBuilder"])
     {
         NSLog(@"WARNING! Trying to load invalid file type (%@)", fileType);
-        NSLog(@"dict=%@",dict);
     }
     
     NSDictionary* nodeGraph = [dict objectForKey:@"nodeGraph"];
     
-    NSLog(@"fileVersion=%d", fileVersion);
-    
     if (fileVersion <= 2)
     {
-        NSLog(@"Using legacy reader!");
-        
         // Use legacy reader
         return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:[[CCBGlobals globals] appDelegate].assetsPath owner:NULL];
     }

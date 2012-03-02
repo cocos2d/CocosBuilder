@@ -542,8 +542,8 @@
 #pragma mark -
 #pragma mark Functionality
 
-- (void)addTabViewItem:(NSTabViewItem *)item {
-    NSLog(@"addTabViewItem");
+- (void)addTabViewItem:(NSTabViewItem *)item
+{
     
 	// create cell
 	PSMTabBarCell *cell = [[PSMTabBarCell alloc] initWithControlView:self];

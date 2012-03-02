@@ -28,8 +28,6 @@
 {
     selectedIndex = idx;
     
-    NSLog(@"setSelectedIndex: %d",idx);
-    
     NSString* type = [[[PlugInManager sharedManager] plugInExportForIndex:idx] extension];
     [savePanel setAllowedFileTypes:[NSArray arrayWithObject:type]];
 }

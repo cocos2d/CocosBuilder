@@ -82,8 +82,6 @@
     
     if (!texture) texture = [[CCTextureCache sharedTextureCache] addImage:@"missing-texture.png"];
     
-    NSLog(@"setTexture file:%@ prop:%@ texture:%@", spriteFile,prop, texture);
-    
     [node setValue:texture forKey:prop];
 }
 

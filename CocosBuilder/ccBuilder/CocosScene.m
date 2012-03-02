@@ -661,8 +661,6 @@
     NSString* indent = @"";
     for (int i = 0; i < level; i++) indent = [indent stringByAppendingString:@"-"];
     
-    NSLog(@"%@%@ %d",indent,[node className],(int)node.tag);
-    
     for (int i = 0; i < [[node children] count]; i++)
     {
         [self printNodes:[[node children] objectAtIndex:i] level:level+1];
