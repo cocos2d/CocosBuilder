@@ -27,7 +27,7 @@
 	<array>
 		<dict>
 			<key>displayName</key>
-			<string>CCParticleSystem</string>
+			<string>CCParticleSystemQuad</string>
 			<key>type</key>
 			<string>Separator</string>
 		</dict>
@@ -48,16 +48,6 @@
 			<string>IntegerLabeled</string>
 			<key>extra</key>
 			<string>Gravity mode|0|Radius mode|1</string>
-		</dict>
-		<dict>
-			<key>default</key>
-			<string></string>
-			<key>displayName</key>
-			<string>Texture</string>
-			<key>name</key>
-			<string>texture</string>
-			<key>type</key>
-			<string>Texture</string>
 		</dict>
 		<dict>
 			<key>default</key>
@@ -155,6 +145,19 @@
 		<dict>
 			<key>default</key>
 			<array>
+				<integer>90</integer>
+				<integer>10</integer>
+			</array>
+			<key>displayName</key>
+			<string>Angle</string>
+			<key>type</key>
+			<string>FloatVar</string>
+			<key>name</key>
+			<string>angle</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
 				<array>
 					<real>0.76</real>
 					<real>0.25</real>
@@ -228,19 +231,6 @@
 		<dict>
 			<key>default</key>
 			<array>
-				<integer>90</integer>
-				<integer>10</integer>
-			</array>
-			<key>displayName</key>
-			<string>Angle</string>
-			<key>type</key>
-			<string>FloatVar</string>
-			<key>name</key>
-			<string>angle</string>
-		</dict>
-		<dict>
-			<key>default</key>
-			<array>
 				<integer>60</integer>
 				<integer>20</integer>
 			</array>
@@ -296,6 +286,22 @@
 			<string>FloatVar</string>
 			<key>name</key>
 			<string>rotatePerSecond</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Particle texture</string>
+			<key>type</key>
+			<string>SeparatorSub</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<string></string>
+			<key>displayName</key>
+			<string>Texture</string>
+			<key>name</key>
+			<string>texture</string>
+			<key>type</key>
+			<string>Texture</string>
 		</dict>
 	</array>
 </dict>
