@@ -18,18 +18,18 @@
 
 @implementation CCBReaderInternal
 
-+ (CGPoint) deserializePoint:(id) val
++ (NSPoint) deserializePoint:(id) val
 {
     float x = [[val objectAtIndex:0] floatValue];
     float y = [[val objectAtIndex:1] floatValue];
-    return ccp(x,y);
+    return NSMakePoint(x,y);
 }
 
-+ (CGSize) deserializeSize:(id) val
++ (NSSize) deserializeSize:(id) val
 {
     float w = [[val objectAtIndex:0] floatValue];
     float h = [[val objectAtIndex:1] floatValue];
-    return CGSizeMake(w, h);
+    return NSMakeSize(w, h);
 }
 
 + (float) deserializeFloat:(id) val
@@ -94,12 +94,13 @@
         || [type isEqualToString:@"Point"]
         || [type isEqualToString:@"PointLock"])
     {
-        CGPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
+        NSPoint pt = [CCBReaderInternal deserializePoint: serializedValue];
+		
         [node setValue:[NSValue valueWithPoint:pt] forKey:name];
     }
     else if ([type isEqualToString:@"Size"])
     {
-        CGSize size = [CCBReaderInternal deserializeSize: serializedValue];
+        NSSize size = [CCBReaderInternal deserializeSize: serializedValue];
         [node setValue:[NSValue valueWithSize:size] forKey:name];
     }
     else if ([type isEqualToString:@"Scale"]

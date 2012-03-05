@@ -173,12 +173,12 @@
             || [type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"])
         {
-            CGPoint pt = [[node valueForKey:name] pointValue];
+			CGPoint pt = NSPointToCGPoint( [[node valueForKey:name] pointValue] );
             serializedValue = [CCBWriterInternal serializePoint:pt];
         }
         else if ([type isEqualToString:@"Size"])
         {
-            CGSize size = [[node valueForKey:name] sizeValue];
+			CGSize size = NSSizeToCGSize( [[node valueForKey:name] sizeValue] );
             serializedValue = [CCBWriterInternal serializeSize:size];
         }
         else if ([type isEqualToString:@"Scale"]
