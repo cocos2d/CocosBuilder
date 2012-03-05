@@ -13,7 +13,7 @@
 - (void) setPosX:(float)posX
 {
     // TODO: Try/catch is quick fix for particle systems
-    CGPoint pt = [[self propertyForSelection] pointValue];
+    NSPoint pt = [[self propertyForSelection] pointValue];
     pt.x = posX;
     [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
     
@@ -26,7 +26,7 @@
 
 - (void) setPosY:(float)posY
 {
-    CGPoint pt = [[self propertyForSelection] pointValue];
+	NSPoint pt = [[self propertyForSelection] pointValue];
     pt.y = posY;
     [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
 }

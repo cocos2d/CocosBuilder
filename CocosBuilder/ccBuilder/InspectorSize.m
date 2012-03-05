@@ -12,7 +12,7 @@
 
 - (void) setWidth:(float)width
 {
-    CGSize size = [[self propertyForSelection] sizeValue];
+	NSSize size = [[self propertyForSelection] sizeValue];
     size.width = width;
     [self setPropertyForSelection:[NSValue valueWithSize:size]];
 }
@@ -24,7 +24,7 @@
 
 - (void) setHeight:(float)height
 {
-    CGSize size = [[self propertyForSelection] sizeValue];
+	NSSize size = [[self propertyForSelection] sizeValue];
     size.height = height;
     [self setPropertyForSelection:[NSValue valueWithSize:size]];
 }
