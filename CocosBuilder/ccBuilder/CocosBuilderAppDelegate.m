@@ -1382,7 +1382,9 @@
 {
     if (!currentDocument) return;
     
-    if (currentDocument.exportPath && currentDocument.exportPlugIn)
+    if (currentDocument.exportPath && 
+		currentDocument.exportPlugIn && 
+		[[NSFileManager defaultManager] fileExistsAtPath:currentDocument.exportPath] )
     {
         [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
     }
