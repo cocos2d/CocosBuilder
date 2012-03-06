@@ -39,4 +39,9 @@
     return [[self.fileName lastPathComponent] stringByDeletingPathExtension];
 }
 
+- (NSString*) rootPath
+{
+    return [fileName stringByDeletingLastPathComponent];
+}
+
 @end

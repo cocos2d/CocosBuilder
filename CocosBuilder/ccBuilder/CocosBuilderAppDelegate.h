@@ -25,6 +25,8 @@ enum {
 @class CCBDocument;
 @class AssetsWindowController;
 @class PlugInManager;
+@class ResourceManager;
+@class ResourceManagerPanel;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -63,6 +65,9 @@ enum {
     BOOL defaultCanvasSize;
     
     // Assets
+    ResourceManager* resManager;
+    ResourceManagerPanel* resManagerPanel;
+    
     NSString* assetsPath;
     IBOutlet NSArrayController* assetsList;
     NSMutableArray* assestsImgList;
@@ -97,6 +102,7 @@ enum {
 @property (nonatomic,retain) NSMutableArray* assetsTemplates;
 @property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
+@property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
 @property (nonatomic,retain) NSString* assetsPath;
