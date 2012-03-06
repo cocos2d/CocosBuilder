@@ -26,6 +26,7 @@
 @property (nonatomic,assign) BOOL isDirty;
 @property (nonatomic,assign) CGPoint stageScrollOffset;
 @property (nonatomic,assign) float stageZoom;
+@property (nonatomic,readonly) NSString* rootPath;
 - (NSString*) formattedName;
 
 @end

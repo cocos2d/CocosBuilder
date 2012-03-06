@@ -23,12 +23,14 @@
 #import "PlugInExport.h"
 #import "TexturePropertySetter.h"
 #import "PublishTypeAccessoryView.h"
+#import "ResourceManager.h"
+#import "ResourceManagerPanel.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates,assetsFontListTTF, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager;
+@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates,assetsFontListTTF, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
 
 #pragma mark Setup functions
 
@@ -80,6 +82,7 @@
 
 - (void) updateAssetsView
 {
+    
     // Remove objects
     [assetsList removeObjectsAtArrangedObjectIndexes:
      [NSIndexSet indexSetWithIndexesInRange:
@@ -153,6 +156,9 @@
     [assetsWindowController reloadData];
     
     [self loadFontListTTF];
+    
+    // New resource manager
+    [resManagerPanel reload];
 }
 
 - (void) setupTabBar
@@ -245,6 +251,12 @@
         [item setTag:1];
         [menuAddObjectAsChild addItem:item];
     }
+    
+    // New resource manager
+    resManager = [ResourceManager sharedManager];
+    resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
+    
+    [resManagerPanel.window setIsVisible:YES];
 }
 
 #pragma mark Notifications to user
@@ -272,6 +284,9 @@
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
+    CCBDocument* doc = [tabViewItem identifier];
+    [resManager removeDirectory:doc.rootPath];
+    
     if ([[aTabView tabViewItems] count] == 0)
     {
         [self closeLastDocument];
@@ -861,6 +876,8 @@
     
     [self updateAssetsView];
     
+    [resManager setActiveDirectory: document.rootPath];
+    
     [self replaceDocumentData:doc];
     
     [self updateCanvasSizeMenu];
@@ -942,6 +959,8 @@
     newDoc.docData = doc;
     newDoc.exportPath = [doc objectForKey:@"exportPath"];
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
+    
+    [resManager addDirectory:newDoc.rootPath];
     
     [self switchToDocument:newDoc];
      

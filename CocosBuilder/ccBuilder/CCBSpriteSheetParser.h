@@ -8,6 +8,8 @@
 @interface CCBSpriteSheetParser : NSObject {   
 }
 
++ (BOOL) isSpriteSheetFile:(NSString*) file;
 + (NSMutableArray*) findSpriteSheetsAtPath:(NSString*)assetsPath;
 + (NSMutableArray*) listFramesInSheet:(NSString*)file assetsPath:(NSString*) assetsPath;
++ (NSMutableArray*) listFramesInSheet:(NSString *)absoluteFile;
 @end

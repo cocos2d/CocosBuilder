@@ -65,10 +65,8 @@ static NSInteger strSort(id num1, id num2, void *context)
     return array;
 }
 
-+ (NSMutableArray*) listFramesInSheet:(NSString*)file assetsPath:(NSString*) assetsPath
++ (NSMutableArray*) listFramesInSheet:(NSString *)absoluteFile
 {
-    NSString* absoluteFile = [NSString stringWithFormat:@"%@%@",assetsPath,file];
-    
     NSMutableArray* frames = [NSMutableArray array];
     
     if ([CCBSpriteSheetParser isSpriteSheetFile:absoluteFile])
@@ -85,6 +83,13 @@ static NSInteger strSort(id num1, id num2, void *context)
     [frames sortUsingFunction:strSort context:NULL];
     
     return frames;
+}
+
++ (NSMutableArray*) listFramesInSheet:(NSString*)file assetsPath:(NSString*) assetsPath
+{
+    NSString* absoluteFile = [NSString stringWithFormat:@"%@%@",assetsPath,file];
+    
+    return [CCBSpriteSheetParser listFramesInSheet:absoluteFile];
 }
 
 @end
