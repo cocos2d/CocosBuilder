@@ -511,6 +511,8 @@
 
 - (BOOL) readHeader
 {
+	// if no bytes loaded, don't crash about it.
+	if( bytes == nil) return NO;
     // Read magic
     int magic = *((int*)(bytes+currentByte));
     currentByte+=4;
