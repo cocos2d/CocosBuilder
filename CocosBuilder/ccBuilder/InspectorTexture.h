@@ -9,7 +9,9 @@
 #import "InspectorValue.h"
 
 @interface InspectorTexture : InspectorValue
-
-@property (nonatomic,assign) NSString* spriteFile;
+{
+    IBOutlet NSPopUpButton* popup;
+    IBOutlet NSMenu* menu;
+}
 
 @end

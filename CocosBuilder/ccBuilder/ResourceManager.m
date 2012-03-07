@@ -9,6 +9,22 @@
 #import "ResourceManager.h"
 #import "CCBSpriteSheetParser.h"
 
+#pragma mark RMSpriteFrame
+
+@implementation RMSpriteFrame
+
+@synthesize spriteFrameName, spriteSheetFile;
+
+- (void) dealloc
+{
+    self.spriteFrameName = NULL;
+    self.spriteSheetFile = NULL;
+    [super dealloc];
+}
+
+@end
+
+
 #pragma mark RMResource
 
 @implementation RMResource
@@ -19,7 +35,21 @@
 {
     if (type == kCCBResTypeSpriteSheet)
     {
-        self.data = [CCBSpriteSheetParser listFramesInSheet:filePath];
+        NSArray* spriteFrameNames = [CCBSpriteSheetParser listFramesInSheet:filePath];
+        NSMutableArray* spriteFrames = [NSMutableArray arrayWithCapacity:[spriteFrameNames count]];
+        for (NSString* frameName in spriteFrameNames)
+        {
+            RMSpriteFrame* frame = [[[RMSpriteFrame alloc] init] autorelease];
+            frame.spriteFrameName = frameName;
+            frame.spriteSheetFile = self.filePath;
+            
+            [spriteFrames addObject:frame];
+        }
+        self.data = spriteFrames;
+    }
+    else if (type == kCCBResTypeDirectory)
+    {
+        // Ignore changed directories
     }
     else
     {

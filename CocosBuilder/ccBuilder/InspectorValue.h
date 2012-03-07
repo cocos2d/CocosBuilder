@@ -36,6 +36,10 @@
 - (id) initWithSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 
 - (void) refresh;
+
+- (void) willBeAdded;
+- (void) willBeRemoved;
+
 - (void) updateAffectedProperties;
 
 - (id) propertyForSelection;

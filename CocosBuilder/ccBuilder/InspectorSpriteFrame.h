@@ -10,13 +10,16 @@
 
 @interface InspectorSpriteFrame : InspectorValue
 {
-    NSMutableArray* assetsImgList;
-    BOOL isSetSpriteSheet;
+    //NSMutableArray* assetsImgList;
+    //BOOL isSetSpriteSheet;
+    
+    IBOutlet NSPopUpButton* popup;
+    IBOutlet NSMenu* menu;
 }
 
-@property (nonatomic,retain) NSMutableArray* assetsImgList;
+//@property (nonatomic,retain) NSMutableArray* assetsImgList;
 
-@property (nonatomic,assign) NSString* spriteFile;
-@property (nonatomic,assign) NSString* spriteSheetFile;
+//@property (nonatomic,assign) NSString* spriteFile;
+//@property (nonatomic,assign) NSString* spriteSheetFile;
 
 @end

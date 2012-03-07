@@ -42,6 +42,14 @@
 {
 }
 
+- (void) willBeAdded
+{
+}
+
+- (void) willBeRemoved
+{
+}
+
 - (void) updateAffectedProperties
 {
     if (affectsProperties)

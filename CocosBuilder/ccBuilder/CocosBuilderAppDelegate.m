@@ -635,6 +635,8 @@
     [NSBundle loadNibNamed:inspectorNibName owner:inspectorValue];
     NSView* view = inspectorValue.view;
     
+    [inspectorValue willBeAdded];
+    
     // Add view to inspector and place it at the bottom
     [inspectorDocumentView addSubview:view];
     [view setAutoresizingMask:NSViewWidthSizable];
@@ -648,6 +650,13 @@
 
 - (void) updateInspectorFromSelection
 {
+    // Notifiy panes that they will be removed
+    for (NSString* key in currentInspectorValues)
+    {
+        InspectorValue* v = [currentInspectorValues objectForKey:key];
+        [v willBeRemoved];
+    }
+    
     // Remove all old inspector panes
     NSArray* panes = [inspectorDocumentView subviews];
     for (int i = [panes count]-1; i >= 0 ; i--)
@@ -655,7 +664,6 @@
         NSView* pane = [panes objectAtIndex:i];
         [pane removeFromSuperview];
     }
-    
     [currentInspectorValues removeAllObjects];
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, 1)];
