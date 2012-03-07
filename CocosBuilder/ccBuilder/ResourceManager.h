@@ -19,6 +19,17 @@ enum
     kCCBResTypeBMFont
 };
 
+
+@interface RMSpriteFrame : NSObject
+{
+    NSString* spriteSheetFile;
+    NSString* spriteFrameName;
+}
+@property (nonatomic,retain) NSString* spriteSheetFile;
+@property (nonatomic,retain) NSString* spriteFrameName;
+@end
+
+
 @interface RMResource : NSObject
 {
     int type;

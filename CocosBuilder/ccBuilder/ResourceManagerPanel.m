@@ -8,6 +8,7 @@
 
 #import "ResourceManagerPanel.h"
 #import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
 
 @implementation ResourceManagerPanel
 
@@ -31,25 +32,18 @@
     
     [resourceList setDataSource:self];
     //[resourceList setDelegate:self];
-    
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
 }
 
 - (void) reload
 {
-    NSLog(@"reload!");
     [resourceList reloadData];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    NSLog(@"outlineView: numberOfChildrenOfItem:");
-    
     // Handle base nodes
     if (item == NULL)
     {
-        NSLog(@" returning: %d", (int)[resManager.activeDirectories count]);
-        
         return [resManager.activeDirectories count];
     }
     
@@ -149,17 +143,78 @@
         RMResource* res = item;
         return [res.filePath lastPathComponent];
     }
-    else if ([item isKindOfClass:[NSString class]])
+    else if ([item isKindOfClass:[RMSpriteFrame class]])
     {
-        return item;
+        RMSpriteFrame* sf = item;
+        return sf.spriteFrameName;
     }
     return @"";
 }
 
+- (BOOL) outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
+{
+    NSString* spriteFile = NULL;
+    NSString* spriteSheetFile = NULL;
+    
+    for (id item in items)
+    {
+        if ([item isKindOfClass:[RMResource class]])
+        {
+            RMResource* res = item;
+            if (res.type == kCCBResTypeImage)
+            {
+                spriteFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
+            }
+        }
+        else if ([item isKindOfClass:[RMSpriteFrame class]])
+        {
+            RMSpriteFrame* frame = item;
+            spriteFile = frame.spriteFrameName;
+            spriteSheetFile = [ResourceManagerUtil relativePathFromAbsolutePath: frame.spriteSheetFile];
+            if (!spriteSheetFile) spriteFile = NULL;
+        }
+    }
+    
+    
+    if (spriteFile)
+    {
+        NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
+        [clipDict setObject:spriteFile forKey:@"spriteFile"];
+        if (spriteSheetFile)
+        {
+            [clipDict setObject:spriteSheetFile forKey:@"spriteSheetFile"];
+        }
+        
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
+        [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.texture"] owner:NULL];
+        [pasteboard setData:clipData forType:@"com.cocosbuilder.texture"];
+        
+        return YES;
+    }
+    
+    
+    return NO;
+    
+    /*
+    int idx = [itemIndexes firstIndex];
+    AssetsItem* item = [assetsItems objectAtIndex:idx];
+    
+    NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
+    [clipDict setObject:[item.spriteFile lastPathComponent] forKey:@"spriteFile"];
+    if (item.spriteSheetFile)
+    {
+        [clipDict setObject:[item.spriteSheetFile lastPathComponent] forKey:@"spriteSheetFile"];
+    }
+    
+    NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
+    [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.texture"] owner:NULL];
+    [pasteboard setData:clipData forType:@"com.cocosbuilder.texture"];
+    
+    return 1;*/
+}
+
 - (void) resourceListUpdated
 {
-    NSLog(@"resourceListUpdated!");
-    
     [resourceList reloadData];
 }
 
