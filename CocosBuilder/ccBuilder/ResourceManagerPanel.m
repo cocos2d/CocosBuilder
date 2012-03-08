@@ -12,7 +12,7 @@
 
 @implementation ResourceManagerPanel
 
-@synthesize resManager;
+@synthesize resManager, resType;
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -215,6 +215,12 @@
 
 - (void) resourceListUpdated
 {
+    [resourceList reloadData];
+}
+
+- (void) setResType:(int)rt
+{
+    resType = rt;
     [resourceList reloadData];
 }
 
