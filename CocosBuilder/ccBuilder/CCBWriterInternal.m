@@ -224,6 +224,12 @@
             NSString* spriteSheetFile = [extraProps objectForKey:[NSString stringWithFormat:@"%@Sheet",name]];
             serializedValue = [CCBWriterInternal serializeSpriteFrame:spriteFile sheet:spriteSheetFile];
         }
+        else if ([type isEqualToString:@"Animation"])
+        {
+            NSString* animation = [extraProps objectForKey:name];
+            NSString* animationFile = [extraProps objectForKey:[NSString stringWithFormat:@"%@Animation",name]];
+            serializedValue = [CCBWriterInternal serializeSpriteFrame:animation sheet:animationFile];
+        }		
         else if ([type isEqualToString:@"Texture"])
         {
             NSString* spriteFile = [extraProps objectForKey:name];

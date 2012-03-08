@@ -273,6 +273,32 @@
             [node setValue:spriteFrame forKey:name];
         }
     }
+	else if(type == kCCBPropTypeAnimation)
+    {
+        NSString* animation = [self readCachedString];
+        NSString* animationFile = [self readCachedString];
+        
+        if (setProp)
+        {
+            CCAnimation* pAnimation = nil;
+            
+            // Support for stripping relative file paths, since ios doesn't currently
+            // know what to do with them, since its pulling from bundle.
+            // Eventually this should be handled by a client side asset manager
+            // interface which figured out what resources to load.
+			animation = [animation lastPathComponent];
+			animationFile = [animationFile lastPathComponent];
+			
+            if (![animation isEqualToString:@""])
+            {
+                CCAnimationCache* animationCache = [CCAnimationCache sharedAnimationCache];
+				[animationCache addAnimationsWithFile:animationFile];
+				
+                pAnimation = [animationCache	animationByName:animation];;
+            }
+            [node setValue:pAnimation forKey:name];
+        }
+    }
     else if (type == kCCBPropTypeTexture)
     {
         NSString* spriteFile = [self readCachedString];
