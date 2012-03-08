@@ -283,6 +283,13 @@
         [self writeCachedString:a];
         [self writeCachedString:b];
     }
+§    else if ([type isEqualToString:@"Animation"])
+    {
+        NSString* animationFile = [prop objectAtIndex:0];
+        NSString* animation = [prop objectAtIndex:1];
+        [self writeCachedString:animationFile];
+        [self writeCachedString:animation];
+    }
     else if ([type isEqualToString:@"Block"])
     {
         NSString* a = [prop objectAtIndex:0];
@@ -356,6 +363,11 @@
             [self addToStringCache:[value objectAtIndex:0]];
             [self addToStringCache:[value objectAtIndex:1]];
         }
+		else if( [type isEqualToString:@"Animation"])
+		{
+            [self addToStringCache:[value objectAtIndex:0]];
+            [self addToStringCache:[value objectAtIndex:1]];			
+		}
         else if ([type isEqualToString:@"Block"])
         {
             [self addToStringCache:[value objectAtIndex:0]];

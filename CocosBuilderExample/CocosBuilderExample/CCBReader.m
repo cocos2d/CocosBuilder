@@ -275,8 +275,8 @@
     }
 	else if(type == kCCBPropTypeAnimation)
     {
-        NSString* animation = [self readCachedString];
         NSString* animationFile = [self readCachedString];
+        NSString* animation = [self readCachedString];
         
         if (setProp)
         {
