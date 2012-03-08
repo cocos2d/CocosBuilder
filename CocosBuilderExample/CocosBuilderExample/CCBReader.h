@@ -31,7 +31,8 @@ enum {
     kCCBPropTypeText,
     kCCBPropTypeFontTTF,
     kCCBPropTypeIntegerLabeled,
-    kCCBPropTypeBlock
+    kCCBPropTypeBlock,
+	kCCBPropTypeAnimation
 };
 
 enum {

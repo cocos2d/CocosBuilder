@@ -38,6 +38,8 @@
     [propTypes addObject:@"FontTTF"];
     [propTypes addObject:@"IntegerLabeled"];
     [propTypes addObject:@"Block"];
+    [propTypes addObject:@"Animation"];
+	
 }
 
 - (id) init
