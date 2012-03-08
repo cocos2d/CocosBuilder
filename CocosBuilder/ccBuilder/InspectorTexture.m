@@ -22,11 +22,11 @@
     
     NSString* sf = [cs extraPropForKey:propertyName andNode:selection];
     
-    [ResourceManagerUtil populateTexturePopup:popup allowSpriteFrames:NO selectedFile:sf selectedSheet:NULL target:self];
+    [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeImage allowSpriteFrames:NO selectedFile:sf selectedSheet:NULL target:self];
 }
 
 
-- (void) selectedTexture:(id)sender
+- (void) selectedResource:(id)sender
 {
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     

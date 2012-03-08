@@ -11,9 +11,9 @@
 
 @implementation ResourceManagerUtil
 
-+ (void) addDirectory: (RMDirectory*) dir ToMenu: (NSMenu*) menu target:(id)target allowSpriteFrames:(BOOL) allowSpriteFrames
++ (void) addDirectory: (RMDirectory*) dir ToMenu: (NSMenu*) menu target:(id)target resType:(int) resType allowSpriteFrames:(BOOL) allowSpriteFrames
 {
-    NSArray* arr = [dir resourcesForType:kCCBResTypeImage];
+    NSArray* arr = [dir resourcesForType:resType];
     
     for (id item in arr)
     {
@@ -21,10 +21,10 @@
         {
             RMResource* res = item;
             
-            if (res.type == kCCBResTypeImage)
+            if (res.type == kCCBResTypeImage || res.type == kCCBResTypeBMFont)
             {
                 NSString* itemName = [res.filePath lastPathComponent];
-                NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedTexture:) keyEquivalent:@""] autorelease];
+                NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
                 [menuItem setTarget:target];
                 [menu addItem:menuItem];
                 
@@ -39,10 +39,29 @@
                 NSArray* frames = res.data;
                 for (RMSpriteFrame* frame in frames)
                 {
-                    NSMenuItem* subItem = [[[NSMenuItem alloc] initWithTitle:frame.spriteFrameName action:@selector(selectedTexture:) keyEquivalent:@""] autorelease];
+                    NSMenuItem* subItem = [[[NSMenuItem alloc] initWithTitle:frame.spriteFrameName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
                     [subItem setTarget:target];
                     [subMenu addItem:subItem];
                     subItem.representedObject = frame;
+                }
+                
+                NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:NULL keyEquivalent:@""] autorelease];
+                [menu addItem:menuItem];
+                [menu setSubmenu:subMenu forItem:menuItem];
+            }
+            else if (res.type == kCCBResTypeAnimation)
+            {
+                NSString* itemName = [res.filePath lastPathComponent];
+                
+                NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:itemName] autorelease];
+                
+                NSArray* anims = res.data;
+                for (RMAnimation* anim in anims)
+                {
+                    NSMenuItem* subItem = [[[NSMenuItem alloc] initWithTitle:anim.animationName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
+                    [subItem setTarget:target];
+                    [subMenu addItem:subItem];
+                    subItem.representedObject = anim;
                 }
                 
                 NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:NULL keyEquivalent:@""] autorelease];
@@ -57,7 +76,7 @@
                 
                 NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:itemName] autorelease];
                 
-                [ResourceManagerUtil addDirectory:subDir ToMenu:subMenu target:target allowSpriteFrames:allowSpriteFrames];
+                [ResourceManagerUtil addDirectory:subDir ToMenu:subMenu target:target resType:resType allowSpriteFrames:allowSpriteFrames];
                 
                 NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:NULL keyEquivalent:@""] autorelease];
                 [menu addItem:menuItem];
@@ -67,7 +86,7 @@
     }
 }
 
-+ (void) populateTexturePopup:(NSPopUpButton*)popup allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
++ (void) populateResourcePopup:(NSPopUpButton*)popup resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
 {
     // TODO: Add support for multiple directories
     
@@ -80,7 +99,7 @@
     if ([rm.activeDirectories count] == 0) return;
     RMDirectory* activeDir = [rm.activeDirectories objectAtIndex:0];
     
-    [ResourceManagerUtil addDirectory:activeDir ToMenu:menu target:target allowSpriteFrames:allowSpriteFrames];
+    [ResourceManagerUtil addDirectory:activeDir ToMenu:menu target:target resType: resType allowSpriteFrames:allowSpriteFrames];
     
     // Set the selected item
     NSString* selectedTitle = NULL;

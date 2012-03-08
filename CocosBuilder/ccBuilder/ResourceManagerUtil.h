@@ -10,7 +10,7 @@
 
 @interface ResourceManagerUtil : NSObject
 
-+ (void) populateTexturePopup:(NSPopUpButton*)popup allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target;
++ (void) populateResourcePopup:(NSPopUpButton*)popup resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target;
 
 + (NSString*) relativePathFromAbsolutePath: (NSString*) path;
 

@@ -13,6 +13,7 @@
 #import "NodeInfo.h"
 #import "CCBWriterInternal.h"
 #import "TexturePropertySetter.h"
+#import "AnimationPropertySetter.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 
@@ -149,6 +150,19 @@
         [extraProps setObject:spriteSheetFile forKey:[NSString stringWithFormat:@"%@Sheet",name]];
         [extraProps setObject:spriteFile forKey:name];
         [TexturePropertySetter setSpriteFrameForNode:node andProperty:name withFile:spriteFile andSheetFile:spriteSheetFile];
+    }
+    else if ([type isEqualToString:@"Animation"])
+    {
+        NSString* animationFile = [serializedValue objectAtIndex:0];
+        NSString* animationName = [serializedValue objectAtIndex:1];
+        if (!animationFile) animationFile = @"";
+        if (!animationName) animationName = @"";
+        
+        NSLog(@"Loading animation file: %@ name:%@",animationFile, animationName);
+        
+        [extraProps setObject:animationFile forKey:[NSString stringWithFormat:@"%@Animation",name]];
+        [extraProps setObject:animationName forKey:name];
+        [AnimationPropertySetter setAnimationForNode:node andProperty:name withName:animationName andFile:animationFile];
     }
     else if ([type isEqualToString:@"Texture"])
     {
