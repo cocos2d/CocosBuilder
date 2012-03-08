@@ -8,6 +8,7 @@
 
 #import "ResourceManager.h"
 #import "CCBSpriteSheetParser.h"
+#import "CCBAnimationParser.h"
 
 #pragma mark RMSpriteFrame
 
@@ -19,6 +20,22 @@
 {
     self.spriteFrameName = NULL;
     self.spriteSheetFile = NULL;
+    [super dealloc];
+}
+
+@end
+
+
+#pragma mark RMAnimation
+
+@implementation RMAnimation
+
+@synthesize animationFile, animationName;
+
+- (void) dealloc
+{
+    self.animationFile = NULL;
+    self.animationName = NULL;
     [super dealloc];
 }
 
@@ -47,6 +64,20 @@
         }
         self.data = spriteFrames;
     }
+    else if (type == kCCBResTypeAnimation)
+    {
+        NSArray* animationNames = [CCBAnimationParser listAnimationsInFile:filePath];
+        NSMutableArray* animations = [NSMutableArray arrayWithCapacity:[animationNames count]];
+        for (NSString* animationName in animationNames)
+        {
+            RMAnimation* anim = [[[RMAnimation alloc] init] autorelease];
+            anim.animationName = animationName;
+            anim.animationFile = self.filePath;
+            
+            [animations addObject:anim];
+        }
+        self.data = animations;
+    }
     else if (type == kCCBResTypeDirectory)
     {
         // Ignore changed directories
@@ -72,7 +103,7 @@
 
 @implementation RMDirectory
 
-@synthesize count,dirPath, resources, images;
+@synthesize count,dirPath, resources, images, animations, bmFonts;
 
 - (id) init
 {
@@ -81,6 +112,8 @@
     
     resources = [[NSMutableDictionary alloc] init];
     images = [[NSMutableArray alloc] init];
+    animations = [[NSMutableArray alloc] init];
+    bmFonts = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -88,6 +121,8 @@
 - (NSArray*)resourcesForType:(int)type
 {
     if (type == kCCBResTypeImage) return images;
+    if (type == kCCBResTypeBMFont) return bmFonts;
+    if (type == kCCBResTypeAnimation) return animations;
     return NULL;
 }
 
@@ -95,6 +130,8 @@
 {
     [resources dealloc];
     [images dealloc];
+    [animations dealloc];
+    [bmFonts dealloc];
     self.dirPath = NULL;
     [super dealloc];
 }
@@ -210,6 +247,11 @@
     {
         return kCCBResTypeSpriteSheet;
     }
+    else if ([ext isEqualToString:@"plist"]
+             && [CCBAnimationParser isAnimationFile:file])
+    {
+        return kCCBResTypeAnimation;
+    }
     
     return kCCBResTypeNone;
 }
@@ -314,6 +356,9 @@
     if (resChanged)
     {
         [dir.images removeAllObjects];
+        [dir.animations removeAllObjects];
+        [dir.bmFonts removeAllObjects];
+        
         for (NSString* file in resources)
         {
             RMResource* res = [resources objectForKey:file];
@@ -322,6 +367,16 @@
                 || res.type == kCCBResTypeDirectory)
             {
                 [dir.images addObject:res];
+            }
+            if (res.type == kCCBResTypeAnimation
+                || res.type == kCCBResTypeDirectory)
+            {
+                [dir.animations addObject:res];
+            }
+            if (res.type == kCCBResTypeBMFont
+                || res.type == kCCBResTypeDirectory)
+            {
+                [dir.bmFonts addObject:res];
             }
         }
     }

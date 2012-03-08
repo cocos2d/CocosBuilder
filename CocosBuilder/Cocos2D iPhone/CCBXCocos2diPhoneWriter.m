@@ -283,7 +283,7 @@
         [self writeCachedString:a];
         [self writeCachedString:b];
     }
-§    else if ([type isEqualToString:@"Animation"])
+    else if ([type isEqualToString:@"Animation"])
     {
         NSString* animationFile = [prop objectAtIndex:0];
         NSString* animation = [prop objectAtIndex:1];

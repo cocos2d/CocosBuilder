@@ -20,6 +20,7 @@
 			<string>NSOutlineView</string>
 			<string>NSTextFieldCell</string>
 			<string>NSTableColumn</string>
+			<string>NSUserDefaultsController</string>
 			<string>NSScroller</string>
 			<string>NSCustomObject</string>
 		</object>
@@ -58,7 +59,7 @@
 						<object class="NSSegmentedControl" id="982919349">
 							<reference key="NSNextResponder" ref="849179964"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{7, 329}, {100, 25}}</string>
+							<string key="NSFrame">{{23, 329}, {216, 25}}</string>
 							<reference key="NSSuperview" ref="849179964"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="966009483"/>
@@ -75,19 +76,18 @@
 								<object class="NSMutableArray" key="NSSegmentImages">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">32</double>
-										<string key="NSSegmentItemLabel"/>
+										<string key="NSSegmentItemLabel">Images</string>
+										<int key="NSSegmentItemTag">2</int>
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">32</double>
-										<string key="NSSegmentItemLabel"/>
-										<int key="NSSegmentItemTag">1</int>
-										<bool key="NSSegmentItemSelected">YES</bool>
+										<string key="NSSegmentItemLabel">Animations</string>
+										<int key="NSSegmentItemTag">5</int>
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
 									<object class="NSSegmentItem">
-										<double key="NSSegmentItemWidth">32</double>
+										<string key="NSSegmentItemLabel">Fonts</string>
+										<int key="NSSegmentItemTag">4</int>
 										<int key="NSSegmentItemImageScaling">0</int>
 									</object>
 								</object>
@@ -253,6 +253,9 @@
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
+			<object class="NSUserDefaultsController" id="640727560">
+				<bool key="NSSharedInstance">YES</bool>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -272,6 +275,22 @@
 						<reference key="destination" ref="294810279"/>
 					</object>
 					<int key="connectionID">17</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: resType</string>
+						<reference key="source" ref="982919349"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="982919349"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">selectedTag: resType</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">resType</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">21</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -317,8 +336,8 @@
 						<reference key="object" ref="849179964"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="982919349"/>
 							<reference ref="966009483"/>
+							<reference ref="982919349"/>
 						</object>
 						<reference key="parent" ref="666078236"/>
 					</object>
@@ -380,6 +399,11 @@
 						<reference key="object" ref="669529428"/>
 						<reference key="parent" ref="742063291"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">18</int>
+						<reference key="object" ref="640727560"/>
+						<reference key="parent" ref="1002"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -393,10 +417,12 @@
 					<string>12.IBPluginDependency</string>
 					<string>15.CustomClassName</string>
 					<string>15.IBPluginDependency</string>
+					<string>18.IBPluginDependency</string>
 					<string>3.IBPluginDependency</string>
 					<string>3.NSWindowTemplate.visibleAtLaunch</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
+					<string>6.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey</string>
 					<string>6.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
 					<string>8.CustomClassName</string>
@@ -413,9 +439,11 @@
 					<string>CCBTextFieldCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<integer value="0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>CCBOutlineView</string>
@@ -435,7 +463,7 @@
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">17</int>
+			<int key="maxID">21</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

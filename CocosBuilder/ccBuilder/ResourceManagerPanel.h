@@ -20,6 +20,8 @@
 
 @property (nonatomic,readonly) ResourceManager* resManager;
 
+@property (nonatomic,assign) int resType;
+
 - (void) reload;
 
 @end

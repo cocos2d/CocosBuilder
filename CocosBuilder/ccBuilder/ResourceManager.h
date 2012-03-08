@@ -16,7 +16,8 @@ enum
     kCCBResTypeDirectory,
     kCCBResTypeImage,
     kCCBResTypeSpriteSheet,
-    kCCBResTypeBMFont
+    kCCBResTypeBMFont,
+    kCCBResTypeAnimation
 };
 
 
@@ -27,6 +28,16 @@ enum
 }
 @property (nonatomic,retain) NSString* spriteSheetFile;
 @property (nonatomic,retain) NSString* spriteFrameName;
+@end
+
+
+@interface RMAnimation : NSObject
+{
+    NSString* animationFile;
+    NSString* animationName;
+}
+@property (nonatomic,retain) NSString* animationFile;
+@property (nonatomic,retain) NSString* animationName;
 @end
 
 
@@ -56,13 +67,16 @@ enum
     NSMutableDictionary* resources;
     
     NSMutableArray* images;
+    NSMutableArray* animations;
+    NSMutableArray* bmFonts;
 }
 
 @property (nonatomic,assign) int count;
 @property (nonatomic,retain) NSString* dirPath;
 @property (nonatomic,readonly) NSMutableDictionary* resources;
 @property (nonatomic,readonly) NSMutableArray* images;
-
+@property (nonatomic,readonly) NSMutableArray* animations;
+@property (nonatomic,readonly) NSMutableArray* bmFonts;
 - (NSArray*) resourcesForType:(int)type;
 
 @end
