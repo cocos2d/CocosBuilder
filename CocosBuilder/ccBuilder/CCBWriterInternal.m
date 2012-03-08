@@ -83,6 +83,19 @@
     return [NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil];
 }
 
++ (id) serializeAnimation:(NSString*)spriteFile file:(NSString*)spriteSheetFile
+{
+    if (!spriteFile)
+    {
+        spriteFile = @"";
+    }
+    if (!spriteSheetFile || [spriteSheetFile isEqualToString:kCCBUseRegularFile])
+    {
+        spriteSheetFile = @"";
+    }
+    return [NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil];
+}
+
 + (id) serializeColor3:(ccColor3B)c
 {
     return [NSArray arrayWithObjects:
@@ -228,7 +241,7 @@
         {
             NSString* animation = [extraProps objectForKey:name];
             NSString* animationFile = [extraProps objectForKey:[NSString stringWithFormat:@"%@Animation",name]];
-            serializedValue = [CCBWriterInternal serializeSpriteFrame:animation sheet:animationFile];
+            serializedValue = [CCBWriterInternal serializeAnimation:animation file:animationFile];
         }		
         else if ([type isEqualToString:@"Texture"])
         {

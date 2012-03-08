@@ -72,6 +72,11 @@
             NSArray* frames = res.data;
             return [frames count];
         }
+        else if (res.type == kCCBResTypeAnimation)
+        {
+            NSArray* anims = res.data;
+            return [anims count];
+        }
     }
     
     return 0;
@@ -110,6 +115,11 @@
             NSArray* frames = res.data;
             return [frames objectAtIndex:index];
         }
+        else if (res.type == kCCBResTypeAnimation)
+        {
+            NSArray* anims = res.data;
+            return [anims objectAtIndex:index];
+        }
     }
     
     return NULL;
@@ -125,6 +135,7 @@
     {
         RMResource* res = item;
         if (res.type == kCCBResTypeSpriteSheet) return YES;
+        else if (res.type == kCCBResTypeAnimation) return YES;
         else if (res.type == kCCBResTypeDirectory) return YES;
     }
     
@@ -147,6 +158,11 @@
     {
         RMSpriteFrame* sf = item;
         return sf.spriteFrameName;
+    }
+    else if ([item isKindOfClass:[RMAnimation class]])
+    {
+        RMAnimation* anim = item;
+        return anim.animationName;
     }
     return @"";
 }

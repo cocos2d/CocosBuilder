@@ -316,6 +316,9 @@
 		E3C5C1B215061883000CF6F3 /* ResourceManagerPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */; };
 		E3C5C1B515075CDD000CF6F3 /* ResourceManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */; };
 		E3C5C1C91508F35E000CF6F3 /* CCBAnimationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1C81508F35E000CF6F3 /* CCBAnimationParser.m */; };
+		E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3C5C1CA15090259000CF6F3 /* InspectorAnimation.xib */; };
+		E3C5C1CE150902B3000CF6F3 /* InspectorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */; };
+		E3C5C1D115090CF4000CF6F3 /* AnimationPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */; };
 		E3F2C21314FC157E007B660D /* CCBXCocos2diPhoneWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
 		E3FEA8AA14E45F1000119FBE /* InspectorSize.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8A914E45F1000119FBE /* InspectorSize.m */; };
@@ -961,6 +964,11 @@
 		E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerUtil.m; sourceTree = "<group>"; };
 		E3C5C1C71508F35E000CF6F3 /* CCBAnimationParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBAnimationParser.h; sourceTree = "<group>"; };
 		E3C5C1C81508F35E000CF6F3 /* CCBAnimationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBAnimationParser.m; sourceTree = "<group>"; };
+		E3C5C1CA15090259000CF6F3 /* InspectorAnimation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorAnimation.xib; sourceTree = "<group>"; };
+		E3C5C1CC150902B3000CF6F3 /* InspectorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorAnimation.h; sourceTree = "<group>"; };
+		E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorAnimation.m; sourceTree = "<group>"; };
+		E3C5C1CF15090CF3000CF6F3 /* AnimationPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationPropertySetter.h; sourceTree = "<group>"; };
+		E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationPropertySetter.m; sourceTree = "<group>"; };
 		E3F2C21114FC157E007B660D /* CCBXCocos2diPhoneWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBXCocos2diPhoneWriter.h; sourceTree = "<group>"; };
 		E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBXCocos2diPhoneWriter.m; sourceTree = "<group>"; };
 		E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSize.xib; sourceTree = "<group>"; };
@@ -1117,6 +1125,8 @@
 		776041E21498F5A70078095D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E3C5C1CF15090CF3000CF6F3 /* AnimationPropertySetter.h */,
+				E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */,
 				772BE563133C06320009B5B9 /* NSFlippedView.h */,
 				772BE564133C06320009B5B9 /* NSFlippedView.m */,
 				77156DAF137F0351005EF746 /* CCBSpriteSheetParser.h */,
@@ -2104,6 +2114,9 @@
 				E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */,
 				E35DBC2614F4FF3E0070A6E4 /* InspectorTexture.h */,
 				E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */,
+				E3C5C1CA15090259000CF6F3 /* InspectorAnimation.xib */,
+				E3C5C1CC150902B3000CF6F3 /* InspectorAnimation.h */,
+				E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */,
 				E3B4221C14E58C35004547D6 /* InspectorByte.xib */,
 				E3B4221E14E58C75004547D6 /* InspectorByte.h */,
 				E3B4221F14E58C75004547D6 /* InspectorByte.m */,
@@ -2542,6 +2555,7 @@
 				E385A42014F69FF300DFB12D /* InspectorBlock.xib in Resources */,
 				E398C04014FBC9D00078E771 /* PublishTypeAccessoryView.xib in Resources */,
 				E3C5C1AF150610D8000CF6F3 /* ResourceManagerPanel.xib in Resources */,
+				E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2822,6 +2836,8 @@
 				E3C5C1B215061883000CF6F3 /* ResourceManagerPanel.m in Sources */,
 				E3C5C1B515075CDD000CF6F3 /* ResourceManagerUtil.m in Sources */,
 				E3C5C1C91508F35E000CF6F3 /* CCBAnimationParser.m in Sources */,
+				E3C5C1CE150902B3000CF6F3 /* InspectorAnimation.m in Sources */,
+				E3C5C1D115090CF4000CF6F3 /* AnimationPropertySetter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
