@@ -9,6 +9,7 @@
 #import "ResourceManagerPanel.h"
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
+#import "ImageAndTextCell.h"
 
 @implementation ResourceManagerPanel
 
@@ -32,6 +33,8 @@
     
     [resourceList setDataSource:self];
     [resourceList setDelegate:self];
+    
+    [[resourceList outlineTableColumn] setDataCell:[[[ImageAndTextCell alloc] init] autorelease]];
 }
 
 - (void) reload
@@ -41,6 +44,12 @@
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
+    // Do not display directories if only one directory is used
+    if (item == NULL && [resManager.activeDirectories count] == 1)
+    {
+        item = [resManager.activeDirectories objectAtIndex:0];
+    }
+    
     // Handle base nodes
     if (item == NULL)
     {
@@ -84,6 +93,12 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
+    // Do not display directories if only one directory is used
+    if (item == NULL && [resManager.activeDirectories count] == 1)
+    {
+        item = [resManager.activeDirectories objectAtIndex:0];
+    }
+    
     // Return base nodes
     if (item == NULL)
     {
@@ -127,6 +142,12 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
+    // Do not display directories if only one directory is used
+    if (item == NULL && [resManager.activeDirectories count] == 1)
+    {
+        item = [resManager.activeDirectories objectAtIndex:0];
+    }
+    
     if ([item isKindOfClass:[RMDirectory class]])
     {
         return YES;
@@ -165,6 +186,44 @@
         return anim.animationName;
     }
     return @"";
+}
+
+
+- (NSImage*) smallIconForFile:(NSString*)file
+{
+    NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFile:file];
+    [icon setScalesWhenResized:YES];
+    icon.size = NSMakeSize(16, 16);
+    return icon;
+}
+
+- (NSImage*) smallIconForFileType:(NSString*)type
+{
+    NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFileType:type];
+    [icon setScalesWhenResized:YES];
+    icon.size = NSMakeSize(16, 16);
+    return icon;
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    //[cell setLeaf:YES];
+    NSImage* icon = NULL;
+    
+    if ([item isKindOfClass:[RMResource class]])
+    {
+        RMResource* res = item;
+        icon = [self smallIconForFile:res.filePath];
+    }
+    else if ([item isKindOfClass:[RMSpriteFrame class]])
+    {
+        icon = [self smallIconForFileType:@"png"];
+    }
+    else if ([item isKindOfClass:[RMAnimation class]])
+    {
+        icon = [self smallIconForFileType:@"p12"];
+    }
+    [cell setImage:icon];
 }
 
 - (BOOL) outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pasteboard
@@ -208,25 +267,7 @@
         return YES;
     }
     
-    
     return NO;
-    
-    /*
-    int idx = [itemIndexes firstIndex];
-    AssetsItem* item = [assetsItems objectAtIndex:idx];
-    
-    NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
-    [clipDict setObject:[item.spriteFile lastPathComponent] forKey:@"spriteFile"];
-    if (item.spriteSheetFile)
-    {
-        [clipDict setObject:[item.spriteSheetFile lastPathComponent] forKey:@"spriteSheetFile"];
-    }
-    
-    NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
-    [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.texture"] owner:NULL];
-    [pasteboard setData:clipData forType:@"com.cocosbuilder.texture"];
-    
-    return 1;*/
 }
 
 - (void) outlineViewSelectionDidChange:(NSNotification *)notification
@@ -256,6 +297,19 @@
 {
     resType = rt;
     [resourceList reloadData];
+}
+
+- (CGFloat) splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    if (proposedMinimumPosition < 50) return 50;
+    else return proposedMinimumPosition;
+}
+
+- (CGFloat) splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    float max = splitView.frame.size.height - 100;
+    if (proposedMaximumPosition > max) return max;
+    else return proposedMaximumPosition;
 }
 
 @end

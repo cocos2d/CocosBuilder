@@ -10,7 +10,7 @@
 
 @class ResourceManager;
 
-@interface ResourceManagerPanel : NSWindowController<NSOutlineViewDelegate, NSOutlineViewDataSource>
+@interface ResourceManagerPanel : NSWindowController<NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate>
 {
     IBOutlet NSOutlineView* resourceList;
     IBOutlet NSImageView* imagePreview;
