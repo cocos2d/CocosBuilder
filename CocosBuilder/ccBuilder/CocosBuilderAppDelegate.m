@@ -30,7 +30,7 @@
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, assestsImgList, assetsImgListFiles, assetsFontList, assetsSpriteSheetList, assetsTemplates,assetsFontListTTF, currentDocument, assetsPath, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
+@synthesize window, assetsFontListTTF, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
 
 #pragma mark Setup functions
 
@@ -79,7 +79,7 @@
     NSMutableDictionary* fontInfo = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FontListTTF" ofType:@"plist"]];
     self.assetsFontListTTF = [fontInfo objectForKey:@"supportedFonts"];
 }
-
+/*
 - (void) updateAssetsView
 {
     
@@ -159,7 +159,7 @@
     
     // New resource manager
     [resManagerPanel reload];
-}
+}*/
 
 - (void) setupTabBar
 {
@@ -187,6 +187,7 @@
 	currentDocument = [[CCBDocument alloc] init];
 }
 
+/*
 - (void) setupAssetsWindow
 {
     BOOL visible = NO;
@@ -198,6 +199,14 @@
     }
     assetsWindowController = [[AssetsWindowController alloc] initWithWindowNibName:@"AssetsWindow"];
         [[assetsWindowController window] setIsVisible:visible];
+}*/
+
+- (void) setupResourceManager
+{
+    // Load resource manager
+    resManager = [ResourceManager sharedManager];
+    resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
+    [resManagerPanel.window setIsVisible:NO];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -219,8 +228,8 @@
     [self setupCocos2d];
     [self setupOutlineView];
     [self updateInspectorFromSelection];
-    [self setupAssetsWindow];
-    [self updateAssetsView];
+    //[self setupAssetsWindow];
+    //[self updateAssetsView];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
@@ -251,12 +260,9 @@
         [item setTag:1];
         [menuAddObjectAsChild addItem:item];
     }
-    
-    // New resource manager
-    resManager = [ResourceManager sharedManager];
-    resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
-    
-    [resManagerPanel.window setIsVisible:YES];
+
+    [self setupResourceManager];
+    [self loadFontListTTF];
 }
 
 #pragma mark Notifications to user
@@ -882,7 +888,7 @@
     
     NSMutableDictionary* doc = document.docData;
     
-    [self updateAssetsView];
+    //[self updateAssetsView];
     
     [resManager setActiveDirectory: document.rootPath];
     
@@ -916,9 +922,10 @@
     [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
     
     [outlineHierarchy reloadData];
-    [self updateAssetsView];
+    //[self updateAssetsView];
     
-    [[assetsWindowController window] setIsVisible:NO];
+    //[[assetsWindowController window] setIsVisible:NO];
+    [resManagerPanel.window setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
 }
@@ -986,7 +993,7 @@
     [doc writeToFile:fileName atomically:YES];
     currentDocument.fileName = fileName;
     currentDocument.docData = doc;
-    [self updateAssetsView];
+    //[self updateAssetsView];
     
     currentDocument.isDirty = NO;
     NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
@@ -1620,16 +1627,19 @@
     cs.currentTool = [sc selectedSegment];
 }
 
-- (IBAction) menuOpenAssetsPanel:(id)sender
+- (IBAction) menuOpenResourceManager:(id)sender
 {
-    [[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
+    //[[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
+    
+    [resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
 }
 
-- (IBAction) menuReloadAssets:(id)sender
+- (void) reloadResources
 {
     if (!currentDocument) return;
     
-    [self updateAssetsView];
+    [[CCTextureCache sharedTextureCache] removeAllTextures];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
     
     [self switchToDocument:currentDocument forceReload:YES];
 }

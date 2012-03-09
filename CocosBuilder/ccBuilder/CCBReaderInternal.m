@@ -16,6 +16,7 @@
 #import "AnimationPropertySetter.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
+#import "ResourceManager.h"
 
 @implementation CCBReaderInternal
 
@@ -307,7 +308,9 @@
     if (fileVersion <= 2)
     {
         // Use legacy reader
-        return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:[[CCBGlobals globals] appDelegate].assetsPath owner:NULL];
+        NSString* assetsPath = [NSString stringWithFormat:@"%@/", [[ResourceManager sharedManager] assetsPath]];
+        
+        return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:assetsPath owner:NULL];
     }
     else if (fileVersion > 3)
     {

@@ -9,6 +9,8 @@
 #import "ResourceManager.h"
 #import "CCBSpriteSheetParser.h"
 #import "CCBAnimationParser.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 #pragma mark RMSpriteFrame
 
@@ -21,6 +23,11 @@
     self.spriteFrameName = NULL;
     self.spriteSheetFile = NULL;
     [super dealloc];
+}
+
+- (NSImage*) preview
+{
+    return [CCBSpriteSheetParser imageNamed:spriteFrameName fromSheet:spriteSheetFile];
 }
 
 @end
@@ -86,6 +93,19 @@
     {
         self.data = NULL;
     }
+}
+
+- (NSImage*) preview
+{
+    if (type == kCCBResTypeImage)
+    {
+        NSLog(@"Fetching image %@",filePath);
+        NSImage* img = [[[NSImage alloc] initWithContentsOfFile:filePath] autorelease];
+        NSLog(@"image: %@",img);
+        return img;
+    }
+    
+    return NULL;
 }
 
 - (NSComparisonResult) compare:(id) obj
@@ -404,6 +424,11 @@
     }
     
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
+    if (needsUpdate)
+    {
+        NSLog(@"needsUpdate!!");
+        [[[CCBGlobals globals] appDelegate] reloadResources];
+    }
 }
 
 - (void) addDirectory:(NSString *)dirPath
@@ -492,6 +517,14 @@
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event
 {
     [self updateResourcesForPath:event.eventPath];
+}
+
+- (NSString*) assetsPath
+{
+    // TODO: Add support for multiple directories (this method must go!)
+    if ([activeDirectories count] == 0) return NULL;
+    RMDirectory* dir = [activeDirectories objectAtIndex:0];
+    return dir.dirPath;
 }
 
 @end

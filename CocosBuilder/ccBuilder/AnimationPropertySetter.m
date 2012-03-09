@@ -10,6 +10,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
 #import "CCBWriterInternal.h"
+#import "ResourceManager.h"
 
 @implementation AnimationPropertySetter
 
@@ -17,7 +18,7 @@
 {
 	// hacky.
 	// TODO:(JP) Pull
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCAnimation* pAnimation = NULL;
     
     if (animationFile && ![animationFile isEqualToString:@""] && ![animationFile isEqualToString:kCCBUseRegularFile]
@@ -27,7 +28,7 @@
         @try
         {
             // Convert to absolute path
-            animationFile = [NSString stringWithFormat:@"%@%@", ad.assetsPath, animationFile];
+            animationFile = [NSString stringWithFormat:@"%@/%@", assetsPath, animationFile];
             CCAnimationCache* animationCache = [CCAnimationCache sharedAnimationCache];
             [animationCache addAnimationsWithFile:animationFile];
             

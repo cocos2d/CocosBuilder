@@ -12,4 +12,5 @@
 + (NSMutableArray*) findSpriteSheetsAtPath:(NSString*)assetsPath;
 + (NSMutableArray*) listFramesInSheet:(NSString*)file assetsPath:(NSString*) assetsPath;
 + (NSMutableArray*) listFramesInSheet:(NSString *)absoluteFile;
++ (NSImage*) imageNamed:(NSString*)spriteFile fromSheet:(NSString*)spriteSheetFile;
 @end

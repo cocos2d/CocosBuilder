@@ -7,9 +7,9 @@
 #import "CCBWriterInternal.h"
 #import "CCBGlobals.h"
 #import <objc/runtime.h>
-#import "CCNineSlice.h"
-#import "CCButton.h"
-#import "CCThreeSlice.h"
+//#import "CCNineSlice.h"
+//#import "CCButton.h"
+//#import "CCThreeSlice.h"
 
 #import "NodeInfo.h"
 #import "PlugInNode.h"
