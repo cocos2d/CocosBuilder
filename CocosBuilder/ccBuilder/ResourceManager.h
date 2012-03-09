@@ -14,10 +14,10 @@ enum
 {
     kCCBResTypeNone,
     kCCBResTypeDirectory,
-    kCCBResTypeImage,
     kCCBResTypeSpriteSheet,
-    kCCBResTypeBMFont,
-    kCCBResTypeAnimation
+    kCCBResTypeAnimation,
+    kCCBResTypeImage,
+    kCCBResTypeBMFont
 };
 
 
