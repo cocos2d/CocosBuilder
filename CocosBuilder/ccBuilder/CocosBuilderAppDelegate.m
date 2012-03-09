@@ -15,7 +15,6 @@
 #import "CCBSpriteSheetParser.h"
 #import "CCBUtil.h"
 #import "StageSizeWindow.h"
-#import "AssetsWindowController.h"
 #import "PlugInManager.h"
 #import "InspectorPosition.h"
 #import "NodeInfo.h"
@@ -79,87 +78,6 @@
     NSMutableDictionary* fontInfo = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FontListTTF" ofType:@"plist"]];
     self.assetsFontListTTF = [fontInfo objectForKey:@"supportedFonts"];
 }
-/*
-- (void) updateAssetsView
-{
-    
-    // Remove objects
-    [assetsList removeObjectsAtArrangedObjectIndexes:
-     [NSIndexSet indexSetWithIndexesInRange:
-      NSMakeRange(0, [[assetsList arrangedObjects] count])]];
-    
-    [assetsWindowController clearContents];
-    
-    if (currentDocument && currentDocument.fileName && ![currentDocument.fileName isEqualToString:@""])
-    {
-        NSString* a = [currentDocument.fileName stringByDeletingLastPathComponent];
-        self.assetsPath = [NSString stringWithFormat:@"%@/",a];
-        NSArray* dir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:assetsPath error:NULL];
-        
-        self.assestsImgList = [NSMutableArray array];
-        self.assetsFontList = [NSMutableArray array];
-        self.assetsTemplates = [NSMutableArray array];
-        self.assetsSpriteSheetList = [CCBSpriteSheetParser findSpriteSheetsAtPath:assetsPath];
-        [self.assetsSpriteSheetList insertObject:kCCBUseRegularFile atIndex:0];
-        
-        for (int i = 0; i < [dir count]; i++)
-        {
-            NSString* file = [dir objectAtIndex:i];
-            
-            NSString* pathExt = [file pathExtension];
-            NSString* fileNoExt = [file stringByDeletingPathExtension];
-            BOOL isHDFile = [fileNoExt hasSuffix:@"-hd"];
-            
-            [assetsList addObject: [NSDictionary dictionaryWithObject:file forKey:@"filename"]];
-            
-            if ([pathExt isEqualToString:@"png"] ||
-                [pathExt isEqualToString:@"jpg"])
-            {
-                if (!isHDFile) [self.assestsImgList addObject:file];
-            }
-            else if ([pathExt isEqualToString:@"fnt"])
-            {
-                if (!isHDFile) [self.assetsFontList addObject:file];
-            }
-            else if ([pathExt isEqualToString:@"ccbt"])
-            {
-                [self.assetsTemplates addObject:file];
-            }
-        }
-        
-        
-        // Update assetsWindow!
-        for (int i = 0; i < [assestsImgList count]; i++)
-        {
-            [assetsWindowController addImage:[NSString stringWithFormat:@"%@%@",assetsPath,[assestsImgList objectAtIndex:i]]];
-        }
-        
-        for (int i = 0; i < [assetsSpriteSheetList count]; i++)
-        {
-            if ([[assetsSpriteSheetList objectAtIndex:i] isEqualToString:kCCBUseRegularFile]) continue;
-            
-            [assetsWindowController addSpriteSheet:[NSString stringWithFormat:@"%@%@",assetsPath,[assetsSpriteSheetList objectAtIndex:i]]];
-        }
-    }
-    else
-    {
-        [[assetsWindowController window] setIsVisible:NO];
-        
-        self.assetsPath = @"";
-        self.assestsImgList = [NSMutableArray array];
-        self.assetsFontList = [NSMutableArray array];
-    }
-    
-    self.assetsImgListFiles = self.assestsImgList;
-    //self.assetsFontList = [CCBFontUtil createFontList];
-    
-    [assetsWindowController reloadData];
-    
-    [self loadFontListTTF];
-    
-    // New resource manager
-    [resManagerPanel reload];
-}*/
 
 - (void) setupTabBar
 {
@@ -186,20 +104,6 @@
 {
 	currentDocument = [[CCBDocument alloc] init];
 }
-
-/*
-- (void) setupAssetsWindow
-{
-    BOOL visible = NO;
-    if (assetsWindowController)
-    {
-        visible = [[assetsWindowController window] isVisible];
-        [assetsWindowController close];
-        [assetsWindowController release];
-    }
-    assetsWindowController = [[AssetsWindowController alloc] initWithWindowNibName:@"AssetsWindow"];
-        [[assetsWindowController window] setIsVisible:visible];
-}*/
 
 - (void) setupResourceManager
 {
@@ -228,8 +132,6 @@
     [self setupCocos2d];
     [self setupOutlineView];
     [self updateInspectorFromSelection];
-    //[self setupAssetsWindow];
-    //[self updateAssetsView];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
@@ -456,17 +358,6 @@
     NSString* assignmentName = [cs extraPropForKey:@"memberVarAssignmentName" andNode:item];
     if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
     
-    /*
-    // Naming after textures
-    if ([item isKindOfClass:[CCSprite class]] && ![item isKindOfClass:[CCBTemplateNode class]])
-    {
-        NSString* textureName = [cs extraPropForKey:@"spriteFile" andNode:item];
-        if (textureName && ![textureName isEqualToString:@""])
-        {
-            return [NSString stringWithFormat:@"CCSprite (%@)", textureName];
-        }
-    }
-     */
     if ([item isKindOfClass:[CCMenuItemImage class]])
     {
         NSString* textureName = [cs extraPropForKey:@"spriteFileNormal" andNode:item];
@@ -475,12 +366,6 @@
             return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
         }
     }
-    /*
-    else if ([item isKindOfClass:[CCBTemplateNode class]])
-    {
-        CCBTemplateNode* t = (CCBTemplateNode*) item;
-        return t.ccbTemplate.customClass;
-    }*/
     
     // Fallback, just use the class name
     return className;
@@ -533,7 +418,6 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index
 {
-    //CocosScene* cs = [[CCBGlobals globals] cocosScene];
     NSPasteboard* pb = [info draggingPasteboard];
     
     NSData* clipData = [pb dataForType:@"com.cocosbuilder.node"];
@@ -709,94 +593,6 @@
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
 }
 
-
-#pragma mark Properties
-/*
-- (BOOL) isSelectedNode
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCNode class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedLayer
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCLayer class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedLayerColor
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCLayerColor class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedLayerGradient
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCLayerGradient class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedSprite
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCSprite class]]) return NO;
-    //if ([selectedNode isKindOfClass:[CCBTemplateNode class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedMenu
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCMenu class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedMenuItem
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCMenuItem class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedMenuItemImage
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCMenuItemImage class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedLabelTTF
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCLabelTTF class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedLabelBMFont
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCLabelBMFont class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedThreeSlice
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCThreeSlice class]]) return NO;
-    return YES;
-}
-
-- (BOOL) isSelectedParticleSystem
-{
-    if (!selectedNode) return NO;
-    if (![selectedNode isKindOfClass:[CCParticleSystem class]]) return NO;
-    return YES;
-}*/
-
 #pragma mark Document handling
 
 - (BOOL) hasDirtyDocument
@@ -922,9 +718,7 @@
     [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
     
     [outlineHierarchy reloadData];
-    //[self updateAssetsView];
     
-    //[[assetsWindowController window] setIsVisible:NO];
     [resManagerPanel.window setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
@@ -993,7 +787,6 @@
     [doc writeToFile:fileName atomically:YES];
     currentDocument.fileName = fileName;
     currentDocument.docData = doc;
-    //[self updateAssetsView];
     
     currentDocument.isDirty = NO;
     NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];

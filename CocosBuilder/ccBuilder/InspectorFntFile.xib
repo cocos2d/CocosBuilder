@@ -180,6 +180,14 @@
 					<int key="connectionID">27</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">popup</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="122538199"/>
+					</object>
+					<int key="connectionID">73</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: displayName</string>
 						<reference key="source" ref="647233470"/>
@@ -194,39 +202,6 @@
 						</object>
 					</object>
 					<int key="connectionID">68</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentValues: resourceManager.assetsFontList</string>
-						<reference key="source" ref="122538199"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="201602770">
-							<reference key="NSSource" ref="122538199"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">contentValues: resourceManager.assetsFontList</string>
-							<string key="NSBinding">contentValues</string>
-							<string key="NSKeyPath">resourceManager.assetsFontList</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">69</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedValue: fntFile</string>
-						<reference key="source" ref="122538199"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="122538199"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedValue: fntFile</string>
-							<string key="NSBinding">selectedValue</string>
-							<string key="NSKeyPath">fntFile</string>
-							<reference key="NSPreviousConnector" ref="201602770"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">71</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -380,7 +355,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">71</int>
+			<int key="maxID">73</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -388,6 +363,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">InspectorFntFile</string>
 					<string key="superclassName">InspectorValue</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">popup</string>
+						<string key="NS.object.0">NSPopUpButton</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">popup</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">popup</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/InspectorFntFile.h</string>

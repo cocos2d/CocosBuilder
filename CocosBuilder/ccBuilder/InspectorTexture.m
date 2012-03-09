@@ -57,22 +57,4 @@
     [self updateAffectedProperties];
 }
 
-
-- (void) setSpriteFile:(NSString *)spriteFile
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    [cs setExtraProp:spriteFile forKey:propertyName andNode:selection];
-    
-    [TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:spriteFile];
-    
-    [self updateAffectedProperties];
-}
-
-- (NSString*) spriteFile
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [cs extraPropForKey:propertyName andNode:selection];
-}
-
 @end

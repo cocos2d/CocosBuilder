@@ -4,25 +4,12 @@
 
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternalV1.h"
-//#import "CCNineSlice.h"
-//#import "CCButton.h"
-//#import "CCThreeSlice.h"
-
 #import "NodeInfo.h"
 #import "PlugInNode.h"
 #import "TexturePropertySetter.h"
 
 @implementation CCBWriterInternal
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
-}
 
 - (void)dealloc
 {

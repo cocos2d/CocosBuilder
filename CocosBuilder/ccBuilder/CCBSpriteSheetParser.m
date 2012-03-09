@@ -11,16 +11,6 @@ static NSInteger strSort(id num1, id num2, void *context)
 
 @implementation CCBSpriteSheetParser
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
-}
-
 - (void)dealloc
 {
     [super dealloc];

@@ -39,9 +39,6 @@
 		776A370E139544A200960E94 /* TB_zoomIn.png in Resources */ = {isa = PBXBuildFile; fileRef = 776A3709139544A200960E94 /* TB_zoomIn.png */; };
 		776A370F139544A200960E94 /* TB_zoomOut.png in Resources */ = {isa = PBXBuildFile; fileRef = 776A370A139544A200960E94 /* TB_zoomOut.png */; };
 		776A37161395925D00960E94 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776A37151395925D00960E94 /* Quartz.framework */; };
-		776A3719139595D200960E94 /* AssetsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776A3718139595D100960E94 /* AssetsWindowController.m */; };
-		776A371C13959AAC00960E94 /* AssetsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 776A371B13959AAC00960E94 /* AssetsItem.m */; };
-		776A371F1396225800960E94 /* AssetsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 776A371E1396225800960E94 /* AssetsWindow.xib */; };
 		776A37B61398D6BF00960E94 /* CCBGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776A37B51398D6BD00960E94 /* CCBGLView.m */; };
 		776A37B8139BCE3600960E94 /* TB_imageAssets.png in Resources */ = {isa = PBXBuildFile; fileRef = 776A37B7139BCE3600960E94 /* TB_imageAssets.png */; };
 		776C683E1385C02000153214 /* CCBOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776C683D1385C02000153214 /* CCBOutlineView.m */; };
@@ -488,11 +485,6 @@
 		776A370A139544A200960E94 /* TB_zoomOut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_zoomOut.png; sourceTree = "<group>"; };
 		776A3713139590AA00960E94 /* ImageCaptureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageCaptureCore.framework; path = System/Library/Frameworks/ImageCaptureCore.framework; sourceTree = SDKROOT; };
 		776A37151395925D00960E94 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		776A3717139595D100960E94 /* AssetsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsWindowController.h; sourceTree = "<group>"; };
-		776A3718139595D100960E94 /* AssetsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsWindowController.m; sourceTree = "<group>"; };
-		776A371A13959AAC00960E94 /* AssetsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsItem.h; sourceTree = "<group>"; };
-		776A371B13959AAC00960E94 /* AssetsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsItem.m; sourceTree = "<group>"; };
-		776A371E1396225800960E94 /* AssetsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssetsWindow.xib; sourceTree = "<group>"; };
 		776A37B41398D6B900960E94 /* CCBGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBGLView.h; sourceTree = "<group>"; };
 		776A37B51398D6BD00960E94 /* CCBGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBGLView.m; sourceTree = "<group>"; };
 		776A37B7139BCE3600960E94 /* TB_imageAssets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_imageAssets.png; sourceTree = "<group>"; };
@@ -1116,8 +1108,6 @@
 		776041E21498F5A70078095D /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				E3C5C1CF15090CF3000CF6F3 /* AnimationPropertySetter.h */,
-				E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */,
 				772BE563133C06320009B5B9 /* NSFlippedView.h */,
 				772BE564133C06320009B5B9 /* NSFlippedView.m */,
 				77156DAF137F0351005EF746 /* CCBSpriteSheetParser.h */,
@@ -1126,6 +1116,8 @@
 				E3C5C1C81508F35E000CF6F3 /* CCBAnimationParser.m */,
 				77D33EA9138EA4F800012A88 /* CCBUtil.h */,
 				77D33EAA138EA4F800012A88 /* CCBUtil.m */,
+				E3C5C1CF15090CF3000CF6F3 /* AnimationPropertySetter.h */,
+				E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */,
 				E3C365FF14EA0507007CD5FF /* TexturePropertySetter.h */,
 				E3C3660014EA0507007CD5FF /* TexturePropertySetter.m */,
 			);
@@ -1202,18 +1194,6 @@
 				E398C04214FBCA620078E771 /* PublishTypeAccessoryView.m */,
 			);
 			name = Dialogs;
-			sourceTree = "<group>";
-		};
-		776041EB1498FB830078095D /* Assets Palette */ = {
-			isa = PBXGroup;
-			children = (
-				776A371A13959AAC00960E94 /* AssetsItem.h */,
-				776A371B13959AAC00960E94 /* AssetsItem.m */,
-				776A371E1396225800960E94 /* AssetsWindow.xib */,
-				776A3717139595D100960E94 /* AssetsWindowController.h */,
-				776A3718139595D100960E94 /* AssetsWindowController.m */,
-			);
-			name = "Assets Palette";
 			sourceTree = "<group>";
 		};
 		776041ED1498FBE70078095D /* Styled Components */ = {
@@ -1397,7 +1377,6 @@
 				7789ABD7133AA82000CEFCC7 /* MainMenu.xib */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
 				776041ED1498FBE70078095D /* Styled Components */,
-				776041EB1498FB830078095D /* Assets Palette */,
 				776041EA1498FB600078095D /* Dialogs */,
 				776041EE1498FC320078095D /* Util */,
 				776A37B41398D6B900960E94 /* CCBGLView.h */,
@@ -2496,7 +2475,6 @@
 				776A370D139544A200960E94 /* TB_select.png in Resources */,
 				776A370E139544A200960E94 /* TB_zoomIn.png in Resources */,
 				776A370F139544A200960E94 /* TB_zoomOut.png in Resources */,
-				776A371F1396225800960E94 /* AssetsWindow.xib in Resources */,
 				776A37B8139BCE3600960E94 /* TB_imageAssets.png in Resources */,
 				77055FB513D0E5CA009DD63A /* logo-icon.png in Resources */,
 				77055FB613D0E5CA009DD63A /* logo.png in Resources */,
@@ -2675,8 +2653,6 @@
 				77D33EAB138EA4F900012A88 /* CCBUtil.m in Sources */,
 				77E7D04B138F777A00E8EE67 /* CCBModalSheetController.m in Sources */,
 				77E7D04F138F78F600E8EE67 /* StageSizeWindow.m in Sources */,
-				776A3719139595D200960E94 /* AssetsWindowController.m in Sources */,
-				776A371C13959AAC00960E94 /* AssetsItem.m in Sources */,
 				776A37B61398D6BF00960E94 /* CCBGLView.m in Sources */,
 				E3B7AEDD14E3246100DFD402 /* PlugInManager.m in Sources */,
 				E3B7AEE014E32E7F00DFD402 /* PlugInNode.m in Sources */,

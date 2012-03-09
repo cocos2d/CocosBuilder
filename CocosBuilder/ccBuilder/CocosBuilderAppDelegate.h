@@ -64,22 +64,11 @@ enum {
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
     
-    // Assets
+    // Resource manager
     ResourceManager* resManager;
     ResourceManagerPanel* resManagerPanel;
     
-    //NSString* assetsPath;
-    
-    //IBOutlet NSArrayController* assetsList;
-    //NSMutableArray* assestsImgList;
-    //NSMutableArray* assetsImgListFiles;
-    //NSMutableArray* assetsFontList;
-    //NSMutableArray* assetsSpriteSheetList;
-    //NSMutableArray* assetsTemplates;
     NSMutableArray* assetsFontListTTF;
-    
-    // Assets Panel
-    //AssetsWindowController* assetsWindowController;
     
     // Documents
     CCBDocument* currentDocument;
@@ -96,24 +85,17 @@ enum {
 }
 
 @property (assign) IBOutlet NSWindow *window;
-//@property (nonatomic,retain) NSMutableArray* assestsImgList;
-//@property (nonatomic,retain) NSMutableArray* assetsImgListFiles;
-//@property (nonatomic,retain) NSMutableArray* assetsFontList;
-//@property (nonatomic,retain) NSMutableArray* assetsSpriteSheetList;
-//@property (nonatomic,retain) NSMutableArray* assetsTemplates;
+
 @property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
-//@property (nonatomic,retain) NSString* assetsPath;
 @property (nonatomic,readonly) CCGLView* cocosView;
 
 @property (nonatomic,assign) BOOL canEditContentSize;
 @property (nonatomic,assign) BOOL defaultCanvasSize;
 @property (nonatomic,assign) BOOL canEditCustomClass;
-
-//- (void) updateAssetsView;
 
 @property (nonatomic,assign) CCNode* selectedNode;
 
