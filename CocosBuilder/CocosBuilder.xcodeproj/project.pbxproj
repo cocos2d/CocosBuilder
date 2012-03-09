@@ -262,6 +262,8 @@
 		E35DBC2314F4ED980070A6E4 /* InspectorIntegerLabeled.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC2214F4ED970070A6E4 /* InspectorIntegerLabeled.m */; };
 		E35DBC2514F4FEF90070A6E4 /* InspectorTexture.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */; };
 		E35DBC2814F4FF410070A6E4 /* InspectorTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */; };
+		E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3850808150AA9AE007E162A /* ImageAndTextCell.m */; };
+		E385080B150AB232007E162A /* segmctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E385080A150AB232007E162A /* segmctrl-bg.png */; };
 		E385A41E14F6993E00DFB12D /* CCBPMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E385A41D14F6993E00DFB12D /* CCBPMenu.m */; };
 		E385A42014F69FF300DFB12D /* InspectorBlock.xib in Resources */ = {isa = PBXBuildFile; fileRef = E385A41F14F69FF300DFB12D /* InspectorBlock.xib */; };
 		E385A42314F6A01900DFB12D /* InspectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = E385A42214F6A01900DFB12D /* InspectorBlock.m */; };
@@ -868,6 +870,9 @@
 		E35DBC2414F4FEF80070A6E4 /* InspectorTexture.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorTexture.xib; sourceTree = "<group>"; };
 		E35DBC2614F4FF3E0070A6E4 /* InspectorTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorTexture.h; sourceTree = "<group>"; };
 		E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorTexture.m; sourceTree = "<group>"; };
+		E3850807150AA9AE007E162A /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
+		E3850808150AA9AE007E162A /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAndTextCell.m; sourceTree = "<group>"; };
+		E385080A150AB232007E162A /* segmctrl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "segmctrl-bg.png"; sourceTree = "<group>"; };
 		E385A41C14F6993E00DFB12D /* CCBPMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPMenu.h; sourceTree = "<group>"; };
 		E385A41D14F6993E00DFB12D /* CCBPMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPMenu.m; sourceTree = "<group>"; };
 		E385A41F14F69FF300DFB12D /* InspectorBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorBlock.xib; sourceTree = "<group>"; };
@@ -1205,6 +1210,8 @@
 				776C68411385C4F100153214 /* CCBTextFieldCell.m */,
 				776C68431385D37C00153214 /* CCBTableView.h */,
 				776C68441385D37D00153214 /* CCBTableView.m */,
+				E3850807150AA9AE007E162A /* ImageAndTextCell.h */,
+				E3850808150AA9AE007E162A /* ImageAndTextCell.m */,
 			);
 			name = "Styled Components";
 			sourceTree = "<group>";
@@ -1245,6 +1252,7 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E385080A150AB232007E162A /* segmctrl-bg.png */,
 				7789ACF0133BD5E800CEFCC7 /* header-bg.png */,
 			);
 			name = GUI;
@@ -2511,6 +2519,7 @@
 				E398C04014FBC9D00078E771 /* PublishTypeAccessoryView.xib in Resources */,
 				E3C5C1AF150610D8000CF6F3 /* ResourceManagerPanel.xib in Resources */,
 				E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */,
+				E385080B150AB232007E162A /* segmctrl-bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2788,6 +2797,7 @@
 				E3C5C1C91508F35E000CF6F3 /* CCBAnimationParser.m in Sources */,
 				E3C5C1CE150902B3000CF6F3 /* InspectorAnimation.m in Sources */,
 				E3C5C1D115090CF4000CF6F3 /* AnimationPropertySetter.m in Sources */,
+				E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
