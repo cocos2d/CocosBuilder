@@ -99,9 +99,7 @@
 {
     if (type == kCCBResTypeImage)
     {
-        NSLog(@"Fetching image %@",filePath);
         NSImage* img = [[[NSImage alloc] initWithContentsOfFile:filePath] autorelease];
-        NSLog(@"image: %@",img);
         return img;
     }
     

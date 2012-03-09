@@ -9,7 +9,10 @@
 #import "InspectorValue.h"
 
 @interface InspectorFntFile : InspectorValue
+{
+    IBOutlet NSPopUpButton* popup;
+}
 
-@property (nonatomic,assign) NSString* fntFile;
+//@property (nonatomic,assign) NSString* fntFile;
 
 @end
