@@ -88,6 +88,24 @@
     }
 }
 
+- (NSComparisonResult) compare:(id) obj
+{
+    RMResource* res = obj;
+    
+    if (res.type < self.type)
+    {
+        return NSOrderedDescending;
+    }
+    else if (res.type > self.type)
+    {
+        return NSOrderedAscending;
+    }
+    else
+    {
+        return [[self.filePath lastPathComponent] compare:[res.filePath lastPathComponent] options:NSNumericSearch|NSForcedOrderingSearch|NSCaseInsensitiveSearch];
+    }
+}
+
 - (void) dealloc
 {
     self.data = NULL;
@@ -379,6 +397,10 @@
                 [dir.bmFonts addObject:res];
             }
         }
+        
+        [dir.images sortUsingSelector:@selector(compare:)];
+        [dir.animations sortUsingSelector:@selector(compare:)];
+        [dir.bmFonts sortUsingSelector:@selector(compare:)];
     }
     
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
