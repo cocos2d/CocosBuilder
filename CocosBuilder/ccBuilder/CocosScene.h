@@ -3,9 +3,9 @@
 //
 
 #import "cocos2d.h"
-#import "CCButton.h"
-#import "CCNineSlice.h"
-#import "CCThreeSlice.h"
+//#import "CCButton.h"
+//#import "CCNineSlice.h"
+//#import "CCThreeSlice.h"
 @class CocosBuilderAppDelegate;
 @class CCBTemplateNode;
 

@@ -85,6 +85,69 @@ static NSInteger strSort(id num1, id num2, void *context)
     return frames;
 }
 
++ (NSImage*) imageNamed:(NSString*)spriteFile fromSheet:(NSString*)spriteSheetFile
+{
+
+    NSString* assetsPath = [spriteSheetFile stringByDeletingLastPathComponent];
+    
+    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithContentsOfFile:spriteSheetFile];
+    
+    NSString* imgFile = [[dict objectForKey:@"metadata"] objectForKey:@"textureFileName"];
+    
+    NSString* absImgFile = [NSString stringWithFormat:@"%@/%@", assetsPath,imgFile];
+    
+    NSImage* tex;
+            
+    NSImageRep* imgRep = [NSImageRep imageRepWithContentsOfFile:absImgFile];
+    
+    if (![imgRep isKindOfClass:[NSBitmapImageRep class]]) return NULL;
+    NSBitmapImageRep* bitmapRep = (NSBitmapImageRep*) imgRep;
+            
+    tex = [[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])];
+    [tex addRepresentation:bitmapRep];
+    [tex setFlipped:YES];
+    
+    NSDictionary* dictFrames = [dict objectForKey:@"frames"];
+    NSDictionary* frameInfo = [dictFrames objectForKey:spriteFile];
+    if (!frameInfo) return NULL;
+    
+    NSRect rect = NSRectFromString([frameInfo objectForKey:@"frame"]);
+    BOOL rotated = [[frameInfo objectForKey:@"rotated"] boolValue];
+    if (rotated)
+    {
+        rect = NSMakeRect(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+    }
+    
+    NSImage* imgFrame;
+    if (rotated)
+    {
+        imgFrame = [[NSImage alloc] initWithSize:NSMakeSize(rect.size.height, rect.size.width)];
+    }
+    else
+    {
+        imgFrame = [[NSImage alloc] initWithSize:rect.size];
+    }
+    [imgFrame setFlipped:YES];
+    [imgFrame lockFocus];
+    
+    if (rotated)
+    {
+        NSAffineTransform *transform = [NSAffineTransform transform];
+        [transform rotateByDegrees:-90];
+        [transform concat];
+        
+        [tex drawAtPoint:NSMakePoint(-rect.size.width, 0 /*rect.size.height*/) fromRect:rect operation:NSCompositeCopy fraction:1];
+    }
+    else
+    {
+        [tex drawAtPoint:NSZeroPoint fromRect:rect operation:NSCompositeCopy fraction:1];
+    }
+    
+    [imgFrame unlockFocus];
+        
+    return imgFrame;
+}
+
 + (NSMutableArray*) listFramesInSheet:(NSString*)file assetsPath:(NSString*) assetsPath
 {
     NSString* absoluteFile = [NSString stringWithFormat:@"%@%@",assetsPath,file];

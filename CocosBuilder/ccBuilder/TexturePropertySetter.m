@@ -10,12 +10,13 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
 #import "CCBWriterInternal.h"
+#import "ResourceManager.h"
 
 @implementation TexturePropertySetter
 
 + (void) setSpriteFrameForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCSpriteFrame* spriteFrame = NULL;
     
     if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile]
@@ -25,7 +26,7 @@
         @try
         {
             // Convert to absolute path
-            spriteSheetFile = [NSString stringWithFormat:@"%@%@", ad.assetsPath, spriteSheetFile];
+            spriteSheetFile = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteSheetFile];
             
             [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spriteSheetFile];
             
@@ -38,7 +39,7 @@
     else if (spriteFile && ![spriteFile isEqualToString:@""])
     {
         // Create a sprite frame for the single image file
-        NSString* fileName = [NSString stringWithFormat:@"%@%@", ad.assetsPath, spriteFile];
+        NSString* fileName = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteFile];
         CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         
         if (texture)
@@ -64,14 +65,15 @@
 
 + (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) spriteFile
 {
+    
+    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCTexture2D* texture = NULL;
     
     if (spriteFile && ![spriteFile isEqualToString:@""])
     {
         @try
         {
-            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
-            NSString* fileName = [NSString stringWithFormat:@"%@%@", ad.assetsPath, spriteFile];
+            NSString* fileName = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteFile];
             texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         }
         @catch (NSException *exception)
@@ -88,9 +90,9 @@
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
 {
     // TODO: Add error check!
+    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     
     NSString* absPath = NULL;
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     
     if (!fontFile || [fontFile isEqualToString:@""])
     {
@@ -98,7 +100,7 @@
     }
     else
     {
-        absPath = [NSString stringWithFormat:@"%@%@", ad.assetsPath, fontFile];
+        absPath = [NSString stringWithFormat:@"%@/%@", assetsPath, fontFile];
     }
     
     [node setValue:absPath forKey:prop];

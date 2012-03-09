@@ -31,7 +31,7 @@
     [super windowDidLoad];
     
     [resourceList setDataSource:self];
-    //[resourceList setDelegate:self];
+    [resourceList setDelegate:self];
 }
 
 - (void) reload
@@ -227,6 +227,24 @@
     [pasteboard setData:clipData forType:@"com.cocosbuilder.texture"];
     
     return 1;*/
+}
+
+- (void) outlineViewSelectionDidChange:(NSNotification *)notification
+{
+    id selection = [resourceList itemAtRow:[resourceList selectedRow]];
+    
+    NSImage* preview = NULL;
+    if ([selection respondsToSelector:@selector(preview)])
+    {
+        preview = [selection preview];
+    }
+    
+    [imagePreview setImage:preview];
+    
+    
+    
+    if (preview) [lblNoPreview setHidden:YES];
+    else [lblNoPreview setHidden:NO];
 }
 
 - (void) resourceListUpdated

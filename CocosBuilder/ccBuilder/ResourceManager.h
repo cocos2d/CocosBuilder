@@ -56,6 +56,7 @@ enum
 @property (nonatomic,assign) BOOL touched;
 @property (nonatomic,retain) id data;
 - (void) loadData;
+- (NSImage*) preview;
 
 @end
 
@@ -99,6 +100,7 @@ enum
 
 @property (nonatomic,readonly) NSMutableDictionary* directories;
 @property (nonatomic,retain) NSArray* activeDirectories;
+@property (nonatomic,readonly) NSString* assetsPath;
 
 - (void) addDirectory:(NSString*)dir;
 - (void) removeDirectory:(NSString*)dir;

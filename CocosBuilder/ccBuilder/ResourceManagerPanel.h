@@ -13,6 +13,9 @@
 @interface ResourceManagerPanel : NSWindowController<NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
     IBOutlet NSOutlineView* resourceList;
+    IBOutlet NSImageView* imagePreview;
+    IBOutlet NSTextField* lblNoPreview;
+    
     
     ResourceManager* resManager;
     int resType;
