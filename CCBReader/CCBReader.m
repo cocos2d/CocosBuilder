@@ -143,7 +143,11 @@
     }
     else
     {
-        float f = *((float*)(bytes+currentByte));
+    	// using a memcpy since the compiler isn't
+    	// doing the float ptr math correctly on device.
+		float* pF = (float*)(bytes+currentByte);
+		float f = 0;
+		memcpy(&f, pF, sizeof(float));
         currentByte+=4;
         return f;
     }
