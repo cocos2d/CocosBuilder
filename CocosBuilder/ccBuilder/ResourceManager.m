@@ -517,12 +517,28 @@
     [self updateResourcesForPath:event.eventPath];
 }
 
-- (NSString*) assetsPath
+
+- (NSString*) mainActiveDirectoryPath
 {
-    // TODO: Add support for multiple directories (this method must go!)
     if ([activeDirectories count] == 0) return NULL;
     RMDirectory* dir = [activeDirectories objectAtIndex:0];
     return dir.dirPath;
+}
+
+- (NSString*) toAbsolutePath:(NSString*)path
+{
+    if ([activeDirectories count] == 0) return NULL;
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    for (RMDirectory* dir in activeDirectories)
+    {
+        NSString* p = [NSString stringWithFormat:@"%@/%@",dir.dirPath,path];
+        
+        NSLog(@"Checking path: %@",p);
+        
+        if ([fm fileExistsAtPath:p]) return p;
+    }
+    return NULL;
 }
 
 @end

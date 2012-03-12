@@ -88,18 +88,41 @@
 
 + (void) populateResourcePopup:(NSPopUpButton*)popup resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
 {
-    // TODO: Add support for multiple directories
-    
     // Clear the menu and add items to it!
     NSMenu* menu = [popup menu];
     [menu removeAllItems];
     
     ResourceManager* rm = [ResourceManager sharedManager];
     
-    if ([rm.activeDirectories count] == 0) return;
-    RMDirectory* activeDir = [rm.activeDirectories objectAtIndex:0];
+    if ([rm.activeDirectories count] == 0)
+    {
+        // No, active directory
+        return;
+    }
+    else if ([rm.activeDirectories count] == 1)
+    {
+        // There is only a single active directory, make its contents the top level
+        RMDirectory* activeDir = [rm.activeDirectories objectAtIndex:0];
     
-    [ResourceManagerUtil addDirectory:activeDir ToMenu:menu target:target resType: resType allowSpriteFrames:allowSpriteFrames];
+        [ResourceManagerUtil addDirectory:activeDir ToMenu:menu target:target resType: resType allowSpriteFrames:allowSpriteFrames];
+    }
+    else
+    {
+        // There are more than one active directory, make a list of directories at
+        // the top level
+        for (RMDirectory* activeDir in rm.activeDirectories)
+        {
+            NSString* itemName = [activeDir.dirPath lastPathComponent];
+            
+            NSMenu* subMenu = [[[NSMenu alloc] initWithTitle:itemName] autorelease];
+            
+            [ResourceManagerUtil addDirectory:activeDir ToMenu:subMenu target:target resType:resType allowSpriteFrames:allowSpriteFrames];
+            
+            NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:NULL keyEquivalent:@""] autorelease];
+            [menu addItem:menuItem];
+            [menu setSubmenu:subMenu forItem:menuItem];
+        }
+    }
     
     // Set the selected item
     NSString* selectedTitle = NULL;
@@ -111,43 +134,48 @@
     {
         selectedTitle = file;
     }
-    [popup setTitle:selectedTitle];
+    
+    [self setTitle:selectedTitle forPopup:popup];
 }
 
 + (NSString*) relativePathFromAbsolutePath: (NSString*) path
 {
-    // TODO: Add support for multiple directories
-    
     NSArray* activeDirs = [[ResourceManager sharedManager] activeDirectories];
-    if ([activeDirs count] == 0) return NULL;
     
-    RMDirectory* baseDir = [activeDirs objectAtIndex:0];
-    NSString* base = baseDir.dirPath;
-    
-    int baseLen = [base length];
-    
-    NSString* relPath = [path substringFromIndex:baseLen+1];
-    
-    if (![[base substringToIndex:baseLen] isEqualToString:base])
+    for (RMDirectory* dir in activeDirs)
     {
-        NSLog(@"No relative path!!");
-        return NULL;
+        NSString* base = dir.dirPath;
+        
+        if ([path hasPrefix:base])
+        {
+            NSString* relPath = [path substringFromIndex:[base length]+1];
+            return relPath;
+        }
     }
     
-    return relPath;
+    NSLog(@"No relative path!!");
+    return NULL;
 }
 
 + (void) setTitle:(NSString*)str forPopup:(NSPopUpButton*)popup
 {
     NSMenu* menu = [popup menu];
     
-    // Remove items that contains a slash (/)
+    // Remove items that contains a slash (/ or •)
     NSArray* items = [[[menu itemArray] copy] autorelease];
     for (NSMenuItem* item in items)
     {
-        NSRange range = [item.title rangeOfString:@"/"];
-        if (range.location == NSNotFound) continue;
+        NSRange range0 = [item.title rangeOfString:@"/"];
+        NSRange range1 = [item.title rangeOfString:@"•"];
+        if (range0.location == NSNotFound && range1.location == NSNotFound) continue;
+        
         [menu removeItem:item];
+    }
+    
+    // Add a • in front of the name if multiple active directories are used
+    if ([[[ResourceManager sharedManager] activeDirectories] count] > 1)
+    {
+        str = [NSString stringWithFormat:@"• %@",str];
     }
     
     // Set the title

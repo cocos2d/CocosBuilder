@@ -16,7 +16,6 @@
 
 + (void) setSpriteFrameForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
-    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCSpriteFrame* spriteFrame = NULL;
     
     if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile]
@@ -26,7 +25,7 @@
         @try
         {
             // Convert to absolute path
-            spriteSheetFile = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteSheetFile];
+            spriteSheetFile = [[ResourceManager sharedManager] toAbsolutePath:spriteSheetFile];
             
             [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spriteSheetFile];
             
@@ -39,7 +38,10 @@
     else if (spriteFile && ![spriteFile isEqualToString:@""])
     {
         // Create a sprite frame for the single image file
-        NSString* fileName = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteFile];
+        NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:spriteFile];
+        
+        NSLog(@"fileName: %@ spriteFile: %@",fileName,spriteFile);
+        
         CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         
         if (texture)
@@ -65,15 +67,13 @@
 
 + (void) setTextureForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) spriteFile
 {
-    
-    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCTexture2D* texture = NULL;
     
     if (spriteFile && ![spriteFile isEqualToString:@""])
     {
         @try
         {
-            NSString* fileName = [NSString stringWithFormat:@"%@/%@", assetsPath, spriteFile];
+            NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:spriteFile];
             texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         }
         @catch (NSException *exception)
@@ -90,7 +90,6 @@
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
 {
     // TODO: Add error check!
-    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     
     NSString* absPath = NULL;
     
@@ -100,7 +99,7 @@
     }
     else
     {
-        absPath = [NSString stringWithFormat:@"%@/%@", assetsPath, fontFile];
+        absPath = [[ResourceManager sharedManager] toAbsolutePath:fontFile];
     }
     
     [node setValue:absPath forKey:prop];

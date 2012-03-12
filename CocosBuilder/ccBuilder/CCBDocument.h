@@ -15,6 +15,7 @@
     BOOL isDirty;
     CGPoint stageScrollOffset;
     float stageZoom;
+    NSDictionary* project;
 }
 
 @property (nonatomic,retain) NSString* fileName;
@@ -28,5 +29,5 @@
 @property (nonatomic,assign) float stageZoom;
 @property (nonatomic,readonly) NSString* rootPath;
 - (NSString*) formattedName;
-
+@property (nonatomic,readonly) NSDictionary* project;
 @end

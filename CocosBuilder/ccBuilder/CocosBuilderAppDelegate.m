@@ -193,7 +193,17 @@
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
     CCBDocument* doc = [tabViewItem identifier];
+    
+    // Remove directory paths from resource manager
     [resManager removeDirectory:doc.rootPath];
+    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
+    if (paths)
+    {
+        for (NSString* path in paths)
+        {
+            [resManager removeDirectory:path];
+        }
+    }
     
     if ([[aTabView tabViewItems] count] == 0)
     {
@@ -684,9 +694,14 @@
     
     NSMutableDictionary* doc = document.docData;
     
-    //[self updateAssetsView];
-    
-    [resManager setActiveDirectory: document.rootPath];
+    // Update active directories for the resource manager
+    NSArray* activeDirs = [NSMutableArray arrayWithObject:document.rootPath];
+    if (document.project && [document.project objectForKey:@"resourcePaths"])
+    {
+        activeDirs = [activeDirs arrayByAddingObjectsFromArray:[document.project objectForKey:@"resourcePaths"]];
+    }
+    //[resManager setActiveDirectory: document.rootPath];
+    [resManager setActiveDirectories:activeDirs];
     
     [self replaceDocumentData:doc];
     
@@ -770,6 +785,14 @@
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     
     [resManager addDirectory:newDoc.rootPath];
+    NSArray* paths = [newDoc.project objectForKey:@"resourcePaths"];
+    if (paths)
+    {
+        for (NSString* path in paths)
+        {
+            [resManager addDirectory:path];
+        }
+    }
     
     [self switchToDocument:newDoc];
      

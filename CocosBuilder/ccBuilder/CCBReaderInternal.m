@@ -308,7 +308,7 @@
     if (fileVersion <= 2)
     {
         // Use legacy reader
-        NSString* assetsPath = [NSString stringWithFormat:@"%@/", [[ResourceManager sharedManager] assetsPath]];
+        NSString* assetsPath = [NSString stringWithFormat:@"%@/", [[ResourceManager sharedManager] mainActiveDirectoryPath]];
         
         return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:assetsPath owner:NULL];
     }
