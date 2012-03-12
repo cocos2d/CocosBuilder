@@ -32,7 +32,7 @@
 {
     Class exporterClass = [bundle principalClass];
     CCBX* exporter = [[exporterClass alloc] init];
-    return [exporter exportDocument:doc];
+    return [exporter exportDocument:doc flattenPaths:[[doc objectForKey:@"exportFlattenPaths"] boolValue]];
 }
 
 - (void) dealloc

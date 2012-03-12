@@ -28,6 +28,8 @@ enum {
 
 @interface CCBXCocos2diPhoneWriter : NSObject
 {
+    BOOL flattenPaths;
+    
     NSMutableData* data;
     
     NSMutableArray* propTypes;
@@ -40,6 +42,7 @@ enum {
 }
 
 @property (nonatomic,readonly) NSMutableData* data;
+@property (nonatomic,assign) BOOL flattenPaths;
 
 - (void) writeDocument:(NSDictionary*)doc;
 

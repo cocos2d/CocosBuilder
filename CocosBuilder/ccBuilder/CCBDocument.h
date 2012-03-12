@@ -9,6 +9,7 @@
     NSString* fileName;
     NSString* exportPath;
     NSString* exportPlugIn;
+    BOOL exportFlattenPaths;
     NSMutableDictionary* docData;
     NSUndoManager* undoManager;
     NSString* lastEditedProperty;
@@ -21,6 +22,7 @@
 @property (nonatomic,retain) NSString* fileName;
 @property (nonatomic,retain) NSString* exportPath;
 @property (nonatomic,retain) NSString* exportPlugIn;
+@property (nonatomic,assign) BOOL exportFlattenPaths;
 @property (nonatomic,retain) NSMutableDictionary* docData;
 @property (nonatomic,retain) NSUndoManager* undoManager;
 @property (nonatomic,retain) NSString* lastEditedProperty;

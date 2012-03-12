@@ -15,7 +15,7 @@
     return @"ccbExample";
 }
 
-- (NSData*) exportDocument:(NSDictionary*)doc
+- (NSData*) exportDocument:(NSDictionary*)doc flattenPaths:(BOOL)flattenPaths
 {
     return [NSPropertyListSerialization dataFromPropertyList:doc format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
 }

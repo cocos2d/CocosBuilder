@@ -12,7 +12,7 @@
 
 @implementation PublishTypeAccessoryView
 
-@synthesize exporterNames, selectedIndex,savePanel;
+@synthesize exporterNames, selectedIndex,savePanel,flattenPaths;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

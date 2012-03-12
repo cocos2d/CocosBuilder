@@ -11,6 +11,6 @@
 @interface CCBX : NSObject
 
 - (NSString*) extension;
-- (NSData*) exportDocument:(NSDictionary*)doc;
+- (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths;
 
 @end

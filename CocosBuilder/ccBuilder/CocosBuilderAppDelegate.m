@@ -643,6 +643,7 @@
     {
         [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
         [dict setObject:doc.exportPath forKey:@"exportPath"];
+        [dict setObject:[NSNumber numberWithBool:doc.exportFlattenPaths] forKey:@"exportFlattenPaths"];
     }
     
     return dict;
@@ -783,6 +784,7 @@
     newDoc.docData = doc;
     newDoc.exportPath = [doc objectForKey:@"exportPath"];
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
+    newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
     
     [resManager addDirectory:newDoc.rootPath];
     NSArray* paths = [newDoc.project objectForKey:@"resourcePaths"];
@@ -1176,6 +1178,7 @@
     // Setup accessory view
     PublishTypeAccessoryView* accessoryView = [[PublishTypeAccessoryView alloc] init];
     accessoryView.savePanel = saveDlg;
+    accessoryView.flattenPaths = currentDocument.exportFlattenPaths;
     [NSBundle loadNibNamed:@"PublishTypeAccessoryView" owner:accessoryView];
     NSView* view = accessoryView.view;
     saveDlg.accessoryView = view;
@@ -1195,6 +1198,7 @@
             NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
             currentDocument.exportPlugIn = exportTypeName;
             currentDocument.exportPath = [[saveDlg URL] path];
+            currentDocument.exportFlattenPaths = accessoryView.flattenPaths;
             
             [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
         }

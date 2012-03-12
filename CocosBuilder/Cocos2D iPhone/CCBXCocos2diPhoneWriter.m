@@ -10,7 +10,7 @@
 
 @implementation CCBXCocos2diPhoneWriter
 
-@synthesize data;
+@synthesize data, flattenPaths;
 
 - (void) setupPropTypes
 {
@@ -68,8 +68,15 @@
     return (int)propType;
 }
 
-- (void) addToStringCache:(NSString*) str
+- (void) addToStringCache:(NSString*) str isPath:(BOOL) isPath
 {
+    if (isPath && flattenPaths)
+    {
+        NSLog(@"unflattened: %@", str);
+        str = [str lastPathComponent];
+        NSLog(@"flattenedPath: %@", str);
+    }
+    
     // Check if it is already in the chache, if so add to it's count
     NSNumber* num = [stringCacheLookup objectForKey:str];
     if (num)
@@ -208,8 +215,15 @@
     [data appendData:dataStr];
 }
 
-- (void) writeCachedString:(NSString*) str
+- (void) writeCachedString:(NSString*) str isPath:(BOOL) isPath
 {
+    if (isPath && flattenPaths)
+    {
+        NSLog(@"unflattened: %@", str);
+        str = [str lastPathComponent];
+        NSLog(@"flattenedPath: %@", str);
+    }
+    
     NSNumber* num = [stringCacheLookup objectForKey:str];
     NSAssert(num, @"ccbi export: Trying to write string not added to cache");
     
@@ -225,7 +239,7 @@
     [self writeInt:typeId withSign:NO];
     
     // Property name
-    [self writeCachedString:name];
+    [self writeCachedString:name isPath:NO];
     
     // Supported platforms
     if (!platform) [self writeByte:kCCBXPlatformAll];
@@ -280,29 +294,32 @@
     {
         NSString* a = [prop objectAtIndex:0];
         NSString* b = [prop objectAtIndex:1];
-        [self writeCachedString:a];
-        [self writeCachedString:b];
+        [self writeCachedString:a isPath:YES];
+        [self writeCachedString:b isPath:[a isEqualToString:@""]];
     }
     else if ([type isEqualToString:@"Animation"])
     {
         NSString* animationFile = [prop objectAtIndex:0];
         NSString* animation = [prop objectAtIndex:1];
-        [self writeCachedString:animationFile];
-        [self writeCachedString:animation];
+        [self writeCachedString:animationFile isPath:YES];
+        [self writeCachedString:animation isPath:NO];
     }
     else if ([type isEqualToString:@"Block"])
     {
         NSString* a = [prop objectAtIndex:0];
         NSNumber* b = [prop objectAtIndex:1];
-        [self writeCachedString:a];
+        [self writeCachedString:a isPath:NO];
         [self writeInt:[b intValue] withSign:NO];
     }
     else if ([type isEqualToString:@"Texture"]
-             || [type isEqualToString:@"FntFile"]
-             || [type isEqualToString:@"Text"]
+             || [type isEqualToString:@"FntFile"])
+    {
+        [self writeCachedString:prop isPath: YES];
+    }
+    else if ([type isEqualToString:@"Text"]
              || [type isEqualToString:@"FontTTF"])
     {
-        [self writeCachedString:prop];
+        [self writeCachedString:prop isPath: NO];
     }
     else if ([type isEqualToString:@"Color3"])
     {
@@ -344,40 +361,46 @@
 - (void) cacheStringsForNode:(NSDictionary*) node
 {
     // Basic data
-    [self addToStringCache:[node objectForKey:@"baseClass"]];
-    [self addToStringCache:[node objectForKey:@"customClass"]];
-    [self addToStringCache:[node objectForKey:@"memberVarAssignmentName"]];
+    [self addToStringCache:[node objectForKey:@"baseClass"] isPath:NO];
+    [self addToStringCache:[node objectForKey:@"customClass"] isPath:NO];
+    [self addToStringCache:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     
     // Properties
     NSArray* props = [node objectForKey:@"properties"];
     for (int i = 0; i < [props count]; i++)
     {
         NSDictionary* prop = [props objectAtIndex:i];
-        [self addToStringCache:[prop objectForKey:@"name"]];
+        [self addToStringCache:[prop objectForKey:@"name"] isPath:NO];
         id value = [prop objectForKey:@"value"];
         
         NSString* type = [prop objectForKey:@"type"];
         
         if ([type isEqualToString:@"SpriteFrame"])
         {
-            [self addToStringCache:[value objectAtIndex:0]];
-            [self addToStringCache:[value objectAtIndex:1]];
+            NSString* a = [value objectAtIndex:0];
+            NSString* b = [value objectAtIndex:1];
+            [self addToStringCache: a isPath:YES];
+            [self addToStringCache:b isPath:[a isEqualToString:@""]];
         }
 		else if( [type isEqualToString:@"Animation"])
 		{
-            [self addToStringCache:[value objectAtIndex:0]];
-            [self addToStringCache:[value objectAtIndex:1]];			
+            [self addToStringCache:[value objectAtIndex:0] isPath:YES];
+            [self addToStringCache:[value objectAtIndex:1] isPath:NO];			
 		}
         else if ([type isEqualToString:@"Block"])
         {
-            [self addToStringCache:[value objectAtIndex:0]];
+            [self addToStringCache:[value objectAtIndex:0] isPath:NO];
         }
-        else if ([type isEqualToString:@"FontTTF"]
-                 || [type isEqualToString:@"FntFile"]
+        else if ([type isEqualToString:@"FntFile"]
                  || [type isEqualToString:@"Texture"]
                  || [type isEqualToString:@"Text"])
         {
-            [self addToStringCache:value];
+            [self addToStringCache:value isPath:YES];
+        }
+        else if ([type isEqualToString:@"Text"]
+                 || [type isEqualToString:@"FontTTF"])
+        {
+            [self addToStringCache:value isPath:NO];
         }
     }
     
@@ -440,14 +463,14 @@
     {
         class = [node objectForKey:@"baseClass"];
     }
-    [self writeCachedString:class];
+    [self writeCachedString:class isPath:NO];
     
     // Write assignment type and name
     int memberVarAssignmentType = [[node objectForKey:@"memberVarAssignmentType"] intValue];
     [self writeInt:memberVarAssignmentType withSign:NO];
     if (memberVarAssignmentType)
     {
-        [self writeCachedString:[node objectForKey:@"memberVarAssignmentName"]];
+        [self writeCachedString:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     }
     
     // Write properties

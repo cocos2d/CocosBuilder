@@ -15,7 +15,7 @@
     return NULL;
 }
 
-- (NSData*) exportDocument:(NSDictionary*)doc
+- (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths
 {
     return NULL;
 }
