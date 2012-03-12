@@ -7,7 +7,7 @@
 
 @implementation CCBDocument
 
-@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn, project;
+@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn,exportFlattenPaths, project;
 
 - (id)init
 {
