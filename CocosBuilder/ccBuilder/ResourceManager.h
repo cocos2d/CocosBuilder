@@ -100,7 +100,7 @@ enum
 
 @property (nonatomic,readonly) NSMutableDictionary* directories;
 @property (nonatomic,retain) NSArray* activeDirectories;
-@property (nonatomic,readonly) NSString* assetsPath;
+@property (nonatomic,readonly) NSString* mainActiveDirectoryPath;
 
 - (void) addDirectory:(NSString*)dir;
 - (void) removeDirectory:(NSString*)dir;
@@ -109,5 +109,7 @@ enum
 
 - (void) addResourceObserver:(id)observer;
 - (void) removeResourceObserver:(id)observer;
+
+- (NSString*) toAbsolutePath:(NSString*)path;
 
 @end

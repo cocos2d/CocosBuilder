@@ -18,7 +18,6 @@
 {
 	// hacky.
 	// TODO:(JP) Pull
-    NSString* assetsPath = [[ResourceManager sharedManager] assetsPath];
     CCAnimation* pAnimation = NULL;
     
     if (animationFile && ![animationFile isEqualToString:@""] && ![animationFile isEqualToString:kCCBUseRegularFile]
@@ -28,7 +27,7 @@
         @try
         {
             // Convert to absolute path
-            animationFile = [NSString stringWithFormat:@"%@/%@", assetsPath, animationFile];
+            animationFile = [[ResourceManager sharedManager] toAbsolutePath:animationFile];
             CCAnimationCache* animationCache = [CCAnimationCache sharedAnimationCache];
             [animationCache addAnimationsWithFile:animationFile];
             

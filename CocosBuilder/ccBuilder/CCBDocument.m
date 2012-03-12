@@ -7,7 +7,7 @@
 
 @implementation CCBDocument
 
-@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn;
+@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn, project;
 
 - (id)init
 {
@@ -25,10 +25,11 @@
 
 - (void)dealloc
 {
+    [project release];
     self.exportPath = NULL;
     self.exportPlugIn = NULL;
     self.lastEditedProperty = NULL;
-    self.fileName = NULL;
+    [fileName release];
     self.docData = NULL;
     self.undoManager = NULL;
     [super dealloc];
@@ -42,6 +43,18 @@
 - (NSString*) rootPath
 {
     return [fileName stringByDeletingLastPathComponent];
+}
+
+- (void) setFileName:(NSString *)fn
+{
+    // Set new filename
+    [fileName release];
+    fileName = [fn retain];
+    
+    // Check for project file
+    NSString* projPath = [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Project.ccbproj"];
+    project = [NSDictionary dictionaryWithContentsOfFile:projPath];
+    [project retain];
 }
 
 @end
