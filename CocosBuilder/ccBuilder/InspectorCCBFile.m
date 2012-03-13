@@ -22,14 +22,43 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "cocos2d.h"
+#import "InspectorCCBFile.h"
+#import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
 
-#define kCCBFileFormatVersion 3
+@implementation InspectorCCBFile
 
-@interface CCBReaderInternal : NSObject
+- (void) willBeAdded
+{
+    // Setup menu
+    NSString* ccbFile = [self propertyForSelection];
+    if (!ccbFile) ccbFile = @"";
+    [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeCCBFile allowSpriteFrames:NO selectedFile:ccbFile selectedSheet:NULL target:self];
+}
 
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
-+ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
-+ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node;
+- (void) selectedResource:(id)sender
+{
+    id item = [sender representedObject];
+    
+    // Fetch info about the sprite name
+    NSString* ccbFile = NULL;
+    
+    if ([item isKindOfClass:[RMResource class]])
+    {
+        RMResource* res = item;
+        
+        if (res.type == kCCBResTypeCCBFile)
+        {
+            ccbFile = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+            [ResourceManagerUtil setTitle:ccbFile forPopup:popup];
+        }
+    }
+    
+    // Set the properties and sprite frames
+    if (ccbFile)
+    {
+        [self setPropertyForSelection:ccbFile];
+    }
+}
+
 @end

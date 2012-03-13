@@ -315,6 +315,12 @@
                                target,
                                nil];
         }
+        else if ([type isEqualToString:@"CCBFile"])
+        {
+            NSString* str = [node valueForKey:name];
+            if (!str) str = @"";
+            serializedValue = str;
+        }
         else
         {
             NSLog(@"WARNING Unrecognized property type: %@", type);

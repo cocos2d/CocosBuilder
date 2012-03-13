@@ -55,6 +55,7 @@
     [propTypes addObject:@"IntegerLabeled"];
     [propTypes addObject:@"Block"];
     [propTypes addObject:@"Animation"];
+    [propTypes addObject:@"CCBFile"];
 	
 }
 
@@ -328,7 +329,8 @@
         [self writeInt:[b intValue] withSign:NO];
     }
     else if ([type isEqualToString:@"Texture"]
-             || [type isEqualToString:@"FntFile"])
+             || [type isEqualToString:@"FntFile"]
+             || [type isEqualToString:@"CCBFile"])
     {
         [self writeCachedString:prop isPath: YES];
     }
@@ -409,7 +411,7 @@
         }
         else if ([type isEqualToString:@"FntFile"]
                  || [type isEqualToString:@"Texture"]
-                 || [type isEqualToString:@"Text"])
+                 || [type isEqualToString:@"CCBFile"])
         {
             [self addToStringCache:value isPath:YES];
         }

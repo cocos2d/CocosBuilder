@@ -33,7 +33,8 @@ enum
     kCCBResTypeSpriteSheet,
     kCCBResTypeAnimation,
     kCCBResTypeImage,
-    kCCBResTypeBMFont
+    kCCBResTypeBMFont,
+    kCCBResTypeCCBFile
 };
 
 
@@ -86,6 +87,7 @@ enum
     NSMutableArray* images;
     NSMutableArray* animations;
     NSMutableArray* bmFonts;
+    NSMutableArray* ccbFiles;
 }
 
 @property (nonatomic,assign) int count;
@@ -94,6 +96,7 @@ enum
 @property (nonatomic,readonly) NSMutableArray* images;
 @property (nonatomic,readonly) NSMutableArray* animations;
 @property (nonatomic,readonly) NSMutableArray* bmFonts;
+@property (nonatomic,readonly) NSMutableArray* ccbFiles;
 - (NSArray*) resourcesForType:(int)type;
 
 @end

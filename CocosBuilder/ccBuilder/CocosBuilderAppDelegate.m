@@ -330,10 +330,17 @@
     
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
+    NodeInfo* info = node.userData;
+    PlugInNode* plugIn = info.plugIn;
     
-    return ([arr count] > 0 &&
-            ![item isKindOfClass:[CCMenuItemImage class]] &&
-            ![item isKindOfClass:[CCLabelBMFont class]]);
+    if ([arr count] == 0) return NO;
+    if (!plugIn.canHaveChildren) return NO;
+    
+    return YES;
+    
+    //return ([arr count] > 0 &&
+    //        ![item isKindOfClass:[CCMenuItemImage class]] &&
+    //        ![item isKindOfClass:[CCLabelBMFont class]]);
 }
 
 
@@ -654,7 +661,7 @@
     
     // Add meta data
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
-    [dict setObject:[NSNumber numberWithInt:3] forKey:@"fileVersion"];
+    [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
     [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
     [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];

@@ -48,7 +48,8 @@ enum {
     kCCBPropTypeFontTTF,
     kCCBPropTypeIntegerLabeled,
     kCCBPropTypeBlock,
-	kCCBPropTypeAnimation
+	kCCBPropTypeAnimation,
+    kCCBPropTypeCCBFile
 };
 
 enum {
@@ -91,4 +92,11 @@ enum {
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 
+@end
+
+@interface CCBFile : CCNode
+{
+    NSString* ccbFile;
+}
+@property (nonatomic,retain) NSString* ccbFile;
 @end

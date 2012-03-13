@@ -37,7 +37,7 @@
         {
             RMResource* res = item;
             
-            if (res.type == kCCBResTypeImage || res.type == kCCBResTypeBMFont)
+            if (res.type == kCCBResTypeImage || res.type == kCCBResTypeBMFont || res.type == kCCBResTypeCCBFile)
             {
                 NSString* itemName = [res.filePath lastPathComponent];
                 NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];

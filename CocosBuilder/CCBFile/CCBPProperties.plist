@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCNode</string>
+	<key>canHaveChildren</key>
+	<false/>
+	<key>className</key>
+	<string>CCBFile</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
+	<key>editorClassName</key>
+	<string>CCBPCCBFile</string>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>displayName</key>
+			<string>CCBFile</string>
+			<key>type</key>
+			<string>Separator</string>
+		</dict>
+		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>displayName</key>
+			<string>CCB File</string>
+			<key>type</key>
+			<string>CCBFile</string>
+			<key>name</key>
+			<string>ccbFile</string>
+		</dict>
+	</array>
+</dict>
+</plist>
