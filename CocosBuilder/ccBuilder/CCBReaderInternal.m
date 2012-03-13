@@ -237,6 +237,12 @@
         [extraProps setObject: selector forKey:name];
         [extraProps setObject:target forKey:[NSString stringWithFormat:@"%@Target",name]];
     }
+    else if ([type isEqualToString:@"CCBFile"])
+    {
+        NSString* str = serializedValue;
+        if (!str) str = @"";
+        [node setValue:str forKey:name];
+    }
     else
     {
         NSLog(@"WARNING Unrecognized property type: %@", type);
@@ -328,7 +334,7 @@
         
         return [CCBReaderInternalV1 ccObjectFromDictionary:nodeGraph assetsDir:assetsPath owner:NULL];
     }
-    else if (fileVersion > 3)
+    else if (fileVersion > kCCBFileFormatVersion)
     {
         NSLog(@"WARNING! Trying to load file made with a newer version of CocosBuilder, please update the CCBReader class");
         return NULL;

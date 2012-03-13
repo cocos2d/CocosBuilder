@@ -465,6 +465,15 @@
             }
         }
     }
+    else if (type == kCCBPropTypeCCBFile)
+    {
+        NSString* ccbFile = [self readCachedString];
+        
+        if (setProp)
+        {
+            [node setValue:ccbFile forKey:name];
+        }
+    }
     else
     {
         NSLog(@"CCBReader: Failed to read property type %d",type);
@@ -606,6 +615,30 @@
 {
     return [CCBReader sceneWithNodeGraphFromFile:file owner:NULL]; 
 }
+@end
 
+
+@implementation CCBFile
+
+@synthesize ccbFile;
+
+- (void) setCcbFile:(NSString*)file
+{
+    [ccbFile release];
+    ccbFile = [file retain];
+    
+    // Change extension to ccbi
+    file = [NSString stringWithFormat:@"%@.ccbi", [file stringByDeletingPathExtension]];
+    
+    // Load sub file and add it
+    CCNode* node = [CCBReader nodeGraphFromFile:file];
+    [self addChild:node];
+}
+
+- (void) dealloc
+{
+    [ccbFile release];
+    [super dealloc];
+}
 
 @end

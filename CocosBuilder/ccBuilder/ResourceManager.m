@@ -155,7 +155,7 @@
 
 @implementation RMDirectory
 
-@synthesize count,dirPath, resources, images, animations, bmFonts;
+@synthesize count,dirPath, resources, images, animations, bmFonts,ccbFiles;
 
 - (id) init
 {
@@ -166,6 +166,7 @@
     images = [[NSMutableArray alloc] init];
     animations = [[NSMutableArray alloc] init];
     bmFonts = [[NSMutableArray alloc] init];
+    ccbFiles = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -175,15 +176,17 @@
     if (type == kCCBResTypeImage) return images;
     if (type == kCCBResTypeBMFont) return bmFonts;
     if (type == kCCBResTypeAnimation) return animations;
+    if (type == kCCBResTypeCCBFile) return ccbFiles;
     return NULL;
 }
 
 - (void) dealloc
 {
-    [resources dealloc];
-    [images dealloc];
-    [animations dealloc];
-    [bmFonts dealloc];
+    [resources release];
+    [images release];
+    [animations release];
+    [bmFonts release];
+    [ccbFiles release];
     self.dirPath = NULL;
     [super dealloc];
 }
@@ -304,6 +307,10 @@
     {
         return kCCBResTypeAnimation;
     }
+    else if ([ext isEqualToString:@"ccb"])
+    {
+        return kCCBResTypeCCBFile;
+    }
     
     return kCCBResTypeNone;
 }
@@ -410,6 +417,7 @@
         [dir.images removeAllObjects];
         [dir.animations removeAllObjects];
         [dir.bmFonts removeAllObjects];
+        [dir.ccbFiles removeAllObjects];
         
         for (NSString* file in resources)
         {
@@ -429,6 +437,10 @@
                 || res.type == kCCBResTypeDirectory)
             {
                 [dir.bmFonts addObject:res];
+            }
+            if (res.type == kCCBResTypeCCBFile)
+            {
+                [dir.ccbFiles addObject:res];
             }
         }
         

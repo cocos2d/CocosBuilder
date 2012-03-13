@@ -22,14 +22,10 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "cocos2d.h"
+#import "InspectorValue.h"
 
-#define kCCBFileFormatVersion 3
-
-@interface CCBReaderInternal : NSObject
-
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
-+ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
-+ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node;
+@interface InspectorCCBFile : InspectorValue
+{
+    IBOutlet NSPopUpButton* popup;
+}
 @end
