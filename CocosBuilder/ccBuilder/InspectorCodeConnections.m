@@ -15,6 +15,7 @@
 - (void) setCustomClass:(NSString *)customClass
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    if (!customClass) customClass = @"";
     [cs setExtraProp:customClass forKey:@"customClass" andNode:selection];
 }
 
@@ -27,6 +28,7 @@
 - (void) setMemberVarAssignmentName:(NSString *)memberVarAssignmentName
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    if (!memberVarAssignmentName) memberVarAssignmentName = @"";
     [cs setExtraProp:memberVarAssignmentName forKey:@"memberVarAssignmentName" andNode:selection];
 }
 
