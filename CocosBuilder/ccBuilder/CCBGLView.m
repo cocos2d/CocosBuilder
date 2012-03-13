@@ -1,6 +1,27 @@
-//
-//  Copyright 2011 Viktor Lidholt. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2011 Viktor Lidholt
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "CCBGLView.h"
 #import "CocosBuilderAppDelegate.h"
@@ -27,7 +48,6 @@
     [super awakeFromNib];
     
     trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-    //[[self window] setAcceptsMouseMovedEvents:YES];
     
     [self registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
 }
@@ -60,14 +80,7 @@
         NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
         [appDelegate dropAddSpriteNamed:[pdDict objectForKey:@"spriteFile"] inSpriteSheet:[pdDict objectForKey:@"spriteSheetFile"] at:ccp(pt.x,pt.y)];
     }
-    /*
-    pdData = [pb dataForType:@"com.cocosbuilder.template"];
-    if (pdData)
-    {
-        NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
-        [appDelegate dropAddTemplateNamed:[pdDict objectForKey:@"templateFile"] at:ccp(pt.x,pt.y)];
-    }
-     */
+
     return YES;
 }
 
@@ -75,9 +88,5 @@
 {
     [[[CCBGlobals globals] cocosScene] scrollWheel:theEvent];
 }
-/*
-- (void)concludeDragOperation:(id < NSDraggingInfo >)sender
-{
-}*/
 
 @end
