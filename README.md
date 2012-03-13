@@ -19,6 +19,9 @@ Load a particle system (the root node of the ccb-file needs to be a CCParticleSy
         [CCBReader nodeGraphFromFile:@"example-particles.ccb"];
 
 
-## Known issues
+## Getting started with the source
 
-CocosBuilder has not been tested on Lion
+Cocos2d is provided as a submodule to this project. To be able to compile the source code you need first check out the module. Change directory into the top (this) directory of CocosBuilder and run:
+
+    git submodule init
+    git submodule update
