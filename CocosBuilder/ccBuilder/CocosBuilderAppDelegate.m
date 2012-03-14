@@ -1497,7 +1497,10 @@
     if (!currentDocument) return;
     if (!selectedNode) return;
     
-#warning Check if node can have children
+    // Check if node can have children
+    NodeInfo* info = selectedNode.userData;
+    PlugInNode* plugIn = info.plugIn;
+    if (!plugIn.canHaveChildren) return;
     
     CCArray* children = [selectedNode children];
     if ([children count] == 0) return;
