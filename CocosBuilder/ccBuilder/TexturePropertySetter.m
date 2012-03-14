@@ -56,8 +56,6 @@
         // Create a sprite frame for the single image file
         NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:spriteFile];
         
-        NSLog(@"fileName: %@ spriteFile: %@",fileName,spriteFile);
-        
         CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         
         if (texture)
