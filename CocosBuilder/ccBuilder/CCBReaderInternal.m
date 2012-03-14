@@ -33,6 +33,7 @@
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 #import "ResourceManager.h"
+#import "NodeGraphPropertySetter.h"
 
 @implementation CCBReaderInternal
 
@@ -239,9 +240,10 @@
     }
     else if ([type isEqualToString:@"CCBFile"])
     {
-        NSString* str = serializedValue;
-        if (!str) str = @"";
-        [node setValue:str forKey:name];
+        NSString* ccbFile = serializedValue;
+        if (!ccbFile) ccbFile = @"";
+        [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:name withFile:ccbFile];
+        [extraProps setObject:ccbFile forKey:name];
     }
     else
     {
@@ -336,7 +338,7 @@
     }
     else if (fileVersion > kCCBFileFormatVersion)
     {
-        NSLog(@"WARNING! Trying to load file made with a newer version of CocosBuilder, please update the CCBReader class");
+        NSLog(@"WARNING! Trying to load file made with a newer version of CocosBuilder");
         return NULL;
     }
     

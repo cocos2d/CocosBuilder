@@ -25,22 +25,31 @@
 #import "InspectorCCBFile.h"
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
+#import "CCBDocument.h"
+#import "CCBReaderInternal.h"
+#import "NodeGraphPropertySetter.h"
 
 @implementation InspectorCCBFile
 
 - (void) willBeAdded
 {
     // Setup menu
-    NSString* ccbFile = [self propertyForSelection];
-    if (!ccbFile) ccbFile = @"";
-    [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeCCBFile allowSpriteFrames:NO selectedFile:ccbFile selectedSheet:NULL target:self];
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSString* sf = [cs extraPropForKey:propertyName andNode:selection];
+    
+    [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeCCBFile allowSpriteFrames:NO selectedFile:sf selectedSheet:NULL target:self];
 }
 
 - (void) selectedResource:(id)sender
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     id item = [sender representedObject];
     
-    // Fetch info about the sprite name
+    // Fetch info about the ccb file name
     NSString* ccbFile = NULL;
     
     if ([item isKindOfClass:[RMResource class]])
@@ -57,8 +66,56 @@
     // Set the properties and sprite frames
     if (ccbFile)
     {
-        [self setPropertyForSelection:ccbFile];
+        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        [cs setExtraProp:ccbFile forKey:propertyName andNode:selection];
+        //[TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:sf];
+        [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile];
     }
+    
+    [self updateAffectedProperties];
+    /*
+    
+    id item = [sender representedObject];
+    
+    // Fetch info about the ccb file name
+    NSString* ccbFileName = NULL;
+    
+    if ([item isKindOfClass:[RMResource class]])
+    {
+        RMResource* res = item;
+        
+        if (res.type == kCCBResTypeCCBFile)
+        {
+            ccbFileName = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+            [ResourceManagerUtil setTitle:ccbFileName forPopup:popup];
+        }
+    }
+    
+    
+    // Load the File
+    if (ccbFileName)
+    {
+        CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+        
+        // Get absolut file path to ccb file
+        ccbFileName = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];
+        
+        // Check that it's not the current document (or we get an inifnite loop)
+        if ([ad.currentDocument.fileName isEqualToString:ccbFileName]) return;
+        
+        // Load document dictionary
+        NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithContentsOfFile:ccbFileName];
+        
+        // Verify doc type and version
+        if (![[doc objectForKey:@"fileType"] isEqualToString:@"CocosBuilder"]) return;
+        if ([[doc objectForKey:@"fileVersion"] intValue] != kCCBFileFormatVersion) return;
+        
+        // Parse the node graph
+        CCNode* ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"]];
+        
+        // Set the property
+        [self setPropertyForSelection:ccbFile];
+    }*/
 }
 
 @end
