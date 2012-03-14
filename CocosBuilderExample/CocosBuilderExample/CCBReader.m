@@ -467,7 +467,13 @@
     }
     else if (type == kCCBPropTypeCCBFile)
     {
-        NSString* ccbFile = [self readCachedString];
+        NSString* ccbFileName = [self readCachedString];
+        
+        // Change path extension to .ccbi
+        ccbFileName = [NSString stringWithFormat:@"%@.ccbi", [ccbFileName stringByDeletingPathExtension]];
+        
+        // Load sub file and add it
+        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner];
         
         if (setProp)
         {
@@ -622,17 +628,16 @@
 
 @synthesize ccbFile;
 
-- (void) setCcbFile:(NSString*)file
+- (void) setCcbFile:(CCNode*)node
 {
-    [ccbFile release];
-    ccbFile = [file retain];
+    ccbFile = node;
     
-    // Change extension to ccbi
-    file = [NSString stringWithFormat:@"%@.ccbi", [file stringByDeletingPathExtension]];
+    [self removeAllChildrenWithCleanup:YES];
     
-    // Load sub file and add it
-    CCNode* node = [CCBReader nodeGraphFromFile:file];
-    [self addChild:node];
+    if (node)
+    {
+        [self addChild:node];
+    }
 }
 
 - (void) dealloc

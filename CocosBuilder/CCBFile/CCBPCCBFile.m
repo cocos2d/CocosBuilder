@@ -17,8 +17,16 @@
 
 @synthesize ccbFile;
 
-- (void) setCcbFile:(NSString *)cf
+- (void) setCcbFile:(CCNode *)cf
 {
+    ccbFile = cf;
+    
+    [self removeAllChildrenWithCleanup:YES];
+    if (cf)
+    {
+        [self addChild:cf];
+    }
+    /*
     [ccbFile release];
     ccbFile = [cf retain];
     
@@ -44,7 +52,7 @@
     CCNode* nodeGraph = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"]];
     
     // Add the node graph as a child
-    [self addChild:nodeGraph];
+    [self addChild:nodeGraph];*/
 }
 
 @end

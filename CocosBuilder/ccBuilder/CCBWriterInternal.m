@@ -149,11 +149,10 @@
     NSMutableDictionary* extraProps = info.extraProps;
     
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    
     NSMutableArray* props = [NSMutableArray array];
     
-    NSArray* excludeProps = NULL;
     // Get list of properties to exclude from save (if any)
+    NSArray* excludeProps = NULL;
     if ([node respondsToSelector:@selector(ccbExcludePropertiesForSave)])
     {
         excludeProps = [node performSelector:@selector(ccbExcludePropertiesForSave)];
@@ -317,9 +316,9 @@
         }
         else if ([type isEqualToString:@"CCBFile"])
         {
-            NSString* str = [node valueForKey:name];
-            if (!str) str = @"";
-            serializedValue = str;
+            NSString* spriteFile = [extraProps objectForKey:name];
+            if (!spriteFile) spriteFile = @"";
+            serializedValue = spriteFile;
         }
         else
         {

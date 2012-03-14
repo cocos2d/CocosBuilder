@@ -96,7 +96,7 @@ enum {
 
 @interface CCBFile : CCNode
 {
-    NSString* ccbFile;
+    CCNode* ccbFile;
 }
-@property (nonatomic,retain) NSString* ccbFile;
+@property (nonatomic,retain) CCNode* ccbFile;
 @end
