@@ -29,6 +29,7 @@
 
 - (void) setSelector:(NSString *)selector
 {
+    if (!selector) selector = @"";
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     [cs setExtraProp:selector forKey:propertyName andNode:selection];
 }
