@@ -65,7 +65,6 @@ static NSInteger strSort(id num1, id num2, void *context)
 	BOOL retVal = NO;
     NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithContentsOfFile:file];
     
-    NSLog(@"isAnimationFile: %@",file);
 	if( dict )
 		retVal = [self isAnimationFileDict:dict];
     return retVal;

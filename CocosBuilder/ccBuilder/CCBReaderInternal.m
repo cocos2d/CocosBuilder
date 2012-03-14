@@ -176,8 +176,6 @@
         if (!animationFile) animationFile = @"";
         if (!animationName) animationName = @"";
         
-        NSLog(@"Loading animation file: %@ name:%@",animationFile, animationName);
-        
         [extraProps setObject:animationFile forKey:[NSString stringWithFormat:@"%@Animation",name]];
         [extraProps setObject:animationName forKey:name];
         [AnimationPropertySetter setAnimationForNode:node andProperty:name withName:animationName andFile:animationFile];

@@ -89,9 +89,7 @@
 {
     if (isPath && flattenPaths)
     {
-        NSLog(@"unflattened: %@", str);
         str = [str lastPathComponent];
-        NSLog(@"flattenedPath: %@", str);
     }
     
     // Check if it is already in the chache, if so add to it's count
@@ -236,9 +234,7 @@
 {
     if (isPath && flattenPaths)
     {
-        NSLog(@"unflattened: %@", str);
         str = [str lastPathComponent];
-        NSLog(@"flattenedPath: %@", str);
     }
     
     NSNumber* num = [stringCacheLookup objectForKey:str];

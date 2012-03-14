@@ -169,7 +169,7 @@
         }
     }
     
-    NSLog(@"No relative path!!");
+    NSLog(@"WARNING! ResourceManagerUtil: No relative path");
     return NULL;
 }
 

@@ -1486,8 +1486,6 @@
 {
     if (!currentDocument) return;
     
-    NSLog(@"reloadResources");
-    
     [[CCTextureCache sharedTextureCache] removeAllTextures];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
     

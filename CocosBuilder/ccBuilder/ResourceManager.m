@@ -452,15 +452,12 @@
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
     if (needsUpdate)
     {
-        NSLog(@"needsUpdate!!");
         [[[CCBGlobals globals] appDelegate] reloadResources];
     }
 }
 
 - (void) addDirectory:(NSString *)dirPath
 {
-    NSLog(@"Add directory: %@", dirPath);
-    
     // Check if directory is already added (then add to its count)
     RMDirectory* dir = [directories objectForKey:dirPath];
     if (dir)
@@ -482,8 +479,6 @@
 
 - (void) removeDirectory:(NSString *)dirPath
 {
-    NSLog(@"Remove directory: %@", dirPath);
-    
     RMDirectory* dir = [directories objectForKey:dirPath];
     if (dir)
     {
@@ -509,7 +504,6 @@
 
 - (void) setActiveDirectories:(NSArray *)ad
 {
-    NSLog(@"setActiveDirectories: %@", ad);
     [activeDirectories removeAllObjects];
     
     for (NSString* dirPath in ad)
@@ -517,7 +511,6 @@
         RMDirectory* dir = [directories objectForKey:dirPath];
         if (dir)
         {
-            NSLog(@"Adding directory: %@", dirPath);
             [activeDirectories addObject:dir];
         }
     }
@@ -561,9 +554,6 @@
     for (RMDirectory* dir in activeDirectories)
     {
         NSString* p = [NSString stringWithFormat:@"%@/%@",dir.dirPath,path];
-        
-        NSLog(@"Checking path: %@",p);
-        
         if ([fm fileExistsAtPath:p]) return p;
     }
     return NULL;

@@ -39,8 +39,6 @@
     NSString* animName = [cs extraPropForKey:propertyName andNode:selection];
     NSString* animFile = [cs extraPropForKey:[NSString stringWithFormat:@"%@Animation", propertyName] andNode:selection];
     
-    NSLog(@"willBeAdded animName:%@ animFile%@", animName, animFile);
-    
     [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeAnimation allowSpriteFrames:NO selectedFile:animName selectedSheet:animFile target:self];
 }
 
