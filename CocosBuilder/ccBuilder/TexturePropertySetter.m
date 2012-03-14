@@ -32,6 +32,8 @@
 
 + (void) setSpriteFrameForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
+    NSLog(@"setSpriteFrameForNode: %@ andProperty: %@ withFile: %@ andSheetFile: %@", node, prop, spriteFile, spriteSheetFile);
+    
     CCSpriteFrame* spriteFrame = NULL;
     
     if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile]
@@ -56,13 +58,19 @@
         // Create a sprite frame for the single image file
         NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:spriteFile];
         
-        CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
-        
-        if (texture)
+        @try
         {
-            CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
-        
-            spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+            CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
+            
+            if (texture)
+            {
+                CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
+                
+                spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+            }
+        }
+        @catch (NSException *exception) {
+            spriteFrame = NULL;
         }
     }
     
