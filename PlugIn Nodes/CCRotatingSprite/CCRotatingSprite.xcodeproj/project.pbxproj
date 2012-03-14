@@ -394,6 +394,7 @@
 				E3DEFB0C14FFD66C00B98586 /* Sources */,
 				E3DEFB0D14FFD66C00B98586 /* Frameworks */,
 				E3DEFB0E14FFD66C00B98586 /* Resources */,
+				E33BC1A51510CA52009AE29A /* Copy Plug-in to CocosBuilder's PlugIns folder */,
 			);
 			buildRules = (
 			);
@@ -440,6 +441,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E33BC1A51510CA52009AE29A /* Copy Plug-in to CocosBuilder's PlugIns folder */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Plug-in to CocosBuilder's PlugIns folder";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./../../scripts/CopyBuiltProduct.sh \"$CONFIGURATION_BUILD_DIR/\" \"$SRCROOT/../../build/CocosBuilder.app/Contents/PlugIns/\" \"$PRODUCT_NAME.ccbPlugNode\" 0";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E3DEFB0C14FFD66C00B98586 /* Sources */ = {

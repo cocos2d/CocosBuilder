@@ -106,6 +106,7 @@
 				E38B844014FF93C30030AFF2 /* Sources */,
 				E38B844114FF93C30030AFF2 /* Frameworks */,
 				E38B844214FF93C30030AFF2 /* Resources */,
+				E33BC1AA1510D739009AE29A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -151,6 +152,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E33BC1AA1510D739009AE29A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./../../scripts/CopyBuiltProduct.sh \"$CONFIGURATION_BUILD_DIR/\" \"$SRCROOT/../../build/CocosBuilder.app/Contents/PlugIns/\" \"$PRODUCT_NAME.ccbPlugExport\" 0";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E38B844014FF93C30030AFF2 /* Sources */ = {
