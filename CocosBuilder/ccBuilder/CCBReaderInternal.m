@@ -106,7 +106,7 @@
 + (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node
 {
     // Fetch info and extra properties
-    NodeInfo* nodeInfo = node.userData;
+    NodeInfo* nodeInfo = node.userObject;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     
     if ([type isEqualToString:@"Position"]
@@ -265,7 +265,7 @@
     
     
     // Fetch info and extra properties
-    NodeInfo* nodeInfo = node.userData;
+    NodeInfo* nodeInfo = node.userObject;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     PlugInNode* plugIn = nodeInfo.plugIn;
     

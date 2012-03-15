@@ -229,13 +229,13 @@
 
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
 {
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     return [info.extraProps objectForKey:key];
 }
 
 - (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node
 {
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     [info.extraProps setObject:val forKey:key];
 }
 
@@ -698,7 +698,7 @@
     for (int i = 0; i < level; i++) indent = [indent stringByAppendingString:@"-"];
     
     NSLog(@"%@%@",indent,[node className]);
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     NSLog(@"%@",info.extraProps);
     
     for (int i = 0; i < [[node children] count]; i++)
