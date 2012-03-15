@@ -21,7 +21,7 @@ Load a particle system (the root node of the ccb-file needs to be a CCParticleSy
 
 ## Getting started with the source
 
-Cocos2d is provided as a submodule to this project. To be able to compile the source code you need first check out the module, and switch to the gles20 branch. Change directory into the top (this) directory of CocosBuilder and run:
+Cocos2d is provided as a submodule to this project. To be able to compile the source code you need first check out the module. Change directory into the top (this) directory of CocosBuilder and run:
 
     git submodule init
     git submodule update
