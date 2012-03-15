@@ -330,7 +330,7 @@
     
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     PlugInNode* plugIn = info.plugIn;
     
     if ([arr count] == 0) return NO;
@@ -384,7 +384,7 @@
     if (item == nil) return @"Root";
     
     CCNode* node = item;
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     
     // Get class name
     NSString* className = @"";
@@ -604,7 +604,7 @@
     paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
     
     // Add panes for each property
-    NodeInfo* info = selectedNode.userData;
+    NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     
     if (plugIn)
@@ -958,8 +958,8 @@
 {
     if (!obj || !parent) return NO;
     
-    NodeInfo* nodeInfoParent = parent.userData;
-    NodeInfo* nodeInfo = obj.userData;
+    NodeInfo* nodeInfoParent = parent.userObject;
+    NodeInfo* nodeInfo = obj.userObject;
     
     // Check that the parent supports children
     if (!nodeInfoParent.plugIn.canHaveChildren)
@@ -1019,7 +1019,7 @@
 
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent
 {
-    NodeInfo* info = parent.userData;
+    NodeInfo* info = parent.userObject;
     PlugInNode* plugIn = info.plugIn;
     
     if (!spriteFile) spriteFile = @"";
@@ -1050,7 +1050,7 @@
     if (!node) node = [[CCBGlobals globals] cocosScene].rootNode;
     
     CCNode* parent = node.parent;
-    NodeInfo* info = parent.userData;
+    NodeInfo* info = parent.userObject;
     
     if (info.plugIn.acceptsDroppedSpriteFrameChildren)
     {
@@ -1058,7 +1058,7 @@
         return;
     }
     
-    info = node.userData;
+    info = node.userObject;
     if (info.plugIn.acceptsDroppedSpriteFrameChildren)
     {
         [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[node convertToNodeSpace:pt] parent:node];
@@ -1498,7 +1498,7 @@
     if (!selectedNode) return;
     
     // Check if node can have children
-    NodeInfo* info = selectedNode.userData;
+    NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     if (!plugIn.canHaveChildren) return;
     
@@ -1578,7 +1578,7 @@
         return;
     }
     
-    NodeInfo* info = selectedNode.userData;
+    NodeInfo* info = selectedNode.userObject;
     NSLog(@"%@",info.extraProps);
 }
 
