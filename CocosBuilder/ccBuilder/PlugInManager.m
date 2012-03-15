@@ -141,9 +141,9 @@
     Class editorClass = NSClassFromString(plugin.nodeEditorClassName);
     
     CCNode* node = [[[editorClass alloc] init] autorelease];
-    [node setUserData: [NodeInfo nodeInfoWithPlugIn:plugin] retainData:YES];
+    [node setUserObject: [NodeInfo nodeInfoWithPlugIn:plugin]];
     
-    NodeInfo* nodeInfo = node.userData;
+    NodeInfo* nodeInfo = node.userObject;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     
     // Set default data
