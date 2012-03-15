@@ -25,8 +25,5 @@ Cocos2d is provided as a submodule to this project. To be able to compile the so
 
     git submodule init
     git submodule update
-    cd CocosBuilder/libs/cocos2d-iphone/
-    git fetch origin gles20
-    git checkout -b gles20 origin/gles20
 
 When building CocosBuilder, make sure that "CocosBuilder" is the selected target (it may be some of the plug-in targets by default).
