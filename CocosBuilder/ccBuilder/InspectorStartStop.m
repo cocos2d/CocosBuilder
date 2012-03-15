@@ -58,8 +58,8 @@
 
 - (void) dealloc
 {
-    [startMethod dealloc];
-    [stopMethod dealloc];
+    [startMethod release];
+    [stopMethod release];
     self.startName = NULL;
     self.stopName = NULL;
     [super dealloc];
