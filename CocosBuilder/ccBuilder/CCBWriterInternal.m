@@ -144,7 +144,7 @@
 
 + (NSMutableDictionary*) dictionaryFromCCObject:(CCNode *)node
 {
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     PlugInNode* plugIn = info.plugIn;
     NSMutableDictionary* extraProps = info.extraProps;
     

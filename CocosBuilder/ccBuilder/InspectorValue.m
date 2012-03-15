@@ -81,7 +81,7 @@
 
 - (id) propertyForSelection
 {
-    NodeInfo* nodeInfo = selection.userData;
+    NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     if ([plugIn dontSetInEditorProperty:propertyName])
     {
@@ -98,7 +98,7 @@
 {
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
-    NodeInfo* nodeInfo = selection.userData;
+    NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     if ([plugIn dontSetInEditorProperty:propertyName])
     {

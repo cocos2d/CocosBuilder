@@ -124,7 +124,7 @@
 
 + (void) setExtraProp:(NSObject*) prop forKey:(NSString *)key andNode:(CCNode*) node
 {
-    NodeInfo* info = node.userData;
+    NodeInfo* info = node.userObject;
     [info.extraProps setObject:prop forKey:key];
 }
 
