@@ -83,6 +83,8 @@
 	//[window setAcceptsMouseMovedEvents:YES];
 	
 	[director runWithScene:[CocosScene sceneWithAppDelegate:self]];
+	
+	NSAssert( [NSThread currentThread] == [[CCDirector sharedDirector] runningThread], @"cocos2d shall run on the Main Thread. Compile CocosBuilder with CC_DIRECTOR_MAC_THREAD=2");
 }
 
 - (void) setupOutlineView
@@ -792,6 +794,8 @@
 
 - (void) openFile:(NSString*) fileName
 {
+	[[[CCDirector sharedDirector] view] lockOpenGLContext];
+	
     // Add to recent list of opened documents
     [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
     
@@ -828,6 +832,8 @@
      
     [self addDocument:newDoc];
     self.hasOpenedDocument = YES;
+	
+	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (void) saveFile:(NSString*) fileName
