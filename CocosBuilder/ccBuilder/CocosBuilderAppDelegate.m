@@ -431,7 +431,7 @@
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     if (item == NULL) return NSDragOperationNone;
-    if (index != -1) return NSDragOperationNone;
+    //if (index != -1) return NSDragOperationNone;
     
     CCBGlobals* g = [CCBGlobals globals];
     NSPasteboard* pb = [info draggingPasteboard];
@@ -466,11 +466,12 @@
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict];
-        if (![self addCCObject:clipNode toParent:item]) return NO;
+        if (![self addCCObject:clipNode toParent:item atIndex:index]) return NO;
         
         // Remove old node
         CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
         [self deleteNode:draggedNode];
+        
         [self setSelectedNode:clipNode];
         
         return YES;
@@ -960,7 +961,7 @@
 
 #pragma mark Menu options
 
-- (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent
+- (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index
 {
     if (!obj || !parent) return NO;
     
@@ -991,12 +992,36 @@
     }
     
     [self saveUndoState];
-    [parent addChild:obj];
+    
+    // Add object and change zOrder of objects after this child
+    if (index == -1)
+    {
+        // Add at end of array
+        [parent addChild:obj z:[parent.children count]];
+    }
+    else
+    {
+        // Update zValues of children after this node
+        CCArray* children = parent.children;
+        for (int i = index; i < [children count]; i++)
+        {
+            CCNode* child = [children objectAtIndex:i];
+            child.zOrder += 1;
+        }
+        [parent addChild:obj z:index];
+        [parent sortAllChildren];
+    }
+    
     [outlineHierarchy reloadData];
     [self setSelectedNode:obj];
     [self updateInspectorFromSelection];
     
     return YES;
+}
+
+- (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode *)parent
+{
+    return [self addCCObject:obj toParent:parent atIndex:-1];
 }
 
 - (BOOL) addCCObject:(CCNode*)obj asChild:(BOOL)asChild
@@ -1117,8 +1142,21 @@
     if (!node) return;
     
     [self saveUndoState];
+    
+    // Change zOrder of nodes after this one
+    int zOrder = node.zOrder;
+    CCArray* siblings = [node.parent children];
+    for (int i = zOrder+1; i < [siblings count]; i++)
+    {
+        CCNode* sibling = [siblings objectAtIndex:i];
+        sibling.zOrder -= 1;
+    }
+    
     [node removeFromParentAndCleanup:YES];
+    
+    [node.parent sortAllChildren];
     [outlineHierarchy reloadData];
+    
     selectedNode = NULL;
     [self updateOutlineViewSelection];
 }

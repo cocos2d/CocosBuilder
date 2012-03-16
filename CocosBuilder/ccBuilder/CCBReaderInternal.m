@@ -302,7 +302,7 @@
     for (int i = 0; i < [children count]; i++)
     {
         CCNode* child = [CCBReaderInternal nodeGraphFromDictionary:[children objectAtIndex:i]];
-        [node addChild:child];
+        [node addChild:child z:i];
     }
     
     return node;

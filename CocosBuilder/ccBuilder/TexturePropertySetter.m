@@ -32,8 +32,6 @@
 
 + (void) setSpriteFrameForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*)spriteFile andSheetFile:(NSString*)spriteSheetFile
 {
-    NSLog(@"setSpriteFrameForNode: %@ andProperty: %@ withFile: %@ andSheetFile: %@", node, prop, spriteFile, spriteSheetFile);
-    
     CCSpriteFrame* spriteFrame = NULL;
     
     if (spriteSheetFile && ![spriteSheetFile isEqualToString:@""] && ![spriteSheetFile isEqualToString:kCCBUseRegularFile]

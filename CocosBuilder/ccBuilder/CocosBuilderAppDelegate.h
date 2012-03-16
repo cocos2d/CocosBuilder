@@ -143,6 +143,7 @@ enum {
 
 - (IBAction) menuCloseDocument:(id)sender;
 
+- (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;
 - (BOOL) addCCObject:(CCNode*)obj asChild:(BOOL)asChild;
 - (void) deleteNode:(CCNode*)node;

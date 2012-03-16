@@ -471,10 +471,10 @@
     {
         NSDictionary* childDict = [children objectAtIndex:i];
         CCNode* child = [CCBReaderInternalV1 ccObjectFromDictionary:childDict assetsDir:path owner:owner root:root];
-        int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
+        //int zOrder = [[[childDict objectForKey:@"properties"] objectForKey:@"zOrder"] intValue];
         if (child && node)
         {
-            [node addChild:child z:zOrder];
+            [node addChild:child z:i];
         }
         else
         {
