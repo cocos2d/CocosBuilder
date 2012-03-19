@@ -339,10 +339,6 @@
     if (!plugIn.canHaveChildren) return NO;
     
     return YES;
-    
-    //return ([arr count] > 0 &&
-    //        ![item isKindOfClass:[CCMenuItemImage class]] &&
-    //        ![item isKindOfClass:[CCLabelBMFont class]]);
 }
 
 
