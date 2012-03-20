@@ -29,6 +29,7 @@
 #import "CCBReaderInternalV1.h"
 #import "NodeInfo.h"
 #import "PlugInManager.h"
+#import "PlugInNode.h"
 
 @implementation CocosScene
 
@@ -410,8 +411,11 @@
 - (void) nodesUnderPt:(CGPoint)pt rootNode:(CCNode*) node nodes:(NSMutableArray*)nodes
 {
     if (!node) return;
-    if ([node.parent isKindOfClass:[CCMenuItem class]]) return;
-    if ([node.parent isKindOfClass:[CCLabelBMFont class]]) return;
+    
+    NodeInfo* parentInfo = node.parent.userObject;
+    PlugInNode* parentPlugIn = parentInfo.plugIn;
+    
+    if (parentPlugIn && !parentPlugIn.canHaveChildren) return;
     
     CGRect hitRect = [node boundingBox];
     

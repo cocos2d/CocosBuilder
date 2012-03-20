@@ -204,6 +204,19 @@
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
+		E35392601518AF2100471721 /* CCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E353924C1518AF2100471721 /* CCControl.m */; };
+		E35392611518AF2100471721 /* CCControlButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E353924E1518AF2100471721 /* CCControlButton.m */; };
+		E35392621518AF2100471721 /* CCControlColourPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392501518AF2100471721 /* CCControlColourPicker.m */; };
+		E35392631518AF2100471721 /* CCControlHuePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392521518AF2100471721 /* CCControlHuePicker.m */; };
+		E35392641518AF2100471721 /* CCControlSaturationBrightnessPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392541518AF2100471721 /* CCControlSaturationBrightnessPicker.m */; };
+		E35392651518AF2100471721 /* CCControlSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392561518AF2100471721 /* CCControlSlider.m */; };
+		E35392661518AF2100471721 /* CCColourUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392591518AF2100471721 /* CCColourUtils.m */; };
+		E35392671518AF2100471721 /* CCScale9Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E353925B1518AF2100471721 /* CCScale9Sprite.m */; };
+		E35392681518AF2100471721 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E353925D1518AF2100471721 /* Utils.m */; };
+		E35392781518D78D00471721 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		E353927E1518D78D00471721 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E353927C1518D78D00471721 /* InfoPlist.strings */; };
+		E35392851518D81000471721 /* CCScale9Sprite.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */; };
+		E35392871518D89100471721 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35392861518D89100471721 /* CCBPProperties.plist */; };
 		E35DBB6914F21E7D0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBB6F14F21E7D0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB6D14F21E7D0070A6E4 /* InfoPlist.strings */; };
 		E35DBB7414F21EEE0070A6E4 /* CCLayer.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */; };
@@ -330,6 +343,13 @@
 			remoteGlobalIDString = E325F65914F65C8E00D29BCF;
 			remoteInfo = CCMenuItemImage;
 		};
+		E35392831518D7E100471721 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E35392761518D78D00471721;
+			remoteInfo = CCScale9Sprite;
+		};
 		E35DBB7514F21EF50070A6E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
@@ -427,6 +447,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E35392851518D81000471721 /* CCScale9Sprite.ccbPlugNode in Copy PlugIns */,
 				E3D5912F150F53EA004180CA /* CCBFile.ccbPlugNode in Copy PlugIns */,
 				E398C03014FB82170078E771 /* Cocos2D iPhone.ccbPlugExport in Copy PlugIns */,
 				E325F66A14F6611F00D29BCF /* CCMenuItemImage.ccbPlugNode in Copy PlugIns */,
@@ -805,6 +826,31 @@
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
+		E353924B1518AF2100471721 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
+		E353924C1518AF2100471721 /* CCControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControl.m; sourceTree = "<group>"; };
+		E353924D1518AF2100471721 /* CCControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlButton.h; sourceTree = "<group>"; };
+		E353924E1518AF2100471721 /* CCControlButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControlButton.m; sourceTree = "<group>"; };
+		E353924F1518AF2100471721 /* CCControlColourPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlColourPicker.h; sourceTree = "<group>"; };
+		E35392501518AF2100471721 /* CCControlColourPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControlColourPicker.m; sourceTree = "<group>"; };
+		E35392511518AF2100471721 /* CCControlHuePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlHuePicker.h; sourceTree = "<group>"; };
+		E35392521518AF2100471721 /* CCControlHuePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControlHuePicker.m; sourceTree = "<group>"; };
+		E35392531518AF2100471721 /* CCControlSaturationBrightnessPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlSaturationBrightnessPicker.h; sourceTree = "<group>"; };
+		E35392541518AF2100471721 /* CCControlSaturationBrightnessPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControlSaturationBrightnessPicker.m; sourceTree = "<group>"; };
+		E35392551518AF2100471721 /* CCControlSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlSlider.h; sourceTree = "<group>"; };
+		E35392561518AF2100471721 /* CCControlSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControlSlider.m; sourceTree = "<group>"; };
+		E35392581518AF2100471721 /* CCColourUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCColourUtils.h; sourceTree = "<group>"; };
+		E35392591518AF2100471721 /* CCColourUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCColourUtils.m; sourceTree = "<group>"; };
+		E353925A1518AF2100471721 /* CCScale9Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScale9Sprite.h; sourceTree = "<group>"; };
+		E353925B1518AF2100471721 /* CCScale9Sprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScale9Sprite.m; sourceTree = "<group>"; };
+		E353925C1518AF2100471721 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		E353925D1518AF2100471721 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		E353925E1518AF2100471721 /* CCControlExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlExtension.h; sourceTree = "<group>"; };
+		E353925F1518AF2100471721 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCScale9Sprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
+		E353927B1518D78D00471721 /* CCScale9Sprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCScale9Sprite-Info.plist"; sourceTree = "<group>"; };
+		E353927D1518D78D00471721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E353927F1518D78D00471721 /* CCScale9Sprite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCScale9Sprite-Prefix.pch"; sourceTree = "<group>"; };
+		E35392861518D89100471721 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCLayer.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35DBB6C14F21E7D0070A6E4 /* CCLayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLayer-Info.plist"; sourceTree = "<group>"; };
 		E35DBB6E14F21E7D0070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1008,6 +1054,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E325F65B14F65C8E00D29BCF /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35392741518D78D00471721 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35392781518D78D00471721 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1320,6 +1374,7 @@
 				E325F65A14F65C8E00D29BCF /* CCMenuItemImage.ccbPlugNode */,
 				E398C02214FB81A30078E771 /* Cocos2D iPhone.ccbPlugExport */,
 				E3D59121150F5367004180CA /* CCBFile.ccbPlugNode */,
+				E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1382,6 +1437,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E35392491518AF2100471721 /* CCControlExtension */,
 				A0F1796515116B4000CE6E92 /* cocos2d */,
 				E3C5C1A51504D30C000CF6F3 /* SCEvents */,
 				A09AB68C14E9935F009C8B91 /* kazmath */,
@@ -1789,6 +1845,95 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E35392461518AD0A00471721 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E3D59123150F5367004180CA /* CCBFile */,
+				E3B7AEC714E3193500DFD402 /* CCNode */,
+				E3C365ED14E9E4D1007CD5FF /* CCSprite */,
+				E35DBB6A14F21E7D0070A6E4 /* CCLayer */,
+				E35DBB8214F225D30070A6E4 /* CCLayerColor */,
+				E35DBB9A14F244BC0070A6E4 /* CCLayerGradient */,
+				E35DBBAF14F2781D0070A6E4 /* CCMenu */,
+				E35DBBCE14F2AA360070A6E4 /* CCLabelBMFont */,
+				E35DBBEB14F3E2390070A6E4 /* CCLabelTTF */,
+				E35DBC0B14F4D72B0070A6E4 /* CCParticleSystem */,
+				E325F65C14F65C8E00D29BCF /* CCMenuItemImage */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		E35392481518AD4100471721 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E35392791518D78D00471721 /* CCScale9Sprite */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		E35392491518AF2100471721 /* CCControlExtension */ = {
+			isa = PBXGroup;
+			children = (
+				E353924A1518AF2100471721 /* CCControl */,
+				E353925E1518AF2100471721 /* CCControlExtension.h */,
+				E353925F1518AF2100471721 /* README.md */,
+			);
+			name = CCControlExtension;
+			path = CCControlExtension/CCControlExtension;
+			sourceTree = "<group>";
+		};
+		E353924A1518AF2100471721 /* CCControl */ = {
+			isa = PBXGroup;
+			children = (
+				E353924B1518AF2100471721 /* CCControl.h */,
+				E353924C1518AF2100471721 /* CCControl.m */,
+				E353924D1518AF2100471721 /* CCControlButton.h */,
+				E353924E1518AF2100471721 /* CCControlButton.m */,
+				E353924F1518AF2100471721 /* CCControlColourPicker.h */,
+				E35392501518AF2100471721 /* CCControlColourPicker.m */,
+				E35392511518AF2100471721 /* CCControlHuePicker.h */,
+				E35392521518AF2100471721 /* CCControlHuePicker.m */,
+				E35392531518AF2100471721 /* CCControlSaturationBrightnessPicker.h */,
+				E35392541518AF2100471721 /* CCControlSaturationBrightnessPicker.m */,
+				E35392551518AF2100471721 /* CCControlSlider.h */,
+				E35392561518AF2100471721 /* CCControlSlider.m */,
+				E35392571518AF2100471721 /* Utils */,
+			);
+			path = CCControl;
+			sourceTree = "<group>";
+		};
+		E35392571518AF2100471721 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E35392581518AF2100471721 /* CCColourUtils.h */,
+				E35392591518AF2100471721 /* CCColourUtils.m */,
+				E353925A1518AF2100471721 /* CCScale9Sprite.h */,
+				E353925B1518AF2100471721 /* CCScale9Sprite.m */,
+				E353925C1518AF2100471721 /* Utils.h */,
+				E353925D1518AF2100471721 /* Utils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		E35392791518D78D00471721 /* CCScale9Sprite */ = {
+			isa = PBXGroup;
+			children = (
+				E353927A1518D78D00471721 /* Supporting Files */,
+			);
+			path = CCScale9Sprite;
+			sourceTree = "<group>";
+		};
+		E353927A1518D78D00471721 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E353927B1518D78D00471721 /* CCScale9Sprite-Info.plist */,
+				E353927C1518D78D00471721 /* InfoPlist.strings */,
+				E353927F1518D78D00471721 /* CCScale9Sprite-Prefix.pch */,
+				E35392861518D89100471721 /* CCBPProperties.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E35DBB6A14F21E7D0070A6E4 /* CCLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1988,17 +2133,8 @@
 		E3B7AED114E31A7800DFD402 /* PlugIns (Nodes) */ = {
 			isa = PBXGroup;
 			children = (
-				E3D59123150F5367004180CA /* CCBFile */,
-				E3B7AEC714E3193500DFD402 /* CCNode */,
-				E3C365ED14E9E4D1007CD5FF /* CCSprite */,
-				E35DBB6A14F21E7D0070A6E4 /* CCLayer */,
-				E35DBB8214F225D30070A6E4 /* CCLayerColor */,
-				E35DBB9A14F244BC0070A6E4 /* CCLayerGradient */,
-				E35DBBAF14F2781D0070A6E4 /* CCMenu */,
-				E35DBBCE14F2AA360070A6E4 /* CCLabelBMFont */,
-				E35DBBEB14F3E2390070A6E4 /* CCLabelTTF */,
-				E35DBC0B14F4D72B0070A6E4 /* CCParticleSystem */,
-				E325F65C14F65C8E00D29BCF /* CCMenuItemImage */,
+				E35392461518AD0A00471721 /* Core */,
+				E35392481518AD4100471721 /* Extensions */,
 			);
 			name = "PlugIns (Nodes)";
 			sourceTree = "<group>";
@@ -2209,6 +2345,7 @@
 				E325F66914F6611300D29BCF /* PBXTargetDependency */,
 				E3D5912E150F53CD004180CA /* PBXTargetDependency */,
 				E35DBC1614F4D7920070A6E4 /* PBXTargetDependency */,
+				E35392841518D7E100471721 /* PBXTargetDependency */,
 			);
 			name = CocosBuilder;
 			productName = ccBuilder;
@@ -2230,6 +2367,23 @@
 			name = CCMenuItemImage;
 			productName = CCMenuItemImage;
 			productReference = E325F65A14F65C8E00D29BCF /* CCMenuItemImage.ccbPlugNode */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E35392761518D78D00471721 /* CCScale9Sprite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E35392801518D78D00471721 /* Build configuration list for PBXNativeTarget "CCScale9Sprite" */;
+			buildPhases = (
+				E35392731518D78D00471721 /* Sources */,
+				E35392741518D78D00471721 /* Frameworks */,
+				E35392751518D78D00471721 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCScale9Sprite;
+			productName = CCScale9Sprite;
+			productReference = E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
 		E35DBB6714F21E7D0070A6E4 /* CCLayer */ = {
@@ -2439,6 +2593,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E398C02114FB81A30078E771 /* Cocos2D iPhone */,
 				E3B7AEC414E3193500DFD402 /* CCNode */,
 				E3C365EA14E9E4D1007CD5FF /* CCSprite */,
 				E35DBB6714F21E7D0070A6E4 /* CCLayer */,
@@ -2449,8 +2604,8 @@
 				E35DBBE814F3E2390070A6E4 /* CCLabelTTF */,
 				E35DBC0814F4D72B0070A6E4 /* CCParticleSystem */,
 				E325F65914F65C8E00D29BCF /* CCMenuItemImage */,
-				E398C02114FB81A30078E771 /* Cocos2D iPhone */,
 				E3D59120150F5367004180CA /* CCBFile */,
+				E35392761518D78D00471721 /* CCScale9Sprite */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 			);
 		};
@@ -2553,6 +2708,15 @@
 			files = (
 				E325F66114F65C8F00D29BCF /* InfoPlist.strings in Resources */,
 				E325F66714F65D4100D29BCF /* CCBPProperties.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35392751518D78D00471721 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E353927E1518D78D00471721 /* InfoPlist.strings in Resources */,
+				E35392871518D89100471721 /* CCBPProperties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2847,10 +3011,26 @@
 				A0F17A7015116B4100CE6E92 /* TGAlib.m in Sources */,
 				A0F17A7115116B4100CE6E92 /* TransformUtils.m in Sources */,
 				A0F17A7215116B4100CE6E92 /* ZipUtils.m in Sources */,
+				E35392601518AF2100471721 /* CCControl.m in Sources */,
+				E35392611518AF2100471721 /* CCControlButton.m in Sources */,
+				E35392621518AF2100471721 /* CCControlColourPicker.m in Sources */,
+				E35392631518AF2100471721 /* CCControlHuePicker.m in Sources */,
+				E35392641518AF2100471721 /* CCControlSaturationBrightnessPicker.m in Sources */,
+				E35392651518AF2100471721 /* CCControlSlider.m in Sources */,
+				E35392661518AF2100471721 /* CCColourUtils.m in Sources */,
+				E35392671518AF2100471721 /* CCScale9Sprite.m in Sources */,
+				E35392681518AF2100471721 /* Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E325F65614F65C8E00D29BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35392731518D78D00471721 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2947,6 +3127,11 @@
 			target = E325F65914F65C8E00D29BCF /* CCMenuItemImage */;
 			targetProxy = E325F66814F6611300D29BCF /* PBXContainerItemProxy */;
 		};
+		E35392841518D7E100471721 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E35392761518D78D00471721 /* CCScale9Sprite */;
+			targetProxy = E35392831518D7E100471721 /* PBXContainerItemProxy */;
+		};
 		E35DBB7614F21EF50070A6E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E35DBB6714F21E7D0070A6E4 /* CCLayer */;
@@ -3033,6 +3218,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				E325F66014F65C8F00D29BCF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E353927C1518D78D00471721 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E353927D1518D78D00471721 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3254,6 +3447,56 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "CCMenuItemImage/CCMenuItemImage-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Release;
+		};
+		E35392811518D78D00471721 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCScale9Sprite/CCScale9Sprite-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCScale9Sprite/CCScale9Sprite-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Debug;
+		};
+		E35392821518D78D00471721 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCScale9Sprite/CCScale9Sprite-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCScale9Sprite/CCScale9Sprite-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -3845,6 +4088,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E35392801518D78D00471721 /* Build configuration list for PBXNativeTarget "CCScale9Sprite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35392811518D78D00471721 /* Debug */,
+				E35392821518D78D00471721 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E35DBB7314F21E7D0070A6E4 /* Build configuration list for PBXNativeTarget "CCLayer" */ = {
 			isa = XCConfigurationList;

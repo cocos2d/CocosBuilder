@@ -1,1 +1,0 @@
-../CocosBuilderExample/CocosBuilderExample/CCBReader.m
