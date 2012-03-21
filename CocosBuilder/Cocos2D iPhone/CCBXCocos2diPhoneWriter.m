@@ -56,7 +56,7 @@
     [propTypes addObject:@"Block"];
     [propTypes addObject:@"Animation"];
     [propTypes addObject:@"CCBFile"];
-	
+    [propTypes addObject:@"String"];
 }
 
 - (id) init

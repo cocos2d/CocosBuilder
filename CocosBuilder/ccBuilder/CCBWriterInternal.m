@@ -293,7 +293,8 @@
             if (!str) str = @"";
             serializedValue = str;
         }
-        else if ([type isEqualToString:@"Text"])
+        else if ([type isEqualToString:@"Text"]
+                 || [type isEqualToString:@"String"])
         {
             NSString* str = [node valueForKey:name];
             if (!str) str = @"";
