@@ -10,6 +10,19 @@
 	<string>CCControlButton</string>
 	<key>editorClassName</key>
 	<string>CCControlButton</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
 	<key>properties</key>
 	<array>
 		<dict>
@@ -17,6 +30,38 @@
 			<string>CCControlButton</string>
 			<key>type</key>
 			<string>Separator</string>
+		</dict>
+		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>displayName</key>
+			<string>Title</string>
+			<key>type</key>
+			<string>String</string>
+			<key>name</key>
+			<string>title|1</string>
+		</dict>
+		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>readOnly</key>
+			<false/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>preferedSize</string>
+			<key>displayName</key>
+			<string>Prefered size</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>State Normal</string>
+			<key>type</key>
+			<string>SeparatorSub</string>
 		</dict>
 		<dict>
 			<key>default</key>

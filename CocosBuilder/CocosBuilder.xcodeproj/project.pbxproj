@@ -318,6 +318,8 @@
 		E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3C5C1CA15090259000CF6F3 /* InspectorAnimation.xib */; };
 		E3C5C1CE150902B3000CF6F3 /* InspectorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */; };
 		E3C5C1D115090CF4000CF6F3 /* AnimationPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */; };
+		E3C65106151A3B7C00D639C0 /* InspectorString.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3C65105151A3B7C00D639C0 /* InspectorString.xib */; };
+		E3C6510A151A65ED00D639C0 /* InspectorString.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C65109151A65ED00D639C0 /* InspectorString.m */; };
 		E3D59122150F5367004180CA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3D59128150F5367004180CA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3D59126150F5367004180CA /* InfoPlist.strings */; };
 		E3D5912F150F53EA004180CA /* CCBFile.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3D59121150F5367004180CA /* CCBFile.ccbPlugNode */; };
@@ -1015,6 +1017,9 @@
 		E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorAnimation.m; sourceTree = "<group>"; };
 		E3C5C1CF15090CF3000CF6F3 /* AnimationPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationPropertySetter.h; sourceTree = "<group>"; };
 		E3C5C1D015090CF3000CF6F3 /* AnimationPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationPropertySetter.m; sourceTree = "<group>"; };
+		E3C65105151A3B7C00D639C0 /* InspectorString.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorString.xib; sourceTree = "<group>"; };
+		E3C65108151A65ED00D639C0 /* InspectorString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorString.h; sourceTree = "<group>"; };
+		E3C65109151A65ED00D639C0 /* InspectorString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorString.m; sourceTree = "<group>"; };
 		E3D59118150F50D1004180CA /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; name = AUTHORS; path = ../AUTHORS; sourceTree = "<group>"; };
 		E3D59119150F50D1004180CA /* LICENSE_CocosBuilder.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_CocosBuilder.txt; path = ../LICENSE_CocosBuilder.txt; sourceTree = "<group>"; };
 		E3D5911A150F50D1004180CA /* LICENSE_PSMTabBarControl.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_PSMTabBarControl.txt; path = ../LICENSE_PSMTabBarControl.txt; sourceTree = "<group>"; };
@@ -2260,6 +2265,9 @@
 				E35DBBC314F2A2900070A6E4 /* InspectorText.xib */,
 				E35DBBC514F2A2A40070A6E4 /* InspectorText.h */,
 				E35DBBC614F2A2A50070A6E4 /* InspectorText.m */,
+				E3C65105151A3B7C00D639C0 /* InspectorString.xib */,
+				E3C65108151A65ED00D639C0 /* InspectorString.h */,
+				E3C65109151A65ED00D639C0 /* InspectorString.m */,
 				E35DBBE014F3DCDE0070A6E4 /* InspectorFontTTF.xib */,
 				E35DBBE214F3DD0A0070A6E4 /* InspectorFontTTF.h */,
 				E35DBBE314F3DD0A0070A6E4 /* InspectorFontTTF.m */,
@@ -2764,6 +2772,7 @@
 				E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */,
 				E385080B150AB232007E162A /* segmctrl-bg.png in Resources */,
 				E3D59133150F85D8004180CA /* InspectorCCBFile.xib in Resources */,
+				E3C65106151A3B7C00D639C0 /* InspectorString.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3094,6 +3103,7 @@
 				E35392661518AF2100471721 /* CCColourUtils.m in Sources */,
 				E35392671518AF2100471721 /* CCScale9Sprite.m in Sources */,
 				E35392681518AF2100471721 /* Utils.m in Sources */,
+				E3C6510A151A65ED00D639C0 /* InspectorString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4330,6 +4340,7 @@
 				E3B84C43151A2C02004B743C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E3C365F414E9E4D1007CD5FF /* Build configuration list for PBXNativeTarget "CCSprite" */ = {
 			isa = XCConfigurationList;
