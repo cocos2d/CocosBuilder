@@ -535,7 +535,9 @@
 
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event
 {
+    [[[CCDirector sharedDirector] view] lockOpenGLContext];
     [self updateResourcesForPath:event.eventPath];
+    [[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 
