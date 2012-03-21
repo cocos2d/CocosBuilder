@@ -298,6 +298,10 @@
 		E3B7AEE914E33F4C00DFD402 /* InspectorPosition.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */; };
 		E3B7AEEC14E342E200DFD402 /* InspectorPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */; };
 		E3B7AEEF14E34A4D00DFD402 /* InspectorValue.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */; };
+		E3B84C3A151A2C02004B743C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		E3B84C40151A2C02004B743C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B84C3E151A2C02004B743C /* InfoPlist.strings */; };
+		E3B84C48151A2C93004B743C /* CCControlButton.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */; };
+		E3B84C4A151A2CBB004B743C /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B84C49151A2CBB004B743C /* CCBPProperties.plist */; };
 		E3C365EC14E9E4D1007CD5FF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3C365F214E9E4D1007CD5FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F014E9E4D1007CD5FF /* InfoPlist.strings */; };
 		E3C365FA14E9E599007CD5FF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F914E9E599007CD5FF /* CCBPProperties.plist */; };
@@ -413,6 +417,13 @@
 			remoteGlobalIDString = E3B7AEC414E3193500DFD402;
 			remoteInfo = CCNode;
 		};
+		E3B84C46151A2C89004B743C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3B84C38151A2C02004B743C;
+			remoteInfo = CCControlButton;
+		};
 		E3C365F714E9E4DD007CD5FF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
@@ -447,6 +458,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				E3B84C48151A2C93004B743C /* CCControlButton.ccbPlugNode in Copy PlugIns */,
 				E35392851518D81000471721 /* CCScale9Sprite.ccbPlugNode in Copy PlugIns */,
 				E3D5912F150F53EA004180CA /* CCBFile.ccbPlugNode in Copy PlugIns */,
 				E398C03014FB82170078E771 /* Cocos2D iPhone.ccbPlugExport in Copy PlugIns */,
@@ -969,6 +981,11 @@
 		E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorPosition.m; sourceTree = "<group>"; };
 		E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorValue.h; sourceTree = "<group>"; };
 		E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorValue.m; sourceTree = "<group>"; };
+		E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCControlButton.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3B84C3D151A2C02004B743C /* CCControlButton-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCControlButton-Info.plist"; sourceTree = "<group>"; };
+		E3B84C3F151A2C02004B743C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E3B84C41151A2C02004B743C /* CCControlButton-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCControlButton-Prefix.pch"; sourceTree = "<group>"; };
+		E3B84C49151A2CBB004B743C /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1134,6 +1151,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B84C36151A2C02004B743C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3B84C3A151A2C02004B743C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1375,6 +1400,7 @@
 				E398C02214FB81A30078E771 /* Cocos2D iPhone.ccbPlugExport */,
 				E3D59121150F5367004180CA /* CCBFile.ccbPlugNode */,
 				E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */,
+				E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1867,6 +1893,7 @@
 			isa = PBXGroup;
 			children = (
 				E35392791518D78D00471721 /* CCScale9Sprite */,
+				E3B84C3B151A2C02004B743C /* CCControlButton */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2249,6 +2276,25 @@
 			name = "Inspector Properties";
 			sourceTree = "<group>";
 		};
+		E3B84C3B151A2C02004B743C /* CCControlButton */ = {
+			isa = PBXGroup;
+			children = (
+				E3B84C3C151A2C02004B743C /* Supporting Files */,
+			);
+			path = CCControlButton;
+			sourceTree = "<group>";
+		};
+		E3B84C3C151A2C02004B743C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E3B84C3D151A2C02004B743C /* CCControlButton-Info.plist */,
+				E3B84C3E151A2C02004B743C /* InfoPlist.strings */,
+				E3B84C41151A2C02004B743C /* CCControlButton-Prefix.pch */,
+				E3B84C49151A2CBB004B743C /* CCBPProperties.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E3C365ED14E9E4D1007CD5FF /* CCSprite */ = {
 			isa = PBXGroup;
 			children = (
@@ -2346,6 +2392,7 @@
 				E3D5912E150F53CD004180CA /* PBXTargetDependency */,
 				E35DBC1614F4D7920070A6E4 /* PBXTargetDependency */,
 				E35392841518D7E100471721 /* PBXTargetDependency */,
+				E3B84C47151A2C89004B743C /* PBXTargetDependency */,
 			);
 			name = CocosBuilder;
 			productName = ccBuilder;
@@ -2539,6 +2586,23 @@
 			productReference = E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */;
 			productType = "com.apple.product-type.bundle";
 		};
+		E3B84C38151A2C02004B743C /* CCControlButton */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3B84C44151A2C02004B743C /* Build configuration list for PBXNativeTarget "CCControlButton" */;
+			buildPhases = (
+				E3B84C35151A2C02004B743C /* Sources */,
+				E3B84C36151A2C02004B743C /* Frameworks */,
+				E3B84C37151A2C02004B743C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCControlButton;
+			productName = CCControlButton;
+			productReference = E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */;
+			productType = "com.apple.product-type.bundle";
+		};
 		E3C365EA14E9E4D1007CD5FF /* CCSprite */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E3C365F414E9E4D1007CD5FF /* Build configuration list for PBXNativeTarget "CCSprite" */;
@@ -2606,6 +2670,7 @@
 				E325F65914F65C8E00D29BCF /* CCMenuItemImage */,
 				E3D59120150F5367004180CA /* CCBFile */,
 				E35392761518D78D00471721 /* CCScale9Sprite */,
+				E3B84C38151A2C02004B743C /* CCControlButton */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 			);
 		};
@@ -2797,6 +2862,15 @@
 			files = (
 				E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */,
 				E3B7AEE214E336C300DFD402 /* CCBPProperties.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3B84C37151A2C02004B743C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3B84C40151A2C02004B743C /* InfoPlist.strings in Resources */,
+				E3B84C4A151A2CBB004B743C /* CCBPProperties.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3104,6 +3178,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3B84C35151A2C02004B743C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E3C365E714E9E4D1007CD5FF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3176,6 +3257,11 @@
 			isa = PBXTargetDependency;
 			target = E3B7AEC414E3193500DFD402 /* CCNode */;
 			targetProxy = E3B7AED214E31AEF00DFD402 /* PBXContainerItemProxy */;
+		};
+		E3B84C47151A2C89004B743C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3B84C38151A2C02004B743C /* CCControlButton */;
+			targetProxy = E3B84C46151A2C89004B743C /* PBXContainerItemProxy */;
 		};
 		E3C365F814E9E4DD007CD5FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3298,6 +3384,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				E3B7AECB14E3193500DFD402 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E3B84C3E151A2C02004B743C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E3B84C3F151A2C02004B743C /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3959,6 +4053,56 @@
 			};
 			name = Release;
 		};
+		E3B84C42151A2C02004B743C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCControlButton/CCControlButton-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCControlButton/CCControlButton-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Debug;
+		};
+		E3B84C43151A2C02004B743C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCControlButton/CCControlButton-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "CCControlButton/CCControlButton-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Release;
+		};
 		E3C365F514E9E4D1007CD5FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4096,6 +4240,7 @@
 				E35392821518D78D00471721 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35DBB7314F21E7D0070A6E4 /* Build configuration list for PBXNativeTarget "CCLayer" */ = {
 			isa = XCConfigurationList;
@@ -4177,6 +4322,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E3B84C44151A2C02004B743C /* Build configuration list for PBXNativeTarget "CCControlButton" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3B84C42151A2C02004B743C /* Debug */,
+				E3B84C43151A2C02004B743C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		E3C365F414E9E4D1007CD5FF /* Build configuration list for PBXNativeTarget "CCSprite" */ = {
 			isa = XCConfigurationList;
