@@ -24,7 +24,7 @@
 
 #import "InspectorValue.h"
 
-@interface InspectorText : InspectorValue
+@interface InspectorText : InspectorValue<NSTextFieldDelegate>
 
 @property (nonatomic,assign) NSString* text;
 

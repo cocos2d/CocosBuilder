@@ -38,4 +38,13 @@
     return [self propertyForSelection];
 }
 
+- (void)controlTextDidChange:(NSNotification *)note
+{
+    NSTextField * changedField = [note object];
+    NSString* text = [changedField stringValue];
+    if (!text) text = @"";
+    
+    [self setPropertyForSelection:text];
+}
+
 @end
