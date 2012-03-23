@@ -79,7 +79,7 @@
             [bundle load];
             
             PlugInNode* plugIn = [[PlugInNode alloc] initWithBundle:bundle];
-            if (plugIn)
+            if (plugIn && !plugIn.isAbstract)
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
                 [plugInsNodeNames addObject:plugIn.nodeClassName];
