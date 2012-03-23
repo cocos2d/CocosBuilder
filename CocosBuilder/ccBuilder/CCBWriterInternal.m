@@ -310,10 +310,27 @@
         {
             NSString* selector = [extraProps objectForKey:name];
             NSNumber* target = [extraProps objectForKey:[NSString stringWithFormat:@"%@Target",name]];
+            if (!selector) selector = @"";
+            if (!target) target = [NSNumber numberWithInt:0];
             serializedValue = [NSArray arrayWithObjects:
                                selector,
                                target,
                                nil];
+        }
+        else if ([type isEqualToString:@"BlockCCControl"])
+        {
+            NSString* selector = [extraProps objectForKey:name];
+            NSNumber* target = [extraProps objectForKey:[NSString stringWithFormat:@"%@Target",name]];
+            NSNumber* ctrlEvts = [extraProps objectForKey:[NSString stringWithFormat:@"%@CtrlEvts",name]];
+            if (!selector) selector = @"";
+            if (!target) target = [NSNumber numberWithInt:0];
+            if (!ctrlEvts) ctrlEvts = [NSNumber numberWithInt:0];
+            serializedValue = [NSArray arrayWithObjects:
+                               selector,
+                               target,
+                               ctrlEvts,
+                               nil];
+            NSLog(@"BlockCCControl write: %@",serializedValue);
         }
         else if ([type isEqualToString:@"CCBFile"])
         {

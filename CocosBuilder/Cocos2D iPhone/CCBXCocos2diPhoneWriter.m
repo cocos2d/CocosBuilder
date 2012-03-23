@@ -57,6 +57,7 @@
     [propTypes addObject:@"Animation"];
     [propTypes addObject:@"CCBFile"];
     [propTypes addObject:@"String"];
+    [propTypes addObject:@"BlockCCControl"];
 }
 
 - (id) init
@@ -324,6 +325,15 @@
         [self writeCachedString:a isPath:NO];
         [self writeInt:[b intValue] withSign:NO];
     }
+    else if ([type isEqualToString:@"BlockCCControl"])
+    {
+        NSString* a = [prop objectAtIndex:0];
+        NSNumber* b = [prop objectAtIndex:1];
+        NSNumber* c = [prop objectAtIndex:2];
+        [self writeCachedString:a isPath:NO];
+        [self writeInt:[b intValue] withSign:NO];
+        [self writeInt:[c intValue] withSign:NO];
+    }
     else if ([type isEqualToString:@"Texture"]
              || [type isEqualToString:@"FntFile"]
              || [type isEqualToString:@"CCBFile"])
@@ -331,6 +341,7 @@
         [self writeCachedString:prop isPath: YES];
     }
     else if ([type isEqualToString:@"Text"]
+             || [type isEqualToString:@"String"]
              || [type isEqualToString:@"FontTTF"])
     {
         [self writeCachedString:prop isPath: NO];
@@ -405,6 +416,10 @@
         {
             [self addToStringCache:[value objectAtIndex:0] isPath:NO];
         }
+        else if ([type isEqualToString:@"BlockCCControl"])
+        {
+            [self addToStringCache:[value objectAtIndex:0] isPath:NO];
+        }
         else if ([type isEqualToString:@"FntFile"]
                  || [type isEqualToString:@"Texture"]
                  || [type isEqualToString:@"CCBFile"])
@@ -412,7 +427,8 @@
             [self addToStringCache:value isPath:YES];
         }
         else if ([type isEqualToString:@"Text"]
-                 || [type isEqualToString:@"FontTTF"])
+                 || [type isEqualToString:@"FontTTF"]
+                 || [type isEqualToString:@"String"])
         {
             [self addToStringCache:value isPath:NO];
         }
