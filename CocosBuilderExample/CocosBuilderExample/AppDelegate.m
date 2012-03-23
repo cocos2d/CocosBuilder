@@ -95,7 +95,7 @@
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"example.ccbi"];
+    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"Start.ccbi"];
 	[director_ pushScene: scene]; 
 
 	return YES;

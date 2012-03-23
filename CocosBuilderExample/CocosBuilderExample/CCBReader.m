@@ -405,7 +405,8 @@
         NSString* fntFile = [self readCachedString];
         [node setValue:fntFile forKey:name];
     }
-    else if (type == kCCBPropTypeText)
+    else if (type == kCCBPropTypeText
+             || type == kCCBPropTypeString)
     {
         NSString* txt = [self readCachedString];
         
@@ -462,6 +463,42 @@
                 {
                     NSLog(@"CCBReader: Failed to find target for block");
                 }
+            }
+        }
+    }
+    else if (type == kCCBPropTypeBlockCCControl)
+    {
+        NSString* selectorName = [self readCachedString];
+        int selectorTarget = [self readIntWithSign:NO];
+        int ctrlEvts = [self readIntWithSign:NO];
+        
+        if (setProp)
+        {
+            // Since we do not know for sure that CCControl is available, use
+            // NSInvocation to call it's addTarget:action:forControlEvents: method
+            NSMethodSignature* sig = [node methodSignatureForSelector:@selector(addTarget:action:forControlEvents:)];
+            if (sig)
+            {
+                SEL selector = NSSelectorFromString(selectorName);
+                id target = NULL;
+                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = rootNode;
+                else if (selectorTarget == kCCBTargetTypeOwner) target = owner;
+                
+                if (selector && target)
+                {
+                    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:sig];
+                    [invocation setTarget:node];
+                    [invocation setSelector:@selector(addTarget:action:forControlEvents:)];
+                    [invocation setArgument:&target atIndex:2];
+                    [invocation setArgument:&selector atIndex:3];
+                    [invocation setArgument:&ctrlEvts atIndex:4];
+                    
+                    [invocation invoke];
+                }
+            }
+            else
+            {
+                NSLog(@"CCBReader: Failed to add selector/target block for CCControl");
             }
         }
     }
@@ -638,12 +675,6 @@
     {
         [self addChild:node];
     }
-}
-
-- (void) dealloc
-{
-    [ccbFile release];
-    [super dealloc];
 }
 
 @end

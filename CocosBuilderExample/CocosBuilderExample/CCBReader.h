@@ -49,7 +49,9 @@ enum {
     kCCBPropTypeIntegerLabeled,
     kCCBPropTypeBlock,
 	kCCBPropTypeAnimation,
-    kCCBPropTypeCCBFile
+    kCCBPropTypeCCBFile,
+    kCCBPropTypeString,
+    kCCBPropTypeBlockCCControl
 };
 
 enum {

@@ -53,4 +53,9 @@
     [sprtIcon runAction:[CCRotateBy actionWithDuration:1.0f angle:360]];
 }
 
+- (void) pressedTest:(id)sender
+{
+    NSLog(@"pressedTest!!");
+}
+
 @end
