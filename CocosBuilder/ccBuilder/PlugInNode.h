@@ -39,6 +39,7 @@
     
     BOOL canBeRoot;
     BOOL canHaveChildren;
+    BOOL isAbstract;
     NSString* requireParentClass;
     NSArray* requireChildClass;
 }
@@ -51,6 +52,7 @@
 @property (nonatomic,readonly) BOOL acceptsDroppedSpriteFrameChildren;
 @property (nonatomic,readonly) BOOL canBeRoot;
 @property (nonatomic,readonly) BOOL canHaveChildren;
+@property (nonatomic,readonly) BOOL isAbstract;
 @property (nonatomic,readonly) NSString* requireParentClass;
 @property (nonatomic,readonly) NSArray* requireChildClass;
 - (BOOL) dontSetInEditorProperty: (NSString*) prop;

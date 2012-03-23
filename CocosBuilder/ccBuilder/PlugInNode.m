@@ -26,7 +26,7 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren, requireParentClass, requireChildClass;
+@synthesize nodeClassName, nodeEditorClassName, nodeProperties, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren, isAbstract, requireParentClass, requireChildClass;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {
@@ -123,6 +123,7 @@
     // Check if node type can be root node and which children are allowed
     canBeRoot = [[props objectForKey:@"canBeRootNode"] boolValue];
     canHaveChildren = [[props objectForKey:@"canHaveChildren"] boolValue];
+    isAbstract = [[props objectForKey:@"isAbstract"] boolValue];
     requireChildClass = [[props objectForKey:@"requireChildClass"] retain];
     requireParentClass = [[props objectForKey:@"requireParentClass"] retain];
     
