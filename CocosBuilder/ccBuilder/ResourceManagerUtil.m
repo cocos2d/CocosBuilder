@@ -108,6 +108,8 @@
     NSMenu* menu = [popup menu];
     [menu removeAllItems];
     
+    if (!file) file = @"";
+    
     ResourceManager* rm = [ResourceManager sharedManager];
     
     if ([rm.activeDirectories count] == 0)
