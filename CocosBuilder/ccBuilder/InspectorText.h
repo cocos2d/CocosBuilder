@@ -26,6 +26,6 @@
 
 @interface InspectorText : InspectorValue<NSTextFieldDelegate>
 
-@property (nonatomic,assign) NSString* text;
+@property (nonatomic,assign) NSAttributedString* text;
 
 @end

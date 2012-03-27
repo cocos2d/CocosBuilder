@@ -26,16 +26,18 @@
 
 @implementation InspectorText
 
-- (void) setText:(NSString *)text
+- (void) setText:(NSAttributedString *)text
 {
-    if (!text) text = @"";
+    NSString* str = [text string];
+    if (!str) str = @"";
     
-    [self setPropertyForSelection:text];
+    [self setPropertyForSelection:str];
 }
 
-- (NSString*) text
+- (NSAttributedString*) text
 {
-    return [self propertyForSelection];
+    NSAttributedString* text = [[[NSAttributedString alloc] initWithString:[self propertyForSelection]] autorelease];
+    return text;
 }
 
 - (void)controlTextDidChange:(NSNotification *)note
