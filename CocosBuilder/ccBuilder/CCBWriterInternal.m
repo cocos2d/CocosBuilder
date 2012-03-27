@@ -330,7 +330,6 @@
                                target,
                                ctrlEvts,
                                nil];
-            NSLog(@"BlockCCControl write: %@",serializedValue);
         }
         else if ([type isEqualToString:@"CCBFile"])
         {
