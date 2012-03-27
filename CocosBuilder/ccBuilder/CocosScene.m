@@ -398,6 +398,28 @@
 
 #pragma mark Handle mouse input
 
+- (NSString*) positionPropertyForSelectedNode
+{
+    NodeInfo* info = selectedNode.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    
+    //NSLog(@"positionProperty: %@", plugIn.positionProperty);
+    return plugIn.positionProperty;
+}
+
+- (void) setSelectedNodePos:(CGPoint) pos
+{
+    if (!selectedNode) return;
+    
+    [selectedNode setValue:[NSValue valueWithPoint:pos] forKey:[self positionPropertyForSelectedNode]];
+}
+
+- (CGPoint) selectedNodePos
+{
+    if (!selectedNode) return CGPointZero;
+    return [[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue];
+}
+
 - (int) transformHandleUnderPt:(CGPoint)pt
 {
     if (!selectedNode) return kCCBTransformHandleNone;
@@ -473,7 +495,7 @@
     {
         if (th == kCCBTransformHandleMove)
         {
-            transformStartPosition = [selectedNode.parent convertToWorldSpace:selectedNode.position];
+            transformStartPosition = [selectedNode.parent convertToWorldSpace:[self selectedNodePos]];
         }
         else if (th == kCCBTransformHandleScale)
         {
@@ -520,9 +542,10 @@
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
-        [appDelegate saveUndoStateWillChangeProperty:@"position"];
-        appDelegate.selectedNode.position = newLocalPos;
-        [appDelegate refreshProperty:@"position"];
+        [appDelegate saveUndoStateWillChangeProperty:[self positionPropertyForSelectedNode]];
+        //appDelegate.selectedNode.position = newLocalPos;
+        [self setSelectedNodePos:newLocalPos];
+        [appDelegate refreshProperty:[self positionPropertyForSelectedNode]];
     }
     else if (currentMouseTransform == kCCBTransformHandleScale)
     {
