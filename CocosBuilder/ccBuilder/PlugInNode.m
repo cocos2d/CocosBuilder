@@ -126,6 +126,7 @@
     isAbstract = [[props objectForKey:@"isAbstract"] boolValue];
     requireChildClass = [[props objectForKey:@"requireChildClass"] retain];
     requireParentClass = [[props objectForKey:@"requireParentClass"] retain];
+    positionProperty = [[props objectForKey:@"positionProperty"] retain];
     
     return self;
 }
@@ -144,8 +145,15 @@
     return dontSetInEditor;
 }
 
+- (NSString*) positionProperty
+{
+    if (positionProperty) return positionProperty;
+    return @"position";
+}
+
 - (void) dealloc
 {
+    [positionProperty release];
     [requireChildClass release];
     [requireParentClass release];
     [dropTargetSpriteFrameClass release];

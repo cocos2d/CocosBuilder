@@ -155,7 +155,7 @@
 
 @implementation RMDirectory
 
-@synthesize count,dirPath, resources, images, animations, bmFonts,ccbFiles;
+@synthesize count,dirPath, resources, images, animations, bmFonts, ttfFonts, ccbFiles;
 
 - (id) init
 {
@@ -166,6 +166,7 @@
     images = [[NSMutableArray alloc] init];
     animations = [[NSMutableArray alloc] init];
     bmFonts = [[NSMutableArray alloc] init];
+    ttfFonts = [[NSMutableArray alloc] init];
     ccbFiles = [[NSMutableArray alloc] init];
     
     return self;
@@ -175,6 +176,7 @@
 {
     if (type == kCCBResTypeImage) return images;
     if (type == kCCBResTypeBMFont) return bmFonts;
+    if (type == kCCBResTypeTTF) return ttfFonts;
     if (type == kCCBResTypeAnimation) return animations;
     if (type == kCCBResTypeCCBFile) return ccbFiles;
     return NULL;
@@ -186,6 +188,7 @@
     [images release];
     [animations release];
     [bmFonts release];
+    [ttfFonts release];
     [ccbFiles release];
     self.dirPath = NULL;
     [super dealloc];
@@ -203,13 +206,20 @@
 
 @implementation ResourceManager
 
-@synthesize directories, activeDirectories;
+@synthesize directories, activeDirectories, systemFontList;
 
 + (ResourceManager*) sharedManager
 {
     static ResourceManager* rm = NULL;
     if (!rm) rm = [[ResourceManager alloc] init];
     return rm;
+}
+
+- (void) loadFontListTTF
+{
+    NSMutableDictionary* fontInfo = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FontListTTF" ofType:@"plist"]];
+    systemFontList = [fontInfo objectForKey:@"supportedFonts"];
+    [systemFontList retain];
 }
 
 - (id) init
@@ -224,6 +234,8 @@
     pathWatcher.delegate = self;
     resourceObserver = [[NSMutableArray alloc] init];
     
+    [self loadFontListTTF];
+    
     return self;
 }
 
@@ -233,6 +245,7 @@
     [directories release];
     [activeDirectories release];
     [resourceObserver release];
+    [systemFontList release];
     self.activeDirectories = NULL;
     [super dealloc];
 }
@@ -296,6 +309,10 @@
     else if ([ext isEqualToString:@"fnt"])
     {
         return kCCBResTypeBMFont;
+    }
+    else if ([ext isEqualToString:@"ttf"])
+    {
+        return kCCBResTypeTTF;
     }
     else if ([ext isEqualToString:@"plist"]
              && [CCBSpriteSheetParser isSpriteSheetFile:file])
@@ -438,6 +455,11 @@
             {
                 [dir.bmFonts addObject:res];
             }
+            if (res.type == kCCBResTypeTTF
+                || res.type == kCCBResTypeDirectory)
+            {
+                [dir.ttfFonts addObject:res];
+            }
             if (res.type == kCCBResTypeCCBFile)
             {
                 [dir.ccbFiles addObject:res];
@@ -447,6 +469,7 @@
         [dir.images sortUsingSelector:@selector(compare:)];
         [dir.animations sortUsingSelector:@selector(compare:)];
         [dir.bmFonts sortUsingSelector:@selector(compare:)];
+        [dir.ttfFonts sortUsingSelector:@selector(compare:)];
     }
     
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];

@@ -23,17 +23,63 @@
  */
 
 #import "InspectorFontTTF.h"
+#import "TexturePropertySetter.h"
+#import "CCBGlobals.h"
+#import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
+#import "CocosBuilderAppDelegate.h"
+
 
 @implementation InspectorFontTTF
 
-- (void) setFontName:(NSString *)fontName
+- (void) willBeAdded
 {
-    [self setPropertyForSelection:fontName];
+    // Setup menu
+    NSString* fnt = [self propertyForSelection];
+    
+    if ([[fnt lowercaseString] hasSuffix:@".ttf"])
+    {
+        fnt = [ResourceManagerUtil relativePathFromAbsolutePath:fnt];
+    }
+    
+    [ResourceManagerUtil populateFontTTFPopup:popup selectedFont:fnt target:self];
 }
 
-- (NSString*) fontName
+- (void) selectedResource:(id)sender
 {
-    return [self propertyForSelection];
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    id item = [sender representedObject];
+    
+    // Fetch info about the font name or file
+    NSString* fntFile = NULL;
+    
+    if ([item isKindOfClass:[RMResource class]])
+    {
+        // This is a file resource
+        RMResource* res = item;
+        
+        if (res.type == kCCBResTypeTTF)
+        {
+            fntFile = res.filePath;
+            NSString* fntFileRel = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+            [ResourceManagerUtil setTitle:fntFileRel forPopup:popup forceMarker:YES];
+        }
+    }
+    else if ([item isKindOfClass:[NSString class]])
+    {
+        // This is a system font
+        fntFile = item;
+        [ResourceManagerUtil setTitle:fntFile forPopup:popup forceMarker:YES];
+    }
+    
+    // Set the property
+    if (fntFile)
+    {
+        [self setPropertyForSelection:fntFile];
+    }
+    
+    [self updateAffectedProperties];
 }
 
 @end

@@ -25,7 +25,7 @@
 #import "InspectorValue.h"
 
 @interface InspectorFontTTF : InspectorValue
-
-@property (nonatomic,retain) NSString* fontName;
-
+{
+    IBOutlet NSPopUpButton* popup;
+}
 @end

@@ -27,6 +27,38 @@
 
 @implementation ResourceManagerUtil
 
++ (void) setTitle:(NSString*)str forPopup:(NSPopUpButton*)popup forceMarker:(BOOL) forceMarker
+{
+    NSMenu* menu = [popup menu];
+    if (!str) str = @"";
+    
+    // Remove items that contains a slash (/ or •)
+    NSArray* items = [[[menu itemArray] copy] autorelease];
+    for (NSMenuItem* item in items)
+    {
+        NSRange range0 = [item.title rangeOfString:@"/"];
+        NSRange range1 = [item.title rangeOfString:@"•"];
+        if (range0.location == NSNotFound && range1.location == NSNotFound) continue;
+        
+        [menu removeItem:item];
+    }
+    
+    // Add a • in front of the name if multiple active directories are used
+    if (forceMarker
+        || [[[ResourceManager sharedManager] activeDirectories] count] > 1)
+    {
+        str = [NSString stringWithFormat:@"• %@",str];
+    }
+    
+    // Set the title
+    [popup setTitle:str];
+}
+
++ (void) setTitle:(NSString *)str forPopup:(NSPopUpButton *)popup
+{
+    [self setTitle:str forPopup:popup forceMarker:NO];
+}
+
 + (void) addDirectory: (RMDirectory*) dir ToMenu: (NSMenu*) menu target:(id)target resType:(int) resType allowSpriteFrames:(BOOL) allowSpriteFrames
 {
     NSArray* arr = [dir resourcesForType:resType];
@@ -37,7 +69,10 @@
         {
             RMResource* res = item;
             
-            if (res.type == kCCBResTypeImage || res.type == kCCBResTypeBMFont || res.type == kCCBResTypeCCBFile)
+            if (res.type == kCCBResTypeImage
+                || res.type == kCCBResTypeBMFont
+                || res.type == kCCBResTypeCCBFile
+                || res.type == kCCBResTypeTTF)
             {
                 NSString* itemName = [res.filePath lastPathComponent];
                 NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
@@ -102,10 +137,9 @@
     }
 }
 
-+ (void) populateResourcePopup:(NSPopUpButton*)popup resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
++ (void) populateResourceMenu:(NSMenu*)menu resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
 {
     // Clear the menu and add items to it!
-    NSMenu* menu = [popup menu];
     [menu removeAllItems];
     
     if (!file) file = @"";
@@ -141,6 +175,13 @@
             [menu setSubmenu:subMenu forItem:menuItem];
         }
     }
+}
+
++ (void) populateResourcePopup:(NSPopUpButton*)popup resType:(int)resType allowSpriteFrames:(BOOL)allowSpriteFrames selectedFile:(NSString*)file selectedSheet:(NSString*) sheetFile target:(id)target
+{
+    NSMenu* menu = [popup menu];
+    
+    [self populateResourceMenu:menu resType:resType allowSpriteFrames:allowSpriteFrames selectedFile:file selectedSheet:sheetFile target:target];
     
     // Set the selected item
     NSString* selectedTitle = NULL;
@@ -154,6 +195,39 @@
     }
     
     [self setTitle:selectedTitle forPopup:popup];
+}
+
++ (void) populateFontTTFPopup:(NSPopUpButton*)popup selectedFont:(NSString*)file target:(id)target
+{
+    NSMenu* menu = [popup menu];
+    [menu removeAllItems];
+    
+    // System fonts submenu
+    NSMenu* menuSubSystemFonts = [[[NSMenu alloc] initWithTitle:@"System Fonts"] autorelease];
+    NSMenuItem* itemSystemFonts = [[[NSMenuItem alloc] initWithTitle:@"System Fonts" action:NULL keyEquivalent:@""] autorelease];
+    [menu addItem:itemSystemFonts];
+    [menu setSubmenu:menuSubSystemFonts forItem:itemSystemFonts];
+    
+    NSArray* systemFonts = [[ResourceManager sharedManager] systemFontList];
+    for (NSString* fontName in systemFonts)
+    {
+        NSMenuItem* itemFont = [[[NSMenuItem alloc] initWithTitle:fontName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
+        [itemFont setTarget:target];
+        itemFont.representedObject = fontName;
+        
+        [menuSubSystemFonts addItem:itemFont];
+    }
+    
+    // User fonts submenu
+    NSMenu* menuSubUserFonts = [[[NSMenu alloc] initWithTitle:@"User Fonts"] autorelease];
+    NSMenuItem* itemUserFonts = [[[NSMenuItem alloc] initWithTitle:@"User Fonts" action:NULL keyEquivalent:@""] autorelease];
+    [menu addItem:itemUserFonts];
+    [menu setSubmenu:menuSubUserFonts forItem:itemUserFonts];
+    
+    [self populateResourceMenu:menuSubUserFonts resType:kCCBResTypeTTF allowSpriteFrames:NO selectedFile:file selectedSheet:NULL target:target];
+    
+    // Set title
+    [self setTitle:file forPopup:popup forceMarker:YES];
 }
 
 + (NSString*) relativePathFromAbsolutePath: (NSString*) path
@@ -173,31 +247,6 @@
     
     NSLog(@"WARNING! ResourceManagerUtil: No relative path");
     return NULL;
-}
-
-+ (void) setTitle:(NSString*)str forPopup:(NSPopUpButton*)popup
-{
-    NSMenu* menu = [popup menu];
-    
-    // Remove items that contains a slash (/ or •)
-    NSArray* items = [[[menu itemArray] copy] autorelease];
-    for (NSMenuItem* item in items)
-    {
-        NSRange range0 = [item.title rangeOfString:@"/"];
-        NSRange range1 = [item.title rangeOfString:@"•"];
-        if (range0.location == NSNotFound && range1.location == NSNotFound) continue;
-        
-        [menu removeItem:item];
-    }
-    
-    // Add a • in front of the name if multiple active directories are used
-    if ([[[ResourceManager sharedManager] activeDirectories] count] > 1)
-    {
-        str = [NSString stringWithFormat:@"• %@",str];
-    }
-    
-    // Set the title
-    [popup setTitle:str];
 }
 
 @end

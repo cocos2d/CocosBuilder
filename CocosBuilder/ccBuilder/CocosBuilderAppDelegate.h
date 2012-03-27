@@ -89,7 +89,7 @@ enum {
     ResourceManager* resManager;
     ResourceManagerPanel* resManagerPanel;
     
-    NSMutableArray* assetsFontListTTF;
+    //NSMutableArray* assetsFontListTTF;
     
     // Documents
     CCBDocument* currentDocument;
@@ -107,7 +107,7 @@ enum {
 
 @property (assign) IBOutlet NSWindow *window;
 
-@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
+//@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;

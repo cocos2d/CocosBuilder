@@ -34,6 +34,7 @@ enum
     kCCBResTypeAnimation,
     kCCBResTypeImage,
     kCCBResTypeBMFont,
+    kCCBResTypeTTF,
     kCCBResTypeCCBFile
 };
 
@@ -87,6 +88,7 @@ enum
     NSMutableArray* images;
     NSMutableArray* animations;
     NSMutableArray* bmFonts;
+    NSMutableArray* ttfFonts;
     NSMutableArray* ccbFiles;
 }
 
@@ -96,6 +98,7 @@ enum
 @property (nonatomic,readonly) NSMutableArray* images;
 @property (nonatomic,readonly) NSMutableArray* animations;
 @property (nonatomic,readonly) NSMutableArray* bmFonts;
+@property (nonatomic,readonly) NSMutableArray* ttfFonts;
 @property (nonatomic,readonly) NSMutableArray* ccbFiles;
 - (NSArray*) resourcesForType:(int)type;
 
@@ -113,6 +116,8 @@ enum
     
     SCEvents* pathWatcher;
     NSMutableArray* resourceObserver;
+    
+    NSArray* systemFontList;
 }
 
 + (ResourceManager*) sharedManager;
@@ -120,6 +125,8 @@ enum
 @property (nonatomic,readonly) NSMutableDictionary* directories;
 @property (nonatomic,retain) NSArray* activeDirectories;
 @property (nonatomic,readonly) NSString* mainActiveDirectoryPath;
+
+@property (nonatomic,readonly) NSArray* systemFontList;
 
 - (void) addDirectory:(NSString*)dir;
 - (void) removeDirectory:(NSString*)dir;

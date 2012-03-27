@@ -40,6 +40,7 @@
     BOOL canBeRoot;
     BOOL canHaveChildren;
     BOOL isAbstract;
+    NSString* positionProperty;
     NSString* requireParentClass;
     NSArray* requireChildClass;
 }
@@ -55,6 +56,7 @@
 @property (nonatomic,readonly) BOOL isAbstract;
 @property (nonatomic,readonly) NSString* requireParentClass;
 @property (nonatomic,readonly) NSArray* requireChildClass;
+@property (nonatomic,readonly) NSString* positionProperty;
 - (BOOL) dontSetInEditorProperty: (NSString*) prop;
 
 - (id) initWithBundle:(NSBundle*) b;

@@ -50,7 +50,7 @@
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, assetsFontListTTF, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
+@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
 
 #pragma mark Setup functions
 
@@ -94,12 +94,6 @@
     [outlineHierarchy reloadData];
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
-}
-
-- (void) loadFontListTTF
-{
-    NSMutableDictionary* fontInfo = [NSMutableDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"FontListTTF" ofType:@"plist"]];
-    self.assetsFontListTTF = [fontInfo objectForKey:@"supportedFonts"];
 }
 
 - (void) setupTabBar
@@ -187,7 +181,6 @@
     }
 
     [self setupResourceManager];
-    [self loadFontListTTF];
 }
 
 #pragma mark Notifications to user
