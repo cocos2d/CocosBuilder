@@ -23,7 +23,7 @@
  */
 
 #import "HelloCocosBuilder.h"
-
+#import "CCBReader.h"
 
 @implementation HelloCocosBuilder
 
@@ -53,9 +53,9 @@
     [sprtIcon runAction:[CCRotateBy actionWithDuration:1.0f angle:360]];
 }
 
-- (void) pressedTest:(id)sender
+- (void) pressedPanZoom:(id)sender
 {
-    NSLog(@"pressedTest!!");
+    [[CCDirector sharedDirector] replaceScene:[CCBReader sceneWithNodeGraphFromFile:@"TestPanZoom.ccbi"]];
 }
 
 @end
