@@ -69,9 +69,11 @@
 - (void) setFileName:(NSString *)fn
 {
     // Set new filename
-    [fileName release];
-    fileName = [fn retain];
-    
+    if (fn != fileName)
+    {
+        [fileName release];
+        fileName = [fn retain];
+    }
     // Check for project file
     NSString* projPath = [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Project.ccbproj"];
     project = [NSDictionary dictionaryWithContentsOfFile:projPath];
