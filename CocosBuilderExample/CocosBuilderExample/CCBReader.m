@@ -33,7 +33,7 @@
     if (!self) return NULL;
     
     // Load binary file
-    NSString* path = [CCFileUtils fullPathFromRelativePath:file];
+    NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
     data = [[NSData dataWithContentsOfFile:path] retain];
     
     // Setup byte array
