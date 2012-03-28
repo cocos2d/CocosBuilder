@@ -216,8 +216,17 @@ typedef enum
 {	
 	for (UITouch *touch in [touches allObjects]) 
 	{
+        CGPoint curPosTouch = [[CCDirector sharedDirector] convertToGL: [touch locationInView: [touch view]]];
+        NSLog(@"curPosTouch (%f,%f)",curPosTouch.x, curPosTouch.y);
+        
+        CGPoint curLocalPosTouch = [self.parent convertToNodeSpace:curPosTouch];
+        NSLog(@"curLocalPosTouch (%f,%f)",curLocalPosTouch.x, curLocalPosTouch.y);
+        
 		// Add new touche to the array with current touches
-		[self.touches addObject: touch];
+        if (CGRectContainsPoint(_panBoundsRect, curLocalPosTouch))
+        {
+            [self.touches addObject: touch];
+        }
 	}
     
     if ([self.touches count] == 1)
@@ -277,7 +286,7 @@ typedef enum
         // Don't click with multitouch
 		self.touchDistance = INFINITY;
 	}
-	else
+	else if ([self.touches count] == 1)
 	{	        
         // Get the single touch and it's previous & current position.
         UITouch *touch = [self.touches objectAtIndex: 0];
