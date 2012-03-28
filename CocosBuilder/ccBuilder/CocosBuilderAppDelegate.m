@@ -705,6 +705,16 @@
     [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
 }
 
+- (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
+{
+    NSArray* activeDirs = [NSMutableArray arrayWithObject:doc.rootPath];
+    if (doc.project && [doc.project objectForKey:@"resourcePaths"])
+    {
+        activeDirs = [activeDirs arrayByAddingObjectsFromArray:[doc.project objectForKey:@"resourcePaths"]];
+    }
+    [[ResourceManager sharedManager] setActiveDirectories:activeDirs];
+}
+
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
 {
     if (!forceReload && [document.fileName isEqualToString:currentDocument.fileName]) return;
@@ -716,13 +726,15 @@
     NSMutableDictionary* doc = document.docData;
     
     // Update active directories for the resource manager
+    /*
     NSArray* activeDirs = [NSMutableArray arrayWithObject:document.rootPath];
     if (document.project && [document.project objectForKey:@"resourcePaths"])
     {
         activeDirs = [activeDirs arrayByAddingObjectsFromArray:[document.project objectForKey:@"resourcePaths"]];
     }
-    //[resManager setActiveDirectory: document.rootPath];
     [resManager setActiveDirectories:activeDirs];
+     */
+    [self setRMActiveDirectoriesForDoc:document];
     
     [self replaceDocumentData:doc];
     
@@ -782,6 +794,19 @@
     return NULL;
 }
 
+- (void) addRMDirectoriesForDoc:(CCBDocument*)doc
+{
+    [resManager addDirectory:doc.rootPath];
+    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
+    if (paths)
+    {
+        for (NSString* path in paths)
+        {
+            [resManager addDirectory:path];
+        }
+    }
+}
+
 - (void) openFile:(NSString*) fileName
 {
 	[[[CCDirector sharedDirector] view] lockOpenGLContext];
@@ -808,6 +833,7 @@
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
     
+    /*
     [resManager addDirectory:newDoc.rootPath];
     NSArray* paths = [newDoc.project objectForKey:@"resourcePaths"];
     if (paths)
@@ -816,7 +842,8 @@
         {
             [resManager addDirectory:path];
         }
-    }
+    }*/
+    [self addRMDirectoriesForDoc:newDoc];
     
     [self switchToDocument:newDoc];
      
@@ -897,6 +924,9 @@
     self.currentDocument = [[[CCBDocument alloc] init] autorelease];
     
     [self saveFile:fileName];
+    
+    [self addRMDirectoriesForDoc:self.currentDocument];
+    [self setRMActiveDirectoriesForDoc:self.currentDocument];
     
     [self addDocument:currentDocument];
     
@@ -1592,27 +1622,13 @@
 
 #pragma mark Debug
 
-- (IBAction) debugPrintStructure:(id)sender
+- (IBAction) debug:(id)sender
 {
-    CCBGlobals* g = [CCBGlobals globals];
-    if (g.rootNode) [g.cocosScene printNodes:g.rootNode level:0];
-}
-
-- (IBAction) debugPrintExtraProps:(id)sender
-{
-    CCBGlobals* g = [CCBGlobals globals];
-    if (g.rootNode) [g.cocosScene printExtraProps];
-}
-
-- (IBAction) debugPrintExtraPropsForSelectedNode:(id)sender
-{
-    if (!selectedNode)
-    {
-        return;
-    }
+    NSLog(@"DEBUG");
     
-    NodeInfo* info = selectedNode.userObject;
-    NSLog(@"%@",info.extraProps);
+    ResourceManager* rm = [ResourceManager sharedManager];
+    
+    [rm debugPrintDirectories];
 }
 
 @end

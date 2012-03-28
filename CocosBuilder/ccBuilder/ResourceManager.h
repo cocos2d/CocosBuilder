@@ -138,4 +138,6 @@ enum
 
 - (NSString*) toAbsolutePath:(NSString*)path;
 
+- (void) debugPrintDirectories;
+
 @end

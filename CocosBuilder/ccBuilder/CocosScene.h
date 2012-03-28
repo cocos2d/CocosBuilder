@@ -127,7 +127,4 @@ enum {
 - (void) updateSelection;
 - (void) selectBehind;
 
-- (void) printNodes:(CCNode*)node level:(int)level;
-- (void) printExtraProps;
-- (void) printExtraPropsForNode:(CCNode*)node;
 @end

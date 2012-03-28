@@ -584,4 +584,10 @@
     return NULL;
 }
 
+- (void) debugPrintDirectories
+{
+    NSLog(@"directories: %@", directories);
+    NSLog(@"activeDirectories: %@", activeDirectories);
+}
+
 @end

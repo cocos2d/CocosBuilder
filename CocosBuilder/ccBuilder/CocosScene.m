@@ -701,47 +701,5 @@
 
 #pragma mark Debug
 
-- (void) printNodes:(CCNode*)node level:(int)level
-{
-    if ([node.parent isKindOfClass:[CCMenuItemImage class]]) return;
-    if ([node.parent isKindOfClass:[CCLabelBMFont class]]) return;
-    
-    NSString* indent = @"";
-    for (int i = 0; i < level; i++) indent = [indent stringByAppendingString:@"-"];
-    
-    for (int i = 0; i < [[node children] count]; i++)
-    {
-        [self printNodes:[[node children] objectAtIndex:i] level:level+1];
-    }
-    
-}
-
-- (void) printExtraProps:(CCNode*)node level:(int)level
-{
-    if ([node.parent isKindOfClass:[CCMenuItemImage class]]) return;
-    if ([node.parent isKindOfClass:[CCLabelBMFont class]]) return;
-    
-    NSString* indent = @"";
-    for (int i = 0; i < level; i++) indent = [indent stringByAppendingString:@"-"];
-    
-    NSLog(@"%@%@",indent,[node className]);
-    NodeInfo* info = node.userObject;
-    NSLog(@"%@",info.extraProps);
-    
-    for (int i = 0; i < [[node children] count]; i++)
-    {
-        [self printExtraProps:[[node children] objectAtIndex:i] level:level+1];
-    }
-    
-}
-
-- (void) printExtraProps
-{
-    [self printExtraProps:rootNode level:0];
-}
-
-- (void) printExtraPropsForNode:(CCNode*)node
-{
-}
 
 @end

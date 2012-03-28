@@ -176,8 +176,6 @@ enum {
 - (IBAction) undo:(id)sender;
 - (IBAction) redo:(id)sender;
 
-- (IBAction) debugPrintExtraProps:(id)sender;
-- (IBAction) debugPrintStructure:(id)sender;
-- (IBAction) debugPrintExtraPropsForSelectedNode:(id)sender;
+- (IBAction) debug:(id)sender;
 
 @end
