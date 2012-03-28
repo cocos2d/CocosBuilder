@@ -278,6 +278,16 @@
     [self updateSelection];
 }
 
+- (BOOL) selectedNodeHasReadOnlyProperty:(NSString*)prop
+{
+    if (!selectedNode) return NO;
+    NodeInfo* info = selectedNode.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    
+    NSDictionary* propInfo = [plugIn.nodePropertiesDict objectForKey:prop];
+    return [[propInfo objectForKey:@"readOnly"] boolValue];
+}
+
 - (void) updateSelection
 {
     CCNode* node = selectedNode;
@@ -371,11 +381,13 @@
         btnScale.position = rectBtnScale.origin;
         btnScale.anchorPoint = ccp(0,0);
         [selectionLayer addChild:btnScale z:1];
+        if ([self selectedNodeHasReadOnlyProperty:@"scale"]) btnScale.opacity = 127;
         
         // Rotation handle
         CCSprite* btnRotate;
         if (currentMouseTransform == kCCBTransformHandleRotate) btnRotate = [CCSprite spriteWithFile:@"btn-rotate-hi.png"];
         else btnRotate = [CCSprite spriteWithFile:@"btn-rotate.png"];
+        if ([self selectedNodeHasReadOnlyProperty:@"rotation"]) btnRotate.opacity = 127;
         
         btnRotate.position = rectBtnRotate.origin;
         btnRotate.anchorPoint = ccp(0,0);
@@ -506,6 +518,19 @@
         {
             transformStartRotation = selectedNode.rotation;
         }
+        
+        // Check for disabled properties
+        if (th == kCCBTransformHandleScale
+            && [self selectedNodeHasReadOnlyProperty:@"scale"])
+        {
+            th = kCCBTransformHandleNone;
+        }
+        else if (th == kCCBTransformHandleRotate
+                 && [self selectedNodeHasReadOnlyProperty:@"rotation"])
+        {
+            th = kCCBTransformHandleNone;
+        }
+        
         currentMouseTransform = th;
         
         return YES;
