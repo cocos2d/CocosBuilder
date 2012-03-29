@@ -19,3 +19,5 @@ It is most likely still a problem with the submodules. Edit the .git/config file
 
     git submodule init
     git submodule update
+
+When building CocosBuilder, make sure that "CocosBuilder" is the selected target (it may be some of the plug-in targets by default).
