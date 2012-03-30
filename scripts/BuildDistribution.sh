@@ -13,6 +13,11 @@ xcodebuild -target CocosBuilder -configuration Debug build
 
 # Create archives
 cd ..
-zip -r "build/CocosBuilder-$CCB_VERSION-examples.zip" CocosBuilderExample/* Documentation/* CCBReader/*
+mkdir "build/CocosBuilder-$CCB_VERSION-examples"
+cp -RL CocosBuilderExample "build/CocosBuilder-$CCB_VERSION-examples/"
+cp -RL "Add to Your Project" "build/CocosBuilder-$CCB_VERSION-examples/"
+cp -RL Documentation "build/CocosBuilder-$CCB_VERSION-examples/"
+
 cd build/
 zip -r "CocosBuilder-$CCB_VERSION.zip" CocosBuilder.app
+zip -r "CocosBuilder-$CCB_VERSION-examples.zip" "CocosBuilder-$CCB_VERSION-examples"
