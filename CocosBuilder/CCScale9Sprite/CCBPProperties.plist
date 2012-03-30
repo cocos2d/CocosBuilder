@@ -10,8 +10,19 @@
 	<string>CCScale9Sprite</string>
 	<key>editorClassName</key>
 	<string>CCScale9Sprite</string>
-	<key>New item</key>
-	<string></string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
 	<key>properties</key>
 	<array>
 		<dict>
@@ -28,7 +39,12 @@
 			</array>
 			<key>affectsProperties</key>
 			<array>
-				<string>blendFunc</string>
+				<string>anchorPoint</string>
+				<string>insetLeft</string>
+				<string>insetTop</string>
+				<string>insetRight</string>
+				<string>insetBottom</string>
+				<string>preferedSize</string>
 				<string>contentSize</string>
 			</array>
 			<key>displayName</key>
@@ -39,6 +55,20 @@
 			<string>spriteFrame</string>
 		</dict>
 		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>preferedSize</string>
+			<key>displayName</key>
+			<string>Preferred size</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>255</integer>
 			<key>displayName</key>
 			<string>Opacity</string>
 			<key>type</key>
@@ -47,12 +77,56 @@
 			<string>opacity</string>
 		</dict>
 		<dict>
+			<key>default</key>
+			<array>
+				<integer>255</integer>
+				<integer>255</integer>
+				<integer>255</integer>
+			</array>
 			<key>displayName</key>
 			<string>Color</string>
 			<key>type</key>
 			<string>Color3</string>
 			<key>name</key>
 			<string>color</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Insets</string>
+			<key>type</key>
+			<string>SeparatorSub</string>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>insetLeft</string>
+			<key>displayName</key>
+			<string>Left</string>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>insetTop</string>
+			<key>displayName</key>
+			<string>Top</string>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>insetRight</string>
+			<key>displayName</key>
+			<string>Right</string>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>insetBottom</string>
+			<key>displayName</key>
+			<string>Bottom</string>
 		</dict>
 	</array>
 </dict>
