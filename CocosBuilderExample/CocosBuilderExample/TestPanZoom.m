@@ -7,9 +7,25 @@
 //
 
 #import "TestPanZoom.h"
+#import "CCScrollView.h"
+#import "CCBReader.h"
 
 @implementation TestPanZoom
 
-
+/*
+- (id) init
+{
+    
+    self = [super init];
+    if (!self) return NULL;
+    
+    CCScrollView* scroll = [[[CCScrollView alloc] init] autorelease];
+    scroll.contentSize = CGSizeMake(480, 320);
+    scroll.container = [CCBReader nodeGraphFromFile:@"TestPanZoomLayer.ccbi"];
+    [self addChild:scroll z:20];
+    
+    return self;
+}
+ */
 
 @end

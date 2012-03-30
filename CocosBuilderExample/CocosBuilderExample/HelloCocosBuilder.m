@@ -55,7 +55,7 @@
 
 - (void) pressedPanZoom:(id)sender
 {
-    [[CCDirector sharedDirector] replaceScene:[CCBReader sceneWithNodeGraphFromFile:@"TestPanZoom.ccbi"]];
+    [[CCDirector sharedDirector] replaceScene:[CCBReader sceneWithNodeGraphFromFile:@"TestScrollView.ccbi"]];
 }
 
 @end

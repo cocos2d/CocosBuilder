@@ -36,4 +36,10 @@
     return [[self propertyForSelection] floatValue];
 }
 
+- (void) refresh
+{
+    [self willChangeValueForKey:@"f"];
+    [self didChangeValueForKey:@"f"];
+}
+
 @end

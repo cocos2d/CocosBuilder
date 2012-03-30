@@ -239,8 +239,6 @@
     }
     else if ([type isEqualToString:@"BlockCCControl"])
     {
-        NSLog(@"BlockCCControl serializedValue: %@", serializedValue);
-        
         NSString* selector = [serializedValue objectAtIndex:0];
         NSNumber* target = [serializedValue objectAtIndex:1];
         NSNumber* ctrlEvts = [serializedValue objectAtIndex:2];
