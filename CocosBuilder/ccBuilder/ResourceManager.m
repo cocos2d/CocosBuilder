@@ -434,6 +434,7 @@
         [dir.images removeAllObjects];
         [dir.animations removeAllObjects];
         [dir.bmFonts removeAllObjects];
+        [dir.ttfFonts removeAllObjects];
         [dir.ccbFiles removeAllObjects];
         
         for (NSString* file in resources)
@@ -470,6 +471,7 @@
         [dir.animations sortUsingSelector:@selector(compare:)];
         [dir.bmFonts sortUsingSelector:@selector(compare:)];
         [dir.ttfFonts sortUsingSelector:@selector(compare:)];
+        [dir.ccbFiles sortUsingSelector:@selector(compare:)];
     }
     
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
