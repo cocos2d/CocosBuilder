@@ -109,7 +109,7 @@
 
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
 {
-    // TODO: Add error check!
+    NSLog(@"setting font");
     
     NSString* absPath = NULL;
     
@@ -122,14 +122,30 @@
         absPath = [[ResourceManager sharedManager] toAbsolutePath:fontFile];
     }
     
-    [node setValue:absPath forKey:prop];
+    @try
+    {
+        [node setValue:absPath forKey:prop];
+    }
+    @catch (NSException *exception)
+    {
+        [node setValue:@"missing-font.fnt" forKey:prop];
+    }
+    
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    if (!fontFile || [fontFile isEqualToString:@""]) fontFile = @"missing-font.fnt";
+    [cs setExtraProp:fontFile forKey:prop andNode:node];
+    
+    NSLog(@"setting font - complete");
 }
 
 + (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop
 {
-    NSString* fntFile = [node valueForKey:prop];
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSString* fntFile = [cs extraPropForKey:prop andNode:node];
     if ([fntFile isEqualToString:@"missing-font.fnt"]) return NULL;
-    return [fntFile lastPathComponent];
+    return fntFile;
 }
 
 @end
