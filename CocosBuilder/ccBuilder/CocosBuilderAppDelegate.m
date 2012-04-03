@@ -1237,17 +1237,28 @@
 
 - (IBAction) saveDocumentAs:(id)sender
 {
+    if (!currentDocument) return;
+    
+    [[[CCDirector sharedDirector] view] lockOpenGLContext];
+    
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
+            // Save file to new path
             [self saveFile:[[saveDlg URL] path]];
-            currentDocument.fileName = [[saveDlg URL] path];
-            [[self tabViewItemFromDoc:currentDocument] setLabel:[currentDocument formattedName]];
+            
+            // Close document
+            [tabView removeTabViewItem:[self tabViewItemFromDoc:currentDocument]];
+            
+            // Open newly created document
+            [self openFile:[[saveDlg URL] path]];
         }
     }];
+    
+    [[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (IBAction) saveDocument:(id)sender
