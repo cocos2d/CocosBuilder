@@ -423,13 +423,13 @@
 {
     if (!selectedNode) return;
     
-    [selectedNode setValue:[NSValue valueWithPoint:pos] forKey:[self positionPropertyForSelectedNode]];
+    [selectedNode setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pos)] forKey:[self positionPropertyForSelectedNode]];
 }
 
 - (CGPoint) selectedNodePos
 {
     if (!selectedNode) return CGPointZero;
-    return [[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue];
+    return NSPointToCGPoint([[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue]);
 }
 
 - (int) transformHandleUnderPt:(CGPoint)pt
