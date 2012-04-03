@@ -27,6 +27,7 @@
 #import "CCBAnimationParser.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCBDocument.h"
 
 #pragma mark RMSpriteFrame
 
@@ -367,6 +368,12 @@
             if ([res.modifiedTime compare:modifiedTime] == NSOrderedSame)
             {
                 // Skip files that are not modified
+                res.touched = YES;
+                continue;
+            }
+            else if ([[[CCBGlobals globals] appDelegate].currentDocument.fileName isEqualToString: file])
+            {
+                // Skip the current document
                 res.touched = YES;
                 continue;
             }
