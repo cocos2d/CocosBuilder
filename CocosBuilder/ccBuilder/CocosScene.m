@@ -561,8 +561,8 @@
     
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
-        float xDelta = pos.x - mouseDownPos.x;
-        float yDelta = pos.y - mouseDownPos.y;
+        float xDelta = (int)(pos.x - mouseDownPos.x);
+        float yDelta = (int)(pos.y - mouseDownPos.y);
         
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
@@ -575,7 +575,7 @@
     else if (currentMouseTransform == kCCBTransformHandleScale)
     {
         float xDelta = pos.x - mouseDownPos.x;
-        float delta = xDelta;
+        float delta = (int)xDelta;
         
         [appDelegate saveUndoStateWillChangeProperty:@"scale"];
         appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
@@ -585,7 +585,7 @@
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
         float xDelta = pos.x - mouseDownPos.x;
-        float delta = xDelta;
+        float delta = (int)xDelta;
         
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
