@@ -61,6 +61,7 @@
     
     inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
+    [inspectorDocumentView setAutoresizingMask:NSViewWidthSizable];
     [inspectorScroll setDocumentView:inspectorDocumentView];
 }
 
