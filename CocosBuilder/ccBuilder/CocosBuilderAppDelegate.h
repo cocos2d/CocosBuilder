@@ -178,4 +178,7 @@ enum {
 
 - (IBAction) debug:(id)sender;
 
+// For warning messages
+- (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;
+
 @end

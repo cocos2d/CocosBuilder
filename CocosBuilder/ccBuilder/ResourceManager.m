@@ -156,7 +156,7 @@
 
 @implementation RMDirectory
 
-@synthesize count,dirPath, resources, images, animations, bmFonts, ttfFonts, ccbFiles;
+@synthesize count, dirPath, resources, images, animations, bmFonts, ttfFonts, ccbFiles;
 
 - (id) init
 {
@@ -207,7 +207,7 @@
 
 @implementation ResourceManager
 
-@synthesize directories, activeDirectories, systemFontList;
+@synthesize directories, activeDirectories, systemFontList, tooManyDirectoriesAdded;
 
 + (ResourceManager*) sharedManager
 {
@@ -490,6 +490,14 @@
 
 - (void) addDirectory:(NSString *)dirPath
 {
+    NSLog(@"addDirectory: %@",dirPath);
+    
+    if ([directories count] > kCCBMaxTrackedDirectories)
+    {
+        tooManyDirectoriesAdded = YES;
+        return;
+    }
+    
     // Check if directory is already added (then add to its count)
     RMDirectory* dir = [directories objectForKey:dirPath];
     if (dir)

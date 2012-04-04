@@ -807,6 +807,23 @@
     }
 }
 
+- (void) checkForTooManyDirectoriesInCurrentDoc
+{
+    if (!currentDocument) return;
+    
+    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
+    {
+        // Close document if it has too many sub directories
+        NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
+        [tabView removeTabViewItem:item];
+        
+        [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
+        
+        // Notify the user
+        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
+    }
+}
+
 - (void) openFile:(NSString*) fileName
 {
 	[[[CCDirector sharedDirector] view] lockOpenGLContext];
@@ -833,22 +850,15 @@
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
     
-    /*
-    [resManager addDirectory:newDoc.rootPath];
-    NSArray* paths = [newDoc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager addDirectory:path];
-        }
-    }*/
+    // Add directories to resource manager
     [self addRMDirectoriesForDoc:newDoc];
     
     [self switchToDocument:newDoc];
      
     [self addDocument:newDoc];
     self.hasOpenedDocument = YES;
+    
+    [self checkForTooManyDirectoriesInCurrentDoc];
 	
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
@@ -937,6 +947,8 @@
     
     [[g cocosScene] setStageZoom:1];
     [[g cocosScene] setScrollOffset:ccp(0,0)];
+    
+    [self checkForTooManyDirectoriesInCurrentDoc];
 }
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
