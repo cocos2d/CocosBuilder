@@ -261,6 +261,7 @@
 		E36A281D152263B4004986A8 /* TGAlib.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27C8152263B4004986A8 /* TGAlib.m */; };
 		E36A281E152263B4004986A8 /* TransformUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27CA152263B4004986A8 /* TransformUtils.m */; };
 		E36A281F152263B4004986A8 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27CE152263B4004986A8 /* ZipUtils.m */; };
+		E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */; };
 		E383BF6B152478940032F371 /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E383BF6A152478940032F371 /* CCScrollView.m */; };
 		E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3850808150AA9AE007E162A /* ImageAndTextCell.m */; };
 		E385080B150AB232007E162A /* segmctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E385080A150AB232007E162A /* segmctrl-bg.png */; };
@@ -952,6 +953,8 @@
 		E36A27CC152263B4004986A8 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
 		E36A27CD152263B4004986A8 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E36A27CE152263B4004986A8 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
+		E36F3C3B152C756D00AAD805 /* NSString+RelativePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RelativePath.h"; sourceTree = "<group>"; };
+		E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		E383BF69152478940032F371 /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E383BF6A152478940032F371 /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
 		E3850807150AA9AE007E162A /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
@@ -1539,6 +1542,7 @@
 				E3C5C1A51504D30C000CF6F3 /* SCEvents */,
 				A09AB68C14E9935F009C8B91 /* kazmath */,
 				77E198DB13858CD1006C361B /* TabBar */,
+				E36F3C3A152C756D00AAD805 /* RelativePath */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -2179,6 +2183,15 @@
 				E36A27CE152263B4004986A8 /* ZipUtils.m */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		E36F3C3A152C756D00AAD805 /* RelativePath */ = {
+			isa = PBXGroup;
+			children = (
+				E36F3C3B152C756D00AAD805 /* NSString+RelativePath.h */,
+				E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */,
+			);
+			path = RelativePath;
 			sourceTree = "<group>";
 		};
 		E383BF68152478940032F371 /* CCScrollView */ = {
@@ -3285,6 +3298,7 @@
 				E36A281E152263B4004986A8 /* TransformUtils.m in Sources */,
 				E36A281F152263B4004986A8 /* ZipUtils.m in Sources */,
 				E383BF6B152478940032F371 /* CCScrollView.m in Sources */,
+				E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,6 +45,7 @@
 #import "PublishTypeAccessoryView.h"
 #import "ResourceManager.h"
 #import "ResourceManagerPanel.h"
+#import "NSString+RelativePath.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1310,11 +1311,14 @@
         if (result == NSOKButton)
         {
             NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
+            NSString* absPath = [[saveDlg URL] path];
+            NSString* relPath = [absPath relativePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
+            
             currentDocument.exportPlugIn = exportTypeName;
-            currentDocument.exportPath = [[saveDlg URL] path];
+            currentDocument.exportPath = relPath;
             currentDocument.exportFlattenPaths = accessoryView.flattenPaths;
             
-            [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
+            [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
         }
     }];
 }
@@ -1323,11 +1327,14 @@
 {
     if (!currentDocument) return;
     
-    if (currentDocument.exportPath && 
+    NSString* absPath = [currentDocument.exportPath absolutePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
+    
+    if (absPath && 
 		currentDocument.exportPlugIn && 
-		[[NSFileManager defaultManager] fileExistsAtPath:currentDocument.exportPath] )
+		[[NSFileManager defaultManager] fileExistsAtPath:absPath] )
     {
-        [self exportFile:currentDocument.exportPath withPlugIn:currentDocument.exportPlugIn];
+        
+        [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
     }
     else
     {
