@@ -127,6 +127,10 @@
     {
         [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
         [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
+        if ([(NSArray*)serializedValue count] == 3)
+        {
+            [extraProps setValue:[serializedValue objectAtIndex:2] forKey:[NSString stringWithFormat:@"%@Lock",name]];
+        }
     }
     else if ([type isEqualToString:@"Float"]
              || [type isEqualToString:@"Degrees"])

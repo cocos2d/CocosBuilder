@@ -28,5 +28,6 @@
 
 @property (nonatomic, assign) float scaleX;
 @property (nonatomic, assign) float scaleY;
+@property (nonatomic, assign) BOOL locked;
 
 @end

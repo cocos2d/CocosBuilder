@@ -23,12 +23,19 @@
  */
 
 #import "InspectorScaleLock.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorScaleLock
 
 - (void) setScaleX:(float)scaleX
 {
     [self setPropertyForSelectionX:[NSNumber numberWithFloat:scaleX]];
+    if ([self locked])
+    {
+        [self setPropertyForSelectionY:[NSNumber numberWithFloat:scaleX]];
+        [self refresh];
+    }
 }
 
 - (float) scaleX
@@ -39,11 +46,37 @@
 - (void) setScaleY:(float)scaleY
 {
     [self setPropertyForSelectionY:[NSNumber numberWithFloat:scaleY]];
+    if ([self locked])
+    {
+        [self setPropertyForSelectionX:[NSNumber numberWithFloat:scaleY]];
+        [self refresh];
+    }
 }
 
 - (float) scaleY
 {
     return [[self propertyForSelectionY] floatValue];
+}
+
+- (BOOL) locked
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    return [[cs extraPropForKey:[propertyName stringByAppendingString:@"Lock"] andNode:selection] boolValue];
+}
+
+- (void) setLocked:(BOOL)locked
+{
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [cs setExtraProp:[NSNumber numberWithBool:locked] forKey:[propertyName stringByAppendingString:@"Lock"] andNode:selection];
+    
+    if (locked && [self scaleX] != [self scaleY])
+    {
+        [self setScaleY:[self scaleX]];
+    }
+    
+    [self updateAffectedProperties];
 }
 
 - (void) refresh
