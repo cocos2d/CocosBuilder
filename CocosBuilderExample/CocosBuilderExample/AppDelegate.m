@@ -94,8 +94,11 @@
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
-	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"Start.ccbi"];
+    // Use the CCBReader to load the HelloCocosBuilder scene
+    // from the ccbi-file.
+    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"HelloCocosBuilder.ccbi"];
+    
+	// Add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director_ pushScene: scene]; 
 
 	return YES;

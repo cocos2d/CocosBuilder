@@ -22,23 +22,19 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import "cocos2d.h"
+#import "TestHeader.h"
+#import "CCBReader.h"
 
-// This is a custom class for a layer specified by setting the custom
-// class attribute in CocosBuilder for the root node.
-// It is loaded from AppDelegate.m
+// The TestHeader is embedded in all Test scenes. It contains
+// a title and a back button. The title assigned to the owner,
+// and the this class only handles the back button.
+@implementation TestHeader
 
-@interface HelloCocosBuilder : CCLayer
+// When pressing the back button, the currently running scene
+// is replaced by the start scene, HelloCocosBuilder.
+- (void) pressedBack:(id)sender
 {
-    
-    // This instance variables is defined in the CocosBuilder file
-    // (Start.ccb) and automatically assigned by CCBReader
-    CCSprite* sprtBurst;
-    
-    // This instance variable is set when loading a test scene
-    // using the openTest: method.
-    CCLabelTTF* lblTestTitle;
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:[CCBReader sceneWithNodeGraphFromFile:@"HelloCocosBuilder.ccbi"] withColor:ccc3(0, 0, 0)]];
 }
 
 @end

@@ -36,26 +36,55 @@
     [sprtBurst runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:20.0f angle:360]]];
 }
 
-// This method is set as an attribute to the CCMenuItemImage in
-// CocosBuilder, and automatically set up to be called when the
-// button is pressed.
-- (void) pressedButton:(id)sender
+// Go to a new test scene
+- (void) openTest:(NSString*)ccbFile
 {
-    NSLog(@"pressedButton");
+    // Load the scene from the ccbi-file, setting this class as
+    // the owner will cause lblTestTitle to be set by the CCBReader.
+    // lblTestTitle is in the TestHeader.ccbi, which is referenced
+    // from each of the test scenes.
+    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:ccbFile owner:self];
     
-    // Stop all runnint actions for the icon sprite
-    [sprtIcon stopAllActions];
+    // Set the title of the test to the same as the ccbi file's name
+    [lblTestTitle setString:ccbFile];
     
-    // Reset the rotation of the icon
-    sprtIcon.rotation = 0;
-    
-    // Rotate the sprtIcon 360 degrees
-    [sprtIcon runAction:[CCRotateBy actionWithDuration:1.0f angle:360]];
+    // Use a transition to go to the test scene
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:scene withColor:ccc3(0, 0, 0)]];
 }
 
-- (void) pressedPanZoom:(id)sender
+// Each of these methods are called when the buttons are pressed.
+// The names of the methods are specified in the ccb-file.
+
+- (void) pressedMenus:(id)sender
 {
-    [[CCDirector sharedDirector] replaceScene:[CCBReader sceneWithNodeGraphFromFile:@"TestScrollView.ccbi"]];
+    [self openTest:@"TestMenus.ccbi"];
 }
+
+- (void) pressedSprites:(id)sender
+{
+    [self openTest:@"TestSprites.ccbi"];
+}
+
+- (void) pressedButtons:(id)sender
+{
+    [self openTest:@"TestButtons.ccbi"];
+}
+
+- (void) pressedLabels:(id)sender
+{
+    [self openTest:@"TestLabels.ccbi"];
+}
+
+- (void) pressedParticleSystems:(id)sender
+{
+    [self openTest:@"TestParticleSystems.ccbi"];
+}
+
+- (void) pressedScrollViews:(id)sender
+{
+    [self openTest:@"TestScrollViews.ccbi"];
+}
+
+
 
 @end

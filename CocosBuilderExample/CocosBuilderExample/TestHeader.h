@@ -22,23 +22,8 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-// This is a custom class for a layer specified by setting the custom
-// class attribute in CocosBuilder for the root node.
-// It is loaded from AppDelegate.m
-
-@interface HelloCocosBuilder : CCLayer
-{
-    
-    // This instance variables is defined in the CocosBuilder file
-    // (Start.ccb) and automatically assigned by CCBReader
-    CCSprite* sprtBurst;
-    
-    // This instance variable is set when loading a test scene
-    // using the openTest: method.
-    CCLabelTTF* lblTestTitle;
-}
+@interface TestHeader : CCLayer
 
 @end
