@@ -230,7 +230,7 @@
     {
         NSString* str = serializedValue;
         if (!str) str = @"";
-        [node setValue:str forKey:name];
+        [TexturePropertySetter setTtfForNode:node andProperty:name withFont:str];
     }
     else if ([type isEqualToString:@"Block"])
     {

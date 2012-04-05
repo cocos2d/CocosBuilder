@@ -35,12 +35,12 @@
 - (void) willBeAdded
 {
     // Setup menu
-    NSString* fnt = [self propertyForSelection];
+    NSString* fnt = [TexturePropertySetter ttfForNode:selection andProperty:propertyName];
     
-    if ([[fnt lowercaseString] hasSuffix:@".ttf"])
-    {
-        fnt = [ResourceManagerUtil relativePathFromAbsolutePath:fnt];
-    }
+    //if ([[fnt lowercaseString] hasSuffix:@".ttf"])
+    //{
+    //    fnt = [ResourceManagerUtil relativePathFromAbsolutePath:fnt];
+    //}
     
     [ResourceManagerUtil populateFontTTFPopup:popup selectedFont:fnt target:self];
 }
@@ -62,8 +62,8 @@
         if (res.type == kCCBResTypeTTF)
         {
             fntFile = res.filePath;
-            NSString* fntFileRel = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
-            [ResourceManagerUtil setTitle:fntFileRel forPopup:popup forceMarker:YES];
+            fntFile = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+            [ResourceManagerUtil setTitle:fntFile forPopup:popup forceMarker:YES];
         }
     }
     else if ([item isKindOfClass:[NSString class]])
@@ -76,7 +76,8 @@
     // Set the property
     if (fntFile)
     {
-        [self setPropertyForSelection:fntFile];
+        [TexturePropertySetter setTtfForNode:selection andProperty:propertyName withFont:fntFile];
+        //[self setPropertyForSelection:fntFile];
     }
     
     [self updateAffectedProperties];

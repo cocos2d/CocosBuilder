@@ -35,4 +35,7 @@
 
 + (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop;
 
++ (void) setTtfForNode:(CCNode*)node andProperty:(NSString*) prop withFont:(NSString*) fontName;
++ (NSString*) ttfForNode:(CCNode*)node andProperty:(NSString*) prop;
+
 @end

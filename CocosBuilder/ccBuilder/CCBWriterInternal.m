@@ -317,7 +317,7 @@
         }
         else if ([type isEqualToString:@"FontTTF"])
         {
-            NSString* str = [node valueForKey:name];
+            NSString* str = [TexturePropertySetter ttfForNode:node andProperty:name];
             if (!str) str = @"";
             serializedValue = str;
         }

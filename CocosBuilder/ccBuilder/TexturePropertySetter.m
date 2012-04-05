@@ -109,8 +109,6 @@
 
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
 {
-    NSLog(@"setting font");
-    
     NSString* absPath = NULL;
     
     if (!fontFile || [fontFile isEqualToString:@""])
@@ -135,8 +133,6 @@
     
     if (!fontFile || [fontFile isEqualToString:@""]) fontFile = @"missing-font.fnt";
     [cs setExtraProp:fontFile forKey:prop andNode:node];
-    
-    NSLog(@"setting font - complete");
 }
 
 + (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop
@@ -145,6 +141,31 @@
     
     NSString* fntFile = [cs extraPropForKey:prop andNode:node];
     if ([fntFile isEqualToString:@"missing-font.fnt"]) return NULL;
+    return fntFile;
+}
+
++ (void) setTtfForNode:(CCNode*)node andProperty:(NSString*) prop withFont:(NSString*) fontName
+{
+    NSString* fullName = fontName;
+    if ([[fontName lowercaseString] hasSuffix:@".ttf"])
+    {
+        fullName = [[ResourceManager sharedManager] toAbsolutePath:fontName];
+    }
+    if (!fullName) fullName = @"";
+    
+    [node setValue:fullName forKey:prop];
+    
+    if (!fontName) fontName = @"";
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [cs setExtraProp:fontName forKey:prop andNode:node];
+}
+
++ (NSString*) ttfForNode:(CCNode*)node andProperty:(NSString*) prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSString* fntFile = [cs extraPropForKey:prop andNode:node];
+    if ([fntFile isEqualToString:@""]) return NULL;
     return fntFile;
 }
 
