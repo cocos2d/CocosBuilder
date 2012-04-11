@@ -124,6 +124,13 @@
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
+		E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E34E5D6515357CF2000201FB /* RulersLayer.m */; };
+		E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */; };
+		E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D69153585EC000201FB /* ruler-bg-vertical.png */; };
+		E34E5D6E1535AA78000201FB /* ruler-mark-major.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D6C1535AA78000201FB /* ruler-mark-major.png */; };
+		E34E5D6F1535AA78000201FB /* ruler-mark-minor.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D6D1535AA78000201FB /* ruler-mark-minor.png */; };
+		E34E5D711535B34F000201FB /* ruler-mark-origin.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D701535B34F000201FB /* ruler-mark-origin.png */; };
+		E34E5D731535BC5E000201FB /* ruler-numbers.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D721535BC5E000201FB /* ruler-numbers.png */; };
 		E35392601518AF2100471721 /* CCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E353924C1518AF2100471721 /* CCControl.m */; };
 		E35392611518AF2100471721 /* CCControlButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E353924E1518AF2100471721 /* CCControlButton.m */; };
 		E35392621518AF2100471721 /* CCControlColourPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392501518AF2100471721 /* CCControlColourPicker.m */; };
@@ -684,6 +691,14 @@
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
+		E34E5D6415357CF2000201FB /* RulersLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulersLayer.h; sourceTree = "<group>"; };
+		E34E5D6515357CF2000201FB /* RulersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulersLayer.m; sourceTree = "<group>"; };
+		E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-horizontal.png"; sourceTree = "<group>"; };
+		E34E5D69153585EC000201FB /* ruler-bg-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-vertical.png"; sourceTree = "<group>"; };
+		E34E5D6C1535AA78000201FB /* ruler-mark-major.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-mark-major.png"; sourceTree = "<group>"; };
+		E34E5D6D1535AA78000201FB /* ruler-mark-minor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-mark-minor.png"; sourceTree = "<group>"; };
+		E34E5D701535B34F000201FB /* ruler-mark-origin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-mark-origin.png"; sourceTree = "<group>"; };
+		E34E5D721535BC5E000201FB /* ruler-numbers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-numbers.png"; sourceTree = "<group>"; };
 		E353924B1518AF2100471721 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
 		E353924C1518AF2100471721 /* CCControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControl.m; sourceTree = "<group>"; };
 		E353924D1518AF2100471721 /* CCControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlButton.h; sourceTree = "<group>"; };
@@ -1303,6 +1318,8 @@
 				7789ACE9133AB47A00CEFCC7 /* CocosScene.m */,
 				7789ABD4133AA82000CEFCC7 /* CocosBuilderAppDelegate.h */,
 				7789ABD5133AA82000CEFCC7 /* CocosBuilderAppDelegate.m */,
+				E34E5D6415357CF2000201FB /* RulersLayer.h */,
+				E34E5D6515357CF2000201FB /* RulersLayer.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1395,6 +1412,12 @@
 		776041EF1498FCE50078095D /* Stage Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E34E5D721535BC5E000201FB /* ruler-numbers.png */,
+				E34E5D701535B34F000201FB /* ruler-mark-origin.png */,
+				E34E5D6C1535AA78000201FB /* ruler-mark-major.png */,
+				E34E5D6D1535AA78000201FB /* ruler-mark-minor.png */,
+				E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */,
+				E34E5D69153585EC000201FB /* ruler-bg-vertical.png */,
 				7729F03C1390600200CAA44F /* frame-ipad.png */,
 				7729F0391390215400CAA44F /* frame-iphone.png */,
 				776C688F1388107400153214 /* missing-font.fnt */,
@@ -2946,6 +2969,12 @@
 				E3D59133150F85D8004180CA /* InspectorCCBFile.xib in Resources */,
 				E3C65106151A3B7C00D639C0 /* InspectorString.xib in Resources */,
 				E3C65128151C7B9000D639C0 /* InspectorBlockCCControl.xib in Resources */,
+				E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */,
+				E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */,
+				E34E5D6E1535AA78000201FB /* ruler-mark-major.png in Resources */,
+				E34E5D6F1535AA78000201FB /* ruler-mark-minor.png in Resources */,
+				E34E5D711535B34F000201FB /* ruler-mark-origin.png in Resources */,
+				E34E5D731535BC5E000201FB /* ruler-numbers.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3299,6 +3328,7 @@
 				E36A281F152263B4004986A8 /* ZipUtils.m in Sources */,
 				E383BF6B152478940032F371 /* CCScrollView.m in Sources */,
 				E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */,
+				E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

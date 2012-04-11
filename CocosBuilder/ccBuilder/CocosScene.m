@@ -30,6 +30,7 @@
 #import "NodeInfo.h"
 #import "PlugInManager.h"
 #import "PlugInNode.h"
+#import "RulersLayer.h"
 
 @implementation CocosScene
 
@@ -53,6 +54,14 @@
 
 -(void) setupEditorNodes
 {
+    // Rulers
+    rulerLayer = [RulersLayer node];
+    [self addChild:rulerLayer z:4];
+    
+    // Sticky notes
+    notesLayer = [CCLayer node];
+    [self addChild:notesLayer z:3];
+    
     // Selection layer
     selectionLayer = [CCLayer node];
     [self addChild:selectionLayer z:2];
@@ -185,7 +194,7 @@
         NSOpenGLContext *glContext = [view openGLContext];
         if( ! glContext )
             return;        
-        CGLLockContext([glContext CGLContextObj]);	
+        //CGLLockContext([glContext CGLContextObj]);	
         [glContext makeCurrentContext];
 
         
@@ -194,7 +203,7 @@
         [self addChild:renderedScene];
         
         
-        CGLUnlockContext( [glContext CGLContextObj] );
+        //CGLUnlockContext( [glContext CGLContextObj] );
     }
 }
 
@@ -274,8 +283,6 @@
 - (void) setSelectedNode:(CCNode*) node
 {
     selectedNode = node;
-    
-    [self updateSelection];
 }
 
 - (BOOL) selectedNodeHasReadOnlyProperty:(NSString*)prop
@@ -415,7 +422,6 @@
     NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     
-    //NSLog(@"positionProperty: %@", plugIn.positionProperty);
     return plugIn.positionProperty;
 }
 
@@ -716,6 +722,13 @@
     CGPoint center = ccp(bounds.origin.x+bounds.size.width/2, bounds.origin.y+bounds.size.height/2);
     borderDeviceIPhone.position = center;
     borderDeviceIPad.position = center;
+    
+    // Update rulers
+    CGPoint origin = ccpAdd(stageCenter, ccpMult(contentLayer.position,stageZoom));
+    origin.x -= stageBgLayer.contentSize.width/2 * stageZoom;
+    origin.y -= stageBgLayer.contentSize.height/2 * stageZoom;
+    
+    [rulerLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
 }
 
 - (void) dealloc

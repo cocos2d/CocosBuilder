@@ -26,6 +26,7 @@
 #import "cocos2d.h"
 @class CocosBuilderAppDelegate;
 @class CCBTemplateNode;
+@class RulersLayer;
 
 enum {
     kCCBParticleTypeExplosion = 0,
@@ -60,6 +61,8 @@ enum {
     CCLayer* contentLayer;
     CCLayer* selectionLayer;
     CCLayer* borderLayer;
+    RulersLayer* rulerLayer;
+    CCLayer* notesLayer;
     CCNode* rootNode;
     CCNode* selectedNode;
     CCRenderTexture* renderedScene;
