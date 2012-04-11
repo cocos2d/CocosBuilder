@@ -25,6 +25,7 @@
 
 #import "CocosBuilderAppDelegate.h"
 #import "CocosScene.h"
+#import "CCBGLView.h"
 #import "NSFlippedView.h"
 #import "CCBGlobals.h"
 #import "cocos2d.h"

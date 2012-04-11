@@ -67,6 +67,9 @@ enum {
     CCNode* selectedNode;
     CCRenderTexture* renderedScene;
     CocosBuilderAppDelegate* appDelegate;
+    CGSize winSize;
+    
+    NSTrackingArea* trackingArea;
     
     CGRect rectBtnMove;
     CGRect rectBtnScale;
@@ -129,5 +132,11 @@ enum {
 - (void) setSelectedNode:(CCNode*) node;
 - (void) updateSelection;
 - (void) selectBehind;
+
+// Event handling forwarded by view
+- (void)mouseMoved:(NSEvent *)event;
+- (void)mouseEntered:(NSEvent *)event;
+- (void)mouseExited:(NSEvent *)event;
+- (void)cursorUpdate:(NSEvent *)event;
 
 @end

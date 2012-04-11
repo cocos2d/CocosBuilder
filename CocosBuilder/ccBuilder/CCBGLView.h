@@ -26,6 +26,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 @class CocosBuilderAppDelegate;
+@class CocosScene;
 
 @interface CCBGLView : CCGLView {
     

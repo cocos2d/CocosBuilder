@@ -48,11 +48,12 @@ enum {
 @class PlugInManager;
 @class ResourceManager;
 @class ResourceManagerPanel;
+@class CCBGLView;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
     // Cocos2D view
-    IBOutlet CCGLView* cocosView;
+    IBOutlet CCBGLView* cocosView;
     IBOutlet NSView* mainView;
     
     // Inspector views
@@ -112,7 +113,7 @@ enum {
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
-@property (nonatomic,readonly) CCGLView* cocosView;
+@property (nonatomic,readonly) CCBGLView* cocosView;
 
 @property (nonatomic,assign) BOOL canEditContentSize;
 @property (nonatomic,assign) BOOL defaultCanvasSize;

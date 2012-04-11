@@ -620,19 +620,31 @@
     return YES;
 }
 
-- (void) ccMouseEntered:(NSEvent*)event
+- (void)mouseMoved:(NSEvent *)event
 {
-    if (currentTool == kCCBToolGrab)
-    {
-        [[NSCursor openHandCursor] push];
-    }
+    NSPoint posRaw = [event locationInWindow];
+    CGPoint pos;
+    pos.x = posRaw.x; pos.y = posRaw.y;
+    pos.x -= [appDelegate.cocosView frame].origin.x;
+    pos.y -= [appDelegate.cocosView frame].origin.y;
 }
 
-- (void) ccMouseExited:(NSEvent *)theEvent
+- (void)mouseEntered:(NSEvent *)event
 {
+
+}
+- (void)mouseExited:(NSEvent *)event
+{
+    
+}
+
+- (void)cursorUpdate:(NSEvent *)event
+{
+    NSLog(@"cursorUpdate");
+    
     if (currentTool == kCCBToolGrab)
     {
-        [NSCursor pop];
+        [[NSCursor openHandCursor] set];
     }
 }
 
@@ -666,6 +678,8 @@
         self.isMouseEnabled = YES;
         
         stageZoom = 1;
+        
+        //[[appDelegate cocosView] setCocosScene: self];
 	}
 	return self;
 }
@@ -673,7 +687,8 @@
 - (void) nextFrame:(ccTime) time
 {
     // Recenter the content layer
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    BOOL winSizeChanged = !CGSizeEqualToSize(winSize, [[CCDirector sharedDirector] winSize]);
+    winSize = [[CCDirector sharedDirector] winSize];
     CGPoint stageCenter = ccp((int)(winSize.width/2+scrollOffset.x) , (int)(winSize.height/2+scrollOffset.y));
     
     self.contentSize = winSize;
@@ -729,10 +744,24 @@
     origin.y -= stageBgLayer.contentSize.height/2 * stageZoom;
     
     [rulerLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
+    
+    // Update mouse tracking
+    if (winSizeChanged)
+    {
+        if (trackingArea)
+        {
+            [[appDelegate cocosView] removeTrackingArea:trackingArea];
+            [trackingArea release];
+        }
+        
+        trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow owner:[appDelegate cocosView] userInfo:NULL];
+        [[appDelegate cocosView] addTrackingArea:trackingArea];
+    }
 }
 
 - (void) dealloc
 {
+    [trackingArea release];
     [nodesAtSelectionPt release];
 	[super dealloc];
 }

@@ -89,4 +89,24 @@
     [[[CCBGlobals globals] cocosScene] scrollWheel:theEvent];
 }
 
+- (void)mouseMoved:(NSEvent *)event
+{
+    [[[CCBGlobals globals] cocosScene] mouseMoved:event];
+}
+
+- (void)mouseEntered:(NSEvent *)event
+{
+    [[[CCBGlobals globals] cocosScene] mouseEntered:event];
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+    [[[CCBGlobals globals] cocosScene] mouseExited:event];
+}
+
+- (void)cursorUpdate:(NSEvent *)event
+{
+    [[[CCBGlobals globals] cocosScene] cursorUpdate:event];
+}
+
 @end
