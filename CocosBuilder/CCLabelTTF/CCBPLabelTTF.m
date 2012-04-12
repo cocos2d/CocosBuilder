@@ -10,4 +10,14 @@
 
 @implementation CCBPLabelTTF
 
+- (void) setAlignment:(int)alignment
+{
+    self.horizontalAlignment = alignment;
+}
+
+- (int) alignment
+{
+    return self.horizontalAlignment;
+}
+
 @end

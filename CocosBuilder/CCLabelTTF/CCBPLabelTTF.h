@@ -6,8 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "CCLabelTTF.h"
+#import "cocos2d.h"
 
 @interface CCBPLabelTTF : CCLabelTTF
+
+// Add property to maintain backwards compatibility
+@property (nonatomic,assign) int alignment;
 
 @end

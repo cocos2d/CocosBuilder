@@ -9,7 +9,7 @@
 	<key>className</key>
 	<string>CCLabelTTF</string>
 	<key>editorClassName</key>
-	<string>CCLabelTTF</string>
+	<string>CCBPLabelTTF</string>
 	<key>propertiesOverridden</key>
 	<array>
 		<dict>
@@ -101,9 +101,19 @@
 			<key>type</key>
 			<string>IntegerLabeled</string>
 			<key>name</key>
-			<string>alignment</string>
+			<string>horizontalAlignment</string>
 			<key>extra</key>
-			<string>Left|0|Right|1|Center|2</string>
+			<string>Left|0|Center|1|Right|2</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string></string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>name</key>
+			<string>verticalAlignment</string>
+			<key>extra</key>
+			<string>Top|0|Center|1|Bottom|2</string>
 		</dict>
 		<dict>
 			<key>affectsProperties</key>
