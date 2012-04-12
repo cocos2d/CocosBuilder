@@ -91,6 +91,9 @@ enum {
     CGPoint scrollOffset;
     CGPoint panningStartScrollOffset;
     
+    // Origin position in screen coordinates
+    CGPoint origin;
+    
     // Selection
     NSMutableArray* nodesAtSelectionPt;
     int currentNodeAtSelectionPtIdx;
@@ -113,6 +116,9 @@ enum {
 @property (nonatomic,assign) CGPoint scrollOffset;
 
 @property (nonatomic,assign) int currentTool;
+
+@property (nonatomic,readonly) GuidesLayer* guideLayer;
+@property (nonatomic,readonly) RulersLayer* rulerLayer;
 
 // returns a Scene that contains the HelloWorld as the only child
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app;
@@ -143,5 +149,8 @@ enum {
 - (void)mouseEntered:(NSEvent *)event;
 - (void)mouseExited:(NSEvent *)event;
 - (void)cursorUpdate:(NSEvent *)event;
+
+- (CGPoint) convertToDocSpace:(CGPoint)viewPt;
+- (CGPoint) convertToViewSpace:(CGPoint)docPt;
 
 @end

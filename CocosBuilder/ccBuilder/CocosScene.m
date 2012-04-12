@@ -35,7 +35,7 @@
 
 @implementation CocosScene
 
-@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool;
+@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool, guideLayer, rulerLayer;
 
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app
 {
@@ -422,6 +422,16 @@
 
 #pragma mark Handle mouse input
 
+- (CGPoint) convertToDocSpace:(CGPoint)viewPt
+{
+    return [contentLayer convertToNodeSpace:viewPt];
+}
+
+- (CGPoint) convertToViewSpace:(CGPoint)docPt
+{
+    return [contentLayer convertToWorldSpace:docPt];
+}
+
 - (NSString*) positionPropertyForSelectedNode
 {
     NodeInfo* info = selectedNode.userObject;
@@ -495,12 +505,12 @@
 
 - (BOOL) ccMouseDown:(NSEvent *)event
 {
+    if (!appDelegate.hasOpenedDocument) return YES;
+    
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos;
-    pos.x = posRaw.x;
-    pos.y = posRaw.y;
-    pos.x -= [appDelegate.cocosView frame].origin.x;
-    pos.y -= [appDelegate.cocosView frame].origin.y;
+    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    
+    if ([guideLayer mouseDown:pos event:event]) return YES;
     
     mouseDownPos = pos;
     
@@ -564,8 +574,12 @@
 
 - (BOOL) ccMouseDragged:(NSEvent *)event
 {
+    if (!appDelegate.hasOpenedDocument) return YES;
+    
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    
+    if ([guideLayer mouseDragged:pos event:event]) return YES;
     
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
@@ -609,6 +623,13 @@
 
 - (BOOL) ccMouseUp:(NSEvent *)event
 {
+    if (!appDelegate.hasOpenedDocument) return YES;
+    
+    NSPoint posRaw = [event locationInWindow];
+    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    
+    if ([guideLayer mouseUp:pos event:event]) return YES;
+    
     isMouseTransforming = NO;
     
     if (isPanning)
@@ -623,6 +644,8 @@
 
 - (void)mouseMoved:(NSEvent *)event
 {
+    if (!appDelegate.hasOpenedDocument) return;
+    
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
     
@@ -632,16 +655,24 @@
 - (void)mouseEntered:(NSEvent *)event
 {
     mouseInside = YES;
+    
+    if (!appDelegate.hasOpenedDocument) return;
+    
     [rulerLayer mouseEntered:event];
 }
 - (void)mouseExited:(NSEvent *)event
 {
     mouseInside = NO;
+    
+    if (!appDelegate.hasOpenedDocument) return;
+    
     [rulerLayer mouseExited:event];
 }
 
 - (void)cursorUpdate:(NSEvent *)event
 {
+    if (!appDelegate.hasOpenedDocument) return;
+    
     if (currentTool == kCCBToolGrab)
     {
         [[NSCursor openHandCursor] set];
@@ -651,6 +682,7 @@
 - (void) scrollWheel:(NSEvent *)theEvent
 {
     if (isMouseTransforming || isPanning || currentMouseTransform != kCCBTransformHandleNone) return;
+    if (!appDelegate.hasOpenedDocument) return;
     
     int dx = [theEvent deltaX]*4;
     int dy = -[theEvent deltaY]*4;
@@ -716,12 +748,15 @@
     borderDeviceIPad.position = center;
     
     // Update rulers
-    CGPoint origin = ccpAdd(stageCenter, ccpMult(contentLayer.position,stageZoom));
+    origin = ccpAdd(stageCenter, ccpMult(contentLayer.position,stageZoom));
     origin.x -= stageBgLayer.contentSize.width/2 * stageZoom;
     origin.y -= stageBgLayer.contentSize.height/2 * stageZoom;
     
     [rulerLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
     [rulerLayer updateMousePos:mousePos];
+    
+    // Update guides
+    [guideLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
     
     if (winSizeChanged)
     {

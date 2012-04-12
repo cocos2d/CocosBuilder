@@ -46,6 +46,8 @@
 #import "PublishTypeAccessoryView.h"
 #import "ResourceManager.h"
 #import "ResourceManagerPanel.h"
+#import "GuidesLayer.h"
+#import "RulersLayer.h"
 #import "NSString+RelativePath.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
@@ -662,6 +664,9 @@
     [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
     [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
     
+    // Guides
+    [dict setObject:[[g cocosScene].guideLayer serializeGuides] forKey:@"guides"];
+    
     if (doc.exportPath && doc.exportPlugIn)
     {
         [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
@@ -706,6 +711,17 @@
     BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
     
     [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
+    
+    // Setup guides
+    id guides = [doc objectForKey:@"guides"];
+    if (guides)
+    {
+        [g.cocosScene.guideLayer loadSerializedGuides:guides];
+    }
+    else
+    {
+        [g.cocosScene.guideLayer removeAllGuides];
+    }
 }
 
 - (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
@@ -767,6 +783,8 @@
     currentDocument.docData = NULL;
     currentDocument.fileName = NULL;
     [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
+    [g.cocosScene.guideLayer removeAllGuides];
+    [g.cocosScene.rulerLayer mouseExited:NULL];
     
     [outlineHierarchy reloadData];
     
