@@ -27,6 +27,7 @@
 @class CocosBuilderAppDelegate;
 @class CCBTemplateNode;
 @class RulersLayer;
+@class GuidesLayer;
 
 enum {
     kCCBParticleTypeExplosion = 0,
@@ -62,6 +63,7 @@ enum {
     CCLayer* selectionLayer;
     CCLayer* borderLayer;
     RulersLayer* rulerLayer;
+    GuidesLayer* guideLayer;
     CCLayer* notesLayer;
     CCNode* rootNode;
     CCNode* selectedNode;
@@ -75,6 +77,9 @@ enum {
     CGRect rectBtnScale;
     CGRect rectBtnRotate;
     
+    // Mouse handling
+    BOOL mouseInside;
+    CGPoint mousePos;
     CGPoint mouseDownPos;
     float transformStartRotation;
     float transformStartScaleX;

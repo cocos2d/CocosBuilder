@@ -31,6 +31,18 @@
     [self addChild:marksVertical z:1];
     [self addChild:marksHorizontal z:3];
     
+    mouseMarkVertical = [CCSprite spriteWithFile:@"ruler-guide.png"];
+    mouseMarkVertical.anchorPoint = ccp(0, 0.5f);
+    mouseMarkVertical.visible = NO;
+    [self addChild:mouseMarkVertical z:4];
+    
+    mouseMarkHorizontal = [CCSprite spriteWithFile:@"ruler-guide.png"];
+    mouseMarkHorizontal.rotation = -90;
+    mouseMarkHorizontal.anchorPoint = ccp(0, 0.5f);
+    mouseMarkHorizontal.visible = NO;
+    [self addChild:mouseMarkHorizontal z:4];
+    
+    
     return self;
 }
 
@@ -145,6 +157,24 @@
         }
         x+=10;
     }
+}
+
+- (void)updateMousePos:(CGPoint)pos
+{
+    mouseMarkHorizontal.position = ccp(pos.x, 0);
+    mouseMarkVertical.position = ccp(0, pos.y);
+}
+
+- (void)mouseEntered:(NSEvent *)event
+{
+    mouseMarkHorizontal.visible = YES;
+    mouseMarkVertical.visible = YES;
+}
+
+- (void)mouseExited:(NSEvent *)event
+{
+    mouseMarkHorizontal.visible = NO;
+    mouseMarkVertical.visible = NO;
 }
 
 @end

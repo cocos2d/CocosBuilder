@@ -283,6 +283,9 @@
 		E398C03B14FB8F850078E771 /* CCBXCocos2diPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03A14FB8F850078E771 /* CCBXCocos2diPhone.m */; };
 		E398C04014FBC9D00078E771 /* PublishTypeAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */; };
 		E398C04314FBCA620078E771 /* PublishTypeAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C04214FBCA620078E771 /* PublishTypeAccessoryView.m */; };
+		E3A16AF01536C885004B528A /* ruler-guide.png in Resources */ = {isa = PBXBuildFile; fileRef = E3A16AEF1536C885004B528A /* ruler-guide.png */; };
+		E3A16AF31536D096004B528A /* GuidesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A16AF21536D096004B528A /* GuidesLayer.m */; };
+		E3A16AF61536D69A004B528A /* CCBPLabelTTF.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */; };
 		E3B4221114E49DEB004547D6 /* InspectorInteger.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221014E49DEB004547D6 /* InspectorInteger.m */; };
 		E3B4221314E4A350004547D6 /* InspectorCheck.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4221214E4A350004547D6 /* InspectorCheck.xib */; };
 		E3B4221614E4A381004547D6 /* InspectorCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4221514E4A381004547D6 /* InspectorCheck.m */; };
@@ -994,6 +997,11 @@
 		E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishTypeAccessoryView.xib; sourceTree = "<group>"; };
 		E398C04114FBCA620078E771 /* PublishTypeAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishTypeAccessoryView.h; sourceTree = "<group>"; };
 		E398C04214FBCA620078E771 /* PublishTypeAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishTypeAccessoryView.m; sourceTree = "<group>"; };
+		E3A16AEF1536C885004B528A /* ruler-guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-guide.png"; sourceTree = "<group>"; };
+		E3A16AF11536D096004B528A /* GuidesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuidesLayer.h; sourceTree = "<group>"; };
+		E3A16AF21536D096004B528A /* GuidesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidesLayer.m; sourceTree = "<group>"; };
+		E3A16AF41536D69A004B528A /* CCBPLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPLabelTTF.h; sourceTree = "<group>"; };
+		E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPLabelTTF.m; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -1320,6 +1328,8 @@
 				7789ABD5133AA82000CEFCC7 /* CocosBuilderAppDelegate.m */,
 				E34E5D6415357CF2000201FB /* RulersLayer.h */,
 				E34E5D6515357CF2000201FB /* RulersLayer.m */,
+				E3A16AF11536D096004B528A /* GuidesLayer.h */,
+				E3A16AF21536D096004B528A /* GuidesLayer.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1412,6 +1422,7 @@
 		776041EF1498FCE50078095D /* Stage Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E3A16AEF1536C885004B528A /* ruler-guide.png */,
 				E34E5D721535BC5E000201FB /* ruler-numbers.png */,
 				E34E5D701535B34F000201FB /* ruler-mark-origin.png */,
 				E34E5D6C1535AA78000201FB /* ruler-mark-major.png */,
@@ -1945,6 +1956,8 @@
 			isa = PBXGroup;
 			children = (
 				E35DBBEC14F3E2390070A6E4 /* Supporting Files */,
+				E3A16AF41536D69A004B528A /* CCBPLabelTTF.h */,
+				E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */,
 			);
 			path = CCLabelTTF;
 			sourceTree = "<group>";
@@ -2975,6 +2988,7 @@
 				E34E5D6F1535AA78000201FB /* ruler-mark-minor.png in Resources */,
 				E34E5D711535B34F000201FB /* ruler-mark-origin.png in Resources */,
 				E34E5D731535BC5E000201FB /* ruler-numbers.png in Resources */,
+				E3A16AF01536C885004B528A /* ruler-guide.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3329,6 +3343,7 @@
 				E383BF6B152478940032F371 /* CCScrollView.m in Sources */,
 				E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */,
 				E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */,
+				E3A16AF31536D096004B528A /* GuidesLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3386,6 +3401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3A16AF61536D69A004B528A /* CCBPLabelTTF.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

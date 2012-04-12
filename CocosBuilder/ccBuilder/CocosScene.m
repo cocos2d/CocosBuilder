@@ -31,6 +31,7 @@
 #import "PlugInManager.h"
 #import "PlugInNode.h"
 #import "RulersLayer.h"
+#import "GuidesLayer.h"
 
 @implementation CocosScene
 
@@ -56,7 +57,11 @@
 {
     // Rulers
     rulerLayer = [RulersLayer node];
-    [self addChild:rulerLayer z:4];
+    [self addChild:rulerLayer z:5];
+    
+    // Guides
+    guideLayer = [GuidesLayer node];
+    [self addChild:guideLayer z:4];
     
     // Sticky notes
     notesLayer = [CCLayer node];
@@ -560,10 +565,7 @@
 - (BOOL) ccMouseDragged:(NSEvent *)event
 {
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos;
-    pos.x = posRaw.x; pos.y = posRaw.y;
-    pos.x -= [appDelegate.cocosView frame].origin.x;
-    pos.y -= [appDelegate.cocosView frame].origin.y;
+    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
     
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
@@ -574,7 +576,6 @@
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
         [appDelegate saveUndoStateWillChangeProperty:[self positionPropertyForSelectedNode]];
-        //appDelegate.selectedNode.position = newLocalPos;
         [self setSelectedNodePos:newLocalPos];
         [appDelegate refreshProperty:[self positionPropertyForSelectedNode]];
     }
@@ -623,25 +624,24 @@
 - (void)mouseMoved:(NSEvent *)event
 {
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos;
-    pos.x = posRaw.x; pos.y = posRaw.y;
-    pos.x -= [appDelegate.cocosView frame].origin.x;
-    pos.y -= [appDelegate.cocosView frame].origin.y;
+    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    
+    mousePos = pos;
 }
 
 - (void)mouseEntered:(NSEvent *)event
 {
-
+    mouseInside = YES;
+    [rulerLayer mouseEntered:event];
 }
 - (void)mouseExited:(NSEvent *)event
 {
-    
+    mouseInside = NO;
+    [rulerLayer mouseExited:event];
 }
 
 - (void)cursorUpdate:(NSEvent *)event
 {
-    NSLog(@"cursorUpdate");
-    
     if (currentTool == kCCBToolGrab)
     {
         [[NSCursor openHandCursor] set];
@@ -659,30 +659,7 @@
     scrollOffset.y = scrollOffset.y+dy;
 }
 
-#pragma mark Init and dealloc
-
--(id) initWithAppDelegate:(CocosBuilderAppDelegate*)app;
-{
-    appDelegate = app;
-    
-    nodesAtSelectionPt = [[NSMutableArray array] retain];
-    
-	if( (self=[super init] ))
-    {
-        
-        [self setupEditorNodes];
-        [self setupDefaultNodes];
-        
-        [self schedule:@selector(nextFrame:)];
-        
-        self.isMouseEnabled = YES;
-        
-        stageZoom = 1;
-        
-        //[[appDelegate cocosView] setCocosScene: self];
-	}
-	return self;
-}
+#pragma mark Updates every frame
 
 - (void) nextFrame:(ccTime) time
 {
@@ -744,19 +721,45 @@
     origin.y -= stageBgLayer.contentSize.height/2 * stageZoom;
     
     [rulerLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
+    [rulerLayer updateMousePos:mousePos];
     
-    // Update mouse tracking
     if (winSizeChanged)
     {
+        // Update mouse tracking
         if (trackingArea)
         {
             [[appDelegate cocosView] removeTrackingArea:trackingArea];
             [trackingArea release];
         }
         
-        trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow owner:[appDelegate cocosView] userInfo:NULL];
+        trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag owner:[appDelegate cocosView] userInfo:NULL];
         [[appDelegate cocosView] addTrackingArea:trackingArea];
     }
+}
+
+#pragma mark Init and dealloc
+
+-(id) initWithAppDelegate:(CocosBuilderAppDelegate*)app;
+{
+    appDelegate = app;
+    
+    nodesAtSelectionPt = [[NSMutableArray array] retain];
+    
+	if( (self=[super init] ))
+    {
+        
+        [self setupEditorNodes];
+        [self setupDefaultNodes];
+        
+        [self schedule:@selector(nextFrame:)];
+        
+        self.isMouseEnabled = YES;
+        
+        stageZoom = 1;
+        
+        [self nextFrame:0];
+	}
+	return self;
 }
 
 - (void) dealloc
