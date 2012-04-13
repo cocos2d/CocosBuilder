@@ -61,15 +61,15 @@
     
     // Guides
     guideLayer = [GuidesLayer node];
-    [self addChild:guideLayer z:4];
+    [self addChild:guideLayer z:3];
     
     // Sticky notes
     notesLayer = [CCLayer node];
-    [self addChild:notesLayer z:3];
+    [self addChild:notesLayer z:2];
     
     // Selection layer
     selectionLayer = [CCLayer node];
-    [self addChild:selectionLayer z:2];
+    [self addChild:selectionLayer z:4];
     
     // Border layer
     borderLayer = [CCLayer node];
@@ -360,8 +360,8 @@
             minCorner.y = MIN(minCorner.y, tr.y);
         }
         
-        if (minCorner.x < 10) minCorner.x = 10;
-        if (minCorner.y < 36) minCorner.y = 36;
+        if (minCorner.x < 10+15) minCorner.x = 10+15;
+        if (minCorner.y < 36+15) minCorner.y = 36+15;
         if (minCorner.x > self.contentSize.width - 28*3+6) minCorner.x = self.contentSize.width - 28*3+6;
         if (minCorner.y > self.contentSize.height+6) minCorner.y = self.contentSize.height+6;
         
@@ -575,6 +575,7 @@
 - (BOOL) ccMouseDragged:(NSEvent *)event
 {
     if (!appDelegate.hasOpenedDocument) return YES;
+    [self mouseMoved:event];
     
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
@@ -588,9 +589,11 @@
         
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         
-        //NSLog(@"newPos: (%f,%f)",newPos.x,newPos.y);
-        newPos = [guideLayer snapPoint:newPos];
-        //newPos = [self convertToViewSpace:newPos];
+        // Snap to guides
+        if (appDelegate.showGuides && appDelegate.snapToGuides)
+        {
+            newPos = [guideLayer snapPoint:newPos];
+        }
         
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
@@ -761,6 +764,7 @@
     [rulerLayer updateMousePos:mousePos];
     
     // Update guides
+    guideLayer.visible = appDelegate.showGuides;
     [guideLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
     
     if (winSizeChanged)
@@ -772,7 +776,7 @@
             [trackingArea release];
         }
         
-        trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow | NSTrackingEnabledDuringMouseDrag owner:[appDelegate cocosView] userInfo:NULL];
+        trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow  owner:[appDelegate cocosView] userInfo:NULL];
         [[appDelegate cocosView] addTrackingArea:trackingArea];
     }
 }

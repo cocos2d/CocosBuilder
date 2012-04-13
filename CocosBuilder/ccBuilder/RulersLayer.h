@@ -23,6 +23,9 @@
     CGSize winSize;
     CGPoint stageOrigin;
     float zoom;
+    
+    CCLabelAtlas* lblX;
+    CCLabelAtlas* lblY;
 }
 
 - (void) updateWithSize:(CGSize)winSize stageOrigin:(CGPoint)stageOrigin zoom:(float)zoom;

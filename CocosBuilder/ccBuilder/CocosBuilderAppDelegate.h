@@ -101,6 +101,10 @@ enum {
     IBOutlet NSMenu* menuAddObject;
     IBOutlet NSMenu* menuAddObjectAsChild;
     
+    // Guides
+    BOOL showGuides;
+    BOOL snapToGuides;
+    
 @private
     NSWindow *window;
     
@@ -120,6 +124,9 @@ enum {
 @property (nonatomic,assign) BOOL canEditCustomClass;
 
 @property (nonatomic,assign) CCNode* selectedNode;
+
+@property (nonatomic,assign) BOOL showGuides;
+@property (nonatomic,assign) BOOL snapToGuides;
 
 // PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;

@@ -7,6 +7,7 @@
 //
 
 #import "RulersLayer.h"
+#import "CCBGlobals.h"
 
 #define kCCBRulerWidth 15
 
@@ -42,6 +43,23 @@
     mouseMarkHorizontal.visible = NO;
     [self addChild:mouseMarkHorizontal z:4];
     
+    CCSprite* xyBg = [CCSprite spriteWithFile:@"ruler-xy.png"];
+    [self addChild:xyBg z:5];
+    xyBg.anchorPoint = ccp(0,0);
+    xyBg.position = ccp(0,0);
+    
+    lblX = [CCLabelAtlas labelWithString:@"0" charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'-'];
+    lblX.anchorPoint = ccp(1,0);
+    lblX.position = ccp(47,3);
+    lblX.visible = NO;
+    [self addChild:lblX z:6];
+    
+    lblY = [CCLabelAtlas labelWithString:@"0" charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'-'];
+    lblY.anchorPoint = ccp(1,0);
+    lblY.position = ccp(97,3);
+    lblY.visible = NO;
+    [self addChild:lblY z:6];
+    //lblY = [CCLabelAtlas labelWithString:@"0" charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'0'];
     
     return self;
 }
@@ -107,7 +125,7 @@
             {
                 NSString* ch = [str substringWithRange:NSMakeRange(i, 1)];
                 
-                CCLabelAtlas* lbl = [CCLabelAtlas labelWithString:ch charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'0'];
+                CCLabelAtlas* lbl = [CCLabelAtlas labelWithString:ch charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'-'];
                 lbl.anchorPoint = ccp(0,0);
                 lbl.position = ccp(2, y + 1 + 8* (strLen - i - 1));
             
@@ -150,7 +168,7 @@
             int displayDist = xDist / zoom;
             NSString* str = [NSString stringWithFormat:@"%d",displayDist];
             
-            CCLabelAtlas* lbl = [CCLabelAtlas labelWithString:str charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'0'];
+            CCLabelAtlas* lbl = [CCLabelAtlas labelWithString:str charMapFile:@"ruler-numbers.png" itemWidth:6 itemHeight:8 startCharMap:'-'];
             lbl.anchorPoint = ccp(0,0);
             lbl.position = ccp(x+1, 1);
             [marksHorizontal addChild:lbl z:1];
@@ -163,18 +181,27 @@
 {
     mouseMarkHorizontal.position = ccp(pos.x, 0);
     mouseMarkVertical.position = ccp(0, pos.y);
+    
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CGPoint docPos = [cs convertToDocSpace:pos];
+    [lblX setString:[NSString stringWithFormat:@"%d",(int)docPos.x]];
+    [lblY setString:[NSString stringWithFormat:@"%d",(int)docPos.y]];
 }
 
 - (void)mouseEntered:(NSEvent *)event
 {
     mouseMarkHorizontal.visible = YES;
     mouseMarkVertical.visible = YES;
+    lblX.visible = YES;
+    lblY.visible = YES;
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
     mouseMarkHorizontal.visible = NO;
     mouseMarkVertical.visible = NO;
+    lblX.visible = NO;
+    lblY.visible = NO;
 }
 
 @end

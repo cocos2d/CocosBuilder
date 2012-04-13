@@ -54,7 +54,7 @@
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager;
+@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides;
 
 #pragma mark Setup functions
 
@@ -186,6 +186,9 @@
     }
 
     [self setupResourceManager];
+    
+    self.showGuides = YES;
+    self.snapToGuides = YES;
 }
 
 #pragma mark Notifications to user

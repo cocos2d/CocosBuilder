@@ -9,6 +9,7 @@
 #import "GuidesLayer.h"
 #import "CCBGlobals.h"
 #import "CCScale9Sprite.h"
+#import "CocosBuilderAppDelegate.h"
 
 #define kCCBGuideGrabAreaWidth 15
 #define kCCBGuideMoveAreaRadius 4
@@ -101,16 +102,21 @@
 
 - (BOOL) mouseDown:(CGPoint)pt event:(NSEvent*)event
 {
+    if (!self.visible) return NO;
+    
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     
     int g = kCCBGuideNone;
     
     if (pt.x < kCCBGuideGrabAreaWidth)
     {
+        [ad saveUndoStateWillChangeProperty:@"*guide"];
         g = [self addGuideWithOrientation:kCCBGuideOrientationVertical];
     }
     else if (pt.y < kCCBGuideGrabAreaWidth)
     {
+        [ad saveUndoStateWillChangeProperty:@"*guide"];
         g = [self addGuideWithOrientation:kCCBGuideOrientationHorizontal];
     }
     else if (event.modifierFlags & NSCommandKeyMask)
@@ -128,6 +134,7 @@
                 if (pt.y > viewPos.y - kCCBGuideMoveAreaRadius
                     && pt.y < viewPos.y+ kCCBGuideMoveAreaRadius)
                 {
+                    [ad saveUndoStateWillChangeProperty:@"*guide"];
                     g = i;
                     break;
                 }
@@ -140,6 +147,7 @@
                 if (pt.x > viewPos.x - kCCBGuideMoveAreaRadius
                     && pt.x < viewPos.x+ kCCBGuideMoveAreaRadius)
                 {
+                    [ad saveUndoStateWillChangeProperty:@"*guide"];
                     g = i;
                     break;
                 }
@@ -158,6 +166,8 @@
 
 - (BOOL) mouseDragged:(CGPoint)pt event:(NSEvent*)event
 {
+    if (!self.visible) return NO;
+    
     if (draggingGuide != kCCBGuideNone)
     {
         CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -182,6 +192,8 @@
 
 - (BOOL) mouseUp:(CGPoint)pt event:(NSEvent*)event
 {
+    if (!self.visible) return NO;
+    
     if (draggingGuide != kCCBGuideNone)
     {
         Guide* g = [guides objectAtIndex:draggingGuide];
@@ -209,6 +221,8 @@
 
 - (void) updateWithSize:(CGSize)ws stageOrigin:(CGPoint)so zoom:(float)zm
 {
+    if (!self.visible) return;
+    
     if (CGSizeEqualToSize(ws, winSize)
         && CGPointEqualToPoint(so, stageOrigin)
         && zm == zoom)

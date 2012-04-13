@@ -1203,6 +1203,36 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
+								<object class="NSMenuItem" id="516090816">
+									<reference key="NSMenu" ref="466310130"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="990651082">
+									<reference key="NSMenu" ref="466310130"/>
+									<bool key="NSIsAlternate">YES</bool>
+									<string key="NSTitle">Show Guides</string>
+									<string key="NSKeyEquiv">H</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="827832122">
+									<reference key="NSMenu" ref="466310130"/>
+									<bool key="NSIsAlternate">YES</bool>
+									<string key="NSTitle">Snap to Guides</string>
+									<string key="NSKeyEquiv">u</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 							</object>
 						</object>
 					</object>
@@ -1571,7 +1601,7 @@
 				</object>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1913,6 +1943,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1000, 550}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -2888,6 +2919,54 @@
 					</object>
 					<int key="connectionID">1449</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: showGuides</string>
+						<reference key="source" ref="990651082"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="990651082"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">value: showGuides</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">showGuides</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1456</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: snapToGuides</string>
+						<reference key="source" ref="827832122"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="827832122"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">value: snapToGuides</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">snapToGuides</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1459</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: showGuides</string>
+						<reference key="source" ref="827832122"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="827832122"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled: showGuides</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">showGuides</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1461</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -3350,6 +3429,9 @@
 							<reference ref="909058860"/>
 							<reference ref="654039446"/>
 							<reference ref="390269848"/>
+							<reference ref="516090816"/>
+							<reference ref="990651082"/>
+							<reference ref="827832122"/>
 						</object>
 						<reference key="parent" ref="586577488"/>
 					</object>
@@ -4176,6 +4258,21 @@
 						<reference key="object" ref="193857469"/>
 						<reference key="parent" ref="0"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1451</int>
+						<reference key="object" ref="516090816"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1452</int>
+						<reference key="object" ref="990651082"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1453</int>
+						<reference key="object" ref="827832122"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4278,6 +4375,9 @@
 					<string>144.IBPluginDependency</string>
 					<string>1448.IBPluginDependency</string>
 					<string>145.IBPluginDependency</string>
+					<string>1451.IBPluginDependency</string>
+					<string>1452.IBPluginDependency</string>
+					<string>1453.IBPluginDependency</string>
 					<string>149.IBPluginDependency</string>
 					<string>150.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
@@ -4515,6 +4615,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4583,7 +4686,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1450</int>
+			<int key="maxID">1461</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4638,9 +4741,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>debugPrintExtraProps:</string>
-							<string>debugPrintExtraPropsForSelectedNode:</string>
-							<string>debugPrintStructure:</string>
+							<string>debug:</string>
 							<string>menuAlignChildren:</string>
 							<string>menuCloseDocument:</string>
 							<string>menuDeselect:</string>
@@ -4663,8 +4764,6 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4691,9 +4790,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>debugPrintExtraProps:</string>
-							<string>debugPrintExtraPropsForSelectedNode:</string>
-							<string>debugPrintStructure:</string>
+							<string>debug:</string>
 							<string>menuAlignChildren:</string>
 							<string>menuCloseDocument:</string>
 							<string>menuDeselect:</string>
@@ -4717,15 +4814,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">debugPrintExtraProps:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">debugPrintExtraPropsForSelectedNode:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">debugPrintStructure:</string>
+								<string key="name">debug:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -4826,7 +4915,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>CCGLView</string>
+							<string>CCBGLView</string>
 							<string>NSTextView</string>
 							<string>NSScrollView</string>
 							<string>NSComboBox</string>
@@ -4863,7 +4952,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">cocosView</string>
-								<string key="candidateClassName">CCGLView</string>
+								<string key="candidateClassName">CCBGLView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">inspectorLabelBMFontString</string>
