@@ -67,7 +67,7 @@
         CocosScene* cs = [[CCBGlobals globals] cocosScene];
         
         [cs setExtraProp:animName forKey:propertyName andNode:selection];
-        [cs setExtraProp:animFile forKey:[NSString stringWithFormat:@"%Animation", propertyName] andNode:selection];
+        [cs setExtraProp:animFile forKey:[NSString stringWithFormat:@"%@Animation", propertyName] andNode:selection];
         
         [AnimationPropertySetter setAnimationForNode:selection andProperty:propertyName withName:animName andFile:animFile];
     }
