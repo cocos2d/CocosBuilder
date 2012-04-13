@@ -12,6 +12,7 @@
 
 #define kCCBGuideGrabAreaWidth 15
 #define kCCBGuideMoveAreaRadius 4
+#define kCCBGuideSnapDistance 4
 
 #pragma mark Guide
 @interface Guide : NSObject
@@ -264,6 +265,43 @@
 {
     [guides removeAllObjects];
     [self updateGuides];
+}
+
+- (CGPoint) snapPoint:(CGPoint)pt
+{
+    CGPoint snappedPt = pt;
+    
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    float minSnapDistX = kCCBGuideSnapDistance;
+    float minSnapDistY = kCCBGuideSnapDistance;
+    
+    for (Guide* g in guides)
+    {
+        if (g->orientation == kCCBGuideOrientationHorizontal)
+        {
+            CGPoint viewPos = [cs convertToViewSpace:ccp(0,g->position)];
+            
+            float snapDist = fabs(pt.y - viewPos.y);
+            if (snapDist < minSnapDistY)
+            {
+                snappedPt.y = viewPos.y;
+                minSnapDistY = snapDist;
+            }
+        }
+        else
+        {
+            CGPoint viewPos = [cs convertToViewSpace:ccp(g->position,0)];
+            
+            float snapDist = fabs(pt.x - viewPos.x);
+            if (snapDist < minSnapDistX)
+            {
+                snappedPt.x = viewPos.x;
+                minSnapDistX = snapDist;
+            }
+        }
+    }
+    
+    return snappedPt;
 }
 
 @end

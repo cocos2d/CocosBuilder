@@ -150,7 +150,9 @@ enum {
 - (void)mouseExited:(NSEvent *)event;
 - (void)cursorUpdate:(NSEvent *)event;
 
+// Converts to document coordinates from view coordinates
 - (CGPoint) convertToDocSpace:(CGPoint)viewPt;
+// Converst to view coordinates from document coordinates
 - (CGPoint) convertToViewSpace:(CGPoint)docPt;
 
 @end

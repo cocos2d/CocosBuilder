@@ -34,4 +34,7 @@ enum
 - (id) serializeGuides;
 - (void) loadSerializedGuides:(id)ser;
 - (void) removeAllGuides;
+
+// Snaps to a point in view coordinates
+- (CGPoint) snapPoint:(CGPoint)pt;
 @end

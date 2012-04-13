@@ -195,12 +195,12 @@
     
     if (size.width > 0 && size.height > 0 && size.width <= 1024 && size.height <= 1024)
     {
-        CCGLView *view = [[CCDirector sharedDirector] view];
-        NSOpenGLContext *glContext = [view openGLContext];
-        if( ! glContext )
-            return;        
+        //CCGLView *view = [[CCDirector sharedDirector] view];
+        //NSOpenGLContext *glContext = [view openGLContext];
+        //if( ! glContext )
+        //    return;        
         //CGLLockContext([glContext CGLContextObj]);	
-        [glContext makeCurrentContext];
+        //[glContext makeCurrentContext];
 
         
         renderedScene = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
@@ -587,6 +587,11 @@
         float yDelta = (int)(pos.y - mouseDownPos.y);
         
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
+        
+        //NSLog(@"newPos: (%f,%f)",newPos.x,newPos.y);
+        newPos = [guideLayer snapPoint:newPos];
+        //newPos = [self convertToViewSpace:newPos];
+        
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
         [appDelegate saveUndoStateWillChangeProperty:[self positionPropertyForSelectedNode]];
