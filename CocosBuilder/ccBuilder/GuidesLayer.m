@@ -166,11 +166,11 @@
         
         if (g->orientation == kCCBGuideOrientationHorizontal)
         {
-            g->position = guidePos.y;
+            g->position = (int)guidePos.y;
         }
         else
         {
-            g->position = guidePos.x;
+            g->position = (int)guidePos.x;
         }
         
         [self updateGuides];
