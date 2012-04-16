@@ -34,6 +34,7 @@
 {
     [self removeTrackingRect:trackingTag];
     trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
+    [[[CCBGlobals globals] appDelegate] resizeGUIWindow:[self bounds].size];
     
     [super reshape];
 }

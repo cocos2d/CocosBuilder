@@ -49,12 +49,14 @@
 #import "GuidesLayer.h"
 #import "RulersLayer.h"
 #import "NSString+RelativePath.h"
+#import "CCBTransparentWindow.h"
+#import "CCBTransparentView.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides;
+@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides, guiView;
 
 #pragma mark Setup functions
 
@@ -135,6 +137,23 @@
     [resManagerPanel.window setIsVisible:NO];
 }
 
+- (void) setupGUIWindow
+{
+    NSRect frame = cocosView.frame;
+    
+    frame.origin.x += self.window.frame.origin.x;
+    frame.origin.y += self.window.frame.origin.y;
+    
+    guiWindow = [[CCBTransparentWindow alloc] initWithContentRect:frame];
+    
+    guiView = [[[CCBTransparentView alloc] initWithFrame:cocosView.frame] autorelease];
+    [guiWindow setContentView:guiView];
+    
+    [window addChildWindow:guiWindow ordered:NSWindowAbove];
+    [window setIsVisible:YES];
+    
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [[CCBGlobals globals] setAppDelegate:self];
@@ -186,6 +205,7 @@
     }
 
     [self setupResourceManager];
+    [self setupGUIWindow];
     
     self.showGuides = YES;
     self.snapToGuides = YES;
@@ -197,6 +217,26 @@
 {
     NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
     [alert runModal];
+}
+
+#pragma mark Handling the gui layer
+
+- (void) resizeGUIWindow:(NSSize)size
+{
+    NSRect frame = guiView.frame;
+    frame.size = size;
+    guiView.frame = NSMakeRect(0, 0, frame.size.width, frame.size.height);
+    
+    frame = cocosView.frame;
+    frame.origin.x += self.window.frame.origin.x;
+    frame.origin.y += self.window.frame.origin.y;
+    
+    [guiWindow setFrameOrigin:frame.origin];
+    
+    
+    frame = guiWindow.frame;
+    frame.size = size;
+    [guiWindow setFrame:frame display:YES];
 }
 
 #pragma mark Handling the tab bar

@@ -316,6 +316,8 @@
 		E3B84C48151A2C93004B743C /* CCControlButton.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */; };
 		E3B84C4A151A2CBB004B743C /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B84C49151A2CBB004B743C /* CCBPProperties.plist */; };
 		E3B9AF431538612200489438 /* ruler-xy.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B9AF421538612200489438 /* ruler-xy.png */; };
+		E3B9AF4B153C150D00489438 /* CCBTransparentWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */; };
+		E3B9AF4E153C48E300489438 /* CCBTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B9AF4D153C48E300489438 /* CCBTransparentView.m */; };
 		E3C365EC14E9E4D1007CD5FF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3C365F214E9E4D1007CD5FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F014E9E4D1007CD5FF /* InfoPlist.strings */; };
 		E3C365FA14E9E599007CD5FF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F914E9E599007CD5FF /* CCBPProperties.plist */; };
@@ -1048,6 +1050,10 @@
 		E3B84C41151A2C02004B743C /* CCControlButton-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCControlButton-Prefix.pch"; sourceTree = "<group>"; };
 		E3B84C49151A2CBB004B743C /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E3B9AF421538612200489438 /* ruler-xy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-xy.png"; sourceTree = "<group>"; };
+		E3B9AF49153C150D00489438 /* CCBTransparentWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTransparentWindow.h; sourceTree = "<group>"; };
+		E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentWindow.m; sourceTree = "<group>"; };
+		E3B9AF4C153C48E300489438 /* CCBTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTransparentView.h; sourceTree = "<group>"; };
+		E3B9AF4D153C48E300489438 /* CCBTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentView.m; sourceTree = "<group>"; };
 		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1332,6 +1338,8 @@
 				E34E5D6515357CF2000201FB /* RulersLayer.m */,
 				E3A16AF11536D096004B528A /* GuidesLayer.h */,
 				E3A16AF21536D096004B528A /* GuidesLayer.m */,
+				776A37B41398D6B900960E94 /* CCBGLView.h */,
+				776A37B51398D6BD00960E94 /* CCBGLView.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1400,6 +1408,10 @@
 		776041ED1498FBE70078095D /* Styled Components */ = {
 			isa = PBXGroup;
 			children = (
+				E3B9AF49153C150D00489438 /* CCBTransparentWindow.h */,
+				E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */,
+				E3B9AF4C153C48E300489438 /* CCBTransparentView.h */,
+				E3B9AF4D153C48E300489438 /* CCBTransparentView.m */,
 				776C683C1385C02000153214 /* CCBOutlineView.h */,
 				776C683D1385C02000153214 /* CCBOutlineView.m */,
 				776C68401385C4F100153214 /* CCBTextFieldCell.h */,
@@ -1602,8 +1614,6 @@
 				776041ED1498FBE70078095D /* Styled Components */,
 				776041EA1498FB600078095D /* Dialogs */,
 				776041EE1498FC320078095D /* Util */,
-				776A37B41398D6B900960E94 /* CCBGLView.h */,
-				776A37B51398D6BD00960E94 /* CCBGLView.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -3348,6 +3358,8 @@
 				E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */,
 				E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */,
 				E3A16AF31536D096004B528A /* GuidesLayer.m in Sources */,
+				E3B9AF4B153C150D00489438 /* CCBTransparentWindow.m in Sources */,
+				E3B9AF4E153C48E300489438 /* CCBTransparentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

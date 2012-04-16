@@ -49,6 +49,8 @@ enum {
 @class ResourceManager;
 @class ResourceManagerPanel;
 @class CCBGLView;
+@class CCBTransparentWindow;
+@class CCBTransparentView;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -105,6 +107,10 @@ enum {
     BOOL showGuides;
     BOOL snapToGuides;
     
+    // Transparent window for components on top of cocos scene
+    CCBTransparentWindow* guiWindow;
+    CCBTransparentView* guiView;
+    
 @private
     NSWindow *window;
     
@@ -127,6 +133,11 @@ enum {
 
 @property (nonatomic,assign) BOOL showGuides;
 @property (nonatomic,assign) BOOL snapToGuides;
+
+@property (nonatomic,readonly) CCBTransparentView* guiView;
+
+// Transparent window
+- (void) resizeGUIWindow:(NSSize)size;
 
 // PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;
