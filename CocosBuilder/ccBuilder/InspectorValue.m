@@ -162,4 +162,13 @@
     [super dealloc];
 }
 
+- (void)setNilValueForKey:(NSString *)key {
+    @try {
+        [self setValue:[NSNumber numberWithFloat:0] forKey:key];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%s %@ (caught %@)", __PRETTY_FUNCTION__, key, exception);
+    }
+}
+
 @end
