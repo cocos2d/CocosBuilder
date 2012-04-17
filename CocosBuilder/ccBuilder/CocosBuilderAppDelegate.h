@@ -107,6 +107,9 @@ enum {
     BOOL showGuides;
     BOOL snapToGuides;
     
+    // Sticky notes
+    BOOL showStickyNotes;
+    
     // Transparent window for components on top of cocos scene
     CCBTransparentWindow* guiWindow;
     CCBTransparentView* guiView;
@@ -133,8 +136,10 @@ enum {
 
 @property (nonatomic,assign) BOOL showGuides;
 @property (nonatomic,assign) BOOL snapToGuides;
+@property (nonatomic,assign) BOOL showStickyNotes;
 
 @property (nonatomic,readonly) CCBTransparentView* guiView;
+@property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
@@ -186,6 +191,7 @@ enum {
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
 - (IBAction) menuAlignChildren:(id)sender;
+- (IBAction)menuAddStickyNote:(id)sender;
 
 // Undo / Redo
 - (void) updateDirtyMark;

@@ -51,12 +51,13 @@
 #import "NSString+RelativePath.h"
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
+#import "NotesLayer.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides, guiView;
+@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides, guiView, guiWindow, showStickyNotes;
 
 #pragma mark Setup functions
 
@@ -148,10 +149,11 @@
     
     guiView = [[[CCBTransparentView alloc] initWithFrame:cocosView.frame] autorelease];
     [guiWindow setContentView:guiView];
+    guiWindow.delegate = self;
+    //[guiWindow setIsVisible:NO];
     
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
-    [window setIsVisible:YES];
-    
+    //[window setIsVisible:NO];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -209,6 +211,10 @@
     
     self.showGuides = YES;
     self.snapToGuides = YES;
+    
+    self.showStickyNotes = YES;
+    
+    [self.window makeKeyWindow];
 }
 
 #pragma mark Notifications to user
@@ -549,23 +555,38 @@
 
 - (void) windowDidResignMain:(NSNotification *)notification
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    if (![[CCDirector sharedDirector] isPaused])
+    if (notification.object == self.window)
     {
-        [[CCDirector sharedDirector] pause];
-        [cs pauseSchedulerAndActions];
+        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+        if (![[CCDirector sharedDirector] isPaused])
+        {
+            [[CCDirector sharedDirector] pause];
+            [cs pauseSchedulerAndActions];
+        }
     }
 }
 
 - (void) windowDidBecomeMain:(NSNotification *)notification
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    if ([[CCDirector sharedDirector] isPaused])
+    if (notification.object == self.window)
     {
-        [[CCDirector sharedDirector] resume];
-        [cs resumeSchedulerAndActions];
+        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+        if ([[CCDirector sharedDirector] isPaused])
+        {
+            [[CCDirector sharedDirector] resume];
+            [cs resumeSchedulerAndActions];
+        }
+    }
+}
+
+- (void)windowDidResignKey:(NSNotification *)notification
+{
+    if (notification.object == guiWindow)
+    {
+        [guiView setSubviews:[NSArray array]];
+        [[[CCBGlobals globals] cocosScene].notesLayer showAllNotesLabels];
     }
 }
 
@@ -1686,6 +1707,14 @@
             else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
         }
     }
+}
+
+- (IBAction)menuAddStickyNote:(id)sender
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [cs setStageZoom:1];
+    self.showStickyNotes = YES;
+    [cs.notesLayer addNote];
 }
 
 - (BOOL) windowShouldClose:(id)sender

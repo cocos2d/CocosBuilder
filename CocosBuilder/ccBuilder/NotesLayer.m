@@ -1,0 +1,213 @@
+//
+//  NotesLayer.m
+//  CocosBuilder
+//
+//  Created by Viktor Lidholt on 4/16/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#import "NotesLayer.h"
+#import "StickyNote.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
+#import "CCBTransparentView.h"
+#import "CCBTransparentWindow.h"
+
+@implementation NotesLayer
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    notesVisible = YES;
+    
+    
+    return self;
+}
+
+- (void) addNote
+{
+    StickyNote* note = [[[StickyNote alloc] init] autorelease];
+    note.docPos = ccp(10,10);
+    [self addChild:note];
+}
+
+- (void) editNote:(StickyNote*)note
+{
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
+    // Setup text area and add it to guiLayer
+    CGSize size = note.contentSize;
+    CGPoint pos = ccp(note.position.x, note.position.y - note.contentSize.height);
+    
+    [NSBundle loadNibNamed:@"StickyNoteEditView" owner:self];
+    [editView setFrameOrigin:pos];
+    [editView setFrameSize:size];
+    [ad.guiView addSubview:editView];
+    
+    [textView setFont:[NSFont fontWithName:@"MarkerFelt-Thin" size:14]];
+    [textView setDelegate:self];
+    NSString* str = [note noteText];
+    if (!str) str = @"";
+    [textView setString:str];
+    
+    // Fix for the close buttons background
+    [[closeButton cell] setHighlightsBy:NSContentsCellMask];
+    
+    // Show the gui window and make it key
+    [ad.guiWindow setIsVisible:YES];
+    [ad.guiWindow makeKeyWindow];
+    [ad.guiWindow makeFirstResponder:textView];
+    
+    note.labelVisible = NO;
+}
+
+- (IBAction)clickedClose:(id)sender
+{
+    // End the editing session
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    [ad.window makeKeyWindow];
+    
+    // Remove the sticky note
+    [self removeChild:modifiedNote cleanup:YES];
+}
+
+- (void)textDidChange:(NSNotification *)notification
+{
+    [modifiedNote setNoteText:[textView string]];
+}
+
+- (BOOL) mouseDown:(CGPoint)pt event:(NSEvent*)event
+{
+    if (!self.visible) return NO;
+    
+    // Check if the click hits a note
+    int hit = kCCBStickyNoteHitNone;
+    StickyNote* note = NULL;
+    
+    CCArray* notes = [self children];
+    for (int i = [notes count]-1; i >= 0; i--)
+    {
+        note = [notes objectAtIndex:i];
+        
+        hit = [note hitAreaFromPt:pt];
+        if (hit != kCCBStickyNoteHitNone) break;
+    }
+    
+    if (hit == kCCBStickyNoteHitNote)
+    {
+        noteStartPos = note.docPos;
+        mouseDownPos = pt;
+        operation = kCCBNoteOperationDragging;
+        modifiedNote = note;
+        
+        // Reorder the child to the top
+        [note retain];
+        [self removeChild:note cleanup:NO];
+        [self addChild:note];
+        [note release];
+        
+        return YES;
+    }
+    else if (hit == kCCBStickyNoteHitResize)
+    {
+        noteStartSize = note.contentSize;
+        mouseDownPos = pt;
+        operation = kCCBNoteOperationResizing;
+        modifiedNote = note;
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) mouseDragged:(CGPoint)pt event:(NSEvent*)event
+{
+    if (operation == kCCBNoteOperationDragging)
+    {
+        CGPoint delta = ccpSub(pt, mouseDownPos);
+        modifiedNote.docPos = ccpAdd(noteStartPos, delta);
+        return YES;
+    }
+    else if (operation == kCCBNoteOperationResizing)
+    {
+        CGPoint delta = ccpSub(pt, mouseDownPos);
+        CGSize newSize;
+        newSize.width = noteStartSize.width + delta.x;
+        newSize.height = noteStartSize.height - delta.y;
+        
+        if (newSize.width < 60) newSize.width = 60;
+        if (newSize.height < 60) newSize.height = 60;
+        
+        modifiedNote.contentSize = newSize;
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL) mouseUp:(CGPoint)pt event:(NSEvent*)event
+{
+    if (operation == kCCBNoteOperationDragging
+        && event.clickCount == 2
+        && [modifiedNote hitAreaFromPt:pt] == kCCBNoteOperationDragging)
+    {
+        [self editNote:modifiedNote];
+        return YES;
+    }
+    
+    operation = kCCBNoteOperationNone;
+    //modifiedNote = NULL;
+    
+    return NO;
+}
+
+- (void) updateWithSize:(CGSize)ws stageOrigin:(CGPoint)so zoom:(float)zm
+{
+    if (!self.visible) return;
+    
+    if (CGSizeEqualToSize(ws, winSize)
+        && CGPointEqualToPoint(so, stageOrigin)
+        && zm == zoom)
+    {
+        return;
+    }
+    
+    // Store values
+    winSize = ws;
+    stageOrigin = so;
+    zoom = zm;
+    
+    [super setVisible: (zoom == 1 && notesVisible)];
+    
+    
+    CCArray* notes = [self children];
+    for (int i = 0; i < [notes count]; i++)
+    {
+        StickyNote* note = [notes objectAtIndex:i];
+        [note updatePos];
+    }
+}
+
+- (BOOL) visible
+{
+    return notesVisible;
+}
+
+- (void) setVisible:(BOOL)visible
+{
+    notesVisible = visible;
+    [super setVisible:(zoom == 1 && notesVisible)];
+}
+
+- (void) showAllNotesLabels
+{
+    CCArray* notes = [self children];
+    for (int i = 0; i < [notes count]; i++)
+    {
+        StickyNote* note = [notes objectAtIndex:i];
+        note.labelVisible = YES;
+    }
+}
+
+@end

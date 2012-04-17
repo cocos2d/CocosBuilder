@@ -350,6 +350,12 @@
 		E3D59136150F861E004180CA /* InspectorCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59135150F861E004180CA /* InspectorCCBFile.m */; };
 		E3D59139150F8C5A004180CA /* CCBPCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59138150F8C5A004180CA /* CCBPCCBFile.m */; };
 		E3F2C21314FC157E007B660D /* CCBXCocos2diPhoneWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */; };
+		E3F3F83F153C72A3005443EE /* NotesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3F83E153C72A3005443EE /* NotesLayer.m */; };
+		E3F3F843153C7700005443EE /* StickyNote.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3F842153C7700005443EE /* StickyNote.m */; };
+		E3F3F845153C7772005443EE /* notes-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F844153C7772005443EE /* notes-bg.png */; };
+		E3F3F847153D9126005443EE /* StickyNoteEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F846153D9126005443EE /* StickyNoteEditView.xib */; };
+		E3F3F849153DB893005443EE /* notes-close.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F848153DB893005443EE /* notes-close.png */; };
+		E3F3F84B153DBA43005443EE /* notes-close-down.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F84A153DBA43005443EE /* notes-close-down.png */; };
 		E3FCE8671524856D0028E8E7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3FCE86D1524856D0028E8E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3FCE86B1524856D0028E8E7 /* InfoPlist.strings */; };
 		E3FCE874152485A20028E8E7 /* CCScrollView.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */; };
@@ -1112,6 +1118,14 @@
 		E3D59138150F8C5A004180CA /* CCBPCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPCCBFile.m; sourceTree = "<group>"; };
 		E3F2C21114FC157E007B660D /* CCBXCocos2diPhoneWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBXCocos2diPhoneWriter.h; sourceTree = "<group>"; };
 		E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBXCocos2diPhoneWriter.m; sourceTree = "<group>"; };
+		E3F3F83D153C72A3005443EE /* NotesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesLayer.h; sourceTree = "<group>"; };
+		E3F3F83E153C72A3005443EE /* NotesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesLayer.m; sourceTree = "<group>"; };
+		E3F3F841153C7700005443EE /* StickyNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StickyNote.h; sourceTree = "<group>"; };
+		E3F3F842153C7700005443EE /* StickyNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StickyNote.m; sourceTree = "<group>"; };
+		E3F3F844153C7772005443EE /* notes-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-bg.png"; sourceTree = "<group>"; };
+		E3F3F846153D9126005443EE /* StickyNoteEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickyNoteEditView.xib; sourceTree = "<group>"; };
+		E3F3F848153DB893005443EE /* notes-close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close.png"; sourceTree = "<group>"; };
+		E3F3F84A153DBA43005443EE /* notes-close-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close-down.png"; sourceTree = "<group>"; };
 		E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCScrollView.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FCE86A1524856D0028E8E7 /* CCScrollView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCScrollView-Info.plist"; sourceTree = "<group>"; };
 		E3FCE86C1524856D0028E8E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1340,6 +1354,11 @@
 				E3A16AF21536D096004B528A /* GuidesLayer.m */,
 				776A37B41398D6B900960E94 /* CCBGLView.h */,
 				776A37B51398D6BD00960E94 /* CCBGLView.m */,
+				E3F3F83D153C72A3005443EE /* NotesLayer.h */,
+				E3F3F83E153C72A3005443EE /* NotesLayer.m */,
+				E3F3F846153D9126005443EE /* StickyNoteEditView.xib */,
+				E3F3F841153C7700005443EE /* StickyNote.h */,
+				E3F3F842153C7700005443EE /* StickyNote.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1436,6 +1455,9 @@
 		776041EF1498FCE50078095D /* Stage Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E3F3F84A153DBA43005443EE /* notes-close-down.png */,
+				E3F3F848153DB893005443EE /* notes-close.png */,
+				E3F3F844153C7772005443EE /* notes-bg.png */,
 				E3B9AF421538612200489438 /* ruler-xy.png */,
 				E3A16AEF1536C885004B528A /* ruler-guide.png */,
 				E34E5D721535BC5E000201FB /* ruler-numbers.png */,
@@ -3003,6 +3025,10 @@
 				E34E5D731535BC5E000201FB /* ruler-numbers.png in Resources */,
 				E3A16AF01536C885004B528A /* ruler-guide.png in Resources */,
 				E3B9AF431538612200489438 /* ruler-xy.png in Resources */,
+				E3F3F845153C7772005443EE /* notes-bg.png in Resources */,
+				E3F3F847153D9126005443EE /* StickyNoteEditView.xib in Resources */,
+				E3F3F849153DB893005443EE /* notes-close.png in Resources */,
+				E3F3F84B153DBA43005443EE /* notes-close-down.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3360,6 +3386,8 @@
 				E3A16AF31536D096004B528A /* GuidesLayer.m in Sources */,
 				E3B9AF4B153C150D00489438 /* CCBTransparentWindow.m in Sources */,
 				E3B9AF4E153C48E300489438 /* CCBTransparentView.m in Sources */,
+				E3F3F83F153C72A3005443EE /* NotesLayer.m in Sources */,
+				E3F3F843153C7700005443EE /* StickyNote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

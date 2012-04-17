@@ -32,10 +32,13 @@
 #import "PlugInNode.h"
 #import "RulersLayer.h"
 #import "GuidesLayer.h"
+#import "NotesLayer.h"
+#import "CCBTransparentWindow.h"
+#import "CCBTransparentView.h"
 
 @implementation CocosScene
 
-@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool, guideLayer, rulerLayer;
+@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool, guideLayer, rulerLayer, notesLayer;
 
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app
 {
@@ -57,15 +60,15 @@
 {
     // Rulers
     rulerLayer = [RulersLayer node];
-    [self addChild:rulerLayer z:5];
+    [self addChild:rulerLayer z:6];
     
     // Guides
     guideLayer = [GuidesLayer node];
     [self addChild:guideLayer z:3];
     
     // Sticky notes
-    notesLayer = [CCLayer node];
-    [self addChild:notesLayer z:2];
+    notesLayer = [NotesLayer node];
+    [self addChild:notesLayer z:5];
     
     // Selection layer
     selectionLayer = [CCLayer node];
@@ -510,6 +513,7 @@
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
     
+    if ([notesLayer mouseDown:pos event:event]) return YES;
     if ([guideLayer mouseDown:pos event:event]) return YES;
     
     mouseDownPos = pos;
@@ -580,6 +584,7 @@
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
     
+    if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
     
     if (currentMouseTransform == kCCBTransformHandleMove)
@@ -636,6 +641,7 @@
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
     
+    if ([notesLayer mouseUp:pos event:event]) return YES;
     if ([guideLayer mouseUp:pos event:event]) return YES;
     
     isMouseTransforming = NO;
@@ -689,6 +695,7 @@
 
 - (void) scrollWheel:(NSEvent *)theEvent
 {
+    if (!appDelegate.window.isKeyWindow) return;
     if (isMouseTransforming || isPanning || currentMouseTransform != kCCBTransformHandleNone) return;
     if (!appDelegate.hasOpenedDocument) return;
     
@@ -767,6 +774,10 @@
     guideLayer.visible = appDelegate.showGuides;
     [guideLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
     
+    // Update sticky notes
+    notesLayer.visible = appDelegate.showStickyNotes;
+    [notesLayer updateWithSize:winSize stageOrigin:origin zoom:stageZoom];
+    
     if (winSizeChanged)
     {
         // Update mouse tracking
@@ -779,6 +790,12 @@
         trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow  owner:[appDelegate cocosView] userInfo:NULL];
         [[appDelegate cocosView] addTrackingArea:trackingArea];
     }
+    
+    // Hide the transparent gui window if it has no subviews
+    //if ([[appDelegate.guiView subviews] count] == 0)
+    //{
+    //    appDelegate.guiWindow.isVisible = NO;
+    //}
 }
 
 #pragma mark Init and dealloc

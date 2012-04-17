@@ -28,6 +28,7 @@
 @class CCBTemplateNode;
 @class RulersLayer;
 @class GuidesLayer;
+@class NotesLayer;
 
 enum {
     kCCBParticleTypeExplosion = 0,
@@ -64,7 +65,7 @@ enum {
     CCLayer* borderLayer;
     RulersLayer* rulerLayer;
     GuidesLayer* guideLayer;
-    CCLayer* notesLayer;
+    NotesLayer* notesLayer;
     CCNode* rootNode;
     CCNode* selectedNode;
     CCRenderTexture* renderedScene;
@@ -119,6 +120,7 @@ enum {
 
 @property (nonatomic,readonly) GuidesLayer* guideLayer;
 @property (nonatomic,readonly) RulersLayer* rulerLayer;
+@property (nonatomic,readonly) NotesLayer* notesLayer;
 
 // returns a Scene that contains the HelloWorld as the only child
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app;
