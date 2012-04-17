@@ -22,14 +22,14 @@
     
     notesVisible = YES;
     
-    
     return self;
 }
 
 - (void) addNote
 {
+    [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
     StickyNote* note = [[[StickyNote alloc] init] autorelease];
-    note.docPos = ccp(10,10);
+    note.docPos = ccp(10,150);
     [self addChild:note];
 }
 
@@ -75,12 +75,15 @@
 
 - (void)textDidChange:(NSNotification *)notification
 {
+    [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+    
     [modifiedNote setNoteText:[textView string]];
 }
 
 - (BOOL) mouseDown:(CGPoint)pt event:(NSEvent*)event
 {
     if (!self.visible) return NO;
+    if (event.modifierFlags & NSCommandKeyMask) return NO;
     
     // Check if the click hits a note
     int hit = kCCBStickyNoteHitNone;
@@ -125,12 +128,16 @@
 {
     if (operation == kCCBNoteOperationDragging)
     {
+        [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+        
         CGPoint delta = ccpSub(pt, mouseDownPos);
         modifiedNote.docPos = ccpAdd(noteStartPos, delta);
         return YES;
     }
     else if (operation == kCCBNoteOperationResizing)
     {
+        [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+        
         CGPoint delta = ccpSub(pt, mouseDownPos);
         CGSize newSize;
         newSize.width = noteStartSize.width + delta.x;
@@ -208,6 +215,58 @@
         StickyNote* note = [notes objectAtIndex:i];
         note.labelVisible = YES;
     }
+}
+
+- (void) removeAllNotes
+{
+    [self removeAllChildrenWithCleanup:YES];
+}
+
+- (void) loadSerializedNotes:(id)ser
+{
+    [self removeAllChildrenWithCleanup:YES];
+    
+    for (NSDictionary* serNote in ser)
+    {
+        StickyNote* note = [[[StickyNote alloc] init] autorelease];
+        
+        // Load text
+        note.noteText = [serNote objectForKey:@"text"];
+        
+        // Load position
+        CGPoint pos = ccp([[serNote objectForKey:@"xPos"] floatValue],[[serNote objectForKey:@"yPos"] floatValue]);
+        note.docPos = pos;
+        
+        // Load size
+        note.contentSize = NSMakeSize([[serNote objectForKey:@"width"] floatValue], [[serNote objectForKey:@"height"] floatValue]);
+        
+        [self addChild:note];
+    }
+}
+
+- (id) serializeNotes
+{
+    NSMutableArray* ser = [NSMutableArray array];
+    
+    CCArray* notes = [self children];
+    for (int i = 0; i < [notes count]; i++)
+    {
+        StickyNote* note = [notes objectAtIndex:i];
+        
+        NSMutableDictionary* serNote = [NSMutableDictionary dictionary];
+        if (note.noteText)
+        {
+            [serNote setObject:note.noteText forKey:@"text"];
+        }
+        [serNote setObject:[NSNumber numberWithFloat: note.contentSize.width] forKey:@"width"];
+        [serNote setObject:[NSNumber numberWithFloat: note.contentSize.height] forKey:@"height"];
+        [serNote setObject:[NSNumber numberWithFloat: note.docPos.x] forKey:@"xPos"];
+        [serNote setObject:[NSNumber numberWithFloat: note.docPos.y] forKey:@"yPos"];
+        
+        [ser addObject:serNote];
+    }
+    
+    return ser;
 }
 
 @end

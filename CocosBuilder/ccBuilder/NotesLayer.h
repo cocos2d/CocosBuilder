@@ -44,4 +44,8 @@ enum
 - (void) updateWithSize:(CGSize)ws stageOrigin:(CGPoint)so zoom:(float)zm;
 - (void) showAllNotesLabels;
 
+- (void) loadSerializedNotes:(id)ser;
+- (id) serializeNotes;
+- (void) removeAllNotes;
+
 @end

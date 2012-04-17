@@ -728,8 +728,9 @@
     [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
     [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
     
-    // Guides
+    // Guides & notes
     [dict setObject:[[g cocosScene].guideLayer serializeGuides] forKey:@"guides"];
+    [dict setObject:[[g cocosScene].notesLayer serializeNotes] forKey:@"notes"];
     
     if (doc.exportPath && doc.exportPlugIn)
     {
@@ -743,6 +744,7 @@
 
 - (void) prepareForDocumentSwitch
 {
+    [self.window makeKeyWindow];
     [self setSelectedNode:NULL];
     CCBGlobals* g = [CCBGlobals globals];
     CocosScene* cs = [g cocosScene];
@@ -785,6 +787,17 @@
     else
     {
         [g.cocosScene.guideLayer removeAllGuides];
+    }
+    
+    // Setup notes
+    id notes = [doc objectForKey:@"notes"];
+    if (notes)
+    {
+        [g.cocosScene.notesLayer loadSerializedNotes:notes];
+    }
+    else
+    {
+        [g.cocosScene.notesLayer removeAllNotes];
     }
 }
 
@@ -848,6 +861,7 @@
     currentDocument.fileName = NULL;
     [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
     [g.cocosScene.guideLayer removeAllGuides];
+    [g.cocosScene.notesLayer removeAllNotes];
     [g.cocosScene.rulerLayer mouseExited:NULL];
     
     [outlineHierarchy reloadData];
