@@ -156,26 +156,6 @@
 
 @implementation RMDirectory
 
-#define kIgnoredExtensionsKey @"ignoredDirectoryExtensions"
-
-+ (void)initialize {
-    [[NSUserDefaults standardUserDefaults] registerDefaults:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSArray arrayWithObjects:@"git", @"svn", @"xcodeproj", nil], 
-      kIgnoredExtensionsKey,
-      nil]];
-}
-
-- (BOOL) shouldAddDirectory:(NSString *)dirPath {
-    // prune directories...
-    for (NSString *extension in [[NSUserDefaults standardUserDefaults] objectForKey:kIgnoredExtensionsKey]) {
-        if ([dirPath hasSuffix:extension]) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 @synthesize count, dirPath, resources, images, animations, bmFonts, ttfFonts, ccbFiles;
 
 - (id) init
