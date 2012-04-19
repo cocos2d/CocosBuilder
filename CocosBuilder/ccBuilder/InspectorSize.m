@@ -23,31 +23,43 @@
  */
 
 #import "InspectorSize.h"
+#import "PositionPropertySetter.h"
 
 @implementation InspectorSize
 
 - (void) setWidth:(float)width
 {
-	NSSize size = [[self propertyForSelection] sizeValue];
+    NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.width = width;
-    [self setPropertyForSelection:[NSValue valueWithSize:size]];
+    [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
 }
 
 - (float) width
 {
-    return [[self propertyForSelection] sizeValue].width;
+    return [PositionPropertySetter sizeForNode:selection prop:propertyName].width;
 }
 
 - (void) setHeight:(float)height
 {
-	NSSize size = [[self propertyForSelection] sizeValue];
+	NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.height = height;
-    [self setPropertyForSelection:[NSValue valueWithSize:size]];
+    [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
 }
 
 - (float) height
 {
-    return [[self propertyForSelection] sizeValue].height;
+    return [PositionPropertySetter sizeForNode:selection prop:propertyName].height;
+}
+
+- (void) setType:(int)type
+{
+    NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
+    [PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+}
+
+- (int) type
+{
+    return [PositionPropertySetter sizeTypeForNode:selection prop:propertyName];
 }
 
 - (void) refresh

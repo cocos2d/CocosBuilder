@@ -73,6 +73,15 @@
             nil];
 }
 
++ (id) serializeSize:(NSSize)size type:(int)type
+{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithFloat:size.width],
+            [NSNumber numberWithFloat:size.height],
+            [NSNumber numberWithInt:type],
+            nil];
+}
+
 + (id) serializeBoolPairX:(BOOL)x Y:(BOOL)y
 {
     return [NSArray arrayWithObjects:
@@ -221,8 +230,10 @@
         }
         else if ([type isEqualToString:@"Size"])
         {
-			CGSize size = NSSizeToCGSize( [[node valueForKey:name] sizeValue] );
-            serializedValue = [CCBWriterInternal serializeSize:size];
+			//CGSize size = NSSizeToCGSize( [[node valueForKey:name] sizeValue] );
+            NSSize size = [PositionPropertySetter sizeForNode:node prop:name];
+            int type = [PositionPropertySetter sizeTypeForNode:node prop:name];
+            serializedValue = [CCBWriterInternal serializeSize:size type:type];
         }
         else if ([type isEqualToString:@"Scale"])
         {

@@ -8,13 +8,47 @@
 
 #import "PositionPropertySetter.h"
 #import "CCBGlobals.h"
+#import "NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation PositionPropertySetter
 
++ (void) refreshPositionsForChildren:(CCNode*)node
+{
+    NodeInfo* info = node.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    if (!plugIn.canHaveChildren) return;
+    
+    CCArray* children = [node children];
+    for (int i = 0; i < [children count]; i++)
+    {
+        CCNode* child = [children objectAtIndex:i];
+        
+        NSPoint oldPos = [PositionPropertySetter positionForNode:child prop:@"position"];
+        [PositionPropertySetter setPosition:oldPos forNode:child prop:@"position"];
+        
+        NSSize oldSize = [PositionPropertySetter sizeForNode:child prop:@"contentSize"];
+        [PositionPropertySetter setSize:oldSize forNode:child prop:@"contentSize"];
+    }
+}
+
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop
 {
-    CGSize parentSize = node.parent.contentSize;
-    CGPoint absPos = ccp(0,0);
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    // Get parent size
+    CGSize parentSize;
+    if (cs.rootNode == node)
+    {
+        parentSize = cs.stageSize;
+    }
+    else
+    {
+        parentSize = node.parent.contentSize;
+    }
+    
+    // Calculate absolute position
+    NSPoint absPos = ccp(0,0);
     
     if (type == kCCBPositionTypePercent)
     {
@@ -46,14 +80,11 @@
     [node setValue:[NSValue valueWithPoint:absPos] forKey:prop];
     
     // Set the extra properties
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
     [cs setExtraProp:[NSValue valueWithPoint:pos] forKey:prop andNode:node];
     [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
-    
-    NSLog(@"setPosition: (%f,%f) type: %d",pos.x, pos.y, type);
 }
 
-+ (void) setPosition:(CGPoint)pos forNode:(CCNode *)node prop:(NSString *)prop
++ (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop
 {
     int type = [PositionPropertySetter positionTypeForNode:node prop:prop];
     [PositionPropertySetter setPosition:pos type:type forNode:node prop:prop];
@@ -66,6 +97,67 @@
 }
 
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+}
+
++ (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    // Get parent size
+    CGSize parentSize;
+    if (cs.rootNode == node)
+    {
+        parentSize = cs.stageSize;
+    }
+    else
+    {
+        parentSize = node.parent.contentSize;
+    }
+    
+    // Calculate absolute size
+    NSSize absSize = NSMakeSize(0, 0);
+    
+    if (type == kCCBSizeTypeAbsolute)
+    {
+        absSize = size;
+    }
+    else if (type == kCCBSizeTypePercent)
+    {
+        absSize.width = size.width * 0.01 * parentSize.width;
+        absSize.height = size.height * 0.01 * parentSize.height;
+    }
+    else if (type == kCCBSizeTypeRelativeContainer)
+    {
+        absSize.width = parentSize.width - size.width;
+        absSize.height = parentSize.height - size.height;
+    }
+    
+    // Set the size value
+    [node setValue:[NSValue valueWithSize:absSize] forKey:prop];
+    
+    // Set the extra properties
+    [cs setExtraProp:[NSValue valueWithSize:size] forKey:prop andNode:node];
+    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
+    
+    [PositionPropertySetter refreshPositionsForChildren:node];
+}
+
++ (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop
+{
+    int type = [PositionPropertySetter sizeTypeForNode:node prop:prop];
+    [PositionPropertySetter setSize:size type:type forNode:node prop:prop];
+}
+
++ (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    return [[cs extraPropForKey:prop andNode:node] sizeValue];
+}
+
++ (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];

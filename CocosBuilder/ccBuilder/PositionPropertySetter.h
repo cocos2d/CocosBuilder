@@ -27,8 +27,13 @@ enum
 
 @interface PositionPropertySetter : NSObject
 
-+ (void) setPosition:(CGPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop;
-+ (void) setPosition:(CGPoint)pos forNode:(CCNode *)node prop:(NSString *)prop;
++ (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop;
++ (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop;
 + (CGPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop;
+
++ (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
++ (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop;
++ (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop;
++ (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop;
 @end

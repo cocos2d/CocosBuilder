@@ -127,8 +127,12 @@
     }
     else if ([type isEqualToString:@"Size"])
     {
-        NSSize size = [CCBReaderInternal deserializeSize: serializedValue];
-        [node setValue:[NSValue valueWithSize:size] forKey:name];
+        float w = [[serializedValue objectAtIndex:0] floatValue];
+        float h = [[serializedValue objectAtIndex:1] floatValue];
+        NSSize size =  NSMakeSize(w, h);
+        int sizeType = 0;
+        if ([(NSArray*)serializedValue count] == 3) sizeType = [[serializedValue objectAtIndex:2] intValue];
+        [PositionPropertySetter setSize:size type:sizeType forNode:node prop:name];
     }
     else if ([type isEqualToString:@"Scale"]
              || [type isEqualToString:@"ScaleLock"])
