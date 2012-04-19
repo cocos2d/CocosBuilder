@@ -35,6 +35,7 @@
 #import "NotesLayer.h"
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
+#import "PositionPropertySetter.h"
 
 @implementation CocosScene
 
@@ -447,13 +448,15 @@
 {
     if (!selectedNode) return;
     
-    [selectedNode setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pos)] forKey:[self positionPropertyForSelectedNode]];
+    //[selectedNode setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pos)] forKey:[self positionPropertyForSelectedNode]];
+    [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:selectedNode prop:[self positionPropertyForSelectedNode]];
 }
 
 - (CGPoint) selectedNodePos
 {
     if (!selectedNode) return CGPointZero;
-    return NSPointToCGPoint([[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue]);
+    //return NSPointToCGPoint([[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue]);
+    return NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:[self positionPropertyForSelectedNode]]);
 }
 
 - (int) transformHandleUnderPt:(CGPoint)pt

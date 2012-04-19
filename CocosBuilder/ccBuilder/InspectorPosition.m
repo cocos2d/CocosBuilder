@@ -23,31 +23,43 @@
  */
 
 #import "InspectorPosition.h"
+#import "PositionPropertySetter.h"
 
 @implementation InspectorPosition
 
 - (void) setPosX:(float)posX
 {
-	NSPoint pt = [[self propertyForSelection] pointValue];
+	NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.x = posX;
-    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
 }
 
 - (float) posX
 {
-    return [[self propertyForSelection] pointValue].x;
+    return [PositionPropertySetter positionForNode:selection prop:propertyName].x;
 }
 
 - (void) setPosY:(float)posY
 {
-	NSPoint pt = [[self propertyForSelection] pointValue];
+    NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.y = posY;
-    [self setPropertyForSelection:[NSValue valueWithPoint:pt]];
+    [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
 }
 
 - (float) posY
 {
-    return [[self propertyForSelection] pointValue].y;
+    return [PositionPropertySetter positionForNode:selection prop:propertyName].y;
+}
+
+- (void) setPositionType:(int)positionType
+{
+    NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
+    [PositionPropertySetter setPosition:pt type:positionType forNode:selection prop:propertyName];
+}
+
+- (int) positionType
+{
+    return [PositionPropertySetter positionTypeForNode:selection prop:propertyName];
 }
 
 - (void) refresh

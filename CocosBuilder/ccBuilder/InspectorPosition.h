@@ -30,4 +30,5 @@
 
 @property (nonatomic, assign) float posX;
 @property (nonatomic, assign) float posY;
+@property (nonatomic, assign) int positionType;
 @end

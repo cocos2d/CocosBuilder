@@ -43,6 +43,7 @@
 #import "PlugInNode.h"
 #import "PlugInExport.h"
 #import "TexturePropertySetter.h"
+#import "PositionPropertySetter.h"
 #import "PublishTypeAccessoryView.h"
 #import "ResourceManager.h"
 #import "ResourceManagerPanel.h"
@@ -1195,7 +1196,7 @@
         CCNode* node = [plugInManager createDefaultNodeOfType:class];
         
         // Set its position
-        node.position = pt;
+        [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
         [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node];
         
@@ -1325,7 +1326,8 @@
     else if (dir == 3) delta = ccp(0, -1);
     
     [self saveUndoStateWillChangeProperty:@"position"];
-    selectedNode.position = ccpAdd(selectedNode.position, delta);
+    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
+    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
     [self refreshProperty:@"position"];
 }
 
@@ -1342,7 +1344,8 @@
     else if (dir == 3) delta = ccp(0, -10);
     
     [self saveUndoStateWillChangeProperty:@"position"];
-    selectedNode.position = ccpAdd(selectedNode.position, delta);
+    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
+    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
     [self refreshProperty:@"position"];
 }
 
@@ -1685,6 +1688,7 @@
 
 - (IBAction) menuAlignChildren:(id)sender
 {
+#warning TODO: Fix with new position types
     if (!currentDocument) return;
     if (!selectedNode) return;
     

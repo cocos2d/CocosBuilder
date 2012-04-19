@@ -34,6 +34,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "ResourceManager.h"
 #import "NodeGraphPropertySetter.h"
+#import "PositionPropertySetter.h"
 
 @implementation CCBReaderInternal
 
@@ -109,8 +110,15 @@
     NodeInfo* nodeInfo = node.userObject;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     
-    if ([type isEqualToString:@"Position"]
-        || [type isEqualToString:@"Point"]
+    if ([type isEqualToString:@"Position"])
+    {
+        float x = [[serializedValue objectAtIndex:0] floatValue];
+        float y = [[serializedValue objectAtIndex:1] floatValue];
+        int posType = 0;
+        if ([(NSArray*)serializedValue count] == 3) posType = [[serializedValue objectAtIndex:2] intValue];
+        [PositionPropertySetter setPosition:NSMakePoint(x, y) type:posType forNode:node prop:name];
+    }
+    else if ([type isEqualToString:@"Point"]
         || [type isEqualToString:@"PointLock"])
     {
         NSPoint pt = [CCBReaderInternal deserializePoint: serializedValue];

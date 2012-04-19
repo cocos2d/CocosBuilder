@@ -27,6 +27,7 @@
 #import "NodeInfo.h"
 #import "PlugInNode.h"
 #import "TexturePropertySetter.h"
+#import "PositionPropertySetter.h"
 
 @implementation CCBWriterInternal
 
@@ -52,6 +53,15 @@
             [NSNumber numberWithFloat:pt.x],
             [NSNumber numberWithFloat:pt.y],
             [NSNumber numberWithBool:lock],
+            nil];
+}
+
++ (id) serializePosition:(NSPoint)pt type:(int)type
+{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithFloat:pt.x],
+            [NSNumber numberWithFloat:pt.y],
+            [NSNumber numberWithInt:type],
             nil];
 }
 
@@ -197,8 +207,13 @@
             // Get the serialized value from the extra props
             serializedValue = [extraProps objectForKey:name];
         }
-        else if ([type isEqualToString:@"Position"]
-            || [type isEqualToString:@"Point"]
+        else if ([type isEqualToString:@"Position"])
+        {
+            NSPoint pt = [PositionPropertySetter positionForNode:node prop:name];
+            int type = [PositionPropertySetter positionTypeForNode:node prop:name];
+            serializedValue = [CCBWriterInternal serializePosition:pt type:type];
+        }
+        else if([type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"])
         {
 			CGPoint pt = NSPointToCGPoint( [[node valueForKey:name] pointValue] );
