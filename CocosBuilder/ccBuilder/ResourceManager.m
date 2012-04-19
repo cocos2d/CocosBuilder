@@ -209,8 +209,29 @@
 
 @synthesize directories, activeDirectories, systemFontList, tooManyDirectoriesAdded;
 
+#define kIgnoredExtensionsKey @"ignoredDirectoryExtensions"
+
++ (void)initialize {
+    [[NSUserDefaults standardUserDefaults] registerDefaults:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSArray arrayWithObjects:@"git", @"svn", @"xcodeproj", nil], 
+      kIgnoredExtensionsKey,
+      nil]];
+}
+
+- (BOOL)shouldPrunePath:(NSString *)dirPath {
+    // prune directories...
+    for (NSString *extension in [[NSUserDefaults standardUserDefaults] objectForKey:kIgnoredExtensionsKey]) {
+        if ([dirPath hasSuffix:extension]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 + (ResourceManager*) sharedManager
 {
+    
     static ResourceManager* rm = NULL;
     if (!rm) rm = [[ResourceManager alloc] init];
     return rm;
@@ -358,6 +379,8 @@
     for (NSString* fileShort in files)
     {
         NSString* file = [path stringByAppendingPathComponent:fileShort];
+     
+        if ([self shouldPrunePath:file]) continue;
         
         RMResource* res = [resources objectForKey:file];
         NSDictionary* attr = [fm attributesOfItemAtPath:file error:NULL];
