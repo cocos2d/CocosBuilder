@@ -225,6 +225,9 @@
         if ([dirPath hasSuffix:extension]) {
             return YES;
         }
+        else if ([dirPath hasPrefix:@"."]) {
+            return YES;
+        }
     }
     return NO;
 }
