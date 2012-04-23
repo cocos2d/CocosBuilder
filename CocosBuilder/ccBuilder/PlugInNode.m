@@ -151,6 +151,19 @@
     return @"position";
 }
 
+- (NSArray*) readablePropertiesForType:(NSString*)type
+{
+    NSMutableArray* props = [NSMutableArray array];
+    for (NSDictionary* propInfo in nodeProperties)
+    {
+        if ([[propInfo objectForKey:@"type"] isEqualToString:type] && ![[propInfo objectForKey:@"readOnly"] boolValue])
+        {
+            [props addObject:[propInfo objectForKey:@"name"]];
+        }
+    }
+    return props;
+}
+
 - (void) dealloc
 {
     [positionProperty release];

@@ -62,4 +62,6 @@
 
 - (id) initWithBundle:(NSBundle*) b;
 
+- (NSArray*) readablePropertiesForType:(NSString*)type;
+
 @end

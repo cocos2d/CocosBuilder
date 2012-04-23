@@ -23,12 +23,22 @@
     for (int i = 0; i < [children count]; i++)
     {
         CCNode* child = [children objectAtIndex:i];
+        NodeInfo* info = child.userObject;
+        PlugInNode* plugIn = info.plugIn;
         
-        NSPoint oldPos = [PositionPropertySetter positionForNode:child prop:@"position"];
-        [PositionPropertySetter setPosition:oldPos forNode:child prop:@"position"];
+        NSArray* positionProps = [plugIn readablePropertiesForType:@"Position"];
+        for (NSString* prop in positionProps)
+        {
+            NSPoint oldPos = [PositionPropertySetter positionForNode:child prop:prop];
+            [PositionPropertySetter setPosition:oldPos forNode:child prop:prop];
+        }
         
-        NSSize oldSize = [PositionPropertySetter sizeForNode:child prop:@"contentSize"];
-        [PositionPropertySetter setSize:oldSize forNode:child prop:@"contentSize"];
+        NSArray* sizeProps = [plugIn readablePropertiesForType:@"Size"];
+        for (NSString* prop in sizeProps)
+        {
+            NSSize oldSize = [PositionPropertySetter sizeForNode:child prop:prop];
+            [PositionPropertySetter setSize:oldSize forNode:child prop:prop];
+        }
     }
 }
 
