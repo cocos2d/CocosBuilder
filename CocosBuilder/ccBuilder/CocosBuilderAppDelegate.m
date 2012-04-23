@@ -1438,13 +1438,56 @@
 		currentDocument.exportPlugIn && 
 		[[NSFileManager defaultManager] fileExistsAtPath:absPath] )
     {
-        
         [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
     }
     else
     {
-        [self publishDocumentAs:sender];
+        if (sender)
+        {
+            [self publishDocumentAs:sender];
+        }
+        else
+        {
+            // Temp fix for exporting directories
+            [self exportFile:[currentDocument.fileName stringByAppendingString:@"i"] withPlugIn:[[[PlugInManager sharedManager] plugInExportForIndex:0] extension]];
+        }
     }
+}
+
+// Temporary utility function until new publish system is in place
+- (IBAction)publishDirectory:(id)sender
+{
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:NO];
+    [openDlg setCanChooseDirectories:YES];
+    
+    [openDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            [[[CCDirector sharedDirector] view] lockOpenGLContext];
+            
+            NSArray* files = [openDlg URLs];
+            
+            for (int i = 0; i < [files count]; i++)
+            {
+                NSString* dirName = [[files objectAtIndex:i] path];
+                
+                NSArray* arr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirName error:NULL];
+                for(NSString* file in arr)
+                {
+                    if ([file hasSuffix:@".ccb"])
+                    {
+                        NSString* absPath = [dirName stringByAppendingPathComponent:file];
+                        [self openFile:absPath];
+                        [self publishDocument:NULL];
+                        [self menuCloseDocument:sender];
+                    }
+                }
+            }
+            
+            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+        }
+    }];
 }
 
 - (IBAction) openDocument:(id)sender
