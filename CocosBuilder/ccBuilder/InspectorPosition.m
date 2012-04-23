@@ -53,8 +53,8 @@
 
 - (void) setPositionType:(int)positionType
 {
-    NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
-    [PositionPropertySetter setPosition:pt type:positionType forNode:selection prop:propertyName];
+    [PositionPropertySetter setPositionType:positionType forNode:selection prop:propertyName];
+    [self refresh];
 }
 
 - (int) positionType
@@ -69,6 +69,9 @@
     
     [self willChangeValueForKey:@"posY"];
     [self didChangeValueForKey:@"posY"];
+    
+    [self willChangeValueForKey:@"positionType"];
+    [self didChangeValueForKey:@"positionType"];
 }
 
 @end

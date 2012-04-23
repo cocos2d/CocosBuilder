@@ -67,21 +67,18 @@
     [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
 }
 
-+ (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop
++ (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type node:(CCNode*) node
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     // Get parent size
     CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     // Calculate absolute position
-    NSPoint absPos = ccp(0,0);
+    NSPoint absPos = NSZeroPoint;
     
     if (type == kCCBPositionTypePercent)
     {
-        NSPoint relativePos = ccpMult(pos, 0.01f);
-        absPos.x = (int)(relativePos.x * parentSize.width);
-        absPos.y = (int)(relativePos.y * parentSize.height);
+        absPos.x = roundf(pos.x * parentSize.width * 0.01f);
+        absPos.y = roundf(pos.y * parentSize.height * 0.01f);
     }
     else if (type == kCCBPositionTypeRelativeBottomLeft)
     {
@@ -103,6 +100,65 @@
         absPos.y = pos.y;
     }
     
+    return absPos;
+}
+
++ (NSPoint) calcRelativePositionFromAbsolute:(NSPoint)pos type:(int)type node:(CCNode*) node
+{
+    // Get parent size
+    CGSize parentSize = [PositionPropertySetter getParentSize:node];
+    
+    NSPoint relPos = NSZeroPoint;
+    
+    if (type == kCCBPositionTypePercent)
+    {
+        if (parentSize.width > 0)
+        {
+            relPos.x = pos.x/parentSize.width*100.0f;
+        }
+        else
+        {
+            relPos.x = 0;
+        }
+        
+        if (parentSize.height > 0)
+        {
+            relPos.y = pos.y/parentSize.height*100.0f;
+        }
+        else
+        {
+            relPos.y = 0;
+        }
+    }
+    else if (type == kCCBPositionTypeRelativeBottomLeft)
+    {
+        relPos = pos;
+    }
+    else if (type == kCCBPositionTypeRelativeTopLeft)
+    {
+        relPos.x = pos.x;
+        relPos.y = parentSize.height - pos.y;
+    }
+    else if (type == kCCBPositionTypeRelativeTopRight)
+    {
+        relPos.x = parentSize.width - pos.x;
+        relPos.y = parentSize.height - pos.y;
+    }
+    else if (type == kCCBPositionTypeRelativeBottomRight)
+    {
+        relPos.x = parentSize.width - pos.x;
+        relPos.y = pos.y;
+    }
+    
+    return relPos;
+}
+
++ (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSPoint absPos = [PositionPropertySetter calcAbsolutePositionFromRelative:pos type:type node:node];
+    
     // Set the position value
     [node setValue:[NSValue valueWithPoint:absPos] forKey:prop];
     
@@ -115,6 +171,13 @@
 {
     int type = [PositionPropertySetter positionTypeForNode:node prop:prop];
     [PositionPropertySetter setPosition:pos type:type forNode:node prop:prop];
+}
+
++ (void) setPositionType:(int)type forNode:(CCNode*)node prop:(NSString*)prop
+{
+    NSPoint oldAbsPos = [[node valueForKey:prop] pointValue];
+    NSPoint relPos = [PositionPropertySetter calcRelativePositionFromAbsolute:oldAbsPos type:type node:node];
+    [PositionPropertySetter setPosition:relPos type:type forNode:node prop:prop];
 }
 
 + (NSPoint) positionForNode:(CCNode*)node prop:(NSString*)prop
