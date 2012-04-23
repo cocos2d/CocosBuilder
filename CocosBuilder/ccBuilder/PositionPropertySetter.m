@@ -13,6 +13,23 @@
 
 @implementation PositionPropertySetter
 
++ (CGSize) getParentSize:(CCNode*) node
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    // Get parent size
+    CGSize parentSize;
+    if (cs.rootNode == node)
+    {
+        parentSize = cs.stageSize;
+    }
+    else
+    {
+        parentSize = node.parent.contentSize;
+    }
+    return parentSize;
+}
+
 + (void) refreshPositionsForChildren:(CCNode*)node
 {
     NodeInfo* info = node.userObject;
@@ -42,20 +59,20 @@
     }
 }
 
++ (void) refreshAllPositions
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSSize rootNodeSize = [PositionPropertySetter sizeForNode:cs.rootNode prop:@"contentSize"];
+    [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
+}
+
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
     // Get parent size
-    CGSize parentSize;
-    if (cs.rootNode == node)
-    {
-        parentSize = cs.stageSize;
-    }
-    else
-    {
-        parentSize = node.parent.contentSize;
-    }
+    CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     // Calculate absolute position
     NSPoint absPos = ccp(0,0);
@@ -63,8 +80,8 @@
     if (type == kCCBPositionTypePercent)
     {
         NSPoint relativePos = ccpMult(pos, 0.01f);
-        absPos.x = relativePos.x * parentSize.width;
-        absPos.y = relativePos.y * parentSize.height;
+        absPos.x = (int)(relativePos.x * parentSize.width);
+        absPos.y = (int)(relativePos.y * parentSize.height);
     }
     else if (type == kCCBPositionTypeRelativeBottomLeft)
     {
@@ -117,15 +134,7 @@
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
     // Get parent size
-    CGSize parentSize;
-    if (cs.rootNode == node)
-    {
-        parentSize = cs.stageSize;
-    }
-    else
-    {
-        parentSize = node.parent.contentSize;
-    }
+    CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     // Calculate absolute size
     NSSize absSize = NSMakeSize(0, 0);

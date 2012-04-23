@@ -27,6 +27,8 @@ enum
 
 @interface PositionPropertySetter : NSObject
 
++ (CGSize) getParentSize:(CCNode*) node;
+
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop;
 + (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop;
 + (CGPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
@@ -38,5 +40,6 @@ enum
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop;
 
 + (void) refreshPositionsForChildren:(CCNode*)node;
++ (void) refreshAllPositions;
 
 @end

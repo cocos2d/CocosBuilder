@@ -581,8 +581,48 @@
     
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
+        NSString* positionProp = [self positionPropertyForSelectedNode];
+        
         float xDelta = (int)(pos.x - mouseDownPos.x);
         float yDelta = (int)(pos.y - mouseDownPos.y);
+        
+        // Swap axis for relative positions
+        int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:positionProp];
+        if (positionType == kCCBPositionTypeRelativeBottomRight)
+        {
+            xDelta = -xDelta;
+        }
+        else if (positionType == kCCBPositionTypeRelativeTopLeft)
+        {
+            yDelta = -yDelta;
+        }
+        else if (positionType == kCCBPositionTypeRelativeTopRight)
+        {
+            xDelta = -xDelta;
+            yDelta = -yDelta;
+        }
+        else if (positionType == kCCBPositionTypePercent)
+        {
+            // Handle percental positions
+            CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+            if (parentSize.width > 0)
+            {
+                xDelta = (xDelta/parentSize.width)*100.0f;
+            }
+            else
+            {
+                xDelta = 0;
+            }
+            
+            if (parentSize.height > 0)
+            {
+                yDelta = (yDelta/parentSize.height)*100.0f;
+            }
+            else
+            {
+                yDelta = 0;
+            }
+        }
         
         CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
         
@@ -594,7 +634,7 @@
         
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
         
-        [appDelegate saveUndoStateWillChangeProperty:[self positionPropertyForSelectedNode]];
+        [appDelegate saveUndoStateWillChangeProperty:positionProp];
         [self setSelectedNodePos:newLocalPos];
         [appDelegate refreshProperty:[self positionPropertyForSelectedNode]];
     }

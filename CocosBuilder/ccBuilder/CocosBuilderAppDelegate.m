@@ -960,6 +960,8 @@
     
     [self checkForTooManyDirectoriesInCurrentDoc];
 	
+    [PositionPropertySetter refreshAllPositions];
+    
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
@@ -1049,6 +1051,8 @@
     [[g cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
+    
+    [PositionPropertySetter refreshAllPositions];
 }
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
@@ -1590,8 +1594,7 @@
     [self reloadResources];
     
     // Update size of root node
-    NSSize rootNodeSize = [PositionPropertySetter sizeForNode:cs.rootNode prop:@"contentSize"];
-    [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
+    [PositionPropertySetter refreshAllPositions];
 }
 
 - (void) updateStateOriginCenteredMenu
