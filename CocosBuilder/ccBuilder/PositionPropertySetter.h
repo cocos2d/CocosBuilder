@@ -36,4 +36,7 @@ enum
 + (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop;
 + (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop;
+
++ (void) refreshPositionsForChildren:(CCNode*)node;
+
 @end

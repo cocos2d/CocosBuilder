@@ -1587,6 +1587,11 @@
     }
     
     [self updateCanvasSizeMenu];
+    [self reloadResources];
+    
+    // Update size of root node
+    NSSize rootNodeSize = [PositionPropertySetter sizeForNode:cs.rootNode prop:@"contentSize"];
+    [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
 }
 
 - (void) updateStateOriginCenteredMenu
