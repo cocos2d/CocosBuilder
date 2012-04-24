@@ -83,6 +83,7 @@ enum {
     int currentBit;
     
     NSMutableArray* stringCache;
+    NSMutableSet* loadedSpriteSheets;
     
     CCNode* rootNode;
     id owner;
