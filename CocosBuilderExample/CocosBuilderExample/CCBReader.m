@@ -41,6 +41,9 @@
     currentByte = 0;
     currentBit = 0;
     
+    // Setup set of loaded sprite sheets
+    loadedSpriteSheets = [[NSMutableSet alloc] init];
+    
     owner = [o retain];
     
     return self;
@@ -53,6 +56,7 @@
     bytes = NULL;
     [data release];
     [stringCache release];
+    [loadedSpriteSheets release];
     [super dealloc];
 }
 
@@ -77,7 +81,6 @@
     
     NSString* str = [[[NSString alloc] initWithBytes:bytes+currentByte length:numBytes encoding:NSUTF8StringEncoding] autorelease];
     
-    NSLog(@"readUTF8 numBytes: %d str: %@", numBytes,str);
     currentByte += numBytes;
     
     return str;
@@ -287,7 +290,14 @@
             else
             {
                 CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
-                [frameCache addSpriteFramesWithFile:spriteSheet];
+                
+                // Load the sprite sheet only if it is not loaded
+                if (![loadedSpriteSheets member:spriteSheet])
+                {
+                    [frameCache addSpriteFramesWithFile:spriteSheet];
+                    [loadedSpriteSheets addObject:spriteSheet];
+                }
+                
                 spriteFrame = [frameCache spriteFrameByName:spriteFile];
             }
             [node setValue:spriteFrame forKey:name];
