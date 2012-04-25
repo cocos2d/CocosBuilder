@@ -25,23 +25,28 @@
 
 #import "NewDocWindowController.h"
 #import "PlugInManager.h"
+#import "ResolutionSetting.h"
 
 @implementation NewDocWindowController
 
-@synthesize wStage, hStage,rootObjectType, rootObjectTypes, centeredStageOrigin;
+@synthesize rootObjectType, rootObjectTypes, resolutions;
 
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
     if (!self) return NULL;
     
-    self.wStage = 480;
-    self.hStage = 320;
-    
     self.rootObjectTypes = [PlugInManager sharedManager].plugInsNodeNamesCanBeRoot;
     self.rootObjectType = [rootObjectTypes objectAtIndex:0];
     
-    self.centeredStageOrigin = 0;
+    // Setup default resolutions
+    self.resolutions = [NSMutableArray array];
+    ResolutionSetting* iPhoneLandscape = [ResolutionSetting settingIPhoneLandscape];
+    iPhoneLandscape.enabled = YES;
+    [resolutions addObject:iPhoneLandscape];
+    [resolutions addObject:[ResolutionSetting settingIPhonePortrait]];
+    [resolutions addObject:[ResolutionSetting settingIPadLandscape]];
+    [resolutions addObject:[ResolutionSetting settingIPadPortrait]];
     
     return self;
 }
@@ -50,8 +55,37 @@
 {
     if ([[self window] makeFirstResponder:[self window]])
     {
-        [NSApp stopModalWithCode:1];
+        // Verify resolutions
+        BOOL foundEnabledResolution = NO;
+        for (ResolutionSetting* setting in resolutions)
+        {
+            if (setting.enabled) foundEnabledResolution = YES;
+        }
+        
+        if (foundEnabledResolution)
+        {
+            [NSApp stopModalWithCode:1];
+        }
+        else
+        {
+            // Display warning!
+            NSAlert* alert = [NSAlert alertWithMessageText:@"Missing Resolution" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"You need to have at least one resolution enabled to create a new document."];
+            [alert beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
+        }
     }
+}
+
+- (NSMutableArray*) availableResolutions
+{
+    NSMutableArray* availableResolutions = [NSMutableArray array];
+    for (ResolutionSetting* setting in resolutions)
+    {
+        if (setting.enabled)
+        {
+            [availableResolutions addObject:setting];
+        }
+    }
+    return availableResolutions;
 }
 
 - (IBAction)cancelSheet:(id)sender
@@ -62,6 +96,7 @@
 - (void) dealloc
 {
     self.rootObjectType = NULL;
+    self.resolutions = NULL;
     [super dealloc];
 }
 

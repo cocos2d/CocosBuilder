@@ -30,18 +30,14 @@
 {
     NSArray* rootObjectTypes;
     NSString* rootObjectType;
-
-    int wStage;
-    int hStage;
     
-    int centeredStageOrigin;
+    NSMutableArray* resolutions;
 }
 
 @property (nonatomic,retain) NSArray* rootObjectTypes;
 @property (nonatomic,retain) NSString* rootObjectType;
-@property (nonatomic,assign) int wStage;
-@property (nonatomic,assign) int hStage;
-@property (nonatomic,assign) int centeredStageOrigin;
+@property (nonatomic,retain) NSMutableArray* resolutions;
+@property (nonatomic,readonly) NSMutableArray* availableResolutions;
 
 - (IBAction)acceptSheet:(id)sender;
 - (IBAction)cancelSheet:(id)sender;

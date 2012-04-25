@@ -53,6 +53,7 @@
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
 #import "NotesLayer.h"
+#import "ResolutionSetting.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -733,6 +734,18 @@
     [dict setObject:[[g cocosScene].guideLayer serializeGuides] forKey:@"guides"];
     [dict setObject:[[g cocosScene].notesLayer serializeNotes] forKey:@"notes"];
     
+    // Resolutions
+    if (doc.resolutions)
+    {
+        NSMutableArray* resolutions = [NSMutableArray array];
+        for (ResolutionSetting* r in doc.resolutions)
+        {
+            [resolutions addObject:[r serialize]];
+        }
+        [dict setObject:resolutions forKey:@"resolutions"];
+        [dict setObject:[NSNumber numberWithInt:doc.currentResolution] forKey:@"currentResolution"];
+    }
+    
     if (doc.exportPath && doc.exportPlugIn)
     {
         [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
@@ -772,12 +785,46 @@
     
     [self updateExpandedForNode:g.rootNode];
     
-    // Setup stage
-    int stageW = [[doc objectForKey:@"stageWidth"] intValue];
-    int stageH = [[doc objectForKey:@"stageHeight"] intValue];
-    BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
-    
-    [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
+    // Setup stage & resolutions
+    NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
+    if (serializedResolutions)
+    {
+        // Load resolutions
+        NSMutableArray* resolutions = [NSMutableArray array];
+        for (id serRes in serializedResolutions)
+        {
+            ResolutionSetting* resolution = [[[ResolutionSetting alloc] initWithSerialization:serRes] autorelease];
+            [resolutions addObject:resolution];
+        }
+        int currentResolution = [[doc objectForKey:@"currentResolution"] intValue];
+        ResolutionSetting* resolution = [resolutions objectAtIndex:currentResolution];
+        
+        // Update CocosScene
+        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+        
+        // Save in current document
+        currentDocument.resolutions = resolutions;
+        currentDocument.currentResolution = currentResolution;
+    }
+    else
+    {
+        // Support old files where the current width and height was stored
+        int stageW = [[doc objectForKey:@"stageWidth"] intValue];
+        int stageH = [[doc objectForKey:@"stageHeight"] intValue];
+        BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
+        
+        [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
+        
+        // Setup a basic resolution and attach it to the current document
+        ResolutionSetting* resolution = [[[ResolutionSetting alloc] init] autorelease];
+        resolution.width = stageW;
+        resolution.height = stageH;
+        resolution.centeredOrigin = centered;
+        
+        NSMutableArray* resolutions = [NSMutableArray arrayWithObject:resolution];
+        currentDocument.resolutions = resolutions;
+        currentDocument.currentResolution = 0;
+    }
     
     // Setup guides
     id guides = [doc objectForKey:@"guides"];
@@ -823,14 +870,6 @@
     NSMutableDictionary* doc = document.docData;
     
     // Update active directories for the resource manager
-    /*
-    NSArray* activeDirs = [NSMutableArray arrayWithObject:document.rootPath];
-    if (document.project && [document.project objectForKey:@"resourcePaths"])
-    {
-        activeDirs = [activeDirs arrayByAddingObjectsFromArray:[document.project objectForKey:@"resourcePaths"]];
-    }
-    [resManager setActiveDirectories:activeDirs];
-     */
     [self setRMActiveDirectoriesForDoc:document];
     
     [self replaceDocumentData:doc];
@@ -1007,8 +1046,13 @@
     }
 }
 
-- (void) newFile:(NSString*) fileName type:(NSString*)type stageSize:(CGSize)stageSize origin:(int)origin
+//- (void) newFile:(NSString*) fileName type:(NSString*)type stageSize:(CGSize)stageSize origin:(int)origin
+- (void) newFile:(NSString*) fileName type:(NSString*)type resolutions: (NSMutableArray*) resolutions;
 {
+    BOOL origin = NO;
+    ResolutionSetting* resolution = [resolutions objectAtIndex:0];
+    CGSize stageSize = CGSizeMake(resolution.width, resolution.height);
+    
     // Close old doc if neccessary
     CCBDocument* oldDoc = [self findDocumentFromFile:fileName];
     if (oldDoc)
@@ -1034,6 +1078,8 @@
     [self updateInspectorFromSelection];
     
     self.currentDocument = [[[CCBDocument alloc] init] autorelease];
+    self.currentDocument.resolutions = resolutions;
+    self.currentDocument.currentResolution = 0;
     
     [self saveFile:fileName];
     
@@ -1530,7 +1576,7 @@
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
             if (result == NSOKButton)
             {
-                [self newFile:[[saveDlg URL] path] type:wc.rootObjectType stageSize:CGSizeMake(wc.wStage, wc.hStage) origin:wc.centeredStageOrigin];
+                [self newFile:[[saveDlg URL] path] type:wc.rootObjectType resolutions:wc.availableResolutions];
             }
             [wc release];
         }];
@@ -1817,9 +1863,10 @@
 {
     NSLog(@"DEBUG");
     
-    ResourceManager* rm = [ResourceManager sharedManager];
+    //ResourceManager* rm = [ResourceManager sharedManager];
+    //[rm debugPrintDirectories];
     
-    [rm debugPrintDirectories];
+    NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
 }
 
 @end
