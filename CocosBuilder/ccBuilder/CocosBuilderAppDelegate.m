@@ -1331,6 +1331,7 @@
         
         CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict];
         [self addCCObject:clipNode asChild:asChild];
+        [PositionPropertySetter refreshAllPositions];
     }
 }
 
