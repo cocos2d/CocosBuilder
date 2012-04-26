@@ -35,4 +35,5 @@
 - (IBAction)cancelSheet:(id)sender;
 
 - (int) runModalSheetForWindow:(NSWindow*)window;
+- (BOOL) sheetIsValid;
 @end

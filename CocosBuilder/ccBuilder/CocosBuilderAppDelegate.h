@@ -84,6 +84,7 @@ enum {
     // Menus
     IBOutlet NSMenu* menuCanvasSize;
     IBOutlet NSMenu* menuCanvasBorder;
+    IBOutlet NSMenu* menuResolution;
     CGSize defaultCanvasSizes[5];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
@@ -176,8 +177,7 @@ enum {
 - (IBAction) menuQuit:(id)sender;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;
-- (void) updateCanvasSizeMenu;
-- (IBAction) menuSetCanvasSize:(id)sender;
+//- (IBAction) menuSetCanvasSize:(id)sender;
 - (void) updateStateOriginCenteredMenu;
 - (IBAction) menuSetStateOriginCentered:(id)sender;
 - (void) updateCanvasBorderMenu;

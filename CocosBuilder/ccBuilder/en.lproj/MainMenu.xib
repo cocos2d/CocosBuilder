@@ -1092,62 +1092,36 @@
 								</object>
 								<object class="NSMenuItem" id="522504451">
 									<reference key="NSMenu" ref="466310130"/>
-									<string key="NSTitle">Stage Size</string>
+									<string key="NSTitle">Resolution</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">submenuAction:</string>
 									<object class="NSMenu" key="NSSubmenu" id="519310145">
-										<string key="NSTitle">Stage Size</string>
+										<string key="NSTitle">Resolution</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="107581225">
-												<reference key="NSMenu" ref="519310145"/>
-												<string key="NSTitle">iPhone Landscape</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-												<int key="NSTag">1</int>
-											</object>
-											<object class="NSMenuItem" id="690961317">
-												<reference key="NSMenu" ref="519310145"/>
-												<string key="NSTitle">iPhone Portrait</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-												<int key="NSTag">2</int>
-											</object>
-											<object class="NSMenuItem" id="1032007707">
-												<reference key="NSMenu" ref="519310145"/>
-												<string key="NSTitle">iPad Landscape</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-												<int key="NSTag">3</int>
-											</object>
-											<object class="NSMenuItem" id="297345164">
-												<reference key="NSMenu" ref="519310145"/>
-												<string key="NSTitle">iPad Portrait</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-												<int key="NSTag">4</int>
-											</object>
-											<object class="NSMenuItem" id="816675417">
-												<reference key="NSMenu" ref="519310145"/>
-												<string key="NSTitle">Custom Size...</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-											</object>
 										</object>
 									</object>
+								</object>
+								<object class="NSMenuItem" id="457296383">
+									<reference key="NSMenu" ref="466310130"/>
+									<string key="NSTitle">Edit Resolutions...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="612330885">
+									<reference key="NSMenu" ref="466310130"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
 								<object class="NSMenuItem" id="654039446">
 									<reference key="NSMenu" ref="466310130"/>
@@ -1637,7 +1611,7 @@
 				</object>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1979,6 +1953,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1000, 550}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -2604,46 +2579,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">menuSetCanvasSize:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="107581225"/>
-					</object>
-					<int key="connectionID">1282</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuSetCanvasSize:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="690961317"/>
-					</object>
-					<int key="connectionID">1283</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuSetCanvasSize:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="1032007707"/>
-					</object>
-					<int key="connectionID">1284</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuSetCanvasSize:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="297345164"/>
-					</object>
-					<int key="connectionID">1285</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">menuSetCanvasSize:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="816675417"/>
-					</object>
-					<int key="connectionID">1286</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">menuSetStateOriginCentered:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="390269848"/>
@@ -2841,6 +2776,22 @@
 						<reference key="destination" ref="548961486"/>
 					</object>
 					<int key="connectionID">1470</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuEditResolutionSettings:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="457296383"/>
+					</object>
+					<int key="connectionID">1473</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuResolution</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="519310145"/>
+					</object>
+					<int key="connectionID">1474</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3503,6 +3454,8 @@
 							<reference ref="485400572"/>
 							<reference ref="869176414"/>
 							<reference ref="473524595"/>
+							<reference ref="457296383"/>
+							<reference ref="612330885"/>
 						</object>
 						<reference key="parent" ref="586577488"/>
 					</object>
@@ -3934,18 +3887,8 @@
 						<reference key="object" ref="519310145"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="107581225"/>
-							<reference ref="690961317"/>
-							<reference ref="1032007707"/>
-							<reference ref="297345164"/>
-							<reference ref="816675417"/>
 						</object>
 						<reference key="parent" ref="522504451"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1265</int>
-						<reference key="object" ref="107581225"/>
-						<reference key="parent" ref="519310145"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1266</int>
@@ -3966,26 +3909,6 @@
 						<int key="objectID">1269</int>
 						<reference key="object" ref="909058860"/>
 						<reference key="parent" ref="466310130"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1270</int>
-						<reference key="object" ref="690961317"/>
-						<reference key="parent" ref="519310145"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1271</int>
-						<reference key="object" ref="1032007707"/>
-						<reference key="parent" ref="519310145"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1272</int>
-						<reference key="object" ref="297345164"/>
-						<reference key="parent" ref="519310145"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1273</int>
-						<reference key="object" ref="816675417"/>
-						<reference key="parent" ref="519310145"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1275</int>
@@ -4364,6 +4287,16 @@
 						<reference key="object" ref="548961486"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1471</int>
+						<reference key="object" ref="457296383"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1472</int>
+						<reference key="object" ref="612330885"/>
+						<reference key="parent" ref="466310130"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4408,15 +4341,10 @@
 					<string>126.IBPluginDependency</string>
 					<string>1263.IBPluginDependency</string>
 					<string>1264.IBPluginDependency</string>
-					<string>1265.IBPluginDependency</string>
 					<string>1266.IBPluginDependency</string>
 					<string>1267.IBPluginDependency</string>
 					<string>1268.IBPluginDependency</string>
 					<string>1269.IBPluginDependency</string>
-					<string>1270.IBPluginDependency</string>
-					<string>1271.IBPluginDependency</string>
-					<string>1272.IBPluginDependency</string>
-					<string>1273.IBPluginDependency</string>
 					<string>1275.IBPluginDependency</string>
 					<string>1276.IBPluginDependency</string>
 					<string>1277.IBPluginDependency</string>
@@ -4473,6 +4401,8 @@
 					<string>1463.IBPluginDependency</string>
 					<string>1464.IBPluginDependency</string>
 					<string>1469.IBPluginDependency</string>
+					<string>1471.IBPluginDependency</string>
+					<string>1472.IBPluginDependency</string>
 					<string>149.IBPluginDependency</string>
 					<string>150.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
@@ -4624,16 +4554,13 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="2"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4785,7 +4712,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1470</int>
+			<int key="maxID">1474</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5015,6 +4942,7 @@
 							<string>menuCanvasBorder</string>
 							<string>menuCanvasSize</string>
 							<string>menuItemStageCentered</string>
+							<string>menuResolution</string>
 							<string>outlineHierarchy</string>
 							<string>tabBar</string>
 							<string>window</string>
@@ -5031,6 +4959,7 @@
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenuItem</string>
+							<string>NSMenu</string>
 							<string>NSOutlineView</string>
 							<string>PSMTabBarControl</string>
 							<string>NSWindow</string>
@@ -5050,6 +4979,7 @@
 							<string>menuCanvasBorder</string>
 							<string>menuCanvasSize</string>
 							<string>menuItemStageCentered</string>
+							<string>menuResolution</string>
 							<string>outlineHierarchy</string>
 							<string>tabBar</string>
 							<string>window</string>
@@ -5095,6 +5025,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">menuItemStageCentered</string>
 								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">menuResolution</string>
+								<string key="candidateClassName">NSMenu</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">outlineHierarchy</string>

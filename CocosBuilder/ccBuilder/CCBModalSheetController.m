@@ -32,7 +32,10 @@
 {
     if ([[self window] makeFirstResponder:[self window]])
     {
-        [NSApp stopModalWithCode:1];
+        if ([self sheetIsValid])
+        {
+            [NSApp stopModalWithCode:1];
+        }
     }
 }
 
@@ -48,6 +51,11 @@
     [NSApp endSheet:[self window]];
     [[self window] close];
     return acceptedModal;
+}
+
+- (BOOL) sheetIsValid
+{
+    return YES;
 }
 
 @end

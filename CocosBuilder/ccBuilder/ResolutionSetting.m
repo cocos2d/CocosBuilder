@@ -138,4 +138,22 @@
     return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), self, width, height];
 }
 
+- (id) copyWithZone:(NSZone*)zone
+{
+    NSLog(@"copyWithZone");
+    
+    ResolutionSetting* copy = [[ResolutionSetting alloc] init];
+    
+    copy.enabled = enabled;
+    copy.name = name;
+    copy.width = width;
+    copy.height = height;
+    copy.ext = ext;
+    copy.ext_hd = ext_hd;
+    copy.scale = scale;
+    copy.centeredOrigin = centeredOrigin;
+    
+    return copy;
+}
+
 @end

@@ -37,6 +37,7 @@
 #import "CCBSpriteSheetParser.h"
 #import "CCBUtil.h"
 #import "StageSizeWindow.h"
+#import "ResolutionSettingsWindow.h"
 #import "PlugInManager.h"
 #import "InspectorPosition.h"
 #import "NodeInfo.h"
@@ -694,6 +695,30 @@
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
 }
 
+#pragma mark Populating menus
+
+- (void) updateResolutionMenu
+{
+    if (!currentDocument) return;
+    
+    // Clear the menu
+    [menuResolution removeAllItems];
+    
+    // Add all new resolutions
+    int i = 0;
+    for (ResolutionSetting* resolution in currentDocument.resolutions)
+    {
+        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:[NSString stringWithFormat:@"%d",i+1]];
+        item.target = self;
+        item.tag = i;
+        
+        [menuResolution addItem:item];
+        if (i == currentDocument.currentResolution) item.state = NSOnState;
+        
+        i++;
+    }
+}
+
 #pragma mark Document handling
 
 - (BOOL) hasDirtyDocument
@@ -819,12 +844,14 @@
         ResolutionSetting* resolution = [[[ResolutionSetting alloc] init] autorelease];
         resolution.width = stageW;
         resolution.height = stageH;
+        resolution.ext_hd = @"hd";
         resolution.centeredOrigin = centered;
         
         NSMutableArray* resolutions = [NSMutableArray arrayWithObject:resolution];
         currentDocument.resolutions = resolutions;
         currentDocument.currentResolution = 0;
     }
+    [self updateResolutionMenu];
     
     // Setup guides
     id guides = [doc objectForKey:@"guides"];
@@ -847,6 +874,8 @@
     {
         [g.cocosScene.notesLayer removeAllNotes];
     }
+    
+    [PositionPropertySetter refreshAllPositions];
 }
 
 - (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
@@ -874,7 +903,7 @@
     
     [self replaceDocumentData:doc];
     
-    [self updateCanvasSizeMenu];
+    [self updateResolutionMenu];
     [self updateStateOriginCenteredMenu];
     
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -999,7 +1028,7 @@
     
     [self checkForTooManyDirectoriesInCurrentDoc];
 	
-    [PositionPropertySetter refreshAllPositions];
+    //[PositionPropertySetter refreshAllPositions];
     
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
@@ -1046,7 +1075,6 @@
     }
 }
 
-//- (void) newFile:(NSString*) fileName type:(NSString*)type stageSize:(CGSize)stageSize origin:(int)origin
 - (void) newFile:(NSString*) fileName type:(NSString*)type resolutions: (NSMutableArray*) resolutions;
 {
     BOOL origin = NO;
@@ -1080,6 +1108,7 @@
     self.currentDocument = [[[CCBDocument alloc] init] autorelease];
     self.currentDocument.resolutions = resolutions;
     self.currentDocument.currentResolution = 0;
+    [self updateResolutionMenu];
     
     [self saveFile:fileName];
     
@@ -1090,7 +1119,6 @@
     
     self.hasOpenedDocument = YES;
     
-    [self updateCanvasSizeMenu];
     [self updateStateOriginCenteredMenu];
     
     [[g cocosScene] setStageZoom:1];
@@ -1633,6 +1661,7 @@
     return 0;
 }
 
+/*
 - (void) updateCanvasSizeMenu
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -1641,8 +1670,9 @@
     int tag = [self orientedDeviceTypeForSize:size];
     
     [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasSize tag:tag];
-}
+}*/
 
+/*
 - (IBAction) menuSetCanvasSize:(id)sender
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -1680,6 +1710,43 @@
     }
     
     [self updateCanvasSizeMenu];
+    [self reloadResources];
+    
+    // Update size of root node
+    [PositionPropertySetter refreshAllPositions];
+}*/
+
+- (IBAction) menuEditResolutionSettings:(id)sender
+{
+    if (!currentDocument) return;
+    
+    ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];
+    //wc.resolutions = currentDocument.resolutions;
+    [wc copyResolutions: currentDocument.resolutions];
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        NSLog(@"Success!");
+        currentDocument.resolutions = wc.resolutions;
+        [self updateResolutionMenu];
+    }
+}
+
+- (IBAction)menuResolution:(id)sender
+{
+    if (!currentDocument) return;
+    
+    NSLog(@"Set resolution: %d",(int)[sender tag]);
+    
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:[sender tag]];
+    currentDocument.currentResolution = [sender tag];
+    
+    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+    
+    [self updateResolutionMenu];
     [self reloadResources];
     
     // Update size of root node
