@@ -27,6 +27,7 @@
 #import "CCBGlobals.h"
 #import "CCBWriterInternal.h"
 #import "ResourceManager.h"
+#import "CCBFileUtil.h"
 
 @implementation TexturePropertySetter
 
@@ -43,6 +44,9 @@
             // Convert to absolute path
             spriteSheetFile = [[ResourceManager sharedManager] toAbsolutePath:spriteSheetFile];
             
+            // To resolution independent image
+            spriteSheetFile = [CCBFileUtil toResolutionIndependentFile:spriteSheetFile];
+            
             [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:spriteSheetFile];
             
             spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFile];
@@ -58,6 +62,7 @@
         
         @try
         {
+            fileName = [CCBFileUtil toResolutionIndependentFile:fileName];
             CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
             
             if (texture)
@@ -94,6 +99,7 @@
         @try
         {
             NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:spriteFile];
+            
             texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
         }
         @catch (NSException *exception)

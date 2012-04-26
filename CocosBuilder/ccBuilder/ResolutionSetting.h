@@ -18,6 +18,8 @@
     NSString* ext_hd;
     float scale;
     BOOL centeredOrigin;
+    NSArray* exts;
+    NSArray* exts_hd;
 }
 
 @property (nonatomic,assign) BOOL enabled;
@@ -28,6 +30,8 @@
 @property (nonatomic,copy) NSString* ext_hd;
 @property (nonatomic,assign) float scale;
 @property (nonatomic,assign) BOOL centeredOrigin;
+@property (nonatomic,readonly) NSArray* exts;
+@property (nonatomic,readonly) NSArray* exts_hd;
 
 + (ResolutionSetting*) settingIPhoneLandscape;
 + (ResolutionSetting*) settingIPhonePortrait;

@@ -796,19 +796,7 @@
 
 - (void) replaceDocumentData:(NSMutableDictionary*)doc
 {
-    // Process contents
-    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
-    
-    // Replace open document
     CCBGlobals* g = [CCBGlobals globals];
-    
-    selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:loadedRoot];
-    [outlineHierarchy reloadData];
-    [self updateOutlineViewSelection];
-    [self updateInspectorFromSelection];
-    
-    [self updateExpandedForNode:g.rootNode];
     
     // Setup stage & resolutions
     NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
@@ -852,6 +840,18 @@
         currentDocument.currentResolution = 0;
     }
     [self updateResolutionMenu];
+    
+    // Process contents
+    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
+    
+    // Replace open document
+    selectedNode = NULL;
+    [g.cocosScene replaceRootNodeWith:loadedRoot];
+    [outlineHierarchy reloadData];
+    [self updateOutlineViewSelection];
+    [self updateInspectorFromSelection];
+    
+    [self updateExpandedForNode:g.rootNode];
     
     // Setup guides
     id guides = [doc objectForKey:@"guides"];
@@ -1730,6 +1730,7 @@
         NSLog(@"Success!");
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
+        //[resManager 
     }
 }
 

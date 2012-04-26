@@ -28,6 +28,7 @@
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBDocument.h"
+#import "ResolutionSetting.h"
 
 #pragma mark RMSpriteFrame
 
@@ -307,6 +308,44 @@
     }
 }
 
+- (BOOL) isResolutionDependentFile: (NSString*) file
+{
+    NSString* fileNoExt = [file stringByDeletingPathExtension];
+    
+    NSArray* resIndependentExts = [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", nil];
+    
+    for (NSString* ext in resIndependentExts)
+    {
+        if ([fileNoExt hasSuffix:ext]) return YES;
+    }
+    
+    /*
+    // Check standard extensions
+    if ([fileNoExt hasSuffix:@"2x"]) return YES;
+    
+    // Check extensions as provided by resolution settings
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    NSArray* resolutions = ad.currentDocument.resolutions;
+    for (ResolutionSetting* resolution in resolutions)
+    {
+        for(NSString* ext in resolution.exts)
+        {
+            NSString* completeExt = [@"-" stringByAppendingString:ext];
+            
+            NSLog(@"checking %@",completeExt);
+            
+            if ([fileNoExt hasSuffix:completeExt]) return YES;
+        }
+        for(NSString* ext in resolution.exts_hd)
+        {
+            NSString* completeExt = [@"-" stringByAppendingString:ext];
+            if ([fileNoExt hasSuffix:completeExt]) return YES;
+        }
+    }*/
+    
+    return NO;
+}
+
 - (int) getResourceTypeForFile:(NSString*) file
 {
     NSString* ext = [[file pathExtension] lowercaseString];
@@ -319,8 +358,9 @@
     {
         return kCCBResTypeDirectory;
     }
-    else if ([[file stringByDeletingPathExtension] hasSuffix:@"-hd"]
-             || [[file stringByDeletingPathExtension] hasSuffix:@"@2x"])
+    //else if ([[file stringByDeletingPathExtension] hasSuffix:@"-hd"]
+    //         || [[file stringByDeletingPathExtension] hasSuffix:@"@2x"])
+    else if ([self isResolutionDependentFile:file])
     {
         // Ignore -hd files
         return kCCBResTypeNone;
