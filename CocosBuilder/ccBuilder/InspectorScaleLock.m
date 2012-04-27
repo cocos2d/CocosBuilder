@@ -25,9 +25,11 @@
 #import "InspectorScaleLock.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
+#import "PositionPropertySetter.h"
 
 @implementation InspectorScaleLock
 
+/*
 - (void) setScaleX:(float)scaleX
 {
     [self setPropertyForSelectionX:[NSNumber numberWithFloat:scaleX]];
@@ -36,26 +38,61 @@
         [self setPropertyForSelectionY:[NSNumber numberWithFloat:scaleX]];
         [self refresh];
     }
+}*/
+
+- (void) setScaleX:(float)scaleX
+{
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
+    float scaleY = 0;
+    
+    if ([self locked])
+    {
+        scaleY = scaleX;
+    }
+    else
+    {
+        scaleY = [PositionPropertySetter scaleYForNode:selection prop:propertyName];
+    }
+    
+    [PositionPropertySetter setScaledX:scaleX Y:scaleY type:type forNode:selection prop:propertyName];
+    
+    [self refresh];
+    [self updateAffectedProperties];
 }
 
 - (float) scaleX
 {
-    return [[self propertyForSelectionX] floatValue];
+    //return [[self propertyForSelectionX] floatValue];
+    return [PositionPropertySetter scaleXForNode:selection prop:propertyName];
 }
 
 - (void) setScaleY:(float)scaleY
 {
-    [self setPropertyForSelectionY:[NSNumber numberWithFloat:scaleY]];
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
+    float scaleX = 0;
+    
     if ([self locked])
     {
-        [self setPropertyForSelectionX:[NSNumber numberWithFloat:scaleY]];
-        [self refresh];
+        scaleX = scaleY;
     }
+    else
+    {
+        scaleX = [PositionPropertySetter scaleXForNode:selection prop:propertyName];
+    }
+    
+    [PositionPropertySetter setScaledX:scaleX Y:scaleY type:type forNode:selection prop:propertyName];
+    
+    [self refresh];
+    [self updateAffectedProperties];
 }
 
 - (float) scaleY
 {
-    return [[self propertyForSelectionY] floatValue];
+    return [PositionPropertySetter scaleYForNode:selection prop:propertyName];
 }
 
 - (BOOL) locked
@@ -77,6 +114,18 @@
     }
     
     [self updateAffectedProperties];
+}
+
+- (int) type
+{
+    return [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
+}
+
+- (void) setType:(int)type
+{
+    float scaleX = [PositionPropertySetter scaleXForNode:selection prop:propertyName];
+    float scaleY = [PositionPropertySetter scaleYForNode:selection prop:propertyName];
+    [PositionPropertySetter setScaledX:scaleX Y:scaleY type:type forNode:selection prop:propertyName];
 }
 
 - (void) refresh

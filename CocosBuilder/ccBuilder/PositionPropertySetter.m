@@ -10,6 +10,9 @@
 #import "CCBGlobals.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "CocosBuilderAppDelegate.h"
+#import "CCBDocument.h"
+#import "ResolutionSetting.h"
 
 @implementation PositionPropertySetter
 
@@ -240,6 +243,59 @@
 }
 
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+}
+
++ (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    int currentResolution = ad.currentDocument.currentResolution;
+    ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+    
+    float absScaleX = 0;
+    float absScaleY = 0;
+    if (type == kCCBScaleTypeAbsolute)
+    {
+        absScaleX = scaleX;
+        absScaleY = scaleY;
+    }
+    else if (type == kCCBScaleTypeMultiplyResolution)
+    {
+        absScaleX = scaleX * resolution.scale;
+        absScaleY = scaleY * resolution.scale;
+    }
+    
+    [node setValue:[NSNumber numberWithFloat:absScaleX] forKey:[prop stringByAppendingString:@"X"]];
+    [node setValue:[NSNumber numberWithFloat:absScaleY] forKey:[prop stringByAppendingString:@"Y"]];
+    
+    [cs setExtraProp:[NSNumber numberWithFloat:scaleX] forKey:[prop stringByAppendingString:@"X"] andNode:node];
+    [cs setExtraProp:[NSNumber numberWithFloat:scaleY] forKey:[prop stringByAppendingString:@"Y"] andNode:node];
+    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
+}
+
++ (float) scaleXForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSNumber* scale = [cs extraPropForKey:[prop stringByAppendingString:@"X"] andNode:node];
+    if (!scale) return 1;
+    return [scale floatValue];
+}
+
++ (float) scaleYForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSNumber* scale = [cs extraPropForKey:[prop stringByAppendingString:@"Y"] andNode:node];
+    if (!scale) return 1;
+    return [scale floatValue];
+}
+
++ (int) scaledFloatTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];

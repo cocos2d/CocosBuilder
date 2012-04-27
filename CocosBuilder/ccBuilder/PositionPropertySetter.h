@@ -25,6 +25,12 @@ enum
     kCCBSizeTypeRelativeContainer
 };
 
+enum
+{
+    kCCBScaleTypeAbsolute,
+    kCCBScaleTypeMultiplyResolution
+};
+
 @interface PositionPropertySetter : NSObject
 
 + (CGSize) getParentSize:(CCNode*) node;
@@ -39,6 +45,11 @@ enum
 + (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop;
 + (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop;
+
++ (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
++ (float) scaleXForNode:(CCNode*)node prop:(NSString*)prop;
++ (float) scaleYForNode:(CCNode*)node prop:(NSString*)prop;
++ (int) scaledFloatTypeForNode:(CCNode*)node prop:(NSString*)prop;
 
 + (void) refreshPositionsForChildren:(CCNode*)node;
 + (void) refreshAllPositions;

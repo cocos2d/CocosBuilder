@@ -29,5 +29,6 @@
 @property (nonatomic, assign) float scaleX;
 @property (nonatomic, assign) float scaleY;
 @property (nonatomic, assign) BOOL locked;
+@property (nonatomic, assign) int type;
 
 @end

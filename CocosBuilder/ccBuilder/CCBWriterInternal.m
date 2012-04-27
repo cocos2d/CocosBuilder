@@ -47,12 +47,13 @@
             nil];
 }
 
-+ (id) serializePoint:(CGPoint)pt lock:(BOOL)lock
++ (id) serializePoint:(CGPoint)pt lock:(BOOL)lock type:(int)type
 {
     return [NSArray arrayWithObjects:
             [NSNumber numberWithFloat:pt.x],
             [NSNumber numberWithFloat:pt.y],
             [NSNumber numberWithBool:lock],
+            [NSNumber numberWithInt:type],
             nil];
 }
 
@@ -243,10 +244,12 @@
         }
         else if ([type isEqualToString:@"ScaleLock"])
         {
-            float x = [[node valueForKey:[NSString stringWithFormat:@"%@X",name]] floatValue];
-            float y = [[node valueForKey:[NSString stringWithFormat:@"%@Y",name]] floatValue];
+            float x = [PositionPropertySetter scaleXForNode:node prop:name];
+            float y = [PositionPropertySetter scaleYForNode:node prop:name];
             BOOL lock = [[extraProps objectForKey:[NSString stringWithFormat:@"%@Lock",name]] boolValue];
-            serializedValue = [CCBWriterInternal serializePoint:ccp(x,y) lock:lock];
+            int scaleType = [PositionPropertySetter scaledFloatTypeForNode:node prop:name];
+            
+            serializedValue = [CCBWriterInternal serializePoint:ccp(x,y) lock:lock type: scaleType];
         }
         else if ([type isEqualToString:@"Float"]
                  || [type isEqualToString:@"Degrees"])

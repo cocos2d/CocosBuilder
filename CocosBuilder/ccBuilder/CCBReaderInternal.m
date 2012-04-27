@@ -137,12 +137,18 @@
     else if ([type isEqualToString:@"Scale"]
              || [type isEqualToString:@"ScaleLock"])
     {
-        [node setValue:[serializedValue objectAtIndex:0] forKey:[NSString stringWithFormat:@"%@X",name]];
-        [node setValue:[serializedValue objectAtIndex:1] forKey:[NSString stringWithFormat:@"%@Y",name]];
-        if ([(NSArray*)serializedValue count] == 3)
+        float x = [[serializedValue objectAtIndex:0] floatValue];
+        float y = [[serializedValue objectAtIndex:1] floatValue];
+        int scaleType = 0;
+        if ([(NSArray*)serializedValue count] >= 3)
         {
             [extraProps setValue:[serializedValue objectAtIndex:2] forKey:[NSString stringWithFormat:@"%@Lock",name]];
+            if ([(NSArray*)serializedValue count] == 4)
+            {
+                scaleType = [[serializedValue objectAtIndex:3] intValue];
+            }
         }
+        [PositionPropertySetter setScaledX:x Y:y type:scaleType forNode:node prop:name];
     }
     else if ([type isEqualToString:@"Float"]
              || [type isEqualToString:@"Degrees"])
