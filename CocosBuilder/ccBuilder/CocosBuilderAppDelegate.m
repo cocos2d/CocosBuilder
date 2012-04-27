@@ -788,6 +788,7 @@
     CCBGlobals* g = [CCBGlobals globals];
     CocosScene* cs = [g cocosScene];
     
+    
     if (![self hasOpenedDocument]) return;
     currentDocument.docData = [self docDataFromCurrentNodeGraph];
     currentDocument.stageZoom = [cs stageZoom];
