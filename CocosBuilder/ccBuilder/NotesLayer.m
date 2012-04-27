@@ -71,6 +71,8 @@
     
     // Remove the sticky note
     [self removeChild:modifiedNote cleanup:YES];
+    
+    modifiedNote = NULL;
 }
 
 - (void)textDidChange:(NSNotification *)notification
@@ -82,6 +84,8 @@
 
 - (BOOL) mouseDown:(CGPoint)pt event:(NSEvent*)event
 {
+    modifiedNote = NULL;
+    
     if (!self.visible) return NO;
     if (event.modifierFlags & NSCommandKeyMask) return NO;
     
@@ -209,6 +213,8 @@
 
 - (void) showAllNotesLabels
 {
+    modifiedNote = NULL;
+    
     CCArray* notes = [self children];
     for (int i = 0; i < [notes count]; i++)
     {
