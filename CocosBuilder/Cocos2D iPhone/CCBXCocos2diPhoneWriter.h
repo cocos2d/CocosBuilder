@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #define kCCBXTempBufferSize 8
-#define kCCBXVersion 1
+#define kCCBXVersion 2
 
 enum {
     kCCBXFloat0 = 0,

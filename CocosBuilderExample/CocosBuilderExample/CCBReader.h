@@ -75,6 +75,28 @@ enum {
     kCCBTargetTypeOwner = 2,
 };
 
+enum
+{
+    kCCBPositionTypeRelativeBottomLeft,
+    kCCBPositionTypeRelativeTopLeft,
+    kCCBPositionTypeRelativeTopRight,
+    kCCBPositionTypeRelativeBottomRight,
+    kCCBPositionTypePercent
+};
+
+enum
+{
+    kCCBSizeTypeAbsolute,
+    kCCBSizeTypePercent,
+    kCCBSizeTypeRelativeContainer
+};
+
+enum
+{
+    kCCBScaleTypeAbsolute,
+    kCCBScaleTypeMultiplyResolution
+};
+
 @interface CCBReader : NSObject
 {
     NSData* data;
@@ -87,6 +109,8 @@ enum {
     
     CCNode* rootNode;
     id owner;
+    CGSize rootContainerSize;
+    int resolutionScale;
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file;

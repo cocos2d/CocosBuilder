@@ -123,6 +123,10 @@
 		E36F3C8F152DE33700AAD805 /* TestLabels.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C8D152DE33700AAD805 /* TestLabels.ccbi */; };
 		E36F3C91152DEAE200AAD805 /* TestParticleSystems.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C90152DEAE200AAD805 /* TestParticleSystems.ccbi */; };
 		E36F3C93152DEE5000AAD805 /* HelloCocosBuilder.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C92152DEE5000AAD805 /* HelloCocosBuilder.ccbi */; };
+		E370BA17154AE0DB0048ED73 /* burst-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA13154AE0DB0048ED73 /* burst-hd.png */; };
+		E370BA18154AE0DB0048ED73 /* burst-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA14154AE0DB0048ED73 /* burst-ipad.png */; };
+		E370BA19154AE0DB0048ED73 /* HelloCocosBuilder.ccb in Resources */ = {isa = PBXBuildFile; fileRef = E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */; };
+		E370BA1A154AE0DB0048ED73 /* Test.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E370BA16154AE0DB0048ED73 /* Test.ccbi */; };
 		E37596A814FD224800CD9F5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596A714FD224800CD9F5F /* QuartzCore.framework */; };
 		E37596AA14FD224800CD9F5F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596A914FD224800CD9F5F /* OpenGLES.framework */; };
 		E37596AC14FD224800CD9F5F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596AB14FD224800CD9F5F /* OpenAL.framework */; };
@@ -429,6 +433,10 @@
 		E36F3C8D152DE33700AAD805 /* TestLabels.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestLabels.ccbi; path = Resources/TestLabels.ccbi; sourceTree = "<group>"; };
 		E36F3C90152DEAE200AAD805 /* TestParticleSystems.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestParticleSystems.ccbi; path = Resources/TestParticleSystems.ccbi; sourceTree = "<group>"; };
 		E36F3C92152DEE5000AAD805 /* HelloCocosBuilder.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = HelloCocosBuilder.ccbi; path = Resources/HelloCocosBuilder.ccbi; sourceTree = "<group>"; };
+		E370BA13154AE0DB0048ED73 /* burst-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "burst-hd.png"; path = "Resources/burst-hd.png"; sourceTree = "<group>"; };
+		E370BA14154AE0DB0048ED73 /* burst-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "burst-ipad.png"; path = "Resources/burst-ipad.png"; sourceTree = "<group>"; };
+		E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HelloCocosBuilder.ccb; path = Resources/HelloCocosBuilder.ccb; sourceTree = "<group>"; };
+		E370BA16154AE0DB0048ED73 /* Test.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = Test.ccbi; path = Resources/Test.ccbi; sourceTree = "<group>"; };
 		E37596A314FD224800CD9F5F /* CocosBuilderExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocosBuilderExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E37596A714FD224800CD9F5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E37596A914FD224800CD9F5F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -890,6 +898,10 @@
 		E37596BA14FD224800CD9F5F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E370BA13154AE0DB0048ED73 /* burst-hd.png */,
+				E370BA14154AE0DB0048ED73 /* burst-ipad.png */,
+				E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */,
+				E370BA16154AE0DB0048ED73 /* Test.ccbi */,
 				E36F3C8C152DE33700AAD805 /* comic andy.ttf */,
 				E36F3C83152DDD0B00AAD805 /* grossini-generic.plist */,
 				E36F3C84152DDD0B00AAD805 /* grossini-generic.png */,
@@ -1172,6 +1184,10 @@
 				E36F3C8F152DE33700AAD805 /* TestLabels.ccbi in Resources */,
 				E36F3C91152DEAE200AAD805 /* TestParticleSystems.ccbi in Resources */,
 				E36F3C93152DEE5000AAD805 /* HelloCocosBuilder.ccbi in Resources */,
+				E370BA17154AE0DB0048ED73 /* burst-hd.png in Resources */,
+				E370BA18154AE0DB0048ED73 /* burst-ipad.png in Resources */,
+				E370BA19154AE0DB0048ED73 /* HelloCocosBuilder.ccb in Resources */,
+				E370BA1A154AE0DB0048ED73 /* Test.ccbi in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1350,8 +1366,10 @@
 				GCC_PREFIX_HEADER = CocosBuilderExample/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"CocosBuilderExample/libs/kazmath/include\"";
 				INFOPLIST_FILE = CocosBuilderExample/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1365,8 +1383,10 @@
 				GCC_PREFIX_HEADER = CocosBuilderExample/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"CocosBuilderExample/libs/kazmath/include\"";
 				INFOPLIST_FILE = CocosBuilderExample/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

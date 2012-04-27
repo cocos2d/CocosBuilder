@@ -46,6 +46,20 @@
     
     owner = [o retain];
     
+    // Setup resolution scale and container size
+    rootContainerSize = [[CCDirector sharedDirector] winSize];
+    
+    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        // iPad
+        resolutionScale = 2;
+    }
+    else
+    {
+        // iPhone
+        resolutionScale = 1;
+    }
+    
     return self;
 }
 
@@ -178,7 +192,13 @@
     return [stringCache objectAtIndex:n];
 }
 
-- (void) readPropertyForNode:(CCNode*) node
+- (CGSize) containerSize:(CCNode*)node
+{
+    if (node) return node.contentSize;
+    else return rootContainerSize;
+}
+
+- (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent
 {
     // Read type and property name
     int type = [self readIntWithSign:NO];
@@ -195,9 +215,47 @@
     if (platform == kCCBPlatformMac) setProp = YES;
 #endif
     
-    if (type == kCCBPropTypePosition
-        || type == kCCBPropTypePoint
-        || type == kCCBPropTypePointLock)
+    if (type == kCCBPropTypePosition)
+    {
+        float x = [self readFloat];
+        float y = [self readFloat];
+        int type = [self readIntWithSign:NO];
+        
+        CGSize containerSize = [self containerSize:parent];
+        
+        if (setProp)
+        {
+            CGPoint pt = ccp(x,y);
+            CGPoint absPt = ccp(0,0);
+            if (type == kCCBPositionTypeRelativeBottomLeft)
+            {
+                absPt = pt;
+            }
+            else if (type == kCCBPositionTypeRelativeTopLeft)
+            {
+                absPt.x = pt.x;
+                absPt.y = containerSize.height - pt.y;
+            }
+            else if (type == kCCBPositionTypeRelativeTopRight)
+            {
+                absPt.x = containerSize.width - pt.x;
+                absPt.y = containerSize.height - pt.y;
+            }
+            else if (type == kCCBPositionTypeRelativeBottomRight)
+            {
+                absPt.x = containerSize.width - pt.x;
+                absPt.y = pt.y;
+            }
+            else if (type == kCCBPositionTypePercent)
+            {
+                absPt.x = (int)(containerSize.width * pt.x / 100.0f);
+                absPt.y = (int)(containerSize.height * pt.y / 100.0f);
+            }
+            [node setValue:[NSValue valueWithCGPoint:absPt] forKey:name];
+        }
+    }
+    else if(type == kCCBPropTypePoint
+            || type == kCCBPropTypePointLock)
     {
         float x = [self readFloat];
         float y = [self readFloat];
@@ -212,20 +270,46 @@
     {
         float w = [self readFloat];
         float h = [self readFloat];
+        int type = [self readIntWithSign:NO];
+        
+        CGSize containerSize = [self containerSize:parent];
         
         if (setProp)
         {
             CGSize size = CGSizeMake(w, h);
-            [node setValue:[NSValue valueWithCGSize:size] forKey:name];
+            CGSize absSize = CGSizeZero;
+            if (type == kCCBSizeTypeAbsolute)
+            {
+                absSize = size;
+            }
+            else if (type == kCCBSizeTypeRelativeContainer)
+            {
+                absSize.width = containerSize.width - size.width;
+                absSize.height = containerSize.height - size.height;
+            }
+            else if (type == kCCBSizeTypePercent)
+            {
+                absSize.width = (int)(containerSize.width * size.width / 100.0f);
+                absSize.height = (int)(containerSize.height * size.height / 100.0f);
+            }
+            
+            [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
         }
     }
     else if (type == kCCBPropTypeScaleLock)
     {
         float x = [self readFloat];
         float y = [self readFloat];
+        int type = [self readIntWithSign:NO];
         
         if (setProp)
         {
+            if (type == kCCBScaleTypeMultiplyResolution)
+            {
+                x *= resolutionScale;
+                y *= resolutionScale;
+            }
+            
             NSString* nameX = [NSString stringWithFormat:@"%@X",name];
             NSString* nameY = [NSString stringWithFormat:@"%@Y",name];
             [node setValue:[NSNumber numberWithFloat:x] forKey:nameX];
@@ -537,7 +621,7 @@
     }
 }
 
-- (CCNode*) readNodeGraph
+- (CCNode*) readNodeGraphParent:(CCNode*)parent
 {
     // Read class
     NSString* className = [self readCachedString];
@@ -565,7 +649,7 @@
     int numProps = [self readIntWithSign:NO];
     for (int i = 0; i < numProps; i++)
     {
-        [self readPropertyForNode:node];
+        [self readPropertyForNode:node parent:parent];
     }
     
     // Assign to variable (if applicable)
@@ -593,7 +677,7 @@
     int numChildren = [self readIntWithSign:NO];
     for (int i = 0; i < numChildren; i++)
     {
-        CCNode* child = [self readNodeGraph];
+        CCNode* child = [self readNodeGraphParent:node];
         [node addChild:child];
     }
     
@@ -604,6 +688,11 @@
     }
     
     return node;
+}
+
+- (CCNode*) readNodeGraph
+{
+    return [self readNodeGraphParent:NULL];
 }
 
 - (BOOL) readStringCache
@@ -632,7 +721,11 @@
     
     // Read version
     int version = [self readIntWithSign:NO];
-    if (version != 1) return NO;
+    if (version != 2)
+    {
+        NSLog(@"WARNING! Incompatible ccbi file version");
+        return NO;
+    }
     
     return YES;
 }

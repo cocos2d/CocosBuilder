@@ -270,17 +270,41 @@
         [self writeByte:kCCBXPlatformAll];
     }
     
-    if ([type isEqualToString:@"Position"]
-        || [type isEqualToString:@"Size"]
-        || [type isEqualToString:@"Point"]
-        || [type isEqualToString:@"PointLock"]
-        || [type isEqualToString:@"ScaleLock"]
-        || [type isEqualToString:@"FloatVar"])
+    if ([type isEqualToString:@"Position"])
+    {
+        float a = [[prop objectAtIndex:0] floatValue];
+        float b = [[prop objectAtIndex:1] floatValue];
+        int type = [[prop objectAtIndex:2] intValue];
+        [self writeFloat:a];
+        [self writeFloat:b];
+        [self writeInt:type withSign:NO];
+    }
+    else if([type isEqualToString:@"Size"])
+    {
+        float a = [[prop objectAtIndex:0] floatValue];
+        float b = [[prop objectAtIndex:1] floatValue];
+        int type = [[prop objectAtIndex:2] intValue];
+        [self writeFloat:a];
+        [self writeFloat:b];
+        [self writeInt:type withSign:NO];
+    }
+    else if ([type isEqualToString:@"Point"]
+            || [type isEqualToString:@"PointLock"]
+            || [type isEqualToString:@"FloatVar"])
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
         [self writeFloat:a];
         [self writeFloat:b];
+    }
+    else if ([type isEqualToString:@"ScaleLock"])
+    {
+        float a = [[prop objectAtIndex:0] floatValue];
+        float b = [[prop objectAtIndex:1] floatValue];
+        int type = [[prop objectAtIndex:3] intValue];
+        [self writeFloat:a];
+        [self writeFloat:b];
+        [self writeInt:type withSign:NO];
     }
     else if ([type isEqualToString:@"Degrees"]
              || [type isEqualToString:@"Float"])
