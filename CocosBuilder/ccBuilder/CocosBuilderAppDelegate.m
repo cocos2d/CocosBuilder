@@ -1555,7 +1555,8 @@
                     {
                         NSString* absPath = [dirName stringByAppendingPathComponent:file];
                         [self openFile:absPath];
-                        [self publishDocument:NULL];
+                        [self saveFile:absPath];
+                        //[self publishDocument:NULL];
                         [self menuCloseDocument:sender];
                     }
                 }
