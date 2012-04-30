@@ -99,7 +99,11 @@ static void	parseArgs(NSArray *args, NSString **outPlugin, NSArray **publishPath
 
 int		main(int argc, const char **argv)
 {
+#if __clang_major__ >= 3
 	@autoreleasepool
+#else
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#endif
 	{
 		NSMutableArray			*args = [NSMutableArray array];
 		
@@ -175,5 +179,8 @@ int		main(int argc, const char **argv)
 			fprintf(stderr, "Done processing. %ld files succeeded, %ld files failed.\n", succeeds, failures);
 		exit(failures ? EXIT_FAILURE : EXIT_SUCCESS);
 	}
+#if __clang_major__ < 3
+	[pool drain];
+#endif
 	return 0;
 }
