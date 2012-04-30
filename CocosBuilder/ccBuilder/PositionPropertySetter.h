@@ -38,7 +38,9 @@ enum
 {
     kCCBSizeTypeAbsolute,
     kCCBSizeTypePercent,
-    kCCBSizeTypeRelativeContainer
+    kCCBSizeTypeRelativeContainer,
+    kCCBSizeTypeHorizontalPercent,
+    kCCBSzieTypeVerticalPercent
 };
 
 enum

@@ -292,6 +292,16 @@
                 absSize.width = (int)(containerSize.width * size.width / 100.0f);
                 absSize.height = (int)(containerSize.height * size.height / 100.0f);
             }
+            else if (type == kCCBSizeTypeHorizontalPercent)
+            {
+                absSize.width = (int)(containerSize.width * size.width / 100.0f);
+                absSize.height = size.height;
+            }
+            else if (type == kCCBSzieTypeVerticalPercent)
+            {
+                absSize.width = size.width;
+                absSize.height = (int)(containerSize.height * size.height / 100.0f);
+            }
             
             [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
         }

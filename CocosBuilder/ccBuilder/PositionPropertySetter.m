@@ -235,6 +235,16 @@
         absSize.width = parentSize.width - size.width;
         absSize.height = parentSize.height - size.height;
     }
+    else if (type == kCCBSizeTypeHorizontalPercent)
+    {
+        absSize.width = size.width * 0.01 * parentSize.width;
+        absSize.height = size.height;
+    }
+    else if (type == kCCBSzieTypeVerticalPercent)
+    {
+        absSize.width = size.width;
+        absSize.height = size.height * 0.01 * parentSize.height;
+    }
     
     // Set the size value
     [node setValue:[NSValue valueWithSize:absSize] forKey:prop];

@@ -48,7 +48,7 @@
 					<object class="NSSegmentedControl" id="287711681">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{106, 33}, {70, 21}}</string>
+						<string key="NSFrame">{{106, 33}, {117, 21}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="26311432"/>
@@ -94,6 +94,26 @@
 									</object>
 									<string key="NSSegmentItemTooltip">Relative container size</string>
 									<int key="NSSegmentItemTag">2</int>
+									<int key="NSSegmentItemImageScaling">0</int>
+								</object>
+								<object class="NSSegmentItem">
+									<double key="NSSegmentItemWidth">22</double>
+									<object class="NSCustomResource" key="NSSegmentItemImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">size-3</string>
+									</object>
+									<string key="NSSegmentItemTooltip">Horizontal perentage of container, fixed height</string>
+									<int key="NSSegmentItemTag">3</int>
+									<int key="NSSegmentItemImageScaling">0</int>
+								</object>
+								<object class="NSSegmentItem">
+									<double key="NSSegmentItemWidth">23</double>
+									<object class="NSCustomResource" key="NSSegmentItemImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">size-4</string>
+									</object>
+									<string key="NSSegmentItemTooltip">Vertical perentage of container, fixed width</string>
+									<int key="NSSegmentItemTag">4</int>
 									<int key="NSSegmentItemImageScaling">0</int>
 								</object>
 							</object>
@@ -722,7 +742,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="2"/>
+					<integer value="4"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1040"/>
@@ -791,9 +811,13 @@
 				<string>size-0</string>
 				<string>size-1</string>
 				<string>size-2</string>
+				<string>size-3</string>
+				<string>size-4</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{16, 16}</string>
+				<string>{16, 16}</string>
 				<string>{16, 16}</string>
 				<string>{16, 16}</string>
 				<string>{16, 16}</string>
