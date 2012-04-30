@@ -153,8 +153,6 @@
 		E35A2D981540198900F78B72 /* size-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D951540198900F78B72 /* size-1.png */; };
 		E35A2D991540198900F78B72 /* size-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D961540198900F78B72 /* size-2.png */; };
 		E35A2D9C1540207000F78B72 /* PositionPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */; };
-		E35D9F0E154EDF7C004C3E27 /* size-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E35D9F0C154EDF7C004C3E27 /* size-3.png */; };
-		E35D9F0F154EDF7C004C3E27 /* size-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E35D9F0D154EDF7C004C3E27 /* size-4.png */; };
 		E35DBB6914F21E7D0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBB6F14F21E7D0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB6D14F21E7D0070A6E4 /* InfoPlist.strings */; };
 		E35DBB7414F21EEE0070A6E4 /* CCLayer.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */; };
@@ -362,6 +360,8 @@
 		E3D59133150F85D8004180CA /* InspectorCCBFile.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D59132150F85D8004180CA /* InspectorCCBFile.xib */; };
 		E3D59136150F861E004180CA /* InspectorCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59135150F861E004180CA /* InspectorCCBFile.m */; };
 		E3D59139150F8C5A004180CA /* CCBPCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59138150F8C5A004180CA /* CCBPCCBFile.m */; };
+		E3DC1B8C154F18660087724C /* size-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8A154F18660087724C /* size-3.png */; };
+		E3DC1B8D154F18660087724C /* size-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8B154F18660087724C /* size-4.png */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -390,9 +390,9 @@
 		E3FEA8C014E49D8300119FBE /* InspectorInteger.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8BF14E49D8300119FBE /* InspectorInteger.xib */; };
 		FA98CFC4154E7D1C006E58C5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA98CFC3154E7D1C006E58C5 /* Foundation.framework */; };
 		FA98CFC7154E7D1C006E58C5 /* ccbpublish.m in Sources */ = {isa = PBXBuildFile; fileRef = FA98CFC6154E7D1C006E58C5 /* ccbpublish.m */; };
-		FA98CFD1154E7F7D006E58C5 /* CCBX.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03614FB8A430078E771 /* CCBX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FA98CFD7154E828E006E58C5 /* PlugInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDC14E3246100DFD402 /* PlugInManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FA98CFD9154E828E006E58C5 /* PlugInExport.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03214FB86D20078E771 /* PlugInExport.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FA98CFD1154E7F7D006E58C5 /* CCBX.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03614FB8A430078E771 /* CCBX.m */; };
+		FA98CFD7154E828E006E58C5 /* PlugInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEDC14E3246100DFD402 /* PlugInManager.m */; };
+		FA98CFD9154E828E006E58C5 /* PlugInExport.m in Sources */ = {isa = PBXBuildFile; fileRef = E398C03214FB86D20078E771 /* PlugInExport.m */; };
 		FA98CFDB154E8D16006E58C5 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA98CFDA154E8D16006E58C5 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -769,8 +769,6 @@
 		E35A2D961540198900F78B72 /* size-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-2.png"; sourceTree = "<group>"; };
 		E35A2D9A1540207000F78B72 /* PositionPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionPropertySetter.h; sourceTree = "<group>"; };
 		E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionPropertySetter.m; sourceTree = "<group>"; };
-		E35D9F0C154EDF7C004C3E27 /* size-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-3.png"; sourceTree = "<group>"; };
-		E35D9F0D154EDF7C004C3E27 /* size-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-4.png"; sourceTree = "<group>"; };
 		E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCLayer.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35DBB6C14F21E7D0070A6E4 /* CCLayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLayer-Info.plist"; sourceTree = "<group>"; };
 		E35DBB6E14F21E7D0070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1153,6 +1151,8 @@
 		E3D59135150F861E004180CA /* InspectorCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCCBFile.m; sourceTree = "<group>"; };
 		E3D59137150F8C5A004180CA /* CCBPCCBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPCCBFile.h; sourceTree = "<group>"; };
 		E3D59138150F8C5A004180CA /* CCBPCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPCCBFile.m; sourceTree = "<group>"; };
+		E3DC1B8A154F18660087724C /* size-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-3.png"; sourceTree = "<group>"; };
+		E3DC1B8B154F18660087724C /* size-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-4.png"; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -1562,8 +1562,8 @@
 				E35A2D941540198900F78B72 /* size-0.png */,
 				E35A2D951540198900F78B72 /* size-1.png */,
 				E35A2D961540198900F78B72 /* size-2.png */,
-				E35D9F0C154EDF7C004C3E27 /* size-3.png */,
-				E35D9F0D154EDF7C004C3E27 /* size-4.png */,
+				E3DC1B8A154F18660087724C /* size-3.png */,
+				E3DC1B8B154F18660087724C /* size-4.png */,
 				E35A2D871540111A00F78B72 /* position-0.png */,
 				E35A2D881540111A00F78B72 /* position-1.png */,
 				E35A2D891540111A00F78B72 /* position-2.png */,
@@ -3157,8 +3157,8 @@
 				E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */,
 				E370BA0C1549B2460048ED73 /* scale-0.png in Resources */,
 				E370BA0D1549B2460048ED73 /* scale-1.png in Resources */,
-				E35D9F0E154EDF7C004C3E27 /* size-3.png in Resources */,
-				E35D9F0F154EDF7C004C3E27 /* size-4.png in Resources */,
+				E3DC1B8C154F18660087724C /* size-3.png in Resources */,
+				E3DC1B8D154F18660087724C /* size-4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4787,7 +4787,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4813,7 +4812,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
