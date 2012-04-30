@@ -23,14 +23,21 @@
  */
 
 #import "PlugInManager.h"
-#import "PlugInNode.h"
 #import "PlugInExport.h"
+
+#if !CCB_BUILDING_COMMANDLINE
+#import "PlugInNode.h"
 #import "NodeInfo.h"
 #import "CCBReaderInternal.h"
+#endif
 
 @implementation PlugInManager
 
-@synthesize plugInsNodeNames, plugInsNodeNamesCanBeRoot, plugInsExporters;
+#if !CCB_BUILDING_COMMANDLINE
+@synthesize plugInsNodeNames, plugInsNodeNamesCanBeRoot;
+#endif
+
+@synthesize plugInsExporters;
 
 + (PlugInManager*) sharedManager
 {
@@ -44,9 +51,11 @@
     self = [super init];
     if (!self) return NULL;
     
+#if !CCB_BUILDING_COMMANDLINE
     plugInsNode = [[NSMutableDictionary alloc] init];
     plugInsNodeNames = [[NSMutableArray alloc] init];
     plugInsNodeNamesCanBeRoot = [[NSMutableArray alloc] init];
+#endif
     
     plugInsExporters = [[NSMutableArray alloc] init];
     
@@ -56,11 +65,31 @@
 - (void) loadPlugIns
 {
     // Locate the plug ins
+#if CCB_BUILDING_COMMANDLINE
+    // This shouldn't be hardcoded.
+    NSURL* appURL = nil;
+    OSStatus error = LSFindApplicationForInfo(kLSUnknownCreator, (CFStringRef)@"com.cocosbuilder.CocosBuilder", NULL, NULL, (CFURLRef *)&appURL);
+    NSBundle *appBundle = nil;
+    
+    if (error == noErr)
+    {
+        appBundle = [NSBundle bundleWithURL:appURL];
+        [appURL release]; // LS documents that the URL returned must be released.
+    }
+    else
+        appBundle = [NSBundle bundleWithIdentifier:@"com.cocosbuilder.CocosBuilder"]; // last-ditch effort
+    
+    if (!appBundle)
+        return;
+#else
     NSBundle* appBundle = [NSBundle mainBundle];
+#endif
+    
     NSURL* plugInDir = [appBundle builtInPlugInsURL];
     
     NSArray* plugInPaths = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:plugInDir includingPropertiesForKeys:NULL options:NSDirectoryEnumerationSkipsHiddenFiles error:NULL];
-    
+
+#if !CCB_BUILDING_COMMANDLINE    
     // Load PlugIn nodes
     for (int i = 0; i < [plugInPaths count]; i++)
     {
@@ -91,6 +120,7 @@
             }
         }
     }
+#endif
     
     // Load PlugIn exporters
     for (int i = 0; i < [plugInPaths count]; i++)
@@ -122,12 +152,15 @@
 
 - (void) dealloc
 {
+#if !CCB_BUILDING_COMMANDLINE
     [plugInsNode release];
     [plugInsNodeNames release];
     [plugInsNodeNamesCanBeRoot release];
+#endif
     [super dealloc];
 }
 
+#if !CCB_BUILDING_COMMANDLINE
 - (PlugInNode*) plugInNodeNamed:(NSString*)name
 {
     return [plugInsNode objectForKey:name];
@@ -175,6 +208,7 @@
     
     return node;
 }
+#endif
 
 - (NSArray*) plugInsExportNames
 {
