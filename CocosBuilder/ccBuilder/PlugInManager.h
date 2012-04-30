@@ -30,23 +30,30 @@
 
 @interface PlugInManager : NSObject
 {
+#if !CCB_BUILDING_COMMANDLINE
     NSMutableDictionary* plugInsNode;
     NSMutableArray* plugInsNodeNames;
     NSMutableArray* plugInsNodeNamesCanBeRoot;
-    
+#endif
+	
     NSMutableArray* plugInsExporters;
 }
 
+#if !CCB_BUILDING_COMMANDLINE
 @property (nonatomic,readonly) NSMutableArray* plugInsNodeNames;
 @property (nonatomic,readonly) NSMutableArray* plugInsNodeNamesCanBeRoot;
+#endif
+
 @property (nonatomic,retain) NSMutableArray* plugInsExporters;
 
 + (PlugInManager*) sharedManager;
 - (void) loadPlugIns;
 
+#if !CCB_BUILDING_COMMANDLINE
 // Plug-in node
 - (PlugInNode*) plugInNodeNamed:(NSString*)name;
 - (CCNode*) createDefaultNodeOfType:(NSString*)name;
+#endif
 
 // Plug-in export
 - (NSArray*) plugInsExportNames;
