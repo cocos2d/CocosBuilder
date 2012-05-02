@@ -82,6 +82,10 @@
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
+    // Update root position
+    [PositionPropertySetter setPosition:[PositionPropertySetter positionForNode:cs.rootNode prop:@"position"] forNode:cs.rootNode prop:@"position"];
+    
+    // Update root's children
     NSSize rootNodeSize = [PositionPropertySetter sizeForNode:cs.rootNode prop:@"contentSize"];
     [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
 }
