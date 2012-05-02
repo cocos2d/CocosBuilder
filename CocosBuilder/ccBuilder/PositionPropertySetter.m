@@ -265,13 +265,26 @@
 + (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:prop andNode:node] sizeValue];
+    NSValue* sizeValue = [cs extraPropForKey:prop andNode:node];
+    
+    if (sizeValue) return [sizeValue sizeValue];
+    else return [[node valueForKey:prop] sizeValue];
 }
 
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+}
+
++ (void) refreshSizeForNode:(CCNode*)node prop:(NSString*)prop
+{
+    int type = [PositionPropertySetter sizeTypeForNode:node prop:prop];
+    if (type == kCCBSizeTypeAbsolute)
+    {
+        NSSize size = [[node valueForKey:prop] sizeValue];
+        [PositionPropertySetter setSize:size forNode:node prop:prop];
+    }
 }
 
 + (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop

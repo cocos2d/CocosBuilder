@@ -32,6 +32,7 @@
     NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.width = width;
     [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
+    [self updateAffectedProperties];
 }
 
 - (float) width
@@ -44,6 +45,7 @@
 	NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.height = height;
     [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
+    [self updateAffectedProperties];
 }
 
 - (float) height
@@ -55,6 +57,7 @@
 {
     NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     [PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+    [self updateAffectedProperties];
 }
 
 - (int) type
@@ -64,6 +67,8 @@
 
 - (void) refresh
 {
+    [PositionPropertySetter refreshSizeForNode:selection prop:propertyName];
+    
     [self willChangeValueForKey:@"width"];
     [self didChangeValueForKey:@"width"];
     
