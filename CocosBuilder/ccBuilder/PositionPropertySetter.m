@@ -344,4 +344,39 @@
     return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
 }
 
++ (void) setFloatScale:(float)f type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    int currentResolution = ad.currentDocument.currentResolution;
+    ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+    
+    float absF = f;
+    if (type == kCCBScaleTypeMultiplyResolution)
+    {
+        absF = f * resolution.scale;
+    }
+    
+    [node setValue:[NSNumber numberWithFloat:absF ] forKey:prop];
+    
+    [cs setExtraProp:[NSNumber numberWithFloat:f] forKey:prop andNode:node];
+    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[prop stringByAppendingString:@"Type"] andNode:node];
+}
+
++ (float) floatScaleForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    NSNumber* scale = [cs extraPropForKey:prop andNode:node];
+    if (!scale) return 1;
+    return [scale floatValue];
+}
+
++ (int) floatScaleTypeForNode:(CCNode*)node prop:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+}
+
 @end

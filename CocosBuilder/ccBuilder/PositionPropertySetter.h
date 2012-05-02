@@ -70,6 +70,10 @@ enum
 + (float) scaleYForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) scaledFloatTypeForNode:(CCNode*)node prop:(NSString*)prop;
 
++ (void) setFloatScale:(float)f type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
++ (float) floatScaleForNode:(CCNode*)node prop:(NSString*)prop;
++ (int) floatScaleTypeForNode:(CCNode*)node prop:(NSString*)prop;
+
 + (void) refreshPositionsForChildren:(CCNode*)node;
 + (void) refreshAllPositions;
 

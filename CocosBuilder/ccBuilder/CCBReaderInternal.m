@@ -156,6 +156,22 @@
         float f = [CCBReaderInternal deserializeFloat: serializedValue];
         [node setValue:[NSNumber numberWithFloat:f] forKey:name];
     }
+    else if ([type isEqualToString:@"FloatScale"])
+    {
+        float f = 0;
+        int type = 0;
+        if ([serializedValue isKindOfClass:[NSNumber class]])
+        {
+            // Support for old files
+            f = [serializedValue floatValue];
+        }
+        else
+        {
+            f = [[serializedValue objectAtIndex:0] floatValue];
+            type = [[serializedValue objectAtIndex:1] intValue];
+        }
+        [PositionPropertySetter setFloatScale:f type:type forNode:node prop:name];
+    }
     else if ([type isEqualToString:@"FloatVar"])
     {
         [node setValue:[serializedValue objectAtIndex:0] forKey:name];

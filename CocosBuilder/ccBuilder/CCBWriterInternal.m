@@ -169,6 +169,14 @@
             nil];
 }
 
++ (id) serializeFloatScale:(float)f type:(int)type
+{
+    return [NSArray arrayWithObjects:
+            [NSNumber numberWithFloat:f],
+            [NSNumber numberWithInt:type],
+            nil];
+}
+
 #pragma mark Writer
 
 + (NSMutableDictionary*) dictionaryFromCCObject:(CCNode *)node
@@ -256,6 +264,12 @@
         {
             float f = [[node valueForKey:name] floatValue];
             serializedValue = [CCBWriterInternal serializeFloat:f];
+        }
+        else if ([type isEqualToString:@"FloatScale"])
+        {
+            float f = [PositionPropertySetter floatScaleForNode:node prop:name];
+            int type = [PositionPropertySetter floatScaleTypeForNode:node prop:name];
+            serializedValue = [CCBWriterInternal serializeFloatScale:f type:type];
         }
         else if ([type isEqualToString:@"FloatVar"])
         {
