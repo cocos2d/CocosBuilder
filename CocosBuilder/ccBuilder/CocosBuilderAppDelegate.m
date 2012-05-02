@@ -833,7 +833,6 @@
         ResolutionSetting* resolution = [[[ResolutionSetting alloc] init] autorelease];
         resolution.width = stageW;
         resolution.height = stageH;
-        resolution.ext_hd = @"hd";
         resolution.centeredOrigin = centered;
         
         NSMutableArray* resolutions = [NSMutableArray arrayWithObject:resolution];
