@@ -68,7 +68,6 @@
     {
         CocosScene* cs = [[CCBGlobals globals] cocosScene];
         [cs setExtraProp:ccbFile forKey:propertyName andNode:selection];
-        //[TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:sf];
         [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile];
     }
     
