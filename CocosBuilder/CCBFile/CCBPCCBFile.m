@@ -42,6 +42,8 @@
     {
         [self addChild:cf];
     }
+    
+    self.contentSize = ccbFile.contentSize;
 }
 
 @end

@@ -29,6 +29,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBDocument.h"
 #import "ResolutionSetting.h"
+#import "NodeGraphPropertySetter.h"
 
 @implementation PositionPropertySetter
 
@@ -81,6 +82,14 @@
         {
             NSSize oldSize = [PositionPropertySetter sizeForNode:child prop:prop];
             [PositionPropertySetter setSize:oldSize forNode:child prop:prop];
+        }
+        
+        NSArray* ccbFileProps = [plugIn readablePropertiesForType:@"CCBFile"];
+        for (NSString* prop in ccbFileProps)
+        {
+            // Reload ccbFiles
+            NSString* ccbFile = [NodeGraphPropertySetter nodeGraphNameForNode:child andProperty:prop];
+            [NodeGraphPropertySetter setNodeGraphForNode:child andProperty:prop withFile:ccbFile parentSize:node.contentSize];
         }
     }
 }

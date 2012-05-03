@@ -31,4 +31,6 @@
 
 + (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize;
 
++ (NSString*) nodeGraphNameForNode:(CCNode*)node andProperty:(NSString*)prop;
+
 @end
