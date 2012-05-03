@@ -30,6 +30,7 @@
 #import "CCBDocument.h"
 #import "CCBReaderInternal.h"
 #import "NodeGraphPropertySetter.h"
+#import "PositionPropertySetter.h"
 
 @implementation InspectorCCBFile
 
@@ -68,7 +69,7 @@
     {
         CocosScene* cs = [[CCBGlobals globals] cocosScene];
         [cs setExtraProp:ccbFile forKey:propertyName andNode:selection];
-        [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile];
+        [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile parentSize:[PositionPropertySetter getParentSize:selection]];
     }
     
     [self updateAffectedProperties];

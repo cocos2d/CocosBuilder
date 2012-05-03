@@ -40,11 +40,18 @@
     CGSize parentSize;
     if (cs.rootNode == node)
     {
+        // This is the document root node
         parentSize = cs.stageSize;
+    }
+    else if (node.parent)
+    {
+        // This node has a parent
+        parentSize = node.parent.contentSize;
     }
     else
     {
-        parentSize = node.parent.contentSize;
+        // This is a node loaded from a sub-ccb file (or the node graph isn't loaded yet)
+        NSLog(@"No parent!!!");
     }
     return parentSize;
 }
@@ -90,10 +97,10 @@
     [PositionPropertySetter setSize:rootNodeSize forNode:cs.rootNode prop:@"contentSize"];
 }
 
-+ (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type node:(CCNode*) node
++ (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type parentSize:(CGSize) parentSize
 {
     // Get parent size
-    CGSize parentSize = [PositionPropertySetter getParentSize:node];
+    //CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     // Calculate absolute position
     NSPoint absPos = NSZeroPoint;
@@ -126,10 +133,10 @@
     return absPos;
 }
 
-+ (NSPoint) calcRelativePositionFromAbsolute:(NSPoint)pos type:(int)type node:(CCNode*) node
++ (NSPoint) calcRelativePositionFromAbsolute:(NSPoint)pos type:(int)type parentSize:(CGSize)parentSize
 {
     // Get parent size
-    CGSize parentSize = [PositionPropertySetter getParentSize:node];
+    //CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     NSPoint relPos = NSZeroPoint;
     
@@ -176,11 +183,17 @@
     return relPos;
 }
 
+
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop
+{
+    [PositionPropertySetter setPosition:pos type:type forNode:node prop:prop parentSize:[PositionPropertySetter getParentSize:node]];
+}
+
++ (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop parentSize:(CGSize)parentSize
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
-    NSPoint absPos = [PositionPropertySetter calcAbsolutePositionFromRelative:pos type:type node:node];
+    NSPoint absPos = [PositionPropertySetter calcAbsolutePositionFromRelative:pos type:type parentSize:parentSize];
     
     // Set the position value
     [node setValue:[NSValue valueWithPoint:absPos] forKey:prop];
@@ -199,7 +212,7 @@
 + (void) setPositionType:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
     NSPoint oldAbsPos = [[node valueForKey:prop] pointValue];
-    NSPoint relPos = [PositionPropertySetter calcRelativePositionFromAbsolute:oldAbsPos type:type node:node];
+    NSPoint relPos = [PositionPropertySetter calcRelativePositionFromAbsolute:oldAbsPos type:type parentSize:[PositionPropertySetter getParentSize:node]];
     [PositionPropertySetter setPosition:relPos type:type forNode:node prop:prop];
 }
 
@@ -217,10 +230,12 @@
 
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
+    [PositionPropertySetter setSize:size type:type forNode:node prop:prop parentSize:[PositionPropertySetter getParentSize:node]];
+}
+
++ (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop parentSize:(CGSize)parentSize;
+{
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    // Get parent size
-    CGSize parentSize = [PositionPropertySetter getParentSize:node];
     
     // Calculate absolute size
     NSSize absSize = NSMakeSize(0, 0);

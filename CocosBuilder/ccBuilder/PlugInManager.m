@@ -201,7 +201,8 @@
             else
             {
                 // Set the property on the object
-                [CCBReaderInternal setProp:name ofType:type toValue:defaultValue forNode:node];
+#warning TODO: Fix parent size
+                [CCBReaderInternal setProp:name ofType:type toValue:defaultValue forNode:node parentSize:CGSizeZero];
             }
         }
     }

@@ -511,7 +511,8 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict];
+#warning TODO: Fix parentSize
+        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
         if (![self addCCObject:clipNode toParent:item atIndex:index]) return NO;
         
         // Remove old node
@@ -841,8 +842,10 @@
     }
     [self updateResolutionMenu];
     
+    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
+    
     // Process contents
-    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
+    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
     
     // Replace open document
     selectedNode = NULL;
@@ -1329,7 +1332,8 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict];
+#warning TODO: Fix parent size
+        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
         [self addCCObject:clipNode asChild:asChild];
         [PositionPropertySetter refreshAllPositions];
     }

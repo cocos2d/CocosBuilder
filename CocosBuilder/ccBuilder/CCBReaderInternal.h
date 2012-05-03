@@ -29,7 +29,10 @@
 
 @interface CCBReaderInternal : NSObject
 
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
-+ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
-+ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node;
+//+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict;
++ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict parentSize:(CGSize)parentSize;
+//+ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary*) dict;
++ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary *)dict parentSize:(CGSize) parentSize;
+//+ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node;
++ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node parentSize:(CGSize)parentSize;
 @end

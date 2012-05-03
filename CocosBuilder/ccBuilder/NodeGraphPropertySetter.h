@@ -27,6 +27,8 @@
 
 @interface NodeGraphPropertySetter : NSObject
 
-+ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName;
+//+ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName;
+
++ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize;
 
 @end

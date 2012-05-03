@@ -31,9 +31,16 @@
 
 @implementation NodeGraphPropertySetter
 
-+ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName
+//+ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName
+//{
+//    [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:prop withFile:ccbFileName parentSize:node.parent.contentSize];
+//}
+
++ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize
 {
     CCNode* ccbFile = NULL;
+    
+    NSLog(@"setNodeGraphForNode parentSize: (%f,%f)",parentSize.width, parentSize.height);
     
     if (ccbFileName && ![ccbFileName isEqualToString:@""])
     {
@@ -54,7 +61,7 @@
             {
     
                 // Parse the node graph
-                ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"]];
+                ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"] parentSize:parentSize];
             }
         }
     }
