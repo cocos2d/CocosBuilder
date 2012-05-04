@@ -336,6 +336,20 @@
             [node setValue:[NSNumber numberWithFloat:f] forKey:name];
         }
     }
+    else if (type == kCCBPropTypeFloatScale)
+    {
+        float f = [self readFloat];
+        int type = [self readIntWithSign:NO];
+        
+        if (setProp)
+        {
+            if (type == kCCBScaleTypeMultiplyResolution)
+            {
+                f *= resolutionScale;
+            }
+            [node setValue:[NSNumber numberWithFloat:f] forKey:name];
+        }
+    }
     else if (type == kCCBPropTypeInteger
              || type == kCCBPropTypeIntegerLabeled)
     {
@@ -618,7 +632,7 @@
         ccbFileName = [NSString stringWithFormat:@"%@.ccbi", [ccbFileName stringByDeletingPathExtension]];
         
         // Load sub file and add it
-        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner];
+        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner parentSize:parent.contentSize];
         
         if (setProp)
         {
@@ -731,9 +745,9 @@
     
     // Read version
     int version = [self readIntWithSign:NO];
-    if (version != 2)
+    if (version != kCCBVersion)
     {
-        NSLog(@"WARNING! Incompatible ccbi file version");
+        NSLog(@"WARNING! Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
         return NO;
     }
     
@@ -753,7 +767,13 @@
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner
 {
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
+{
     CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
+    reader->rootContainerSize = parentSize;
     
     return [reader readFile];
 }
@@ -765,7 +785,12 @@
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner
 {
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner];
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize
+{
+    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;

@@ -96,7 +96,7 @@
 
     // Use the CCBReader to load the HelloCocosBuilder scene
     // from the ccbi-file.
-    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"Test.ccbi"];
+    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"HelloCocosBuilder.ccbi"];
     
 	// Add the scene to the stack. The director will run it when it automatically when the view is displayed.
 	[director_ pushScene: scene]; 
