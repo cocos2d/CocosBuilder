@@ -153,10 +153,8 @@
     guiView = [[[CCBTransparentView alloc] initWithFrame:cocosView.frame] autorelease];
     [guiWindow setContentView:guiView];
     guiWindow.delegate = self;
-    //[guiWindow setIsVisible:NO];
     
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
-    //[window setIsVisible:NO];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -477,7 +475,6 @@
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     if (item == NULL) return NSDragOperationNone;
-    //if (index != -1) return NSDragOperationNone;
     
     CCBGlobals* g = [CCBGlobals globals];
     NSPasteboard* pb = [info draggingPasteboard];
@@ -876,8 +873,6 @@
     {
         [g.cocosScene.notesLayer removeAllNotes];
     }
-    
-    //[PositionPropertySetter refreshAllPositions];
 }
 
 - (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
@@ -1029,8 +1024,6 @@
     self.hasOpenedDocument = YES;
     
     [self checkForTooManyDirectoriesInCurrentDoc];
-	
-    //[PositionPropertySetter refreshAllPositions];
     
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
@@ -1127,8 +1120,6 @@
     [[g cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
-    
-    //[PositionPropertySetter refreshAllPositions];
 }
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
@@ -1668,67 +1659,11 @@
     return 0;
 }
 
-/*
-- (void) updateCanvasSizeMenu
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    CGSize size = [cs stageSize];
-    int tag = [self orientedDeviceTypeForSize:size];
-    
-    [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasSize tag:tag];
-}*/
-
-/*
-- (IBAction) menuSetCanvasSize:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    CGSize oldSize = [cs stageSize];
-    
-    int tag = (int)[sender tag];
-    CGSize size;
-    
-    if (tag)
-    {
-        size = defaultCanvasSizes[tag];
-    }
-    else
-    {
-        StageSizeWindow* wc = [[[StageSizeWindow alloc] initWithWindowNibName:@"StageSizeWindow"] autorelease];
-        
-        size = [cs stageSize];
-        wc.wStage = size.width;
-        wc.hStage = size.height;
-        
-        int success = [wc runModalSheetForWindow:window];
-        
-        if (success)
-        {
-            size.width = wc.wStage;
-            size.height = wc.hStage;
-        }
-    }
-    
-    if (oldSize.width != size.width || oldSize.height != size.height)
-    {
-        [self saveUndoState];
-        [cs setStageSize:size centeredOrigin:[cs centeredOrigin]];
-    }
-    
-    [self updateCanvasSizeMenu];
-    [self reloadResources];
-    
-    // Update size of root node
-    [PositionPropertySetter refreshAllPositions];
-}*/
-
 - (IBAction) menuEditResolutionSettings:(id)sender
 {
     if (!currentDocument) return;
     
     ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];
-    //wc.resolutions = currentDocument.resolutions;
     [wc copyResolutions: currentDocument.resolutions];
     
     int success = [wc runModalSheetForWindow:window];
@@ -1737,7 +1672,6 @@
         NSLog(@"Success!");
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
-        //[resManager 
     }
 }
 

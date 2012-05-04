@@ -319,30 +319,6 @@
         if ([fileNoExt hasSuffix:ext]) return YES;
     }
     
-    /*
-    // Check standard extensions
-    if ([fileNoExt hasSuffix:@"2x"]) return YES;
-    
-    // Check extensions as provided by resolution settings
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
-    NSArray* resolutions = ad.currentDocument.resolutions;
-    for (ResolutionSetting* resolution in resolutions)
-    {
-        for(NSString* ext in resolution.exts)
-        {
-            NSString* completeExt = [@"-" stringByAppendingString:ext];
-            
-            NSLog(@"checking %@",completeExt);
-            
-            if ([fileNoExt hasSuffix:completeExt]) return YES;
-        }
-        for(NSString* ext in resolution.exts_hd)
-        {
-            NSString* completeExt = [@"-" stringByAppendingString:ext];
-            if ([fileNoExt hasSuffix:completeExt]) return YES;
-        }
-    }*/
-    
     return NO;
 }
 
@@ -556,8 +532,6 @@
 
 - (void) addDirectory:(NSString *)dirPath
 {
-    NSLog(@"addDirectory: %@",dirPath);
-    
     if ([directories count] > kCCBMaxTrackedDirectories)
     {
         tooManyDirectoriesAdded = YES;
