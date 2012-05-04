@@ -1090,6 +1090,7 @@
     [self prepareForDocumentSwitch];
     
     CCBGlobals* g = [CCBGlobals globals];
+    [g.cocosScene.notesLayer removeAllNotes];
     
     selectedNode = NULL;
     [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
