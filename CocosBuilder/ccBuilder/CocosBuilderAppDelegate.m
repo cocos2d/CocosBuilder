@@ -511,7 +511,6 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-#warning TODO: Fix parentSize
         CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
         if (![self addCCObject:clipNode toParent:item atIndex:index]) return NO;
         
@@ -878,7 +877,7 @@
         [g.cocosScene.notesLayer removeAllNotes];
     }
     
-    [PositionPropertySetter refreshAllPositions];
+    //[PositionPropertySetter refreshAllPositions];
 }
 
 - (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
@@ -1129,7 +1128,7 @@
     
     [self checkForTooManyDirectoriesInCurrentDoc];
     
-    [PositionPropertySetter refreshAllPositions];
+    //[PositionPropertySetter refreshAllPositions];
 }
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
@@ -1279,7 +1278,7 @@
         // Set its position
         [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
-        [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node];
+        [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node parentSize:CGSizeZero];
         
         [self addCCObject:node toParent:parent];
     }
@@ -1332,10 +1331,12 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-#warning TODO: Fix parent size
-        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
+        CGSize parentSize;
+        if (asChild) parentSize = selectedNode.contentSize;
+        else parentSize = selectedNode.parent.contentSize;
+        
+        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:parentSize];
         [self addCCObject:clipNode asChild:asChild];
-        [PositionPropertySetter refreshAllPositions];
     }
 }
 
