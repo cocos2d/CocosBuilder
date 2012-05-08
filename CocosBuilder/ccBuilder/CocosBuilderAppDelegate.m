@@ -748,8 +748,6 @@
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
-    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
-    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
     [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
     
     // Guides & notes
@@ -796,6 +794,8 @@
 {
     CCBGlobals* g = [CCBGlobals globals];
     
+    BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
+    
     // Setup stage & resolutions
     NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
     if (serializedResolutions)
@@ -811,7 +811,7 @@
         ResolutionSetting* resolution = [resolutions objectAtIndex:currentResolution];
         
         // Update CocosScene
-        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
         
         // Save in current document
         currentDocument.resolutions = resolutions;
@@ -822,7 +822,6 @@
         // Support old files where the current width and height was stored
         int stageW = [[doc objectForKey:@"stageWidth"] intValue];
         int stageH = [[doc objectForKey:@"stageHeight"] intValue];
-        BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
         
         [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
         
@@ -1667,7 +1666,7 @@
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
     currentDocument.currentResolution = r;
     
-    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
     
     [self updateResolutionMenu];
     [self reloadResources];
@@ -1686,7 +1685,6 @@
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
-        NSLog(@"Success!");
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
         [self setResolution:0];
