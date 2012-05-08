@@ -142,7 +142,7 @@
     node.scaleY = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleY"];
     node.anchorPoint = [CCBReaderInternalV1 pointValFromDict:props forKey:@"anchorPoint"];
     node.rotation = [CCBReaderInternalV1 floatValFromDict:props forKey:@"rotation"];
-    node.isRelativeAnchorPoint = [CCBReaderInternalV1 boolValFromDict:props forKey:@"isRelativeAnchorPoint"];
+    node.ignoreAnchorPointForPosition = ![CCBReaderInternalV1 boolValFromDict:props forKey:@"isRelativeAnchorPoint"];
     node.visible = [CCBReaderInternalV1 boolValFromDict:props forKey:@"visible"];
     node.tag = [CCBReaderInternalV1 intValFromDict:props forKey:@"tag"];
         
