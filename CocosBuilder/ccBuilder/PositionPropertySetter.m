@@ -284,6 +284,48 @@
     [PositionPropertySetter refreshPositionsForChildren:node];
 }
 
++ (void) setSizeType:(int)type forNode:(CCNode*)node prop:(NSString*)prop
+{
+    NSSize absSize = [[node valueForKey:prop] sizeValue];
+    NSSize relSize = NSZeroSize;
+    
+    CGSize parentSize = [PositionPropertySetter getParentSize:node];
+    
+    if (type == kCCBScaleTypeAbsolute)
+    {
+        relSize = absSize;
+    }
+    else if (type == kCCBSizeTypePercent)
+    {
+        if (parentSize.width == 0) relSize.width = 0;
+        else relSize.width = 100.0f * absSize.width/parentSize.width;
+        
+        if (parentSize.height == 0) relSize.height = 0;
+        else relSize.height = 100.0f * absSize.height/parentSize.height;
+    }
+    else if (type == kCCBSizeTypeRelativeContainer)
+    {
+        relSize.width = parentSize.width - absSize.width;
+        relSize.height = parentSize.height - absSize.height;
+    }
+    else if (type == kCCBSizeTypeHorizontalPercent)
+    {
+        if (parentSize.width == 0) relSize.width = 0;
+        else relSize.width = 100.0f * absSize.width/parentSize.width;
+        
+        relSize.height = absSize.height;
+    }
+    else if (type == kCCBSzieTypeVerticalPercent)
+    {
+        relSize.width = parentSize.width - relSize.width;
+        
+        if (parentSize.height == 0) relSize.height = 0;
+        else relSize.height = 100.0f * absSize.height/parentSize.height;
+    }
+    
+    [PositionPropertySetter setSize:relSize type:type forNode:node prop:prop];
+}
+
 + (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop
 {
     int type = [PositionPropertySetter sizeTypeForNode:node prop:prop];

@@ -65,8 +65,15 @@
 {
     [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
-    NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
-    [PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+    //NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
+    //[PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+    [PositionPropertySetter setSizeType:type forNode:selection prop:propertyName];
+    
+    [self willChangeValueForKey:@"width"];
+    [self didChangeValueForKey:@"width"];
+    
+    [self willChangeValueForKey:@"height"];
+    [self didChangeValueForKey:@"height"];
     
     [self updateAffectedProperties];
 }
@@ -85,6 +92,9 @@
     
     [self willChangeValueForKey:@"height"];
     [self didChangeValueForKey:@"height"];
+    
+    [self willChangeValueForKey:@"type"];
+    [self didChangeValueForKey:@"type"];
 }
 
 @end

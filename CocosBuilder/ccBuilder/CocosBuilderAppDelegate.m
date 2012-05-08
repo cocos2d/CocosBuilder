@@ -1660,6 +1660,22 @@
     return 0;
 }
 
+- (void) setResolution:(int)r
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
+    currentDocument.currentResolution = r;
+    
+    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+    
+    [self updateResolutionMenu];
+    [self reloadResources];
+    
+    // Update size of root node
+    [PositionPropertySetter refreshAllPositions];
+}
+
 - (IBAction) menuEditResolutionSettings:(id)sender
 {
     if (!currentDocument) return;
@@ -1673,6 +1689,7 @@
         NSLog(@"Success!");
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
+        [self setResolution:0];
     }
 }
 
@@ -1680,20 +1697,7 @@
 {
     if (!currentDocument) return;
     
-    NSLog(@"Set resolution: %d",(int)[sender tag]);
-    
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:[sender tag]];
-    currentDocument.currentResolution = [sender tag];
-    
-    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
-    
-    [self updateResolutionMenu];
-    [self reloadResources];
-    
-    // Update size of root node
-    [PositionPropertySetter refreshAllPositions];
+    [self setResolution:(int)[sender tag]];
 }
 
 - (void) updateStateOriginCenteredMenu
