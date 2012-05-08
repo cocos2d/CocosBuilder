@@ -105,7 +105,7 @@
     // Black content layer
     stageBgLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255) width:0 height:0];
     stageBgLayer.anchorPoint = ccp(0.5,0.5);
-    stageBgLayer.isRelativeAnchorPoint = YES;
+    stageBgLayer.ignoreAnchorPointForPosition = NO;
     [self addChild:stageBgLayer z:0];
     
     contentLayer = [CCLayer node];
