@@ -282,6 +282,9 @@
 		E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */; };
 		E370BA0C1549B2460048ED73 /* scale-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0A1549B2460048ED73 /* scale-0.png */; };
 		E370BA0D1549B2460048ED73 /* scale-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0B1549B2460048ED73 /* scale-1.png */; };
+		E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */; };
+		E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */; };
+		E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EAC155979BF00196B4A /* ProjectSettings.m */; };
 		E383BF6B152478940032F371 /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E383BF6A152478940032F371 /* CCScrollView.m */; };
 		E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3850808150AA9AE007E162A /* ImageAndTextCell.m */; };
 		E385080B150AB232007E162A /* segmctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E385080A150AB232007E162A /* segmctrl-bg.png */; };
@@ -1022,6 +1025,11 @@
 		E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		E370BA0A1549B2460048ED73 /* scale-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scale-0.png"; sourceTree = "<group>"; };
 		E370BA0B1549B2460048ED73 /* scale-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scale-1.png"; sourceTree = "<group>"; };
+		E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectSettingsWindow.xib; sourceTree = "<group>"; };
+		E3799EA81559771D00196B4A /* ProjectSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettingsWindow.h; sourceTree = "<group>"; };
+		E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingsWindow.m; sourceTree = "<group>"; };
+		E3799EAB155979BF00196B4A /* ProjectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettings.h; sourceTree = "<group>"; };
+		E3799EAC155979BF00196B4A /* ProjectSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettings.m; sourceTree = "<group>"; };
 		E383BF69152478940032F371 /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E383BF6A152478940032F371 /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
 		E3850807150AA9AE007E162A /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
@@ -1381,6 +1389,8 @@
 				772BE571133E48340009B5B9 /* CCBGlobals.m */,
 				E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */,
 				E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */,
+				E3799EAB155979BF00196B4A /* ProjectSettings.h */,
+				E3799EAC155979BF00196B4A /* ProjectSettings.m */,
 			);
 			name = "Application Settings & Globals";
 			sourceTree = "<group>";
@@ -1492,6 +1502,9 @@
 				E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */,
 				E398C04114FBCA620078E771 /* PublishTypeAccessoryView.h */,
 				E398C04214FBCA620078E771 /* PublishTypeAccessoryView.m */,
+				E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */,
+				E3799EA81559771D00196B4A /* ProjectSettingsWindow.h */,
+				E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */,
 			);
 			name = Dialogs;
 			sourceTree = "<group>";
@@ -3168,6 +3181,7 @@
 				E3DC1B8C154F18660087724C /* size-3.png in Resources */,
 				E3DC1B8D154F18660087724C /* size-4.png in Resources */,
 				E334069715517225000FBD0B /* InspectorFloatScale.xib in Resources */,
+				E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3532,6 +3546,8 @@
 				E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */,
 				E3EDBC251549971000EEF1F3 /* CCBFileUtil.m in Sources */,
 				E334069B1551725F000FBD0B /* InspectorFloatScale.m in Sources */,
+				E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */,
+				E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

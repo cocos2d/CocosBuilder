@@ -44,6 +44,7 @@ enum {
 
 
 @class CCBDocument;
+@class ProjectSettings;
 @class AssetsWindowController;
 @class PlugInManager;
 @class ResourceManager;
@@ -93,7 +94,8 @@ enum {
     ResourceManager* resManager;
     ResourceManagerPanel* resManagerPanel;
     
-    //NSMutableArray* assetsFontListTTF;
+    // Project
+    ProjectSettings* projectSettings;
     
     // Documents
     CCBDocument* currentDocument;
@@ -141,6 +143,8 @@ enum {
 
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
+
+@property (nonatomic,retain) ProjectSettings* projectSettings;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;

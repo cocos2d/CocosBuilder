@@ -55,12 +55,28 @@
 #import "CCBTransparentView.h"
 #import "NotesLayer.h"
 #import "ResolutionSetting.h"
+#import "ProjectSettingsWindow.h"
+#import "ProjectSettings.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides, guiView, guiWindow, showStickyNotes;
+@synthesize window;
+@synthesize projectSettings;
+@synthesize currentDocument;
+@synthesize cocosView;
+@synthesize canEditContentSize;
+@synthesize canEditCustomClass;
+@synthesize hasOpenedDocument;
+@synthesize defaultCanvasSize;
+@synthesize plugInManager;
+@synthesize resManager;
+@synthesize showGuides;
+@synthesize snapToGuides;
+@synthesize guiView;
+@synthesize guiWindow;
+@synthesize showStickyNotes;
 
 #pragma mark Setup functions
 
@@ -176,6 +192,9 @@
     [self setupCocos2d];
     [self setupOutlineView];
     [self updateInspectorFromSelection];
+    
+#warning DEBUG!
+    self.projectSettings = [[[ProjectSettings alloc] init] autorelease];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
@@ -1560,6 +1579,20 @@
             [[[CCDirector sharedDirector] view] unlockOpenGLContext];
         }
     }];
+}
+
+- (IBAction) menuProjectSettings:(id)sender
+{
+    if (!currentDocument) return;
+    
+    ProjectSettingsWindow* wc = [[[ProjectSettingsWindow alloc] initWithWindowNibName:@"ProjectSettingsWindow"] autorelease];
+    wc.projectSettings = self.projectSettings;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        NSLog(@"Edited settings");
+    }
 }
 
 - (IBAction) openDocument:(id)sender
