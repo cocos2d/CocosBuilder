@@ -8,6 +8,7 @@
 
 #import "ProjectSettingsWindow.h"
 #import "ProjectSettings.h"
+#import "NSString+RelativePath.h"
 
 @implementation ProjectSettingsWindow
 
@@ -29,8 +30,10 @@
             for (int i = 0; i < [files count]; i++)
             {
                 NSString* dirName = [[files objectAtIndex:i] path];
+                NSString* projectDir = [projectSettings.projectPath stringByDeletingLastPathComponent];
+                NSString* relDirName = [dirName relativePathFromBaseDirPath:projectDir];
                 
-                projectSettings.publishDirectory = dirName;
+                projectSettings.publishDirectory = relDirName;
             }
             
             [[[CCDirector sharedDirector] view] unlockOpenGLContext];
@@ -55,8 +58,21 @@
             for (int i = 0; i < [files count]; i++)
             {
                 NSString* dirName = [[files objectAtIndex:i] path];
+                NSString* projectDir = [projectSettings.projectPath stringByDeletingLastPathComponent];
+                NSString* relDirName = [dirName relativePathFromBaseDirPath:projectDir];
                 
-                [resDirArrayController addObject:[NSMutableDictionary dictionaryWithObject:dirName forKey:@"path"]];
+                // Check for duplicate
+                BOOL isDuplicate = NO;
+                for (NSDictionary* row in projectSettings.resourcePaths)
+                {
+                    NSString* path = [row objectForKey:@"path"];
+                    if ([path isEqualToString:relDirName]) isDuplicate = YES;
+                }
+                
+                if (!isDuplicate)
+                {
+                    [resDirArrayController addObject:[NSMutableDictionary dictionaryWithObject:relDirName forKey:@"path"]];
+                }
             }
             
             [[[CCDirector sharedDirector] view] unlockOpenGLContext];

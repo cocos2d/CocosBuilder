@@ -282,9 +282,11 @@
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    CCBDocument* doc = [tabViewItem identifier];
+    //CCBDocument* doc = [tabViewItem identifier];
     
     // Remove directory paths from resource manager
+    
+    /*
     [resManager removeDirectory:doc.rootPath];
     NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
     if (paths)
@@ -293,7 +295,7 @@
         {
             [resManager removeDirectory:path];
         }
-    }
+    }*/
     
     if ([[aTabView tabViewItems] count] == 0)
     {
@@ -893,6 +895,7 @@
     }
 }
 
+/*
 - (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
 {
     NSArray* activeDirs = [NSMutableArray arrayWithObject:doc.rootPath];
@@ -901,7 +904,7 @@
         activeDirs = [activeDirs arrayByAddingObjectsFromArray:[doc.project objectForKey:@"resourcePaths"]];
     }
     [[ResourceManager sharedManager] setActiveDirectories:activeDirs];
-}
+}*/
 
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
 {
@@ -914,7 +917,7 @@
     NSMutableDictionary* doc = document.docData;
     
     // Update active directories for the resource manager
-    [self setRMActiveDirectoriesForDoc:document];
+    //[self setRMActiveDirectoriesForDoc:document];
     
     [self replaceDocumentData:doc];
     
@@ -977,6 +980,7 @@
     return NULL;
 }
 
+/*
 - (void) addRMDirectoriesForDoc:(CCBDocument*)doc
 {
     [resManager addDirectory:doc.rootPath];
@@ -988,7 +992,7 @@
             [resManager addDirectory:path];
         }
     }
-}
+}*/
 
 - (void) checkForTooManyDirectoriesInCurrentDoc
 {
@@ -1005,6 +1009,54 @@
         // Notify the user
         [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
     }
+}
+
+- (BOOL) createProject:(NSString*) fileName
+{
+    // Create a default project
+    ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
+    settings.projectPath = fileName;
+    return [settings store];
+}
+
+- (void) closeProject
+{
+    self.projectSettings = NULL;
+    [resManager removeAllDirectories];
+}
+
+- (void) openProject:(NSString*) fileName
+{
+    // TODO: Close currently open project
+    [self closeProject];
+    
+    // Add to recent list of opened documents
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
+    
+    NSMutableDictionary* projectDict = [NSMutableDictionary dictionaryWithContentsOfFile:fileName];
+    if (!projectDict)
+    {
+        [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File may be missing or invalid."];
+        return;
+    }
+    
+    ProjectSettings* project = [[[ProjectSettings alloc] initWithSerialization:projectDict] autorelease];
+    if (!project)
+    {
+        [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File is invalid or is created with a newer version of CocosBuilder."];
+        return;
+    }
+    project.projectPath = fileName;
+    
+    self.projectSettings = project;
+    
+    // Setup links to directories
+    for (NSString* dir in [projectSettings absoluteResourcePaths])
+    {
+        NSLog(@"ADDING %@", dir);
+        [resManager addDirectory:dir];
+    }
+    [[ResourceManager sharedManager] setActiveDirectories:[projectSettings absoluteResourcePaths]];
 }
 
 - (void) openFile:(NSString*) fileName
@@ -1034,7 +1086,7 @@
     newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
     
     // Add directories to resource manager
-    [self addRMDirectoriesForDoc:newDoc];
+    //[self addRMDirectoriesForDoc:newDoc];
     
     [self switchToDocument:newDoc];
      
@@ -1126,8 +1178,8 @@
     
     [self saveFile:fileName];
     
-    [self addRMDirectoriesForDoc:self.currentDocument];
-    [self setRMActiveDirectoriesForDoc:self.currentDocument];
+    //[self addRMDirectoriesForDoc:self.currentDocument];
+    //[self setRMActiveDirectoriesForDoc:self.currentDocument];
     
     [self addDocument:currentDocument];
     
@@ -1591,10 +1643,11 @@
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
-        NSLog(@"Edited settings");
+        [self.projectSettings store];
     }
 }
 
+/*
 - (IBAction) openDocument:(id)sender
 {
     // Create the File Open Dialog
@@ -1611,6 +1664,50 @@
             {
                 NSString* fileName = [[files objectAtIndex:i] path];
                 [self openFile:fileName];
+            }
+        }
+    }];
+}
+*/
+
+- (IBAction) openDocument:(id)sender
+{
+    // Create the File Open Dialog
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
+    
+    [openDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            NSArray* files = [openDlg URLs];
+            
+            for (int i = 0; i < [files count]; i++)
+            {
+                NSString* fileName = [[files objectAtIndex:i] path];
+                [self openProject:fileName];
+            }
+        }
+    }];
+}
+
+- (IBAction) menuNewProject:(id)sender
+{
+    // Accepted create document, prompt for place for file
+    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
+    
+    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            NSString* fileName = [[saveDlg URL] path];
+            if ([self createProject: fileName])
+            {
+                [self openProject:fileName];
+            }
+            else
+            {
+                [self modalDialogTitle:@"Failed to Create Project" message:@"Failed to create the project, make sure you are saving it to a writable directory."];
             }
         }
     }];

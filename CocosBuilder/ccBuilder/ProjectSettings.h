@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kCCBProjectSettingsVersion 1
+
 @interface ProjectSettings : NSObject
 {
     NSString* projectPath;
@@ -22,5 +24,8 @@
 @property (nonatomic, copy) NSString* publishDirectory;
 @property (nonatomic, assign) BOOL flattenPaths;
 @property (nonatomic, assign) BOOL publishToZipFile;
+@property (nonatomic, readonly) NSArray* absoluteResourcePaths;
 
+- (id) initWithSerialization:(id)dict;
+- (BOOL) store;
 @end
