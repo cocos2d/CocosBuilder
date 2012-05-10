@@ -127,6 +127,7 @@
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
 		E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */; };
+		E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */ = {isa = PBXBuildFile; fileRef = E346286A155C18D80043EAB1 /* SavePanelLimiter.m */; };
 		E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E34E5D6515357CF2000201FB /* RulersLayer.m */; };
 		E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */; };
 		E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D69153585EC000201FB /* ruler-bg-vertical.png */; };
@@ -737,6 +738,8 @@
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
 		E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerOutlineHandler.h; sourceTree = "<group>"; };
 		E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerOutlineHandler.m; sourceTree = "<group>"; };
+		E3462869155C18D80043EAB1 /* SavePanelLimiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavePanelLimiter.h; sourceTree = "<group>"; };
+		E346286A155C18D80043EAB1 /* SavePanelLimiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavePanelLimiter.m; sourceTree = "<group>"; };
 		E34E5D6415357CF2000201FB /* RulersLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulersLayer.h; sourceTree = "<group>"; };
 		E34E5D6515357CF2000201FB /* RulersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulersLayer.m; sourceTree = "<group>"; };
 		E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-horizontal.png"; sourceTree = "<group>"; };
@@ -1419,6 +1422,8 @@
 				E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */,
 				E3EDBC231549971000EEF1F3 /* CCBFileUtil.h */,
 				E3EDBC241549971000EEF1F3 /* CCBFileUtil.m */,
+				E3462869155C18D80043EAB1 /* SavePanelLimiter.h */,
+				E346286A155C18D80043EAB1 /* SavePanelLimiter.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1430,17 +1435,8 @@
 				7789ACE9133AB47A00CEFCC7 /* CocosScene.m */,
 				7789ABD4133AA82000CEFCC7 /* CocosBuilderAppDelegate.h */,
 				7789ABD5133AA82000CEFCC7 /* CocosBuilderAppDelegate.m */,
-				E34E5D6415357CF2000201FB /* RulersLayer.h */,
-				E34E5D6515357CF2000201FB /* RulersLayer.m */,
-				E3A16AF11536D096004B528A /* GuidesLayer.h */,
-				E3A16AF21536D096004B528A /* GuidesLayer.m */,
 				776A37B41398D6B900960E94 /* CCBGLView.h */,
 				776A37B51398D6BD00960E94 /* CCBGLView.m */,
-				E3F3F83D153C72A3005443EE /* NotesLayer.h */,
-				E3F3F83E153C72A3005443EE /* NotesLayer.m */,
-				E3F3F846153D9126005443EE /* StickyNoteEditView.xib */,
-				E3F3F841153C7700005443EE /* StickyNote.h */,
-				E3F3F842153C7700005443EE /* StickyNote.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1684,12 +1680,13 @@
 			isa = PBXGroup;
 			children = (
 				776041E31498F5E80078095D /* AppDelegate & Cocos2D Scene */,
-				776041E21498F5A70078095D /* Util */,
+				E346286C155C23100043EAB1 /* Rulers & Guides */,
+				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Readers & Writers */,
-				7789ACF8133BFA9700CEFCC7 /* Interface */,
-				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
+				7789ACF8133BFA9700CEFCC7 /* Interface */,
+				776041E21498F5A70078095D /* Util */,
 				7789ABC9133AA82000CEFCC7 /* Supporting Files */,
 			);
 			name = CocosBuilder;
@@ -1892,6 +1889,22 @@
 				E325F66614F65D4100D29BCF /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E346286C155C23100043EAB1 /* Rulers & Guides */ = {
+			isa = PBXGroup;
+			children = (
+				E34E5D6415357CF2000201FB /* RulersLayer.h */,
+				E34E5D6515357CF2000201FB /* RulersLayer.m */,
+				E3A16AF11536D096004B528A /* GuidesLayer.h */,
+				E3A16AF21536D096004B528A /* GuidesLayer.m */,
+				E3F3F83D153C72A3005443EE /* NotesLayer.h */,
+				E3F3F83E153C72A3005443EE /* NotesLayer.m */,
+				E3F3F846153D9126005443EE /* StickyNoteEditView.xib */,
+				E3F3F841153C7700005443EE /* StickyNote.h */,
+				E3F3F842153C7700005443EE /* StickyNote.m */,
+			);
+			name = "Rulers & Guides";
 			sourceTree = "<group>";
 		};
 		E35392461518AD0A00471721 /* Core */ = {
@@ -3554,6 +3567,7 @@
 				E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */,
 				E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */,
 				E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */,
+				E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
