@@ -58,6 +58,7 @@
 #import "ProjectSettingsWindow.h"
 #import "ProjectSettings.h"
 #import "ResourceManagerOutlineHandler.h"
+#import "SavePanelLimiter.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1090,9 +1091,6 @@
 
 - (void) saveFile:(NSString*) fileName
 {
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
-    
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
      
     [doc writeToFile:fileName atomically:YES];
@@ -1143,9 +1141,6 @@
         NSTabViewItem* item = [self tabViewItemFromDoc:oldDoc];
         if (item) [tabView removeTabViewItem:item];
     }
-    
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
     
     [self prepareForDocumentSwitch];
     
@@ -1486,14 +1481,15 @@
 {
     if (!currentDocument) return;
     
-    [[[CCDirector sharedDirector] view] lockOpenGLContext];
-    
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
+    SavePanelLimiter* limter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
+            [[[CCDirector sharedDirector] view] lockOpenGLContext];
+            
             // Save file to new path
             [self saveFile:[[saveDlg URL] path]];
             
@@ -1502,10 +1498,11 @@
             
             // Open newly created document
             [self openFile:[[saveDlg URL] path]];
+            
+            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
         }
+        [limter release];
     }];
-    
-    [[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (IBAction) saveDocument:(id)sender
@@ -1700,12 +1697,16 @@
         NSSavePanel* saveDlg = [NSSavePanel savePanel];
         [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
         
+#warning FIX
+        SavePanelLimiter* limiter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
+        
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
             if (result == NSOKButton)
             {
                 [self newFile:[[saveDlg URL] path] type:wc.rootObjectType resolutions:wc.availableResolutions];
             }
             [wc release];
+            [limiter release];
         }];
     }
     else
