@@ -57,6 +57,7 @@
 #import "ResolutionSetting.h"
 #import "ProjectSettingsWindow.h"
 #import "ProjectSettings.h"
+#import "ResourceManagerOutlineHandler.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -155,6 +156,9 @@
     resManager = [ResourceManager sharedManager];
     resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
     [resManagerPanel.window setIsVisible:NO];
+    
+    // Setup project display
+    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeCCBFile];
 }
 
 - (void) setupGUIWindow
@@ -895,17 +899,6 @@
     }
 }
 
-/*
-- (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
-{
-    NSArray* activeDirs = [NSMutableArray arrayWithObject:doc.rootPath];
-    if (doc.project && [doc.project objectForKey:@"resourcePaths"])
-    {
-        activeDirs = [activeDirs arrayByAddingObjectsFromArray:[doc.project objectForKey:@"resourcePaths"]];
-    }
-    [[ResourceManager sharedManager] setActiveDirectories:activeDirs];
-}*/
-
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
 {
     if (!forceReload && [document.fileName isEqualToString:currentDocument.fileName]) return;
@@ -915,9 +908,6 @@
     self.currentDocument = document;
     
     NSMutableDictionary* doc = document.docData;
-    
-    // Update active directories for the resource manager
-    //[self setRMActiveDirectoriesForDoc:document];
     
     [self replaceDocumentData:doc];
     
@@ -980,20 +970,6 @@
     return NULL;
 }
 
-/*
-- (void) addRMDirectoriesForDoc:(CCBDocument*)doc
-{
-    [resManager addDirectory:doc.rootPath];
-    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager addDirectory:path];
-        }
-    }
-}*/
-
 - (void) checkForTooManyDirectoriesInCurrentDoc
 {
     if (!currentDocument) return;
@@ -1033,6 +1009,23 @@
 
 - (void) closeProject
 {
+    while ([tabView numberOfTabViewItems] > 0)
+    {
+        NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
+        if (!item) return;
+        
+        if ([self tabView:tabView shouldCloseTabViewItem:item])
+        {
+            [tabView removeTabViewItem:item];
+        }
+        else
+        {
+            // Aborted close project
+            return;
+        }
+    }
+    
+    // Remove resource paths
     self.projectSettings = NULL;
     [resManager removeAllDirectories];
 }
@@ -1068,9 +1061,6 @@
 - (void) openFile:(NSString*) fileName
 {
 	[[[CCDirector sharedDirector] view] lockOpenGLContext];
-	
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
     
     // Check if file is already open
     CCBDocument* openDoc = [self findDocumentFromFile:fileName];
@@ -1090,9 +1080,6 @@
     newDoc.exportPath = [doc objectForKey:@"exportPath"];
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
-    
-    // Add directories to resource manager
-    //[self addRMDirectoriesForDoc:newDoc];
     
     [self switchToDocument:newDoc];
      
@@ -1184,9 +1171,6 @@
     
     [self saveFile:fileName];
     
-    //[self addRMDirectoriesForDoc:self.currentDocument];
-    //[self setRMActiveDirectoriesForDoc:self.currentDocument];
-    
     [self addDocument:currentDocument];
     
     self.hasOpenedDocument = YES;
@@ -1201,7 +1185,6 @@
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
-    //[self openFile:filename];
     [self openProject:filename];
     return YES;
 }
@@ -1656,28 +1639,6 @@
     }
 }
 
-
-- (IBAction) openDocumentCCB:(id)sender
-{
-    // Create the File Open Dialog
-    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-    [openDlg setCanChooseFiles:YES];
-    [openDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
-    
-    [openDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
-        if (result == NSOKButton)
-        {
-            NSArray* files = [openDlg URLs];
-            
-            for (int i = 0; i < [files count]; i++)
-            {
-                NSString* fileName = [[files objectAtIndex:i] path];
-                [self openFile:fileName];
-            }
-        }
-    }];
-}
-
 - (IBAction) openDocument:(id)sender
 {
     // Create the File Open Dialog
@@ -1697,6 +1658,11 @@
             }
         }
     }];
+}
+
+- (IBAction) menuCloseProject:(id)sender
+{
+    [self closeProject];
 }
 
 - (IBAction) menuNewProject:(id)sender

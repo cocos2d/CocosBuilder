@@ -10,6 +10,8 @@
 #import "ImageAndTextCell.h"
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
+#import "CocosBuilderAppDelegate.h"
+#import "CCBGlobals.h"
 
 @implementation ResourceManagerOutlineHandler
 
@@ -42,6 +44,8 @@
     
     [resourceList setDataSource:self];
     [resourceList setDelegate:self];
+    [resourceList setTarget:self];
+    [resourceList setDoubleAction:@selector(doubleClicked:)];
     
     return self;
 }
@@ -289,6 +293,21 @@
     
     if (preview) [lblNoPreview setHidden:YES];
     else [lblNoPreview setHidden:NO];
+}
+
+- (void) doubleClicked:(id)sender
+{
+    id item = [resourceList itemAtRow:[resourceList clickedRow]];
+    
+    if ([item isKindOfClass:[RMResource class]])
+    {
+        RMResource* res = (RMResource*) item;
+        if (res.type == kCCBResTypeCCBFile)
+        {
+            [[[CCBGlobals globals] appDelegate] openFile: res.filePath];
+        }
+    }
+    
 }
 
 - (void) resourceListUpdated

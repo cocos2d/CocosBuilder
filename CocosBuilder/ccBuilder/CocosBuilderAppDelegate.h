@@ -49,6 +49,7 @@ enum {
 @class PlugInManager;
 @class ResourceManager;
 @class ResourceManagerPanel;
+@class ResourceManagerOutlineHandler;
 @class CCBGLView;
 @class CCBTransparentWindow;
 @class CCBTransparentView;
@@ -99,6 +100,7 @@ enum {
     
     // Project display
     IBOutlet NSOutlineView* outlineProject;
+    ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
     CCBDocument* currentDocument;
@@ -160,6 +162,7 @@ enum {
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
+- (void) openFile:(NSString*) fileName;
 
 // Menu options
 
