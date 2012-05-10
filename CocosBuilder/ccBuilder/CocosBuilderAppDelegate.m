@@ -197,9 +197,6 @@
     [self setupOutlineView];
     [self updateInspectorFromSelection];
     
-#warning DEBUG!
-    self.projectSettings = [[[ProjectSettings alloc] init] autorelease];
-    
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
