@@ -435,7 +435,7 @@
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
     NSNumber* scale = [cs extraPropForKey:prop andNode:node];
-    if (!scale) return 1;
+    if (!scale) return [[node valueForKey:prop] floatValue];
     return [scale floatValue];
 }
 
