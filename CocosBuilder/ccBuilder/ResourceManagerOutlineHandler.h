@@ -8,6 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ResourceManagerOutlineHandler : NSObject
+@class ResourceManager;
+
+@interface ResourceManagerOutlineHandler : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
+{
+    ResourceManager* resManager;
+    NSOutlineView* resourceList;
+    IBOutlet NSImageView* imagePreview;
+    IBOutlet NSTextField* lblNoPreview;
+    int resType;
+}
+
+@property (nonatomic,assign) int resType;
+
+- (id) initWithOutlineView:(NSOutlineView *)outlineView resType:(int)rt;
+
+- (id) initWithOutlineView:(NSOutlineView*)outlineView resType:(int)rt imagePreview:(NSImageView*)preview lblNoPreview:(NSTextField*)lbl;
+
+- (void) reload;
 
 @end
