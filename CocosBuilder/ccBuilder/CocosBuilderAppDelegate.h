@@ -97,6 +97,9 @@ enum {
     // Project
     ProjectSettings* projectSettings;
     
+    // Project display
+    IBOutlet NSOutlineView* outlineProject;
+    
     // Documents
     CCBDocument* currentDocument;
     BOOL hasOpenedDocument;

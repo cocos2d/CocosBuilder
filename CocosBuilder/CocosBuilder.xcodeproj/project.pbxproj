@@ -126,6 +126,7 @@
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
+		E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */; };
 		E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E34E5D6515357CF2000201FB /* RulersLayer.m */; };
 		E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */; };
 		E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D69153585EC000201FB /* ruler-bg-vertical.png */; };
@@ -734,6 +735,8 @@
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
+		E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerOutlineHandler.h; sourceTree = "<group>"; };
+		E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerOutlineHandler.m; sourceTree = "<group>"; };
 		E34E5D6415357CF2000201FB /* RulersLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulersLayer.h; sourceTree = "<group>"; };
 		E34E5D6515357CF2000201FB /* RulersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulersLayer.m; sourceTree = "<group>"; };
 		E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-horizontal.png"; sourceTree = "<group>"; };
@@ -2597,11 +2600,13 @@
 			children = (
 				E3C5C1A21504D17E000CF6F3 /* ResourceManager.h */,
 				E3C5C1A31504D17E000CF6F3 /* ResourceManager.m */,
+				E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */,
+				E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */,
 				E3C5C1AE150610D8000CF6F3 /* ResourceManagerPanel.xib */,
 				E3C5C1B015061882000CF6F3 /* ResourceManagerPanel.h */,
 				E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */,
-				E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */,
-				E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */,
+				E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */,
+				E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */,
 			);
 			name = "Resource Manager";
 			sourceTree = "<group>";
@@ -3548,6 +3553,7 @@
 				E334069B1551725F000FBD0B /* InspectorFloatScale.m in Sources */,
 				E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */,
 				E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */,
+				E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
