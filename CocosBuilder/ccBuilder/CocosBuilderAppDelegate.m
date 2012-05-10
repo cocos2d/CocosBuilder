@@ -1019,6 +1019,18 @@
     return [settings store];
 }
 
+- (void) updateResourcePathsFromProjectSettings
+{
+    [resManager removeAllDirectories];
+    
+    // Setup links to directories
+    for (NSString* dir in [projectSettings absoluteResourcePaths])
+    {
+        [resManager addDirectory:dir];
+    }
+    [[ResourceManager sharedManager] setActiveDirectories:[projectSettings absoluteResourcePaths]];
+}
+
 - (void) closeProject
 {
     self.projectSettings = NULL;
@@ -1050,13 +1062,7 @@
     
     self.projectSettings = project;
     
-    // Setup links to directories
-    for (NSString* dir in [projectSettings absoluteResourcePaths])
-    {
-        NSLog(@"ADDING %@", dir);
-        [resManager addDirectory:dir];
-    }
-    [[ResourceManager sharedManager] setActiveDirectories:[projectSettings absoluteResourcePaths]];
+    [self updateResourcePathsFromProjectSettings];
 }
 
 - (void) openFile:(NSString*) fileName
@@ -1195,7 +1201,8 @@
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
-    [self openFile:filename];
+    //[self openFile:filename];
+    [self openProject:filename];
     return YES;
 }
 
@@ -1644,11 +1651,13 @@
     if (success)
     {
         [self.projectSettings store];
+        [self updateResourcePathsFromProjectSettings];
+        [self reloadResources];
     }
 }
 
-/*
-- (IBAction) openDocument:(id)sender
+
+- (IBAction) openDocumentCCB:(id)sender
 {
     // Create the File Open Dialog
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
@@ -1668,7 +1677,6 @@
         }
     }];
 }
-*/
 
 - (IBAction) openDocument:(id)sender
 {

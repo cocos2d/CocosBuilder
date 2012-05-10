@@ -297,6 +297,14 @@
 										<string key="NSName">_NSRecentDocumentsMenu</string>
 									</object>
 								</object>
+								<object class="NSMenuItem" id="1055355341">
+									<reference key="NSMenu" ref="720053764"/>
+									<string key="NSTitle">Open CCB (debug)...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
 								<object class="NSMenuItem" id="425164168">
 									<reference key="NSMenu" ref="720053764"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -2871,6 +2879,14 @@
 					<int key="connectionID">1485</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openDocumentCCB:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="1055355341"/>
+					</object>
+					<int key="connectionID">1487</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">appDelegate</string>
 						<reference key="source" ref="1039955690"/>
@@ -3167,6 +3183,7 @@
 							<reference ref="275318861"/>
 							<reference ref="144479831"/>
 							<reference ref="644326354"/>
+							<reference ref="1055355341"/>
 						</object>
 						<reference key="parent" ref="379814623"/>
 					</object>
@@ -4422,6 +4439,11 @@
 						<reference key="object" ref="644326354"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1486</int>
+						<reference key="object" ref="1055355341"/>
+						<reference key="parent" ref="720053764"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -4536,6 +4558,7 @@
 					<string>1481.IBPluginDependency</string>
 					<string>1482.IBPluginDependency</string>
 					<string>1483.IBPluginDependency</string>
+					<string>1486.IBPluginDependency</string>
 					<string>149.IBPluginDependency</string>
 					<string>150.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
@@ -4784,6 +4807,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4851,7 +4875,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1485</int>
+			<int key="maxID">1487</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
