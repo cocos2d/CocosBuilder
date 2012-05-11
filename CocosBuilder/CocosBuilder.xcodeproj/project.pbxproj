@@ -128,6 +128,8 @@
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
 		E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */; };
 		E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */ = {isa = PBXBuildFile; fileRef = E346286A155C18D80043EAB1 /* SavePanelLimiter.m */; };
+		E3462870155D22290043EAB1 /* CCBPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E346286F155D22290043EAB1 /* CCBPublisher.m */; };
+		E3462873155D22FC0043EAB1 /* CCBWarnings.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462872155D22FC0043EAB1 /* CCBWarnings.m */; };
 		E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E34E5D6515357CF2000201FB /* RulersLayer.m */; };
 		E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */; };
 		E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D69153585EC000201FB /* ruler-bg-vertical.png */; };
@@ -740,6 +742,10 @@
 		E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerOutlineHandler.m; sourceTree = "<group>"; };
 		E3462869155C18D80043EAB1 /* SavePanelLimiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavePanelLimiter.h; sourceTree = "<group>"; };
 		E346286A155C18D80043EAB1 /* SavePanelLimiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavePanelLimiter.m; sourceTree = "<group>"; };
+		E346286E155D22290043EAB1 /* CCBPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPublisher.h; sourceTree = "<group>"; };
+		E346286F155D22290043EAB1 /* CCBPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPublisher.m; sourceTree = "<group>"; };
+		E3462871155D22FC0043EAB1 /* CCBWarnings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBWarnings.h; sourceTree = "<group>"; };
+		E3462872155D22FC0043EAB1 /* CCBWarnings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBWarnings.m; sourceTree = "<group>"; };
 		E34E5D6415357CF2000201FB /* RulersLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulersLayer.h; sourceTree = "<group>"; };
 		E34E5D6515357CF2000201FB /* RulersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulersLayer.m; sourceTree = "<group>"; };
 		E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-horizontal.png"; sourceTree = "<group>"; };
@@ -1384,6 +1390,8 @@
 				772BE593134BC2BA0009B5B9 /* CCBReaderInternalV1.m */,
 				E3C3660214EB2C1B007CD5FF /* CCBReaderInternal.h */,
 				E3C3660314EB2C1B007CD5FF /* CCBReaderInternal.m */,
+				E3462871155D22FC0043EAB1 /* CCBWarnings.h */,
+				E3462872155D22FC0043EAB1 /* CCBWarnings.m */,
 			);
 			name = "Document Readers & Writers";
 			sourceTree = "<group>";
@@ -1680,10 +1688,11 @@
 			isa = PBXGroup;
 			children = (
 				776041E31498F5E80078095D /* AppDelegate & Cocos2D Scene */,
-				E346286C155C23100043EAB1 /* Rulers & Guides */,
+				E346286C155C23100043EAB1 /* Rulers, Guides & Notes */,
 				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Readers & Writers */,
+				E346286D155D21F10043EAB1 /* Publishing */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				7789ACF8133BFA9700CEFCC7 /* Interface */,
 				776041E21498F5A70078095D /* Util */,
@@ -1891,7 +1900,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E346286C155C23100043EAB1 /* Rulers & Guides */ = {
+		E346286C155C23100043EAB1 /* Rulers, Guides & Notes */ = {
 			isa = PBXGroup;
 			children = (
 				E34E5D6415357CF2000201FB /* RulersLayer.h */,
@@ -1904,7 +1913,16 @@
 				E3F3F841153C7700005443EE /* StickyNote.h */,
 				E3F3F842153C7700005443EE /* StickyNote.m */,
 			);
-			name = "Rulers & Guides";
+			name = "Rulers, Guides & Notes";
+			sourceTree = "<group>";
+		};
+		E346286D155D21F10043EAB1 /* Publishing */ = {
+			isa = PBXGroup;
+			children = (
+				E346286E155D22290043EAB1 /* CCBPublisher.h */,
+				E346286F155D22290043EAB1 /* CCBPublisher.m */,
+			);
+			name = Publishing;
 			sourceTree = "<group>";
 		};
 		E35392461518AD0A00471721 /* Core */ = {
@@ -3568,6 +3586,8 @@
 				E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */,
 				E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */,
 				E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */,
+				E3462870155D22290043EAB1 /* CCBPublisher.m in Sources */,
+				E3462873155D22FC0043EAB1 /* CCBWarnings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

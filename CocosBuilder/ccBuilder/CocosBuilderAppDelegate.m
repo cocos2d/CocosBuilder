@@ -59,6 +59,8 @@
 #import "ProjectSettings.h"
 #import "ResourceManagerOutlineHandler.h"
 #import "SavePanelLimiter.h"
+#import "CCBPublisher.h"
+#import "CCBWarnings.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1517,6 +1519,7 @@
     }
 }
 
+/*
 - (IBAction) publishDocumentAs:(id)sender
 {
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
@@ -1578,6 +1581,19 @@
             [self exportFile:[currentDocument.fileName stringByAppendingString:@"i"] withPlugIn:[[[PlugInManager sharedManager] plugInExportForIndex:0] extension]];
         }
     }
+}*/
+
+- (IBAction) menuPublishProject:(id)sender
+{
+    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+    
+    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    [publisher publish];
+}
+
+- (IBAction) menuPublishProjectAndRun:(id)sender
+{
+    
 }
 
 // Temporary utility function until new publish system is in place
