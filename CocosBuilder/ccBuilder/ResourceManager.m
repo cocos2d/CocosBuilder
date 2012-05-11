@@ -582,6 +582,14 @@
     }
 }
 
+- (void) removeAllDirectories
+{
+    [directories removeAllObjects];
+    [activeDirectories removeAllObjects];
+    [self updatedWatchedPaths];
+    [self notifyResourceObserversResourceListUpdated];
+}
+
 - (void) setActiveDirectories:(NSArray *)ad
 {
     [activeDirectories removeAllObjects];

@@ -65,6 +65,7 @@ enum
 + (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop;
 + (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop;
++ (void) setSizeType:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
 + (void) refreshSizeForNode:(CCNode*)node prop:(NSString*)prop;
 
 + (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;

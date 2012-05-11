@@ -135,6 +135,7 @@ enum
 
 - (void) addDirectory:(NSString*)dir;
 - (void) removeDirectory:(NSString*)dir;
+- (void) removeAllDirectories;
 
 - (void) setActiveDirectory:(NSString *)dir;
 

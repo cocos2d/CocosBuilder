@@ -44,10 +44,12 @@ enum {
 
 
 @class CCBDocument;
+@class ProjectSettings;
 @class AssetsWindowController;
 @class PlugInManager;
 @class ResourceManager;
 @class ResourceManagerPanel;
+@class ResourceManagerOutlineHandler;
 @class CCBGLView;
 @class CCBTransparentWindow;
 @class CCBTransparentView;
@@ -93,7 +95,12 @@ enum {
     ResourceManager* resManager;
     ResourceManagerPanel* resManagerPanel;
     
-    //NSMutableArray* assetsFontListTTF;
+    // Project
+    ProjectSettings* projectSettings;
+    
+    // Project display
+    IBOutlet NSOutlineView* outlineProject;
+    ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
     CCBDocument* currentDocument;
@@ -142,6 +149,8 @@ enum {
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
+@property (nonatomic,retain) ProjectSettings* projectSettings;
+
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 
@@ -153,6 +162,7 @@ enum {
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
+- (void) openFile:(NSString*) fileName;
 
 // Menu options
 
