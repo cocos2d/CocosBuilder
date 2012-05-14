@@ -24,6 +24,7 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+#import "SSZipArchive.h"
 
 @implementation CCBReader
 
@@ -800,6 +801,23 @@
 {
     return [CCBReader sceneWithNodeGraphFromFile:file owner:NULL]; 
 }
+
++ (NSString*) ccbDirectoryPath
+{
+    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
+}
+
++ (BOOL) unzipResources:(NSString*)resPath
+{
+    NSString* fullResPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:resPath];
+    
+    NSString* dstPath = [CCBReader ccbDirectoryPath];
+    
+    NSLog(@"unzipping from: %@ to: %@", fullResPath, dstPath);
+    
+    return [SSZipArchive unzipFileAtPath:fullResPath toDestination:dstPath overwrite:YES password:NULL error:NULL];
+}
 @end
 
 
@@ -817,6 +835,63 @@
     {
         [self addChild:node];
     }
+}
+
+@end
+
+@implementation CCBFileUtils
+
+@synthesize ccbDirectoryPath;
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.ccbDirectoryPath = [CCBReader ccbDirectoryPath];
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    self.ccbDirectoryPath = NULL;
+    [super dealloc];
+}
+
+- (NSString*) pathForResource:(NSString*)resource ofType:(NSString *)ext inDirectory:(NSString *)subpath
+{
+    // Check for file in Documents directory
+    NSLog(@"pathForResource: %@ ofType: %@ inDirectory:%@", resource, ext, subpath);
+    NSString* resDir = NULL;
+    if (subpath && ![subpath isEqualToString:@""])
+    {
+        resDir = [ccbDirectoryPath stringByAppendingPathComponent:subpath];
+    }
+    else
+    {
+        resDir = ccbDirectoryPath;
+    }
+    
+    NSString* fileName = NULL;
+    if (ext && ![ext isEqualToString:@""])
+    {
+        fileName = [resource stringByAppendingPathExtension:ext];
+    }
+    else
+    {
+        fileName = resource;
+    }
+    
+    NSString* filePath = [resDir stringByAppendingPathComponent:fileName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        NSLog(@"RETURNING: %@", filePath);
+        return filePath;
+    }
+    
+    // Use default lookup
+    return [bundle_ pathForResource:resource ofType:ext inDirectory:subpath];
 }
 
 @end

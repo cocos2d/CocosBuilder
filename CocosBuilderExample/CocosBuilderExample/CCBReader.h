@@ -126,6 +126,8 @@ enum
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
 
++ (BOOL) unzipResources:(NSString*)resPath;
+
 @end
 
 @interface CCBFile : CCNode
@@ -133,4 +135,11 @@ enum
     CCNode* ccbFile;
 }
 @property (nonatomic,retain) CCNode* ccbFile;
+@end
+
+@interface CCBFileUtils : CCFileUtils
+{
+    NSString* ccbDirectoryPath;
+}
+@property (nonatomic,copy) NSString* ccbDirectoryPath;
 @end

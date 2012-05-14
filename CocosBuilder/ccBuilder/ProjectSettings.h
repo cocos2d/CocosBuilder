@@ -20,6 +20,7 @@
 }
 
 @property (nonatomic, copy) NSString* projectPath;
+@property (nonatomic, readonly) NSString* projectPathHashed;
 @property (nonatomic, retain) NSMutableArray* resourcePaths;
 @property (nonatomic, copy) NSString* publishDirectory;
 @property (nonatomic, assign) BOOL flattenPaths;

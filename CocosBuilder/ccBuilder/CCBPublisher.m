@@ -29,7 +29,13 @@
     // Setup base output directory
     if (projectSettings.publishToZipFile)
     {
-        outputDir = [@"" retain]; // TODO: Create temp directory
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        NSLog(@"paths: %@", paths);
+        outputDir = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:projectSettings.projectPathHashed];
+        
+        outputDir = [outputDir retain]; // TODO: Create temp directory
+        
+        NSLog(@"outputDir: %@", outputDir);
     }
     else
     {
@@ -98,6 +104,19 @@
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
     NSFileManager* fm = [NSFileManager defaultManager];
+    
+    // Path to output directory for the currently exported path
+    NSString* outDir = outDir = [outputDir stringByAppendingPathComponent:subPath];
+    
+    NSLog(@"DIR %@", outDir);
+    
+    // Create the directory if it doesn't exist
+    BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    if (!createdDirs)
+    {
+        [warnings addWarningWithDescription:@"Failed to create output directory %@" isFatal:YES];
+        return NO;
+    }
     
     NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
     
@@ -190,6 +209,25 @@
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
+    
+    if (projectSettings.publishToZipFile)
+    {
+        NSLog(@"ZIPPING");
+        
+        // Zip it up!
+        NSTask* zipTask = [[NSTask alloc] init];
+        [zipTask setCurrentDirectoryPath:outputDir];
+        [zipTask setLaunchPath:@"/usr/bin/zip"];
+        NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"], @".", @"-i", @"*", nil];
+        [zipTask setArguments:args];
+        
+        NSLog(@"ZIP args: %@", args);
+        
+        [zipTask launch];
+        [zipTask waitUntilExit];
+    }
+    
+    //[NSSound soundNamed:
     
     NSLog(@"PUBLISH SUCCESSFUL!");
     

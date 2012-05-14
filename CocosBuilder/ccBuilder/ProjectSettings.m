@@ -8,6 +8,7 @@
 
 #import "ProjectSettings.h"
 #import "NSString+RelativePath.h"
+#import "HashValue.h"
 
 @implementation ProjectSettings
 
@@ -91,6 +92,19 @@
     }
     
     return paths;
+}
+
+- (NSString*) projectPathHashed
+{
+    if (projectPath)
+    {
+        HashValue* hash = [HashValue md5HashWithString:projectPath];
+        return [hash description];
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 - (BOOL) store

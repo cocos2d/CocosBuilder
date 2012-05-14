@@ -88,6 +88,16 @@
 		E3269A4F152351A400385A94 /* TGAlib.m in Sources */ = {isa = PBXBuildFile; fileRef = E32699FA152351A400385A94 /* TGAlib.m */; };
 		E3269A50152351A400385A94 /* TransformUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E32699FC152351A400385A94 /* TransformUtils.m */; };
 		E3269A51152351A400385A94 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E3269A00152351A400385A94 /* ZipUtils.m */; };
+		E32BBCB7156155DD00C58395 /* ccb.zip in Resources */ = {isa = PBXBuildFile; fileRef = E32BBCB6156155DD00C58395 /* ccb.zip */; };
+		E32BBCD9156162E600C58395 /* Changelog.markdown in Resources */ = {isa = PBXBuildFile; fileRef = E32BBCBB156162E500C58395 /* Changelog.markdown */; };
+		E32BBCDA156162E600C58395 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E32BBCBC156162E500C58395 /* LICENSE */; };
+		E32BBCDB156162E600C58395 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCBF156162E500C58395 /* ioapi.c */; };
+		E32BBCDC156162E600C58395 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCC1156162E500C58395 /* mztools.c */; };
+		E32BBCDD156162E600C58395 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCC3156162E500C58395 /* unzip.c */; };
+		E32BBCDE156162E600C58395 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCC5156162E500C58395 /* zip.c */; };
+		E32BBCDF156162E600C58395 /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = E32BBCC7156162E500C58395 /* Readme.markdown */; };
+		E32BBCE0156162E600C58395 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCC9156162E500C58395 /* SSZipArchive.m */; };
+		E32BBCEC1561638300C58395 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E32BBCEB1561638300C58395 /* libz.dylib */; };
 		E35392371518A64600471721 /* CCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392231518A64600471721 /* CCControl.m */; };
 		E35392381518A64600471721 /* CCControlButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392251518A64600471721 /* CCControlButton.m */; };
 		E35392391518A64600471721 /* CCControlColourPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392271518A64600471721 /* CCControlColourPicker.m */; };
@@ -97,35 +107,19 @@
 		E353923D1518A64600471721 /* CCColourUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392301518A64600471721 /* CCColourUtils.m */; };
 		E353923E1518A64600471721 /* CCScale9Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392321518A64600471721 /* CCScale9Sprite.m */; };
 		E353923F1518A64600471721 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E35392341518A64600471721 /* Utils.m */; };
-		E36A1CAA1521EC79004986A8 /* flower.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E36A1CA81521EC79004986A8 /* flower.jpg */; };
 		E36F3C5F152D990200AAD805 /* TestScrollViews.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C5E152D990200AAD805 /* TestScrollViews.m */; };
 		E36F3C62152D993500AAD805 /* TestScrollViews.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C61152D993500AAD805 /* TestScrollViews.ccbi */; };
 		E36F3C64152D996300AAD805 /* TestScrollViewsContentA.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C63152D996300AAD805 /* TestScrollViewsContentA.ccbi */; };
-		E36F3C67152D9B8100AAD805 /* btn-back-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C65152D9B8100AAD805 /* btn-back-0.png */; };
-		E36F3C68152D9B8100AAD805 /* btn-back-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C66152D9B8100AAD805 /* btn-back-1.png */; };
 		E36F3C6A152DA69400AAD805 /* TestHeader.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C69152DA69400AAD805 /* TestHeader.ccbi */; };
 		E36F3C6D152DA6DC00AAD805 /* TestHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C6C152DA6DC00AAD805 /* TestHeader.m */; };
 		E36F3C70152DC3F700AAD805 /* TestMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C6F152DC3F700AAD805 /* TestMenus.m */; };
 		E36F3C72152DC45B00AAD805 /* TestMenus.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C71152DC45B00AAD805 /* TestMenus.ccbi */; };
-		E36F3C79152DC51000AAD805 /* btn-a-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C73152DC51000AAD805 /* btn-a-0.png */; };
-		E36F3C7A152DC51000AAD805 /* btn-a-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C74152DC51000AAD805 /* btn-a-1.png */; };
-		E36F3C7B152DC51000AAD805 /* btn-a-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C75152DC51000AAD805 /* btn-a-2.png */; };
-		E36F3C7C152DC51000AAD805 /* btn-b-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C76152DC51000AAD805 /* btn-b-0.png */; };
-		E36F3C7D152DC51000AAD805 /* btn-b-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C77152DC51000AAD805 /* btn-b-1.png */; };
-		E36F3C7E152DC51000AAD805 /* btn-b-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C78152DC51000AAD805 /* btn-b-2.png */; };
 		E36F3C80152DCA1A00AAD805 /* TestSprites.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C7F152DCA1A00AAD805 /* TestSprites.ccbi */; };
-		E36F3C82152DCA2B00AAD805 /* scale-9-demo.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C81152DCA2B00AAD805 /* scale-9-demo.png */; };
-		E36F3C85152DDD0B00AAD805 /* grossini-generic.plist in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C83152DDD0B00AAD805 /* grossini-generic.plist */; };
-		E36F3C86152DDD0B00AAD805 /* grossini-generic.png in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C84152DDD0B00AAD805 /* grossini-generic.png */; };
 		E36F3C88152DDE7C00AAD805 /* TestButtons.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C87152DDE7C00AAD805 /* TestButtons.ccbi */; };
 		E36F3C8B152DDE9300AAD805 /* TestButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C8A152DDE9200AAD805 /* TestButtons.m */; };
-		E36F3C8E152DE33700AAD805 /* comic andy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C8C152DE33700AAD805 /* comic andy.ttf */; };
 		E36F3C8F152DE33700AAD805 /* TestLabels.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C8D152DE33700AAD805 /* TestLabels.ccbi */; };
 		E36F3C91152DEAE200AAD805 /* TestParticleSystems.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C90152DEAE200AAD805 /* TestParticleSystems.ccbi */; };
 		E36F3C93152DEE5000AAD805 /* HelloCocosBuilder.ccbi in Resources */ = {isa = PBXBuildFile; fileRef = E36F3C92152DEE5000AAD805 /* HelloCocosBuilder.ccbi */; };
-		E370BA17154AE0DB0048ED73 /* burst-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA13154AE0DB0048ED73 /* burst-hd.png */; };
-		E370BA18154AE0DB0048ED73 /* burst-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA14154AE0DB0048ED73 /* burst-ipad.png */; };
-		E370BA19154AE0DB0048ED73 /* HelloCocosBuilder.ccb in Resources */ = {isa = PBXBuildFile; fileRef = E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */; };
 		E37596A814FD224800CD9F5F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596A714FD224800CD9F5F /* QuartzCore.framework */; };
 		E37596AA14FD224800CD9F5F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596A914FD224800CD9F5F /* OpenGLES.framework */; };
 		E37596AC14FD224800CD9F5F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E37596AB14FD224800CD9F5F /* OpenAL.framework */; };
@@ -175,22 +169,7 @@
 		E375982C14FD224A00CD9F5F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E375982B14FD224A00CD9F5F /* main.m */; };
 		E375982F14FD224A00CD9F5F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E375982E14FD224A00CD9F5F /* AppDelegate.m */; };
 		E375984214FD270200CD9F5F /* CCBReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E375984114FD270200CD9F5F /* CCBReader.m */; };
-		E375985114FD2C1D00CD9F5F /* btn-test-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984314FD2C1D00CD9F5F /* btn-test-0.png */; };
-		E375985214FD2C1D00CD9F5F /* btn-test-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984414FD2C1D00CD9F5F /* btn-test-1.png */; };
-		E375985314FD2C1D00CD9F5F /* btn-test-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984514FD2C1D00CD9F5F /* btn-test-2.png */; };
-		E375985414FD2C1D00CD9F5F /* burst.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984614FD2C1D00CD9F5F /* burst.png */; };
-		E375985614FD2C1D00CD9F5F /* jungle.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984814FD2C1D00CD9F5F /* jungle.png */; };
-		E375985714FD2C1D00CD9F5F /* logo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984914FD2C1D00CD9F5F /* logo-icon.png */; };
-		E375985814FD2C1D00CD9F5F /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984A14FD2C1D00CD9F5F /* logo.png */; };
-		E375985914FD2C1D00CD9F5F /* markerfelt24shadow.fnt in Resources */ = {isa = PBXBuildFile; fileRef = E375984B14FD2C1D00CD9F5F /* markerfelt24shadow.fnt */; };
-		E375985A14FD2C1D00CD9F5F /* markerfelt24shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984C14FD2C1D00CD9F5F /* markerfelt24shadow.png */; };
-		E375985B14FD2C1D00CD9F5F /* particle-fire.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984D14FD2C1D00CD9F5F /* particle-fire.png */; };
-		E375985C14FD2C1D00CD9F5F /* particle-smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984E14FD2C1D00CD9F5F /* particle-smoke.png */; };
-		E375985D14FD2C1D00CD9F5F /* particle-snow.png in Resources */ = {isa = PBXBuildFile; fileRef = E375984F14FD2C1D00CD9F5F /* particle-snow.png */; };
-		E375985E14FD2C1D00CD9F5F /* particle-stars.png in Resources */ = {isa = PBXBuildFile; fileRef = E375985014FD2C1D00CD9F5F /* particle-stars.png */; };
 		E375986114FE149C00CD9F5F /* HelloCocosBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E375986014FE149C00CD9F5F /* HelloCocosBuilder.m */; };
-		E375986414FE781300CD9F5F /* missing-font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = E375986214FE781300CD9F5F /* missing-font.fnt */; };
-		E375986514FE781300CD9F5F /* missing-font.png in Resources */ = {isa = PBXBuildFile; fileRef = E375986314FE781300CD9F5F /* missing-font.png */; };
 		E3C0D9F615238F0C00D7DF3D /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C0D9F515238F0C00D7DF3D /* CCScrollView.m */; };
 /* End PBXBuildFile section */
 
@@ -382,6 +361,22 @@
 		E32699FE152351A400385A94 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
 		E32699FF152351A400385A94 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E3269A00152351A400385A94 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
+		E32BBCB6156155DD00C58395 /* ccb.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = ccb.zip; path = Resources/ccb.zip; sourceTree = "<group>"; };
+		E32BBCBB156162E500C58395 /* Changelog.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.markdown; sourceTree = "<group>"; };
+		E32BBCBC156162E500C58395 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E32BBCBE156162E500C58395 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		E32BBCBF156162E500C58395 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		E32BBCC0156162E500C58395 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		E32BBCC1156162E500C58395 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		E32BBCC2156162E500C58395 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		E32BBCC3156162E500C58395 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		E32BBCC4156162E500C58395 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		E32BBCC5156162E500C58395 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		E32BBCC6156162E500C58395 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		E32BBCC7156162E500C58395 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
+		E32BBCC8156162E500C58395 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		E32BBCC9156162E500C58395 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		E32BBCEB1561638300C58395 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E35392221518A64600471721 /* CCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
 		E35392231518A64600471721 /* CCControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCControl.m; sourceTree = "<group>"; };
 		E35392241518A64600471721 /* CCControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlButton.h; sourceTree = "<group>"; };
@@ -402,39 +397,23 @@
 		E35392341518A64600471721 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		E35392351518A64600471721 /* CCControlExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlExtension.h; sourceTree = "<group>"; };
 		E35392361518A64600471721 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		E36A1CA81521EC79004986A8 /* flower.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = flower.jpg; path = Resources/flower.jpg; sourceTree = "<group>"; };
 		E36F3C5D152D990200AAD805 /* TestScrollViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestScrollViews.h; sourceTree = "<group>"; };
 		E36F3C5E152D990200AAD805 /* TestScrollViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestScrollViews.m; sourceTree = "<group>"; };
 		E36F3C61152D993500AAD805 /* TestScrollViews.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestScrollViews.ccbi; path = Resources/TestScrollViews.ccbi; sourceTree = "<group>"; };
 		E36F3C63152D996300AAD805 /* TestScrollViewsContentA.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestScrollViewsContentA.ccbi; path = Resources/TestScrollViewsContentA.ccbi; sourceTree = "<group>"; };
-		E36F3C65152D9B8100AAD805 /* btn-back-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-back-0.png"; path = "Resources/btn-back-0.png"; sourceTree = "<group>"; };
-		E36F3C66152D9B8100AAD805 /* btn-back-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-back-1.png"; path = "Resources/btn-back-1.png"; sourceTree = "<group>"; };
 		E36F3C69152DA69400AAD805 /* TestHeader.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestHeader.ccbi; path = Resources/TestHeader.ccbi; sourceTree = "<group>"; };
 		E36F3C6B152DA6DC00AAD805 /* TestHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestHeader.h; sourceTree = "<group>"; };
 		E36F3C6C152DA6DC00AAD805 /* TestHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestHeader.m; sourceTree = "<group>"; };
 		E36F3C6E152DC3F700AAD805 /* TestMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMenus.h; sourceTree = "<group>"; };
 		E36F3C6F152DC3F700AAD805 /* TestMenus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMenus.m; sourceTree = "<group>"; };
 		E36F3C71152DC45B00AAD805 /* TestMenus.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestMenus.ccbi; path = Resources/TestMenus.ccbi; sourceTree = "<group>"; };
-		E36F3C73152DC51000AAD805 /* btn-a-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-a-0.png"; path = "Resources/btn-a-0.png"; sourceTree = "<group>"; };
-		E36F3C74152DC51000AAD805 /* btn-a-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-a-1.png"; path = "Resources/btn-a-1.png"; sourceTree = "<group>"; };
-		E36F3C75152DC51000AAD805 /* btn-a-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-a-2.png"; path = "Resources/btn-a-2.png"; sourceTree = "<group>"; };
-		E36F3C76152DC51000AAD805 /* btn-b-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-b-0.png"; path = "Resources/btn-b-0.png"; sourceTree = "<group>"; };
-		E36F3C77152DC51000AAD805 /* btn-b-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-b-1.png"; path = "Resources/btn-b-1.png"; sourceTree = "<group>"; };
-		E36F3C78152DC51000AAD805 /* btn-b-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-b-2.png"; path = "Resources/btn-b-2.png"; sourceTree = "<group>"; };
 		E36F3C7F152DCA1A00AAD805 /* TestSprites.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestSprites.ccbi; path = Resources/TestSprites.ccbi; sourceTree = "<group>"; };
-		E36F3C81152DCA2B00AAD805 /* scale-9-demo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "scale-9-demo.png"; path = "Resources/scale-9-demo.png"; sourceTree = "<group>"; };
-		E36F3C83152DDD0B00AAD805 /* grossini-generic.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "grossini-generic.plist"; path = "Resources/grossini-generic.plist"; sourceTree = "<group>"; };
-		E36F3C84152DDD0B00AAD805 /* grossini-generic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grossini-generic.png"; path = "Resources/grossini-generic.png"; sourceTree = "<group>"; };
 		E36F3C87152DDE7C00AAD805 /* TestButtons.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestButtons.ccbi; path = Resources/TestButtons.ccbi; sourceTree = "<group>"; };
 		E36F3C89152DDE9200AAD805 /* TestButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestButtons.h; sourceTree = "<group>"; };
 		E36F3C8A152DDE9200AAD805 /* TestButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestButtons.m; sourceTree = "<group>"; };
-		E36F3C8C152DE33700AAD805 /* comic andy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "comic andy.ttf"; path = "Resources/comic andy.ttf"; sourceTree = "<group>"; };
 		E36F3C8D152DE33700AAD805 /* TestLabels.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestLabels.ccbi; path = Resources/TestLabels.ccbi; sourceTree = "<group>"; };
 		E36F3C90152DEAE200AAD805 /* TestParticleSystems.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestParticleSystems.ccbi; path = Resources/TestParticleSystems.ccbi; sourceTree = "<group>"; };
 		E36F3C92152DEE5000AAD805 /* HelloCocosBuilder.ccbi */ = {isa = PBXFileReference; lastKnownFileType = file; name = HelloCocosBuilder.ccbi; path = Resources/HelloCocosBuilder.ccbi; sourceTree = "<group>"; };
-		E370BA13154AE0DB0048ED73 /* burst-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "burst-hd.png"; path = "Resources/burst-hd.png"; sourceTree = "<group>"; };
-		E370BA14154AE0DB0048ED73 /* burst-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "burst-ipad.png"; path = "Resources/burst-ipad.png"; sourceTree = "<group>"; };
-		E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HelloCocosBuilder.ccb; path = Resources/HelloCocosBuilder.ccb; sourceTree = "<group>"; };
 		E37596A314FD224800CD9F5F /* CocosBuilderExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocosBuilderExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E37596A714FD224800CD9F5F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E37596A914FD224800CD9F5F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -506,23 +485,8 @@
 		E375982E14FD224A00CD9F5F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E375984014FD270200CD9F5F /* CCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBReader.h; sourceTree = "<group>"; };
 		E375984114FD270200CD9F5F /* CCBReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBReader.m; sourceTree = "<group>"; };
-		E375984314FD2C1D00CD9F5F /* btn-test-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-test-0.png"; path = "Resources/btn-test-0.png"; sourceTree = "<group>"; };
-		E375984414FD2C1D00CD9F5F /* btn-test-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-test-1.png"; path = "Resources/btn-test-1.png"; sourceTree = "<group>"; };
-		E375984514FD2C1D00CD9F5F /* btn-test-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "btn-test-2.png"; path = "Resources/btn-test-2.png"; sourceTree = "<group>"; };
-		E375984614FD2C1D00CD9F5F /* burst.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = burst.png; path = Resources/burst.png; sourceTree = "<group>"; };
-		E375984814FD2C1D00CD9F5F /* jungle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jungle.png; path = Resources/jungle.png; sourceTree = "<group>"; };
-		E375984914FD2C1D00CD9F5F /* logo-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-icon.png"; path = "Resources/logo-icon.png"; sourceTree = "<group>"; };
-		E375984A14FD2C1D00CD9F5F /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = Resources/logo.png; sourceTree = "<group>"; };
-		E375984B14FD2C1D00CD9F5F /* markerfelt24shadow.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = markerfelt24shadow.fnt; path = Resources/markerfelt24shadow.fnt; sourceTree = "<group>"; };
-		E375984C14FD2C1D00CD9F5F /* markerfelt24shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = markerfelt24shadow.png; path = Resources/markerfelt24shadow.png; sourceTree = "<group>"; };
-		E375984D14FD2C1D00CD9F5F /* particle-fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-fire.png"; path = "Resources/particle-fire.png"; sourceTree = "<group>"; };
-		E375984E14FD2C1D00CD9F5F /* particle-smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-smoke.png"; path = "Resources/particle-smoke.png"; sourceTree = "<group>"; };
-		E375984F14FD2C1D00CD9F5F /* particle-snow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-snow.png"; path = "Resources/particle-snow.png"; sourceTree = "<group>"; };
-		E375985014FD2C1D00CD9F5F /* particle-stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-stars.png"; path = "Resources/particle-stars.png"; sourceTree = "<group>"; };
 		E375985F14FE149C00CD9F5F /* HelloCocosBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloCocosBuilder.h; sourceTree = "<group>"; };
 		E375986014FE149C00CD9F5F /* HelloCocosBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelloCocosBuilder.m; sourceTree = "<group>"; };
-		E375986214FE781300CD9F5F /* missing-font.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "missing-font.fnt"; path = "Resources/missing-font.fnt"; sourceTree = "<group>"; };
-		E375986314FE781300CD9F5F /* missing-font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "missing-font.png"; path = "Resources/missing-font.png"; sourceTree = "<group>"; };
 		E3C0D9F415238F0C00D7DF3D /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E3C0D9F515238F0C00D7DF3D /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -532,6 +496,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E32BBCEC1561638300C58395 /* libz.dylib in Frameworks */,
 				E37596A814FD224800CD9F5F /* QuartzCore.framework in Frameworks */,
 				E37596AA14FD224800CD9F5F /* OpenGLES.framework in Frameworks */,
 				E37596AC14FD224800CD9F5F /* OpenAL.framework in Frameworks */,
@@ -774,6 +739,36 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
+		E32BBCB9156162E500C58395 /* ssziparchive */ = {
+			isa = PBXGroup;
+			children = (
+				E32BBCBB156162E500C58395 /* Changelog.markdown */,
+				E32BBCBC156162E500C58395 /* LICENSE */,
+				E32BBCBD156162E500C58395 /* minizip */,
+				E32BBCC7156162E500C58395 /* Readme.markdown */,
+				E32BBCC8156162E500C58395 /* SSZipArchive.h */,
+				E32BBCC9156162E500C58395 /* SSZipArchive.m */,
+			);
+			name = ssziparchive;
+			path = libs/ssziparchive;
+			sourceTree = "<group>";
+		};
+		E32BBCBD156162E500C58395 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				E32BBCBE156162E500C58395 /* crypt.h */,
+				E32BBCBF156162E500C58395 /* ioapi.c */,
+				E32BBCC0156162E500C58395 /* ioapi.h */,
+				E32BBCC1156162E500C58395 /* mztools.c */,
+				E32BBCC2156162E500C58395 /* mztools.h */,
+				E32BBCC3156162E500C58395 /* unzip.c */,
+				E32BBCC4156162E500C58395 /* unzip.h */,
+				E32BBCC5156162E500C58395 /* zip.c */,
+				E32BBCC6156162E500C58395 /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
 		E35392201518A64600471721 /* CCControlExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +839,7 @@
 		E375969814FD224800CD9F5F = {
 			isa = PBXGroup;
 			children = (
+				E32BBCEB1561638300C58395 /* libz.dylib */,
 				E37596B914FD224800CD9F5F /* CocosBuilderExample */,
 				E37596A614FD224800CD9F5F /* Frameworks */,
 				E37596A414FD224800CD9F5F /* Products */,
@@ -896,37 +892,7 @@
 		E37596BA14FD224800CD9F5F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E370BA13154AE0DB0048ED73 /* burst-hd.png */,
-				E370BA14154AE0DB0048ED73 /* burst-ipad.png */,
-				E370BA15154AE0DB0048ED73 /* HelloCocosBuilder.ccb */,
-				E36F3C8C152DE33700AAD805 /* comic andy.ttf */,
-				E36F3C83152DDD0B00AAD805 /* grossini-generic.plist */,
-				E36F3C84152DDD0B00AAD805 /* grossini-generic.png */,
-				E36F3C81152DCA2B00AAD805 /* scale-9-demo.png */,
-				E36F3C73152DC51000AAD805 /* btn-a-0.png */,
-				E36F3C74152DC51000AAD805 /* btn-a-1.png */,
-				E36F3C75152DC51000AAD805 /* btn-a-2.png */,
-				E36F3C76152DC51000AAD805 /* btn-b-0.png */,
-				E36F3C77152DC51000AAD805 /* btn-b-1.png */,
-				E36F3C78152DC51000AAD805 /* btn-b-2.png */,
-				E36F3C65152D9B8100AAD805 /* btn-back-0.png */,
-				E36F3C66152D9B8100AAD805 /* btn-back-1.png */,
-				E36A1CA81521EC79004986A8 /* flower.jpg */,
-				E375986214FE781300CD9F5F /* missing-font.fnt */,
-				E375986314FE781300CD9F5F /* missing-font.png */,
-				E375984314FD2C1D00CD9F5F /* btn-test-0.png */,
-				E375984414FD2C1D00CD9F5F /* btn-test-1.png */,
-				E375984514FD2C1D00CD9F5F /* btn-test-2.png */,
-				E375984614FD2C1D00CD9F5F /* burst.png */,
-				E375984814FD2C1D00CD9F5F /* jungle.png */,
-				E375984914FD2C1D00CD9F5F /* logo-icon.png */,
-				E375984A14FD2C1D00CD9F5F /* logo.png */,
-				E375984B14FD2C1D00CD9F5F /* markerfelt24shadow.fnt */,
-				E375984C14FD2C1D00CD9F5F /* markerfelt24shadow.png */,
-				E375984D14FD2C1D00CD9F5F /* particle-fire.png */,
-				E375984E14FD2C1D00CD9F5F /* particle-smoke.png */,
-				E375984F14FD2C1D00CD9F5F /* particle-snow.png */,
-				E375985014FD2C1D00CD9F5F /* particle-stars.png */,
+				E32BBCB6156155DD00C58395 /* ccb.zip */,
 				E37596BB14FD224800CD9F5F /* Default.png */,
 				E37596BD14FD224800CD9F5F /* fps_images.png */,
 				E37596BF14FD224800CD9F5F /* fps_images-hd.png */,
@@ -969,6 +935,7 @@
 				E375982814FD224A00CD9F5F /* LICENSE_Kazmath.txt */,
 				E3C0D9F315238F0C00D7DF3D /* CCScrollView */,
 				E37597F714FD224900CD9F5F /* kazmath */,
+				E32BBCB9156162E500C58395 /* ssziparchive */,
 				E3269941152351A400385A94 /* cocos2d */,
 				E35392201518A64600471721 /* CCControlExtension */,
 			);
@@ -1144,46 +1111,19 @@
 				E37596E814FD224800CD9F5F /* PositionTextureColor.vsh in Resources */,
 				E37596EA14FD224800CD9F5F /* PositionTextureColorAlphaTest.fsh in Resources */,
 				E375980D14FD224900CD9F5F /* ChangeLog in Resources */,
-				E375985114FD2C1D00CD9F5F /* btn-test-0.png in Resources */,
-				E375985214FD2C1D00CD9F5F /* btn-test-1.png in Resources */,
-				E375985314FD2C1D00CD9F5F /* btn-test-2.png in Resources */,
-				E375985414FD2C1D00CD9F5F /* burst.png in Resources */,
-				E375985614FD2C1D00CD9F5F /* jungle.png in Resources */,
-				E375985714FD2C1D00CD9F5F /* logo-icon.png in Resources */,
-				E375985814FD2C1D00CD9F5F /* logo.png in Resources */,
-				E375985914FD2C1D00CD9F5F /* markerfelt24shadow.fnt in Resources */,
-				E375985A14FD2C1D00CD9F5F /* markerfelt24shadow.png in Resources */,
-				E375985B14FD2C1D00CD9F5F /* particle-fire.png in Resources */,
-				E375985C14FD2C1D00CD9F5F /* particle-smoke.png in Resources */,
-				E375985D14FD2C1D00CD9F5F /* particle-snow.png in Resources */,
-				E375985E14FD2C1D00CD9F5F /* particle-stars.png in Resources */,
-				E375986414FE781300CD9F5F /* missing-font.fnt in Resources */,
-				E375986514FE781300CD9F5F /* missing-font.png in Resources */,
-				E36A1CAA1521EC79004986A8 /* flower.jpg in Resources */,
 				E36F3C62152D993500AAD805 /* TestScrollViews.ccbi in Resources */,
 				E36F3C64152D996300AAD805 /* TestScrollViewsContentA.ccbi in Resources */,
-				E36F3C67152D9B8100AAD805 /* btn-back-0.png in Resources */,
-				E36F3C68152D9B8100AAD805 /* btn-back-1.png in Resources */,
 				E36F3C6A152DA69400AAD805 /* TestHeader.ccbi in Resources */,
 				E36F3C72152DC45B00AAD805 /* TestMenus.ccbi in Resources */,
-				E36F3C79152DC51000AAD805 /* btn-a-0.png in Resources */,
-				E36F3C7A152DC51000AAD805 /* btn-a-1.png in Resources */,
-				E36F3C7B152DC51000AAD805 /* btn-a-2.png in Resources */,
-				E36F3C7C152DC51000AAD805 /* btn-b-0.png in Resources */,
-				E36F3C7D152DC51000AAD805 /* btn-b-1.png in Resources */,
-				E36F3C7E152DC51000AAD805 /* btn-b-2.png in Resources */,
 				E36F3C80152DCA1A00AAD805 /* TestSprites.ccbi in Resources */,
-				E36F3C82152DCA2B00AAD805 /* scale-9-demo.png in Resources */,
-				E36F3C85152DDD0B00AAD805 /* grossini-generic.plist in Resources */,
-				E36F3C86152DDD0B00AAD805 /* grossini-generic.png in Resources */,
 				E36F3C88152DDE7C00AAD805 /* TestButtons.ccbi in Resources */,
-				E36F3C8E152DE33700AAD805 /* comic andy.ttf in Resources */,
 				E36F3C8F152DE33700AAD805 /* TestLabels.ccbi in Resources */,
 				E36F3C91152DEAE200AAD805 /* TestParticleSystems.ccbi in Resources */,
 				E36F3C93152DEE5000AAD805 /* HelloCocosBuilder.ccbi in Resources */,
-				E370BA17154AE0DB0048ED73 /* burst-hd.png in Resources */,
-				E370BA18154AE0DB0048ED73 /* burst-ipad.png in Resources */,
-				E370BA19154AE0DB0048ED73 /* HelloCocosBuilder.ccb in Resources */,
+				E32BBCB7156155DD00C58395 /* ccb.zip in Resources */,
+				E32BBCD9156162E600C58395 /* Changelog.markdown in Resources */,
+				E32BBCDA156162E600C58395 /* LICENSE in Resources */,
+				E32BBCDF156162E600C58395 /* Readme.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1246,11 @@
 				E36F3C6D152DA6DC00AAD805 /* TestHeader.m in Sources */,
 				E36F3C70152DC3F700AAD805 /* TestMenus.m in Sources */,
 				E36F3C8B152DDE9300AAD805 /* TestButtons.m in Sources */,
+				E32BBCDB156162E600C58395 /* ioapi.c in Sources */,
+				E32BBCDC156162E600C58395 /* mztools.c in Sources */,
+				E32BBCDD156162E600C58395 /* unzip.c in Sources */,
+				E32BBCDE156162E600C58395 /* zip.c in Sources */,
+				E32BBCE0156162E600C58395 /* SSZipArchive.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
