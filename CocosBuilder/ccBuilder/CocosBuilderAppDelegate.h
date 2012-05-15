@@ -54,6 +54,9 @@ enum {
 @class CCBTransparentWindow;
 @class CCBTransparentView;
 @class WarningsWindow;
+@class TaskStatusWindow;
+@class CCBPublisher;
+@class CCBWarnings;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -126,6 +129,9 @@ enum {
     // Warnings
     WarningsWindow* publishWarningsWindow;
     
+    // Modal status window
+    TaskStatusWindow* modalTaskStatusWindow;
+    
 @private
     NSWindow *window;
     
@@ -169,7 +175,6 @@ enum {
 - (void) openFile:(NSString*) fileName;
 
 // Menu options
-
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
 
@@ -217,7 +222,15 @@ enum {
 
 - (IBAction) debug:(id)sender;
 
+// Publishing
+- (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings;
+
 // For warning messages
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;
+
+// Modal status messages (progress)
+- (void) modalStatusWindowStartWithTitle:(NSString*)title;
+- (void) modalStatusWindowFinish;
+- (void) modalStatusWindowUpdateStatusText:(NSString*) text;
 
 @end

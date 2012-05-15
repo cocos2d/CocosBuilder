@@ -39,6 +39,6 @@
 @property (nonatomic,copy) NSString* publishFormat;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w;
-- (BOOL) publish;
+- (void) publish;
 
 @end

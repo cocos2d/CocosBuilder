@@ -62,6 +62,7 @@
 #import "CCBPublisher.h"
 #import "CCBWarnings.h"
 #import "WarningsWindow.h"
+#import "TaskStatusWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -249,6 +250,36 @@
 {
     NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
     [alert runModal];
+}
+
+- (void) modalStatusWindowStartWithTitle:(NSString*)title
+{
+    if (!modalTaskStatusWindow)
+    {
+        modalTaskStatusWindow = [[TaskStatusWindow alloc] initWithWindowNibName:@"TaskStatusWindow"];
+    }
+    
+    modalTaskStatusWindow.window.title = title;
+    [modalTaskStatusWindow.window center];
+    [modalTaskStatusWindow.window makeKeyAndOrderFront:self];
+    
+    [[NSApplication sharedApplication] runModalForWindow:modalTaskStatusWindow.window];
+    
+    //NSModalSession modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalTaskStatusWindow.window];
+    //[[NSApplication sharedApplication] runModalSession:modalSession];
+}
+
+- (void) modalStatusWindowFinish
+{
+    [[NSApplication sharedApplication] stopModal];
+    [modalTaskStatusWindow.window orderOut:self];
+    
+    //[modalTaskStatusWindow.window setIsVisible:NO];
+}
+
+- (void) modalStatusWindowUpdateStatusText:(NSString*) text
+{
+    modalTaskStatusWindow.status = text;
 }
 
 #pragma mark Handling the gui layer
@@ -1512,8 +1543,20 @@
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
+    // Setup publisher
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    
+    // Open progress window and publish
+    
     [publisher publish];
+    
+    [self modalStatusWindowStartWithTitle:@"Publishing"];
+    [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+}
+
+- (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
+{
+    [self modalStatusWindowFinish];
     
     // Create warnings window if it is not already created
     if (!publishWarningsWindow)

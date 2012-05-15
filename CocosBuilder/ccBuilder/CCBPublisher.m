@@ -28,6 +28,8 @@
 #import "NSString+RelativePath.h"
 #import "PlugInExport.h"
 #import "PlugInManager.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation CCBPublisher
 
@@ -119,6 +121,8 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
     NSFileManager* fm = [NSFileManager defaultManager];
     
     // Path to output directory for the currently exported path
@@ -175,6 +179,7 @@
                     if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                     {
                         NSLog(@"COPY %@",fileName);
+                        [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
                         
                         // Remove old file
                         [fm removeItemAtPath:dstFile error:NULL];
@@ -204,6 +209,7 @@
                 if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                 {
                     NSLog(@"PUBLISH %@",fileName);
+                    [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", fileName]];
                     
                     // Remove old file
                     [fm removeItemAtPath:dstFile error:NULL];
@@ -219,8 +225,10 @@
     return YES;
 }
 
-- (BOOL) publish
+- (BOOL) publish_
 {
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
@@ -229,6 +237,7 @@
     if (projectSettings.publishToZipFile)
     {
         NSLog(@"ZIPPING");
+        [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
         // Zip it up!
         NSTask* zipTask = [[NSTask alloc] init];
@@ -243,11 +252,22 @@
         [zipTask waitUntilExit];
     }
     
-    //[NSSound soundNamed:
-    
-    NSLog(@"PUBLISH SUCCESSFUL!");
-    
     return YES;
+}
+
+- (void) publish
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        //for (int i = 0; i < 1000; i++)
+            [self publish_];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            [ad publisher:self finishedWithWarnings:warnings];
+            NSLog(@"PUBLISH COMPLETE SYNCH!");
+        });
+    });
+    
 }
 
 - (void) dealloc
