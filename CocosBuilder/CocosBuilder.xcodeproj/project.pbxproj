@@ -372,6 +372,8 @@
 		E3D59139150F8C5A004180CA /* CCBPCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59138150F8C5A004180CA /* CCBPCCBFile.m */; };
 		E3DC1B8C154F18660087724C /* size-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8A154F18660087724C /* size-3.png */; };
 		E3DC1B8D154F18660087724C /* size-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8B154F18660087724C /* size-4.png */; };
+		E3DCFD9415627FAB00BD7D7F /* WarningsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */; };
+		E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -1181,6 +1183,9 @@
 		E3D59138150F8C5A004180CA /* CCBPCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPCCBFile.m; sourceTree = "<group>"; };
 		E3DC1B8A154F18660087724C /* size-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-3.png"; sourceTree = "<group>"; };
 		E3DC1B8B154F18660087724C /* size-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-4.png"; sourceTree = "<group>"; };
+		E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WarningsWindow.xib; sourceTree = "<group>"; };
+		E3DCFD9515627FCE00BD7D7F /* WarningsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningsWindow.h; sourceTree = "<group>"; };
+		E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WarningsWindow.m; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -1393,8 +1398,6 @@
 				772BE593134BC2BA0009B5B9 /* CCBReaderInternalV1.m */,
 				E3C3660214EB2C1B007CD5FF /* CCBReaderInternal.h */,
 				E3C3660314EB2C1B007CD5FF /* CCBReaderInternal.m */,
-				E3462871155D22FC0043EAB1 /* CCBWarnings.h */,
-				E3462872155D22FC0043EAB1 /* CCBWarnings.m */,
 			);
 			name = "Document Readers & Writers";
 			sourceTree = "<group>";
@@ -1696,6 +1699,7 @@
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Readers & Writers */,
 				E346286D155D21F10043EAB1 /* Publishing */,
+				E3DCFD851562611700BD7D7F /* Error handling & warnings */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				7789ACF8133BFA9700CEFCC7 /* Interface */,
 				776041E21498F5A70078095D /* Util */,
@@ -2708,6 +2712,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E3DCFD851562611700BD7D7F /* Error handling & warnings */ = {
+			isa = PBXGroup;
+			children = (
+				E3462871155D22FC0043EAB1 /* CCBWarnings.h */,
+				E3462872155D22FC0043EAB1 /* CCBWarnings.m */,
+				E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */,
+				E3DCFD9515627FCE00BD7D7F /* WarningsWindow.h */,
+				E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */,
+			);
+			name = "Error handling & warnings";
+			sourceTree = "<group>";
+		};
 		E3FCE8681524856D0028E8E7 /* CCScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3231,6 +3247,7 @@
 				E3DC1B8D154F18660087724C /* size-4.png in Resources */,
 				E334069715517225000FBD0B /* InspectorFloatScale.xib in Resources */,
 				E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */,
+				E3DCFD9415627FAB00BD7D7F /* WarningsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3602,6 +3619,7 @@
 				E3462870155D22290043EAB1 /* CCBPublisher.m in Sources */,
 				E3462873155D22FC0043EAB1 /* CCBWarnings.m in Sources */,
 				E32BBCB11561361200C58395 /* HashValue.m in Sources */,
+				E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,6 +53,7 @@ enum {
 @class CCBGLView;
 @class CCBTransparentWindow;
 @class CCBTransparentView;
+@class WarningsWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -121,6 +122,9 @@ enum {
     // Transparent window for components on top of cocos scene
     CCBTransparentWindow* guiWindow;
     CCBTransparentView* guiView;
+    
+    // Warnings
+    WarningsWindow* publishWarningsWindow;
     
 @private
     NSWindow *window;

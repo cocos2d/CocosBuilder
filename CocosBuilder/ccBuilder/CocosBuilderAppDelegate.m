@@ -61,6 +61,7 @@
 #import "SavePanelLimiter.h"
 #import "CCBPublisher.h"
 #import "CCBWarnings.h"
+#import "WarningsWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -148,10 +149,11 @@
     [window setShowsToolbarButton:NO];
 }
 
+/*
 - (void) setupDefaultDocument
 {
-	currentDocument = [[CCBDocument alloc] init];
-}
+	//currentDocument = [[CCBDocument alloc] init];
+}*/
 
 - (void) setupResourceManager
 {
@@ -194,7 +196,7 @@
     [window setDelegate:self];
     
     [self setupTabBar];
-    [self setupDefaultDocument];
+    //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupOutlineView];
@@ -940,6 +942,7 @@
     [g.cocosScene.guideLayer removeAllGuides];
     [g.cocosScene.notesLayer removeAllNotes];
     [g.cocosScene.rulerLayer mouseExited:NULL];
+    self.currentDocument = NULL;
     
     [outlineHierarchy reloadData];
     
@@ -1519,76 +1522,22 @@
     }
 }
 
-/*
-- (IBAction) publishDocumentAs:(id)sender
-{
-    NSSavePanel* saveDlg = [NSSavePanel savePanel];
-    
-    // Setup accessory view
-    PublishTypeAccessoryView* accessoryView = [[PublishTypeAccessoryView alloc] init];
-    accessoryView.savePanel = saveDlg;
-    accessoryView.flattenPaths = currentDocument.exportFlattenPaths;
-    [NSBundle loadNibNamed:@"PublishTypeAccessoryView" owner:accessoryView];
-    NSView* view = accessoryView.view;
-    saveDlg.accessoryView = view;
-    
-    // Set allowed extension
-    NSString* defaultFileExtension = [[[PlugInManager sharedManager] plugInExportForIndex:0] extension];
-    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:defaultFileExtension]];
-    
-    // Set default name
-    NSString* exportName = [[currentDocument.fileName lastPathComponent] stringByDeletingPathExtension];
-    [saveDlg setNameFieldStringValue:exportName];
-    
-    // Run the dialog
-    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
-        if (result == NSOKButton)
-        {
-            NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
-            NSString* absPath = [[saveDlg URL] path];
-            NSString* relPath = [absPath relativePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
-            
-            currentDocument.exportPlugIn = exportTypeName;
-            currentDocument.exportPath = relPath;
-            currentDocument.exportFlattenPaths = accessoryView.flattenPaths;
-            
-            [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
-        }
-    }];
-}
-
-- (IBAction) publishDocument:(id)sender
-{
-    if (!currentDocument) return;
-    
-    NSString* absPath = [currentDocument.exportPath absolutePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
-    
-    if (absPath && 
-		currentDocument.exportPlugIn && 
-		[[NSFileManager defaultManager] fileExistsAtPath:absPath] )
-    {
-        [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
-    }
-    else
-    {
-        if (sender)
-        {
-            [self publishDocumentAs:sender];
-        }
-        else
-        {
-            // Temp fix for exporting directories
-            [self exportFile:[currentDocument.fileName stringByAppendingString:@"i"] withPlugIn:[[[PlugInManager sharedManager] plugInExportForIndex:0] extension]];
-        }
-    }
-}*/
-
 - (IBAction) menuPublishProject:(id)sender
 {
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     [publisher publish];
+    
+    // Create warnings window if it is not already created
+    if (!publishWarningsWindow)
+    {
+        publishWarningsWindow = [[WarningsWindow alloc] initWithWindowNibName:@"WarningsWindow"];
+    }
+    
+    // Update and show warnings window
+    publishWarningsWindow.warnings = warnings;
+    [[publishWarningsWindow window] setIsVisible:YES];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
@@ -1992,9 +1941,6 @@
 - (IBAction) debug:(id)sender
 {
     NSLog(@"DEBUG");
-    
-    //ResourceManager* rm = [ResourceManager sharedManager];
-    //[rm debugPrintDirectories];
     
     NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
 }
