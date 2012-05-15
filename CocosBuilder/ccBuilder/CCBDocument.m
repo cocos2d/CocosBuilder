@@ -28,7 +28,7 @@
 
 @implementation CCBDocument
 
-@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn,exportFlattenPaths, project, resolutions, currentResolution;
+@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn,exportFlattenPaths, resolutions, currentResolution;
 
 - (id)init
 {
@@ -46,7 +46,6 @@
 
 - (void)dealloc
 {
-    [project release];
     self.exportPath = NULL;
     self.exportPlugIn = NULL;
     self.lastEditedProperty = NULL;
@@ -74,10 +73,6 @@
         [fileName release];
         fileName = [fn retain];
     }
-    // Check for project file
-    NSString* projPath = [[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Project.ccbproj"];
-    project = [NSDictionary dictionaryWithContentsOfFile:projPath];
-    [project retain];
 }
 
 @end
