@@ -24,7 +24,10 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+
+#ifdef CCB_ENABLE_UNZIP
 #import "SSZipArchive.h"
+#endif
 
 @implementation CCBReader
 
@@ -808,6 +811,7 @@
     return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
 }
 
+#ifdef CCB_ENABLE_UNZIP
 + (BOOL) unzipResources:(NSString*)resPath
 {
     NSString* fullResPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:resPath];
@@ -818,6 +822,7 @@
     
     return [SSZipArchive unzipFileAtPath:fullResPath toDestination:dstPath overwrite:YES password:NULL error:NULL];
 }
+#endif
 @end
 
 
