@@ -36,9 +36,11 @@
 
 @interface CCBWarnings : NSObject
 {
+    NSString* warningsDescription;
     NSMutableArray* warnings;
 }
 @property (nonatomic,readonly) NSMutableArray* warnings;
+@property (nonatomic,copy) NSString* warningsDescription;
 
 - (void) addWarningWithDescription:(NSString*)description isFatal:(BOOL)fatal;
 - (void) addWarningWithDescription:(NSString*)description;

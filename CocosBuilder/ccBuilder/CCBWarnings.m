@@ -39,6 +39,7 @@
 
 @implementation CCBWarnings
 
+@synthesize warningsDescription;
 @synthesize warnings;
 
 - (id) init
@@ -47,6 +48,7 @@
     if (!self) return NULL;
     
     warnings = [[NSMutableArray array] retain];
+    self.warningsDescription = @"Warnings";
     
     return self;
 }

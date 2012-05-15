@@ -1694,7 +1694,7 @@
 				</object>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2112,7 +2112,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{0, -22}, {233, 550}}</string>
 											<reference key="NSSuperview" ref="650525934"/>
-											<reference key="NSNextKeyView" ref="677469954"/>
+											<reference key="NSNextKeyView" ref="885143300"/>
 										</object>
 									</object>
 									<string key="NSFrame">{{1, 1}, {233, 528}}</string>
@@ -2127,7 +2127,6 @@
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{234, 1}, {15, 528}}</string>
 									<reference key="NSSuperview" ref="949082143"/>
-									<reference key="NSNextKeyView"/>
 									<bool key="NSEnabled">YES</bool>
 									<reference key="NSTarget" ref="949082143"/>
 									<string key="NSAction">_doScroller:</string>
@@ -2147,7 +2146,7 @@
 							</object>
 							<string key="NSFrame">{{751, -1}, {250, 530}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<reference key="NSNextKeyView" ref="885143300"/>
+							<reference key="NSNextKeyView" ref="650525934"/>
 							<int key="NSsFlags">82</int>
 							<reference key="NSVScroller" ref="677469954"/>
 							<reference key="NSHScroller" ref="885143300"/>
@@ -2214,7 +2213,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1000, 550}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -3000,14 +2998,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">publishDirectory:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="548961486"/>
-					</object>
-					<int key="connectionID">1470</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">menuEditResolutionSettings:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="457296383"/>
@@ -3085,6 +3075,14 @@
 						<reference key="destination" ref="146575532"/>
 					</object>
 					<int key="connectionID">1517</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuUpdateCCBsInDirectory:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="548961486"/>
+					</object>
+					<int key="connectionID">1522</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -5250,7 +5248,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1521</int>
+			<int key="maxID">1522</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

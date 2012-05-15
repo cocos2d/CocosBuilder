@@ -288,21 +288,6 @@
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    //CCBDocument* doc = [tabViewItem identifier];
-    
-    // Remove directory paths from resource manager
-    
-    /*
-    [resManager removeDirectory:doc.rootPath];
-    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager removeDirectory:path];
-        }
-    }*/
-    
     if ([[aTabView tabViewItems] count] == 0)
     {
         [self closeLastDocument];
@@ -1525,6 +1510,7 @@
 - (IBAction) menuPublishProject:(id)sender
 {
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+    warnings.warningsDescription = @"Publisher Warnings";
     
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     [publisher publish];
@@ -1537,7 +1523,8 @@
     
     // Update and show warnings window
     publishWarningsWindow.warnings = warnings;
-    [[publishWarningsWindow window] setIsVisible:YES];
+    
+    [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
@@ -1546,7 +1533,7 @@
 }
 
 // Temporary utility function until new publish system is in place
-- (IBAction)publishDirectory:(id)sender
+- (IBAction)menuUpdateCCBsInDirectory:(id)sender
 {
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:NO];
@@ -1584,7 +1571,7 @@
 
 - (IBAction) menuProjectSettings:(id)sender
 {
-    if (!currentDocument) return;
+    if (!projectSettings) return;
     
     ProjectSettingsWindow* wc = [[[ProjectSettingsWindow alloc] initWithWindowNibName:@"ProjectSettingsWindow"] autorelease];
     wc.projectSettings = self.projectSettings;
