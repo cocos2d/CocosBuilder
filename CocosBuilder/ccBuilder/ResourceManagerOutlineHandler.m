@@ -94,6 +94,9 @@
     if ([item isKindOfClass:[RMDirectory class]])
     {
         RMDirectory* dir = item;
+        
+        NSLog(@"resourcesForType: %d",resType);
+        
         NSArray* children = [dir resourcesForType:resType];
         return [children count];
     }
