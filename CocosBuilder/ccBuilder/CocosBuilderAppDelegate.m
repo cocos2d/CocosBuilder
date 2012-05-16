@@ -164,7 +164,7 @@
     [resManagerPanel.window setIsVisible:NO];
     
     // Setup project display
-    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeCCBFile];
+    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
 }
 
 - (void) setupGUIWindow

@@ -58,7 +58,7 @@
     }
     
     // Setup extensions to copy
-    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", nil];
+    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf", nil];
     
     // Set format to use for exports
     self.publishFormat = projectSettings.exporter;
@@ -98,6 +98,7 @@
     }
     
     // Export file
+    plugIn.flattenPaths = projectSettings.flattenPaths;
     NSData* data = [plugIn exportDocument:doc];
     if (!data)
     {
@@ -123,7 +124,15 @@
     NSFileManager* fm = [NSFileManager defaultManager];
     
     // Path to output directory for the currently exported path
-    NSString* outDir = outDir = [outputDir stringByAppendingPathComponent:subPath];
+    NSString* outDir = NULL;
+    if (projectSettings.flattenPaths && projectSettings.publishToZipFile)
+    {
+        outDir = outputDir;
+    }
+    else
+    {
+        outDir = [outputDir stringByAppendingPathComponent:subPath];
+    }
     
     // Create the directory if it doesn't exist
     BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
@@ -161,9 +170,11 @@
                 if ([[fileName lowercaseString] hasSuffix:ext])
                 {
                     // This file should be copied
-                    NSString* dstFile = NULL;
-                    if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@",outputDir,subPath,fileName];
-                    else dstFile = [NSString stringWithFormat:@"%@/%@",outputDir,fileName];
+                    //NSString* dstFile = NULL;
+                    //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@",outputDir,subPath,fileName];
+                    //else dstFile = [NSString stringWithFormat:@"%@/%@",outputDir,fileName];
+                    
+                    NSString* dstFile = [outDir stringByAppendingPathComponent:fileName];
                     
                     if ([dstFile isEqualToString:filePath])
                     {
@@ -190,9 +201,10 @@
             {
                 NSString* strippedFileName = [fileName stringByDeletingPathExtension];
                 
-                NSString* dstFile = NULL;
-                if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@.%@",outputDir,subPath,strippedFileName, publishFormat];
-                else dstFile = [NSString stringWithFormat:@"%@/%@.%@",outputDir,strippedFileName, publishFormat];
+                //NSString* dstFile = NULL;
+                //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@.%@",outputDir,subPath,strippedFileName, publishFormat];
+                //else dstFile = [NSString stringWithFormat:@"%@/%@.%@",outputDir,strippedFileName, publishFormat];
+                NSString* dstFile = [[outDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
                 
                 if ([dstFile isEqualToString:filePath])
                 {
