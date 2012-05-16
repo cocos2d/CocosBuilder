@@ -51,9 +51,7 @@
         NSLog(@"paths: %@", paths);
         outputDir = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:projectSettings.projectPathHashed];
         
-        outputDir = [outputDir retain]; // TODO: Create temp directory
-        
-        NSLog(@"outputDir: %@", outputDir);
+        outputDir = [outputDir retain];
     }
     else
     {
@@ -63,8 +61,8 @@
     // Setup extensions to copy
     copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", nil];
     
-    // Set default format to use for exports
-    self.publishFormat = @"ccbi";
+    // Set format to use for exports
+    self.publishFormat = projectSettings.exporter;
     
     return self;
 }
@@ -128,8 +126,6 @@
     // Path to output directory for the currently exported path
     NSString* outDir = outDir = [outputDir stringByAppendingPathComponent:subPath];
     
-    NSLog(@"DIR %@", outDir);
-    
     // Create the directory if it doesn't exist
     BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     if (!createdDirs)
@@ -178,7 +174,6 @@
                     
                     if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                     {
-                        NSLog(@"COPY %@",fileName);
                         [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
                         
                         // Remove old file
@@ -208,7 +203,6 @@
                 
                 if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                 {
-                    NSLog(@"PUBLISH %@",fileName);
                     [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", fileName]];
                     
                     // Remove old file
@@ -236,7 +230,6 @@
     
     if (projectSettings.publishToZipFile)
     {
-        NSLog(@"ZIPPING");
         [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
         // Zip it up!
@@ -245,9 +238,6 @@
         [zipTask setLaunchPath:@"/usr/bin/zip"];
         NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"], @".", @"-i", @"*", nil];
         [zipTask setArguments:args];
-        
-        NSLog(@"ZIP args: %@", args);
-        
         [zipTask launch];
         [zipTask waitUntilExit];
     }
@@ -259,12 +249,10 @@
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        //for (int i = 0; i < 1000; i++)
-            [self publish_];
+        [self publish_];
         dispatch_sync(dispatch_get_main_queue(), ^{
             CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
             [ad publisher:self finishedWithWarnings:warnings];
-            NSLog(@"PUBLISH COMPLETE SYNCH!");
         });
     });
     

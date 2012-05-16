@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #define kCCBProjectSettingsVersion 1
+#define kCCBDefaultExportPlugIn @"ccbi"
 
 @interface ProjectSettings : NSObject
 {
@@ -33,6 +34,8 @@
     NSString* publishDirectory;
     BOOL flattenPaths;
     BOOL publishToZipFile;
+    NSString* exporter;
+    NSMutableArray* availableExporters;
 }
 
 @property (nonatomic, copy) NSString* projectPath;
@@ -42,6 +45,8 @@
 @property (nonatomic, assign) BOOL flattenPaths;
 @property (nonatomic, assign) BOOL publishToZipFile;
 @property (nonatomic, readonly) NSArray* absoluteResourcePaths;
+@property (nonatomic, copy) NSString* exporter;
+@property (nonatomic, retain) NSMutableArray* availableExporters;
 
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;

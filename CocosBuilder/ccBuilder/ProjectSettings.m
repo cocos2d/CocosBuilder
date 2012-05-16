@@ -25,6 +25,8 @@
 #import "ProjectSettings.h"
 #import "NSString+RelativePath.h"
 #import "HashValue.h"
+#import "PlugInManager.h"
+#import "PlugInExport.h"
 
 @implementation ProjectSettings
 
@@ -33,6 +35,8 @@
 @synthesize publishDirectory;
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
+@synthesize exporter;
+@synthesize availableExporters;
 
 - (id) init
 {
@@ -42,6 +46,13 @@
     resourcePaths = [[NSMutableArray alloc] init];
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
     self.publishDirectory = @"";
+    
+    // Load available exporters
+    self.availableExporters = [NSMutableArray array];
+    for (PlugInExport* plugIn in [[PlugInManager sharedManager] plugInsExporters])
+    {
+        [availableExporters addObject: plugIn.extension];
+    }
     
     return self;
 }
@@ -63,6 +74,7 @@
     self.publishDirectory = [dict objectForKey:@"publishDirectory"];
     self.flattenPaths = [[dict objectForKey:@"flattenPaths"] boolValue];
     self.publishToZipFile = [[dict objectForKey:@"publishToZipFile"] boolValue];
+    self.exporter = [dict objectForKey:@"exporter"];
     
     return self;
 }
@@ -72,7 +84,15 @@
     self.resourcePaths = NULL;
     self.projectPath = NULL;
     self.publishDirectory = NULL;
+    self.exporter = NULL;
+    self.availableExporters = NULL;
     [super dealloc];
+}
+
+- (NSString*) exporter
+{
+    if (exporter) return exporter;
+    return kCCBDefaultExportPlugIn;
 }
 
 - (id) serialize
@@ -85,6 +105,7 @@
     [dict setObject:publishDirectory forKey:@"publishDirectory"];
     [dict setObject:[NSNumber numberWithBool:flattenPaths] forKey:@"flattenPaths"];
     [dict setObject:[NSNumber numberWithBool:publishToZipFile] forKey:@"publishToZipFile"];
+    [dict setObject:self.exporter forKey:@"exporter"];
     
     return dict;
 }
