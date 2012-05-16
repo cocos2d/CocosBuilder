@@ -48,7 +48,6 @@
     if (projectSettings.publishToZipFile)
     {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSLog(@"paths: %@", paths);
         outputDir = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:projectSettings.projectPathHashed];
         
         outputDir = [outputDir retain];
@@ -256,6 +255,13 @@
         });
     });
     
+}
+
++ (void) cleanAllCacheDirectories
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* ccbChacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"];
+    [[NSFileManager defaultManager] removeItemAtPath:ccbChacheDir error:NULL];
 }
 
 - (void) dealloc

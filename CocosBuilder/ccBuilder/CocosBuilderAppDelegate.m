@@ -1554,6 +1554,11 @@
     [self modalStatusWindowUpdateStatusText:@"Starting up..."];
 }
 
+- (IBAction) menuCleanCacheDirectories:(id)sender
+{
+    [CCBPublisher cleanAllCacheDirectories];
+}
+
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
 {
     [self modalStatusWindowFinish];

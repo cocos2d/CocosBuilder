@@ -40,5 +40,6 @@
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w;
 - (void) publish;
++ (void) cleanAllCacheDirectories;
 
 @end

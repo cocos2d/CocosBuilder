@@ -211,6 +211,7 @@ enum {
 - (void) reloadResources;
 - (IBAction) menuAlignChildren:(id)sender;
 - (IBAction)menuAddStickyNote:(id)sender;
+- (IBAction) menuCleanCacheDirectories:(id)sender;
 
 // Undo / Redo
 - (void) updateDirtyMark;
