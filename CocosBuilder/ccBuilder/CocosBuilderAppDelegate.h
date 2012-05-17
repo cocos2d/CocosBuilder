@@ -186,6 +186,7 @@ enum {
 - (IBAction) menuDeselect:(id)sender;
 
 - (IBAction) menuCloseDocument:(id)sender;
+- (void) closeProject;
 
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;

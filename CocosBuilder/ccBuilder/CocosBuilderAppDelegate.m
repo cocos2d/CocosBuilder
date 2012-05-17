@@ -1006,6 +1006,21 @@
     }
 }
 
+- (void) checkForTooManyDirectoriesInCurrentProject
+{
+    NSLog(@"checkForTooManyDirectoriesInCurrentProject");
+    
+    if (!projectSettings) return;
+    
+    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
+    {
+        [self closeProject];
+        
+        // Notify the user
+        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
+    }
+}
+
 - (BOOL) createProject:(NSString*) fileName
 {
     // Create a default project
@@ -1075,6 +1090,8 @@
     self.projectSettings = project;
     
     [self updateResourcePathsFromProjectSettings];
+    
+    [self checkForTooManyDirectoriesInCurrentProject];
 }
 
 - (void) openFile:(NSString*) fileName
