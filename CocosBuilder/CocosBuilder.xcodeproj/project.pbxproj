@@ -119,6 +119,7 @@
 		E325F66114F65C8F00D29BCF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E325F65F14F65C8F00D29BCF /* InfoPlist.strings */; };
 		E325F66714F65D4100D29BCF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E325F66614F65D4100D29BCF /* CCBPProperties.plist */; };
 		E325F66A14F6611F00D29BCF /* CCMenuItemImage.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E325F65A14F65C8E00D29BCF /* CCMenuItemImage.ccbPlugNode */; };
+		E32BBCB11561361200C58395 /* HashValue.m in Sources */ = {isa = PBXBuildFile; fileRef = E32BBCB01561361200C58395 /* HashValue.m */; };
 		E32D8CC514EC257000F4BD5E /* InspectorCodeConnections.xib in Resources */ = {isa = PBXBuildFile; fileRef = E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */; };
 		E32D8CC814EC25D800F4BD5E /* InspectorCodeConnections.m in Sources */ = {isa = PBXBuildFile; fileRef = E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */; };
 		E334069715517225000FBD0B /* InspectorFloatScale.xib in Resources */ = {isa = PBXBuildFile; fileRef = E334069615517225000FBD0B /* InspectorFloatScale.xib */; };
@@ -126,6 +127,10 @@
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
+		E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */; };
+		E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */ = {isa = PBXBuildFile; fileRef = E346286A155C18D80043EAB1 /* SavePanelLimiter.m */; };
+		E3462870155D22290043EAB1 /* CCBPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = E346286F155D22290043EAB1 /* CCBPublisher.m */; };
+		E3462873155D22FC0043EAB1 /* CCBWarnings.m in Sources */ = {isa = PBXBuildFile; fileRef = E3462872155D22FC0043EAB1 /* CCBWarnings.m */; };
 		E34E5D6615357CF2000201FB /* RulersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E34E5D6515357CF2000201FB /* RulersLayer.m */; };
 		E34E5D6A153585EC000201FB /* ruler-bg-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */; };
 		E34E5D6B153585EC000201FB /* ruler-bg-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = E34E5D69153585EC000201FB /* ruler-bg-vertical.png */; };
@@ -282,6 +287,9 @@
 		E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */; };
 		E370BA0C1549B2460048ED73 /* scale-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0A1549B2460048ED73 /* scale-0.png */; };
 		E370BA0D1549B2460048ED73 /* scale-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0B1549B2460048ED73 /* scale-1.png */; };
+		E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */; };
+		E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */; };
+		E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EAC155979BF00196B4A /* ProjectSettings.m */; };
 		E383BF6B152478940032F371 /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E383BF6A152478940032F371 /* CCScrollView.m */; };
 		E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3850808150AA9AE007E162A /* ImageAndTextCell.m */; };
 		E385080B150AB232007E162A /* segmctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E385080A150AB232007E162A /* segmctrl-bg.png */; };
@@ -364,6 +372,10 @@
 		E3D59139150F8C5A004180CA /* CCBPCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59138150F8C5A004180CA /* CCBPCCBFile.m */; };
 		E3DC1B8C154F18660087724C /* size-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8A154F18660087724C /* size-3.png */; };
 		E3DC1B8D154F18660087724C /* size-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8B154F18660087724C /* size-4.png */; };
+		E3DCFD9415627FAB00BD7D7F /* WarningsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */; };
+		E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */; };
+		E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */; };
+		E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -722,6 +734,8 @@
 		E325F66014F65C8F00D29BCF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E325F66214F65C8F00D29BCF /* CCMenuItemImage-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCMenuItemImage-Prefix.pch"; sourceTree = "<group>"; };
 		E325F66614F65D4100D29BCF /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E32BBCAF1561361200C58395 /* HashValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HashValue.h; path = HashValue/HashValue.h; sourceTree = "<group>"; };
+		E32BBCB01561361200C58395 /* HashValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HashValue.m; path = HashValue/HashValue.m; sourceTree = "<group>"; };
 		E32D8CC414EC257000F4BD5E /* InspectorCodeConnections.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCodeConnections.xib; sourceTree = "<group>"; };
 		E32D8CC614EC25D800F4BD5E /* InspectorCodeConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorCodeConnections.h; sourceTree = "<group>"; };
 		E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCodeConnections.m; sourceTree = "<group>"; };
@@ -731,6 +745,14 @@
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
+		E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerOutlineHandler.h; sourceTree = "<group>"; };
+		E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerOutlineHandler.m; sourceTree = "<group>"; };
+		E3462869155C18D80043EAB1 /* SavePanelLimiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavePanelLimiter.h; sourceTree = "<group>"; };
+		E346286A155C18D80043EAB1 /* SavePanelLimiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavePanelLimiter.m; sourceTree = "<group>"; };
+		E346286E155D22290043EAB1 /* CCBPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPublisher.h; sourceTree = "<group>"; };
+		E346286F155D22290043EAB1 /* CCBPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPublisher.m; sourceTree = "<group>"; };
+		E3462871155D22FC0043EAB1 /* CCBWarnings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBWarnings.h; sourceTree = "<group>"; };
+		E3462872155D22FC0043EAB1 /* CCBWarnings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBWarnings.m; sourceTree = "<group>"; };
 		E34E5D6415357CF2000201FB /* RulersLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulersLayer.h; sourceTree = "<group>"; };
 		E34E5D6515357CF2000201FB /* RulersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulersLayer.m; sourceTree = "<group>"; };
 		E34E5D68153585EC000201FB /* ruler-bg-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ruler-bg-horizontal.png"; sourceTree = "<group>"; };
@@ -1022,6 +1044,11 @@
 		E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		E370BA0A1549B2460048ED73 /* scale-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scale-0.png"; sourceTree = "<group>"; };
 		E370BA0B1549B2460048ED73 /* scale-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scale-1.png"; sourceTree = "<group>"; };
+		E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectSettingsWindow.xib; sourceTree = "<group>"; };
+		E3799EA81559771D00196B4A /* ProjectSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettingsWindow.h; sourceTree = "<group>"; };
+		E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingsWindow.m; sourceTree = "<group>"; };
+		E3799EAB155979BF00196B4A /* ProjectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettings.h; sourceTree = "<group>"; };
+		E3799EAC155979BF00196B4A /* ProjectSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettings.m; sourceTree = "<group>"; };
 		E383BF69152478940032F371 /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E383BF6A152478940032F371 /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
 		E3850807150AA9AE007E162A /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
@@ -1158,6 +1185,12 @@
 		E3D59138150F8C5A004180CA /* CCBPCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPCCBFile.m; sourceTree = "<group>"; };
 		E3DC1B8A154F18660087724C /* size-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-3.png"; sourceTree = "<group>"; };
 		E3DC1B8B154F18660087724C /* size-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-4.png"; sourceTree = "<group>"; };
+		E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WarningsWindow.xib; sourceTree = "<group>"; };
+		E3DCFD9515627FCE00BD7D7F /* WarningsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarningsWindow.h; sourceTree = "<group>"; };
+		E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WarningsWindow.m; sourceTree = "<group>"; };
+		E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskStatusWindow.xib; sourceTree = "<group>"; };
+		E3DCFD9D1562A3AD00BD7D7F /* TaskStatusWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskStatusWindow.h; sourceTree = "<group>"; };
+		E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskStatusWindow.m; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -1381,6 +1414,11 @@
 				772BE571133E48340009B5B9 /* CCBGlobals.m */,
 				E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */,
 				E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */,
+				E3799EAB155979BF00196B4A /* ProjectSettings.h */,
+				E3799EAC155979BF00196B4A /* ProjectSettings.m */,
+				E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */,
+				E3799EA81559771D00196B4A /* ProjectSettingsWindow.h */,
+				E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */,
 			);
 			name = "Application Settings & Globals";
 			sourceTree = "<group>";
@@ -1406,6 +1444,8 @@
 				E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */,
 				E3EDBC231549971000EEF1F3 /* CCBFileUtil.h */,
 				E3EDBC241549971000EEF1F3 /* CCBFileUtil.m */,
+				E3462869155C18D80043EAB1 /* SavePanelLimiter.h */,
+				E346286A155C18D80043EAB1 /* SavePanelLimiter.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1417,17 +1457,8 @@
 				7789ACE9133AB47A00CEFCC7 /* CocosScene.m */,
 				7789ABD4133AA82000CEFCC7 /* CocosBuilderAppDelegate.h */,
 				7789ABD5133AA82000CEFCC7 /* CocosBuilderAppDelegate.m */,
-				E34E5D6415357CF2000201FB /* RulersLayer.h */,
-				E34E5D6515357CF2000201FB /* RulersLayer.m */,
-				E3A16AF11536D096004B528A /* GuidesLayer.h */,
-				E3A16AF21536D096004B528A /* GuidesLayer.m */,
 				776A37B41398D6B900960E94 /* CCBGLView.h */,
 				776A37B51398D6BD00960E94 /* CCBGLView.m */,
-				E3F3F83D153C72A3005443EE /* NotesLayer.h */,
-				E3F3F83E153C72A3005443EE /* NotesLayer.m */,
-				E3F3F846153D9126005443EE /* StickyNoteEditView.xib */,
-				E3F3F841153C7700005443EE /* StickyNote.h */,
-				E3F3F842153C7700005443EE /* StickyNote.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -1668,12 +1699,15 @@
 			isa = PBXGroup;
 			children = (
 				776041E31498F5E80078095D /* AppDelegate & Cocos2D Scene */,
-				776041E21498F5A70078095D /* Util */,
+				E346286C155C23100043EAB1 /* Rulers, Guides & Notes */,
+				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Readers & Writers */,
-				7789ACF8133BFA9700CEFCC7 /* Interface */,
-				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
+				E346286D155D21F10043EAB1 /* Publishing */,
+				E3DCFD851562611700BD7D7F /* Error handling & warnings */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
+				7789ACF8133BFA9700CEFCC7 /* Interface */,
+				776041E21498F5A70078095D /* Util */,
 				7789ABC9133AA82000CEFCC7 /* Supporting Files */,
 			);
 			name = CocosBuilder;
@@ -1695,6 +1729,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E32BBCAA156135C300C58395 /* HashValue */,
 				E36A270F152263B4004986A8 /* cocos2d */,
 				E383BF68152478940032F371 /* CCScrollView */,
 				E35392491518AF2100471721 /* CCControlExtension */,
@@ -1876,6 +1911,43 @@
 				E325F66614F65D4100D29BCF /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E32BBCAA156135C300C58395 /* HashValue */ = {
+			isa = PBXGroup;
+			children = (
+				E32BBCAF1561361200C58395 /* HashValue.h */,
+				E32BBCB01561361200C58395 /* HashValue.m */,
+			);
+			name = HashValue;
+			sourceTree = "<group>";
+		};
+		E346286C155C23100043EAB1 /* Rulers, Guides & Notes */ = {
+			isa = PBXGroup;
+			children = (
+				E34E5D6415357CF2000201FB /* RulersLayer.h */,
+				E34E5D6515357CF2000201FB /* RulersLayer.m */,
+				E3A16AF11536D096004B528A /* GuidesLayer.h */,
+				E3A16AF21536D096004B528A /* GuidesLayer.m */,
+				E3F3F83D153C72A3005443EE /* NotesLayer.h */,
+				E3F3F83E153C72A3005443EE /* NotesLayer.m */,
+				E3F3F846153D9126005443EE /* StickyNoteEditView.xib */,
+				E3F3F841153C7700005443EE /* StickyNote.h */,
+				E3F3F842153C7700005443EE /* StickyNote.m */,
+			);
+			name = "Rulers, Guides & Notes";
+			sourceTree = "<group>";
+		};
+		E346286D155D21F10043EAB1 /* Publishing */ = {
+			isa = PBXGroup;
+			children = (
+				E346286E155D22290043EAB1 /* CCBPublisher.h */,
+				E346286F155D22290043EAB1 /* CCBPublisher.m */,
+				E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */,
+				E3DCFD9D1562A3AD00BD7D7F /* TaskStatusWindow.h */,
+				E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */,
+			);
+			name = Publishing;
 			sourceTree = "<group>";
 		};
 		E35392461518AD0A00471721 /* Core */ = {
@@ -2584,11 +2656,13 @@
 			children = (
 				E3C5C1A21504D17E000CF6F3 /* ResourceManager.h */,
 				E3C5C1A31504D17E000CF6F3 /* ResourceManager.m */,
+				E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */,
+				E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */,
 				E3C5C1AE150610D8000CF6F3 /* ResourceManagerPanel.xib */,
 				E3C5C1B015061882000CF6F3 /* ResourceManagerPanel.h */,
 				E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */,
-				E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */,
-				E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */,
+				E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */,
+				E3462866155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m */,
 			);
 			name = "Resource Manager";
 			sourceTree = "<group>";
@@ -2644,6 +2718,18 @@
 				E3D59130150F5676004180CA /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E3DCFD851562611700BD7D7F /* Error handling & warnings */ = {
+			isa = PBXGroup;
+			children = (
+				E3462871155D22FC0043EAB1 /* CCBWarnings.h */,
+				E3462872155D22FC0043EAB1 /* CCBWarnings.m */,
+				E3DCFD9315627FAB00BD7D7F /* WarningsWindow.xib */,
+				E3DCFD9515627FCE00BD7D7F /* WarningsWindow.h */,
+				E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */,
+			);
+			name = "Error handling & warnings";
 			sourceTree = "<group>";
 		};
 		E3FCE8681524856D0028E8E7 /* CCScrollView */ = {
@@ -3168,6 +3254,9 @@
 				E3DC1B8C154F18660087724C /* size-3.png in Resources */,
 				E3DC1B8D154F18660087724C /* size-4.png in Resources */,
 				E334069715517225000FBD0B /* InspectorFloatScale.xib in Resources */,
+				E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */,
+				E3DCFD9415627FAB00BD7D7F /* WarningsWindow.xib in Resources */,
+				E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3532,6 +3621,15 @@
 				E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */,
 				E3EDBC251549971000EEF1F3 /* CCBFileUtil.m in Sources */,
 				E334069B1551725F000FBD0B /* InspectorFloatScale.m in Sources */,
+				E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */,
+				E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */,
+				E3462867155BF6C50043EAB1 /* ResourceManagerOutlineHandler.m in Sources */,
+				E346286B155C18D80043EAB1 /* SavePanelLimiter.m in Sources */,
+				E3462870155D22290043EAB1 /* CCBPublisher.m in Sources */,
+				E3462873155D22FC0043EAB1 /* CCBWarnings.m in Sources */,
+				E32BBCB11561361200C58395 /* HashValue.m in Sources */,
+				E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */,
+				E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
