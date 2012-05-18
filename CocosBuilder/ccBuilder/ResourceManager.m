@@ -383,6 +383,10 @@
     {
         return kCCBResTypeCCBFile;
     }
+    else if ([ext isEqualToString:@"js"])
+    {
+        return kCCBResTypeJS;
+    }
     
     return kCCBResTypeNone;
 }
@@ -537,7 +541,8 @@
                 || res.type == kCCBResTypeBMFont
                 || res.type == kCCBResTypeTTF
                 || res.type == kCCBResTypeCCBFile
-                || res.type == kCCBResTypeDirectory)
+                || res.type == kCCBResTypeDirectory
+                || res.type == kCCBResTypeJS)
             {
                 [dir.any addObject:res];
             }

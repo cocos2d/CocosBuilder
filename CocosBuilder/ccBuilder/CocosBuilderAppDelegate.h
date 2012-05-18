@@ -57,6 +57,7 @@ enum {
 @class TaskStatusWindow;
 @class CCBPublisher;
 @class CCBWarnings;
+@class PlayerController;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -132,6 +133,9 @@ enum {
     // Modal status window
     TaskStatusWindow* modalTaskStatusWindow;
     
+    // Player
+    PlayerController* playerController;
+    
 @private
     NSWindow *window;
     
@@ -160,6 +164,8 @@ enum {
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
+
+@property (nonatomic,retain) PlayerController* playerController;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;

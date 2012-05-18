@@ -32,5 +32,5 @@
     //IBOutlet NSTableView* tableView;
 }
 
-@property (nonatomic,assign) CCBWarnings* warnings;
+@property (nonatomic,retain) CCBWarnings* warnings;
 @end

@@ -63,6 +63,7 @@
 #import "CCBWarnings.h"
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
+#import "PlayerController.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -83,6 +84,7 @@
 @synthesize guiView;
 @synthesize guiWindow;
 @synthesize showStickyNotes;
+@synthesize playerController;
 
 #pragma mark Setup functions
 
@@ -156,6 +158,11 @@
 	//currentDocument = [[CCBDocument alloc] init];
 }*/
 
+- (void) setupPlayerController
+{
+    self.playerController = [[[PlayerController alloc] init] autorelease];
+}
+
 - (void) setupResourceManager
 {
     // Load resource manager
@@ -185,6 +192,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.window center];
+    
     [[CCBGlobals globals] setAppDelegate:self];
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
@@ -236,10 +245,12 @@
     [self setupResourceManager];
     [self setupGUIWindow];
     
+    [self setupPlayerController];
+    
     self.showGuides = YES;
     self.snapToGuides = YES;
-    
     self.showStickyNotes = YES;
+    
     
     [self.window makeKeyWindow];
 }
@@ -1555,13 +1566,14 @@
     }
 }
 
-- (IBAction) menuPublishProject:(id)sender
+- (void) publishAndRun:(BOOL)run
 {
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
     // Setup publisher
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    publisher.runAfterPublishing = run;
     
     // Open progress window and publish
     
@@ -1569,11 +1581,6 @@
     
     [self modalStatusWindowStartWithTitle:@"Publishing"];
     [self modalStatusWindowUpdateStatusText:@"Starting up..."];
-}
-
-- (IBAction) menuCleanCacheDirectories:(id)sender
-{
-    [CCBPublisher cleanAllCacheDirectories];
 }
 
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
@@ -1590,11 +1597,28 @@
     publishWarningsWindow.warnings = warnings;
     
     [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    
+    if (publisher.runAfterPublishing)
+    {
+        [playerController runPlayerForProject:projectSettings];
+    }
+    
+    [publisher release];
+}
+
+- (IBAction) menuPublishProject:(id)sender
+{
+    [self publishAndRun:NO];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    
+    [self publishAndRun:YES];
+}
+
+- (IBAction) menuCleanCacheDirectories:(id)sender
+{
+    [CCBPublisher cleanAllCacheDirectories];
 }
 
 // Temporary utility function until new publish system is in place

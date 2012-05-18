@@ -54,4 +54,10 @@
     return [cell cellSizeForBounds:NSMakeRect(0, 0, tableView.bounds.size.width, 1024)].height;
 }
 
+- (void) dealloc
+{
+    self.warnings = NULL;
+    [super dealloc];
+}
+
 @end

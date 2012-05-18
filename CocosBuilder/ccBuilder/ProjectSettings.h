@@ -47,6 +47,7 @@
 @property (nonatomic, readonly) NSArray* absoluteResourcePaths;
 @property (nonatomic, copy) NSString* exporter;
 @property (nonatomic, retain) NSMutableArray* availableExporters;
+@property (nonatomic, readonly) NSString* publishCacheDirectory;
 
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;

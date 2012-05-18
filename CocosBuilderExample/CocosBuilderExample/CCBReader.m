@@ -53,16 +53,15 @@
     // Setup resolution scale and container size
     rootContainerSize = [[CCDirector sharedDirector] winSize];
     
+    resolutionScale = 1;
+    
+#ifdef __CC_PLATFORM_IOS
     if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         // iPad
         resolutionScale = 2;
     }
-    else
-    {
-        // iPhone
-        resolutionScale = 1;
-    }
+#endif
     
     return self;
 }
@@ -255,7 +254,11 @@
                 absPt.x = (int)(containerSize.width * pt.x / 100.0f);
                 absPt.y = (int)(containerSize.height * pt.y / 100.0f);
             }
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:absPt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(absPt)] forKey:name];
+#endif
         }
     }
     else if(type == kCCBPropTypePoint
@@ -267,7 +270,11 @@
         if (setProp)
         {
             CGPoint pt = ccp(x,y);
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:pt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pt)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeSize)
@@ -307,7 +314,11 @@
                 absSize.height = (int)(containerSize.height * size.height / 100.0f);
             }
             
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
+#else
+            [node setValue:[NSValue valueWithSize:NSSizeFromCGSize(absSize)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeScaleLock)

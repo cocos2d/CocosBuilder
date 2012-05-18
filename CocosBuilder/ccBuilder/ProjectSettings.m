@@ -144,6 +144,12 @@
     }
 }
 
+- (NSString*) publishCacheDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    return [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:self.projectPathHashed];
+}
+
 - (BOOL) store
 {
     return [[self serialize] writeToFile:self.projectPath atomically:YES];

@@ -37,7 +37,8 @@ enum
     kCCBResTypeImage,
     kCCBResTypeBMFont,
     kCCBResTypeTTF,
-    kCCBResTypeCCBFile
+    kCCBResTypeCCBFile,
+    kCCBResTypeJS
 };
 
 
