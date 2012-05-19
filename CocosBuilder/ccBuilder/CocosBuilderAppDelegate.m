@@ -2012,6 +2012,13 @@
     }
 }
 
+- (IBAction)showHelp:(id)sender
+{
+    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
 #pragma mark Debug
 
 - (IBAction) debug:(id)sender
