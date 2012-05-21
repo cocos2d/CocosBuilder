@@ -22,12 +22,33 @@
 
 - (void) runPlayerForProject:(ProjectSettings*)ps
 {
+    // Stop the player if it is running
+    [self stopPlayer];
+    
     NSString *appPath = [[NSBundle mainBundle] pathForResource:@"Player" ofType:@"app"];
     NSURL *appURL = [NSURL fileURLWithPath:appPath];
     
-    NSArray* arguments = [NSArray arrayWithObjects:ps.publishCacheDirectory, nil];
+    // Player dimensions
+    int w = 480;
+    int h = 320;
+    NSArray* arguments = [NSArray arrayWithObjects:
+                          ps.publishCacheDirectory,
+                          [[NSNumber numberWithInt:w] stringValue],
+                          [[NSNumber numberWithInt:h] stringValue],
+                          nil];
     
-    [[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:0 configuration:[NSDictionary dictionaryWithObject:arguments forKey:NSWorkspaceLaunchConfigurationArguments] error:NULL];
+    player = [[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchNewInstance configuration:[NSDictionary dictionaryWithObject:arguments forKey:NSWorkspaceLaunchConfigurationArguments] error:NULL];
+    [player retain];
+}
+
+- (void) stopPlayer
+{
+    if (player)
+    {
+        [player forceTerminate];
+        [player release];
+        player = NULL;
+    }
 }
 
 @end

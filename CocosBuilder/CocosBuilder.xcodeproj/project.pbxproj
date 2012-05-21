@@ -495,8 +495,6 @@
 		E3E08760156684A7008F1FDB /* CCBReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0875F156684A7008F1FDB /* CCBReader.m */; };
 		E3E0877415669080008F1FDB /* BridgeSupportController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876315669080008F1FDB /* BridgeSupportController.m */; };
 		E3E0877515669080008F1FDB /* BridgeSupportController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876315669080008F1FDB /* BridgeSupportController.m */; };
-		E3E0877615669080008F1FDB /* class.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876415669080008F1FDB /* class.js */; };
-		E3E0877715669080008F1FDB /* class.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876415669080008F1FDB /* class.js */; };
 		E3E0877815669080008F1FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3E0876515669080008F1FDB /* Info.plist */; };
 		E3E0877915669080008F1FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3E0876515669080008F1FDB /* Info.plist */; };
 		E3E0877A15669080008F1FDB /* JSCocoaController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876915669080008F1FDB /* JSCocoaController.m */; };
@@ -509,16 +507,18 @@
 		E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876F15669080008F1FDB /* JSCocoaLib.m */; };
 		E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877115669080008F1FDB /* JSCocoaPrivateObject.m */; };
 		E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877115669080008F1FDB /* JSCocoaPrivateObject.m */; };
-		E3E0878415669080008F1FDB /* jslint-jscocoa.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877215669080008F1FDB /* jslint-jscocoa.js */; };
-		E3E0878515669080008F1FDB /* jslint-jscocoa.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877215669080008F1FDB /* jslint-jscocoa.js */; };
-		E3E0878615669080008F1FDB /* json.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
-		E3E0878715669080008F1FDB /* json.js in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
 		E3E0878A1566914D008F1FDB /* cocos2d.bridgesupport in Resources */ = {isa = PBXBuildFile; fileRef = E3E087891566914D008F1FDB /* cocos2d.bridgesupport */; };
 		E3E0878B1566914D008F1FDB /* cocos2d.bridgesupport in Resources */ = {isa = PBXBuildFile; fileRef = E3E087891566914D008F1FDB /* cocos2d.bridgesupport */; };
 		E3E0878D15669F49008F1FDB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */; };
 		E3E0878E15669F58008F1FDB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */; };
 		E3E0879015669FA2008F1FDB /* libffi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878F15669FA2008F1FDB /* libffi.dylib */; };
 		E3E0879115669FAD008F1FDB /* libffi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878F15669FA2008F1FDB /* libffi.dylib */; };
+		E3E08792156A651B008F1FDB /* class.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0876415669080008F1FDB /* class.js */; };
+		E3E08793156A651B008F1FDB /* jslint-jscocoa.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877215669080008F1FDB /* jslint-jscocoa.js */; };
+		E3E08794156A651B008F1FDB /* json.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
+		E3E08796156A664D008F1FDB /* class.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0876415669080008F1FDB /* class.js */; };
+		E3E08797156A664D008F1FDB /* jslint-jscocoa.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877215669080008F1FDB /* jslint-jscocoa.js */; };
+		E3E08798156A664D008F1FDB /* json.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -3471,6 +3471,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3E08796156A664D008F1FDB /* class.js in Resources */,
+				E3E08797156A664D008F1FDB /* jslint-jscocoa.js in Resources */,
+				E3E08798156A664D008F1FDB /* json.js in Resources */,
 				7789ABCD133AA82000CEFCC7 /* InfoPlist.strings in Resources */,
 				7789ABD3133AA82000CEFCC7 /* Credits.rtf in Resources */,
 				7789ABD9133AA82000CEFCC7 /* MainMenu.xib in Resources */,
@@ -3728,6 +3731,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3E08792156A651B008F1FDB /* class.js in Resources */,
+				E3E08793156A651B008F1FDB /* jslint-jscocoa.js in Resources */,
+				E3E08794156A651B008F1FDB /* json.js in Resources */,
 				E3E086D01566366E008F1FDB /* InfoPlist.strings in Resources */,
 				E3E086D61566366E008F1FDB /* Credits.rtf in Resources */,
 				E3E086DC1566366E008F1FDB /* MainMenu.xib in Resources */,
@@ -3975,14 +3981,11 @@
 				E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */,
 				E3E086E815663B2B008F1FDB /* PlayerController.m in Sources */,
 				E3E0877515669080008F1FDB /* BridgeSupportController.m in Sources */,
-				E3E0877715669080008F1FDB /* class.js in Sources */,
 				E3E0877B15669080008F1FDB /* JSCocoaController.m in Sources */,
 				E3E0877D15669080008F1FDB /* JSCocoaFFIArgument.m in Sources */,
 				E3E0877F15669080008F1FDB /* JSCocoaFFIClosure.m in Sources */,
 				E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
-				E3E0878515669080008F1FDB /* jslint-jscocoa.js in Sources */,
-				E3E0878715669080008F1FDB /* json.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4206,14 +4209,11 @@
 				E3E087581566826E008F1FDB /* CCBPFileUtils.m in Sources */,
 				E3E08760156684A7008F1FDB /* CCBReader.m in Sources */,
 				E3E0877415669080008F1FDB /* BridgeSupportController.m in Sources */,
-				E3E0877615669080008F1FDB /* class.js in Sources */,
 				E3E0877A15669080008F1FDB /* JSCocoaController.m in Sources */,
 				E3E0877C15669080008F1FDB /* JSCocoaFFIArgument.m in Sources */,
 				E3E0877E15669080008F1FDB /* JSCocoaFFIClosure.m in Sources */,
 				E3E0878015669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
-				E3E0878415669080008F1FDB /* jslint-jscocoa.js in Sources */,
-				E3E0878615669080008F1FDB /* json.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

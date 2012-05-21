@@ -11,7 +11,13 @@
 @class ProjectSettings;
 
 @interface PlayerController : NSObject
+{
+    NSRunningApplication* player;
+}
+
 
 - (void) runPlayerForProject:(ProjectSettings*)ps;
+
+- (void) stopPlayer;
 
 @end

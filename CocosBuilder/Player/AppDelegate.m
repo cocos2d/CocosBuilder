@@ -30,7 +30,6 @@
     
     // GL View
     director.view = glView;
-    [window center];
     
     [director setResizeMode:kCCDirectorResize_NoScale];
     
@@ -45,9 +44,12 @@
     NSArray* args = [[NSProcessInfo processInfo] arguments];
     
     NSString* baseDirectory = NULL;
-    if (args.count == 2)
+    if (args.count == 4)
     {
         baseDirectory = [args objectAtIndex:1];
+        int w = [[args objectAtIndex:2] intValue];
+        int h = [[args objectAtIndex:3] intValue];
+        [window setContentSize:NSMakeSize(w, h)];
     }
     else
     {
@@ -82,8 +84,15 @@
     // Insert code here to initialize your application
     [self setupFromAppArguments];
     [self setupCocos2d];
-    
     [self setupJavaScript];
+    
+    [window center];
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)
+theApplication
+{
+    return YES;
 }
 
 @end
