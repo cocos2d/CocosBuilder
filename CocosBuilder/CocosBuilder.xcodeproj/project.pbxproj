@@ -519,6 +519,8 @@
 		E3E08796156A664D008F1FDB /* class.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0876415669080008F1FDB /* class.js */; };
 		E3E08797156A664D008F1FDB /* jslint-jscocoa.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877215669080008F1FDB /* jslint-jscocoa.js */; };
 		E3E08798156A664D008F1FDB /* json.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
+		E3E0879F156A77CB008F1FDB /* ConsoleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */; };
+		E3E087A2156A7846008F1FDB /* ConsoleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E087A1156A7846008F1FDB /* ConsoleWindow.m */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -1388,6 +1390,9 @@
 		E3E087891566914D008F1FDB /* cocos2d.bridgesupport */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = cocos2d.bridgesupport; path = "libs/cocos2d-iphone/Resources-Mac/cocos2d.bridgesupport"; sourceTree = SOURCE_ROOT; };
 		E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		E3E0878F15669FA2008F1FDB /* libffi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libffi.dylib; path = usr/lib/libffi.dylib; sourceTree = SDKROOT; };
+		E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleWindow.xib; sourceTree = "<group>"; };
+		E3E087A0156A7846008F1FDB /* ConsoleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleWindow.h; sourceTree = "<group>"; };
+		E3E087A1156A7846008F1FDB /* ConsoleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleWindow.m; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -2948,6 +2953,7 @@
 		E3E086CB1566366E008F1FDB /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				E3E0879D156A77AC008F1FDB /* Console */,
 				E3E0875415668218008F1FDB /* AppDelegate */,
 				E3E087551566823B008F1FDB /* Util */,
 				E3E0875D1566846D008F1FDB /* Reader */,
@@ -3038,6 +3044,16 @@
 				E3E087891566914D008F1FDB /* cocos2d.bridgesupport */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		E3E0879D156A77AC008F1FDB /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */,
+				E3E087A0156A7846008F1FDB /* ConsoleWindow.h */,
+				E3E087A1156A7846008F1FDB /* ConsoleWindow.m */,
+			);
+			name = Console;
 			sourceTree = "<group>";
 		};
 		E3FCE8681524856D0028E8E7 /* CCScrollView */ = {
@@ -3740,6 +3756,7 @@
 				E3E0875315666AD4008F1FDB /* fps_images.png in Resources */,
 				E3E0877815669080008F1FDB /* Info.plist in Resources */,
 				E3E0878A1566914D008F1FDB /* cocos2d.bridgesupport in Resources */,
+				E3E0879F156A77CB008F1FDB /* ConsoleWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4214,6 +4231,7 @@
 				E3E0877E15669080008F1FDB /* JSCocoaFFIClosure.m in Sources */,
 				E3E0878015669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
+				E3E087A2156A7846008F1FDB /* ConsoleWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
