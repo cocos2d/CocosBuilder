@@ -9,12 +9,15 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ConsoleWindow : NSWindowController
-{
-    int originalStdErr;
-    NSString* logPath;
-    NSFileHandle* fileHandle;
-    unsigned long long fileOffset;
+{    
+    NSPipe* pipe;
+    NSFileHandle* pipeReadHandle;
+    
+    IBOutlet NSTextView* textView;
 }
+
+- (void) test;
+- (void) writeToConsole:(NSString*) str;
 
 
 @end

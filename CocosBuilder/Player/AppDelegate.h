@@ -10,6 +10,7 @@
 #import "cocos2d.h"
 
 @class JSCocoa;
+@class ConsoleWindow;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 {
@@ -17,6 +18,7 @@
     IBOutlet CCGLView* glView;
     
     JSCocoa* jsController;
+    ConsoleWindow* console;
 }
 
 

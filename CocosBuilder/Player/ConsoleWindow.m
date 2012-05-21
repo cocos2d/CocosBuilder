@@ -10,64 +10,93 @@
 
 @implementation ConsoleWindow
 
-- (id)initWithWindow:(NSWindow *)window
+- (id)init
 {
-    self = [super initWithWindow:window];
+    self = [super initWithWindowNibName:@"ConsoleWindow"];
     if (!self) return NULL;
     
-    // Save std err
-    originalStdErr = dup(STDERR_FILENO);
+    pipe = [NSPipe pipe];
+    pipeReadHandle = [pipe fileHandleForReading];
     
-    // Setup path to log
-    logPath = [NSString stringWithFormat:@"%@%@.log.txt", NSTemporaryDirectory(), [[NSBundle mainBundle] bundleIdentifier]];
-    [logPath retain];
+    [pipeReadHandle readInBackgroundAndNotify];
     
-    // Create log
-    [@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    fileHandle = [NSFileHandle fileHandleForWritingAtPath:logPath];
-    [fileHandle retain];
-    if (!fileHandle) NSLog(@"Opening log at %@ failed", logPath);
+    dup2([pipeReadHandle fileDescriptor], STDOUT_FILENO);
     
-    int fd = [fileHandle fileDescriptor];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
     
-    // Redirect stderr
-    int err = dup2(fd, STDERR_FILENO);
-    if (!err) NSLog(@"Failed to redirect stderr");
-    [fileHandle readInBackgroundAndNotify];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NSFileHandleReadCompletionNotification object:fileHandle];
     
-    fileOffset = 0;
+    [pipeReadHandle retain];
+    [pipe retain]; // If this line is removed, readData: is being called
     
     return self;
 }
 
-- (void) dataAvailable:(NSNotification*)notification
+- (void) readData:(NSNotification*)notification
 {
-    // Open log file
-    NSFileHandle* f = [NSFileHandle fileHandleForWritingAtPath:logPath];
-    if (!f) NSLog(@"Opening log at %@ failed", logPath);
+    NSFileHandle *handle = (NSFileHandle *)[notification object];
     
-    // Get file length
-    [f seekToEndOfFile];
-    unsigned long long length = [f offsetInFile];
+    NSData* data = [handle availableData];
     
-    // Read data
-    [f seekToFileOffset:fileOffset];
-    NSData* data = [f readDataToEndOfFile];
+    if (data.length > 0)
+    {
+        NSLog(@"dataAvailable len: %d", (int)data.length);
     
-    // Convert to string
-    NSString* str = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
+        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
-    NSLog(@"got log: %@", str);
+        NSLog(@"str: %@", str);
+        [self writeToConsole:str];
+    }
     
-    fileOffset = length;
+    [handle readInBackgroundAndNotify];
+}
+
+- (void) test
+{
+    NSLog(@"Calling test");
+    printf("test\n");
+    
+    [self writeToConsole:@"foo"]; // Just for testing the console
+}
+
+- (void) writeToConsole:(NSString*) str
+{
+    // Add new line
+    str = [str stringByAppendingString:@"\n"];
+    
+    // Check if we are scrolled to the bottom
+    bool scrollToEnd = YES;
+    
+    id scrollView = (NSScrollView *)textView.superview.superview;
+    if ([scrollView isKindOfClass:[NSScrollView class]]) {
+        if ([scrollView hasVerticalScroller]) {
+            if (textView.frame.size.height > [scrollView frame].size.height) {
+                if (1.0f != [scrollView verticalScroller].floatValue)
+                    scrollToEnd = NO;
+            }
+        }
+    }
+    
+    // Append the string
+    NSDictionary *attribs = [NSDictionary dictionary];
+    NSAttributedString *stringToAppend = [[NSAttributedString alloc] initWithString:str attributes:attribs];
+    [[textView textStorage] appendAttributedString:stringToAppend];
+    [stringToAppend release];
+    
+    // Scroll to the end
+    if (scrollToEnd)
+    {
+        NSRange range = NSMakeRange ([[textView string] length], 0);
+        [textView scrollRangeToVisible: range];
+    }
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    [self.window center];
+    [self writeToConsole:@"CocosBuilder Player JS Console"];
+    [textView setFont:[NSFont fontWithName:@"Menlo" size:11]];
 }
 
 @end

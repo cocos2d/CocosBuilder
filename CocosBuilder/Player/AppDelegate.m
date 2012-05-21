@@ -10,15 +10,11 @@
 #import "CCBPFileUtils.h"
 #import "CCBReader.h"
 #import "JSCocoa.h"
+#import "ConsoleWindow.h"
 
 @implementation AppDelegate
 
 @synthesize window;
-
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (void) setupCocos2d
 {
@@ -55,6 +51,7 @@
     {
         // DEBUG!
         baseDirectory = @"/Users/vlidholt/Library/Caches/com.cocosbuilder.CocosBuilder/publish/84b88bf876bf7f18d8acdadf2cc8cf17";
+        [window setContentSize:NSMakeSize(480, 320)];
     }
     
     NSLog(@"Published directory: %@", baseDirectory);
@@ -79,20 +76,42 @@
     [jsController evalJSFile:mainScript];
 }
 
+- (void) setupConsole
+{
+    console = [[ConsoleWindow alloc] init];
+    [console.window setIsVisible:YES];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    [self setupFromAppArguments];
-    [self setupCocos2d];
-    [self setupJavaScript];
+    [self setupConsole];
+    //[self setupFromAppArguments];
+    //[self setupCocos2d];
+    //[self setupJavaScript];
     
     [window center];
+    [NSApp activateIgnoringOtherApps:YES];
+    [console.window makeKeyAndOrderFront:self];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)
 theApplication
 {
     return YES;
+}
+
+- (void)dealloc
+{
+    [console release];
+    [jsController release];
+    
+    [super dealloc];
+}
+
+- (IBAction)debug:(id)sender
+{
+    [console test];
 }
 
 @end
