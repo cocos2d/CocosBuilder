@@ -2001,6 +2001,7 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
+    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -2008,6 +2009,7 @@
 {
     if ([self windowShouldClose:self])
     {
+        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
 }
