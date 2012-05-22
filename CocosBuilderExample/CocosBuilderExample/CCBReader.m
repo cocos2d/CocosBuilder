@@ -29,6 +29,10 @@
 #import "SSZipArchive.h"
 #endif
 
+#ifdef CCB_ENABLE_JAVASCRIPT
+#import "JSCocoa.h"
+#endif
+
 @implementation CCBReader
 
 - (id) initWithFile:(NSString*)file owner:(id)o
@@ -568,6 +572,27 @@
         
         if (setProp)
         {
+#ifdef CCB_ENABLE_JAVASCRIPT
+            if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
+            {
+                void (^block)(id sender);
+                block = ^(id sender) {
+                    [[JSCocoa sharedController] eval:[NSString stringWithFormat:@"%@();",selectorName]];
+                };
+                
+                NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
+                SEL setSelector = NSSelectorFromString(setSelectorName);
+                
+                if ([node respondsToSelector:setSelector])
+                {
+                    [node performSelector:setSelector withObject:block];
+                }
+                else
+                {
+                    NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
+                }
+            }
+#else
             if (selectorTarget)
             {
                 id target = NULL;
@@ -601,6 +626,7 @@
                     NSLog(@"CCBReader: Failed to find target for block");
                 }
             }
+#endif
         }
     }
     else if (type == kCCBPropTypeBlockCCControl)
@@ -692,6 +718,12 @@
     }
     
     // Assign to variable (if applicable)
+#ifdef CCB_ENABLE_JAVASCRIPT
+    if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
+    {
+        [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
+    }
+#else
     if (memberVarAssignmentType)
     {
         id target = NULL;
@@ -711,6 +743,7 @@
             }
         }
     }
+#endif
     
     // Read and add children
     int numChildren = [self readIntWithSign:NO];
@@ -737,7 +770,6 @@
 - (BOOL) readStringCache
 {
     int numStrings = [self readIntWithSign:NO];
-    NSLog(@"numStrings: %d", numStrings);
     
     stringCache = [[NSMutableArray alloc] initWithCapacity:numStrings];
     
@@ -762,7 +794,7 @@
     int version = [self readIntWithSign:NO];
     if (version != kCCBVersion)
     {
-        NSLog(@"WARNING! Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
+        NSLog(@"CCBReader: Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
         return NO;
     }
     
@@ -829,8 +861,6 @@
     
     NSString* dstPath = [CCBReader ccbDirectoryPath];
     
-    NSLog(@"unzipping from: %@ to: %@", fullResPath, dstPath);
-    
     return [SSZipArchive unzipFileAtPath:fullResPath toDestination:dstPath overwrite:YES password:NULL error:NULL];
 }
 #endif
@@ -878,7 +908,6 @@
 - (NSString*) pathForResource:(NSString*)resource ofType:(NSString *)ext inDirectory:(NSString *)subpath
 {
     // Check for file in Documents directory
-    NSLog(@"pathForResource: %@ ofType: %@ inDirectory:%@", resource, ext, subpath);
     NSString* resDir = NULL;
     if (subpath && ![subpath isEqualToString:@""])
     {
@@ -902,7 +931,6 @@
     NSString* filePath = [resDir stringByAppendingPathComponent:fileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
-        NSLog(@"RETURNING: %@", filePath);
         return filePath;
     }
     
