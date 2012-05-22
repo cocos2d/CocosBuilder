@@ -24,7 +24,14 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+
+#ifdef CCB_ENABLE_UNZIP
 #import "SSZipArchive.h"
+#endif
+
+#ifdef CCB_ENABLE_JAVASCRIPT
+#import "JSCocoa.h"
+#endif
 
 @implementation CCBReader
 
@@ -50,16 +57,15 @@
     // Setup resolution scale and container size
     rootContainerSize = [[CCDirector sharedDirector] winSize];
     
+    resolutionScale = 1;
+    
+#ifdef __CC_PLATFORM_IOS
     if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         // iPad
         resolutionScale = 2;
     }
-    else
-    {
-        // iPhone
-        resolutionScale = 1;
-    }
+#endif
     
     return self;
 }
@@ -252,7 +258,11 @@
                 absPt.x = (int)(containerSize.width * pt.x / 100.0f);
                 absPt.y = (int)(containerSize.height * pt.y / 100.0f);
             }
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:absPt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(absPt)] forKey:name];
+#endif
         }
     }
     else if(type == kCCBPropTypePoint
@@ -264,7 +274,11 @@
         if (setProp)
         {
             CGPoint pt = ccp(x,y);
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:pt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pt)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeSize)
@@ -304,7 +318,11 @@
                 absSize.height = (int)(containerSize.height * size.height / 100.0f);
             }
             
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
+#else
+            [node setValue:[NSValue valueWithSize:NSSizeFromCGSize(absSize)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeScaleLock)
@@ -554,6 +572,27 @@
         
         if (setProp)
         {
+#ifdef CCB_ENABLE_JAVASCRIPT
+            if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
+            {
+                void (^block)(id sender);
+                block = ^(id sender) {
+                    [[JSCocoa sharedController] eval:[NSString stringWithFormat:@"%@();",selectorName]];
+                };
+                
+                NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
+                SEL setSelector = NSSelectorFromString(setSelectorName);
+                
+                if ([node respondsToSelector:setSelector])
+                {
+                    [node performSelector:setSelector withObject:block];
+                }
+                else
+                {
+                    NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
+                }
+            }
+#else
             if (selectorTarget)
             {
                 id target = NULL;
@@ -587,6 +626,7 @@
                     NSLog(@"CCBReader: Failed to find target for block");
                 }
             }
+#endif
         }
     }
     else if (type == kCCBPropTypeBlockCCControl)
@@ -678,6 +718,12 @@
     }
     
     // Assign to variable (if applicable)
+#ifdef CCB_ENABLE_JAVASCRIPT
+    if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
+    {
+        [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
+    }
+#else
     if (memberVarAssignmentType)
     {
         id target = NULL;
@@ -697,6 +743,7 @@
             }
         }
     }
+#endif
     
     // Read and add children
     int numChildren = [self readIntWithSign:NO];
@@ -723,7 +770,6 @@
 - (BOOL) readStringCache
 {
     int numStrings = [self readIntWithSign:NO];
-    NSLog(@"numStrings: %d", numStrings);
     
     stringCache = [[NSMutableArray alloc] initWithCapacity:numStrings];
     
@@ -748,7 +794,7 @@
     int version = [self readIntWithSign:NO];
     if (version != kCCBVersion)
     {
-        NSLog(@"WARNING! Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
+        NSLog(@"CCBReader: Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
         return NO;
     }
     
@@ -808,16 +854,16 @@
     return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
 }
 
+#ifdef CCB_ENABLE_UNZIP
 + (BOOL) unzipResources:(NSString*)resPath
 {
     NSString* fullResPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:resPath];
     
     NSString* dstPath = [CCBReader ccbDirectoryPath];
     
-    NSLog(@"unzipping from: %@ to: %@", fullResPath, dstPath);
-    
     return [SSZipArchive unzipFileAtPath:fullResPath toDestination:dstPath overwrite:YES password:NULL error:NULL];
 }
+#endif
 @end
 
 
@@ -862,7 +908,6 @@
 - (NSString*) pathForResource:(NSString*)resource ofType:(NSString *)ext inDirectory:(NSString *)subpath
 {
     // Check for file in Documents directory
-    NSLog(@"pathForResource: %@ ofType: %@ inDirectory:%@", resource, ext, subpath);
     NSString* resDir = NULL;
     if (subpath && ![subpath isEqualToString:@""])
     {
@@ -886,7 +931,6 @@
     NSString* filePath = [resDir stringByAppendingPathComponent:fileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
-        NSLog(@"RETURNING: %@", filePath);
         return filePath;
     }
     

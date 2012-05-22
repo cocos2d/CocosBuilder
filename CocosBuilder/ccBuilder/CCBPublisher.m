@@ -1,10 +1,26 @@
-//
-//  CCBPublisher.m
-//  CocosBuilder
-//
-//  Created by Viktor Lidholt on 5/11/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "CCBPublisher.h"
 #import "ProjectSettings.h"
@@ -12,10 +28,13 @@
 #import "NSString+RelativePath.h"
 #import "PlugInExport.h"
 #import "PlugInManager.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation CCBPublisher
 
 @synthesize publishFormat;
+@synthesize runAfterPublishing;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w
 {
@@ -29,13 +48,7 @@
     // Setup base output directory
     if (projectSettings.publishToZipFile)
     {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSLog(@"paths: %@", paths);
-        outputDir = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:projectSettings.projectPathHashed];
-        
-        outputDir = [outputDir retain]; // TODO: Create temp directory
-        
-        NSLog(@"outputDir: %@", outputDir);
+        outputDir = projectSettings.publishCacheDirectory;
     }
     else
     {
@@ -43,10 +56,10 @@
     }
     
     // Setup extensions to copy
-    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", nil];
+    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", nil];
     
-    // Set default format to use for exports
-    self.publishFormat = @"ccbi";
+    // Set format to use for exports
+    self.publishFormat = projectSettings.exporter;
     
     return self;
 }
@@ -83,6 +96,7 @@
     }
     
     // Export file
+    plugIn.flattenPaths = projectSettings.flattenPaths;
     NSData* data = [plugIn exportDocument:doc];
     if (!data)
     {
@@ -103,12 +117,20 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
     NSFileManager* fm = [NSFileManager defaultManager];
     
     // Path to output directory for the currently exported path
-    NSString* outDir = outDir = [outputDir stringByAppendingPathComponent:subPath];
-    
-    NSLog(@"DIR %@", outDir);
+    NSString* outDir = NULL;
+    if (projectSettings.flattenPaths && projectSettings.publishToZipFile)
+    {
+        outDir = outputDir;
+    }
+    else
+    {
+        outDir = [outputDir stringByAppendingPathComponent:subPath];
+    }
     
     // Create the directory if it doesn't exist
     BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
@@ -146,9 +168,11 @@
                 if ([[fileName lowercaseString] hasSuffix:ext])
                 {
                     // This file should be copied
-                    NSString* dstFile = NULL;
-                    if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@",outputDir,subPath,fileName];
-                    else dstFile = [NSString stringWithFormat:@"%@/%@",outputDir,fileName];
+                    //NSString* dstFile = NULL;
+                    //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@",outputDir,subPath,fileName];
+                    //else dstFile = [NSString stringWithFormat:@"%@/%@",outputDir,fileName];
+                    
+                    NSString* dstFile = [outDir stringByAppendingPathComponent:fileName];
                     
                     if ([dstFile isEqualToString:filePath])
                     {
@@ -158,7 +182,7 @@
                     
                     if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                     {
-                        NSLog(@"COPY %@",fileName);
+                        [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
                         
                         // Remove old file
                         [fm removeItemAtPath:dstFile error:NULL];
@@ -175,9 +199,10 @@
             {
                 NSString* strippedFileName = [fileName stringByDeletingPathExtension];
                 
-                NSString* dstFile = NULL;
-                if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@.%@",outputDir,subPath,strippedFileName, publishFormat];
-                else dstFile = [NSString stringWithFormat:@"%@/%@.%@",outputDir,strippedFileName, publishFormat];
+                //NSString* dstFile = NULL;
+                //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@.%@",outputDir,subPath,strippedFileName, publishFormat];
+                //else dstFile = [NSString stringWithFormat:@"%@/%@.%@",outputDir,strippedFileName, publishFormat];
+                NSString* dstFile = [[outDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
                 
                 if ([dstFile isEqualToString:filePath])
                 {
@@ -187,7 +212,7 @@
                 
                 if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
                 {
-                    NSLog(@"PUBLISH %@",fileName);
+                    [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", fileName]];
                     
                     // Remove old file
                     [fm removeItemAtPath:dstFile error:NULL];
@@ -203,16 +228,28 @@
     return YES;
 }
 
-- (BOOL) publish
+- (BOOL) publish_
 {
+    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
     
+    if (runAfterPublishing && !projectSettings.publishToZipFile)
+    {
+        // We also need to publish to the temp directory
+        outputDir = projectSettings.publishCacheDirectory;
+        for (NSString* dir in projectSettings.absoluteResourcePaths)
+        {
+            if (![self publishDirectory:dir subPath:NULL]) return NO;
+        }
+    }
+    
     if (projectSettings.publishToZipFile)
     {
-        NSLog(@"ZIPPING");
+        [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
         // Zip it up!
         NSTask* zipTask = [[NSTask alloc] init];
@@ -220,18 +257,31 @@
         [zipTask setLaunchPath:@"/usr/bin/zip"];
         NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"], @".", @"-i", @"*", nil];
         [zipTask setArguments:args];
-        
-        NSLog(@"ZIP args: %@", args);
-        
         [zipTask launch];
         [zipTask waitUntilExit];
     }
     
-    //[NSSound soundNamed:
-    
-    NSLog(@"PUBLISH SUCCESSFUL!");
-    
     return YES;
+}
+
+- (void) publish
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        [self publish_];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            [ad publisher:self finishedWithWarnings:warnings];
+        });
+    });
+    
+}
+
++ (void) cleanAllCacheDirectories
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* ccbChacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"];
+    [[NSFileManager defaultManager] removeItemAtPath:ccbChacheDir error:NULL];
 }
 
 - (void) dealloc

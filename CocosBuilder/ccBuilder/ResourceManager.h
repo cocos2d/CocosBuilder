@@ -37,7 +37,8 @@ enum
     kCCBResTypeImage,
     kCCBResTypeBMFont,
     kCCBResTypeTTF,
-    kCCBResTypeCCBFile
+    kCCBResTypeCCBFile,
+    kCCBResTypeJS
 };
 
 
@@ -87,6 +88,7 @@ enum
     NSString* dirPath;
     NSMutableDictionary* resources;
     
+    NSMutableArray* any;
     NSMutableArray* images;
     NSMutableArray* animations;
     NSMutableArray* bmFonts;
@@ -97,6 +99,7 @@ enum
 @property (nonatomic,assign) int count;
 @property (nonatomic,retain) NSString* dirPath;
 @property (nonatomic,readonly) NSMutableDictionary* resources;
+@property (nonatomic,readonly) NSMutableArray* any;
 @property (nonatomic,readonly) NSMutableArray* images;
 @property (nonatomic,readonly) NSMutableArray* animations;
 @property (nonatomic,readonly) NSMutableArray* bmFonts;

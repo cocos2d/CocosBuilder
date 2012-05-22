@@ -29,10 +29,12 @@
     NSBundle* bundle;
     NSString* extension;
     NSString* pluginName;
+    BOOL flattenPaths;
 }
 
 @property (nonatomic,readonly) NSString* extension;
 @property (nonatomic,retain) NSString* pluginName;
+@property (nonatomic,assign) BOOL flattenPaths;
 
 - (id) initWithBundle:(NSBundle*) bundle;
 - (NSData*) exportDocument:(NSDictionary*)doc;

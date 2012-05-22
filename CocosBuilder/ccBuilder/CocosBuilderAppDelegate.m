@@ -61,6 +61,9 @@
 #import "SavePanelLimiter.h"
 #import "CCBPublisher.h"
 #import "CCBWarnings.h"
+#import "WarningsWindow.h"
+#import "TaskStatusWindow.h"
+#import "PlayerController.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -81,6 +84,7 @@
 @synthesize guiView;
 @synthesize guiWindow;
 @synthesize showStickyNotes;
+@synthesize playerController;
 
 #pragma mark Setup functions
 
@@ -148,9 +152,15 @@
     [window setShowsToolbarButton:NO];
 }
 
+/*
 - (void) setupDefaultDocument
 {
-	currentDocument = [[CCBDocument alloc] init];
+	//currentDocument = [[CCBDocument alloc] init];
+}*/
+
+- (void) setupPlayerController
+{
+    self.playerController = [[[PlayerController alloc] init] autorelease];
 }
 
 - (void) setupResourceManager
@@ -161,7 +171,7 @@
     [resManagerPanel.window setIsVisible:NO];
     
     // Setup project display
-    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeCCBFile];
+    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
 }
 
 - (void) setupGUIWindow
@@ -182,6 +192,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.window center];
+    
     [[CCBGlobals globals] setAppDelegate:self];
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
@@ -194,7 +206,7 @@
     [window setDelegate:self];
     
     [self setupTabBar];
-    [self setupDefaultDocument];
+    //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupOutlineView];
@@ -233,10 +245,12 @@
     [self setupResourceManager];
     [self setupGUIWindow];
     
+    [self setupPlayerController];
+    
     self.showGuides = YES;
     self.snapToGuides = YES;
-    
     self.showStickyNotes = YES;
+    
     
     [self.window makeKeyWindow];
 }
@@ -247,6 +261,36 @@
 {
     NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
     [alert runModal];
+}
+
+- (void) modalStatusWindowStartWithTitle:(NSString*)title
+{
+    if (!modalTaskStatusWindow)
+    {
+        modalTaskStatusWindow = [[TaskStatusWindow alloc] initWithWindowNibName:@"TaskStatusWindow"];
+    }
+    
+    modalTaskStatusWindow.window.title = title;
+    [modalTaskStatusWindow.window center];
+    [modalTaskStatusWindow.window makeKeyAndOrderFront:self];
+    
+    [[NSApplication sharedApplication] runModalForWindow:modalTaskStatusWindow.window];
+    
+    //NSModalSession modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalTaskStatusWindow.window];
+    //[[NSApplication sharedApplication] runModalSession:modalSession];
+}
+
+- (void) modalStatusWindowFinish
+{
+    [[NSApplication sharedApplication] stopModal];
+    [modalTaskStatusWindow.window orderOut:self];
+    
+    //[modalTaskStatusWindow.window setIsVisible:NO];
+}
+
+- (void) modalStatusWindowUpdateStatusText:(NSString*) text
+{
+    modalTaskStatusWindow.status = text;
 }
 
 #pragma mark Handling the gui layer
@@ -286,21 +330,6 @@
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    //CCBDocument* doc = [tabViewItem identifier];
-    
-    // Remove directory paths from resource manager
-    
-    /*
-    [resManager removeDirectory:doc.rootPath];
-    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager removeDirectory:path];
-        }
-    }*/
-    
     if ([[aTabView tabViewItems] count] == 0)
     {
         [self closeLastDocument];
@@ -940,6 +969,7 @@
     [g.cocosScene.guideLayer removeAllGuides];
     [g.cocosScene.notesLayer removeAllNotes];
     [g.cocosScene.rulerLayer mouseExited:NULL];
+    self.currentDocument = NULL;
     
     [outlineHierarchy reloadData];
     
@@ -984,6 +1014,19 @@
         
         // Notify the user
         [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
+    }
+}
+
+- (void) checkForTooManyDirectoriesInCurrentProject
+{
+    if (!projectSettings) return;
+    
+    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
+    {
+        [self closeProject];
+        
+        // Notify the user
+        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
     }
 }
 
@@ -1056,6 +1099,8 @@
     self.projectSettings = project;
     
     [self updateResourcePathsFromProjectSettings];
+    
+    [self checkForTooManyDirectoriesInCurrentProject];
 }
 
 - (void) openFile:(NSString*) fileName
@@ -1519,85 +1564,63 @@
     }
 }
 
-/*
-- (IBAction) publishDocumentAs:(id)sender
+- (void) publishAndRun:(BOOL)run
 {
-    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+    warnings.warningsDescription = @"Publisher Warnings";
     
-    // Setup accessory view
-    PublishTypeAccessoryView* accessoryView = [[PublishTypeAccessoryView alloc] init];
-    accessoryView.savePanel = saveDlg;
-    accessoryView.flattenPaths = currentDocument.exportFlattenPaths;
-    [NSBundle loadNibNamed:@"PublishTypeAccessoryView" owner:accessoryView];
-    NSView* view = accessoryView.view;
-    saveDlg.accessoryView = view;
+    // Setup publisher
+    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    publisher.runAfterPublishing = run;
     
-    // Set allowed extension
-    NSString* defaultFileExtension = [[[PlugInManager sharedManager] plugInExportForIndex:0] extension];
-    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:defaultFileExtension]];
+    // Open progress window and publish
     
-    // Set default name
-    NSString* exportName = [[currentDocument.fileName lastPathComponent] stringByDeletingPathExtension];
-    [saveDlg setNameFieldStringValue:exportName];
+    [publisher publish];
     
-    // Run the dialog
-    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
-        if (result == NSOKButton)
-        {
-            NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
-            NSString* absPath = [[saveDlg URL] path];
-            NSString* relPath = [absPath relativePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
-            
-            currentDocument.exportPlugIn = exportTypeName;
-            currentDocument.exportPath = relPath;
-            currentDocument.exportFlattenPaths = accessoryView.flattenPaths;
-            
-            [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
-        }
-    }];
+    [self modalStatusWindowStartWithTitle:@"Publishing"];
+    [self modalStatusWindowUpdateStatusText:@"Starting up..."];
 }
 
-- (IBAction) publishDocument:(id)sender
+- (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
 {
-    if (!currentDocument) return;
+    [self modalStatusWindowFinish];
     
-    NSString* absPath = [currentDocument.exportPath absolutePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
+    // Create warnings window if it is not already created
+    if (!publishWarningsWindow)
+    {
+        publishWarningsWindow = [[WarningsWindow alloc] initWithWindowNibName:@"WarningsWindow"];
+    }
     
-    if (absPath && 
-		currentDocument.exportPlugIn && 
-		[[NSFileManager defaultManager] fileExistsAtPath:absPath] )
+    // Update and show warnings window
+    publishWarningsWindow.warnings = warnings;
+    
+    [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    
+    if (publisher.runAfterPublishing)
     {
-        [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
+        [playerController runPlayerForProject:projectSettings];
     }
-    else
-    {
-        if (sender)
-        {
-            [self publishDocumentAs:sender];
-        }
-        else
-        {
-            // Temp fix for exporting directories
-            [self exportFile:[currentDocument.fileName stringByAppendingString:@"i"] withPlugIn:[[[PlugInManager sharedManager] plugInExportForIndex:0] extension]];
-        }
-    }
-}*/
+    
+    [publisher release];
+}
 
 - (IBAction) menuPublishProject:(id)sender
 {
-    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
-    
-    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
-    [publisher publish];
+    [self publishAndRun:NO];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    
+    [self publishAndRun:YES];
+}
+
+- (IBAction) menuCleanCacheDirectories:(id)sender
+{
+    [CCBPublisher cleanAllCacheDirectories];
 }
 
 // Temporary utility function until new publish system is in place
-- (IBAction)publishDirectory:(id)sender
+- (IBAction)menuUpdateCCBsInDirectory:(id)sender
 {
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:NO];
@@ -1635,7 +1658,7 @@
 
 - (IBAction) menuProjectSettings:(id)sender
 {
-    if (!currentDocument) return;
+    if (!projectSettings) return;
     
     ProjectSettingsWindow* wc = [[[ProjectSettingsWindow alloc] initWithWindowNibName:@"ProjectSettingsWindow"] autorelease];
     wc.projectSettings = self.projectSettings;
@@ -1976,6 +1999,7 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
+    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -1983,8 +2007,16 @@
 {
     if ([self windowShouldClose:self])
     {
+        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
+}
+
+- (IBAction)showHelp:(id)sender
+{
+    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 #pragma mark Debug
@@ -1992,9 +2024,6 @@
 - (IBAction) debug:(id)sender
 {
     NSLog(@"DEBUG");
-    
-    //ResourceManager* rm = [ResourceManager sharedManager];
-    //[rm debugPrintDirectories];
     
     NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
 }
