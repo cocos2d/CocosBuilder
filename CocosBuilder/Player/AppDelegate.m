@@ -86,9 +86,9 @@
 {
     // Insert code here to initialize your application
     [self setupConsole];
-    //[self setupFromAppArguments];
-    //[self setupCocos2d];
-    //[self setupJavaScript];
+    [self setupFromAppArguments];
+    [self setupCocos2d];
+    [self setupJavaScript];
     
     [window center];
     [NSApp activateIgnoringOtherApps:YES];

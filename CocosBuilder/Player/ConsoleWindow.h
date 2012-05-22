@@ -17,7 +17,7 @@
 }
 
 - (void) test;
-- (void) writeToConsole:(NSString*) str;
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
 
 
 @end

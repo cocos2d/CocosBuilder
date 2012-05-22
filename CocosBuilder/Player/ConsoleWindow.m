@@ -15,54 +15,36 @@
     self = [super initWithWindowNibName:@"ConsoleWindow"];
     if (!self) return NULL;
     
+    //setvbuf(stderr, NULL, _IOLBF, 4096 );
+    
     pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
     [pipeReadHandle readInBackgroundAndNotify];
     
-    dup2([pipeReadHandle fileDescriptor], STDOUT_FILENO);
+    dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
     
-    
     [pipeReadHandle retain];
-    [pipe retain]; // If this line is removed, readData: is being called
     
     return self;
 }
 
 - (void) readData:(NSNotification*)notification
 {
-    NSFileHandle *handle = (NSFileHandle *)[notification object];
-    
-    NSData* data = [handle availableData];
-    
-    if (data.length > 0)
-    {
-        NSLog(@"dataAvailable len: %d", (int)data.length);
-    
-        NSString* str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-        NSLog(@"str: %@", str);
-        [self writeToConsole:str];
-    }
-    
-    [handle readInBackgroundAndNotify];
+    [pipeReadHandle readInBackgroundAndNotify] ;
+    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
+    [self writeToConsole:str bold:YES];
 }
 
 - (void) test
 {
     NSLog(@"Calling test");
-    printf("test\n");
-    
-    [self writeToConsole:@"foo"]; // Just for testing the console
 }
 
-- (void) writeToConsole:(NSString*) str
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold
 {
-    // Add new line
-    str = [str stringByAppendingString:@"\n"];
-    
     // Check if we are scrolled to the bottom
     bool scrollToEnd = YES;
     
@@ -77,7 +59,13 @@
     }
     
     // Append the string
-    NSDictionary *attribs = [NSDictionary dictionary];
+    NSFont* font = NULL;
+    if (bold) font = [NSFont fontWithName:@"Menlo-Bold" size:11];
+    else font = [NSFont fontWithName:@"Menlo" size:11];
+    
+    NSMutableDictionary *attribs = [NSMutableDictionary dictionary];
+    [attribs setObject:font forKey:NSFontAttributeName];
+    
     NSAttributedString *stringToAppend = [[NSAttributedString alloc] initWithString:str attributes:attribs];
     [[textView textStorage] appendAttributedString:stringToAppend];
     [stringToAppend release];
@@ -95,7 +83,7 @@
     [super windowDidLoad];
     
     [self.window center];
-    [self writeToConsole:@"CocosBuilder Player JS Console"];
+    [self writeToConsole:@"CocosBuilder Player JS Console\n" bold:NO];
     [textView setFont:[NSFont fontWithName:@"Menlo" size:11]];
 }
 
