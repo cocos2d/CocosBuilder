@@ -38,7 +38,6 @@
     NSString* filePath = [resDir stringByAppendingPathComponent:fileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
-        NSLog(@"RETURNING: %@", filePath);
         return filePath;
     }
     

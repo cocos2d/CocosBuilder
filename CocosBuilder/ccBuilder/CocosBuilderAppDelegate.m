@@ -1019,8 +1019,6 @@
 
 - (void) checkForTooManyDirectoriesInCurrentProject
 {
-    NSLog(@"checkForTooManyDirectoriesInCurrentProject");
-    
     if (!projectSettings) return;
     
     if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
