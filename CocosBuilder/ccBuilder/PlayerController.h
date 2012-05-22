@@ -12,7 +12,7 @@
 
 @interface PlayerController : NSObject
 {
-    NSRunningApplication* player;
+    NSTask* player;
 }
 
 

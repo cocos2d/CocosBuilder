@@ -26,7 +26,6 @@
     [self stopPlayer];
     
     NSString *appPath = [[NSBundle mainBundle] pathForResource:@"Player" ofType:@"app"];
-    NSURL *appURL = [NSURL fileURLWithPath:appPath];
     
     // Player dimensions
     int w = 480;
@@ -37,7 +36,7 @@
                           [[NSNumber numberWithInt:h] stringValue],
                           nil];
     
-    player = [[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchNewInstance configuration:[NSDictionary dictionaryWithObject:arguments forKey:NSWorkspaceLaunchConfigurationArguments] error:NULL];
+    player = [NSTask launchedTaskWithLaunchPath:[appPath stringByAppendingString:@"/Contents/MacOS/Player"] arguments:arguments];
     [player retain];
 }
 
@@ -45,7 +44,7 @@
 {
     if (player)
     {
-        [player forceTerminate];
+        [player terminate];
         [player release];
         player = NULL;
     }
