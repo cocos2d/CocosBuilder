@@ -8,16 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ConsoleWindow : NSWindowController
+@interface ConsoleWindow : NSWindowController <NSWindowDelegate>
 {    
     NSPipe* pipe;
     NSFileHandle* pipeReadHandle;
     
     IBOutlet NSTextView* textView;
+    BOOL scrolledToBottomWhenResizing;
 }
 
-- (void) test;
 - (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
-
 
 @end

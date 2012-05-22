@@ -12,16 +12,16 @@
 @class JSCocoa;
 @class ConsoleWindow;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
     IBOutlet NSWindow* window;
     IBOutlet CCGLView* glView;
     
-    JSCocoa* jsController;
     ConsoleWindow* console;
 }
 
 
 @property (nonatomic,retain) NSWindow *window;
+@property (nonatomic,readonly) ConsoleWindow* console;
 
 @end

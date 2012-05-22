@@ -15,14 +15,13 @@
     self = [super initWithWindowNibName:@"ConsoleWindow"];
     if (!self) return NULL;
     
-    //setvbuf(stderr, NULL, _IOLBF, 4096 );
-    
     pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
     [pipeReadHandle readInBackgroundAndNotify];
     
-    dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
+    int err = dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
+    if (!err) NSLog(@"ConsoleWindow: Failed to redirect stderr");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
     
@@ -38,15 +37,9 @@
     [self writeToConsole:str bold:YES];
 }
 
-- (void) test
+- (BOOL) isScrolledToBottom
 {
-    NSLog(@"Calling test");
-}
-
-- (void) writeToConsole:(NSString*) str bold:(BOOL)bold
-{
-    // Check if we are scrolled to the bottom
-    bool scrollToEnd = YES;
+    BOOL scrollToEnd = YES;
     
     id scrollView = (NSScrollView *)textView.superview.superview;
     if ([scrollView isKindOfClass:[NSScrollView class]]) {
@@ -57,6 +50,19 @@
             }
         }
     }
+    return scrollToEnd;
+}
+
+- (void) scrollToBottom
+{
+    NSRange range = NSMakeRange ([[textView string] length], 0);
+    [textView scrollRangeToVisible: range];
+}
+
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold
+{
+    // Check if we are scrolled to the bottom
+    BOOL scrollToEnd = [self isScrolledToBottom];
     
     // Append the string
     NSFont* font = NULL;
@@ -73,8 +79,7 @@
     // Scroll to the end
     if (scrollToEnd)
     {
-        NSRange range = NSMakeRange ([[textView string] length], 0);
-        [textView scrollRangeToVisible: range];
+        [self scrollToBottom];
     }
 }
 
@@ -83,8 +88,22 @@
     [super windowDidLoad];
     
     [self.window center];
-    [self writeToConsole:@"CocosBuilder Player JS Console\n" bold:NO];
-    [textView setFont:[NSFont fontWithName:@"Menlo" size:11]];
+    [self writeToConsole:@"CocosBuilder Player JavaScript Console\n" bold:NO];
+    
+    self.window.delegate = self;
+}
+
+- (void) windowWillStartLiveResize:(NSNotification *)notification
+{
+    scrolledToBottomWhenResizing = [self isScrolledToBottom];
+}
+
+- (void) windowDidResize:(NSNotification *)notification
+{
+    if (scrolledToBottomWhenResizing)
+    {
+        [self scrollToBottom];
+    }
 }
 
 @end

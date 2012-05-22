@@ -15,6 +15,7 @@
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize console;
 
 - (void) setupCocos2d
 {
@@ -54,32 +55,27 @@
         [window setContentSize:NSMakeSize(480, 320)];
     }
     
-    NSLog(@"Published directory: %@", baseDirectory);
-    
     fileUtils.ccbDirectoryPath = baseDirectory;
 }
 
 - (void) setupJavaScript
 {
-    jsController = [[JSCocoa alloc] init];
+    JSCocoa* jsController = [JSCocoa sharedController];
     
     CCFileUtils* fileUtils = [CCFileUtils sharedFileUtils];
     NSString* cocos2dBridge = [fileUtils fullPathFromRelativePath:@"cocos2d.bridgesupport"];
     
-    NSLog(@"bridge path: %@", cocos2dBridge);
-    
     [[BridgeSupportController sharedController] loadBridgeSupport:cocos2dBridge];
     
     NSString* mainScript = [fileUtils fullPathFromRelativePath:@"main.js"];
-    
-    NSLog(@"main.js: %@", mainScript);
     [jsController evalJSFile:mainScript];
 }
 
 - (void) setupConsole
 {
     console = [[ConsoleWindow alloc] init];
-    [console.window setIsVisible:YES];
+    [console window];
+    //[console.window setIsVisible:YES];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -90,28 +86,28 @@
     [self setupCocos2d];
     [self setupJavaScript];
     
-    [window center];
+    window.delegate = self;
+    
     [NSApp activateIgnoringOtherApps:YES];
-    [console.window makeKeyAndOrderFront:self];
+    //[console.window makeKeyAndOrderFront:self];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)
-theApplication
+- (void) windowWillClose:(NSNotification *)notification
 {
-    return YES;
+    // Terminate if main window is closed
+    [[NSApplication sharedApplication] terminate:self];
 }
 
 - (void)dealloc
 {
     [console release];
-    [jsController release];
     
     [super dealloc];
 }
 
 - (IBAction)debug:(id)sender
 {
-    [console test];
+    //[console test];
 }
 
 @end
