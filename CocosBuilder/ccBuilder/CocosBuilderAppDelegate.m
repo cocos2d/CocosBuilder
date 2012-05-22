@@ -55,12 +55,36 @@
 #import "CCBTransparentView.h"
 #import "NotesLayer.h"
 #import "ResolutionSetting.h"
+#import "ProjectSettingsWindow.h"
+#import "ProjectSettings.h"
+#import "ResourceManagerOutlineHandler.h"
+#import "SavePanelLimiter.h"
+#import "CCBPublisher.h"
+#import "CCBWarnings.h"
+#import "WarningsWindow.h"
+#import "TaskStatusWindow.h"
+#import "PlayerController.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 @implementation CocosBuilderAppDelegate
 
-@synthesize window, currentDocument, cocosView, canEditContentSize, canEditCustomClass, hasOpenedDocument, defaultCanvasSize, plugInManager, resManager, showGuides, snapToGuides, guiView, guiWindow, showStickyNotes;
+@synthesize window;
+@synthesize projectSettings;
+@synthesize currentDocument;
+@synthesize cocosView;
+@synthesize canEditContentSize;
+@synthesize canEditCustomClass;
+@synthesize hasOpenedDocument;
+@synthesize defaultCanvasSize;
+@synthesize plugInManager;
+@synthesize resManager;
+@synthesize showGuides;
+@synthesize snapToGuides;
+@synthesize guiView;
+@synthesize guiWindow;
+@synthesize showStickyNotes;
+@synthesize playerController;
 
 #pragma mark Setup functions
 
@@ -128,9 +152,15 @@
     [window setShowsToolbarButton:NO];
 }
 
+/*
 - (void) setupDefaultDocument
 {
-	currentDocument = [[CCBDocument alloc] init];
+	//currentDocument = [[CCBDocument alloc] init];
+}*/
+
+- (void) setupPlayerController
+{
+    self.playerController = [[[PlayerController alloc] init] autorelease];
 }
 
 - (void) setupResourceManager
@@ -139,6 +169,9 @@
     resManager = [ResourceManager sharedManager];
     resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
     [resManagerPanel.window setIsVisible:NO];
+    
+    // Setup project display
+    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
 }
 
 - (void) setupGUIWindow
@@ -153,14 +186,14 @@
     guiView = [[[CCBTransparentView alloc] initWithFrame:cocosView.frame] autorelease];
     [guiWindow setContentView:guiView];
     guiWindow.delegate = self;
-    //[guiWindow setIsVisible:NO];
     
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
-    //[window setIsVisible:NO];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.window center];
+    
     [[CCBGlobals globals] setAppDelegate:self];
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
@@ -173,7 +206,7 @@
     [window setDelegate:self];
     
     [self setupTabBar];
-    [self setupDefaultDocument];
+    //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupOutlineView];
@@ -212,10 +245,12 @@
     [self setupResourceManager];
     [self setupGUIWindow];
     
+    [self setupPlayerController];
+    
     self.showGuides = YES;
     self.snapToGuides = YES;
-    
     self.showStickyNotes = YES;
+    
     
     [self.window makeKeyWindow];
 }
@@ -226,6 +261,36 @@
 {
     NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
     [alert runModal];
+}
+
+- (void) modalStatusWindowStartWithTitle:(NSString*)title
+{
+    if (!modalTaskStatusWindow)
+    {
+        modalTaskStatusWindow = [[TaskStatusWindow alloc] initWithWindowNibName:@"TaskStatusWindow"];
+    }
+    
+    modalTaskStatusWindow.window.title = title;
+    [modalTaskStatusWindow.window center];
+    [modalTaskStatusWindow.window makeKeyAndOrderFront:self];
+    
+    [[NSApplication sharedApplication] runModalForWindow:modalTaskStatusWindow.window];
+    
+    //NSModalSession modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalTaskStatusWindow.window];
+    //[[NSApplication sharedApplication] runModalSession:modalSession];
+}
+
+- (void) modalStatusWindowFinish
+{
+    [[NSApplication sharedApplication] stopModal];
+    [modalTaskStatusWindow.window orderOut:self];
+    
+    //[modalTaskStatusWindow.window setIsVisible:NO];
+}
+
+- (void) modalStatusWindowUpdateStatusText:(NSString*) text
+{
+    modalTaskStatusWindow.status = text;
 }
 
 #pragma mark Handling the gui layer
@@ -265,19 +330,6 @@
 
 - (void)tabView:(NSTabView *)aTabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    CCBDocument* doc = [tabViewItem identifier];
-    
-    // Remove directory paths from resource manager
-    [resManager removeDirectory:doc.rootPath];
-    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager removeDirectory:path];
-        }
-    }
-    
     if ([[aTabView tabViewItems] count] == 0)
     {
         [self closeLastDocument];
@@ -477,7 +529,6 @@
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     if (item == NULL) return NSDragOperationNone;
-    //if (index != -1) return NSDragOperationNone;
     
     CCBGlobals* g = [CCBGlobals globals];
     NSPasteboard* pb = [info draggingPasteboard];
@@ -511,7 +562,7 @@
     {
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict];
+        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
         if (![self addCCObject:clipNode toParent:item atIndex:index]) return NO;
         
         // Remove old node
@@ -751,8 +802,6 @@
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
-    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].width] forKey:@"stageWidth"];
-    [dict setObject:[NSNumber numberWithInt:[g.cocosScene stageSize].height] forKey:@"stageHeight"];
     [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
     
     // Guides & notes
@@ -799,6 +848,8 @@
 {
     CCBGlobals* g = [CCBGlobals globals];
     
+    BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
+    
     // Setup stage & resolutions
     NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
     if (serializedResolutions)
@@ -814,7 +865,7 @@
         ResolutionSetting* resolution = [resolutions objectAtIndex:currentResolution];
         
         // Update CocosScene
-        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
+        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
         
         // Save in current document
         currentDocument.resolutions = resolutions;
@@ -825,7 +876,6 @@
         // Support old files where the current width and height was stored
         int stageW = [[doc objectForKey:@"stageWidth"] intValue];
         int stageH = [[doc objectForKey:@"stageHeight"] intValue];
-        BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
         
         [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
         
@@ -841,8 +891,10 @@
     }
     [self updateResolutionMenu];
     
+    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
+    
     // Process contents
-    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc];
+    CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
     
     // Replace open document
     selectedNode = NULL;
@@ -874,18 +926,6 @@
     {
         [g.cocosScene.notesLayer removeAllNotes];
     }
-    
-    [PositionPropertySetter refreshAllPositions];
-}
-
-- (void) setRMActiveDirectoriesForDoc:(CCBDocument*)doc
-{
-    NSArray* activeDirs = [NSMutableArray arrayWithObject:doc.rootPath];
-    if (doc.project && [doc.project objectForKey:@"resourcePaths"])
-    {
-        activeDirs = [activeDirs arrayByAddingObjectsFromArray:[doc.project objectForKey:@"resourcePaths"]];
-    }
-    [[ResourceManager sharedManager] setActiveDirectories:activeDirs];
 }
 
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
@@ -897,9 +937,6 @@
     self.currentDocument = document;
     
     NSMutableDictionary* doc = document.docData;
-    
-    // Update active directories for the resource manager
-    [self setRMActiveDirectoriesForDoc:document];
     
     [self replaceDocumentData:doc];
     
@@ -932,6 +969,7 @@
     [g.cocosScene.guideLayer removeAllGuides];
     [g.cocosScene.notesLayer removeAllNotes];
     [g.cocosScene.rulerLayer mouseExited:NULL];
+    self.currentDocument = NULL;
     
     [outlineHierarchy reloadData];
     
@@ -962,19 +1000,6 @@
     return NULL;
 }
 
-- (void) addRMDirectoriesForDoc:(CCBDocument*)doc
-{
-    [resManager addDirectory:doc.rootPath];
-    NSArray* paths = [doc.project objectForKey:@"resourcePaths"];
-    if (paths)
-    {
-        for (NSString* path in paths)
-        {
-            [resManager addDirectory:path];
-        }
-    }
-}
-
 - (void) checkForTooManyDirectoriesInCurrentDoc
 {
     if (!currentDocument) return;
@@ -992,12 +1017,95 @@
     }
 }
 
+- (void) checkForTooManyDirectoriesInCurrentProject
+{
+    if (!projectSettings) return;
+    
+    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
+    {
+        [self closeProject];
+        
+        // Notify the user
+        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
+    }
+}
+
+- (BOOL) createProject:(NSString*) fileName
+{
+    // Create a default project
+    ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
+    settings.projectPath = fileName;
+    return [settings store];
+}
+
+- (void) updateResourcePathsFromProjectSettings
+{
+    [resManager removeAllDirectories];
+    
+    // Setup links to directories
+    for (NSString* dir in [projectSettings absoluteResourcePaths])
+    {
+        [resManager addDirectory:dir];
+    }
+    [[ResourceManager sharedManager] setActiveDirectories:[projectSettings absoluteResourcePaths]];
+}
+
+- (void) closeProject
+{
+    while ([tabView numberOfTabViewItems] > 0)
+    {
+        NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
+        if (!item) return;
+        
+        if ([self tabView:tabView shouldCloseTabViewItem:item])
+        {
+            [tabView removeTabViewItem:item];
+        }
+        else
+        {
+            // Aborted close project
+            return;
+        }
+    }
+    
+    // Remove resource paths
+    self.projectSettings = NULL;
+    [resManager removeAllDirectories];
+}
+
+- (void) openProject:(NSString*) fileName
+{
+    // TODO: Close currently open project
+    [self closeProject];
+    
+    // Add to recent list of opened documents
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
+    
+    NSMutableDictionary* projectDict = [NSMutableDictionary dictionaryWithContentsOfFile:fileName];
+    if (!projectDict)
+    {
+        [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File may be missing or invalid."];
+        return;
+    }
+    
+    ProjectSettings* project = [[[ProjectSettings alloc] initWithSerialization:projectDict] autorelease];
+    if (!project)
+    {
+        [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File is invalid or is created with a newer version of CocosBuilder."];
+        return;
+    }
+    project.projectPath = fileName;
+    
+    self.projectSettings = project;
+    
+    [self updateResourcePathsFromProjectSettings];
+    
+    [self checkForTooManyDirectoriesInCurrentProject];
+}
+
 - (void) openFile:(NSString*) fileName
 {
 	[[[CCDirector sharedDirector] view] lockOpenGLContext];
-	
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
     
     // Check if file is already open
     CCBDocument* openDoc = [self findDocumentFromFile:fileName];
@@ -1018,26 +1126,18 @@
     newDoc.exportPlugIn = [doc objectForKey:@"exportPlugIn"];
     newDoc.exportFlattenPaths = [[doc objectForKey:@"exportFlattenPaths"] boolValue];
     
-    // Add directories to resource manager
-    [self addRMDirectoriesForDoc:newDoc];
-    
     [self switchToDocument:newDoc];
      
     [self addDocument:newDoc];
     self.hasOpenedDocument = YES;
     
     [self checkForTooManyDirectoriesInCurrentDoc];
-	
-    //[PositionPropertySetter refreshAllPositions];
     
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (void) saveFile:(NSString*) fileName
 {
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
-    
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
      
     [doc writeToFile:fileName atomically:YES];
@@ -1089,12 +1189,10 @@
         if (item) [tabView removeTabViewItem:item];
     }
     
-    // Add to recent list of opened documents
-    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
-    
     [self prepareForDocumentSwitch];
     
     CCBGlobals* g = [CCBGlobals globals];
+    [g.cocosScene.notesLayer removeAllNotes];
     
     selectedNode = NULL;
     [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
@@ -1112,9 +1210,6 @@
     
     [self saveFile:fileName];
     
-    [self addRMDirectoriesForDoc:self.currentDocument];
-    [self setRMActiveDirectoriesForDoc:self.currentDocument];
-    
     [self addDocument:currentDocument];
     
     self.hasOpenedDocument = YES;
@@ -1125,13 +1220,11 @@
     [[g cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
-    
-    [PositionPropertySetter refreshAllPositions];
 }
 
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
-    [self openFile:filename];
+    [self openProject:filename];
     return YES;
 }
 
@@ -1276,7 +1369,7 @@
         // Set its position
         [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
-        [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node];
+        [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node parentSize:CGSizeZero];
         
         [self addCCObject:node toParent:parent];
     }
@@ -1329,9 +1422,12 @@
         NSData* clipData = [cb dataForType:type];
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
-        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict];
+        CGSize parentSize;
+        if (asChild) parentSize = selectedNode.contentSize;
+        else parentSize = selectedNode.parent.contentSize;
+        
+        CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:parentSize];
         [self addCCObject:clipNode asChild:asChild];
-        [PositionPropertySetter refreshAllPositions];
     }
 }
 
@@ -1432,14 +1528,15 @@
 {
     if (!currentDocument) return;
     
-    [[[CCDirector sharedDirector] view] lockOpenGLContext];
-    
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
+    SavePanelLimiter* limter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
+            [[[CCDirector sharedDirector] view] lockOpenGLContext];
+            
             // Save file to new path
             [self saveFile:[[saveDlg URL] path]];
             
@@ -1448,10 +1545,11 @@
             
             // Open newly created document
             [self openFile:[[saveDlg URL] path]];
+            
+            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
         }
+        [limter release];
     }];
-    
-    [[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (IBAction) saveDocument:(id)sender
@@ -1466,71 +1564,63 @@
     }
 }
 
-- (IBAction) publishDocumentAs:(id)sender
+- (void) publishAndRun:(BOOL)run
 {
-    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+    warnings.warningsDescription = @"Publisher Warnings";
     
-    // Setup accessory view
-    PublishTypeAccessoryView* accessoryView = [[PublishTypeAccessoryView alloc] init];
-    accessoryView.savePanel = saveDlg;
-    accessoryView.flattenPaths = currentDocument.exportFlattenPaths;
-    [NSBundle loadNibNamed:@"PublishTypeAccessoryView" owner:accessoryView];
-    NSView* view = accessoryView.view;
-    saveDlg.accessoryView = view;
+    // Setup publisher
+    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    publisher.runAfterPublishing = run;
     
-    // Set allowed extension
-    NSString* defaultFileExtension = [[[PlugInManager sharedManager] plugInExportForIndex:0] extension];
-    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:defaultFileExtension]];
+    // Open progress window and publish
     
-    // Set default name
-    NSString* exportName = [[currentDocument.fileName lastPathComponent] stringByDeletingPathExtension];
-    [saveDlg setNameFieldStringValue:exportName];
+    [publisher publish];
     
-    // Run the dialog
-    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
-        if (result == NSOKButton)
-        {
-            NSString* exportTypeName = [[[PlugInManager sharedManager] plugInExportForIndex: accessoryView.selectedIndex] extension];
-            NSString* absPath = [[saveDlg URL] path];
-            NSString* relPath = [absPath relativePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
-            
-            currentDocument.exportPlugIn = exportTypeName;
-            currentDocument.exportPath = relPath;
-            currentDocument.exportFlattenPaths = accessoryView.flattenPaths;
-            
-            [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
-        }
-    }];
+    [self modalStatusWindowStartWithTitle:@"Publishing"];
+    [self modalStatusWindowUpdateStatusText:@"Starting up..."];
 }
 
-- (IBAction) publishDocument:(id)sender
+- (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
 {
-    if (!currentDocument) return;
+    [self modalStatusWindowFinish];
     
-    NSString* absPath = [currentDocument.exportPath absolutePathFromBaseDirPath:[currentDocument.fileName stringByDeletingLastPathComponent]];
+    // Create warnings window if it is not already created
+    if (!publishWarningsWindow)
+    {
+        publishWarningsWindow = [[WarningsWindow alloc] initWithWindowNibName:@"WarningsWindow"];
+    }
     
-    if (absPath && 
-		currentDocument.exportPlugIn && 
-		[[NSFileManager defaultManager] fileExistsAtPath:absPath] )
+    // Update and show warnings window
+    publishWarningsWindow.warnings = warnings;
+    
+    [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    
+    if (publisher.runAfterPublishing)
     {
-        [self exportFile:absPath withPlugIn:currentDocument.exportPlugIn];
+        [playerController runPlayerForProject:projectSettings];
     }
-    else
-    {
-        if (sender)
-        {
-            [self publishDocumentAs:sender];
-        }
-        else
-        {
-            // Temp fix for exporting directories
-            [self exportFile:[currentDocument.fileName stringByAppendingString:@"i"] withPlugIn:[[[PlugInManager sharedManager] plugInExportForIndex:0] extension]];
-        }
-    }
+    
+    [publisher release];
+}
+
+- (IBAction) menuPublishProject:(id)sender
+{
+    [self publishAndRun:NO];
+}
+
+- (IBAction) menuPublishProjectAndRun:(id)sender
+{
+    [self publishAndRun:YES];
+}
+
+- (IBAction) menuCleanCacheDirectories:(id)sender
+{
+    [CCBPublisher cleanAllCacheDirectories];
 }
 
 // Temporary utility function until new publish system is in place
-- (IBAction)publishDirectory:(id)sender
+- (IBAction)menuUpdateCCBsInDirectory:(id)sender
 {
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:NO];
@@ -1566,12 +1656,28 @@
     }];
 }
 
+- (IBAction) menuProjectSettings:(id)sender
+{
+    if (!projectSettings) return;
+    
+    ProjectSettingsWindow* wc = [[[ProjectSettingsWindow alloc] initWithWindowNibName:@"ProjectSettingsWindow"] autorelease];
+    wc.projectSettings = self.projectSettings;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [self.projectSettings store];
+        [self updateResourcePathsFromProjectSettings];
+        [self reloadResources];
+    }
+}
+
 - (IBAction) openDocument:(id)sender
 {
     // Create the File Open Dialog
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
     [openDlg setCanChooseFiles:YES];
-    [openDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
+    [openDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
     
     [openDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
@@ -1581,7 +1687,34 @@
             for (int i = 0; i < [files count]; i++)
             {
                 NSString* fileName = [[files objectAtIndex:i] path];
-                [self openFile:fileName];
+                [self openProject:fileName];
+            }
+        }
+    }];
+}
+
+- (IBAction) menuCloseProject:(id)sender
+{
+    [self closeProject];
+}
+
+- (IBAction) menuNewProject:(id)sender
+{
+    // Accepted create document, prompt for place for file
+    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
+    
+    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            NSString* fileName = [[saveDlg URL] path];
+            if ([self createProject: fileName])
+            {
+                [self openProject:fileName];
+            }
+            else
+            {
+                [self modalDialogTitle:@"Failed to Create Project" message:@"Failed to create the project, make sure you are saving it to a writable directory."];
             }
         }
     }];
@@ -1603,12 +1736,16 @@
         NSSavePanel* saveDlg = [NSSavePanel savePanel];
         [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
         
+#warning FIX
+        SavePanelLimiter* limiter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
+        
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
             if (result == NSOKButton)
             {
                 [self newFile:[[saveDlg URL] path] type:wc.rootObjectType resolutions:wc.availableResolutions];
             }
             [wc release];
+            [limiter release];
         }];
     }
     else
@@ -1663,76 +1800,35 @@
     return 0;
 }
 
-/*
-- (void) updateCanvasSizeMenu
+- (void) setResolution:(int)r
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
-    CGSize size = [cs stageSize];
-    int tag = [self orientedDeviceTypeForSize:size];
+    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
+    currentDocument.currentResolution = r;
     
-    [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasSize tag:tag];
-}*/
-
-/*
-- (IBAction) menuSetCanvasSize:(id)sender
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
     
-    CGSize oldSize = [cs stageSize];
-    
-    int tag = (int)[sender tag];
-    CGSize size;
-    
-    if (tag)
-    {
-        size = defaultCanvasSizes[tag];
-    }
-    else
-    {
-        StageSizeWindow* wc = [[[StageSizeWindow alloc] initWithWindowNibName:@"StageSizeWindow"] autorelease];
-        
-        size = [cs stageSize];
-        wc.wStage = size.width;
-        wc.hStage = size.height;
-        
-        int success = [wc runModalSheetForWindow:window];
-        
-        if (success)
-        {
-            size.width = wc.wStage;
-            size.height = wc.hStage;
-        }
-    }
-    
-    if (oldSize.width != size.width || oldSize.height != size.height)
-    {
-        [self saveUndoState];
-        [cs setStageSize:size centeredOrigin:[cs centeredOrigin]];
-    }
-    
-    [self updateCanvasSizeMenu];
+    [self updateResolutionMenu];
     [self reloadResources];
     
     // Update size of root node
     [PositionPropertySetter refreshAllPositions];
-}*/
+}
 
 - (IBAction) menuEditResolutionSettings:(id)sender
 {
     if (!currentDocument) return;
     
     ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];
-    //wc.resolutions = currentDocument.resolutions;
     [wc copyResolutions: currentDocument.resolutions];
     
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
-        NSLog(@"Success!");
         currentDocument.resolutions = wc.resolutions;
         [self updateResolutionMenu];
-        //[resManager 
+        [self setResolution:0];
     }
 }
 
@@ -1740,20 +1836,7 @@
 {
     if (!currentDocument) return;
     
-    NSLog(@"Set resolution: %d",(int)[sender tag]);
-    
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:[sender tag]];
-    currentDocument.currentResolution = [sender tag];
-    
-    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:resolution.centeredOrigin];
-    
-    [self updateResolutionMenu];
-    [self reloadResources];
-    
-    // Update size of root node
-    [PositionPropertySetter refreshAllPositions];
+    [self setResolution:(int)[sender tag]];
 }
 
 - (void) updateStateOriginCenteredMenu
@@ -1916,6 +1999,7 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
+    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -1923,8 +2007,16 @@
 {
     if ([self windowShouldClose:self])
     {
+        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
+}
+
+- (IBAction)showHelp:(id)sender
+{
+    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 #pragma mark Debug
@@ -1932,9 +2024,6 @@
 - (IBAction) debug:(id)sender
 {
     NSLog(@"DEBUG");
-    
-    //ResourceManager* rm = [ResourceManager sharedManager];
-    //[rm debugPrintDirectories];
     
     NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
 }

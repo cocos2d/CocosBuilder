@@ -24,14 +24,19 @@
 
 #import "InspectorSize.h"
 #import "PositionPropertySetter.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorSize
 
 - (void) setWidth:(float)width
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.width = width;
     [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
+    
     [self updateAffectedProperties];
 }
 
@@ -42,9 +47,12 @@
 
 - (void) setHeight:(float)height
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
 	NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.height = height;
     [PositionPropertySetter setSize:size forNode:selection prop:propertyName];
+    
     [self updateAffectedProperties];
 }
 
@@ -55,8 +63,18 @@
 
 - (void) setType:(int)type
 {
-    NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
-    [PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    //NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
+    //[PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];
+    [PositionPropertySetter setSizeType:type forNode:selection prop:propertyName];
+    
+    [self willChangeValueForKey:@"width"];
+    [self didChangeValueForKey:@"width"];
+    
+    [self willChangeValueForKey:@"height"];
+    [self didChangeValueForKey:@"height"];
+    
     [self updateAffectedProperties];
 }
 
@@ -74,6 +92,9 @@
     
     [self willChangeValueForKey:@"height"];
     [self didChangeValueForKey:@"height"];
+    
+    [self willChangeValueForKey:@"type"];
+    [self didChangeValueForKey:@"type"];
 }
 
 @end

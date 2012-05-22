@@ -165,8 +165,6 @@
 
 - (id) copyWithZone:(NSZone*)zone
 {
-    NSLog(@"copyWithZone");
-    
     ResolutionSetting* copy = [[ResolutionSetting alloc] init];
     
     copy.enabled = enabled;

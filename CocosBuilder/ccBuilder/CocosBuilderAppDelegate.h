@@ -44,13 +44,20 @@ enum {
 
 
 @class CCBDocument;
+@class ProjectSettings;
 @class AssetsWindowController;
 @class PlugInManager;
 @class ResourceManager;
 @class ResourceManagerPanel;
+@class ResourceManagerOutlineHandler;
 @class CCBGLView;
 @class CCBTransparentWindow;
 @class CCBTransparentView;
+@class WarningsWindow;
+@class TaskStatusWindow;
+@class CCBPublisher;
+@class CCBWarnings;
+@class PlayerController;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -93,7 +100,12 @@ enum {
     ResourceManager* resManager;
     ResourceManagerPanel* resManagerPanel;
     
-    //NSMutableArray* assetsFontListTTF;
+    // Project
+    ProjectSettings* projectSettings;
+    
+    // Project display
+    IBOutlet NSOutlineView* outlineProject;
+    ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
     CCBDocument* currentDocument;
@@ -114,6 +126,15 @@ enum {
     // Transparent window for components on top of cocos scene
     CCBTransparentWindow* guiWindow;
     CCBTransparentView* guiView;
+    
+    // Warnings
+    WarningsWindow* publishWarningsWindow;
+    
+    // Modal status window
+    TaskStatusWindow* modalTaskStatusWindow;
+    
+    // Player
+    PlayerController* playerController;
     
 @private
     NSWindow *window;
@@ -142,6 +163,10 @@ enum {
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
+@property (nonatomic,retain) ProjectSettings* projectSettings;
+
+@property (nonatomic,retain) PlayerController* playerController;
+
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 
@@ -153,9 +178,9 @@ enum {
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
+- (void) openFile:(NSString*) fileName;
 
 // Menu options
-
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
 
@@ -167,6 +192,7 @@ enum {
 - (IBAction) menuDeselect:(id)sender;
 
 - (IBAction) menuCloseDocument:(id)sender;
+- (void) closeProject;
 
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;
@@ -192,6 +218,7 @@ enum {
 - (void) reloadResources;
 - (IBAction) menuAlignChildren:(id)sender;
 - (IBAction)menuAddStickyNote:(id)sender;
+- (IBAction) menuCleanCacheDirectories:(id)sender;
 
 // Undo / Redo
 - (void) updateDirtyMark;
@@ -203,7 +230,15 @@ enum {
 
 - (IBAction) debug:(id)sender;
 
+// Publishing
+- (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings;
+
 // For warning messages
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;
+
+// Modal status messages (progress)
+- (void) modalStatusWindowStartWithTitle:(NSString*)title;
+- (void) modalStatusWindowFinish;
+- (void) modalStatusWindowUpdateStatusText:(NSString*) text;
 
 @end

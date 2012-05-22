@@ -24,14 +24,20 @@
 
 #import "InspectorPosition.h"
 #import "PositionPropertySetter.h"
+#import "CCBGlobals.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorPosition
 
 - (void) setPosX:(float)posX
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
 	NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.x = posX;
     [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
+    
+    [self updateAffectedProperties];
 }
 
 - (float) posX
@@ -41,9 +47,13 @@
 
 - (void) setPosY:(float)posY
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.y = posY;
     [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
+    
+    [self updateAffectedProperties];
 }
 
 - (float) posY
@@ -53,8 +63,12 @@
 
 - (void) setPositionType:(int)positionType
 {
+    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
     [PositionPropertySetter setPositionType:positionType forNode:selection prop:propertyName];
     [self refresh];
+    
+    [self updateAffectedProperties];
 }
 
 - (int) positionType

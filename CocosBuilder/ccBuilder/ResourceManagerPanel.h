@@ -25,6 +25,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class ResourceManager;
+@class ResourceManagerOutlineHandler;
 
 @interface ResourceManagerPanel : NSWindowController<NSOutlineViewDelegate, NSOutlineViewDataSource, NSSplitViewDelegate>
 {
@@ -32,12 +33,13 @@
     IBOutlet NSImageView* imagePreview;
     IBOutlet NSTextField* lblNoPreview;
     
+    ResourceManagerOutlineHandler* outlineHandler;
     
-    ResourceManager* resManager;
-    int resType;
+    //ResourceManager* resManager;
+    //int resType;
 }
 
-@property (nonatomic,readonly) ResourceManager* resManager;
+//@property (nonatomic,readonly) ResourceManager* resManager;
 
 @property (nonatomic,assign) int resType;
 

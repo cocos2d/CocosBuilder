@@ -58,6 +58,7 @@
     [propTypes addObject:@"CCBFile"];
     [propTypes addObject:@"String"];
     [propTypes addObject:@"BlockCCControl"];
+    [propTypes addObject:@"FloatScale"];
 }
 
 - (id) init
@@ -311,6 +312,13 @@
     {
         float a = [prop floatValue];
         [self writeFloat:a];
+    }
+    else if ([type isEqualToString:@"FloatScale"])
+    {
+        float f = [[prop objectAtIndex:0] floatValue];
+        int type = [[prop objectAtIndex:1] intValue];
+        [self writeFloat:f];
+        [self writeInt:type withSign:NO];
     }
     else if ([type isEqualToString:@"Integer"]
              || [type isEqualToString:@"IntegerLabeled"])

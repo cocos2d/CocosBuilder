@@ -30,6 +30,7 @@
 #import "CCBDocument.h"
 #import "CCBReaderInternal.h"
 #import "NodeGraphPropertySetter.h"
+#import "PositionPropertySetter.h"
 
 @implementation InspectorCCBFile
 
@@ -68,54 +69,10 @@
     {
         CocosScene* cs = [[CCBGlobals globals] cocosScene];
         [cs setExtraProp:ccbFile forKey:propertyName andNode:selection];
-        //[TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:sf];
-        [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile];
+        [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile parentSize:[PositionPropertySetter getParentSize:selection]];
     }
     
     [self updateAffectedProperties];
-    /*
-    
-    id item = [sender representedObject];
-    
-    // Fetch info about the ccb file name
-    NSString* ccbFileName = NULL;
-    
-    if ([item isKindOfClass:[RMResource class]])
-    {
-        RMResource* res = item;
-        
-        if (res.type == kCCBResTypeCCBFile)
-        {
-            ccbFileName = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
-            [ResourceManagerUtil setTitle:ccbFileName forPopup:popup];
-        }
-    }
-    
-    
-    // Load the File
-    if (ccbFileName)
-    {
-        CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
-        
-        // Get absolut file path to ccb file
-        ccbFileName = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];
-        
-        // Check that it's not the current document (or we get an inifnite loop)
-        if ([ad.currentDocument.fileName isEqualToString:ccbFileName]) return;
-        
-        // Load document dictionary
-        NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithContentsOfFile:ccbFileName];
-        
-        // Verify doc type and version
-        if (![[doc objectForKey:@"fileType"] isEqualToString:@"CocosBuilder"]) return;
-        if ([[doc objectForKey:@"fileVersion"] intValue] != kCCBFileFormatVersion) return;
-        
-        // Parse the node graph
-        CCNode* ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"]];
-        
-        // Set the property
-        [self setPropertyForSelection:ccbFile];
-    }*/
 }
 
 @end

@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+#define kCCBVersion 2
+
 enum {
     kCCBPropTypePosition = 0,
     kCCBPropTypeSize,
@@ -51,7 +53,8 @@ enum {
 	kCCBPropTypeAnimation,
     kCCBPropTypeCCBFile,
     kCCBPropTypeString,
-    kCCBPropTypeBlockCCControl
+    kCCBPropTypeBlockCCControl,
+    kCCBPropTypeFloatScale
 };
 
 enum {
@@ -117,9 +120,15 @@ enum
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
+
+#ifdef CCB_ENABLE_UNZIP
++ (BOOL) unzipResources:(NSString*)resPath;
+#endif
 
 @end
 
@@ -128,4 +137,11 @@ enum
     CCNode* ccbFile;
 }
 @property (nonatomic,retain) CCNode* ccbFile;
+@end
+
+@interface CCBFileUtils : CCFileUtils
+{
+    NSString* ccbDirectoryPath;
+}
+@property (nonatomic,copy) NSString* ccbDirectoryPath;
 @end

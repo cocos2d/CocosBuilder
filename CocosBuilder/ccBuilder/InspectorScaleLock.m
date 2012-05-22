@@ -29,16 +29,6 @@
 
 @implementation InspectorScaleLock
 
-/*
-- (void) setScaleX:(float)scaleX
-{
-    [self setPropertyForSelectionX:[NSNumber numberWithFloat:scaleX]];
-    if ([self locked])
-    {
-        [self setPropertyForSelectionY:[NSNumber numberWithFloat:scaleX]];
-        [self refresh];
-    }
-}*/
 
 - (void) setScaleX:(float)scaleX
 {
@@ -64,7 +54,6 @@
 
 - (float) scaleX
 {
-    //return [[self propertyForSelectionX] floatValue];
     return [PositionPropertySetter scaleXForNode:selection prop:propertyName];
 }
 

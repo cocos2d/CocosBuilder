@@ -81,12 +81,12 @@
 
 - (IBAction)clickedClose:(id)sender
 {
+    // Remove the sticky note
+    [self removeChild:modifiedNote cleanup:YES];
+    
     // End the editing session
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     [ad.window makeKeyWindow];
-    
-    // Remove the sticky note
-    [self removeChild:modifiedNote cleanup:YES];
     
     modifiedNote = NULL;
 }

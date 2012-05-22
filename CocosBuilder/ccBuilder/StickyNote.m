@@ -36,7 +36,7 @@
     if (!self) return NULL;
     
     self.anchorPoint = ccp(0,1);
-    self.isRelativeAnchorPoint = YES;
+    self.ignoreAnchorPointForPosition = NO;
     
     bg = [CCScale9Sprite spriteWithFile:@"notes-bg.png"];
     bg.anchorPoint = ccp(0,0);
@@ -60,6 +60,9 @@
 - (void) setContentSize:(CGSize)contentSize
 {
     bg.preferedSize = contentSize;
+    
+    NSLog(@"set lbl.dimensions: (%f,%f)", contentSize.width - (2*kCCBNoteLblInsetH), contentSize.height -kCCBNoteLblInsetTop - kCCBNoteLblInsetBot);
+    
     lbl.dimensions = CGSizeMake(contentSize.width - (2*kCCBNoteLblInsetH), contentSize.height -kCCBNoteLblInsetTop - kCCBNoteLblInsetBot);
     
     [super setContentSize:contentSize];

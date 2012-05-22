@@ -31,7 +31,7 @@
 
 @implementation NodeGraphPropertySetter
 
-+ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName
++ (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize
 {
     CCNode* ccbFile = NULL;
     
@@ -40,13 +40,13 @@
         CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     
         // Get absolut file path to ccb file
-        ccbFileName = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];
+        NSString* ccbFileNameAbs = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];
     
         // Check that it's not the current document (or we get an inifnite loop)
-        if (![ad.currentDocument.fileName isEqualToString:ccbFileName])
+        if (![ad.currentDocument.fileName isEqualToString:ccbFileNameAbs])
         {
             // Load document dictionary
-            NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithContentsOfFile:ccbFileName];
+            NSMutableDictionary* doc = [NSMutableDictionary dictionaryWithContentsOfFile:ccbFileNameAbs];
     
             // Verify doc type and version
             if ([[doc objectForKey:@"fileType"] isEqualToString:@"CocosBuilder"]
@@ -54,13 +54,26 @@
             {
     
                 // Parse the node graph
-                ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"]];
+                ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"] parentSize:parentSize];
             }
         }
     }
     
     // Set the property
     [node setValue:ccbFile forKey:prop];
+    
+    // Set extra prop
+    if (!ccbFileName) ccbFileName = @"";
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    [cs setExtraProp:ccbFileName forKey:prop andNode:node];
+}
+
++ (NSString*) nodeGraphNameForNode:(CCNode*)node andProperty:(NSString*)prop
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    NSString* ccbFileName = [cs extraPropForKey:prop andNode:node];
+    if ([ccbFileName isEqualToString:@""]) ccbFileName = NULL;
+    return ccbFileName;
 }
 
 @end

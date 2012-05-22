@@ -25,6 +25,14 @@
 #import "CCBReader.h"
 #import <objc/runtime.h>
 
+#ifdef CCB_ENABLE_UNZIP
+#import "SSZipArchive.h"
+#endif
+
+#ifdef CCB_ENABLE_JAVASCRIPT
+#import "JSCocoa.h"
+#endif
+
 @implementation CCBReader
 
 - (id) initWithFile:(NSString*)file owner:(id)o
@@ -49,16 +57,15 @@
     // Setup resolution scale and container size
     rootContainerSize = [[CCDirector sharedDirector] winSize];
     
+    resolutionScale = 1;
+    
+#ifdef __CC_PLATFORM_IOS
     if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         // iPad
         resolutionScale = 2;
     }
-    else
-    {
-        // iPhone
-        resolutionScale = 1;
-    }
+#endif
     
     return self;
 }
@@ -251,7 +258,11 @@
                 absPt.x = (int)(containerSize.width * pt.x / 100.0f);
                 absPt.y = (int)(containerSize.height * pt.y / 100.0f);
             }
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:absPt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(absPt)] forKey:name];
+#endif
         }
     }
     else if(type == kCCBPropTypePoint
@@ -263,7 +274,11 @@
         if (setProp)
         {
             CGPoint pt = ccp(x,y);
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGPoint:pt] forKey:name];
+#else
+            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pt)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeSize)
@@ -303,7 +318,11 @@
                 absSize.height = (int)(containerSize.height * size.height / 100.0f);
             }
             
+#ifdef __CC_PLATFORM_IOS
             [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
+#else
+            [node setValue:[NSValue valueWithSize:NSSizeFromCGSize(absSize)] forKey:name];
+#endif
         }
     }
     else if (type == kCCBPropTypeScaleLock)
@@ -333,6 +352,20 @@
         
         if (setProp)
         {
+            [node setValue:[NSNumber numberWithFloat:f] forKey:name];
+        }
+    }
+    else if (type == kCCBPropTypeFloatScale)
+    {
+        float f = [self readFloat];
+        int type = [self readIntWithSign:NO];
+        
+        if (setProp)
+        {
+            if (type == kCCBScaleTypeMultiplyResolution)
+            {
+                f *= resolutionScale;
+            }
             [node setValue:[NSNumber numberWithFloat:f] forKey:name];
         }
     }
@@ -539,6 +572,27 @@
         
         if (setProp)
         {
+#ifdef CCB_ENABLE_JAVASCRIPT
+            if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
+            {
+                void (^block)(id sender);
+                block = ^(id sender) {
+                    [[JSCocoa sharedController] eval:[NSString stringWithFormat:@"%@();",selectorName]];
+                };
+                
+                NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
+                SEL setSelector = NSSelectorFromString(setSelectorName);
+                
+                if ([node respondsToSelector:setSelector])
+                {
+                    [node performSelector:setSelector withObject:block];
+                }
+                else
+                {
+                    NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
+                }
+            }
+#else
             if (selectorTarget)
             {
                 id target = NULL;
@@ -572,6 +626,7 @@
                     NSLog(@"CCBReader: Failed to find target for block");
                 }
             }
+#endif
         }
     }
     else if (type == kCCBPropTypeBlockCCControl)
@@ -618,7 +673,7 @@
         ccbFileName = [NSString stringWithFormat:@"%@.ccbi", [ccbFileName stringByDeletingPathExtension]];
         
         // Load sub file and add it
-        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner];
+        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner parentSize:parent.contentSize];
         
         if (setProp)
         {
@@ -663,6 +718,12 @@
     }
     
     // Assign to variable (if applicable)
+#ifdef CCB_ENABLE_JAVASCRIPT
+    if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
+    {
+        [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
+    }
+#else
     if (memberVarAssignmentType)
     {
         id target = NULL;
@@ -682,6 +743,7 @@
             }
         }
     }
+#endif
     
     // Read and add children
     int numChildren = [self readIntWithSign:NO];
@@ -708,7 +770,6 @@
 - (BOOL) readStringCache
 {
     int numStrings = [self readIntWithSign:NO];
-    NSLog(@"numStrings: %d", numStrings);
     
     stringCache = [[NSMutableArray alloc] initWithCapacity:numStrings];
     
@@ -731,9 +792,9 @@
     
     // Read version
     int version = [self readIntWithSign:NO];
-    if (version != 2)
+    if (version != kCCBVersion)
     {
-        NSLog(@"WARNING! Incompatible ccbi file version");
+        NSLog(@"CCBReader: Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
         return NO;
     }
     
@@ -753,7 +814,13 @@
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner
 {
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
+{
     CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
+    reader->rootContainerSize = parentSize;
     
     return [reader readFile];
 }
@@ -765,7 +832,12 @@
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner
 {
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner];
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize
+{
+    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;
@@ -775,6 +847,23 @@
 {
     return [CCBReader sceneWithNodeGraphFromFile:file owner:NULL]; 
 }
+
++ (NSString*) ccbDirectoryPath
+{
+    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
+}
+
+#ifdef CCB_ENABLE_UNZIP
++ (BOOL) unzipResources:(NSString*)resPath
+{
+    NSString* fullResPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:resPath];
+    
+    NSString* dstPath = [CCBReader ccbDirectoryPath];
+    
+    return [SSZipArchive unzipFileAtPath:fullResPath toDestination:dstPath overwrite:YES password:NULL error:NULL];
+}
+#endif
 @end
 
 
@@ -792,6 +881,61 @@
     {
         [self addChild:node];
     }
+}
+
+@end
+
+@implementation CCBFileUtils
+
+@synthesize ccbDirectoryPath;
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.ccbDirectoryPath = [CCBReader ccbDirectoryPath];
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    self.ccbDirectoryPath = NULL;
+    [super dealloc];
+}
+
+- (NSString*) pathForResource:(NSString*)resource ofType:(NSString *)ext inDirectory:(NSString *)subpath
+{
+    // Check for file in Documents directory
+    NSString* resDir = NULL;
+    if (subpath && ![subpath isEqualToString:@""])
+    {
+        resDir = [ccbDirectoryPath stringByAppendingPathComponent:subpath];
+    }
+    else
+    {
+        resDir = ccbDirectoryPath;
+    }
+    
+    NSString* fileName = NULL;
+    if (ext && ![ext isEqualToString:@""])
+    {
+        fileName = [resource stringByAppendingPathExtension:ext];
+    }
+    else
+    {
+        fileName = resource;
+    }
+    
+    NSString* filePath = [resDir stringByAppendingPathComponent:fileName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        return filePath;
+    }
+    
+    // Use default lookup
+    return [bundle_ pathForResource:resource ofType:ext inDirectory:subpath];
 }
 
 @end

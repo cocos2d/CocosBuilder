@@ -58,8 +58,6 @@
         
         NSString* resFile = [NSString stringWithFormat:@"%@-%@.%@",fileNoExt,ext,fileType];
         
-        NSLog(@"Testing resFile: %@", resFile);
-        
         if ([[NSFileManager defaultManager] fileExistsAtPath:resFile])
         {
             return resFile;

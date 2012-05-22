@@ -157,7 +157,15 @@
 
 @implementation RMDirectory
 
-@synthesize count, dirPath, resources, images, animations, bmFonts, ttfFonts, ccbFiles;
+@synthesize count;
+@synthesize dirPath;
+@synthesize resources;
+@synthesize any;
+@synthesize images;
+@synthesize animations;
+@synthesize bmFonts;
+@synthesize ttfFonts;
+@synthesize ccbFiles;
 
 - (id) init
 {
@@ -165,6 +173,7 @@
     if (!self) return NULL;
     
     resources = [[NSMutableDictionary alloc] init];
+    any = [[NSMutableArray alloc] init];
     images = [[NSMutableArray alloc] init];
     animations = [[NSMutableArray alloc] init];
     bmFonts = [[NSMutableArray alloc] init];
@@ -176,6 +185,7 @@
 
 - (NSArray*)resourcesForType:(int)type
 {
+    if (type == kCCBResTypeNone) return any;
     if (type == kCCBResTypeImage) return images;
     if (type == kCCBResTypeBMFont) return bmFonts;
     if (type == kCCBResTypeTTF) return ttfFonts;
@@ -187,6 +197,7 @@
 - (void) dealloc
 {
     [resources release];
+    [any release];
     [images release];
     [animations release];
     [bmFonts release];
@@ -208,7 +219,10 @@
 
 @implementation ResourceManager
 
-@synthesize directories, activeDirectories, systemFontList, tooManyDirectoriesAdded;
+@synthesize directories;
+@synthesize activeDirectories;
+@synthesize systemFontList;
+@synthesize tooManyDirectoriesAdded;
 
 #define kIgnoredExtensionsKey @"ignoredDirectoryExtensions"
 
@@ -319,30 +333,6 @@
         if ([fileNoExt hasSuffix:ext]) return YES;
     }
     
-    /*
-    // Check standard extensions
-    if ([fileNoExt hasSuffix:@"2x"]) return YES;
-    
-    // Check extensions as provided by resolution settings
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
-    NSArray* resolutions = ad.currentDocument.resolutions;
-    for (ResolutionSetting* resolution in resolutions)
-    {
-        for(NSString* ext in resolution.exts)
-        {
-            NSString* completeExt = [@"-" stringByAppendingString:ext];
-            
-            NSLog(@"checking %@",completeExt);
-            
-            if ([fileNoExt hasSuffix:completeExt]) return YES;
-        }
-        for(NSString* ext in resolution.exts_hd)
-        {
-            NSString* completeExt = [@"-" stringByAppendingString:ext];
-            if ([fileNoExt hasSuffix:completeExt]) return YES;
-        }
-    }*/
-    
     return NO;
 }
 
@@ -392,6 +382,10 @@
     else if ([ext isEqualToString:@"ccb"])
     {
         return kCCBResTypeCCBFile;
+    }
+    else if ([ext isEqualToString:@"js"])
+    {
+        return kCCBResTypeJS;
     }
     
     return kCCBResTypeNone;
@@ -504,6 +498,7 @@
     // Update arrays for different resources
     if (resChanged)
     {
+        [dir.any removeAllObjects];
         [dir.images removeAllObjects];
         [dir.animations removeAllObjects];
         [dir.bmFonts removeAllObjects];
@@ -534,12 +529,26 @@
             {
                 [dir.ttfFonts addObject:res];
             }
-            if (res.type == kCCBResTypeCCBFile)
+            if (res.type == kCCBResTypeCCBFile
+                || res.type == kCCBResTypeDirectory)
             {
                 [dir.ccbFiles addObject:res];
+                
+            }
+            if (res.type == kCCBResTypeImage
+                || res.type == kCCBResTypeSpriteSheet
+                || res.type == kCCBResTypeAnimation
+                || res.type == kCCBResTypeBMFont
+                || res.type == kCCBResTypeTTF
+                || res.type == kCCBResTypeCCBFile
+                || res.type == kCCBResTypeDirectory
+                || res.type == kCCBResTypeJS)
+            {
+                [dir.any addObject:res];
             }
         }
         
+        [dir.any sortUsingSelector:@selector(compare:)];
         [dir.images sortUsingSelector:@selector(compare:)];
         [dir.animations sortUsingSelector:@selector(compare:)];
         [dir.bmFonts sortUsingSelector:@selector(compare:)];
@@ -556,8 +565,6 @@
 
 - (void) addDirectory:(NSString *)dirPath
 {
-    NSLog(@"addDirectory: %@",dirPath);
-    
     if ([directories count] > kCCBMaxTrackedDirectories)
     {
         tooManyDirectoriesAdded = YES;
@@ -606,6 +613,14 @@
             [self updatedWatchedPaths];
         }
     }
+}
+
+- (void) removeAllDirectories
+{
+    [directories removeAllObjects];
+    [activeDirectories removeAllObjects];
+    [self updatedWatchedPaths];
+    [self notifyResourceObserversResourceListUpdated];
 }
 
 - (void) setActiveDirectories:(NSArray *)ad

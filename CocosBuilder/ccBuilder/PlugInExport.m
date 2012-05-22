@@ -27,7 +27,9 @@
 
 @implementation PlugInExport
 
-@synthesize extension, pluginName;
+@synthesize extension;
+@synthesize pluginName;
+@synthesize flattenPaths;
 
 - (id) initWithBundle:(NSBundle*) b
 {
@@ -48,7 +50,7 @@
 {
     Class exporterClass = [bundle principalClass];
     CCBX* exporter = [[exporterClass alloc] init];
-    return [exporter exportDocument:doc flattenPaths:[[doc objectForKey:@"exportFlattenPaths"] boolValue]];
+    return [exporter exportDocument:doc flattenPaths:flattenPaths];
 }
 
 - (void) dealloc

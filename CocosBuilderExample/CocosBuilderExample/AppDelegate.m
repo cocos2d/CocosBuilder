@@ -49,6 +49,9 @@
 	director_ = (CCDirectorIOS*) [CCDirector sharedDirector];
 
 	director_.wantsFullScreenLayout = YES;
+    
+    // Use CocosBuilders file utils, so we can load resources from zip files
+    [CCBFileUtils sharedFileUtils];
 
 	// Display FSP and SPF
 	[director_ setDisplayStats:YES];
@@ -94,12 +97,15 @@
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
+    // Unzip resources published by CocosBuilder
+    [CCBReader unzipResources:@"ccb.zip"];
+    
     // Use the CCBReader to load the HelloCocosBuilder scene
     // from the ccbi-file.
-    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"Test.ccbi"];
+    CCScene* scene = [CCBReader sceneWithNodeGraphFromFile:@"HelloCocosBuilder.ccbi"];
     
 	// Add the scene to the stack. The director will run it when it automatically when the view is displayed.
-	[director_ pushScene: scene]; 
+	[director_ pushScene: scene];
 
 	return YES;
 }

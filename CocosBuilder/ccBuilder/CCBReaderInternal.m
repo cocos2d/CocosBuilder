@@ -104,7 +104,7 @@
     return bf;
 }
 
-+ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node
++ (void) setProp:(NSString*)name ofType:(NSString*)type toValue:(id)serializedValue forNode:(CCNode*)node parentSize:(CGSize)parentSize
 {
     // Fetch info and extra properties
     NodeInfo* nodeInfo = node.userObject;
@@ -116,7 +116,7 @@
         float y = [[serializedValue objectAtIndex:1] floatValue];
         int posType = 0;
         if ([(NSArray*)serializedValue count] == 3) posType = [[serializedValue objectAtIndex:2] intValue];
-        [PositionPropertySetter setPosition:NSMakePoint(x, y) type:posType forNode:node prop:name];
+        [PositionPropertySetter setPosition:NSMakePoint(x, y) type:posType forNode:node prop:name parentSize:parentSize];
     }
     else if ([type isEqualToString:@"Point"]
         || [type isEqualToString:@"PointLock"])
@@ -132,7 +132,7 @@
         NSSize size =  NSMakeSize(w, h);
         int sizeType = 0;
         if ([(NSArray*)serializedValue count] == 3) sizeType = [[serializedValue objectAtIndex:2] intValue];
-        [PositionPropertySetter setSize:size type:sizeType forNode:node prop:name];
+        [PositionPropertySetter setSize:size type:sizeType forNode:node prop:name parentSize:parentSize];
     }
     else if ([type isEqualToString:@"Scale"]
              || [type isEqualToString:@"ScaleLock"])
@@ -291,7 +291,7 @@
     {
         NSString* ccbFile = serializedValue;
         if (!ccbFile) ccbFile = @"";
-        [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:name withFile:ccbFile];
+        [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:name withFile:ccbFile parentSize:parentSize];
         [extraProps setObject:ccbFile forKey:name];
     }
     else
@@ -300,7 +300,7 @@
     }
 }
 
-+ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict
++ (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict parentSize:(CGSize)parentSize
 {
     NSArray* props = [dict objectForKey:@"properties"];
     NSString* baseClass = [dict objectForKey:@"baseClass"];
@@ -335,7 +335,7 @@
         }
         else
         {
-            [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node];
+            [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node parentSize:parentSize];
         }
     }
     
@@ -350,9 +350,10 @@
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
+    CGSize contentSize = node.contentSize;
     for (int i = 0; i < [children count]; i++)
     {
-        CCNode* child = [CCBReaderInternal nodeGraphFromDictionary:[children objectAtIndex:i]];
+        CCNode* child = [CCBReaderInternal nodeGraphFromDictionary:[children objectAtIndex:i] parentSize:contentSize];
         [node addChild:child z:i];
     }
     
@@ -360,6 +361,11 @@
 }
 
 + (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary *)dict
+{
+    return [CCBReaderInternal nodeGraphFromDocumentDictionary:dict parentSize:CGSizeZero];
+}
+
++ (CCNode*) nodeGraphFromDocumentDictionary:(NSDictionary *)dict parentSize:(CGSize) parentSize
 {
     if (!dict)
     {
@@ -391,7 +397,7 @@
         return NULL;
     }
     
-    return [CCBReaderInternal nodeGraphFromDictionary:nodeGraph];
+    return [CCBReaderInternal nodeGraphFromDictionary:nodeGraph parentSize:parentSize];
 }
 
 @end
