@@ -586,6 +586,8 @@
         float xDelta = (int)(pos.x - mouseDownPos.x);
         float yDelta = (int)(pos.y - mouseDownPos.y);
         
+        CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+        
         // Swap axis for relative positions
         int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:positionProp];
         if (positionType == kCCBPositionTypeRelativeBottomRight)
@@ -604,7 +606,6 @@
         else if (positionType == kCCBPositionTypePercent)
         {
             // Handle percental positions
-            CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
             if (parentSize.width > 0)
             {
                 xDelta = (xDelta/parentSize.width)*100.0f;
@@ -629,7 +630,22 @@
         // Snap to guides
         if (appDelegate.showGuides && appDelegate.snapToGuides)
         {
-            newPos = [guideLayer snapPoint:newPos];
+            // Convert to absolute position (conversion need to happen in node space)
+            CGPoint newAbsPos = [selectedNode.parent convertToNodeSpace:newPos];
+            
+            newAbsPos = NSPointToCGPoint([PositionPropertySetter calcAbsolutePositionFromRelative:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
+            
+            newAbsPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
+            
+            // Perform snapping (snapping happens in world space)
+            newAbsPos = [guideLayer snapPoint:newAbsPos];
+            
+            // Convert back to relative (conversion need to happen in node space)
+            newAbsPos = [selectedNode.parent convertToNodeSpace:newAbsPos];
+            
+            newAbsPos = NSPointToCGPoint([PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
+            
+            newPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
         }
         
         CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
