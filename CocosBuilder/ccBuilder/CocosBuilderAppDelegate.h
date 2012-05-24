@@ -216,7 +216,7 @@ enum {
 
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
-- (IBAction) menuAlignChildren:(id)sender;
+- (IBAction) menuAlignChildrenToPixels:(id)sender;
 - (IBAction)menuAddStickyNote:(id)sender;
 - (IBAction) menuCleanCacheDirectories:(id)sender;
 

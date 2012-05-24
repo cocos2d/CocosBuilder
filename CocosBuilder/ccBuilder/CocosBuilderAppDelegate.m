@@ -1936,6 +1936,7 @@
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
+/*
 - (IBAction) menuAlignChildren:(id)sender
 {
 #warning TODO: Fix with new position types
@@ -1973,6 +1974,33 @@
             
             if ([sender tag] == 1) c.position = ccp(avg, c.position.y);
             else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
+        }
+    }
+}*/
+
+- (IBAction) menuAlignChildrenToPixels:(id)sender
+{
+    if (!currentDocument) return;
+    if (!selectedNode) return;
+    
+    // Check if node can have children
+    NodeInfo* info = selectedNode.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    if (!plugIn.canHaveChildren) return;
+    
+    CCArray* children = [selectedNode children];
+    if ([children count] == 0) return;
+    
+    for (int i = 0; i < [children count]; i++)
+    {
+        CCNode* c = [children objectAtIndex:i];
+        
+        int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
+        if (positionType != kCCBPositionTypePercent)
+        {
+            CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
+            pos = ccp(roundf(pos.x), roundf(pos.y));
+            [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
         }
     }
 }
