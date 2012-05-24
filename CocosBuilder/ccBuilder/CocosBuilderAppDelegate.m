@@ -759,7 +759,10 @@
     int i = 0;
     for (ResolutionSetting* resolution in currentDocument.resolutions)
     {
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:[NSString stringWithFormat:@"%d",i+1]];
+        NSString* keyEquivalent = @"";
+        if (i < 10) keyEquivalent = [NSString stringWithFormat:@"%d",i+1];
+        
+        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent];
         item.target = self;
         item.tag = i;
         
