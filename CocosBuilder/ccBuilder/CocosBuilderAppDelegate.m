@@ -63,6 +63,7 @@
 #import "CCBWarnings.h"
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
+#import "PlayerController.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -83,6 +84,7 @@
 @synthesize guiView;
 @synthesize guiWindow;
 @synthesize showStickyNotes;
+@synthesize playerController;
 
 #pragma mark Setup functions
 
@@ -156,6 +158,11 @@
 	//currentDocument = [[CCBDocument alloc] init];
 }*/
 
+- (void) setupPlayerController
+{
+    self.playerController = [[[PlayerController alloc] init] autorelease];
+}
+
 - (void) setupResourceManager
 {
     // Load resource manager
@@ -185,6 +192,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self.window center];
+    
     [[CCBGlobals globals] setAppDelegate:self];
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
@@ -236,10 +245,12 @@
     [self setupResourceManager];
     [self setupGUIWindow];
     
+    [self setupPlayerController];
+    
     self.showGuides = YES;
     self.snapToGuides = YES;
-    
     self.showStickyNotes = YES;
+    
     
     [self.window makeKeyWindow];
 }
@@ -748,7 +759,10 @@
     int i = 0;
     for (ResolutionSetting* resolution in currentDocument.resolutions)
     {
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:[NSString stringWithFormat:@"%d",i+1]];
+        NSString* keyEquivalent = @"";
+        if (i < 10) keyEquivalent = [NSString stringWithFormat:@"%d",i+1];
+        
+        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent];
         item.target = self;
         item.tag = i;
         
@@ -1008,8 +1022,6 @@
 
 - (void) checkForTooManyDirectoriesInCurrentProject
 {
-    NSLog(@"checkForTooManyDirectoriesInCurrentProject");
-    
     if (!projectSettings) return;
     
     if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
@@ -1478,12 +1490,31 @@
     [self delete:sender];
 }
 
+- (void) moveSelectedObjectWithDelta:(CGPoint)delta
+{
+    if (!selectedNode) return;
+    
+    [self saveUndoStateWillChangeProperty:@"position"];
+    
+    // Get and update absolute position
+    CGPoint absPos = selectedNode.position;
+    absPos = ccpAdd(absPos, delta);
+    
+    // Convert to relative position
+    CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+    int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+    NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+    
+    // Update the selected node
+    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
+    [self refreshProperty:@"position"];
+}
+
 - (IBAction) menuNudgeObject:(id)sender
 {
     int dir = (int)[sender tag];
     
     if (!selectedNode) return;
-    
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
@@ -1491,10 +1522,7 @@
     else if (dir == 2) delta = ccp(0, 1);
     else if (dir == 3) delta = ccp(0, -1);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) menuMoveObject:(id)sender
@@ -1509,10 +1537,7 @@
     else if (dir == 2) delta = ccp(0, 10);
     else if (dir == 3) delta = ccp(0, -10);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) saveDocumentAs:(id)sender
@@ -1555,13 +1580,14 @@
     }
 }
 
-- (IBAction) menuPublishProject:(id)sender
+- (void) publishAndRun:(BOOL)run
 {
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
     // Setup publisher
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    publisher.runAfterPublishing = run;
     
     // Open progress window and publish
     
@@ -1569,11 +1595,6 @@
     
     [self modalStatusWindowStartWithTitle:@"Publishing"];
     [self modalStatusWindowUpdateStatusText:@"Starting up..."];
-}
-
-- (IBAction) menuCleanCacheDirectories:(id)sender
-{
-    [CCBPublisher cleanAllCacheDirectories];
 }
 
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
@@ -1590,11 +1611,28 @@
     publishWarningsWindow.warnings = warnings;
     
     [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    
+    if (publisher.runAfterPublishing)
+    {
+        [playerController runPlayerForProject:projectSettings];
+    }
+    
+    [publisher release];
+}
+
+- (IBAction) menuPublishProject:(id)sender
+{
+    [self publishAndRun:NO];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    
+    [self publishAndRun:YES];
+}
+
+- (IBAction) menuCleanCacheDirectories:(id)sender
+{
+    [CCBPublisher cleanAllCacheDirectories];
 }
 
 // Temporary utility function until new publish system is in place
@@ -1914,6 +1952,7 @@
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
+/*
 - (IBAction) menuAlignChildren:(id)sender
 {
 #warning TODO: Fix with new position types
@@ -1953,6 +1992,33 @@
             else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
         }
     }
+}*/
+
+- (IBAction) menuAlignChildrenToPixels:(id)sender
+{
+    if (!currentDocument) return;
+    if (!selectedNode) return;
+    
+    // Check if node can have children
+    NodeInfo* info = selectedNode.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    if (!plugIn.canHaveChildren) return;
+    
+    CCArray* children = [selectedNode children];
+    if ([children count] == 0) return;
+    
+    for (int i = 0; i < [children count]; i++)
+    {
+        CCNode* c = [children objectAtIndex:i];
+        
+        int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
+        if (positionType != kCCBPositionTypePercent)
+        {
+            CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
+            pos = ccp(roundf(pos.x), roundf(pos.y));
+            [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
+        }
+    }
 }
 
 - (IBAction)menuAddStickyNote:(id)sender
@@ -1977,6 +2043,7 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
+    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -1984,8 +2051,16 @@
 {
     if ([self windowShouldClose:self])
     {
+        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
+}
+
+- (IBAction)showHelp:(id)sender
+{
+    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 #pragma mark Debug

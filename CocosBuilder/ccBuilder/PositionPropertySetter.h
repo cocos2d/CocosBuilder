@@ -53,6 +53,7 @@ enum
 
 + (CGSize) getParentSize:(CCNode*) node;
 
+// Setting/getting positions
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop;
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop parentSize:(CGSize)parentSize;
 + (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop;
@@ -60,6 +61,12 @@ enum
 + (CGPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop;
 
+// Positioning helpers
++ (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type parentSize:(CGSize) parentSize;
++ (NSPoint) calcRelativePositionFromAbsolute:(NSPoint)pos type:(int)type parentSize:(CGSize)parentSize;
+
+
+// Setting/getting sizes
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop parentSize:(CGSize)parentSize;
 + (void) setSize:(NSSize)size forNode:(CCNode *)node prop:(NSString *)prop;
@@ -68,6 +75,7 @@ enum
 + (void) setSizeType:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
 + (void) refreshSizeForNode:(CCNode*)node prop:(NSString*)prop;
 
+// Setting/getting scale
 + (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
 + (float) scaleXForNode:(CCNode*)node prop:(NSString*)prop;
 + (float) scaleYForNode:(CCNode*)node prop:(NSString*)prop;
@@ -77,6 +85,7 @@ enum
 + (float) floatScaleForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) floatScaleTypeForNode:(CCNode*)node prop:(NSString*)prop;
 
+// Refreshing positions
 + (void) refreshPositionsForChildren:(CCNode*)node;
 + (void) refreshAllPositions;
 

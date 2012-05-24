@@ -34,6 +34,7 @@
 @implementation CCBPublisher
 
 @synthesize publishFormat;
+@synthesize runAfterPublishing;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w
 {
@@ -47,10 +48,7 @@
     // Setup base output directory
     if (projectSettings.publishToZipFile)
     {
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        outputDir = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:projectSettings.projectPathHashed];
-        
-        outputDir = [outputDir retain];
+        outputDir = projectSettings.publishCacheDirectory;
     }
     else
     {
@@ -58,7 +56,7 @@
     }
     
     // Setup extensions to copy
-    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf", nil];
+    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", nil];
     
     // Set format to use for exports
     self.publishFormat = projectSettings.exporter;
@@ -237,6 +235,16 @@
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
+    }
+    
+    if (runAfterPublishing && !projectSettings.publishToZipFile)
+    {
+        // We also need to publish to the temp directory
+        outputDir = projectSettings.publishCacheDirectory;
+        for (NSString* dir in projectSettings.absoluteResourcePaths)
+        {
+            if (![self publishDirectory:dir subPath:NULL]) return NO;
+        }
     }
     
     if (projectSettings.publishToZipFile)
