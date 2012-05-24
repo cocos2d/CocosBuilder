@@ -35,6 +35,7 @@
 @synthesize publishDirectory;
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
+@synthesize javascriptBased;
 @synthesize exporter;
 @synthesize availableExporters;
 
@@ -74,6 +75,7 @@
     self.publishDirectory = [dict objectForKey:@"publishDirectory"];
     self.flattenPaths = [[dict objectForKey:@"flattenPaths"] boolValue];
     self.publishToZipFile = [[dict objectForKey:@"publishToZipFile"] boolValue];
+    self.javascriptBased = [[dict objectForKey:@"javascriptBased"] boolValue];
     self.exporter = [dict objectForKey:@"exporter"];
     
     return self;
@@ -105,6 +107,7 @@
     [dict setObject:publishDirectory forKey:@"publishDirectory"];
     [dict setObject:[NSNumber numberWithBool:flattenPaths] forKey:@"flattenPaths"];
     [dict setObject:[NSNumber numberWithBool:publishToZipFile] forKey:@"publishToZipFile"];
+    [dict setObject:[NSNumber numberWithBool:javascriptBased] forKey:@"javascriptBased"];
     [dict setObject:self.exporter forKey:@"exporter"];
     
     return dict;

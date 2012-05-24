@@ -34,6 +34,7 @@
     NSString* publishDirectory;
     BOOL flattenPaths;
     BOOL publishToZipFile;
+    BOOL javascriptBased;
     NSString* exporter;
     NSMutableArray* availableExporters;
 }
@@ -44,6 +45,7 @@
 @property (nonatomic, copy) NSString* publishDirectory;
 @property (nonatomic, assign) BOOL flattenPaths;
 @property (nonatomic, assign) BOOL publishToZipFile;
+@property (nonatomic, assign) BOOL javascriptBased;
 @property (nonatomic, readonly) NSArray* absoluteResourcePaths;
 @property (nonatomic, copy) NSString* exporter;
 @property (nonatomic, retain) NSMutableArray* availableExporters;

@@ -1071,7 +1071,7 @@
 										</object>
 									</object>
 								</object>
-								<object class="NSMenuItem" id="100086031">
+								<object class="NSMenuItem" id="319288538">
 									<reference key="NSMenu" ref="300359301"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
@@ -3129,7 +3129,7 @@
 						<string key="label">enabled: projectSettings</string>
 						<reference key="source" ref="146575532"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="593967917">
 							<reference key="NSSource" ref="146575532"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled: projectSettings</string>
@@ -3143,6 +3143,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1521</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: projectSettings.javascriptBased</string>
+						<reference key="source" ref="146575532"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="146575532"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled2: projectSettings.javascriptBased</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">projectSettings.javascriptBased</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="593967917"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1529</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -3999,7 +4033,7 @@
 							<reference ref="264745812"/>
 							<reference ref="195586168"/>
 							<reference ref="4121080"/>
-							<reference ref="100086031"/>
+							<reference ref="319288538"/>
 						</object>
 						<reference key="parent" ref="330765285"/>
 					</object>
@@ -4670,7 +4704,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1526</int>
-						<reference key="object" ref="100086031"/>
+						<reference key="object" ref="319288538"/>
 						<reference key="parent" ref="300359301"/>
 					</object>
 				</object>
@@ -5120,7 +5154,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1526</int>
+			<int key="maxID">1529</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
