@@ -1752,7 +1752,6 @@
         NSSavePanel* saveDlg = [NSSavePanel savePanel];
         [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
         
-#warning FIX
         SavePanelLimiter* limiter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
         
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
