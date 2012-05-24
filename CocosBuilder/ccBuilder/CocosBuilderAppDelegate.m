@@ -1487,12 +1487,31 @@
     [self delete:sender];
 }
 
+- (void) moveSelectedObjectWithDelta:(CGPoint)delta
+{
+    if (!selectedNode) return;
+    
+    [self saveUndoStateWillChangeProperty:@"position"];
+    
+    // Get and update absolute position
+    CGPoint absPos = selectedNode.position;
+    absPos = ccpAdd(absPos, delta);
+    
+    // Convert to relative position
+    CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+    int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+    NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+    
+    // Update the selected node
+    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
+    [self refreshProperty:@"position"];
+}
+
 - (IBAction) menuNudgeObject:(id)sender
 {
     int dir = (int)[sender tag];
     
     if (!selectedNode) return;
-    
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
@@ -1500,10 +1519,7 @@
     else if (dir == 2) delta = ccp(0, 1);
     else if (dir == 3) delta = ccp(0, -1);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) menuMoveObject:(id)sender
@@ -1518,10 +1534,7 @@
     else if (dir == 2) delta = ccp(0, 10);
     else if (dir == 3) delta = ccp(0, -10);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) saveDocumentAs:(id)sender
