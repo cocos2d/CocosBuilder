@@ -759,7 +759,10 @@
     int i = 0;
     for (ResolutionSetting* resolution in currentDocument.resolutions)
     {
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:[NSString stringWithFormat:@"%d",i+1]];
+        NSString* keyEquivalent = @"";
+        if (i < 10) keyEquivalent = [NSString stringWithFormat:@"%d",i+1];
+        
+        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent];
         item.target = self;
         item.tag = i;
         
@@ -1487,12 +1490,31 @@
     [self delete:sender];
 }
 
+- (void) moveSelectedObjectWithDelta:(CGPoint)delta
+{
+    if (!selectedNode) return;
+    
+    [self saveUndoStateWillChangeProperty:@"position"];
+    
+    // Get and update absolute position
+    CGPoint absPos = selectedNode.position;
+    absPos = ccpAdd(absPos, delta);
+    
+    // Convert to relative position
+    CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+    int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+    NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+    
+    // Update the selected node
+    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
+    [self refreshProperty:@"position"];
+}
+
 - (IBAction) menuNudgeObject:(id)sender
 {
     int dir = (int)[sender tag];
     
     if (!selectedNode) return;
-    
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
@@ -1500,10 +1522,7 @@
     else if (dir == 2) delta = ccp(0, 1);
     else if (dir == 3) delta = ccp(0, -1);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) menuMoveObject:(id)sender
@@ -1518,10 +1537,7 @@
     else if (dir == 2) delta = ccp(0, 10);
     else if (dir == 3) delta = ccp(0, -10);
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    CGPoint newPos = ccpAdd([PositionPropertySetter positionForNode:selectedNode prop:@"position"], delta);
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
+    [self moveSelectedObjectWithDelta:delta];
 }
 
 - (IBAction) saveDocumentAs:(id)sender
@@ -1936,6 +1952,7 @@
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
+/*
 - (IBAction) menuAlignChildren:(id)sender
 {
 #warning TODO: Fix with new position types
@@ -1973,6 +1990,33 @@
             
             if ([sender tag] == 1) c.position = ccp(avg, c.position.y);
             else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
+        }
+    }
+}*/
+
+- (IBAction) menuAlignChildrenToPixels:(id)sender
+{
+    if (!currentDocument) return;
+    if (!selectedNode) return;
+    
+    // Check if node can have children
+    NodeInfo* info = selectedNode.userObject;
+    PlugInNode* plugIn = info.plugIn;
+    if (!plugIn.canHaveChildren) return;
+    
+    CCArray* children = [selectedNode children];
+    if ([children count] == 0) return;
+    
+    for (int i = 0; i < [children count]; i++)
+    {
+        CCNode* c = [children objectAtIndex:i];
+        
+        int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
+        if (positionType != kCCBPositionTypePercent)
+        {
+            CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
+            pos = ccp(roundf(pos.x), roundf(pos.y));
+            [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
         }
     }
 }
