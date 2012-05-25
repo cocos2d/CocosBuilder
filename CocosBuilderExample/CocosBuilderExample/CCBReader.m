@@ -172,24 +172,27 @@
 - (float) readFloat
 {
     unsigned char type = [self readByte];
-    
-    if (type == kCCBFloat0) return 0;
-    else if (type == kCCBFloat1) return 1;
-    else if (type == kCCBFloatMinus1) return -1;
-    else if (type == kCCBFloat05) return 0.5f;
-    else if (type == kCCBFloatInteger)
-    {
-        return [self readIntWithSign:YES];
-    }
-    else
-    {
-    	// using a memcpy since the compiler isn't
-    	// doing the float ptr math correctly on device.
-		float* pF = (float*)(bytes+currentByte);
-		float f = 0;
-		memcpy(&f, pF, sizeof(float));
-        currentByte+=4;
-        return f;
+
+    switch (type) {
+        case kCCBFloat0:
+            return 0;
+        case kCCBFloat1:
+            return 1;
+        case kCCBFloatMinus1:
+            return -1;
+        case kCCBFloat05:
+            return 0.5f;
+        case kCCBFloatInteger:
+            return [self readIntWithSign:YES];
+        default: {
+            // using a memcpy since the compiler isn't
+            // doing the float ptr math correctly on device.
+            float * pF = (float*)(bytes+currentByte);
+            float f = 0;
+            memcpy(&f, pF, sizeof(float));
+            currentByte+=4;
+            return f;
+        }
     }
 }
 
