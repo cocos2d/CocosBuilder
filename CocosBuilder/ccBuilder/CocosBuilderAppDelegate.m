@@ -571,6 +571,8 @@
         
         [self setSelectedNode:clipNode];
         
+        [PositionPropertySetter refreshAllPositions];
+        
         return YES;
     }
     clipData = [pb dataForType:@"com.cocosbuilder.texture"];
@@ -579,6 +581,8 @@
         NSDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         [self dropAddSpriteNamed:[clipDict objectForKey:@"spriteFile"] inSpriteSheet:[clipDict objectForKey:@"spriteSheetFile"] at:ccp(0,0) parent:item];
+        
+        [PositionPropertySetter refreshAllPositions];
         
         return YES;
     }
