@@ -36,8 +36,6 @@
 
 - (void) updateOutlineViewSelection
 {
-    NSLog(@"updateOutlineViewSelection");
-    
     if (!appDelegate.selectedNode)
     {
         [outlineHierarchy selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
@@ -128,6 +126,11 @@
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
     
     if (item == nil) return @"Root";
+    
+    if ([tableColumn.identifier isEqualToString:@"sequencer"])
+    {
+        return @"";
+    }
     
     CCNode* node = item;
     NodeInfo* info = node.userObject;

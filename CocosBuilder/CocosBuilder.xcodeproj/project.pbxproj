@@ -126,6 +126,10 @@
 		E334069B1551725F000FBD0B /* InspectorFloatScale.m in Sources */ = {isa = PBXBuildFile; fileRef = E334069A1551725F000FBD0B /* InspectorFloatScale.m */; };
 		E335CAEB15751C0D00A612EE /* seq-ctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */; };
 		E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF2157603C200A612EE /* SequencerHandler.m */; };
+		E335CAF6157649F900A612EE /* SequencerExpandBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF5157649F900A612EE /* SequencerExpandBtnCell.m */; };
+		E335CAF815764E6B00A612EE /* seq-btn-expand.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAF715764E6B00A612EE /* seq-btn-expand.png */; };
+		E335CAFB1576592600A612EE /* SequencerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAFA1576592600A612EE /* SequencerCell.m */; };
+		E335CAFD15765BB700A612EE /* seq-vseparator.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAFC15765BB700A612EE /* seq-vseparator.png */; };
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
@@ -912,6 +916,12 @@
 		E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-ctrl-bg.png"; sourceTree = "<group>"; };
 		E335CAF1157603C200A612EE /* SequencerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerHandler.h; sourceTree = "<group>"; };
 		E335CAF2157603C200A612EE /* SequencerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerHandler.m; sourceTree = "<group>"; };
+		E335CAF4157649F900A612EE /* SequencerExpandBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerExpandBtnCell.h; sourceTree = "<group>"; };
+		E335CAF5157649F900A612EE /* SequencerExpandBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerExpandBtnCell.m; sourceTree = "<group>"; };
+		E335CAF715764E6B00A612EE /* seq-btn-expand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-expand.png"; sourceTree = "<group>"; };
+		E335CAF91576592600A612EE /* SequencerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerCell.h; sourceTree = "<group>"; };
+		E335CAFA1576592600A612EE /* SequencerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerCell.m; sourceTree = "<group>"; };
+		E335CAFC15765BB700A612EE /* seq-vseparator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-vseparator.png"; sourceTree = "<group>"; };
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
@@ -1824,6 +1834,8 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E335CAFC15765BB700A612EE /* seq-vseparator.png */,
+				E335CAF715764E6B00A612EE /* seq-btn-expand.png */,
 				E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */,
 				E370BA0A1549B2460048ED73 /* scale-0.png */,
 				E370BA0B1549B2460048ED73 /* scale-1.png */,
@@ -2158,6 +2170,10 @@
 			children = (
 				E335CAF1157603C200A612EE /* SequencerHandler.h */,
 				E335CAF2157603C200A612EE /* SequencerHandler.m */,
+				E335CAF4157649F900A612EE /* SequencerExpandBtnCell.h */,
+				E335CAF5157649F900A612EE /* SequencerExpandBtnCell.m */,
+				E335CAF91576592600A612EE /* SequencerCell.h */,
+				E335CAFA1576592600A612EE /* SequencerCell.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -3630,6 +3646,8 @@
 				E3E0878B1566914D008F1FDB /* cocos2d.bridgesupport in Resources */,
 				E3BF89D9156D36B7001A24CE /* CocosBuilderProjectIcon.icns in Resources */,
 				E335CAEB15751C0D00A612EE /* seq-ctrl-bg.png in Resources */,
+				E335CAF815764E6B00A612EE /* seq-btn-expand.png in Resources */,
+				E335CAFD15765BB700A612EE /* seq-vseparator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4029,6 +4047,8 @@
 				E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
 				E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */,
+				E335CAF6157649F900A612EE /* SequencerExpandBtnCell.m in Sources */,
+				E335CAFB1576592600A612EE /* SequencerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

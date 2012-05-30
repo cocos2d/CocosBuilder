@@ -367,12 +367,8 @@
 
 - (void) setSelectedNode:(CCNode*) selection
 {
-    NSLog(@"setSelectedNode: %@", selection);
-    
     if (![[self window] makeFirstResponder:[self window]])
     {
-        NSLog(@"Failed!!");
-        
         return;
     }
     

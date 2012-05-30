@@ -28,7 +28,7 @@
 
 @implementation CCBOutlineView
 
-- (void) gradientFillRect:(NSRect)rect
++ (void) gradientFillRect:(NSRect)rect
 {
     NSGradient* gradient = [[[NSGradient alloc]
                               initWithColorsAndLocations:[NSColor colorWithCalibratedRed:0.62 green:0.70 blue:0.80 alpha:1.0], (CGFloat)0.0,
@@ -61,7 +61,7 @@
         [[NSColor redColor] set];
         
         NSRectFill([self rectOfRow:selectedRow]);
-        [self gradientFillRect:[self rectOfRow:selectedRow]];
+        [CCBOutlineView gradientFillRect:[self rectOfRow:selectedRow]];
         
         selectedRow = [selectedRowIndexes indexGreaterThanIndex:selectedRow];
     }
