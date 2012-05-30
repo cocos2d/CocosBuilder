@@ -65,6 +65,7 @@
 #import "TaskStatusWindow.h"
 #import "PlayerController.h"
 #import "SequencerHandler.h"
+#import "MainWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -182,6 +183,11 @@
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
+- (void) setupSplitView
+{
+    splitView.delegate = self;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [self.window center];
@@ -198,10 +204,10 @@
     [window setDelegate:self];
     
     [self setupTabBar];
-    //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupSequenceHandler];
+    [self setupSplitView];
     [self updateInspectorFromSelection];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -420,6 +426,13 @@
         [guiView setSubviews:[NSArray array]];
         [[[CCBGlobals globals] cocosScene].notesLayer showAllNotesLabels];
     }
+}
+
+#pragma mark Split View Delegate
+
+-(void)splitViewWillResizeSubviews:(NSNotification *)notification
+{
+    [window disableUpdatesUntilFlush];
 }
 
 #pragma mark Populate Inspector

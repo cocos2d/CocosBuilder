@@ -37,6 +37,7 @@
 #import "CCBTransparentView.h"
 #import "PositionPropertySetter.h"
 #import "CCBGLView.h"
+#import "MainWindow.h"
 
 @implementation CocosScene
 

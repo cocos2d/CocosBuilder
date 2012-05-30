@@ -59,12 +59,14 @@ enum {
 @class CCBWarnings;
 @class PlayerController;
 @class SequencerHandler;
+@class MainWindow;
 
-@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
+@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
     // Cocos2D view
     IBOutlet CCBGLView* cocosView;
     IBOutlet NSView* mainView;
+    IBOutlet NSSplitView* splitView;
     
     // Inspector views
     IBOutlet NSScrollView* inspectorScroll;
@@ -139,11 +141,11 @@ enum {
     PlayerController* playerController;
     
 @private
-    NSWindow *window;
+    MainWindow *window;
     
 }
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet MainWindow *window;
 
 //@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 

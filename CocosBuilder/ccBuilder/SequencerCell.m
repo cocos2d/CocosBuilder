@@ -21,4 +21,11 @@
     [imgSeparator drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 1, 16) operation:NSCompositeSourceOver fraction:1];
 }
 
+- (NSUInteger)hitTestForEvent:(NSEvent *)event
+                       inRect:(NSRect)cellFrame
+                       ofView:(NSView *)controlView
+{
+    return 0;
+}
+
 @end
