@@ -36,6 +36,7 @@
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
 #import "PositionPropertySetter.h"
+#import "CCBGLView.h"
 
 @implementation CocosScene
 
@@ -503,7 +504,7 @@
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseDown:pos event:event]) return YES;
     if ([guideLayer mouseDown:pos event:event]) return YES;
@@ -574,7 +575,7 @@
     [self mouseMoved:event];
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
@@ -687,7 +688,7 @@
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseUp:pos event:event]) return YES;
     if ([guideLayer mouseUp:pos event:event]) return YES;
@@ -709,7 +710,7 @@
     if (!appDelegate.hasOpenedDocument) return;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     mousePos = pos;
 }

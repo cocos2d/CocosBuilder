@@ -58,6 +58,7 @@ enum {
 @class CCBPublisher;
 @class CCBWarnings;
 @class PlayerController;
+@class SequencerHandler;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
 {
@@ -83,6 +84,7 @@ enum {
     BOOL lockedScaleRatio;
     
     // Outline view heirarchy
+    SequencerHandler* sequenceHandler;
     IBOutlet NSOutlineView* outlineHierarchy;
     
     // Selections

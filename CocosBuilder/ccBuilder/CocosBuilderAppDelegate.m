@@ -64,6 +64,7 @@
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
 #import "PlayerController.h"
+#import "SequencerHandler.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -122,13 +123,9 @@
 	NSAssert( [NSThread currentThread] == [[CCDirector sharedDirector] runningThread], @"cocos2d shall run on the Main Thread. Compile CocosBuilder with CC_DIRECTOR_MAC_THREAD=2");
 }
 
-- (void) setupOutlineView
+- (void) setupSequenceHandler
 {
-    [outlineHierarchy setDataSource:self];
-    [outlineHierarchy setDelegate:self];
-    [outlineHierarchy reloadData];
-    
-    [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
+    sequenceHandler = [[SequencerHandler alloc] initWithOutlineView:outlineHierarchy];
 }
 
 - (void) setupTabBar
@@ -152,12 +149,6 @@
     [window setShowsToolbarButton:NO];
 }
 
-/*
-- (void) setupDefaultDocument
-{
-	//currentDocument = [[CCBDocument alloc] init];
-}*/
-
 - (void) setupPlayerController
 {
     self.playerController = [[[PlayerController alloc] init] autorelease];
@@ -178,6 +169,7 @@
 {
     NSRect frame = cocosView.frame;
     
+    frame.origin = [cocosView convertPoint:NSZeroPoint toView:NULL];
     frame.origin.x += self.window.frame.origin.x;
     frame.origin.y += self.window.frame.origin.y;
     
@@ -209,7 +201,7 @@
     //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
-    [self setupOutlineView];
+    [self setupSequenceHandler];
     [self updateInspectorFromSelection];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -302,6 +294,7 @@
     guiView.frame = NSMakeRect(0, 0, frame.size.width, frame.size.height);
     
     frame = cocosView.frame;
+    frame.origin = [cocosView convertPoint:NSZeroPoint toView:NULL];
     frame.origin.x += self.window.frame.origin.x;
     frame.origin.y += self.window.frame.origin.y;
     
@@ -372,6 +365,7 @@
 
 #pragma mark Handling the outline view
 
+/*
 - (void) updateOutlineViewSelection
 {
     if (!selectedNode)
@@ -396,17 +390,21 @@
     
     int row = (int)[outlineHierarchy rowForItem:selectedNode];
     [outlineHierarchy selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-}
+}*/
 
 - (void) setSelectedNode:(CCNode*) selection
 {
+    NSLog(@"setSelectedNode: %@", selection);
+    
     if (![[self window] makeFirstResponder:[self window]])
     {
+        NSLog(@"Failed!!");
+        
         return;
     }
     
     selectedNode = selection;
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     
     if (currentDocument) currentDocument.lastEditedProperty = NULL;
 }
@@ -416,6 +414,7 @@
     return selectedNode;
 }
 
+/*
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     
     if ([[CCBGlobals globals] rootNode] == NULL) return 0;
@@ -608,6 +607,7 @@
         }
     }
 }
+*/
 
 #pragma mark Window Delegate
 
@@ -907,10 +907,10 @@
     selectedNode = NULL;
     [g.cocosScene replaceRootNodeWith:loadedRoot];
     [outlineHierarchy reloadData];
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     [self updateInspectorFromSelection];
     
-    [self updateExpandedForNode:g.rootNode];
+    [sequenceHandler updateExpandedForNode:g.rootNode];
     
     // Setup guides
     id guides = [doc objectForKey:@"guides"];
@@ -1207,7 +1207,7 @@
     [g.cocosScene replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
     [outlineHierarchy reloadData];
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     [self updateInspectorFromSelection];
     
     self.currentDocument = [[[CCBDocument alloc] init] autorelease];
@@ -1471,7 +1471,7 @@
     [outlineHierarchy reloadData];
     
     selectedNode = NULL;
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
 }
 
 - (IBAction) delete:(id) sender

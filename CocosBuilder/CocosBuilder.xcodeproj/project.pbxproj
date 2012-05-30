@@ -125,6 +125,7 @@
 		E334069715517225000FBD0B /* InspectorFloatScale.xib in Resources */ = {isa = PBXBuildFile; fileRef = E334069615517225000FBD0B /* InspectorFloatScale.xib */; };
 		E334069B1551725F000FBD0B /* InspectorFloatScale.m in Sources */ = {isa = PBXBuildFile; fileRef = E334069A1551725F000FBD0B /* InspectorFloatScale.m */; };
 		E335CAEB15751C0D00A612EE /* seq-ctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */; };
+		E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF2157603C200A612EE /* SequencerHandler.m */; };
 		E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1981510B9DE009AE29A /* Sparkle.framework in Copy Files (Sparkle framework) */ = {isa = PBXBuildFile; fileRef = E33BC1961510B8D0009AE29A /* Sparkle.framework */; };
 		E33BC1B81510E4B6009AE29A /* NodeGraphPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */; };
@@ -909,6 +910,8 @@
 		E33406991551725F000FBD0B /* InspectorFloatScale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloatScale.h; sourceTree = "<group>"; };
 		E334069A1551725F000FBD0B /* InspectorFloatScale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloatScale.m; sourceTree = "<group>"; };
 		E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-ctrl-bg.png"; sourceTree = "<group>"; };
+		E335CAF1157603C200A612EE /* SequencerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerHandler.h; sourceTree = "<group>"; };
+		E335CAF2157603C200A612EE /* SequencerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerHandler.m; sourceTree = "<group>"; };
 		E33BC1961510B8D0009AE29A /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = libs/Sparkle.framework; sourceTree = "<group>"; };
 		E33BC1B61510E4B6009AE29A /* NodeGraphPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeGraphPropertySetter.h; sourceTree = "<group>"; };
 		E33BC1B71510E4B6009AE29A /* NodeGraphPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeGraphPropertySetter.m; sourceTree = "<group>"; };
@@ -1935,6 +1938,7 @@
 			children = (
 				776041E31498F5E80078095D /* AppDelegate & Cocos2D Scene */,
 				E346286C155C23100043EAB1 /* Rulers, Guides & Notes */,
+				E335CAED1576031B00A612EE /* Sequencer */,
 				E3C5C1A11504D144000CF6F3 /* Resource Manager */,
 				776041E11498F56D0078095D /* Application Settings & Globals */,
 				776041E01498F4A00078095D /* Document Readers & Writers */,
@@ -2147,6 +2151,15 @@
 				E32BBCB01561361200C58395 /* HashValue.m */,
 			);
 			name = HashValue;
+			sourceTree = "<group>";
+		};
+		E335CAED1576031B00A612EE /* Sequencer */ = {
+			isa = PBXGroup;
+			children = (
+				E335CAF1157603C200A612EE /* SequencerHandler.h */,
+				E335CAF2157603C200A612EE /* SequencerHandler.m */,
+			);
+			name = Sequencer;
 			sourceTree = "<group>";
 		};
 		E346286C155C23100043EAB1 /* Rulers, Guides & Notes */ = {
@@ -4015,6 +4028,7 @@
 				E3E0877F15669080008F1FDB /* JSCocoaFFIClosure.m in Sources */,
 				E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
+				E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
