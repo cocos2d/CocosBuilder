@@ -249,7 +249,7 @@
     self.snapToGuides = YES;
     self.showStickyNotes = YES;
     
-    
+    [self.window zoom:self];
     [self.window makeKeyWindow];
 }
 
