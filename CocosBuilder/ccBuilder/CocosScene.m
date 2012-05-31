@@ -38,6 +38,7 @@
 #import "PositionPropertySetter.h"
 #import "CCBGLView.h"
 #import "MainWindow.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CocosScene
 
@@ -237,6 +238,7 @@
 
 #pragma mark Extra properties
 
+/*
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
 {
     NodeInfo* info = node.userObject;
@@ -248,18 +250,18 @@
     NodeInfo* info = node.userObject;
     [info.extraProps setObject:val forKey:key];
 }
-
+*/
 
 - (void) setupExtraPropsForNode:(CCNode*) node
 {
-    [self setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"lockedScaleRatio" andNode:node];
+    [node setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag"];
+    [node setExtraProp:[NSNumber numberWithBool:YES] forKey:@"lockedScaleRatio"];
     
-    [self setExtraProp:@"" forKey:@"customClass" andNode:node];
-    [self setExtraProp:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType" andNode:node];
-    [self setExtraProp:@"" forKey:@"memberVarAssignmentName" andNode:node];
+    [node setExtraProp:@"" forKey:@"customClass"];
+    [node setExtraProp:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
+    [node setExtraProp:@"" forKey:@"memberVarAssignmentName"];
     
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded" andNode:node];
+    [node setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
 }
 
 #pragma mark Replacing content

@@ -28,6 +28,7 @@
 #import "CCBWriterInternal.h"
 #import "ResourceManager.h"
 #import "CCBFileUtil.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation TexturePropertySetter
 
@@ -135,17 +136,13 @@
         [node setValue:@"missing-font.fnt" forKey:prop];
     }
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     if (!fontFile || [fontFile isEqualToString:@""]) fontFile = @"missing-font.fnt";
-    [cs setExtraProp:fontFile forKey:prop andNode:node];
+    [node setExtraProp:fontFile forKey:prop];
 }
 
 + (NSString*) fontForNode:(CCNode*)node andProperty:(NSString*) prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* fntFile = [cs extraPropForKey:prop andNode:node];
+    NSString* fntFile = [node extraPropForKey:prop];
     if ([fntFile isEqualToString:@"missing-font.fnt"]) return NULL;
     return fntFile;
 }
@@ -162,15 +159,12 @@
     [node setValue:fullName forKey:prop];
     
     if (!fontName) fontName = @"";
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:fontName forKey:prop andNode:node];
+    [node setExtraProp:fontName forKey:prop];
 }
 
 + (NSString*) ttfForNode:(CCNode*)node andProperty:(NSString*) prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* fntFile = [cs extraPropForKey:prop andNode:node];
+    NSString* fntFile = [node extraPropForKey:prop];
     if ([fntFile isEqualToString:@""]) return NULL;
     return fntFile;
 }

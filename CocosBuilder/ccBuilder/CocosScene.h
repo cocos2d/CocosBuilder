@@ -128,9 +128,6 @@ enum {
 
 - (void) scrollWheel:(NSEvent *)theEvent;
 
-- (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
-- (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
-
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin;
 - (CGSize) stageSize;
 - (BOOL) centeredOrigin;

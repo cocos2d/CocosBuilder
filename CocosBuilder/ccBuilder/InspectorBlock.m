@@ -24,34 +24,31 @@
 
 #import "InspectorBlock.h"
 #import "CCBGlobals.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorBlock
 
 - (void) setSelector:(NSString *)selector
 {
     if (!selector) selector = @"";
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:selector forKey:propertyName andNode:selection];
+    [selection setExtraProp:selector forKey:propertyName];
 }
 
 - (NSString*) selector
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSString* sel = [cs extraPropForKey:propertyName andNode:selection];
+    NSString* sel = [selection extraPropForKey:propertyName];
     if (!sel) sel = @"";
     return sel;
 }
 
 - (void) setTarget:(int)target
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithInt:target] forKey:[NSString stringWithFormat:@"%@Target", propertyName] andNode:selection];
+    [selection setExtraProp:[NSNumber numberWithInt:target] forKey:[NSString stringWithFormat:@"%@Target", propertyName]];
 }
 
 - (int) target
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Target", propertyName] andNode:selection] intValue];
+    return [[selection extraPropForKey:[NSString stringWithFormat:@"%@Target", propertyName]] intValue];
 }
 
 @end

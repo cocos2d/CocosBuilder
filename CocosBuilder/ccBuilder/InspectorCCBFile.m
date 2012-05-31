@@ -31,15 +31,14 @@
 #import "CCBReaderInternal.h"
 #import "NodeGraphPropertySetter.h"
 #import "PositionPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorCCBFile
 
 - (void) willBeAdded
 {
     // Setup menu
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* sf = [cs extraPropForKey:propertyName andNode:selection];
+    NSString* sf = [selection extraPropForKey:propertyName];
     
     [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeCCBFile allowSpriteFrames:NO selectedFile:sf selectedSheet:NULL target:self];
 }
@@ -67,8 +66,7 @@
     // Set the properties and sprite frames
     if (ccbFile)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
-        [cs setExtraProp:ccbFile forKey:propertyName andNode:selection];
+        [selection setExtraProp:ccbFile forKey:propertyName];
         [NodeGraphPropertySetter setNodeGraphForNode:selection andProperty:propertyName withFile:ccbFile parentSize:[PositionPropertySetter getParentSize:selection]];
     }
     

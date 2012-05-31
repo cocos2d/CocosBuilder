@@ -28,15 +28,14 @@
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorTexture
 
 - (void) willBeAdded
 {
     // Setup menu
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* sf = [cs extraPropForKey:propertyName andNode:selection];
+    NSString* sf = [selection extraPropForKey:propertyName];
     
     [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeImage allowSpriteFrames:NO selectedFile:sf selectedSheet:NULL target:self];
 }
@@ -65,8 +64,7 @@
     // Set the properties and sprite frames
     if (sf)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
-        [cs setExtraProp:sf forKey:propertyName andNode:selection];
+        [selection setExtraProp:sf forKey:propertyName];
         [TexturePropertySetter setTextureForNode:selection andProperty:propertyName withFile:sf];
     }
     

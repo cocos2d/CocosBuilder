@@ -30,6 +30,7 @@
 #import "CCBDocument.h"
 #import "ResolutionSetting.h"
 #import "NodeGraphPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation PositionPropertySetter
 
@@ -200,16 +201,14 @@
 
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop parentSize:(CGSize)parentSize
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     NSPoint absPos = [PositionPropertySetter calcAbsolutePositionFromRelative:pos type:type parentSize:parentSize];
     
     // Set the position value
     [node setValue:[NSValue valueWithPoint:absPos] forKey:prop];
     
     // Set the extra properties
-    [cs setExtraProp:[NSValue valueWithPoint:pos] forKey:prop andNode:node];
-    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
+    [node setExtraProp:[NSValue valueWithPoint:pos] forKey:prop];
+    [node setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop]];
 }
 
 + (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop
@@ -227,14 +226,12 @@
 
 + (NSPoint) positionForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:prop andNode:node] pointValue];
+    return [[node extraPropForKey:prop] pointValue];
 }
 
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+    return [[node extraPropForKey:[NSString stringWithFormat:@"%@Type", prop]] intValue];
 }
 
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
@@ -244,8 +241,6 @@
 
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop parentSize:(CGSize)parentSize;
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     // Calculate absolute size
     NSSize absSize = NSMakeSize(0, 0);
     
@@ -278,8 +273,8 @@
     [node setValue:[NSValue valueWithSize:absSize] forKey:prop];
     
     // Set the extra properties
-    [cs setExtraProp:[NSValue valueWithSize:size] forKey:prop andNode:node];
-    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
+    [node setExtraProp:[NSValue valueWithSize:size] forKey:prop];
+    [node setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop]];
     
     [PositionPropertySetter refreshPositionsForChildren:node];
 }
@@ -334,8 +329,7 @@
 
 + (NSSize) sizeForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSValue* sizeValue = [cs extraPropForKey:prop andNode:node];
+    NSValue* sizeValue = [node extraPropForKey:prop];
     
     if (sizeValue) return [sizeValue sizeValue];
     else return [[node valueForKey:prop] sizeValue];
@@ -343,8 +337,7 @@
 
 + (int) sizeTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+    return [[node extraPropForKey:[NSString stringWithFormat:@"%@Type", prop]] intValue];
 }
 
 + (void) refreshSizeForNode:(CCNode*)node prop:(NSString*)prop
@@ -359,8 +352,6 @@
 
 + (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     int currentResolution = ad.currentDocument.currentResolution;
     ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
@@ -381,39 +372,32 @@
     [node setValue:[NSNumber numberWithFloat:absScaleX] forKey:[prop stringByAppendingString:@"X"]];
     [node setValue:[NSNumber numberWithFloat:absScaleY] forKey:[prop stringByAppendingString:@"Y"]];
     
-    [cs setExtraProp:[NSNumber numberWithFloat:scaleX] forKey:[prop stringByAppendingString:@"X"] andNode:node];
-    [cs setExtraProp:[NSNumber numberWithFloat:scaleY] forKey:[prop stringByAppendingString:@"Y"] andNode:node];
-    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node];
+    [node setExtraProp:[NSNumber numberWithFloat:scaleX] forKey:[prop stringByAppendingString:@"X"]];
+    [node setExtraProp:[NSNumber numberWithFloat:scaleY] forKey:[prop stringByAppendingString:@"Y"]];
+    [node setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop]];
 }
 
 + (float) scaleXForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSNumber* scale = [cs extraPropForKey:[prop stringByAppendingString:@"X"] andNode:node];
+    NSNumber* scale = [node extraPropForKey:[prop stringByAppendingString:@"X"]];
     if (!scale) return 1;
     return [scale floatValue];
 }
 
 + (float) scaleYForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSNumber* scale = [cs extraPropForKey:[prop stringByAppendingString:@"Y"] andNode:node];
+    NSNumber* scale = [node extraPropForKey:[prop stringByAppendingString:@"Y"]];
     if (!scale) return 1;
     return [scale floatValue];
 }
 
 + (int) scaledFloatTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+    return [[node extraPropForKey:[NSString stringWithFormat:@"%@Type", prop]] intValue];
 }
 
 + (void) setFloatScale:(float)f type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
     int currentResolution = ad.currentDocument.currentResolution;
     ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
@@ -426,23 +410,20 @@
     
     [node setValue:[NSNumber numberWithFloat:absF ] forKey:prop];
     
-    [cs setExtraProp:[NSNumber numberWithFloat:f] forKey:prop andNode:node];
-    [cs setExtraProp:[NSNumber numberWithInt:type] forKey:[prop stringByAppendingString:@"Type"] andNode:node];
+    [node setExtraProp:[NSNumber numberWithFloat:f] forKey:prop];
+    [node setExtraProp:[NSNumber numberWithInt:type] forKey:[prop stringByAppendingString:@"Type"]];
 }
 
 + (float) floatScaleForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSNumber* scale = [cs extraPropForKey:prop andNode:node];
+    NSNumber* scale = [node extraPropForKey:prop];
     if (!scale) return [[node valueForKey:prop] floatValue];
     return [scale floatValue];
 }
 
 + (int) floatScaleTypeForNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Type", prop] andNode:node] intValue];
+    return [[node extraPropForKey:[NSString stringWithFormat:@"%@Type", prop]] intValue];
 }
 
 @end

@@ -27,13 +27,10 @@
 #import "CCBWriterInternal.h"
 #import "CCBGlobals.h"
 #import <objc/runtime.h>
-//#import "CCNineSlice.h"
-//#import "CCButton.h"
-//#import "CCThreeSlice.h"
-
 #import "NodeInfo.h"
 #import "PlugInNode.h"
 #import "PlugInManager.h"
+#import "CCNode+NodeInfo.h"
 
 #import "TexturePropertySetter.h"
 
@@ -299,26 +296,18 @@
     
     
     [CCBReaderInternalV1 setExtraProp:[props objectForKey:@"spriteFile"] forKey:@"texture" andNode:node];
-    
-    //node.positionType = kCCPositionTypeGrouped;
 }
 
 + (CCNode*) ccObjectFromDictionary: (NSDictionary *)dict assetsDir:(NSString*)path owner:(NSObject*)owner root:(CCNode*) root
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     NSString* class = [dict objectForKey:@"class"];
     NSDictionary* props = [dict objectForKey:@"properties"];
     NSArray* children = [dict objectForKey:@"children"];
-    //NSString* customClass = [props objectForKey:@"customClass"];
-    //if (extraProps) customClass = NULL;
-    //NSString* customClass = @"";
     
     CCNode* node;
     if ([class isEqualToString:@"CCParticleSystem"])
     {
         node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCParticleSystemQuad"];
-        //node = [[PlugInManager sharedManager] createDefaultNodeOfType:@"CCNode"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForParticleSystem:(CCParticleSystem*)node props:props];
@@ -340,16 +329,16 @@
         if (!fileSheet || [fileSheet isEqualToString:@""]) fileSheet = kCCBUseRegularFile;
         
         [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"normalSpriteFrame" withFile:fileNor andSheetFile:fileSheet];
-        [cs setExtraProp:fileNor forKey:@"normalSpriteFrame" andNode:node];
-        [cs setExtraProp:fileSheet forKey:@"normalSpriteFrameSheet" andNode:node];
+        [node setExtraProp:fileNor forKey:@"normalSpriteFrame"];
+        [node setExtraProp:fileSheet forKey:@"normalSpriteFrameSheet"];
         
         [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"selectedSpriteFrame" withFile:fileSel andSheetFile:fileSheet];
-        [cs setExtraProp:fileSel forKey:@"selectedSpriteFrame" andNode:node];
-        [cs setExtraProp:fileSheet forKey:@"selectedSpriteFrameSheet" andNode:node];
+        [node setExtraProp:fileSel forKey:@"selectedSpriteFrame"];
+        [node setExtraProp:fileSheet forKey:@"selectedSpriteFrameSheet"];
         
         [TexturePropertySetter setSpriteFrameForNode:node andProperty:@"disabledSpriteFrame" withFile:fileDis andSheetFile:fileSheet];
-        [cs setExtraProp:fileDis forKey:@"disabledSpriteFrame" andNode:node];
-        [cs setExtraProp:fileSheet forKey:@"disabledSpriteFrameSheet" andNode:node];
+        [node setExtraProp:fileDis forKey:@"disabledSpriteFrame"];
+        [node setExtraProp:fileSheet forKey:@"disabledSpriteFrameSheet"];
         
         [CCBReaderInternalV1 setPropsForNode:node props:props];
         [CCBReaderInternalV1 setPropsForMenuItem:(CCMenuItem*)node props:props];

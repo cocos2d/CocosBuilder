@@ -114,21 +114,17 @@
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification
 {
     CCNode* node = [[notification userInfo] objectForKey:@"NSObject"];
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithBool:NO] forKey:@"isExpanded" andNode:node];
+    [node setExtraProp:[NSNumber numberWithBool:NO] forKey:@"isExpanded"];
 }
 
 - (void)outlineViewItemDidExpand:(NSNotification *)notification
 {
     CCNode* node = [[notification userInfo] objectForKey:@"NSObject"];
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded" andNode:node];
+    [node setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     if (item == nil) return @"Root";
     
     if ([tableColumn.identifier isEqualToString:@"sequencer"])
@@ -141,17 +137,17 @@
     
     // Get class name
     NSString* className = @"";
-    NSString* customClass = [cs extraPropForKey:@"customClass" andNode:item];
+    NSString* customClass = [node extraPropForKey:@"customClass"];
     if (customClass && ![customClass isEqualToString:@""]) className = customClass;
     else className = info.plugIn.nodeClassName;
     
     // Assignment name
-    NSString* assignmentName = [cs extraPropForKey:@"memberVarAssignmentName" andNode:item];
+    NSString* assignmentName = [node extraPropForKey:@"memberVarAssignmentName"];
     if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
     
     if ([item isKindOfClass:[CCMenuItemImage class]])
     {
-        NSString* textureName = [cs extraPropForKey:@"spriteFileNormal" andNode:item];
+        NSString* textureName = [node extraPropForKey:@"spriteFileNormal"];
         if (textureName && ![textureName isEqualToString:@""])
         {
             return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
@@ -276,11 +272,9 @@
 
 - (void) updateExpandedForNode:(CCNode*)node
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     if ([self outlineView:outlineHierarchy isItemExpandable:node])
     {
-        bool expanded = [[cs extraPropForKey:@"isExpanded" andNode:node] boolValue];
+        bool expanded = [[node extraPropForKey:@"isExpanded"] boolValue];
         if (expanded) [outlineHierarchy expandItem:node];
         else [outlineHierarchy collapseItem:node];
         
