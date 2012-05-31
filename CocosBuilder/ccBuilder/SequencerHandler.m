@@ -14,6 +14,7 @@
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
 #import "PositionPropertySetter.h"
+#import "SequencerExpandBtnCell.h"
 
 @implementation SequencerHandler
 
@@ -243,6 +244,20 @@
     return NO;
 }
 
+- (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    if ([tableColumn.identifier isEqualToString:@"expander"])
+    {
+        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        BOOL expanded = [[cs extraPropForKey:@"seqExpanded" andNode:item] boolValue];
+        
+        NSLog(@"willDisplayCell exp:%d",expanded);
+        
+        SequencerExpandBtnCell* expCell = cell;
+        expCell.isExpanded = expanded;
+    }
+}
+
 - (void) updateExpandedForNode:(CCNode*)node
 {
     CocosScene* cs = [[CCBGlobals globals] cocosScene];
@@ -260,6 +275,21 @@
             [self updateExpandedForNode:child];
         }
     }
+}
+
+- (void) toggleSeqExpanderForRow:(int)row
+{
+    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    
+    CCNode* node = [outlineHierarchy itemAtRow:row];
+    
+    BOOL exp = [[cs extraPropForKey:@"seqExpanded" andNode:node] boolValue];
+    exp = !exp;
+    [cs setExtraProp:[NSNumber numberWithBool:exp] forKey:@"seqExpanded" andNode:node];
+    
+    [outlineHierarchy reloadItem:node];
+    
+    NSLog(@"toggleExpand: %d row: %d",exp,row);
 }
 
 @end

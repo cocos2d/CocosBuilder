@@ -12,7 +12,9 @@
 {
     NSImage* imgExpand;
     
-    NSButtonCell* buttonCell;
-    NSRect buttonRect;
+    BOOL isExpanded;
 }
+
+@property (nonatomic,assign) BOOL isExpanded;
+
 @end

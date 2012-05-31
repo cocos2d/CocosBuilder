@@ -24,5 +24,6 @@
 - (id) initWithOutlineView:(NSOutlineView*)view;
 - (void) updateOutlineViewSelection;
 - (void) updateExpandedForNode:(CCNode*)node;
+- (void) toggleSeqExpanderForRow:(int)row;
 
 @end

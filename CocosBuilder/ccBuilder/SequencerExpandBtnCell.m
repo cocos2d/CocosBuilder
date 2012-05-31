@@ -9,6 +9,33 @@
 #import "SequencerExpandBtnCell.h"
 
 @implementation SequencerExpandBtnCell
+
+@synthesize isExpanded;
+
+- (void) awakeFromNib
+{
+    //[self setButtonType:NSRadioButton];
+}
+
+- (BOOL) trackMouse:(NSEvent *)theEvent
+             inRect:(NSRect)cellFrame
+             ofView:(NSView *)controlView
+       untilMouseUp:(BOOL)untilMouseUp
+{
+    NSPoint tempCoords = [controlView convertPoint: [theEvent locationInWindow] fromView: [[controlView window] contentView]];
+    
+    NSPoint mouseCoords = NSMakePoint(tempCoords.x - cellFrame.origin.x,
+                                      tempCoords.y  - cellFrame.origin.y);
+    
+    // Deal with the click however you need to here, for example in a slider cell you can use the mouse x
+    // coordinate to set the floatValue.
+    NSLog(@"mouseCoords: (%f,%f)", mouseCoords.x, mouseCoords.y);
+    
+    // Dragging won't work unless you still make the call to the super class...
+    return [super trackMouse: theEvent inRect: cellFrame ofView:
+            controlView untilMouseUp: untilMouseUp];
+}
+
 /*
 - (id) init
 {
@@ -22,17 +49,19 @@
     return self;
 }*/
 
+
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     if (!imgExpand)
     {
         imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
-        [imgExpand setFlipped:YES];
     }
     
+    [imgExpand setFlipped:!isExpanded];
     [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
 }
 
+/*
 
 - (NSUInteger)hitTestForEvent:(NSEvent *)event
                        inRect:(NSRect)cellFrame
@@ -71,6 +100,6 @@
     [[NSApplication sharedApplication] sendAction:self.action to:self.target from:controlView];
     // and, finally,
     [buttonCell setHighlighted:NO];
-}
+}*/
 
 @end

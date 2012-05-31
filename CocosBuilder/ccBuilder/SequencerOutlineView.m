@@ -41,6 +41,8 @@
     else if (column == [self columnWithIdentifier:@"expander"])
     {
         sh.dragAndDropEnabled = NO;
+        [sh toggleSeqExpanderForRow:(int)[self rowAtPoint:mouseLocationInTable]];
+        return;
     }
     else
     {
