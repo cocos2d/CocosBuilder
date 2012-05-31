@@ -147,5 +147,17 @@
     return NULL;
 }
 
+- (NSColor *)textColor
+{
+    if([self isHighlighted])
+    {
+        return [NSColor whiteColor];
+    }
+    else
+    {
+        return [NSColor blackColor];
+    }
+}
+
 @end
 
