@@ -36,10 +36,31 @@
     if (!imgExpand)
     {
         imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
+        [imgExpand setFlipped:YES];
+        [imgExpand retain];
+    }
+    if (!imgCollapse)
+    {
+        imgCollapse = [NSImage imageNamed:@"seq-btn-collapse.png"];
+        [imgCollapse setFlipped:YES];
+        [imgCollapse retain];
     }
     
-    [imgExpand setFlipped:!isExpanded];
-    [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+    if (isExpanded)
+    {
+        [imgCollapse drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+    }
+    else
+    {
+        [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+    }
+}
+
+- (void) dealloc
+{
+    [imgExpand release];
+    [imgCollapse release];
+    [super dealloc];
 }
 
 @end

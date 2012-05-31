@@ -11,6 +11,7 @@
 @interface SequencerExpandBtnCell : NSCell
 {
     NSImage* imgExpand;
+    NSImage* imgCollapse;
     
     BOOL isExpanded;
 }
