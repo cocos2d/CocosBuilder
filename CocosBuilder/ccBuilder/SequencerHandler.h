@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+#define kCCBSeqDefaultRowHeight 16
+
 @class CocosBuilderAppDelegate;
 
 @interface SequencerHandler : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>

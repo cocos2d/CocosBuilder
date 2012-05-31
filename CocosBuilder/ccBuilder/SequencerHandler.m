@@ -15,6 +15,7 @@
 #import "CCBReaderInternal.h"
 #import "PositionPropertySetter.h"
 #import "SequencerExpandBtnCell.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation SequencerHandler
 
@@ -244,17 +245,32 @@
     return NO;
 }
 
+- (CGFloat) outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+{
+    CCNode* node = item;
+    if (node.seqExpanded)
+    {
+        return kCCBSeqDefaultRowHeight * 5;
+    }
+    else
+    {
+        return kCCBSeqDefaultRowHeight;
+    }
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayOutlineCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+	[cell setImagePosition:NSImageAbove];
+}
+
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
-        BOOL expanded = [[cs extraPropForKey:@"seqExpanded" andNode:item] boolValue];
-        
-        NSLog(@"willDisplayCell exp:%d",expanded);
+        CCNode* node = item;
         
         SequencerExpandBtnCell* expCell = cell;
-        expCell.isExpanded = expanded;
+        expCell.isExpanded = node.seqExpanded;
     }
 }
 
@@ -279,17 +295,12 @@
 
 - (void) toggleSeqExpanderForRow:(int)row
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
     CCNode* node = [outlineHierarchy itemAtRow:row];
     
-    BOOL exp = [[cs extraPropForKey:@"seqExpanded" andNode:node] boolValue];
-    exp = !exp;
-    [cs setExtraProp:[NSNumber numberWithBool:exp] forKey:@"seqExpanded" andNode:node];
+    node.seqExpanded = !node.seqExpanded;
     
-    [outlineHierarchy reloadItem:node];
-    
-    NSLog(@"toggleExpand: %d row: %d",exp,row);
+    // Need to reload all data when changing heights of rows
+    [outlineHierarchy reloadData];
 }
 
 @end
