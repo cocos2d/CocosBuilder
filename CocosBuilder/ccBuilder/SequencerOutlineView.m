@@ -11,6 +11,14 @@
 
 @implementation SequencerOutlineView
 
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self setGridStyleMask:NSTableViewSolidHorizontalGridLineMask];
+    [self setGridColor:[NSColor colorWithDeviceRed:0.85 green:0.85 blue:0.85 alpha:1]];
+}
+
 // Disable draggging of rows for expander and sequencer column
 - (void)mouseDown:(NSEvent *)theEvent
 {
@@ -40,6 +48,14 @@
     }
     
     [super mouseDown: theEvent];
+}
+
+- (void)drawGridInClipRect:(NSRect)clipRect
+{
+    NSRect lastRowRect = [self rectOfRow:[self numberOfRows]-1];
+    NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
+    NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
+    [super drawGridInClipRect:finalClipRect];
 }
 
 @end
