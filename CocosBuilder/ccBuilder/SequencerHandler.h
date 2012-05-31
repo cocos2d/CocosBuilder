@@ -14,8 +14,12 @@
 @interface SequencerHandler : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
     NSOutlineView* outlineHierarchy;
+    BOOL dragAndDropEnabled;
+    
     CocosBuilderAppDelegate* appDelegate;
 }
+
+@property (nonatomic,assign) BOOL dragAndDropEnabled;
 
 - (id) initWithOutlineView:(NSOutlineView*)view;
 - (void) updateOutlineViewSelection;

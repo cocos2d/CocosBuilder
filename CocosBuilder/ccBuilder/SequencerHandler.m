@@ -17,6 +17,8 @@
 
 @implementation SequencerHandler
 
+@synthesize dragAndDropEnabled;
+
 - (id) initWithOutlineView:(NSOutlineView*)view
 {
     self = [super init];
@@ -160,6 +162,8 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
 {
+    if (!dragAndDropEnabled) return NO;
+    
     CCBGlobals* g = [CCBGlobals globals];
     
     CCNode* draggedNode = [items objectAtIndex:0];
