@@ -31,7 +31,7 @@
 
 - (void) setPosX:(float)posX
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
 	NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.x = posX;
@@ -47,7 +47,7 @@
 
 - (void) setPosY:(float)posY
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     NSPoint pt = [PositionPropertySetter positionForNode:selection prop:propertyName];
     pt.y = posY;
@@ -63,7 +63,7 @@
 
 - (void) setPositionType:(int)positionType
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [PositionPropertySetter setPositionType:positionType forNode:selection prop:propertyName];
     [self refresh];

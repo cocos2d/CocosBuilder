@@ -88,7 +88,14 @@
 @synthesize showStickyNotes;
 @synthesize playerController;
 
+static CocosBuilderAppDelegate* sharedAppDelegate;
+
 #pragma mark Setup functions
+
++ (CocosBuilderAppDelegate*) appDelegate
+{
+    return sharedAppDelegate;
+}
 
 - (void) setupInspectorPane
 {
@@ -192,7 +199,7 @@
 {
     [self.window center];
     
-    [[CCBGlobals globals] setAppDelegate:self];
+    sharedAppDelegate = self;
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
     
@@ -805,7 +812,7 @@
         [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
         
         // Notify the user
-        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
+        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
     }
 }
 
@@ -818,7 +825,7 @@
         [self closeProject];
         
         // Notify the user
-        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
+        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
     }
 }
 

@@ -26,7 +26,7 @@
     self = [super init];
     if (!self) return NULL;
     
-    appDelegate = [[CCBGlobals globals] appDelegate];
+    appDelegate = [CocosBuilderAppDelegate appDelegate];
     outlineHierarchy = view;
     
     [outlineHierarchy setDataSource:self];

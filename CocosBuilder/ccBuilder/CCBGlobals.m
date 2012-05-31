@@ -32,7 +32,6 @@
 @synthesize rootNode;
 @synthesize numRuns;
 @synthesize hasDonated;
-@synthesize appDelegate;
 
 + (CCBGlobals*) globals
 {

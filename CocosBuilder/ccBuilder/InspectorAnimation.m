@@ -43,7 +43,7 @@
 
 - (void) selectedResource:(id)sender
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     id item = [sender representedObject];
     

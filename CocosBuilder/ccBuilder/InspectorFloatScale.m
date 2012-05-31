@@ -31,7 +31,7 @@
 
 - (void) setF:(float)f
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [PositionPropertySetter setFloatScale:f type:[PositionPropertySetter floatScaleTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
     
@@ -50,7 +50,7 @@
 
 - (void) setType:(int)type
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [PositionPropertySetter setFloatScale:[PositionPropertySetter floatScaleForNode:selection prop:propertyName] type: type forNode:selection prop:propertyName];
     

@@ -179,6 +179,8 @@ enum {
 - (void) refreshProperty:(NSString*) name;
 
 // Methods
++ (CocosBuilderAppDelegate*) appDelegate;
+
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;

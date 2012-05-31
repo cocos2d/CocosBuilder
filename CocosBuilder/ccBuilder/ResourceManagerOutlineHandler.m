@@ -323,7 +323,7 @@
         RMResource* res = (RMResource*) item;
         if (res.type == kCCBResTypeCCBFile)
         {
-            [[[CCBGlobals globals] appDelegate] openFile: res.filePath];
+            [[CocosBuilderAppDelegate appDelegate] openFile: res.filePath];
         }
     }
     

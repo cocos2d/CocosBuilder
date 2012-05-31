@@ -32,7 +32,7 @@
 
 + (NSString*) toResolutionIndependentFile:(NSString*)file
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     if (!ad.currentDocument)
     {

@@ -121,7 +121,7 @@
     if (!self.visible) return NO;
     
     CocosScene* cs = [CocosScene cocosScene];
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     int g = kCCBGuideNone;
     

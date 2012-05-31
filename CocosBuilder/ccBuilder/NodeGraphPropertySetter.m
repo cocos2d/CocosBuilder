@@ -38,7 +38,7 @@
     
     if (ccbFileName && ![ccbFileName isEqualToString:@""])
     {
-        CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
         // Get absolut file path to ccb file
         NSString* ccbFileNameAbs = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];

@@ -33,7 +33,7 @@
 
 - (void) setScaleX:(float)scaleX
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
     float scaleY = 0;
@@ -60,7 +60,7 @@
 
 - (void) setScaleY:(float)scaleY
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
     float scaleX = 0;
@@ -92,7 +92,7 @@
 
 - (void) setLocked:(BOOL)locked
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setExtraProp:[NSNumber numberWithBool:locked] forKey:[propertyName stringByAppendingString:@"Lock"]];
     

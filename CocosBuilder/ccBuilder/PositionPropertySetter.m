@@ -352,7 +352,7 @@
 
 + (void) setScaledX:(float)scaleX Y:(float)scaleY type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     int currentResolution = ad.currentDocument.currentResolution;
     ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
     
@@ -398,7 +398,7 @@
 
 + (void) setFloatScale:(float)f type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     int currentResolution = ad.currentDocument.currentResolution;
     ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
     
