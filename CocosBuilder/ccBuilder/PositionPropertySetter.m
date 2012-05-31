@@ -36,7 +36,7 @@
 
 + (CGSize) getParentSize:(CCNode*) node
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     // Get parent size
     CGSize parentSize;
@@ -97,7 +97,7 @@
 
 + (void) refreshAllPositions
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     // Update root position
     [PositionPropertySetter setPosition:[PositionPropertySetter positionForNode:cs.rootNode prop:@"position"] forNode:cs.rootNode prop:@"position"];

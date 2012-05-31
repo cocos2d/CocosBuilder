@@ -212,7 +212,7 @@
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
     
@@ -395,7 +395,7 @@
 {
     if (notification.object == self.window)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        CocosScene* cs = [CocosScene cocosScene];
     
         if (![[CCDirector sharedDirector] isPaused])
         {
@@ -409,7 +409,7 @@
 {
     if (notification.object == self.window)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        CocosScene* cs = [CocosScene cocosScene];
     
         if ([[CCDirector sharedDirector] isPaused])
         {
@@ -424,7 +424,7 @@
     if (notification.object == guiWindow)
     {
         [guiView setSubviews:[NSArray array]];
-        [[[CCBGlobals globals] cocosScene].notesLayer showAllNotesLabels];
+        [[CocosScene cocosScene].notesLayer showAllNotesLabels];
     }
 }
 
@@ -596,11 +596,11 @@
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
-    [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
+    [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
     // Guides & notes
-    [dict setObject:[[g cocosScene].guideLayer serializeGuides] forKey:@"guides"];
-    [dict setObject:[[g cocosScene].notesLayer serializeNotes] forKey:@"notes"];
+    [dict setObject:[[CocosScene cocosScene].guideLayer serializeGuides] forKey:@"guides"];
+    [dict setObject:[[CocosScene cocosScene].notesLayer serializeNotes] forKey:@"notes"];
     
     // Resolutions
     if (doc.resolutions)
@@ -628,8 +628,7 @@
 {
     [self.window makeKeyWindow];
     [self setSelectedNode:NULL];
-    CCBGlobals* g = [CCBGlobals globals];
-    CocosScene* cs = [g cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     
     if (![self hasOpenedDocument]) return;
@@ -659,7 +658,7 @@
         ResolutionSetting* resolution = [resolutions objectAtIndex:currentResolution];
         
         // Update CocosScene
-        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
+        [[CocosScene cocosScene] setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
         
         // Save in current document
         currentDocument.resolutions = resolutions;
@@ -671,7 +670,7 @@
         int stageW = [[doc objectForKey:@"stageWidth"] intValue];
         int stageH = [[doc objectForKey:@"stageHeight"] intValue];
         
-        [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
+        [[CocosScene cocosScene] setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
         
         // Setup a basic resolution and attach it to the current document
         ResolutionSetting* resolution = [[[ResolutionSetting alloc] init] autorelease];
@@ -692,7 +691,7 @@
     
     // Replace open document
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:loadedRoot];
+    [[CocosScene cocosScene] replaceRootNodeWith:loadedRoot];
     [outlineHierarchy reloadData];
     [sequenceHandler updateOutlineViewSelection];
     [self updateInspectorFromSelection];
@@ -703,22 +702,22 @@
     id guides = [doc objectForKey:@"guides"];
     if (guides)
     {
-        [g.cocosScene.guideLayer loadSerializedGuides:guides];
+        [[CocosScene cocosScene].guideLayer loadSerializedGuides:guides];
     }
     else
     {
-        [g.cocosScene.guideLayer removeAllGuides];
+        [[CocosScene cocosScene].guideLayer removeAllGuides];
     }
     
     // Setup notes
     id notes = [doc objectForKey:@"notes"];
     if (notes)
     {
-        [g.cocosScene.notesLayer loadSerializedNotes:notes];
+        [[CocosScene cocosScene].notesLayer loadSerializedNotes:notes];
     }
     else
     {
-        [g.cocosScene.notesLayer removeAllNotes];
+        [[CocosScene cocosScene].notesLayer removeAllNotes];
     }
 }
 
@@ -737,7 +736,7 @@
     [self updateResolutionMenu];
     [self updateStateOriginCenteredMenu];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageZoom:document.stageZoom];
     [cs setScrollOffset:document.stageScrollOffset];
 }
@@ -754,15 +753,14 @@
 
 - (void) closeLastDocument
 {
-    CCBGlobals* g = [CCBGlobals globals];
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:NULL];
+    [[CocosScene cocosScene] replaceRootNodeWith:NULL];
     currentDocument.docData = NULL;
     currentDocument.fileName = NULL;
-    [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
-    [g.cocosScene.guideLayer removeAllGuides];
-    [g.cocosScene.notesLayer removeAllNotes];
-    [g.cocosScene.rulerLayer mouseExited:NULL];
+    [[CocosScene cocosScene] setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
+    [[CocosScene cocosScene].guideLayer removeAllGuides];
+    [[CocosScene cocosScene].notesLayer removeAllNotes];
+    [[CocosScene cocosScene].rulerLayer mouseExited:NULL];
     self.currentDocument = NULL;
     
     [outlineHierarchy reloadData];
@@ -985,13 +983,12 @@
     
     [self prepareForDocumentSwitch];
     
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene.notesLayer removeAllNotes];
+    [[CocosScene cocosScene].notesLayer removeAllNotes];
     
     selectedNode = NULL;
-    [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
+    [[CocosScene cocosScene] setStageSize:stageSize centeredOrigin:origin];
     
-    [g.cocosScene replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
+    [[CocosScene cocosScene] replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
     [outlineHierarchy reloadData];
     [sequenceHandler updateOutlineViewSelection];
@@ -1010,8 +1007,8 @@
     
     [self updateStateOriginCenteredMenu];
     
-    [[g cocosScene] setStageZoom:1];
-    [[g cocosScene] setScrollOffset:ccp(0,0)];
+    [[CocosScene cocosScene] setStageZoom:1];
+    [[CocosScene cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
 }
@@ -1174,7 +1171,7 @@
     // Sprite dropped in working canvas
     
     CCNode* node = selectedNode;
-    if (!node) node = [[CCBGlobals globals] cocosScene].rootNode;
+    if (!node) node = [CocosScene cocosScene].rootNode;
     
     CCNode* parent = node.parent;
     NodeInfo* info = parent.userObject;
@@ -1574,8 +1571,7 @@
 
 - (IBAction) menuSelectBehind:(id)sender
 {
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene selectBehind];
+    [[CocosScene cocosScene] selectBehind];
 }
 
 - (IBAction) menuDeselect:(id)sender
@@ -1608,7 +1604,7 @@
 
 - (void) setResolution:(int)r
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
     currentDocument.currentResolution = r;
@@ -1647,7 +1643,7 @@
 
 - (void) updateStateOriginCenteredMenu
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     BOOL centered = [cs centeredOrigin];
     
     if (centered) [menuItemStageCentered setState:NSOnState];
@@ -1656,7 +1652,7 @@
 
 - (IBAction) menuSetStateOriginCentered:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     BOOL centered = ![cs centeredOrigin];
     
     [self saveUndoState];
@@ -1667,14 +1663,14 @@
 
 - (void) updateCanvasBorderMenu
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     int tag = [cs stageBorder];
     [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasBorder tag:tag];
 }
 
 - (IBAction) menuSetCanvasBorder:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     int tag = (int)[sender tag];
     [cs setStageBorder:tag];
@@ -1683,7 +1679,7 @@
 
 - (IBAction) menuZoomIn:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
     zoom *= 2;
@@ -1693,7 +1689,7 @@
 
 - (IBAction) menuZoomOut:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
     zoom *= 0.5f;
@@ -1703,7 +1699,7 @@
 
 - (IBAction) menuResetView:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     cs.scrollOffset = ccp(0,0);
     [cs setStageZoom:1];
 }
@@ -1719,7 +1715,7 @@
 
 - (IBAction) pressedToolSelection:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     NSSegmentedControl* sc = sender;
     
     cs.currentTool = [sc selectedSegment];
@@ -1813,7 +1809,7 @@
 
 - (IBAction)menuAddStickyNote:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageZoom:1];
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];

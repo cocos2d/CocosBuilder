@@ -107,8 +107,7 @@
 {
     appDelegate.selectedNode = [outlineHierarchy itemAtRow:[outlineHierarchy selectedRow]];
     [appDelegate updateInspectorFromSelection];
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene setSelectedNode:appDelegate.selectedNode];
+    [[CocosScene cocosScene] setSelectedNode:appDelegate.selectedNode];
 }
 
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification

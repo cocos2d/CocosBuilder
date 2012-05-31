@@ -40,9 +40,17 @@
 #import "MainWindow.h"
 #import "CCNode+NodeInfo.h"
 
+static CocosScene* sharedCocosScene;
+
 @implementation CocosScene
 
-@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool, guideLayer, rulerLayer, notesLayer;
+@synthesize rootNode;
+@synthesize isMouseTransforming;
+@synthesize scrollOffset;
+@synthesize currentTool;
+@synthesize guideLayer;
+@synthesize rulerLayer;
+@synthesize notesLayer;
 
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app
 {
@@ -51,13 +59,18 @@
 	
 	// 'layer' is an autorelease object.
 	CocosScene *layer = [[[CocosScene alloc] initWithAppDelegate:app] autorelease];
-    [[CCBGlobals globals] setCocosScene:layer];
+    sharedCocosScene = layer;
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
 	// return the scene
 	return scene;
+}
+
++ (CocosScene*) cocosScene
+{
+    return sharedCocosScene;
 }
 
 -(void) setupEditorNodes
