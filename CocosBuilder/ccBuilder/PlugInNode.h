@@ -43,6 +43,8 @@
     NSString* positionProperty;
     NSString* requireParentClass;
     NSArray* requireChildClass;
+    
+    NSArray* cachedAnimatableProperties;
 }
 
 @property (nonatomic,readonly) NSString* nodeClassName;
@@ -58,6 +60,7 @@
 @property (nonatomic,readonly) NSString* requireParentClass;
 @property (nonatomic,readonly) NSArray* requireChildClass;
 @property (nonatomic,readonly) NSString* positionProperty;
+@property (nonatomic,readonly) NSArray* animatableProperties;
 - (BOOL) dontSetInEditorProperty: (NSString*) prop;
 
 - (id) initWithBundle:(NSBundle*) b;

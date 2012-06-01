@@ -246,7 +246,7 @@
     CCNode* node = item;
     if (node.seqExpanded)
     {
-        return kCCBSeqDefaultRowHeight * 5;
+        return kCCBSeqDefaultRowHeight * ([node.plugIn.animatableProperties count] + 1);
     }
     else
     {
@@ -271,7 +271,7 @@
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
         SequencerStructureCell* strCell = cell;
-        strCell.isExapanded = node.seqExpanded;
+        strCell.node = node;
     }
 }
 

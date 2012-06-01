@@ -8,6 +8,7 @@
 
 #import "CCNode+NodeInfo.h"
 #import "NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -31,6 +32,12 @@
 - (BOOL) seqExpanded
 {
     return [[self extraPropForKey:@"seqExpanded"] boolValue];
+}
+
+- (PlugInNode*) plugIn
+{
+    NodeInfo* info = self.userObject;
+    return info.plugIn;
 }
 
 @end

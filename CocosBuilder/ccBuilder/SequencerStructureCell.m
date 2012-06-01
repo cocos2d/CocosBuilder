@@ -7,16 +7,19 @@
 //
 
 #import "SequencerStructureCell.h"
+#import "CCNode+NodeInfo.h"
+#import "PlugInNode.h"
+#import "SequencerHandler.h"
 
 @implementation SequencerStructureCell
 
-@synthesize isExapanded;
+@synthesize node;
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     // Only draw property names if cell is expanded
-    if (isExapanded)
-    {
+    if ([node seqExpanded])
+    {   
         // Color
         NSColor* textColor = [[self textColor] colorWithAlphaComponent:0.6];
         
@@ -33,14 +36,31 @@
         [attrib setObject:style forKey:NSParagraphStyleAttributeName];
         [attrib setObject:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
         [attrib setObject:textColor forKey:NSForegroundColorAttributeName];
-    
+        
         // Draw property names
-        [@"Position" drawInRect:propNameRect withAttributes:attrib];
+        [@"Visible" drawInRect:propNameRect withAttributes:attrib];
+        
+        NSArray* props = node.plugIn.animatableProperties;
+        
+        for (NSString* prop in props)
+        {
+            NSString* displayName = [[node.plugIn.nodePropertiesDict objectForKey:prop] objectForKey:@"displayName"];
+            
+            propNameRect.origin.y += kCCBSeqDefaultRowHeight;
+            [displayName drawInRect:propNameRect withAttributes:attrib];
+        }
     
-        cellFrame.size.width = cellFrame.size.width - 55; // Leave space for property name
+        // Leave space for property name when drawing name in super method
+        cellFrame.size.width = cellFrame.size.width - 55;
     }
     
     [super drawWithFrame:cellFrame inView:controlView];
+}
+
+- (void) dealloc
+{
+    //self.node = NULL;
+    [super dealloc];
 }
 
 @end

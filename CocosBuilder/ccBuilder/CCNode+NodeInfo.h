@@ -8,9 +8,12 @@
 
 #import "cocos2d.h"
 
+@class PlugInNode;
+
 @interface CCNode (NodeInfo)
 
-@property BOOL seqExpanded;
+@property (nonatomic,assign) BOOL seqExpanded;
+@property (nonatomic,readonly) PlugInNode* plugIn;
 
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;

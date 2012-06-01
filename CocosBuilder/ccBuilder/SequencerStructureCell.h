@@ -7,12 +7,13 @@
 //
 
 #import "CCBTextFieldCell.h"
+#import "cocos2d.h"
 
 @interface SequencerStructureCell : CCBTextFieldCell
 {
-    BOOL isExpanded;
+    CCNode* node;
 }
 
-@property (nonatomic,assign) BOOL isExapanded;
+@property (nonatomic,assign) CCNode* node;
 
 @end
