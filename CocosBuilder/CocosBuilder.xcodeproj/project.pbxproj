@@ -535,6 +535,18 @@
 		E3E08798156A664D008F1FDB /* json.js in Resources */ = {isa = PBXBuildFile; fileRef = E3E0877315669080008F1FDB /* json.js */; };
 		E3E0879F156A77CB008F1FDB /* ConsoleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */; };
 		E3E087A2156A7846008F1FDB /* ConsoleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E087A1156A7846008F1FDB /* ConsoleWindow.m */; };
+		E3E8B4871578F8F800373983 /* SequencerTimelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E8B4861578F8F800373983 /* SequencerTimelineView.m */; };
+		E3E8B48A1578FEB100373983 /* seq-tl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B4891578FEB100373983 /* seq-tl-bg.png */; };
+		E3E8B48E15791FFB00373983 /* seq-tl-mark-major.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B48B15791FFB00373983 /* seq-tl-mark-major.png */; };
+		E3E8B48F15791FFB00373983 /* seq-tl-mark-minor.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B48C15791FFB00373983 /* seq-tl-mark-minor.png */; };
+		E3E8B49015791FFB00373983 /* seq-tl-mark-origin.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B48D15791FFB00373983 /* seq-tl-mark-origin.png */; };
+		E3E8B4921579326A00373983 /* seq-timedisplay-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B4911579326A00373983 /* seq-timedisplay-bg.png */; };
+		E3E8B49915793AF800373983 /* seq-btn-play.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49315793AF800373983 /* seq-btn-play.png */; };
+		E3E8B49A15793AF800373983 /* seq-btn-restart.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49415793AF800373983 /* seq-btn-restart.png */; };
+		E3E8B49B15793AF800373983 /* seq-btn-run.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49515793AF800373983 /* seq-btn-run.png */; };
+		E3E8B49C15793AF800373983 /* seq-btn-stepback.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49615793AF800373983 /* seq-btn-stepback.png */; };
+		E3E8B49D15793AF800373983 /* seq-btn-stepforward.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49715793AF800373983 /* seq-btn-stepforward.png */; };
+		E3E8B49E15793AF800373983 /* seq-btn-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B49815793AF800373983 /* seq-btn-stop.png */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -1429,6 +1441,19 @@
 		E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleWindow.xib; sourceTree = "<group>"; };
 		E3E087A0156A7846008F1FDB /* ConsoleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleWindow.h; sourceTree = "<group>"; };
 		E3E087A1156A7846008F1FDB /* ConsoleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleWindow.m; sourceTree = "<group>"; };
+		E3E8B4851578F8F800373983 /* SequencerTimelineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerTimelineView.h; sourceTree = "<group>"; };
+		E3E8B4861578F8F800373983 /* SequencerTimelineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerTimelineView.m; sourceTree = "<group>"; };
+		E3E8B4891578FEB100373983 /* seq-tl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-tl-bg.png"; sourceTree = "<group>"; };
+		E3E8B48B15791FFB00373983 /* seq-tl-mark-major.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-tl-mark-major.png"; sourceTree = "<group>"; };
+		E3E8B48C15791FFB00373983 /* seq-tl-mark-minor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-tl-mark-minor.png"; sourceTree = "<group>"; };
+		E3E8B48D15791FFB00373983 /* seq-tl-mark-origin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-tl-mark-origin.png"; sourceTree = "<group>"; };
+		E3E8B4911579326A00373983 /* seq-timedisplay-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-timedisplay-bg.png"; sourceTree = "<group>"; };
+		E3E8B49315793AF800373983 /* seq-btn-play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-play.png"; sourceTree = "<group>"; };
+		E3E8B49415793AF800373983 /* seq-btn-restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-restart.png"; sourceTree = "<group>"; };
+		E3E8B49515793AF800373983 /* seq-btn-run.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-run.png"; sourceTree = "<group>"; };
+		E3E8B49615793AF800373983 /* seq-btn-stepback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stepback.png"; sourceTree = "<group>"; };
+		E3E8B49715793AF800373983 /* seq-btn-stepforward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stepforward.png"; sourceTree = "<group>"; };
+		E3E8B49815793AF800373983 /* seq-btn-stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-stop.png"; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -1855,6 +1880,17 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E3E8B49315793AF800373983 /* seq-btn-play.png */,
+				E3E8B49415793AF800373983 /* seq-btn-restart.png */,
+				E3E8B49515793AF800373983 /* seq-btn-run.png */,
+				E3E8B49615793AF800373983 /* seq-btn-stepback.png */,
+				E3E8B49715793AF800373983 /* seq-btn-stepforward.png */,
+				E3E8B49815793AF800373983 /* seq-btn-stop.png */,
+				E3E8B4911579326A00373983 /* seq-timedisplay-bg.png */,
+				E3E8B48B15791FFB00373983 /* seq-tl-mark-major.png */,
+				E3E8B48C15791FFB00373983 /* seq-tl-mark-minor.png */,
+				E3E8B48D15791FFB00373983 /* seq-tl-mark-origin.png */,
+				E3E8B4891578FEB100373983 /* seq-tl-bg.png */,
 				E335CB0B1577D64C00A612EE /* seq-btn-collapse.png */,
 				E335CAFC15765BB700A612EE /* seq-vseparator.png */,
 				E335CAF715764E6B00A612EE /* seq-btn-expand.png */,
@@ -2201,6 +2237,8 @@
 				E335CB021577838800A612EE /* SequencerOutlineView.m */,
 				E335CB0D1578C2C600A612EE /* SequencerStructureCell.h */,
 				E335CB0E1578C2C600A612EE /* SequencerStructureCell.m */,
+				E3E8B4851578F8F800373983 /* SequencerTimelineView.h */,
+				E3E8B4861578F8F800373983 /* SequencerTimelineView.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -3685,6 +3723,17 @@
 				E335CAF815764E6B00A612EE /* seq-btn-expand.png in Resources */,
 				E335CAFD15765BB700A612EE /* seq-vseparator.png in Resources */,
 				E335CB0C1577D64C00A612EE /* seq-btn-collapse.png in Resources */,
+				E3E8B48A1578FEB100373983 /* seq-tl-bg.png in Resources */,
+				E3E8B48E15791FFB00373983 /* seq-tl-mark-major.png in Resources */,
+				E3E8B48F15791FFB00373983 /* seq-tl-mark-minor.png in Resources */,
+				E3E8B49015791FFB00373983 /* seq-tl-mark-origin.png in Resources */,
+				E3E8B4921579326A00373983 /* seq-timedisplay-bg.png in Resources */,
+				E3E8B49915793AF800373983 /* seq-btn-play.png in Resources */,
+				E3E8B49A15793AF800373983 /* seq-btn-restart.png in Resources */,
+				E3E8B49B15793AF800373983 /* seq-btn-run.png in Resources */,
+				E3E8B49C15793AF800373983 /* seq-btn-stepback.png in Resources */,
+				E3E8B49D15793AF800373983 /* seq-btn-stepforward.png in Resources */,
+				E3E8B49E15793AF800373983 /* seq-btn-stop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4091,6 +4140,7 @@
 				E335CB061577995F00A612EE /* CCBSplitView.m in Sources */,
 				E335CB0A1577C5FB00A612EE /* CCNode+NodeInfo.m in Sources */,
 				E335CB0F1578C2C600A612EE /* SequencerStructureCell.m in Sources */,
+				E3E8B4871578F8F800373983 /* SequencerTimelineView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

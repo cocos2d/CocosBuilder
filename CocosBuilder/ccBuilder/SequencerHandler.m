@@ -18,14 +18,20 @@
 #import "SequencerStructureCell.h"
 #import "CCNode+NodeInfo.h"
 
+static SequencerHandler* sharedSequencerHandler;
+
 @implementation SequencerHandler
 
 @synthesize dragAndDropEnabled;
+@synthesize timelineScale;
+@synthesize timelineOffset;
 
 - (id) initWithOutlineView:(NSOutlineView*)view
 {
     self = [super init];
     if (!self) return NULL;
+    
+    sharedSequencerHandler = self;
     
     appDelegate = [CocosBuilderAppDelegate appDelegate];
     outlineHierarchy = view;
@@ -36,7 +42,16 @@
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
     
+    // Set default values for timeline scale & offset
+    timelineScale = kCCBDefaultTimelineScale;
+    timelineOffset = 0;
+    
     return self;
+}
+
++ (SequencerHandler*) sharedHandler
+{
+    return sharedSequencerHandler;
 }
 
 - (void) updateOutlineViewSelection
