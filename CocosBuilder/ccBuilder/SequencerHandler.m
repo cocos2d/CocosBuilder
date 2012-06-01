@@ -15,6 +15,7 @@
 #import "CCBReaderInternal.h"
 #import "PositionPropertySetter.h"
 #import "SequencerExpandBtnCell.h"
+#import "SequencerStructureCell.h"
 #import "CCNode+NodeInfo.h"
 
 @implementation SequencerHandler
@@ -260,12 +261,17 @@
 
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
+    CCNode* node = item;
+    
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
-        CCNode* node = item;
-        
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
+    }
+    else if ([tableColumn.identifier isEqualToString:@"structure"])
+    {
+        SequencerStructureCell* strCell = cell;
+        strCell.isExapanded = node.seqExpanded;
     }
 }
 
