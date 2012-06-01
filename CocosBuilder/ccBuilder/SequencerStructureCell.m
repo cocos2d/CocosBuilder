@@ -23,9 +23,9 @@
         // Color
         NSColor* textColor = [[self textColor] colorWithAlphaComponent:0.6];
         
-        // Dimensions
+        // Dimensions (spacing from right side)
         NSRect propNameRect = cellFrame;
-        propNameRect.size.width -= 5; // Spacing from right side
+        propNameRect.size.width -= 5; 
     
         // Right alignment
         NSMutableParagraphStyle *style = [[[NSMutableParagraphStyle alloc] init] autorelease];
