@@ -9,5 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SequencerTimelineView : NSView
-
+{
+    NSImage* imgBg;
+    NSImage* imgMarkMajor;
+    NSImage* imgMarkMinor;
+    NSImage* imgNumbers;
+    NSRect numberRects[10];
+}
 @end
