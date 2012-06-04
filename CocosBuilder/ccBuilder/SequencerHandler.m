@@ -16,6 +16,8 @@
 #import "PositionPropertySetter.h"
 #import "SequencerExpandBtnCell.h"
 #import "SequencerStructureCell.h"
+#import "SequencerSequence.h"
+#import "SequencerScrubberSelectionView.h"
 #import "CCNode+NodeInfo.h"
 
 static SequencerHandler* sharedSequencerHandler;
@@ -23,8 +25,10 @@ static SequencerHandler* sharedSequencerHandler;
 @implementation SequencerHandler
 
 @synthesize dragAndDropEnabled;
-@synthesize timelineScale;
-@synthesize timelineOffset;
+@synthesize currentSequence;
+@synthesize scrubberSelectionView;
+@synthesize timeDisplay;
+@synthesize outlineHierarchy;
 
 - (id) initWithOutlineView:(NSOutlineView*)view
 {
@@ -43,8 +47,9 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
     
     // Set default values for timeline scale & offset
-    timelineScale = kCCBDefaultTimelineScale;
-    timelineOffset = 0;
+    
+    
+    self.currentSequence = [[[SequencerSequence alloc] init] autorelease];
     
     return self;
 }
@@ -315,6 +320,21 @@ static SequencerHandler* sharedSequencerHandler;
     
     // Need to reload all data when changing heights of rows
     [outlineHierarchy reloadData];
+}
+
+- (void) redrawTimeline
+{
+    [scrubberSelectionView setNeedsDisplay:YES];
+    [timeDisplay setStringValue:[currentSequence currentDisplayTime]];
+}
+
+- (void) dealloc
+{
+    self.currentSequence = NULL;
+    self.scrubberSelectionView = NULL;
+    self.timeDisplay = NULL;
+    
+    [super dealloc];
 }
 
 @end

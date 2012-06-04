@@ -134,6 +134,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) setupSequenceHandler
 {
     sequenceHandler = [[SequencerHandler alloc] initWithOutlineView:outlineHierarchy];
+    sequenceHandler.scrubberSelectionView = scrubberSelectionView;
+    sequenceHandler.timeDisplay = timeDisplay;
 }
 
 - (void) setupTabBar

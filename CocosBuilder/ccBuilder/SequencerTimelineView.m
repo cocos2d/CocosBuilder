@@ -8,6 +8,7 @@
 
 #import "SequencerTimelineView.h"
 #import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation SequencerTimelineView
 
@@ -54,12 +55,15 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    // Get current sequence
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
     // Draw background
     [imgBg drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     
     // Retrieve timeline offset/scale
-    float tlScale = [SequencerHandler sharedHandler].timelineScale;
-    float tlOffset = [SequencerHandler sharedHandler].timelineOffset;
+    float tlScale = seq.timelineScale;
+    float tlOffset = seq.timelineOffset;
     int divisions = 4;
     
     if (tlScale == 0) tlScale = kCCBDefaultTimelineScale;
@@ -92,8 +96,6 @@
         step++;
         xPos+=stepSize;
     }
-    
-    //float xLocalPos
 }
 
 - (void) dealloc

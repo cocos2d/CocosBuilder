@@ -13,6 +13,8 @@
 #define kCCBDefaultTimelineScale 128
 
 @class CocosBuilderAppDelegate;
+@class SequencerSequence;
+@class SequencerScrubberSelectionView;
 
 @interface SequencerHandler : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
@@ -21,14 +23,19 @@
     
     CocosBuilderAppDelegate* appDelegate;
     
-    float timelineScale;
-    float timelineOffset;
+    SequencerSequence* currentSequence;
+    SequencerScrubberSelectionView* scrubberSelectionView;
+    NSTextField* timeDisplay;
 }
 
 @property (nonatomic,assign) BOOL dragAndDropEnabled;
 
-@property (nonatomic,assign) float timelineScale;
-@property (nonatomic,assign) float timelineOffset;
+@property (nonatomic,retain) SequencerSequence* currentSequence;
+
+@property (nonatomic,retain) SequencerScrubberSelectionView* scrubberSelectionView;
+@property (nonatomic,retain) NSTextField* timeDisplay;
+
+@property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
 
 // Retain the shared instance
 + (SequencerHandler*) sharedHandler;
@@ -37,5 +44,7 @@
 - (void) updateOutlineViewSelection;
 - (void) updateExpandedForNode:(CCNode*)node;
 - (void) toggleSeqExpanderForRow:(int)row;
+
+- (void) redrawTimeline;
 
 @end

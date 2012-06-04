@@ -59,6 +59,7 @@ enum {
 @class CCBWarnings;
 @class PlayerController;
 @class SequencerHandler;
+@class SequencerScrubberSelectionView;
 @class MainWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
@@ -88,6 +89,8 @@ enum {
     // Outline view heirarchy
     SequencerHandler* sequenceHandler;
     IBOutlet NSOutlineView* outlineHierarchy;
+    IBOutlet SequencerScrubberSelectionView* scrubberSelectionView;
+    IBOutlet NSTextField* timeDisplay;
     
     // Selections
     CCNode* selectedNode;
