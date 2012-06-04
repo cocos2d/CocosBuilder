@@ -8,6 +8,25 @@
 
 #import <Cocoa/Cocoa.h>
 
+enum
+{
+    kCCBSeqMouseStateNone = 0,
+    kCCBSeqMouseStateScrubbing,
+    kCCBSeqMouseStateSelecting,
+};
+
 @interface SequencerScrubberSelectionView : NSView
+{
+    NSImage* imgScrubHandle;
+    NSImage* imgScrubLine;
+    
+    int mouseState;
+    
+    // Current selection
+    float xStartSelectTime;
+    float xEndSelectTime;
+    int yStartSelectRow;
+    int yEndSelectRow;
+}
 
 @end
