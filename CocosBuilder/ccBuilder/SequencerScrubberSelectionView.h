@@ -35,7 +35,9 @@ enum
     float xStartSelectTime;
     float xEndSelectTime;
     int yStartSelectRow;
+    int yStartSelectSubRow;
     int yEndSelectRow;
+    int yEndSelectSubRow;
 }
 
 @end

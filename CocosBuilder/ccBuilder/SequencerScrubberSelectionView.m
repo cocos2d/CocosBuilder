@@ -38,6 +38,18 @@
     return row;
 }
 
+- (int) yMousePosToSubRow:(float)y
+{
+    int row = [self yMousePosToRow:y];
+    
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    NSRect cellFrame = [outlineView frameOfCellAtColumn:0 row:row];
+    NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
+    
+    float yInCell = convPoint.y - cellFrame.origin.y;
+    return yInCell/kCCBSeqDefaultRowHeight;
+}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
@@ -60,17 +72,40 @@
             xMaxTime = xStartSelectTime;
         }
         
+        // Rows
         int yMinRow = 0;
         int yMaxRow = 0;
+        int yMinSubRow = 0;
+        int yMaxSubRow = 0;
+        
         if (yStartSelectRow < yEndSelectRow)
         {
             yMinRow = yStartSelectRow;
             yMaxRow = yEndSelectRow;
+            yMinSubRow = yStartSelectSubRow;
+            yMaxSubRow = yEndSelectSubRow;
         }
         else
         {
             yMinRow = yEndSelectRow;
             yMaxRow = yStartSelectRow;
+            yMinSubRow = yEndSelectSubRow;
+            yMaxSubRow = yStartSelectSubRow;
+        }
+        
+        // Sub rows
+        if (yMinRow == yMaxRow)
+        {
+            if (yStartSelectSubRow < yEndSelectSubRow)
+            {
+                yMinSubRow = yStartSelectSubRow;
+                yMaxSubRow = yEndSelectSubRow;
+            }
+            else
+            {
+                yMinSubRow = yEndSelectSubRow;
+                yMaxSubRow = yStartSelectSubRow;
+            }
         }
         
         // Check bounds
@@ -83,14 +118,23 @@
         
         // Calc y/height
         NSOutlineView* outline = [SequencerHandler sharedHandler].outlineHierarchy;
-        NSRect yStartRect = [self convertRect:[outline rectOfRow:yMinRow] fromView:outline]; 
-        NSRect yEndRect = [self convertRect:[outline rectOfRow:yMaxRow] fromView:outline];
+        
+        NSRect minRowRect = [outline rectOfRow:yMinRow];
+        minRowRect.size.height = kCCBSeqDefaultRowHeight;
+        minRowRect.origin.y += kCCBSeqDefaultRowHeight * yMinSubRow;
+        
+        NSRect maxRowRect = [outline rectOfRow:yMaxRow];
+        maxRowRect.size.height = kCCBSeqDefaultRowHeight;
+        maxRowRect.origin.y += kCCBSeqDefaultRowHeight * yMaxSubRow;
+        
+        NSRect yStartRect = [self convertRect:minRowRect fromView:outline]; 
+        NSRect yEndRect = [self convertRect:maxRowRect fromView:outline];
         
         float y = yEndRect.origin.y;
         float h = (yStartRect.origin.y + yStartRect.size.height) - y;
         
         // Draw the selection rectangle
-        NSRect rect = NSMakeRect(x, y+1, w+1, h-1);
+        NSRect rect = NSMakeRect(x, y-1, w+1, h+1);
         
         [[NSColor colorWithDeviceRed:0.83f green:0.88f blue:1.00f alpha:0.50f] set];
         [NSBezierPath fillRect: rect];
@@ -112,8 +156,6 @@
 
 - (void) updateAutoScrollHorizontal
 {
-    NSLog(@"updateAutoScrollHorizontal: %d", autoScrollHorizontalDirection);
-    
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
     if (autoScrollHorizontalDirection)
@@ -179,9 +221,13 @@
         xStartSelectTime = [seq positionToTime:mouseLocation.x];
         xEndSelectTime = xStartSelectTime;
         
-        // Position in row
+        // Row selection
         yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
         yEndSelectRow = yStartSelectRow;
+        
+        // Selection in row
+        yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
+        yEndSelectSubRow = yStartSelectSubRow;
         
         NSLog(@"clickedRow: %d", yStartSelectRow);
     }
@@ -217,6 +263,7 @@
     {
         xEndSelectTime = [seq positionToTime:mouseLocation.x];
         yEndSelectRow = [self yMousePosToRow:mouseLocation.y];
+        yEndSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
         
         [self setNeedsDisplay:YES];
     }
