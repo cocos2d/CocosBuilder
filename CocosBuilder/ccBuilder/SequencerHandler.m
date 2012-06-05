@@ -29,6 +29,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize scrubberSelectionView;
 @synthesize timeDisplay;
 @synthesize outlineHierarchy;
+@synthesize timeScaleSlider;
 
 - (id) initWithOutlineView:(NSOutlineView*)view
 {
@@ -47,7 +48,11 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
     
     // Set default values for timeline scale & offset
-    
+    timelineScales[0] = kCCBTimelineScale0;
+    timelineScales[1] = kCCBTimelineScale1;
+    timelineScales[2] = kCCBTimelineScale2;
+    timelineScales[3] = kCCBTimelineScale3;
+    timelineScales[4] = kCCBTimelineScale4;
     
     self.currentSequence = [[[SequencerSequence alloc] init] autorelease];
     
@@ -57,6 +62,26 @@ static SequencerHandler* sharedSequencerHandler;
 + (SequencerHandler*) sharedHandler
 {
     return sharedSequencerHandler;
+}
+
+- (void) setTimeScaleSlider:(NSSlider *)tss
+{
+    if (tss != timeScaleSlider)
+    {
+        [timeScaleSlider release];
+        timeScaleSlider = [tss retain];
+        
+        [timeScaleSlider setTarget:self];
+        [timeScaleSlider setAction:@selector(timeScaleSliderUpdated:)];
+    }
+}
+
+- (void) timeScaleSliderUpdated:(id)sender
+{
+    int scale = roundf(timeScaleSlider.doubleValue);
+    timeScaleSlider.doubleValue = scale;
+    
+    currentSequence.timelineScale = timelineScales[scale];
 }
 
 - (void) updateOutlineViewSelection

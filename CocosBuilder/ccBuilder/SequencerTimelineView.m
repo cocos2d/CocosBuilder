@@ -64,9 +64,11 @@
     // Retrieve timeline offset/scale
     float tlScale = seq.timelineScale;
     float tlOffset = seq.timelineOffset;
-    int divisions = 4;
     
     if (tlScale == 0) tlScale = kCCBDefaultTimelineScale;
+    
+    int divisions = 6;
+    if (tlScale <= kCCBTimelineScale1) divisions = 2;
     
     int secondMarker = tlOffset;
     float xPos = -roundf((tlOffset - secondMarker)*tlScale);

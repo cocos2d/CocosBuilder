@@ -91,6 +91,7 @@ enum {
     IBOutlet NSOutlineView* outlineHierarchy;
     IBOutlet SequencerScrubberSelectionView* scrubberSelectionView;
     IBOutlet NSTextField* timeDisplay;
+    IBOutlet NSSlider* timeScaleSlider;
     
     // Selections
     CCNode* selectedNode;

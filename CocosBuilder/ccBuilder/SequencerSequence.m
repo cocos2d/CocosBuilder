@@ -34,6 +34,15 @@
     [[SequencerHandler sharedHandler] redrawTimeline];
 }
 
+- (void) setTimelineScale:(float)ts
+{
+    if (timelineScale != ts)
+    {
+        timelineScale = ts;
+        [[SequencerHandler sharedHandler] redrawTimeline];
+    }
+}
+
 - (float) timeToPosition:(float)time
 {
     return roundf((time - timelineOffset)*timelineScale);

@@ -12,6 +12,14 @@
 #define kCCBSeqDefaultRowHeight 16
 #define kCCBDefaultTimelineScale 128
 
+#define kCCBNumTimlineScales 5
+
+#define kCCBTimelineScale0 32
+#define kCCBTimelineScale1 64
+#define kCCBTimelineScale2 128
+#define kCCBTimelineScale3 256
+#define kCCBTimelineScale4 512
+
 @class CocosBuilderAppDelegate;
 @class SequencerSequence;
 @class SequencerScrubberSelectionView;
@@ -21,11 +29,14 @@
     NSOutlineView* outlineHierarchy;
     BOOL dragAndDropEnabled;
     
+    float timelineScales[kCCBNumTimlineScales];
+    
     CocosBuilderAppDelegate* appDelegate;
     
     SequencerSequence* currentSequence;
     SequencerScrubberSelectionView* scrubberSelectionView;
     NSTextField* timeDisplay;
+    NSSlider* timeScaleSlider;
 }
 
 @property (nonatomic,assign) BOOL dragAndDropEnabled;
@@ -34,6 +45,8 @@
 
 @property (nonatomic,retain) SequencerScrubberSelectionView* scrubberSelectionView;
 @property (nonatomic,retain) NSTextField* timeDisplay;
+
+@property (nonatomic,retain) NSSlider* timeScaleSlider;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
 
