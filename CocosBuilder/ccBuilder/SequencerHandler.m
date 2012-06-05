@@ -30,6 +30,9 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize timeDisplay;
 @synthesize outlineHierarchy;
 @synthesize timeScaleSlider;
+@synthesize scroller;
+
+#pragma mark Init and singleton object
 
 - (id) initWithOutlineView:(NSOutlineView*)view
 {
@@ -64,6 +67,8 @@ static SequencerHandler* sharedSequencerHandler;
     return sharedSequencerHandler;
 }
 
+#pragma mark Handle Scale slider
+
 - (void) setTimeScaleSlider:(NSSlider *)tss
 {
     if (tss != timeScaleSlider)
@@ -83,6 +88,84 @@ static SequencerHandler* sharedSequencerHandler;
     
     currentSequence.timelineScale = timelineScales[scale];
 }
+
+#pragma mark Handle scroller
+
+- (float) visibleTimeArea
+{
+    NSTableColumn* column = [outlineHierarchy tableColumnWithIdentifier:@"sequencer"];
+    return column.width/currentSequence.timelineScale;
+}
+
+- (void) updateScroller
+{
+    float visibleTime = [self visibleTimeArea];
+    float maxTimeScroll = currentSequence.timelineLength - visibleTime;
+    
+    float proportion = visibleTime/currentSequence.timelineLength;
+    
+    scroller.knobProportion = proportion;
+    scroller.doubleValue = currentSequence.timelineOffset / maxTimeScroll;
+    
+    if (proportion < 1)
+    {
+        [scroller setEnabled:YES];
+    }
+    else
+    {
+        [scroller setEnabled:NO];
+    }
+}
+
+- (void) setScroller:(NSScroller *)s
+{
+    if (s != scroller)
+    {
+        [scroller release];
+        scroller = [s retain];
+        
+        [scroller setTarget:self];
+        [scroller setAction:@selector(scrollerUpdated:)];
+        
+        [self updateScroller];
+    }
+}
+
+- (void) scrollerUpdated:(id)sender
+{
+    float newOffset = currentSequence.timelineOffset;
+    float visibleTime = [self visibleTimeArea];
+    
+    switch ([scroller hitPart]) {
+        case NSScrollerNoPart:
+            break;
+        case NSScrollerDecrementPage:
+            newOffset -= 300 / currentSequence.timelineScale;
+            break;
+        case NSScrollerKnob:
+            newOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+            break;
+        case NSScrollerIncrementPage:
+            newOffset += 300 / currentSequence.timelineScale;
+            break;
+        case NSScrollerDecrementLine:
+            newOffset -= 20 / currentSequence.timelineScale;
+            break;
+        case NSScrollerIncrementLine:
+            newOffset += 20 / currentSequence.timelineScale;
+            break;
+        case NSScrollerKnobSlot:
+            newOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+            break;
+        default:
+            break;
+    }
+    
+    
+    currentSequence.timelineOffset = newOffset;
+}
+
+#pragma mark Outline view
 
 - (void) updateOutlineViewSelection
 {
@@ -347,11 +430,18 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy reloadData];
 }
 
+
+#pragma mark Timeline
+
 - (void) redrawTimeline
 {
     [scrubberSelectionView setNeedsDisplay:YES];
     [timeDisplay setStringValue:[currentSequence currentDisplayTime]];
+    [self updateScroller];
 }
+
+
+#pragma mark Destructor
 
 - (void) dealloc
 {

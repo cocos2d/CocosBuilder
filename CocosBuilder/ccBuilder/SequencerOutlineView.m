@@ -36,7 +36,9 @@
     
     if (column == [self columnWithIdentifier:@"sequencer"])
     {
-        sh.dragAndDropEnabled = NO;
+        // Events in the sequencer are handled by the SequencerOutlineView which
+        // is placed on top of the outline view
+        return;
     }
     else if (column == [self columnWithIdentifier:@"expander"])
     {

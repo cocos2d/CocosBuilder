@@ -24,6 +24,7 @@
     timelineScale = kCCBDefaultTimelineScale;
     timelineOffset = 0;
     timelineResolution = 30;
+    timelineLength = 10;
     
     return self;
 }
@@ -39,6 +40,20 @@
     if (timelineScale != ts)
     {
         timelineScale = ts;
+        [[SequencerHandler sharedHandler] redrawTimeline];
+    }
+}
+
+- (void) setTimelineOffset:(float)to
+{
+    if (timelineOffset != to)
+    {
+        if (to < 0)
+        {
+            to = 0;
+        }
+        
+        timelineOffset = to;
         [[SequencerHandler sharedHandler] redrawTimeline];
     }
 }

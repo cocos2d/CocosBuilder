@@ -137,6 +137,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     sequenceHandler.scrubberSelectionView = scrubberSelectionView;
     sequenceHandler.timeDisplay = timeDisplay;
     sequenceHandler.timeScaleSlider = timeScaleSlider;
+    sequenceHandler.scroller = timelineScroller;
 }
 
 - (void) setupTabBar

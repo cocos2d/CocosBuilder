@@ -37,6 +37,7 @@
     SequencerScrubberSelectionView* scrubberSelectionView;
     NSTextField* timeDisplay;
     NSSlider* timeScaleSlider;
+    NSScroller* scroller;
 }
 
 @property (nonatomic,assign) BOOL dragAndDropEnabled;
@@ -47,6 +48,8 @@
 @property (nonatomic,retain) NSTextField* timeDisplay;
 
 @property (nonatomic,retain) NSSlider* timeScaleSlider;
+
+@property (nonatomic,retain) NSScroller* scroller;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
 
