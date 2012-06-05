@@ -93,6 +93,7 @@ enum {
     IBOutlet NSTextField* timeDisplay;
     IBOutlet NSSlider* timeScaleSlider;
     IBOutlet NSScroller* timelineScroller;
+    IBOutlet NSScrollView* sequenceScrollView;
     
     // Selections
     CCNode* selectedNode;

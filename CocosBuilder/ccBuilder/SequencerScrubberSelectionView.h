@@ -23,6 +23,13 @@ enum
     kCCBSeqAutoScrollHorizontalRight,
 };
 
+enum
+{
+    kCCBSeqAutoScrollVerticalNone = 0,
+    kCCBSeqAutoScrollVerticalUp,
+    kCCBSeqAutoScrollVerticalDown,
+};
+
 #define kCCBRowNone -1
 #define kCCBRowNoneAbove -2
 #define kCCBRowNoneBelow -3
@@ -34,6 +41,7 @@ enum
     
     int mouseState;
     int autoScrollHorizontalDirection;
+    int autoScrollVerticalDirection;
     NSPoint lastMousePosition;
     
     // Current selection

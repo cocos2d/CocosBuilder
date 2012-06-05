@@ -31,6 +31,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize outlineHierarchy;
 @synthesize timeScaleSlider;
 @synthesize scroller;
+@synthesize scrollView;
 
 #pragma mark Init and singleton object
 

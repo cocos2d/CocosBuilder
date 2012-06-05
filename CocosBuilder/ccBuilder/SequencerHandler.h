@@ -38,20 +38,20 @@
     NSTextField* timeDisplay;
     NSSlider* timeScaleSlider;
     NSScroller* scroller;
+    NSScrollView* scrollView;
 }
 
 @property (nonatomic,assign) BOOL dragAndDropEnabled;
 
 @property (nonatomic,retain) SequencerSequence* currentSequence;
-
 @property (nonatomic,retain) SequencerScrubberSelectionView* scrubberSelectionView;
 @property (nonatomic,retain) NSTextField* timeDisplay;
-
 @property (nonatomic,retain) NSSlider* timeScaleSlider;
-
 @property (nonatomic,retain) NSScroller* scroller;
+@property (nonatomic,retain) NSScrollView* scrollView;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
+
 
 // Retain the shared instance
 + (SequencerHandler*) sharedHandler;

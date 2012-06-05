@@ -31,14 +31,10 @@
     
     NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
     
-    int row = [outlineView rowAtPoint:convPoint];
-    if (row == -1)
-    {
-        if (y < 0) row = kCCBRowNoneBelow;
-        if (y >= self.bounds.size.height) row = kCCBRowNoneAbove;
-    }
+    if (y < 0) return kCCBRowNoneBelow;
+    else if (y >= (self.bounds.size.height - 16)) return kCCBRowNoneAbove;
     
-    return row;
+    return [outlineView rowAtPoint:convPoint];
 }
 
 - (int) yMousePosToSubRow:(float)y
@@ -205,7 +201,7 @@
     }
 }
 
-- (void) autoScrollDirection:(int)dir
+- (void) autoScrollHorizontalDirection:(int)dir
 {
     if (dir == autoScrollHorizontalDirection) return;
     
@@ -215,6 +211,46 @@
     {
         // Schedule callback
         [self updateAutoScrollHorizontal];
+    }
+}
+
+- (void) updateAutoScrollVertical
+{
+    NSScrollView* scrollView = [SequencerHandler sharedHandler].scrollView;
+    NSClipView* contentView = scrollView.contentView;
+    
+    if (autoScrollVerticalDirection)
+    {
+        if (autoScrollVerticalDirection == kCCBSeqAutoScrollVerticalUp)
+        {
+            float yScroll = contentView.bounds.origin.y - 10;
+            
+            [contentView scrollToPoint: [contentView constrainScrollPoint: NSMakePoint(0,yScroll)]];
+            [scrollView reflectScrolledClipView: [scrollView contentView]];
+        }
+        else if (autoScrollVerticalDirection == kCCBSeqAutoScrollVerticalDown)
+        {
+            float yScroll = contentView.bounds.origin.y + 10;
+            
+            [contentView scrollToPoint: [contentView constrainScrollPoint: NSMakePoint(0,yScroll)]];
+            [scrollView reflectScrolledClipView: [scrollView contentView]];
+        }
+        
+        // Reschedule callback
+        [self performSelector:@selector(updateAutoScrollVertical) withObject:NULL afterDelay:0.1f];
+    }
+}
+
+- (void) autoScrollVerticalDirection:(int)dir
+{
+    if (dir == autoScrollVerticalDirection) return;
+    
+    autoScrollVerticalDirection = dir;
+    
+    if (dir != kCCBSeqAutoScrollHorizontalNone)
+    {
+        // Schedule callback
+        [self updateAutoScrollVertical];
     }
 }
 
@@ -259,6 +295,7 @@
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     lastMousePosition = mouseLocation;
     
@@ -266,15 +303,15 @@
     
     if (mouseLocation.x < 0)
     {
-        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalLeft];
+        [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalLeft];
     }
     else if (mouseLocation.x > self.bounds.size.width)
     {
-        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalRight];
+        [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalRight];
     }
     else
     {
-        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalNone];
+        [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalNone];
     }
     
     if (mouseState == kCCBSeqMouseStateScrubbing)
@@ -285,6 +322,34 @@
     {
         xEndSelectTime = [seq positionToTime:mouseLocation.x];
         yEndSelectRow = [self yMousePosToRow:mouseLocation.y];
+        
+        int scrollDir = kCCBSeqAutoScrollVerticalNone;
+        
+        if (yEndSelectRow == kCCBRowNone)
+        {
+            yEndSelectRow = [outlineView numberOfRows]-1;
+        }
+        else if (yEndSelectRow == kCCBRowNoneAbove)
+        {
+            // Get row visible at the top of the sequencer
+            yEndSelectRow = [outlineView rowAtPoint:[outlineView convertPoint:NSMakePoint(0, self.bounds.size.height-16) fromView:self]];
+            if (yEndSelectRow == -1) yEndSelectRow = 0;
+            
+            // Scroll up
+            scrollDir = kCCBSeqAutoScrollVerticalUp;
+        }
+        else if (yEndSelectRow == kCCBRowNoneBelow)
+        {
+            // Get the row at the visible end of the sequencer
+            yEndSelectRow = [outlineView rowAtPoint:[outlineView convertPoint:NSMakePoint(0, 0) fromView:self]];
+            if (yEndSelectRow == -1) yEndSelectRow = [outlineView numberOfRows] - 1;
+            
+            // Scroll down
+            scrollDir = kCCBSeqAutoScrollVerticalDown;
+        }
+        
+        [self autoScrollVerticalDirection:scrollDir];
+        
         yEndSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
         
         [self setNeedsDisplay:YES];
@@ -294,7 +359,8 @@
 - (void) mouseUp:(NSEvent *)theEvent
 {
     mouseState = kCCBSeqMouseStateNone;
-    [self autoScrollDirection:kCCBSeqAutoScrollHorizontalNone];
+    [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalNone];
+    [self autoScrollVerticalDirection:kCCBSeqAutoScrollVerticalNone];
     [self setNeedsDisplay:YES];
 }
 
