@@ -25,6 +25,11 @@
     return self;
 }
 
+- (float) activeWidth
+{
+    return [[SequencerHandler sharedHandler].outlineHierarchy tableColumnWithIdentifier:@"sequencer"].width;
+}
+
 - (int) yMousePosToRow:(float)y
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
@@ -32,7 +37,7 @@
     NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
     
     if (y < 0) return kCCBRowNoneBelow;
-    else if (y >= (self.bounds.size.height - 16)) return kCCBRowNoneAbove;
+    else if (y >= (self.bounds.size.height - kCCBSeqScrubberHeight)) return kCCBRowNoneAbove;
     
     return [outlineView rowAtPoint:convPoint];
 }
@@ -71,6 +76,11 @@
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
     // Draw selection
+    NSGraphicsContext* gc = [NSGraphicsContext currentContext];
+    [gc saveGraphicsState];
+    
+    [NSBezierPath clipRect:NSMakeRect(0, 0, [self activeWidth], self.bounds.size.height - kCCBSeqScrubberHeight)];
+    
     if (mouseState == kCCBSeqMouseStateSelecting
         && xStartSelectTime != xEndSelectTime)
     {
@@ -158,6 +168,8 @@
         [[NSColor colorWithDeviceRed:0.45f green:0.55f blue:0.82f alpha:1.00f] set];
         NSFrameRect(rect);
     }
+    
+    [gc restoreGraphicsState];
     
     // Draw scrubber
     float currentPos = [seq timeToPosition:seq.timelinePosition];
@@ -258,13 +270,21 @@
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    // Pass on events that are not in the active area (eg on the scrollbar)
+    if (mouseLocation.x > [self activeWidth])
+    {
+        [super mouseDown:theEvent];
+        return;
+    }
+    
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     lastMousePosition = mouseLocation;
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
-    if (mouseLocation.y > self.bounds.size.height - 16)
+    if (mouseLocation.y > self.bounds.size.height - kCCBSeqScrubberHeight)
     {
         // Scrubbing
         seq.timelinePosition = [seq positionToTime:mouseLocation.x];
@@ -286,8 +306,6 @@
         // Selection in row
         yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
         yEndSelectSubRow = yStartSelectSubRow;
-        
-        NSLog(@"clickedRow: %d", yStartSelectRow);
     }
 }
 
@@ -295,6 +313,12 @@
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    if (mouseLocation.x > [self activeWidth])
+    {
+        [super mouseDragged:theEvent];
+    }
+    
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     lastMousePosition = mouseLocation;
@@ -332,7 +356,7 @@
         else if (yEndSelectRow == kCCBRowNoneAbove)
         {
             // Get row visible at the top of the sequencer
-            yEndSelectRow = [outlineView rowAtPoint:[outlineView convertPoint:NSMakePoint(0, self.bounds.size.height-16) fromView:self]];
+            yEndSelectRow = [outlineView rowAtPoint:[outlineView convertPoint:NSMakePoint(0, self.bounds.size.height-kCCBSeqScrubberHeight) fromView:self]];
             if (yEndSelectRow == -1) yEndSelectRow = 0;
             
             // Scroll up
@@ -358,6 +382,14 @@
 
 - (void) mouseUp:(NSEvent *)theEvent
 {
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    if (mouseLocation.x > [self activeWidth])
+    {
+        [super mouseUp:theEvent];
+    }
+    
     mouseState = kCCBSeqMouseStateNone;
     [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalNone];
     [self autoScrollVerticalDirection:kCCBSeqAutoScrollVerticalNone];

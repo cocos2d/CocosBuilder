@@ -34,6 +34,8 @@ enum
 #define kCCBRowNoneAbove -2
 #define kCCBRowNoneBelow -3
 
+#define kCCBSeqScrubberHeight 16
+
 @interface SequencerScrubberSelectionView : NSView
 {
     NSImage* imgScrubHandle;
