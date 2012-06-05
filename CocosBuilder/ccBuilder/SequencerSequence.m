@@ -40,19 +40,25 @@
     if (timelineScale != ts)
     {
         timelineScale = ts;
+        
+        // Make sure scroll is within bounds
+        self.timelineOffset = timelineOffset;
         [[SequencerHandler sharedHandler] redrawTimeline];
     }
 }
 
 - (void) setTimelineOffset:(float)to
 {
+    // Check min value
+    if (to < 0) to = 0;
+    
+    // Check max value
+    float maxOffset = [[SequencerHandler sharedHandler] maxTimelineOffset];
+    if (to > maxOffset) to = maxOffset;
+    
+    // Update offset
     if (timelineOffset != to)
     {
-        if (to < 0)
-        {
-            to = 0;
-        }
-        
         timelineOffset = to;
         [[SequencerHandler sharedHandler] redrawTimeline];
     }

@@ -97,6 +97,12 @@ static SequencerHandler* sharedSequencerHandler;
     return column.width/currentSequence.timelineScale;
 }
 
+- (float) maxTimelineOffset
+{
+    float visibleTime = [self visibleTimeArea];
+    return max(currentSequence.timelineLength - visibleTime, 0);
+}
+
 - (void) updateScroller
 {
     float visibleTime = [self visibleTimeArea];

@@ -62,5 +62,9 @@
 - (void) toggleSeqExpanderForRow:(int)row;
 
 - (void) redrawTimeline;
+- (void) updateScroller;
+
+- (float) visibleTimeArea;
+- (float) maxTimelineOffset;
 
 @end

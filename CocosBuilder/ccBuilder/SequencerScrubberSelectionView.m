@@ -161,6 +161,15 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void) scrollWheel:(NSEvent *)theEvent
+{
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    seq.timelineOffset += theEvent.deltaX/seq.timelineScale*2.0f;
+    
+    [super scrollWheel:theEvent];
+}
+
 - (void) dealloc
 {
     [imgScrubHandle release];

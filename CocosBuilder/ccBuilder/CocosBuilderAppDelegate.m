@@ -439,6 +439,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
+- (void) windowDidResize:(NSNotification *)notification
+{
+    [sequenceHandler updateScroller];
+}
+
 #pragma mark Split View Delegate
 
 -(void)splitViewWillResizeSubviews:(NSNotification *)notification
