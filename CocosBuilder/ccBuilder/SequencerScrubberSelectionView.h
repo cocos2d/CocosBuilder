@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "cocos2d.h"
 
 enum
 {
@@ -21,6 +22,10 @@ enum
     kCCBSeqAutoScrollHorizontalLeft,
     kCCBSeqAutoScrollHorizontalRight,
 };
+
+#define kCCBRowNone -1
+#define kCCBRowNoneAbove -2
+#define kCCBRowNoneBelow -3
 
 @interface SequencerScrubberSelectionView : NSView
 {

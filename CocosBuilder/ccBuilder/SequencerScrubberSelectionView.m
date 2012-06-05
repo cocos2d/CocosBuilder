@@ -9,6 +9,8 @@
 #import "SequencerScrubberSelectionView.h"
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
+#import "CCNode+NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -32,7 +34,8 @@
     int row = [outlineView rowAtPoint:convPoint];
     if (row == -1)
     {
-        row = [outlineView numberOfRows] - 1;
+        if (y < 0) row = kCCBRowNoneBelow;
+        if (y >= self.bounds.size.height) row = kCCBRowNoneAbove;
     }
     
     return row;
@@ -40,9 +43,26 @@
 
 - (int) yMousePosToSubRow:(float)y
 {
-    int row = [self yMousePosToRow:y];
-    
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    int row = [self yMousePosToRow:y];
+    if (row == kCCBRowNoneAbove || row == kCCBRowNoneBelow)
+    {
+        return 0;
+    }
+    else if (row == kCCBRowNone)
+    {
+        CCNode* lastNode = [outlineView itemAtRow:[outlineView numberOfRows]-1];
+        if (lastNode.seqExpanded)
+        {
+            return [[lastNode plugIn].animatableProperties count];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
     NSRect cellFrame = [outlineView frameOfCellAtColumn:0 row:row];
     NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
     
@@ -202,6 +222,7 @@
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     lastMousePosition = mouseLocation;
     
@@ -223,6 +244,7 @@
         
         // Row selection
         yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
+        if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
         yEndSelectRow = yStartSelectRow;
         
         // Selection in row
