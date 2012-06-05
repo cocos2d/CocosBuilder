@@ -15,12 +15,21 @@ enum
     kCCBSeqMouseStateSelecting,
 };
 
+enum
+{
+    kCCBSeqAutoScrollHorizontalNone = 0,
+    kCCBSeqAutoScrollHorizontalLeft,
+    kCCBSeqAutoScrollHorizontalRight,
+};
+
 @interface SequencerScrubberSelectionView : NSView
 {
     NSImage* imgScrubHandle;
     NSImage* imgScrubLine;
     
     int mouseState;
+    int autoScrollHorizontalDirection;
+    NSPoint lastMousePosition;
     
     // Current selection
     float xStartSelectTime;

@@ -73,6 +73,10 @@
             yMaxRow = yStartSelectRow;
         }
         
+        // Check bounds
+        if (xMinTime < 0) xMinTime = 0;
+        if (xMaxTime > seq.timelineLength) xMaxTime = seq.timelineLength;
+        
         // Calc x/width
         float x = [seq timeToPosition:xMinTime];
         float w = [seq timeToPosition:xMaxTime] - x;
@@ -106,10 +110,58 @@
     [imgScrubLine drawInRect:NSMakeRect(currentPos, 0, 2, yPos) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
 }
 
+- (void) updateAutoScrollHorizontal
+{
+    NSLog(@"updateAutoScrollHorizontal: %d", autoScrollHorizontalDirection);
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    if (autoScrollHorizontalDirection)
+    {
+        // Perform scroll
+        if (autoScrollHorizontalDirection == kCCBSeqAutoScrollHorizontalLeft)
+        {
+            seq.timelineOffset -= 20 / seq.timelineScale;
+        }
+        else if (autoScrollHorizontalDirection == kCCBSeqAutoScrollHorizontalRight)
+        {
+            seq.timelineOffset += 20 / seq.timelineScale;
+        }
+        
+        // Reschedule callback
+        [self performSelector:@selector(updateAutoScrollHorizontal) withObject:NULL afterDelay:0.1f];
+
+        if (mouseState == kCCBSeqMouseStateScrubbing)
+        {
+            // Update time marker
+            seq.timelinePosition = [seq positionToTime:lastMousePosition.x];
+        }
+        else if (mouseState == kCCBSeqMouseStateSelecting)
+        {
+            xEndSelectTime = [seq positionToTime:lastMousePosition.x];
+        }
+    }
+}
+
+- (void) autoScrollDirection:(int)dir
+{
+    if (dir == autoScrollHorizontalDirection) return;
+    
+    autoScrollHorizontalDirection = dir;
+    
+    if (dir != kCCBSeqAutoScrollHorizontalNone)
+    {
+        // Schedule callback
+        [self updateAutoScrollHorizontal];
+    }
+}
+
 - (void) mouseDown:(NSEvent *)theEvent
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    lastMousePosition = mouseLocation;
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
@@ -140,7 +192,22 @@
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
     
+    lastMousePosition = mouseLocation;
+    
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    if (mouseLocation.x < 0)
+    {
+        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalLeft];
+    }
+    else if (mouseLocation.x > self.bounds.size.width)
+    {
+        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalRight];
+    }
+    else
+    {
+        [self autoScrollDirection:kCCBSeqAutoScrollHorizontalNone];
+    }
     
     if (mouseState == kCCBSeqMouseStateScrubbing)
     {
@@ -158,6 +225,7 @@
 - (void) mouseUp:(NSEvent *)theEvent
 {
     mouseState = kCCBSeqMouseStateNone;
+    [self autoScrollDirection:kCCBSeqAutoScrollHorizontalNone];
     [self setNeedsDisplay:YES];
 }
 
@@ -165,7 +233,7 @@
 {
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
-    seq.timelineOffset += theEvent.deltaX/seq.timelineScale*2.0f;
+    seq.timelineOffset -= theEvent.deltaX/seq.timelineScale*2.0f;
     
     [super scrollWheel:theEvent];
 }

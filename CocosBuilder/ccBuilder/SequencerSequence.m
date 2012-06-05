@@ -31,8 +31,14 @@
 
 - (void) setTimelinePosition:(float)tp
 {
-    timelinePosition = tp;
-    [[SequencerHandler sharedHandler] redrawTimeline];
+    if (tp < 0) tp = 0;
+    if (tp > timelineLength) tp = timelineLength;
+    
+    if (tp != timelinePosition)
+    {
+        timelinePosition = tp;
+        [[SequencerHandler sharedHandler] redrawTimeline];
+    }
 }
 
 - (void) setTimelineScale:(float)ts
