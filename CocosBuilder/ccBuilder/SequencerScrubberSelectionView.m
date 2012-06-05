@@ -14,6 +14,8 @@
 
 @implementation SequencerScrubberSelectionView
 
+@synthesize lastDragEvent;
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -248,6 +250,9 @@
             [scrollView reflectScrolledClipView: [scrollView contentView]];
         }
         
+        // Fake drag event
+        [self mouseDragged:lastDragEvent];
+        
         // Reschedule callback
         [self performSelector:@selector(updateAutoScrollVertical) withObject:NULL afterDelay:0.1f];
     }
@@ -318,6 +323,8 @@
     {
         [super mouseDragged:theEvent];
     }
+    
+    self.lastDragEvent = theEvent;
     
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
@@ -409,6 +416,7 @@
 {
     [imgScrubHandle release];
     [imgScrubLine release];
+    self.lastDragEvent = NULL;
     [super dealloc];
 }
 

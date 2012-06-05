@@ -45,6 +45,7 @@ enum
     int autoScrollHorizontalDirection;
     int autoScrollVerticalDirection;
     NSPoint lastMousePosition;
+    NSEvent* lastDragEvent;
     
     // Current selection
     float xStartSelectTime;
@@ -54,5 +55,7 @@ enum
     int yEndSelectRow;
     int yEndSelectSubRow;
 }
+
+@property (nonatomic,retain) NSEvent* lastDragEvent;
 
 @end
