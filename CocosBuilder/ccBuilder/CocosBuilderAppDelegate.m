@@ -64,6 +64,8 @@
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
 #import "PlayerController.h"
+#import "SequencerHandler.h"
+#import "MainWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -86,7 +88,14 @@
 @synthesize showStickyNotes;
 @synthesize playerController;
 
+static CocosBuilderAppDelegate* sharedAppDelegate;
+
 #pragma mark Setup functions
+
++ (CocosBuilderAppDelegate*) appDelegate
+{
+    return sharedAppDelegate;
+}
 
 - (void) setupInspectorPane
 {
@@ -122,13 +131,14 @@
 	NSAssert( [NSThread currentThread] == [[CCDirector sharedDirector] runningThread], @"cocos2d shall run on the Main Thread. Compile CocosBuilder with CC_DIRECTOR_MAC_THREAD=2");
 }
 
-- (void) setupOutlineView
+- (void) setupSequenceHandler
 {
-    [outlineHierarchy setDataSource:self];
-    [outlineHierarchy setDelegate:self];
-    [outlineHierarchy reloadData];
-    
-    [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
+    sequenceHandler = [[SequencerHandler alloc] initWithOutlineView:outlineHierarchy];
+    sequenceHandler.scrubberSelectionView = scrubberSelectionView;
+    sequenceHandler.timeDisplay = timeDisplay;
+    sequenceHandler.timeScaleSlider = timeScaleSlider;
+    sequenceHandler.scroller = timelineScroller;
+    sequenceHandler.scrollView = sequenceScrollView;
 }
 
 - (void) setupTabBar
@@ -152,12 +162,6 @@
     [window setShowsToolbarButton:NO];
 }
 
-/*
-- (void) setupDefaultDocument
-{
-	//currentDocument = [[CCBDocument alloc] init];
-}*/
-
 - (void) setupPlayerController
 {
     self.playerController = [[[PlayerController alloc] init] autorelease];
@@ -178,6 +182,7 @@
 {
     NSRect frame = cocosView.frame;
     
+    frame.origin = [cocosView convertPoint:NSZeroPoint toView:NULL];
     frame.origin.x += self.window.frame.origin.x;
     frame.origin.y += self.window.frame.origin.y;
     
@@ -190,11 +195,16 @@
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
+- (void) setupSplitView
+{
+    splitView.delegate = self;
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [self.window center];
     
-    [[CCBGlobals globals] setAppDelegate:self];
+    sharedAppDelegate = self;
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
     
@@ -206,15 +216,15 @@
     [window setDelegate:self];
     
     [self setupTabBar];
-    //[self setupDefaultDocument];
     [self setupInspectorPane];
     [self setupCocos2d];
-    [self setupOutlineView];
+    [self setupSequenceHandler];
+    [self setupSplitView];
     [self updateInspectorFromSelection];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
     
@@ -251,7 +261,7 @@
     self.snapToGuides = YES;
     self.showStickyNotes = YES;
     
-    
+    [self.window zoom:self];
     [self.window makeKeyWindow];
 }
 
@@ -302,6 +312,7 @@
     guiView.frame = NSMakeRect(0, 0, frame.size.width, frame.size.height);
     
     frame = cocosView.frame;
+    frame.origin = [cocosView convertPoint:NSZeroPoint toView:NULL];
     frame.origin.x += self.window.frame.origin.x;
     frame.origin.y += self.window.frame.origin.y;
     
@@ -370,33 +381,7 @@
     return YES;
 }
 
-#pragma mark Handling the outline view
-
-- (void) updateOutlineViewSelection
-{
-    if (!selectedNode)
-    {
-        [outlineHierarchy selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
-        return;
-    }
-    CCBGlobals* g = [CCBGlobals globals];
-    
-    CCNode* node = selectedNode;
-    NSMutableArray* nodesToExpand = [NSMutableArray array];
-    while (node != g.rootNode && node != NULL)
-    {
-        [nodesToExpand insertObject:node atIndex:0];
-        node = node.parent;
-    }
-    for (int i = 0; i < [nodesToExpand count]; i++)
-    {
-        node = [nodesToExpand objectAtIndex:i];
-        [outlineHierarchy expandItem:node.parent];
-    }
-    
-    int row = (int)[outlineHierarchy rowForItem:selectedNode];
-    [outlineHierarchy selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
-}
+#pragma mark Handling selections
 
 - (void) setSelectedNode:(CCNode*) selection
 {
@@ -406,7 +391,7 @@
     }
     
     selectedNode = selection;
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     
     if (currentDocument) currentDocument.lastEditedProperty = NULL;
 }
@@ -416,202 +401,13 @@
     return selectedNode;
 }
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    
-    if ([[CCBGlobals globals] rootNode] == NULL) return 0;
-    if (item == nil) return 1;
-    
-    CCNode* node = (CCNode*)item;
-    CCArray* arr = [node children];
-    
-    return [arr count];
-}
-
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
-{
-    if (item == nil) return YES;
-    
-    CCNode* node = (CCNode*)item;
-    CCArray* arr = [node children];
-    NodeInfo* info = node.userObject;
-    PlugInNode* plugIn = info.plugIn;
-    
-    if ([arr count] == 0) return NO;
-    if (!plugIn.canHaveChildren) return NO;
-    
-    return YES;
-}
-
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
-{
-    CCBGlobals* g= [CCBGlobals globals];
-    
-    if (item == nil) return g.rootNode;
-    
-    CCNode* node = (CCNode*)item;
-    CCArray* arr = [node children];
-    return [arr objectAtIndex:index];
-}
-
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{
-    selectedNode = [outlineHierarchy itemAtRow:[outlineHierarchy selectedRow]];
-    [self updateInspectorFromSelection];
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene setSelectedNode:selectedNode];
-}
-
-- (void)outlineViewItemDidCollapse:(NSNotification *)notification
-{
-    CCNode* node = [[notification userInfo] objectForKey:@"NSObject"];
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithBool:NO] forKey:@"isExpanded" andNode:node];
-}
-
-- (void)outlineViewItemDidExpand:(NSNotification *)notification
-{
-    CCNode* node = [[notification userInfo] objectForKey:@"NSObject"];
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded" andNode:node];
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    if (item == nil) return @"Root";
-    
-    CCNode* node = item;
-    NodeInfo* info = node.userObject;
-    
-    // Get class name
-    NSString* className = @"";
-    NSString* customClass = [cs extraPropForKey:@"customClass" andNode:item];
-    if (customClass && ![customClass isEqualToString:@""]) className = customClass;
-    else className = info.plugIn.nodeClassName;
-    
-    // Assignment name
-    NSString* assignmentName = [cs extraPropForKey:@"memberVarAssignmentName" andNode:item];
-    if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
-    
-    if ([item isKindOfClass:[CCMenuItemImage class]])
-    {
-        NSString* textureName = [cs extraPropForKey:@"spriteFileNormal" andNode:item];
-        if (textureName && ![textureName isEqualToString:@""])
-        {
-            return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
-        }
-    }
-    
-    // Fallback, just use the class name
-    return className;
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
-{
-    CCBGlobals* g = [CCBGlobals globals];
-    
-    CCNode* draggedNode = [items objectAtIndex:0];
-    if (draggedNode == g.rootNode) return NO;
-    
-    NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:draggedNode];
-    
-    [clipDict setObject:[NSNumber numberWithLongLong:(long long)draggedNode] forKey:@"srcNode"];
-    NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
-    
-    [pboard setData:clipData forType:@"com.cocosbuilder.node"];
-    
-    return YES;
-}
-
-- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
-{
-    if (item == NULL) return NSDragOperationNone;
-    
-    CCBGlobals* g = [CCBGlobals globals];
-    NSPasteboard* pb = [info draggingPasteboard];
-    
-    NSData* nodeData = [pb dataForType:@"com.cocosbuilder.node"];
-    if (nodeData)
-    {
-        NSDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:nodeData];
-        CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
-        
-        CCNode* node = item;
-        CCNode* parent = [node parent];
-        while (parent && parent != g.rootNode)
-        {
-            if (parent == draggedNode) return NSDragOperationNone;
-            parent = [parent parent];
-        }
-        
-        return NSDragOperationGeneric;
-    }
-    
-    return NSDragOperationGeneric;
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id < NSDraggingInfo >)info item:(id)item childIndex:(NSInteger)index
-{
-    NSPasteboard* pb = [info draggingPasteboard];
-    
-    NSData* clipData = [pb dataForType:@"com.cocosbuilder.node"];
-    if (clipData)
-    {
-        NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
-        
-        CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
-        if (![self addCCObject:clipNode toParent:item atIndex:index]) return NO;
-        
-        // Remove old node
-        CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
-        [self deleteNode:draggedNode];
-        
-        [self setSelectedNode:clipNode];
-        
-        return YES;
-    }
-    clipData = [pb dataForType:@"com.cocosbuilder.texture"];
-    if (clipData)
-    {
-        NSDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
-        
-        [self dropAddSpriteNamed:[clipDict objectForKey:@"spriteFile"] inSpriteSheet:[clipDict objectForKey:@"spriteSheetFile"] at:ccp(0,0) parent:item];
-        
-        return YES;
-    }
-    
-    return NO;
-}
-
-- (void) updateExpandedForNode:(CCNode*)node
-{
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    if ([self outlineView:outlineHierarchy isItemExpandable:node])
-    {
-        bool expanded = [[cs extraPropForKey:@"isExpanded" andNode:node] boolValue];
-        if (expanded) [outlineHierarchy expandItem:node];
-        else [outlineHierarchy collapseItem:node];
-        
-        CCArray* childs = [node children];
-        for (int i = 0; i < [childs count]; i++)
-        {
-            CCNode* child = [childs objectAtIndex:i];
-            [self updateExpandedForNode:child];
-        }
-    }
-}
-
 #pragma mark Window Delegate
 
 - (void) windowDidResignMain:(NSNotification *)notification
 {
     if (notification.object == self.window)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        CocosScene* cs = [CocosScene cocosScene];
     
         if (![[CCDirector sharedDirector] isPaused])
         {
@@ -625,7 +421,7 @@
 {
     if (notification.object == self.window)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        CocosScene* cs = [CocosScene cocosScene];
     
         if ([[CCDirector sharedDirector] isPaused])
         {
@@ -640,8 +436,20 @@
     if (notification.object == guiWindow)
     {
         [guiView setSubviews:[NSArray array]];
-        [[[CCBGlobals globals] cocosScene].notesLayer showAllNotesLabels];
+        [[CocosScene cocosScene].notesLayer showAllNotesLabels];
     }
+}
+
+- (void) windowDidResize:(NSNotification *)notification
+{
+    [sequenceHandler updateScroller];
+}
+
+#pragma mark Split View Delegate
+
+-(void)splitViewWillResizeSubviews:(NSNotification *)notification
+{
+    [window disableUpdatesUntilFlush];
 }
 
 #pragma mark Populate Inspector
@@ -805,11 +613,11 @@
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
-    [dict setObject:[NSNumber numberWithBool:[g.cocosScene centeredOrigin]] forKey:@"centeredOrigin"];
+    [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
     // Guides & notes
-    [dict setObject:[[g cocosScene].guideLayer serializeGuides] forKey:@"guides"];
-    [dict setObject:[[g cocosScene].notesLayer serializeNotes] forKey:@"notes"];
+    [dict setObject:[[CocosScene cocosScene].guideLayer serializeGuides] forKey:@"guides"];
+    [dict setObject:[[CocosScene cocosScene].notesLayer serializeNotes] forKey:@"notes"];
     
     // Resolutions
     if (doc.resolutions)
@@ -837,8 +645,7 @@
 {
     [self.window makeKeyWindow];
     [self setSelectedNode:NULL];
-    CCBGlobals* g = [CCBGlobals globals];
-    CocosScene* cs = [g cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     
     if (![self hasOpenedDocument]) return;
@@ -868,7 +675,7 @@
         ResolutionSetting* resolution = [resolutions objectAtIndex:currentResolution];
         
         // Update CocosScene
-        [g.cocosScene setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
+        [[CocosScene cocosScene] setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin: centered];
         
         // Save in current document
         currentDocument.resolutions = resolutions;
@@ -880,7 +687,7 @@
         int stageW = [[doc objectForKey:@"stageWidth"] intValue];
         int stageH = [[doc objectForKey:@"stageHeight"] intValue];
         
-        [g.cocosScene setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
+        [[CocosScene cocosScene] setStageSize:CGSizeMake(stageW, stageH) centeredOrigin:centered];
         
         // Setup a basic resolution and attach it to the current document
         ResolutionSetting* resolution = [[[ResolutionSetting alloc] init] autorelease];
@@ -901,33 +708,33 @@
     
     // Replace open document
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:loadedRoot];
+    [[CocosScene cocosScene] replaceRootNodeWith:loadedRoot];
     [outlineHierarchy reloadData];
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     [self updateInspectorFromSelection];
     
-    [self updateExpandedForNode:g.rootNode];
+    [sequenceHandler updateExpandedForNode:g.rootNode];
     
     // Setup guides
     id guides = [doc objectForKey:@"guides"];
     if (guides)
     {
-        [g.cocosScene.guideLayer loadSerializedGuides:guides];
+        [[CocosScene cocosScene].guideLayer loadSerializedGuides:guides];
     }
     else
     {
-        [g.cocosScene.guideLayer removeAllGuides];
+        [[CocosScene cocosScene].guideLayer removeAllGuides];
     }
     
     // Setup notes
     id notes = [doc objectForKey:@"notes"];
     if (notes)
     {
-        [g.cocosScene.notesLayer loadSerializedNotes:notes];
+        [[CocosScene cocosScene].notesLayer loadSerializedNotes:notes];
     }
     else
     {
-        [g.cocosScene.notesLayer removeAllNotes];
+        [[CocosScene cocosScene].notesLayer removeAllNotes];
     }
 }
 
@@ -946,7 +753,7 @@
     [self updateResolutionMenu];
     [self updateStateOriginCenteredMenu];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageZoom:document.stageZoom];
     [cs setScrollOffset:document.stageScrollOffset];
 }
@@ -963,15 +770,14 @@
 
 - (void) closeLastDocument
 {
-    CCBGlobals* g = [CCBGlobals globals];
     selectedNode = NULL;
-    [g.cocosScene replaceRootNodeWith:NULL];
+    [[CocosScene cocosScene] replaceRootNodeWith:NULL];
     currentDocument.docData = NULL;
     currentDocument.fileName = NULL;
-    [g.cocosScene setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
-    [g.cocosScene.guideLayer removeAllGuides];
-    [g.cocosScene.notesLayer removeAllNotes];
-    [g.cocosScene.rulerLayer mouseExited:NULL];
+    [[CocosScene cocosScene] setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
+    [[CocosScene cocosScene].guideLayer removeAllGuides];
+    [[CocosScene cocosScene].notesLayer removeAllNotes];
+    [[CocosScene cocosScene].rulerLayer mouseExited:NULL];
     self.currentDocument = NULL;
     
     [outlineHierarchy reloadData];
@@ -1016,7 +822,7 @@
         [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
         
         // Notify the user
-        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
+        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
     }
 }
 
@@ -1029,7 +835,7 @@
         [self closeProject];
         
         // Notify the user
-        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
+        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
     }
 }
 
@@ -1194,16 +1000,15 @@
     
     [self prepareForDocumentSwitch];
     
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene.notesLayer removeAllNotes];
+    [[CocosScene cocosScene].notesLayer removeAllNotes];
     
     selectedNode = NULL;
-    [g.cocosScene setStageSize:stageSize centeredOrigin:origin];
+    [[CocosScene cocosScene] setStageSize:stageSize centeredOrigin:origin];
     
-    [g.cocosScene replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
+    [[CocosScene cocosScene] replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
     [outlineHierarchy reloadData];
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
     [self updateInspectorFromSelection];
     
     self.currentDocument = [[[CCBDocument alloc] init] autorelease];
@@ -1219,8 +1024,8 @@
     
     [self updateStateOriginCenteredMenu];
     
-    [[g cocosScene] setStageZoom:1];
-    [[g cocosScene] setScrollOffset:ccp(0,0)];
+    [[CocosScene cocosScene] setStageZoom:1];
+    [[CocosScene cocosScene] setScrollOffset:ccp(0,0)];
     
     [self checkForTooManyDirectoriesInCurrentDoc];
 }
@@ -1383,7 +1188,7 @@
     // Sprite dropped in working canvas
     
     CCNode* node = selectedNode;
-    if (!node) node = [[CCBGlobals globals] cocosScene].rootNode;
+    if (!node) node = [CocosScene cocosScene].rootNode;
     
     CCNode* parent = node.parent;
     NodeInfo* info = parent.userObject;
@@ -1467,7 +1272,7 @@
     [outlineHierarchy reloadData];
     
     selectedNode = NULL;
-    [self updateOutlineViewSelection];
+    [sequenceHandler updateOutlineViewSelection];
 }
 
 - (IBAction) delete:(id) sender
@@ -1752,7 +1557,6 @@
         NSSavePanel* saveDlg = [NSSavePanel savePanel];
         [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccb"]];
         
-#warning FIX
         SavePanelLimiter* limiter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
         
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
@@ -1784,8 +1588,7 @@
 
 - (IBAction) menuSelectBehind:(id)sender
 {
-    CCBGlobals* g = [CCBGlobals globals];
-    [g.cocosScene selectBehind];
+    [[CocosScene cocosScene] selectBehind];
 }
 
 - (IBAction) menuDeselect:(id)sender
@@ -1818,7 +1621,7 @@
 
 - (void) setResolution:(int)r
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
     currentDocument.currentResolution = r;
@@ -1857,7 +1660,7 @@
 
 - (void) updateStateOriginCenteredMenu
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     BOOL centered = [cs centeredOrigin];
     
     if (centered) [menuItemStageCentered setState:NSOnState];
@@ -1866,7 +1669,7 @@
 
 - (IBAction) menuSetStateOriginCentered:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     BOOL centered = ![cs centeredOrigin];
     
     [self saveUndoState];
@@ -1877,14 +1680,14 @@
 
 - (void) updateCanvasBorderMenu
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     int tag = [cs stageBorder];
     [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasBorder tag:tag];
 }
 
 - (IBAction) menuSetCanvasBorder:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     int tag = (int)[sender tag];
     [cs setStageBorder:tag];
@@ -1893,7 +1696,7 @@
 
 - (IBAction) menuZoomIn:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
     zoom *= 2;
@@ -1903,7 +1706,7 @@
 
 - (IBAction) menuZoomOut:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
     zoom *= 0.5f;
@@ -1913,7 +1716,7 @@
 
 - (IBAction) menuResetView:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     cs.scrollOffset = ccp(0,0);
     [cs setStageZoom:1];
 }
@@ -1929,7 +1732,7 @@
 
 - (IBAction) pressedToolSelection:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     NSSegmentedControl* sc = sender;
     
     cs.currentTool = [sc selectedSegment];
@@ -2023,7 +1826,7 @@
 
 - (IBAction)menuAddStickyNote:(id)sender
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     [cs setStageZoom:1];
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];

@@ -431,7 +431,7 @@
                 res.touched = YES;
                 continue;
             }
-            else if ([[[CCBGlobals globals] appDelegate].currentDocument.fileName isEqualToString: file])
+            else if ([[CocosBuilderAppDelegate appDelegate].currentDocument.fileName isEqualToString: file])
             {
                 // Skip the current document
                 res.touched = YES;
@@ -559,7 +559,7 @@
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
     if (needsUpdate)
     {
-        [[[CCBGlobals globals] appDelegate] reloadResources];
+        [[CocosBuilderAppDelegate appDelegate] reloadResources];
     }
 }
 

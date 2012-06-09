@@ -34,7 +34,7 @@
 {
     [self removeTrackingRect:trackingTag];
     trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
-    [[[CCBGlobals globals] appDelegate] resizeGUIWindow:[self bounds].size];
+    [[CocosBuilderAppDelegate appDelegate] resizeGUIWindow:[self bounds].size];
     
     [super reshape];
 }
@@ -87,27 +87,27 @@
 
 - (void) scrollWheel:(NSEvent *)theEvent
 {
-    [[[CCBGlobals globals] cocosScene] scrollWheel:theEvent];
+    [[CocosScene cocosScene] scrollWheel:theEvent];
 }
 
 - (void)mouseMoved:(NSEvent *)event
 {
-    [[[CCBGlobals globals] cocosScene] mouseMoved:event];
+    [[CocosScene cocosScene] mouseMoved:event];
 }
 
 - (void)mouseEntered:(NSEvent *)event
 {
-    [[[CCBGlobals globals] cocosScene] mouseEntered:event];
+    [[CocosScene cocosScene] mouseEntered:event];
 }
 
 - (void)mouseExited:(NSEvent *)event
 {
-    [[[CCBGlobals globals] cocosScene] mouseExited:event];
+    [[CocosScene cocosScene] mouseExited:event];
 }
 
 - (void)cursorUpdate:(NSEvent *)event
 {
-    [[[CCBGlobals globals] cocosScene] cursorUpdate:event];
+    [[CocosScene cocosScene] cursorUpdate:event];
 }
 
 @end

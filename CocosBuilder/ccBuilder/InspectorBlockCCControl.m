@@ -24,6 +24,7 @@
 
 #import "InspectorBlockCCControl.h"
 #import "CCBGlobals.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorBlockCCControl
 
@@ -31,8 +32,7 @@
 {
     btns = [[NSMutableDictionary alloc] init];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    selectedEvents = [[cs extraPropForKey:[NSString stringWithFormat:@"%@CtrlEvts", propertyName] andNode:selection] intValue];
+    selectedEvents = [[selection extraPropForKey:[NSString stringWithFormat:@"%@CtrlEvts", propertyName]] intValue];
     
     [btns setObject:btnDown forKey:[NSNumber numberWithInt:CCControlEventTouchDown]];
     [btns setObject:btnDragInside forKey:[NSNumber numberWithInt:CCControlEventTouchDragInside]];
@@ -73,28 +73,24 @@
 - (void) setSelector:(NSString *)selector
 {
     if (!selector) selector = @"";
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:selector forKey:propertyName andNode:selection];
+    [selection setExtraProp:selector forKey:propertyName];
 }
 
 - (NSString*) selector
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSString* sel = [cs extraPropForKey:propertyName andNode:selection];
+    NSString* sel = [selection extraPropForKey:propertyName];
     if (!sel) sel = @"";
     return sel;
 }
 
 - (void) setTarget:(int)target
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithInt:target] forKey:[NSString stringWithFormat:@"%@Target", propertyName] andNode:selection];
+    [selection setExtraProp:[NSNumber numberWithInt:target] forKey:[NSString stringWithFormat:@"%@Target", propertyName]];
 }
 
 - (int) target
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[NSString stringWithFormat:@"%@Target", propertyName] andNode:selection] intValue];
+    return [[selection extraPropForKey:[NSString stringWithFormat:@"%@Target", propertyName]] intValue];
 }
 
 - (void) toggledCheck:(id)sender
@@ -112,8 +108,7 @@
         selectedEvents &= ~evt;
     }
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithInt:selectedEvents] forKey:[NSString stringWithFormat:@"%@CtrlEvts", propertyName] andNode:selection];
+    [selection setExtraProp:[NSNumber numberWithInt:selectedEvents] forKey:[NSString stringWithFormat:@"%@CtrlEvts", propertyName]];
 }
 
 @end

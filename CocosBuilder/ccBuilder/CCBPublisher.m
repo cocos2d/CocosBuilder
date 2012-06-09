@@ -117,7 +117,7 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -230,7 +230,7 @@
 
 - (BOOL) publish_
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
@@ -270,7 +270,7 @@
     dispatch_async(queue, ^{
         [self publish_];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
             [ad publisher:self finishedWithWarnings:warnings];
         });
     });

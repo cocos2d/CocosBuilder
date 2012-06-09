@@ -70,7 +70,7 @@
 
 - (void) updatePos
 {
-    self.position = [[[CCBGlobals globals] cocosScene] convertToViewSpace:docPos];
+    self.position = [[CocosScene cocosScene] convertToViewSpace:docPos];
 }
 
 - (void) setDocPos:(CGPoint)p

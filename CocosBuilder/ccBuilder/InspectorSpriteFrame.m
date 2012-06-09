@@ -32,16 +32,15 @@
 #import "CCBSpriteSheetParser.h"
 #import "ResourceManagerUtil.h"
 #import "ResourceManager.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorSpriteFrame
 
 - (void) willBeAdded
 {
     // Setup menu
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* sf = [cs extraPropForKey:propertyName andNode:selection];
-    NSString* ssf = [cs extraPropForKey:[NSString stringWithFormat:@"%@Sheet", propertyName] andNode:selection];
+    NSString* sf = [selection extraPropForKey:propertyName];
+    NSString* ssf = [selection extraPropForKey:[NSString stringWithFormat:@"%@Sheet", propertyName]];
     
     if ([ssf isEqualToString:kCCBUseRegularFile] || [ssf isEqualToString:@""]) ssf = NULL;
     
@@ -50,7 +49,7 @@
 
 - (void) selectedResource:(id)sender
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     id item = [sender representedObject];
     
@@ -80,10 +79,8 @@
     // Set the properties and sprite frames
     if (sf && ssf)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-        [cs setExtraProp:sf forKey:propertyName andNode:selection];
-        [cs setExtraProp:ssf forKey:[NSString stringWithFormat:@"%@Sheet", propertyName] andNode:selection];
+        [selection setExtraProp:sf forKey:propertyName];
+        [selection setExtraProp:ssf forKey:[NSString stringWithFormat:@"%@Sheet", propertyName]];
     
         [TexturePropertySetter setSpriteFrameForNode:selection andProperty:propertyName withFile:sf andSheetFile:ssf];
     }

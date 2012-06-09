@@ -66,7 +66,7 @@
 
 - (void) updateGuides
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     
     [self removeAllChildrenWithCleanup:YES];
     
@@ -120,8 +120,8 @@
 {
     if (!self.visible) return NO;
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosScene* cs = [CocosScene cocosScene];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     int g = kCCBGuideNone;
     
@@ -186,7 +186,7 @@
     
     if (draggingGuide != kCCBGuideNone)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
+        CocosScene* cs = [CocosScene cocosScene];
         CGPoint guidePos = [cs convertToDocSpace:pt];
         
         Guide* g = [guides objectAtIndex:draggingGuide];
@@ -301,7 +301,7 @@
 {
     CGPoint snappedPt = pt;
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     float minSnapDistX = kCCBGuideSnapDistance;
     float minSnapDistY = kCCBGuideSnapDistance;
     

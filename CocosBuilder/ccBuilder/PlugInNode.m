@@ -164,8 +164,26 @@
     return props;
 }
 
+- (NSArray*) animatableProperties
+{
+    if (cachedAnimatableProperties) return cachedAnimatableProperties;
+    
+    NSMutableArray* props = [NSMutableArray array];
+    for (NSDictionary* propInfo in nodeProperties)
+    {
+        if ([[propInfo objectForKey:@"animatable"] boolValue])
+        {
+            [props addObject:[propInfo objectForKey:@"name"]];
+        }
+    }
+    cachedAnimatableProperties = [props retain];
+    
+    return cachedAnimatableProperties;
+}
+
 - (void) dealloc
 {
+    [cachedAnimatableProperties release];
     [positionProperty release];
     [requireChildClass release];
     [requireParentClass release];

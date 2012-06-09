@@ -198,7 +198,7 @@
     mouseMarkHorizontal.position = ccp(pos.x, 0);
     mouseMarkVertical.position = ccp(0, pos.y);
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
+    CocosScene* cs = [CocosScene cocosScene];
     CGPoint docPos = [cs convertToDocSpace:pos];
     [lblX setString:[NSString stringWithFormat:@"%d",(int)docPos.x]];
     [lblY setString:[NSString stringWithFormat:@"%d",(int)docPos.y]];

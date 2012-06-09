@@ -49,7 +49,7 @@
     selection = [s retain];
     extra = [e retain];
     
-    resourceManager = [[CCBGlobals globals] appDelegate];
+    resourceManager = [CocosBuilderAppDelegate appDelegate];
     
     return self;
 }
@@ -73,7 +73,7 @@
         for (int i = 0; i < [affectsProperties count]; i++)
         {
             NSString* propName = [affectsProperties objectAtIndex:i];
-            CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+            CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
             [ad refreshProperty:propName];
         }
     }
@@ -96,7 +96,7 @@
 
 - (void) setPropertyForSelection:(id)value
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
@@ -119,7 +119,7 @@
 
 - (void) setPropertyForSelectionX:(id)value
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"X"]];
     [self updateAffectedProperties];
@@ -132,7 +132,7 @@
 
 - (void) setPropertyForSelectionY:(id)value
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Y"]];
     [self updateAffectedProperties];
@@ -145,7 +145,7 @@
 
 - (void) setPropertyForSelectionVar:(id)value
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setValue:value forKey:[propertyName stringByAppendingString:@"Var"]];
     
@@ -161,15 +161,5 @@
     
     [super dealloc];
 }
-
-/*
-- (void)setNilValueForKey:(NSString *)key {
-    @try {
-        [self setValue:[NSNumber numberWithFloat:0] forKey:key];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%s %@ (caught %@)", __PRETTY_FUNCTION__, key, exception);
-    }
-}*/
 
 @end

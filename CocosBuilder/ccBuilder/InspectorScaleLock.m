@@ -26,13 +26,14 @@
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 #import "PositionPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorScaleLock
 
 
 - (void) setScaleX:(float)scaleX
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
     float scaleY = 0;
@@ -59,7 +60,7 @@
 
 - (void) setScaleY:(float)scaleY
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     int type = [PositionPropertySetter scaledFloatTypeForNode:selection prop:propertyName];
     float scaleX = 0;
@@ -86,16 +87,14 @@
 
 - (BOOL) locked
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:[propertyName stringByAppendingString:@"Lock"] andNode:selection] boolValue];
+    return [[selection extraPropForKey:[propertyName stringByAppendingString:@"Lock"]] boolValue];
 }
 
 - (void) setLocked:(BOOL)locked
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithBool:locked] forKey:[propertyName stringByAppendingString:@"Lock"] andNode:selection];
+    [selection setExtraProp:[NSNumber numberWithBool:locked] forKey:[propertyName stringByAppendingString:@"Lock"]];
     
     if (locked && [self scaleX] != [self scaleY])
     {

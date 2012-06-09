@@ -36,10 +36,21 @@
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
 #import "PositionPropertySetter.h"
+#import "CCBGLView.h"
+#import "MainWindow.h"
+#import "CCNode+NodeInfo.h"
+
+static CocosScene* sharedCocosScene;
 
 @implementation CocosScene
 
-@synthesize rootNode, isMouseTransforming, scrollOffset, currentTool, guideLayer, rulerLayer, notesLayer;
+@synthesize rootNode;
+@synthesize isMouseTransforming;
+@synthesize scrollOffset;
+@synthesize currentTool;
+@synthesize guideLayer;
+@synthesize rulerLayer;
+@synthesize notesLayer;
 
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app
 {
@@ -48,13 +59,18 @@
 	
 	// 'layer' is an autorelease object.
 	CocosScene *layer = [[[CocosScene alloc] initWithAppDelegate:app] autorelease];
-    [[CCBGlobals globals] setCocosScene:layer];
+    sharedCocosScene = layer;
 	
 	// add layer as a child to scene
 	[scene addChild: layer];
 	
 	// return the scene
 	return scene;
+}
+
++ (CocosScene*) cocosScene
+{
+    return sharedCocosScene;
 }
 
 -(void) setupEditorNodes
@@ -235,6 +251,7 @@
 
 #pragma mark Extra properties
 
+/*
 - (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
 {
     NodeInfo* info = node.userObject;
@@ -246,18 +263,18 @@
     NodeInfo* info = node.userObject;
     [info.extraProps setObject:val forKey:key];
 }
-
+*/
 
 - (void) setupExtraPropsForNode:(CCNode*) node
 {
-    [self setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag" andNode:node];
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"lockedScaleRatio" andNode:node];
+    [node setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag"];
+    [node setExtraProp:[NSNumber numberWithBool:YES] forKey:@"lockedScaleRatio"];
     
-    [self setExtraProp:@"" forKey:@"customClass" andNode:node];
-    [self setExtraProp:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType" andNode:node];
-    [self setExtraProp:@"" forKey:@"memberVarAssignmentName" andNode:node];
+    [node setExtraProp:@"" forKey:@"customClass"];
+    [node setExtraProp:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
+    [node setExtraProp:@"" forKey:@"memberVarAssignmentName"];
     
-    [self setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded" andNode:node];
+    [node setExtraProp:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
 }
 
 #pragma mark Replacing content
@@ -503,7 +520,7 @@
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseDown:pos event:event]) return YES;
     if ([guideLayer mouseDown:pos event:event]) return YES;
@@ -574,7 +591,7 @@
     [self mouseMoved:event];
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
@@ -687,7 +704,7 @@
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     if ([notesLayer mouseUp:pos event:event]) return YES;
     if ([guideLayer mouseUp:pos event:event]) return YES;
@@ -709,7 +726,7 @@
     if (!appDelegate.hasOpenedDocument) return;
     
     NSPoint posRaw = [event locationInWindow];
-    CGPoint pos = ccpSub(NSPointToCGPoint(posRaw),[appDelegate.cocosView frame].origin);
+    CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
     
     mousePos = pos;
 }

@@ -43,7 +43,7 @@
 
 - (void) addNote
 {
-    [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*notes"];
     StickyNote* note = [[[StickyNote alloc] init] autorelease];
     note.docPos = ccp(10,150);
     [self addChild:note];
@@ -51,7 +51,7 @@
 
 - (void) editNote:(StickyNote*)note
 {
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     // Setup text area and add it to guiLayer
     CGSize size = note.contentSize;
@@ -85,7 +85,7 @@
     [self removeChild:modifiedNote cleanup:YES];
     
     // End the editing session
-    CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     [ad.window makeKeyWindow];
     
     modifiedNote = NULL;
@@ -93,7 +93,7 @@
 
 - (void)textDidChange:(NSNotification *)notification
 {
-    [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*notes"];
     
     [modifiedNote setNoteText:[textView string]];
 }
@@ -148,7 +148,7 @@
 {
     if (operation == kCCBNoteOperationDragging)
     {
-        [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*notes"];
         
         CGPoint delta = ccpSub(pt, mouseDownPos);
         modifiedNote.docPos = ccpAdd(noteStartPos, delta);
@@ -156,7 +156,7 @@
     }
     else if (operation == kCCBNoteOperationResizing)
     {
-        [[CCBGlobals globals].appDelegate saveUndoStateWillChangeProperty:@"*notes"];
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*notes"];
         
         CGPoint delta = ccpSub(pt, mouseDownPos);
         CGSize newSize;

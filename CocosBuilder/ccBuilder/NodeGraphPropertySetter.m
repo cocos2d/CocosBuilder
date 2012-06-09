@@ -28,6 +28,7 @@
 #import "ResourceManager.h"
 #import "CCBDocument.h"
 #import "CCBReaderInternal.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation NodeGraphPropertySetter
 
@@ -37,7 +38,7 @@
     
     if (ccbFileName && ![ccbFileName isEqualToString:@""])
     {
-        CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
         // Get absolut file path to ccb file
         NSString* ccbFileNameAbs = [[ResourceManager sharedManager] toAbsolutePath:ccbFileName];
@@ -64,14 +65,12 @@
     
     // Set extra prop
     if (!ccbFileName) ccbFileName = @"";
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:ccbFileName forKey:prop andNode:node];
+    [node setExtraProp:ccbFileName forKey:prop];
 }
 
 + (NSString*) nodeGraphNameForNode:(CCNode*)node andProperty:(NSString*)prop
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    NSString* ccbFileName = [cs extraPropForKey:prop andNode:node];
+    NSString* ccbFileName = [node extraPropForKey:prop];
     if ([ccbFileName isEqualToString:@""]) ccbFileName = NULL;
     return ccbFileName;
 }

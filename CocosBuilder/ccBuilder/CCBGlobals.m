@@ -29,7 +29,9 @@
 
 @implementation CCBGlobals
 
-@synthesize rootNode, cocosScene, numRuns, hasDonated,appDelegate;
+@synthesize rootNode;
+@synthesize numRuns;
+@synthesize hasDonated;
 
 + (CCBGlobals*) globals
 {
@@ -63,8 +65,7 @@
 
 - (void)dealloc
 {
-    rootNode = NULL;
-    cocosScene = NULL;
+    self.rootNode = NULL;
     [super dealloc];
 }
 

@@ -122,14 +122,15 @@ enum {
 @property (nonatomic,readonly) RulersLayer* rulerLayer;
 @property (nonatomic,readonly) NotesLayer* notesLayer;
 
-// returns a Scene that contains the HelloWorld as the only child
+// Used to creat the scene
 +(id) sceneWithAppDelegate:(CocosBuilderAppDelegate*)app;
+
+// Used to retrieve the shared instance
++ (CocosScene*) cocosScene;
+
 -(id) initWithAppDelegate:(CocosBuilderAppDelegate*)app;
 
 - (void) scrollWheel:(NSEvent *)theEvent;
-
-- (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node;
-- (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node;
 
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin;
 - (CGSize) stageSize;

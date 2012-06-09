@@ -29,10 +29,9 @@
 
 @class CocosBuilderAppDelegate;
 
-@interface CCBGlobals : NSObject {
+@interface CCBGlobals : NSObject
+{
     CCNode* rootNode;
-    CocosScene* cocosScene;
-    CocosBuilderAppDelegate* appDelegate;
     
     // Settings
     int numRuns;
@@ -42,8 +41,6 @@
 }
 
 @property (nonatomic,retain) CCNode* rootNode;
-@property (nonatomic,retain) CocosScene* cocosScene;
-@property (nonatomic,retain) CocosBuilderAppDelegate* appDelegate;
 
 // Settings
 @property (nonatomic,assign) int numRuns;

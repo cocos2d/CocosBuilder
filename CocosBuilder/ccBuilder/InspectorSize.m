@@ -31,7 +31,7 @@
 
 - (void) setWidth:(float)width
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.width = width;
@@ -47,7 +47,7 @@
 
 - (void) setHeight:(float)height
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
 	NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     size.height = height;
@@ -63,7 +63,7 @@
 
 - (void) setType:(int)type
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     //NSSize size = [PositionPropertySetter sizeForNode:selection prop:propertyName];
     //[PositionPropertySetter setSize:size type:type forNode:selection prop:propertyName];

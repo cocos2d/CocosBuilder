@@ -28,23 +28,22 @@
 #import "ResourceManagerUtil.h"
 #import "CocosBuilderAppDelegate.h"
 #import "AnimationPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorAnimation
 
 - (void) willBeAdded
 {
     // Setup menu
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    
-    NSString* animName = [cs extraPropForKey:propertyName andNode:selection];
-    NSString* animFile = [cs extraPropForKey:[NSString stringWithFormat:@"%@Animation", propertyName] andNode:selection];
+    NSString* animName = [selection extraPropForKey:propertyName];
+    NSString* animFile = [selection extraPropForKey:[NSString stringWithFormat:@"%@Animation", propertyName]];
     
     [ResourceManagerUtil populateResourcePopup:popup resType:kCCBResTypeAnimation allowSpriteFrames:NO selectedFile:animName selectedSheet:animFile target:self];
 }
 
 - (void) selectedResource:(id)sender
 {
-    [[[CCBGlobals globals] appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     id item = [sender representedObject];
     
@@ -64,10 +63,8 @@
     
     if (animFile && animName)
     {
-        CocosScene* cs = [[CCBGlobals globals] cocosScene];
-        
-        [cs setExtraProp:animName forKey:propertyName andNode:selection];
-        [cs setExtraProp:animFile forKey:[NSString stringWithFormat:@"%@Animation", propertyName] andNode:selection];
+        [selection setExtraProp:animName forKey:propertyName];
+        [selection setExtraProp:animFile forKey:[NSString stringWithFormat:@"%@Animation", propertyName]];
         
         [AnimationPropertySetter setAnimationForNode:selection andProperty:propertyName withName:animName andFile:animFile];
     }

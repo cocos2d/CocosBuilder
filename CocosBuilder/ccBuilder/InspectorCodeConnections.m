@@ -25,45 +25,40 @@
 #import "InspectorCodeConnections.h"
 #import "CocosScene.h"
 #import "CCBGlobals.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation InspectorCodeConnections
 
 - (void) setCustomClass:(NSString *)customClass
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
     if (!customClass) customClass = @"";
-    [cs setExtraProp:customClass forKey:@"customClass" andNode:selection];
+    [selection setExtraProp:customClass forKey:@"customClass"];
 }
 
 - (NSString*) customClass
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [cs extraPropForKey:@"customClass" andNode:selection];
+    return [selection extraPropForKey:@"customClass"];
 }
 
 - (void) setMemberVarAssignmentName:(NSString *)memberVarAssignmentName
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
     if (!memberVarAssignmentName) memberVarAssignmentName = @"";
-    [cs setExtraProp:memberVarAssignmentName forKey:@"memberVarAssignmentName" andNode:selection];
+    [selection setExtraProp:memberVarAssignmentName forKey:@"memberVarAssignmentName"];
 }
 
 - (NSString*) memberVarAssignmentName
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [cs extraPropForKey:@"memberVarAssignmentName" andNode:selection];
+    return [selection extraPropForKey:@"memberVarAssignmentName"];
 }
 
 - (void) setMemberVarAssignmentType:(int)memberVarAssignmentType
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    [cs setExtraProp:[NSNumber numberWithInt: memberVarAssignmentType] forKey:@"memberVarAssignmentType" andNode:selection];
+    [selection setExtraProp:[NSNumber numberWithInt: memberVarAssignmentType] forKey:@"memberVarAssignmentType"];
 }
 
 - (int) memberVarAssignmentType
 {
-    CocosScene* cs = [[CCBGlobals globals] cocosScene];
-    return [[cs extraPropForKey:@"memberVarAssignmentType" andNode:selection] intValue];
+    return [[selection extraPropForKey:@"memberVarAssignmentType"] intValue];
 }
 
 @end

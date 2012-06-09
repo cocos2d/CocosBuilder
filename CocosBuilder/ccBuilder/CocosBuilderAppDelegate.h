@@ -58,12 +58,16 @@ enum {
 @class CCBPublisher;
 @class CCBWarnings;
 @class PlayerController;
+@class SequencerHandler;
+@class SequencerScrubberSelectionView;
+@class MainWindow;
 
-@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSWindowDelegate>
+@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
     // Cocos2D view
     IBOutlet CCBGLView* cocosView;
     IBOutlet NSView* mainView;
+    IBOutlet NSSplitView* splitView;
     
     // Inspector views
     IBOutlet NSScrollView* inspectorScroll;
@@ -83,7 +87,13 @@ enum {
     BOOL lockedScaleRatio;
     
     // Outline view heirarchy
+    SequencerHandler* sequenceHandler;
     IBOutlet NSOutlineView* outlineHierarchy;
+    IBOutlet SequencerScrubberSelectionView* scrubberSelectionView;
+    IBOutlet NSTextField* timeDisplay;
+    IBOutlet NSSlider* timeScaleSlider;
+    IBOutlet NSScroller* timelineScroller;
+    IBOutlet NSScrollView* sequenceScrollView;
     
     // Selections
     CCNode* selectedNode;
@@ -137,11 +147,11 @@ enum {
     PlayerController* playerController;
     
 @private
-    NSWindow *window;
+    MainWindow *window;
     
 }
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet MainWindow *window;
 
 //@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
@@ -175,6 +185,8 @@ enum {
 - (void) refreshProperty:(NSString*) name;
 
 // Methods
++ (CocosBuilderAppDelegate*) appDelegate;
+
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
