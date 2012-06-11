@@ -70,7 +70,23 @@
     NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
     
     float yInCell = convPoint.y - cellFrame.origin.y;
-    return yInCell/kCCBSeqDefaultRowHeight;
+    int subRow = yInCell/kCCBSeqDefaultRowHeight;
+    
+    // Check bounds
+    CCNode* node = [outlineView itemAtRow:row];
+    if (node.seqExpanded)
+    {
+        if (subRow > [[node plugIn].animatableProperties count])
+        {
+            subRow = [[node plugIn].animatableProperties count];
+        }
+    }
+    else
+    {
+        subRow = 0;
+    }
+    
+    return subRow;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
