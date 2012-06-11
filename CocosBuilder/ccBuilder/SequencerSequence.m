@@ -15,6 +15,8 @@
 @synthesize timelineOffset;
 @synthesize timelineLength;
 @synthesize timelinePosition;
+@synthesize name;
+@synthesize sequenceId;
 
 - (id) init
 {
@@ -88,6 +90,12 @@
     int frames = roundf((timelinePosition - floorf(timelinePosition)) * timelineResolution);
     
     return [NSString stringWithFormat:@"%02d:%02d:%02d", mins,secs,frames];
+}
+
+- (void) dealloc
+{
+    self.name = NULL;
+    [super dealloc];
 }
 
 @end

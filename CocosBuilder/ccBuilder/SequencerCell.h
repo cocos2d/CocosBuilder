@@ -7,9 +7,16 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "cocos2d.h"
 
 @interface SequencerCell : NSCell
 {
-    NSImage* imgSeparator;
+    CCNode* node;
+    
+    NSImage* imgKeyframe;
+    NSImage* imgKeyframeSel;
 }
+
+@property (nonatomic,assign) CCNode* node;
+
 @end

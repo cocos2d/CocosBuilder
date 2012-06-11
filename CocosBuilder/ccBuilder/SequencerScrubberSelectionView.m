@@ -287,6 +287,22 @@
     }
 }
 
+- (void) doubleClickedRow:(int)row sub:(int)sub time:(float) time
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    // Get the double clicked node
+    CCNode* node = [outlineView itemAtRow:row];
+    NSArray* props = node.plugIn.animatableProperties;
+
+    NSString* prop = NULL;
+    if (sub == 0) prop = @"visible";
+    else prop = [props objectAtIndex:sub-1];
+    
+    NSLog(@"addKeyframe at: %f", time);
+    [node addDefaultKeyframeForProperty:prop atTime:time sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+}
+
 - (void) mouseDown:(NSEvent *)theEvent
 {
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
@@ -313,20 +329,35 @@
     }
     else
     {
-        mouseState = kCCBSeqMouseStateSelecting;
+        if (theEvent.clickCount == 2)
+        {
+            mouseState = kCCBSeqMouseStateNone;
+            
+            int doubleClickedRow = [self yMousePosToRow:mouseLocation.y];
+            int doubleClickedSubRow = [self yMousePosToSubRow:mouseLocation.y];
+            
+            if (doubleClickedRow != -1)
+            {
+                [self doubleClickedRow:doubleClickedRow sub:doubleClickedSubRow time:[seq positionToTime:mouseLocation.x]];
+            }
+        }
+        else
+        {
+            mouseState = kCCBSeqMouseStateSelecting;
         
-        // Position in time
-        xStartSelectTime = [seq positionToTime:mouseLocation.x];
-        xEndSelectTime = xStartSelectTime;
+            // Position in time
+            xStartSelectTime = [seq positionToTime:mouseLocation.x];
+            xEndSelectTime = xStartSelectTime;
         
-        // Row selection
-        yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
-        if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
-        yEndSelectRow = yStartSelectRow;
+            // Row selection
+            yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
+            if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
+            yEndSelectRow = yStartSelectRow;
         
-        // Selection in row
-        yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
-        yEndSelectSubRow = yStartSelectSubRow;
+            // Selection in row
+            yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
+            yEndSelectSubRow = yStartSelectSubRow;
+        }
     }
 }
 

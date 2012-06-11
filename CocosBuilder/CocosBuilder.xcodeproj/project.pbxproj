@@ -296,6 +296,11 @@
 		E36A281D152263B4004986A8 /* TGAlib.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27C8152263B4004986A8 /* TGAlib.m */; };
 		E36A281E152263B4004986A8 /* TransformUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27CA152263B4004986A8 /* TransformUtils.m */; };
 		E36A281F152263B4004986A8 /* ZipUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E36A27CE152263B4004986A8 /* ZipUtils.m */; };
+		E36ECCE5158648EE003C177E /* SequencerNodeProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = E36ECCE4158648EE003C177E /* SequencerNodeProperty.m */; };
+		E36ECD0D15868F57003C177E /* SequencerKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E36ECD0C15868F57003C177E /* SequencerKeyframe.m */; };
+		E36ECD6415869779003C177E /* seq-btn-back.png in Resources */ = {isa = PBXBuildFile; fileRef = E36ECD6115869779003C177E /* seq-btn-back.png */; };
+		E36ECD6515869779003C177E /* seq-keyframe-sel.png in Resources */ = {isa = PBXBuildFile; fileRef = E36ECD6215869779003C177E /* seq-keyframe-sel.png */; };
+		E36ECD6615869779003C177E /* seq-keyframe.png in Resources */ = {isa = PBXBuildFile; fileRef = E36ECD6315869779003C177E /* seq-keyframe.png */; };
 		E36F3C3D152C756D00AAD805 /* NSString+RelativePath.m in Sources */ = {isa = PBXBuildFile; fileRef = E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */; };
 		E370BA0C1549B2460048ED73 /* scale-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0A1549B2460048ED73 /* scale-0.png */; };
 		E370BA0D1549B2460048ED73 /* scale-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E370BA0B1549B2460048ED73 /* scale-1.png */; };
@@ -1254,6 +1259,13 @@
 		E36A27CC152263B4004986A8 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
 		E36A27CD152263B4004986A8 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtils.h; sourceTree = "<group>"; };
 		E36A27CE152263B4004986A8 /* ZipUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZipUtils.m; sourceTree = "<group>"; };
+		E36ECCE3158648EE003C177E /* SequencerNodeProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerNodeProperty.h; sourceTree = "<group>"; };
+		E36ECCE4158648EE003C177E /* SequencerNodeProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerNodeProperty.m; sourceTree = "<group>"; };
+		E36ECD0B15868F57003C177E /* SequencerKeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerKeyframe.h; sourceTree = "<group>"; };
+		E36ECD0C15868F57003C177E /* SequencerKeyframe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerKeyframe.m; sourceTree = "<group>"; };
+		E36ECD6115869779003C177E /* seq-btn-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-back.png"; sourceTree = "<group>"; };
+		E36ECD6215869779003C177E /* seq-keyframe-sel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-keyframe-sel.png"; sourceTree = "<group>"; };
+		E36ECD6315869779003C177E /* seq-keyframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-keyframe.png"; sourceTree = "<group>"; };
 		E36F3C3B152C756D00AAD805 /* NSString+RelativePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RelativePath.h"; sourceTree = "<group>"; };
 		E36F3C3C152C756D00AAD805 /* NSString+RelativePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RelativePath.m"; sourceTree = "<group>"; };
 		E370BA0A1549B2460048ED73 /* scale-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scale-0.png"; sourceTree = "<group>"; };
@@ -1892,6 +1904,9 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E36ECD6115869779003C177E /* seq-btn-back.png */,
+				E36ECD6215869779003C177E /* seq-keyframe-sel.png */,
+				E36ECD6315869779003C177E /* seq-keyframe.png */,
 				E3E8B4A9157D127300373983 /* seq-scaleslide-bg.png */,
 				E3E8B4A2157CD5DB00373983 /* seq-scrub-handle.png */,
 				E3E8B4A3157CD5DB00373983 /* seq-scrub-line.png */,
@@ -2258,6 +2273,10 @@
 				E3E8B4A0157CC57E00373983 /* SequencerScrubberSelectionView.m */,
 				E3E8B4A6157CD67000373983 /* SequencerSequence.h */,
 				E3E8B4A7157CD67000373983 /* SequencerSequence.m */,
+				E36ECCE3158648EE003C177E /* SequencerNodeProperty.h */,
+				E36ECCE4158648EE003C177E /* SequencerNodeProperty.m */,
+				E36ECD0B15868F57003C177E /* SequencerKeyframe.h */,
+				E36ECD0C15868F57003C177E /* SequencerKeyframe.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -3756,6 +3775,9 @@
 				E3E8B4A4157CD5DB00373983 /* seq-scrub-handle.png in Resources */,
 				E3E8B4A5157CD5DB00373983 /* seq-scrub-line.png in Resources */,
 				E3E8B4AA157D127300373983 /* seq-scaleslide-bg.png in Resources */,
+				E36ECD6415869779003C177E /* seq-btn-back.png in Resources */,
+				E36ECD6515869779003C177E /* seq-keyframe-sel.png in Resources */,
+				E36ECD6615869779003C177E /* seq-keyframe.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4165,6 +4187,8 @@
 				E3E8B4871578F8F800373983 /* SequencerTimelineView.m in Sources */,
 				E3E8B4A1157CC57E00373983 /* SequencerScrubberSelectionView.m in Sources */,
 				E3E8B4A8157CD67000373983 /* SequencerSequence.m in Sources */,
+				E36ECCE5158648EE003C177E /* SequencerNodeProperty.m in Sources */,
+				E36ECD0D15868F57003C177E /* SequencerKeyframe.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,8 @@
 #import "cocos2d.h"
 
 @class PlugInNode;
+@class SequencerNodeProperty;
+@class SequencerKeyframe;
 
 @interface CCNode (NodeInfo)
 
@@ -17,5 +19,11 @@
 
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;
+
+- (SequencerNodeProperty*) sequenceNodeProperty:(NSString*)name sequenceId:(int)seqId;
+- (void) enableSequenceNodeProperty:(NSString*)name sequenceId:(int)seqId;
+
+- (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
+- (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
 
 @end

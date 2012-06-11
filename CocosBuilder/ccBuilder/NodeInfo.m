@@ -27,7 +27,9 @@
 
 @implementation NodeInfo
 
-@synthesize plugIn,extraProps;
+@synthesize plugIn;
+@synthesize extraProps;
+@synthesize animatableProperties;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin
 {
@@ -47,6 +49,8 @@
     [extraProps setObject:[NSNumber numberWithBool:YES] forKey:@"isExpanded"];
     [extraProps setObject:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
     [extraProps setObject:@"" forKey:@"memberVarAssignmentName"];
+    
+    animatableProperties = [[NSMutableDictionary alloc] init];
     
     return self;
 }

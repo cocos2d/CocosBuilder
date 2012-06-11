@@ -16,6 +16,7 @@
 #import "PositionPropertySetter.h"
 #import "SequencerExpandBtnCell.h"
 #import "SequencerStructureCell.h"
+#import "SequencerCell.h"
 #import "SequencerSequence.h"
 #import "SequencerScrubberSelectionView.h"
 #import "CCNode+NodeInfo.h"
@@ -407,6 +408,11 @@ static SequencerHandler* sharedSequencerHandler;
     {
         SequencerStructureCell* strCell = cell;
         strCell.node = node;
+    }
+    else if ([tableColumn.identifier isEqualToString:@"sequencer"])
+    {
+        SequencerCell* seqCell = cell;
+        seqCell.node = node;
     }
 }
 

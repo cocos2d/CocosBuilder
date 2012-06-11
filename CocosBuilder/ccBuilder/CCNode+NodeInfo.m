@@ -9,6 +9,8 @@
 #import "CCNode+NodeInfo.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -38,6 +40,55 @@
 {
     NodeInfo* info = self.userObject;
     return info.plugIn;
+}
+
+- (SequencerNodeProperty*) sequenceNodeProperty:(NSString*)name sequenceId:(int)seqId
+{
+    NodeInfo* info = self.userObject;
+    NSDictionary* dict = [info.animatableProperties objectForKey:[NSNumber numberWithInt:seqId]];
+    return [dict objectForKey:name];
+}
+
+- (void) enableSequenceNodeProperty:(NSString*)name sequenceId:(int)seqId
+{
+    NSLog(@"enableSeqNodeProp: %@ id: %d", name, seqId);
+    
+    // Check if animations are already enabled for this node property
+    if ([self sequenceNodeProperty:name sequenceId:seqId])
+    {
+        return;
+    }
+    
+    // Get the right seqence, create one if neccessary
+    NodeInfo* info = self.userObject;
+    NSMutableDictionary* sequences = [info.animatableProperties objectForKey:[NSNumber numberWithInt:seqId]];
+    if (!sequences)
+    {
+        sequences = [NSMutableDictionary dictionary];
+        [info.animatableProperties setObject:sequences forKey:[NSNumber numberWithInt:seqId]];
+    }
+    
+    SequencerNodeProperty* seqNodeProp = [[SequencerNodeProperty alloc] initWithProperty:name node:self];
+    
+    [sequences setObject:seqNodeProp forKey:name];
+}
+
+- (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
+{
+    // Make sure timeline is enabled for this property
+    [self enableSequenceNodeProperty:name sequenceId:seqId];
+    
+    SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
+    [seqNodeProp setKeyframe:keyframe];
+}
+
+- (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
+{
+    // Create keyframe
+    SequencerKeyframe* keyframe = [[SequencerKeyframe alloc] init];
+    keyframe.time = time;
+    
+    [self addKeyframe:keyframe forProperty:name atTime:time sequenceId:seqId];
 }
 
 @end

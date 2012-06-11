@@ -14,14 +14,18 @@
     float timelineOffset;
     float timelineLength;
     float timelinePosition;
-    
     float timelineResolution;
+    
+    NSString* name;
+    int sequenceId;
 }
 
 @property (nonatomic,assign) float timelineScale;
 @property (nonatomic,assign) float timelineOffset;
 @property (nonatomic,assign) float timelineLength;
 @property (nonatomic,assign) float timelinePosition;
+@property (nonatomic,copy) NSString* name;
+@property (nonatomic,assign) int sequenceId;
 
 // Convert between actual time and position in sequence view
 - (float) timeToPosition:(float)time;
