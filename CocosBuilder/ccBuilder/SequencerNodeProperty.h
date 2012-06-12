@@ -20,4 +20,6 @@
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n;
 - (void) setKeyframe:(SequencerKeyframe*)keyframe;
+- (SequencerKeyframe*) keyframeBetweenMinTime:(float)minTime maxTime:(float)maxTime;
+- (NSArray*) keyframesBetweenMinTime:(float)minTime maxTime:(float)maxTime;
 @end

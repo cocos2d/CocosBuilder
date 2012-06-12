@@ -10,6 +10,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
 #import "NodeInfo.h"
+#import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
@@ -453,6 +454,26 @@ static SequencerHandler* sharedSequencerHandler;
     [self updateScroller];
 }
 
+#pragma mark Util
+
+- (void) deselectKeyframesForNode:(CCNode*)node
+{
+    [node deselectAllKeyframes];
+    
+    // Also deselect keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        [self deselectKeyframesForNode:child];
+    }
+}
+
+- (void) deselectAllKeyframes
+{
+    [self deselectKeyframesForNode:[[CocosScene cocosScene] rootNode]];
+    [outlineHierarchy reloadData];
+}
 
 #pragma mark Destructor
 

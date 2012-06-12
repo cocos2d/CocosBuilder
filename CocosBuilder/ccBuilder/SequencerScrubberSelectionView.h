@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "cocos2d.h"
 
+@class SequencerKeyframe;
+
 enum
 {
     kCCBSeqMouseStateNone = 0,
@@ -54,6 +56,8 @@ enum
     int yStartSelectSubRow;
     int yEndSelectRow;
     int yEndSelectSubRow;
+    
+    SequencerKeyframe* mouseDownKeyframe;
 }
 
 @property (nonatomic,retain) NSEvent* lastDragEvent;

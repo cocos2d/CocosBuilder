@@ -13,8 +13,14 @@
 {
     CCNode* node;
     
+    BOOL imagesLoaded;
+    
     NSImage* imgKeyframe;
     NSImage* imgKeyframeSel;
+    
+    NSImage* imgRowBg0;
+    NSImage* imgRowBg1;
+    NSImage* imgRowBgN;
 }
 
 @property (nonatomic,assign) CCNode* node;

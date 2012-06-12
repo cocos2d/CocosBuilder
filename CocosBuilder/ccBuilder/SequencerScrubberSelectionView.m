@@ -11,6 +11,8 @@
 #import "SequencerSequence.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -287,20 +289,154 @@
     }
 }
 
+- (NSString*) propNameForNode:(CCNode*) node subRow:(int)sub
+{
+    NSArray* props = node.plugIn.animatableProperties;
+    
+    NSString* prop = NULL;
+    if (sub == 0) prop = @"visible";
+    else prop = [props objectAtIndex:sub-1];
+    
+    return prop;
+}
+
 - (void) doubleClickedRow:(int)row sub:(int)sub time:(float) time
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     // Get the double clicked node
     CCNode* node = [outlineView itemAtRow:row];
-    NSArray* props = node.plugIn.animatableProperties;
-
-    NSString* prop = NULL;
-    if (sub == 0) prop = @"visible";
-    else prop = [props objectAtIndex:sub-1];
+    NSString* prop = [self propNameForNode:node subRow:sub];
     
     NSLog(@"addKeyframe at: %f", time);
     [node addDefaultKeyframeForProperty:prop atTime:time sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+}
+
+- (SequencerKeyframe*) keyframeForRow:(int)row sub:(int)sub minTime:(float)minTime maxTime:(float)maxTime
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    CCNode* node = [outlineView itemAtRow:row];
+    NSString* prop = [self propNameForNode:node subRow:sub];
+    
+    SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+    
+    return [seqNodeProp keyframeBetweenMinTime:minTime maxTime:maxTime];
+}
+
+- (NSArray*) getSelectedKeyframes
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    
+    NSMutableArray* selectedKeyframes = [NSMutableArray array];
+    
+    // Determine min/max values for the selection
+    float xMinTime = 0;
+    float xMaxTime = 0;
+    if (xStartSelectTime < xEndSelectTime)
+    {
+        xMinTime = xStartSelectTime;
+        xMaxTime = xEndSelectTime;
+    }
+    else
+    {
+        xMinTime = xEndSelectTime;
+        xMaxTime = xStartSelectTime;
+    }
+    
+    // Rows
+    int yMinRow = 0;
+    int yMaxRow = 0;
+    int yMinSubRow = 0;
+    int yMaxSubRow = 0;
+    
+    if (yStartSelectRow < yEndSelectRow)
+    {
+        yMinRow = yStartSelectRow;
+        yMaxRow = yEndSelectRow;
+        yMinSubRow = yStartSelectSubRow;
+        yMaxSubRow = yEndSelectSubRow;
+    }
+    else
+    {
+        yMinRow = yEndSelectRow;
+        yMaxRow = yStartSelectRow;
+        yMinSubRow = yEndSelectSubRow;
+        yMaxSubRow = yStartSelectSubRow;
+    }
+    
+    if (yMinRow == yMaxRow)
+    {
+        // Only selection within a row
+        
+        if (yStartSelectSubRow < yEndSelectSubRow)
+        {
+            yMinSubRow = yStartSelectSubRow;
+            yMaxSubRow = yEndSelectSubRow;
+        }
+        else
+        {
+            yMinSubRow = yEndSelectSubRow;
+            yMaxSubRow = yStartSelectSubRow;
+        }
+        
+        CCNode* node = [outlineView itemAtRow:yMinRow];
+        for (int subRow = yMinSubRow; subRow <= yMaxSubRow; subRow++)
+        {
+            NSString* propName = [self propNameForNode:node subRow:subRow];
+            SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+            [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+        }
+    }
+    else
+    {
+        // Selection spanning multiple rows
+        for (int row = yMinRow; row <= yMaxRow; row++)
+        {
+            CCNode* node = [outlineView itemAtRow:row];
+            
+            if (node.seqExpanded)
+            {
+                // This row is expanded
+                if (row == yMinRow)
+                {
+                    for (int subRow = yMinSubRow; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+                else if (row == yMaxRow)
+                {
+                    for (int subRow = 0; subRow <= yMaxSubRow; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+                else
+                {
+                    for (int subRow = 0; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+            }
+            else
+            {
+                // Row is not expaned, only select the first visible property
+                NSString* propName  = [self propNameForNode:node subRow:0];
+                SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+            }
+        }
+    }
+    
+    return selectedKeyframes;
 }
 
 - (void) mouseDown:(NSEvent *)theEvent
@@ -321,24 +457,55 @@
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
+    // Calculate the clicked time and time span for hit area of keyframes
+    float time = [seq positionToTime:mouseLocation.x];
+    
+    float timeMin = [seq positionToTime:mouseLocation.x - 3];
+    float timeMax = [seq positionToTime:mouseLocation.x + 3];
+    
+    int row = [self yMousePosToRow:mouseLocation.y];
+    int subRow = [self yMousePosToSubRow:mouseLocation.y];
+    
+    CCNode* node = NULL;
+    if (row >= 0)
+    {
+        node = [outlineView itemAtRow:row];
+    }
+    
+    mouseDownKeyframe = [self keyframeForRow:row sub:subRow minTime:timeMin maxTime:timeMax];
+    
     if (mouseLocation.y > self.bounds.size.height - kCCBSeqScrubberHeight)
     {
         // Scrubbing
-        seq.timelinePosition = [seq positionToTime:mouseLocation.x];
+        seq.timelinePosition = time;
         mouseState = kCCBSeqMouseStateScrubbing;
     }
     else
     {
-        if (theEvent.clickCount == 2)
+        if (mouseDownKeyframe)
+        {
+            if (theEvent.modifierFlags & NSShiftKeyMask)
+            {
+                mouseDownKeyframe.selected = ! mouseDownKeyframe.selected;
+            }
+            else
+            {
+                [[SequencerHandler sharedHandler] deselectAllKeyframes];
+                mouseDownKeyframe.selected = YES;
+            }
+            
+            [outlineView reloadItem:node];
+        }
+        else if (theEvent.clickCount == 2)
         {
             mouseState = kCCBSeqMouseStateNone;
             
-            int doubleClickedRow = [self yMousePosToRow:mouseLocation.y];
-            int doubleClickedSubRow = [self yMousePosToSubRow:mouseLocation.y];
+            int doubleClickedRow = row;
+            int doubleClickedSubRow = subRow;
             
             if (doubleClickedRow != -1)
             {
-                [self doubleClickedRow:doubleClickedRow sub:doubleClickedSubRow time:[seq positionToTime:mouseLocation.x]];
+                [self doubleClickedRow:doubleClickedRow sub:doubleClickedSubRow time:time];
             }
         }
         else
@@ -346,16 +513,16 @@
             mouseState = kCCBSeqMouseStateSelecting;
         
             // Position in time
-            xStartSelectTime = [seq positionToTime:mouseLocation.x];
+            xStartSelectTime = time;
             xEndSelectTime = xStartSelectTime;
         
             // Row selection
-            yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
+            yStartSelectRow = row;
             if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
             yEndSelectRow = yStartSelectRow;
         
             // Selection in row
-            yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
+            yStartSelectSubRow = subRow;
             yEndSelectSubRow = yStartSelectSubRow;
         }
     }
@@ -439,11 +606,38 @@
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
     
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    // Check for out of bounds
     if (mouseLocation.x > [self activeWidth])
     {
         [super mouseUp:theEvent];
     }
     
+    if (mouseState == kCCBSeqMouseStateSelecting)
+    {
+        if (theEvent.modifierFlags & NSShiftKeyMask)
+        {
+            NSArray* selectedKeyframes = [self getSelectedKeyframes];
+            for (SequencerKeyframe* keyframe in selectedKeyframes)
+            {
+                keyframe.selected = YES;
+                [outlineView reloadData];
+            }
+        }
+        else
+        {
+            [[SequencerHandler sharedHandler] deselectAllKeyframes];
+            NSArray* selectedKeyframes = [self getSelectedKeyframes];
+            for (SequencerKeyframe* keyframe in selectedKeyframes)
+            {
+                keyframe.selected = YES;
+                [outlineView reloadData];
+            }
+        }
+    }
+    
+    // Clean up
     mouseState = kCCBSeqMouseStateNone;
     [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalNone];
     [self autoScrollVerticalDirection:kCCBSeqAutoScrollVerticalNone];

@@ -28,7 +28,10 @@
 
 - (void) drawPropertyRowVisiblityWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
+    [[NSColor colorWithDeviceRed:0.8f green:0.8f blue:0.8f alpha:1] set];
+    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y -1, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
     
+    [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
 }
 
 - (void) drawPropertyRow:(int) row property:(NSString*)propName withFrame:(NSRect)cellFrame inView:(NSView*)controlView
@@ -37,12 +40,22 @@
     
     SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
     
+    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
+    if (row == 1)
+    {
+        [imgRowBg1 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    else
+    {
+        [imgRowBgN drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    
     if (nodeProp)
     {
-        NSRect rect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2, cellFrame.size.width, 12);
+        //NSRect rect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2, cellFrame.size.width, 12);
         
-        [[NSColor redColor] set];
-        NSRectFill(rect);
+        //[[NSColor redColor] set];
+        //NSRectFill(rect);
         
         // Draw keyframes
         NSArray* keyframes = nodeProp.keyframes;
@@ -67,13 +80,22 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    if (!imgKeyframe)
+    if (!imagesLoaded)
     {
         imgKeyframe = [[NSImage imageNamed:@"seq-keyframe.png"] retain];
-    }
-    if (!imgKeyframeSel)
-    {
+        [imgKeyframe setFlipped:YES];
+        
         imgKeyframeSel = [[NSImage imageNamed:@"seq-keyframe-sel.png"] retain];
+        [imgKeyframeSel setFlipped:YES];
+        
+        imgRowBg0 = [[NSImage imageNamed:@"seq-row-0-bg"] retain];
+        [imgRowBg0 setFlipped:YES];
+        
+        imgRowBg1 = [[NSImage imageNamed:@"seq-row-1-bg"] retain];
+        [imgRowBg1 setFlipped:YES];
+        
+        imgRowBgN = [[NSImage imageNamed:@"seq-row-n-bg"] retain];
+        [imgRowBgN setFlipped:YES];
     }
     
     [self drawPropertyRowVisiblityWithFrame:cellFrame inView:controlView];

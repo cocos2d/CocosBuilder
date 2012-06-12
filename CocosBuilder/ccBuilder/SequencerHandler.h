@@ -67,4 +67,6 @@
 - (float) visibleTimeArea;
 - (float) maxTimelineOffset;
 
+- (void) deselectAllKeyframes;
+
 @end

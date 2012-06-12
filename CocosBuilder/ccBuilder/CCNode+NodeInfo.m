@@ -51,8 +51,6 @@
 
 - (void) enableSequenceNodeProperty:(NSString*)name sequenceId:(int)seqId
 {
-    NSLog(@"enableSeqNodeProp: %@ id: %d", name, seqId);
-    
     // Check if animations are already enabled for this node property
     if ([self sequenceNodeProperty:name sequenceId:seqId])
     {
@@ -89,6 +87,26 @@
     keyframe.time = time;
     
     [self addKeyframe:keyframe forProperty:name atTime:time sequenceId:seqId];
+}
+
+- (void) deselectAllKeyframes
+{
+    NodeInfo* info = self.userObject;
+    
+    NSEnumerator* animPropEnum = [info.animatableProperties objectEnumerator];
+    NSDictionary* seq;
+    while ((seq = [animPropEnum nextObject]))
+    {
+        NSEnumerator* seqEnum = [seq objectEnumerator];
+        SequencerNodeProperty* prop;
+        while ((prop = [seqEnum nextObject]))
+        {
+            for (SequencerKeyframe* keyframe in prop.keyframes)
+            {
+                keyframe.selected = NO;
+            }
+        }
+    }
 }
 
 @end

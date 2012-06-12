@@ -37,4 +37,29 @@
     [keyframes addObject:keyframe];
 }
 
+- (SequencerKeyframe*) keyframeBetweenMinTime:(float)minTime maxTime:(float)maxTime
+{
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        if (keyframe.time >= minTime && keyframe.time <= maxTime)
+        {
+            return keyframe;
+        }
+    }
+    return NULL;
+}
+
+- (NSArray*) keyframesBetweenMinTime:(float)minTime maxTime:(float)maxTime
+{
+    NSMutableArray* kfs = [NSMutableArray array];
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        if (keyframe.time >= minTime && keyframe.time <= maxTime)
+        {
+            [kfs addObject:keyframe];
+        }
+    }
+    return kfs;
+}
+
 @end
