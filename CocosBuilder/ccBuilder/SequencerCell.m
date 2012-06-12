@@ -28,10 +28,35 @@
 
 - (void) drawPropertyRowVisiblityWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
-    [[NSColor colorWithDeviceRed:0.8f green:0.8f blue:0.8f alpha:1] set];
-    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y -1, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
+    // Draw background
+    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y -1, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
     [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    
+    SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:@"visible" sequenceId:seq.sequenceId];
+    
+    if (nodeProp)
+    {        
+        // Draw keyframes
+        NSArray* keyframes = nodeProp.keyframes;
+        for (SequencerKeyframe* keyframe in keyframes)
+        {
+            int xPos = [seq timeToPosition:keyframe.time];
+            
+            NSImage* img = NULL;
+            if (keyframe.selected)
+            {
+                img = imgKeyframeSel;
+            }
+            else
+            {
+                img = imgKeyframe;
+            }
+            
+            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+        }
+    }
 }
 
 - (void) drawPropertyRow:(int) row property:(NSString*)propName withFrame:(NSRect)cellFrame inView:(NSView*)controlView
@@ -40,6 +65,7 @@
     
     SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
     
+    // Draw background
     NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
     if (row == 1)
     {
@@ -51,12 +77,7 @@
     }
     
     if (nodeProp)
-    {
-        //NSRect rect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2, cellFrame.size.width, 12);
-        
-        //[[NSColor redColor] set];
-        //NSRectFill(rect);
-        
+    {        
         // Draw keyframes
         NSArray* keyframes = nodeProp.keyframes;
         for (SequencerKeyframe* keyframe in keyframes)
