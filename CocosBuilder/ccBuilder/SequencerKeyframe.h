@@ -11,10 +11,12 @@
 @interface SequencerKeyframe : NSObject
 {
     float time;
+    float timeAtDragStart;
     BOOL selected;
 }
 
 @property (nonatomic,assign) float time;
+@property (nonatomic,assign) float timeAtDragStart;
 @property (nonatomic,assign) BOOL selected;
 
 @end

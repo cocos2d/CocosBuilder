@@ -230,6 +230,8 @@
         {
             xEndSelectTime = [seq positionToTime:lastMousePosition.x];
         }
+        
+        didAutoScroll = YES;
     }
 }
 
@@ -273,6 +275,8 @@
         
         // Reschedule callback
         [self performSelector:@selector(updateAutoScrollVertical) withObject:NULL afterDelay:0.1f];
+        
+        didAutoScroll = YES;
     }
 }
 
@@ -323,7 +327,7 @@
     return [seqNodeProp keyframeBetweenMinTime:minTime maxTime:maxTime];
 }
 
-- (NSArray*) getSelectedKeyframes
+- (NSArray*) keyframesInSelectionArea
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
@@ -472,7 +476,10 @@
         node = [outlineView itemAtRow:row];
     }
     
+    didAutoScroll = NO;
+    mouseDownPosition = mouseLocation;
     mouseDownKeyframe = [self keyframeForRow:row sub:subRow minTime:timeMin maxTime:timeMax];
+    mouseDownRelPositionX = (seq.timelineScale*seq.timelineOffset)+mouseLocation.x;
     
     if (mouseLocation.y > self.bounds.size.height - kCCBSeqScrubberHeight)
     {
@@ -490,8 +497,18 @@
             }
             else
             {
-                [[SequencerHandler sharedHandler] deselectAllKeyframes];
-                mouseDownKeyframe.selected = YES;
+                if (!mouseDownKeyframe.selected)
+                {
+                    [[SequencerHandler sharedHandler] deselectAllKeyframes];
+                    mouseDownKeyframe.selected = YES;
+                }
+                
+                for (SequencerKeyframe* keyframe in [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence])
+                {
+                    keyframe.timeAtDragStart = keyframe.time;
+                }
+                
+                mouseState = kCCBSeqMouseStateKeyframe;
             }
             
             [outlineView reloadItem:node];
@@ -542,9 +559,10 @@
     
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
-    lastMousePosition = mouseLocation;
-    
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    lastMousePosition = mouseLocation;
+    int relMousePosX = (seq.timelineScale*seq.timelineOffset)+mouseLocation.x;
     
     if (mouseLocation.x < 0)
     {
@@ -561,10 +579,14 @@
     
     if (mouseState == kCCBSeqMouseStateScrubbing)
     {
+        // Scrubbing in the timeline
+        
         seq.timelinePosition = [seq positionToTime:mouseLocation.x];
     }
     else if (mouseState == kCCBSeqMouseStateSelecting)
     {
+        // Drawing a selection box
+        
         xEndSelectTime = [seq positionToTime:mouseLocation.x];
         yEndSelectRow = [self yMousePosToRow:mouseLocation.y];
         
@@ -599,6 +621,37 @@
         
         [self setNeedsDisplay:YES];
     }
+    else if (mouseState == kCCBSeqMouseStateKeyframe)
+    {
+        // Mouse down in a keyframe
+        
+        int xDelta = relMousePosX - mouseDownRelPositionX;
+        
+        NSArray* selection = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+        
+        BOOL moved = NO;
+        
+        for (SequencerKeyframe* keyframe in selection)
+        {
+            float oldTime = keyframe.time;
+            
+            float startPos = [seq timeToPosition:keyframe.timeAtDragStart];
+            float newTime = [seq positionToTime:startPos + xDelta];
+            
+            NSLog(@"xDelta: %d startPos: %d newTime: %f", xDelta, (int)startPos, newTime);
+            
+            if (oldTime != newTime)
+            {
+                keyframe.time = newTime;
+                moved = YES;
+            }
+        }
+        
+        if (moved)
+        {
+            [[SequencerHandler sharedHandler].outlineHierarchy reloadData];
+        }
+    }
 }
 
 - (void) mouseUp:(NSEvent *)theEvent
@@ -618,7 +671,7 @@
     {
         if (theEvent.modifierFlags & NSShiftKeyMask)
         {
-            NSArray* selectedKeyframes = [self getSelectedKeyframes];
+            NSArray* selectedKeyframes = [self keyframesInSelectionArea];
             for (SequencerKeyframe* keyframe in selectedKeyframes)
             {
                 keyframe.selected = YES;
@@ -628,12 +681,20 @@
         else
         {
             [[SequencerHandler sharedHandler] deselectAllKeyframes];
-            NSArray* selectedKeyframes = [self getSelectedKeyframes];
+            NSArray* selectedKeyframes = [self keyframesInSelectionArea];
             for (SequencerKeyframe* keyframe in selectedKeyframes)
             {
                 keyframe.selected = YES;
                 [outlineView reloadData];
             }
+        }
+    }
+    else if (mouseState == kCCBSeqMouseStateKeyframe)
+    {
+        if (NSEqualPoints(mouseLocation, mouseDownPosition) && !didAutoScroll)
+        {
+            [[SequencerHandler sharedHandler] deselectAllKeyframes];
+            mouseDownKeyframe.selected = YES;
         }
     }
     

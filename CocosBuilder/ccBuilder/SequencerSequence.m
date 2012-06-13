@@ -80,7 +80,8 @@
 - (float) positionToTime:(float)pos
 {
     float rawTime = (pos/timelineScale)+timelineOffset;
-    return max(roundf(rawTime * timelineResolution)/timelineResolution, 0);
+    float capped = max(roundf(rawTime * timelineResolution)/timelineResolution, 0);
+    return min(capped, timelineLength);
 }
 
 - (NSString*) currentDisplayTime

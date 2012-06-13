@@ -109,4 +109,27 @@
     }
 }
 
+- (void) addSelectedKeyframesToArray:(NSMutableArray*)keyframes
+{
+    NodeInfo* info = self.userObject;
+    
+    NSEnumerator* animPropEnum = [info.animatableProperties objectEnumerator];
+    NSDictionary* seq;
+    while ((seq = [animPropEnum nextObject]))
+    {
+        NSEnumerator* seqEnum = [seq objectEnumerator];
+        SequencerNodeProperty* prop;
+        while ((prop = [seqEnum nextObject]))
+        {
+            for (SequencerKeyframe* keyframe in prop.keyframes)
+            {
+                if (keyframe.selected)
+                {
+                    [keyframes addObject:keyframe];
+                }
+            }
+        }
+    }
+}
+
 @end

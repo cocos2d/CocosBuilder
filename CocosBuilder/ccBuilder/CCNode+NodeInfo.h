@@ -27,5 +27,6 @@
 - (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
 
 - (void) deselectAllKeyframes;
+- (void) addSelectedKeyframesToArray:(NSMutableArray*)keyframes;
 
 @end

@@ -68,5 +68,6 @@
 - (float) maxTimelineOffset;
 
 - (void) deselectAllKeyframes;
+- (NSArray*) selectedKeyframesForCurrentSequence;
 
 @end

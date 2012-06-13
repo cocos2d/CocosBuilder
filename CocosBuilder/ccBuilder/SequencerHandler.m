@@ -475,6 +475,26 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy reloadData];
 }
 
+- (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
+{
+    [node addSelectedKeyframesToArray:keyframes];
+    
+    // Also add selected keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        [self addSelectedKeyframesForNode:child toArray:keyframes];
+    }
+}
+
+- (NSArray*) selectedKeyframesForCurrentSequence
+{
+    NSMutableArray* keyframes = [NSMutableArray array];
+    [self addSelectedKeyframesForNode:[[CocosScene cocosScene] rootNode] toArray:keyframes];
+    return keyframes;
+}
+
 #pragma mark Destructor
 
 - (void) dealloc

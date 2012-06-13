@@ -11,6 +11,7 @@
 @implementation SequencerKeyframe
 
 @synthesize time;
+@synthesize timeAtDragStart;
 @synthesize selected;
 
 @end

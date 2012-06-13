@@ -16,6 +16,7 @@ enum
     kCCBSeqMouseStateNone = 0,
     kCCBSeqMouseStateScrubbing,
     kCCBSeqMouseStateSelecting,
+    kCCBSeqMouseStateKeyframe,
 };
 
 enum
@@ -58,6 +59,9 @@ enum
     int yEndSelectSubRow;
     
     SequencerKeyframe* mouseDownKeyframe;
+    NSPoint mouseDownPosition;
+    int mouseDownRelPositionX;
+    BOOL didAutoScroll;
 }
 
 @property (nonatomic,retain) NSEvent* lastDragEvent;

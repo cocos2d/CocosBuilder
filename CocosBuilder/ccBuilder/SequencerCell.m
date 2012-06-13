@@ -101,6 +101,14 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    NSGraphicsContext* gc = [NSGraphicsContext currentContext];
+    [gc saveGraphicsState];
+    
+    NSRect clipRect = cellFrame;
+    clipRect.origin.y -= 1;
+    clipRect.size.height += 1;
+    [NSBezierPath clipRect:clipRect];
+    
     if (!imagesLoaded)
     {
         imgKeyframe = [[NSImage imageNamed:@"seq-keyframe.png"] retain];
@@ -129,6 +137,8 @@
             [self drawPropertyRow:i+1 property:[props objectAtIndex:i] withFrame:cellFrame inView:controlView];
         }
     }
+    
+    [gc restoreGraphicsState];
 }
 
 - (void) dealloc
