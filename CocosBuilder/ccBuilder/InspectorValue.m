@@ -27,6 +27,11 @@
 #import "CCBGlobals.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerKeyframe.h"
+#import "SequencerNodeProperty.h"
 
 @implementation InspectorValue
 
@@ -109,6 +114,24 @@
     {
         [selection setValue:value forKey:propertyName];
     }
+    
+    // Handle animatable properties
+    if ([plugIn isAnimatableProperty:propertyName])
+    {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selection sequenceNodeProperty:propertyName sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            keyframe.value = value;
+            
+            NSLog(@"keyframe: %@ value: %@", keyframe, value);
+        }
+    }
+    
+    // Update affected properties
     [self updateAffectedProperties];
 }
 

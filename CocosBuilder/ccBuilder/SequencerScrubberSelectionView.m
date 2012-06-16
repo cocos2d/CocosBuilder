@@ -304,7 +304,7 @@
     return prop;
 }
 
-- (void) doubleClickedRow:(int)row sub:(int)sub time:(float) time
+- (void) addKeyframeAtRow:(int)row sub:(int)sub time:(float) time
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
@@ -497,12 +497,20 @@
             }
             else
             {
+                // Handle selections
                 if (!mouseDownKeyframe.selected)
                 {
                     [[SequencerHandler sharedHandler] deselectAllKeyframes];
                     mouseDownKeyframe.selected = YES;
                 }
                 
+                // Center on keyframe for double clicks
+                if (theEvent.clickCount == 2)
+                {
+                    seq.timelinePosition = mouseDownKeyframe.time;
+                }
+                
+                // Start dragging keyframe(s)
                 for (SequencerKeyframe* keyframe in [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence])
                 {
                     keyframe.timeAtDragStart = keyframe.time;
@@ -513,16 +521,16 @@
             
             [outlineView reloadItem:node];
         }
-        else if (theEvent.clickCount == 2)
+        else if (theEvent.modifierFlags & NSAlternateKeyMask)
         {
             mouseState = kCCBSeqMouseStateNone;
             
-            int doubleClickedRow = row;
-            int doubleClickedSubRow = subRow;
+            int clickedRow = row;
+            int clickedSubRow = subRow;
             
-            if (doubleClickedRow != -1)
+            if (clickedRow != -1)
             {
-                [self doubleClickedRow:doubleClickedRow sub:doubleClickedSubRow time:time];
+                [self addKeyframeAtRow:clickedRow sub:clickedSubRow time:time];
             }
         }
         else
@@ -637,8 +645,6 @@
             
             float startPos = [seq timeToPosition:keyframe.timeAtDragStart];
             float newTime = [seq positionToTime:startPos + xDelta];
-            
-            NSLog(@"xDelta: %d startPos: %d newTime: %f", xDelta, (int)startPos, newTime);
             
             if (oldTime != newTime)
             {

@@ -11,6 +11,7 @@
 #import "PlugInNode.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -78,15 +79,58 @@
     
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
     [seqNodeProp setKeyframe:keyframe];
+    
+    // Update property inspector
+    [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
 }
 
 - (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
+    // Get property type
+    NSString* propType = [self.plugIn propertyTypeForProperty:name];
+    int keyframeType = [SequencerKeyframe keyframeTypeFromPropertyType:propType];
+    
+    // Ensure that the keyframe type is supported
+    if (!keyframeType)
+    {
+        return;
+    }
+    
     // Create keyframe
     SequencerKeyframe* keyframe = [[SequencerKeyframe alloc] init];
     keyframe.time = time;
+    keyframe.type = keyframeType;
+    keyframe.name = name;
+    keyframe.value = [self valueForProperty:name atTime:time sequenceId:seqId];
+    
+    NSLog(@"keyframe.value: %@", keyframe.value);
     
     [self addKeyframe:keyframe forProperty:name atTime:time sequenceId:seqId];
+}
+
+- (id) valueForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
+{
+    SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
+    
+    int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:name]];
+    
+    // Check that type is supported
+    if (!type) return NULL;
+    
+    if (seqNodeProp)
+    {
+        return [seqNodeProp valueAtTime:time];
+    }
+    else
+    {
+        // Just use standard value
+        if (type == kCCBKeyframeTypeDegrees)
+        {
+            return [self valueForKey:name];
+        }
+    }
+    
+    return NULL;
 }
 
 - (void) deselectAllKeyframes

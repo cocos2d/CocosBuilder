@@ -8,15 +8,38 @@
 
 #import <Foundation/Foundation.h>
 
+@class SequencerNodeProperty;
+
+enum
+{
+    kCCBKeyframeTypeUndefined,
+    kCCBKeyframeTypeVisible,
+    kCCBKeyframeTypeDegrees,
+};
+
 @interface SequencerKeyframe : NSObject
 {
+    id value;
+    int type;
+    NSString* name;
+    
     float time;
     float timeAtDragStart;
     BOOL selected;
+    
+    SequencerNodeProperty* parent;
 }
+
+@property (nonatomic,retain) id value;
+@property (nonatomic,assign) int type;
+@property (nonatomic,retain) NSString* name;
 
 @property (nonatomic,assign) float time;
 @property (nonatomic,assign) float timeAtDragStart;
 @property (nonatomic,assign) BOOL selected;
+
+@property (nonatomic,assign) SequencerNodeProperty* parent;
+
++ (int) keyframeTypeFromPropertyType:(NSString*)type;
 
 @end

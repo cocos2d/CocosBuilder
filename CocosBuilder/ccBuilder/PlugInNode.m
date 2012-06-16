@@ -181,6 +181,23 @@
     return cachedAnimatableProperties;
 }
 
+- (BOOL) isAnimatableProperty:(NSString*)prop
+{
+    for (NSString* animProp in [self animatableProperties])
+    {
+        if ([animProp isEqualToString:prop])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSString*) propertyTypeForProperty:(NSString*)property
+{
+    return [[nodePropertiesDict objectForKey:property] objectForKey:@"type"];
+}
+
 - (void) dealloc
 {
     [cachedAnimatableProperties release];

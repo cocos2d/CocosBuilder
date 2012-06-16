@@ -8,6 +8,7 @@
 
 #import "SequencerSequence.h"
 #import "SequencerHandler.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation SequencerSequence
 
@@ -38,8 +39,15 @@
     
     if (tp != timelinePosition)
     {
+        SequencerHandler* sh = [SequencerHandler sharedHandler];
+        
         timelinePosition = tp;
-        [[SequencerHandler sharedHandler] redrawTimeline];
+        
+        if (sh.currentSequence == self)
+        {
+            [sh redrawTimeline];
+            [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+        }
     }
 }
 

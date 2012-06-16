@@ -66,6 +66,9 @@
 #import "PlayerController.h"
 #import "SequencerHandler.h"
 #import "MainWindow.h"
+#import "CCNode+NodeInfo.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerSequence.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -499,6 +502,25 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return offset;
 }
 
+- (BOOL) isDisabledProperty:(NSString*)name animatable:(BOOL)animatable
+{
+    // Only animatable properties can be disabled
+    if (!animatable) return NO;
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:name sequenceId:seq.sequenceId];
+    
+    // Do not disable if animation hasn't been enabled
+    if (!seqNodeProp) return NO;
+    
+    // Do not disable if we are currently at a keyframe
+    if ([seqNodeProp hasKeyframeAtTime: seq.timelinePosition]) return NO;
+    
+    // Between keyframes - disable
+    return YES;
+}
+
 - (void) updateInspectorFromSelection
 {
     // Notifiy panes that they will be removed
@@ -542,6 +564,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             BOOL readOnly = [[propInfo objectForKey:@"readOnly"] boolValue];
             NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
             NSString* extra = [propInfo objectForKey:@"extra"];
+            BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
+            
+            // TODO: Handle read only for animated properties
+            if ([self isDisabledProperty:name animatable:animated])
+            {
+                readOnly = YES;
+            }
             
             paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
