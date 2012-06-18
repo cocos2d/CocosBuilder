@@ -656,6 +656,7 @@
         if (moved)
         {
             [[SequencerHandler sharedHandler].outlineHierarchy reloadData];
+            [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
         }
     }
 }

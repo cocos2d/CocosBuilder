@@ -30,5 +30,5 @@
 - (void) addSelectedKeyframesToArray:(NSMutableArray*)keyframes;
 
 - (id) valueForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
-
+- (void) updatePropertiesTime:(float)time sequenceId:(int)seqId;
 @end

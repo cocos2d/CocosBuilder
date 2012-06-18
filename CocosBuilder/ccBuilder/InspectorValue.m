@@ -126,8 +126,6 @@
         {
             SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
             keyframe.value = value;
-            
-            NSLog(@"keyframe: %@ value: %@", keyframe, value);
         }
     }
     

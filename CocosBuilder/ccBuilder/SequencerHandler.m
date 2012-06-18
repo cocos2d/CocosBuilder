@@ -495,6 +495,24 @@ static SequencerHandler* sharedSequencerHandler;
     return keyframes;
 }
 
+- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node
+{
+    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:currentSequence.sequenceId];
+    
+    // Also deselect keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        [self updatePropertiesToTimelinePositionForNode:child];
+    }
+}
+
+- (void) updatePropertiesToTimelinePosition
+{
+    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode]];
+}
+
 #pragma mark Destructor
 
 - (void) dealloc

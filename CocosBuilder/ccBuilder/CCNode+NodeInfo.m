@@ -133,6 +133,19 @@
     return NULL;
 }
 
+- (void) updatePropertiesTime:(float)time sequenceId:(int)seqId
+{
+    NSArray* animatableProps = [self.plugIn animatableProperties];
+    for (NSString* propName in animatableProps)
+    {
+        SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:propName sequenceId:seqId];
+        if (seqNodeProp)
+        {
+            [seqNodeProp updateNode:self toTime:time];
+        }
+    }
+}
+
 - (void) deselectAllKeyframes
 {
     NodeInfo* info = self.userObject;

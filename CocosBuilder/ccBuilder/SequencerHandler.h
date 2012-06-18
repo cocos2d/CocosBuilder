@@ -69,5 +69,5 @@
 
 - (void) deselectAllKeyframes;
 - (NSArray*) selectedKeyframesForCurrentSequence;
-
+- (void) updatePropertiesToTimelinePosition;
 @end

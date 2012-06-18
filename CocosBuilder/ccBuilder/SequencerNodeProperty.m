@@ -154,4 +154,15 @@
     return NULL;
 }
 
+- (void) updateNode:(CCNode*)node toTime:(float)time
+{
+    id value = [self valueAtTime:time];
+    NSAssert(value, @"Failed to fetch value!");
+    
+    if (type == kCCBKeyframeTypeDegrees)
+    {
+        [node setValue:value forKey:propName];
+    }
+}
+
 @end

@@ -46,6 +46,7 @@
         if (sh.currentSequence == self)
         {
             [sh redrawTimeline];
+            [sh updatePropertiesToTimelinePosition];
             [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
         }
     }

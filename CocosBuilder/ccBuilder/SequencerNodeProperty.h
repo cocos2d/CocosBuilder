@@ -28,4 +28,5 @@
 - (id) valueAtTime:(float)time;
 - (BOOL) hasKeyframeAtTime:(float)time;
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
+- (void) updateNode:(CCNode*)node toTime:(float)time;
 @end
