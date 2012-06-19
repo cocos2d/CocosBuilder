@@ -30,6 +30,7 @@
 @synthesize plugIn;
 @synthesize extraProps;
 @synthesize animatableProperties;
+@synthesize baseValues;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin
 {
@@ -51,6 +52,7 @@
     [extraProps setObject:@"" forKey:@"memberVarAssignmentName"];
     
     animatableProperties = [[NSMutableDictionary alloc] init];
+    baseValues = [[NSMutableDictionary alloc] init];
     
     return self;
 }
@@ -58,6 +60,8 @@
 - (void) dealloc
 {
     [extraProps release];
+    [animatableProperties release];
+    [baseValues release];
     [super dealloc];
 }
 

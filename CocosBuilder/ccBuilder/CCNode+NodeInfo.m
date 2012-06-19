@@ -72,24 +72,19 @@
     id baseValue = [self valueForProperty:name atTime:0 sequenceId:seqId];
     
     SequencerNodeProperty* seqNodeProp = [[SequencerNodeProperty alloc] initWithProperty:name node:self];
-    seqNodeProp.baseValue = baseValue;
+    if (![info.baseValues objectForKey:name])
+    {
+        NSLog(@"setting baseValue to %@ for %@", baseValue, name);
+        [info.baseValues setObject:baseValue forKey:name];
+    }
     
     [sequences setObject:seqNodeProp forKey:name];
-}
-
-- (void) enableSequenceNodeProperty:(NSString *)name
-{
-    NSArray* seqs = [SequencerHandler sharedHandler].sequences;
-    for (SequencerSequence* seq in seqs)
-    {
-        [self enableSequenceNodeProperty:name sequenceId:seq.sequenceId];
-    }
 }
 
 - (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
     // Make sure timeline is enabled for this property
-    [self enableSequenceNodeProperty:name];
+    [self enableSequenceNodeProperty:name sequenceId:seqId];
     
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
     [seqNodeProp setKeyframe:keyframe];
@@ -129,19 +124,31 @@
     int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:name]];
     
     // Check that type is supported
-    if (!type) return NULL;
+    NSAssert(type, @"Unsupported animated property type (%@)",[self.plugIn propertyTypeForProperty:name]);
     
+    id seqValue = NULL;
     if (seqNodeProp)
     {
-        return [seqNodeProp valueAtTime:time];
+        seqValue = [seqNodeProp valueAtTime:time];
     }
-    else
+    if (seqValue) return seqValue;
+    
+    // Check for base value
+    NodeInfo* info = self.userObject;
+    
+    if (info.baseValues) NSLog(@"info.baseValues: %@", info.baseValues);
+    
+    id baseValue = [info.baseValues objectForKey:name];
+    if (baseValue)
     {
-        // Just use standard value
-        if (type == kCCBKeyframeTypeDegrees)
-        {
-            return [self valueForKey:name];
-        }
+        NSLog(@"Returning baseValue: %@ for: %@", baseValue, name);
+        return baseValue;
+    }
+    
+    // Just use standard value
+    if (type == kCCBKeyframeTypeDegrees)
+    {
+        return [self valueForKey:name];
     }
     
     return NULL;
@@ -152,10 +159,23 @@
     NSArray* animatableProps = [self.plugIn animatableProperties];
     for (NSString* propName in animatableProps)
     {
-        SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:propName sequenceId:seqId];
-        if (seqNodeProp)
+        //SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:propName sequenceId:seqId];
+        //if (seqNodeProp)
+        //{
+        //    [seqNodeProp updateNode:self toTime:time];
+        //}
+        
+        
+        int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:propName]];
+        
+        if (!type) continue;
+        
+        id value = [self valueForProperty:propName atTime:time sequenceId:seqId];
+        
+        if (type == kCCBKeyframeTypeDegrees)
         {
-            [seqNodeProp updateNode:self toTime:time];
+            NSLog(@"setValue: %@ forKey: %@", value, propName);
+            [self setValue:value forKey:propName];
         }
     }
 }

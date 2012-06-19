@@ -541,6 +541,7 @@ static SequencerHandler* sharedSequencerHandler;
     [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
     [self redrawTimeline];
     [self updatePropertiesToTimelinePosition];
+    [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
 }
 
 #pragma mark Destructor

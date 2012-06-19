@@ -16,7 +16,6 @@
 
 @synthesize keyframes;
 @synthesize type;
-@synthesize baseValue;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n
 {
@@ -87,7 +86,7 @@
     
     if (numKeyframes == 0)
     {
-        return baseValue;
+        return NULL;
     }
     
     if (numKeyframes == 1)
@@ -158,6 +157,7 @@
     return NULL;
 }
 
+/*
 - (void) updateNode:(CCNode*)node toTime:(float)time
 {
     id value = [self valueAtTime:time];
@@ -167,6 +167,6 @@
     {
         [node setValue:value forKey:propName];
     }
-}
+}*/
 
 @end

@@ -15,12 +15,10 @@
     NSMutableArray* keyframes;
     NSString* propName;
     int type;
-    id baseValue;
 }
 
 @property (nonatomic,readonly) NSMutableArray* keyframes;
 @property (nonatomic,readonly) int type;
-@property (nonatomic,retain) id baseValue;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n;
 - (void) setKeyframe:(SequencerKeyframe*)keyframe;
@@ -30,5 +28,5 @@
 - (id) valueAtTime:(float)time;
 - (BOOL) hasKeyframeAtTime:(float)time;
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
-- (void) updateNode:(CCNode*)node toTime:(float)time;
+//- (void) updateNode:(CCNode*)node toTime:(float)time;
 @end

@@ -129,10 +129,10 @@
             {
                 keyframe.value = value;
             }
-            else
-            {
-                seqNodeProp.baseValue = value;
-            }
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:value forKey:propertyName];
         }
     }
     
