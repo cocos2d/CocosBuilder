@@ -69,6 +69,7 @@
 #import "CCNode+NodeInfo.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerSequence.h"
+#import "SequencerSettingsWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1796,10 +1797,31 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     cs.currentTool = [sc selectedSegment];
 }
 
+- (IBAction)menuTimelineSettings:(id)sender
+{
+    if (!currentDocument) return;
+    
+    SequencerSettingsWindow* wc = [[[SequencerSettingsWindow alloc] initWithWindowNibName:@"SequencerSettingsWindow"] autorelease];
+    
+    NSLog(@"wc: %@ wc.window: %@", wc, wc.window);
+    
+    int success = [wc runModalSheetForWindow:window];
+    
+    /*
+    ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];
+    [wc copyResolutions: currentDocument.resolutions];
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        currentDocument.resolutions = wc.resolutions;
+        [self updateResolutionMenu];
+        [self setResolution:0];
+    }*/
+}
+
 - (IBAction) menuOpenResourceManager:(id)sender
 {
-    //[[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
-    
     [resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
 }
 

@@ -202,6 +202,7 @@ enum {
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
 
+- (IBAction)menuTimelineSettings:(id)sender;
 
 - (IBAction) menuNudgeObject:(id)sender;
 - (IBAction) menuMoveObject:(id)sender;
