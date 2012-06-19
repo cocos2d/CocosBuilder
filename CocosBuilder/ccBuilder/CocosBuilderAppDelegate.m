@@ -142,6 +142,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     sequenceHandler.timeScaleSlider = timeScaleSlider;
     sequenceHandler.scroller = timelineScroller;
     sequenceHandler.scrollView = sequenceScrollView;
+    
+    [self updateTimelineMenu];
 }
 
 - (void) setupTabBar
@@ -599,7 +601,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         NSString* keyEquivalent = @"";
         if (i < 10) keyEquivalent = [NSString stringWithFormat:@"%d",i+1];
         
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent];
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent] autorelease];
         item.target = self;
         item.tag = i;
         
@@ -608,6 +610,32 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         
         i++;
     }
+}
+
+- (void) updateTimelineMenu
+{
+    if (!currentDocument)
+    {
+        lblTimeline.stringValue = @"";
+        [menuTimelinePopup setEnabled:NO];
+        return;
+    }
+    
+    [menuTimelinePopup setEnabled:YES];
+    
+    // Clear menu
+    [menuTimeline removeAllItems];
+    
+    for (SequencerSequence* seq in sequenceHandler.sequences)
+    {
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:seq.name action:@selector(menuSetSequence:) keyEquivalent:@""] autorelease];
+        item.target = sequenceHandler;
+        item.tag = seq.sequenceId;
+        
+        [menuTimeline addItem:item];
+    }
+    
+    lblTimeline.stringValue = sequenceHandler.currentSequence.name;
 }
 
 #pragma mark Document handling
@@ -729,6 +757,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         currentDocument.currentResolution = 0;
     }
     [self updateResolutionMenu];
+    [self updateTimelineMenu];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
     

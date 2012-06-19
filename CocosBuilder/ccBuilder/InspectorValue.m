@@ -125,7 +125,14 @@
         if (seqNodeProp)
         {
             SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
-            keyframe.value = value;
+            if (keyframe)
+            {
+                keyframe.value = value;
+            }
+            else
+            {
+                seqNodeProp.baseValue = value;
+            }
         }
     }
     

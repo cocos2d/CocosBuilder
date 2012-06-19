@@ -34,6 +34,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize timeScaleSlider;
 @synthesize scroller;
 @synthesize scrollView;
+@synthesize sequences;
 
 #pragma mark Init and singleton object
 
@@ -61,6 +62,14 @@ static SequencerHandler* sharedSequencerHandler;
     timelineScales[4] = kCCBTimelineScale4;
     
     self.currentSequence = [[[SequencerSequence alloc] init] autorelease];
+    
+    self.sequences = [NSMutableArray array];
+    [sequences addObject:currentSequence];
+    
+    SequencerSequence* seq2 = [[[SequencerSequence alloc] init] autorelease];
+    seq2.name = @"Sequence 2";
+    seq2.sequenceId = 1;
+    [sequences addObject:seq2];
     
     return self;
 }
@@ -513,6 +522,27 @@ static SequencerHandler* sharedSequencerHandler;
     [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode]];
 }
 
+- (void) menuSetSequence:(id)sender
+{
+    int seqId = [sender tag];
+    
+    SequencerSequence* seqSet = NULL;
+    for (SequencerSequence* seq in sequences)
+    {
+        if (seq.sequenceId == seqId)
+        {
+            seqSet = seq;
+            break;
+        }
+    }
+    
+    self.currentSequence = seqSet;
+    [outlineHierarchy reloadData];
+    [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+    [self redrawTimeline];
+    [self updatePropertiesToTimelinePosition];
+}
+
 #pragma mark Destructor
 
 - (void) dealloc
@@ -520,6 +550,7 @@ static SequencerHandler* sharedSequencerHandler;
     self.currentSequence = NULL;
     self.scrubberSelectionView = NULL;
     self.timeDisplay = NULL;
+    self.sequences = NULL;
     
     [super dealloc];
 }

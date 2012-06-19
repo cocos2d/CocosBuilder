@@ -102,6 +102,11 @@ enum {
     IBOutlet NSMenu* menuCanvasSize;
     IBOutlet NSMenu* menuCanvasBorder;
     IBOutlet NSMenu* menuResolution;
+    
+    IBOutlet NSPopUpButton* menuTimelinePopup;
+    IBOutlet NSMenu* menuTimeline;
+    IBOutlet NSTextField* lblTimeline;
+    
     CGSize defaultCanvasSizes[5];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
@@ -187,6 +192,7 @@ enum {
 // Methods
 + (CocosBuilderAppDelegate*) appDelegate;
 
+- (void) updateTimelineMenu;
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;

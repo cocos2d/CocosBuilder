@@ -16,6 +16,7 @@
 
 @synthesize keyframes;
 @synthesize type;
+@synthesize baseValue;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n
 {
@@ -84,12 +85,15 @@
 {
     int numKeyframes = [keyframes count];
     
-    NSAssert(numKeyframes, @"SequencerNodeProperty is missing keyframes");
+    if (numKeyframes == 0)
+    {
+        return baseValue;
+    }
     
     if (numKeyframes == 1)
     {
         SequencerKeyframe* keyframe = [keyframes objectAtIndex:0];
-        return  keyframe.value;
+        return keyframe.value;
     }
     
     SequencerKeyframe* keyframeFirst = [keyframes objectAtIndex:0];

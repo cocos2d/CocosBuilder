@@ -12,6 +12,8 @@
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
 #import "CocosBuilderAppDelegate.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -67,15 +69,27 @@
         [info.animatableProperties setObject:sequences forKey:[NSNumber numberWithInt:seqId]];
     }
     
+    id baseValue = [self valueForProperty:name atTime:0 sequenceId:seqId];
+    
     SequencerNodeProperty* seqNodeProp = [[SequencerNodeProperty alloc] initWithProperty:name node:self];
+    seqNodeProp.baseValue = baseValue;
     
     [sequences setObject:seqNodeProp forKey:name];
+}
+
+- (void) enableSequenceNodeProperty:(NSString *)name
+{
+    NSArray* seqs = [SequencerHandler sharedHandler].sequences;
+    for (SequencerSequence* seq in seqs)
+    {
+        [self enableSequenceNodeProperty:name sequenceId:seq.sequenceId];
+    }
 }
 
 - (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
     // Make sure timeline is enabled for this property
-    [self enableSequenceNodeProperty:name sequenceId:seqId];
+    [self enableSequenceNodeProperty:name];
     
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
     [seqNodeProp setKeyframe:keyframe];

@@ -28,6 +28,7 @@
     timelineOffset = 0;
     timelineResolution = 30;
     timelineLength = 10;
+    self.name = @"Untitled Timeline";
     
     return self;
 }
