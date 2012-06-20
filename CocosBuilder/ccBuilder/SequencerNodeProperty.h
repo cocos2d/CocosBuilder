@@ -19,6 +19,7 @@
 
 @property (nonatomic,readonly) NSMutableArray* keyframes;
 @property (nonatomic,readonly) int type;
+@property (nonatomic,readonly) NSString* propName;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n;
 - (void) setKeyframe:(SequencerKeyframe*)keyframe;

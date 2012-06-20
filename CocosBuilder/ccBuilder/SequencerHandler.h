@@ -55,7 +55,7 @@
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
 
 
-// Retain the shared instance
+// Obtain the shared instance
 + (SequencerHandler*) sharedHandler;
 
 - (id) initWithOutlineView:(NSOutlineView*)view;
@@ -72,4 +72,7 @@
 - (void) deselectAllKeyframes;
 - (NSArray*) selectedKeyframesForCurrentSequence;
 - (void) updatePropertiesToTimelinePosition;
+
+- (BOOL) deleteSelectedKeyframesForCurrentSequence;
+
 @end

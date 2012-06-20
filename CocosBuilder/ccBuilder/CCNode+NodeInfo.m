@@ -236,4 +236,51 @@
     }
 }
 
+- (BOOL) deleteSelectedKeyframesForSequenceId:(int)seqId
+{
+    BOOL deletedKeyframe = NO;
+    
+    NodeInfo* info = self.userObject;
+    NSMutableDictionary* seq = [info.animatableProperties objectForKey:[NSNumber numberWithInt:seqId]];
+    if (seq)
+    {
+        NSEnumerator* seqEnum = [seq objectEnumerator];
+        SequencerNodeProperty* prop;
+        NSMutableArray* emptyProps = [NSMutableArray array];
+        while ((prop = [seqEnum nextObject]))
+        {
+            for (int i = prop.keyframes.count - 1; i >= 0; i--)
+            {
+                SequencerKeyframe* keyframe = [prop.keyframes objectAtIndex:i];
+                if (keyframe.selected)
+                {
+                    [prop.keyframes removeObjectAtIndex:i];
+                    deletedKeyframe = YES;
+                }
+            }
+            if (prop.keyframes.count == 0)
+            {
+                [emptyProps addObject:prop.propName];
+            }
+        }
+        
+        // Remove empty seq node props
+        for (NSString* propName in emptyProps)
+        {
+            [seq removeObjectForKey:propName];
+        }
+    }
+    
+    // Also remove keyframes for children
+    CCNode* child = NULL;
+    CCARRAY_FOREACH([self children], child)
+    {
+        if ([child deleteSelectedKeyframesForSequenceId:seqId])
+        {
+            deletedKeyframe = YES;
+        }
+    }
+    return deletedKeyframe;
+}
+
 @end

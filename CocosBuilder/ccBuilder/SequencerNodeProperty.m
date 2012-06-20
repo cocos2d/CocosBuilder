@@ -16,6 +16,7 @@
 
 @synthesize keyframes;
 @synthesize type;
+@synthesize propName;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n
 {

@@ -33,4 +33,6 @@
 - (void) updatePropertiesTime:(float)time sequenceId:(int)seqId;
 
 - (void) deleteSequenceId:(int) seqId;
+
+- (BOOL) deleteSelectedKeyframesForSequenceId:(int)seqId;
 @end

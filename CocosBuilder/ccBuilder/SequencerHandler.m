@@ -475,6 +475,18 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy reloadData];
 }
 
+- (BOOL) deleteSelectedKeyframesForCurrentSequence
+{
+    BOOL didDelete = [[CocosScene cocosScene].rootNode deleteSelectedKeyframesForSequenceId:currentSequence.sequenceId];
+    if (didDelete)
+    {
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    }
+    return didDelete;
+}
+
 - (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
 {
     [node addSelectedKeyframesToArray:keyframes];

@@ -1328,7 +1328,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) deleteNode:(CCNode*)node
 {
-    CCBGlobals* g= [CCBGlobals globals];
+    CCBGlobals* g = [CCBGlobals globals];
+    
     if (node == g.rootNode) return;
     if (!node) return;
     
@@ -1354,8 +1355,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) delete:(id) sender
 {
-    if (!selectedNode) return;
+    // First attempt to delete selected keyframes
+    if ([sequenceHandler deleteSelectedKeyframesForCurrentSequence]) return;
     
+    // Then delete the selected node
+    if (!selectedNode) return;
     [self deleteNode:selectedNode];
 }
 
