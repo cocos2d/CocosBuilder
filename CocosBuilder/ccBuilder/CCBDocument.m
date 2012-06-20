@@ -40,7 +40,7 @@
 @synthesize exportFlattenPaths;
 @synthesize resolutions;
 @synthesize currentResolution;
-@synthesize sequencers;
+@synthesize sequences;
 @synthesize currentSequenceId;
 
 - (id)init

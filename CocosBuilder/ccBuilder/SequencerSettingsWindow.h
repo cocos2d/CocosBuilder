@@ -10,5 +10,10 @@
 #import "CCBModalSheetController.h"
 
 @interface SequencerSettingsWindow : CCBModalSheetController
+{
+    NSMutableArray* sequences;
+}
+@property (nonatomic,retain) NSMutableArray* sequences;
 
+- (void) copySequences:(NSMutableArray *)res;
 @end

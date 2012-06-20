@@ -267,7 +267,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.snapToGuides = YES;
     self.showStickyNotes = YES;
     
-    [self.window zoom:self];
     [self.window makeKeyWindow];
 }
 
@@ -627,7 +626,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Clear menu
     [menuTimeline removeAllItems];
     
-    for (SequencerSequence* seq in sequenceHandler.sequences)
+    for (SequencerSequence* seq in currentDocument.sequences)
     {
         NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:seq.name action:@selector(menuSetSequence:) keyEquivalent:@""] autorelease];
         item.target = sequenceHandler;
@@ -758,9 +757,27 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         currentDocument.currentResolution = 0;
     }
     [self updateResolutionMenu];
-    [self updateTimelineMenu];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
+    
+    // TODO: Setup sequencer timelines (for real)
+    
+    NSMutableArray* sequences = [NSMutableArray array];
+    
+    SequencerSequence* seq1 = [[[SequencerSequence alloc] init] autorelease];
+    seq1.name = @"Sequence 1";
+    seq1.sequenceId = 0;
+    [sequences addObject:seq1];
+    
+    SequencerSequence* seq2 = [[[SequencerSequence alloc] init] autorelease];
+    seq2.name = @"Sequence 2";
+    seq2.sequenceId = 1;
+    [sequences addObject:seq2];
+    
+    currentDocument.sequences = sequences;
+    sequenceHandler.currentSequence = seq1;
+    
+    NSLog(@"Setting up sequences");
     
     // Process contents
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
@@ -810,6 +827,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self replaceDocumentData:doc];
     
     [self updateResolutionMenu];
+    [self updateTimelineMenu];
     [self updateStateOriginCenteredMenu];
     
     CocosScene* cs = [CocosScene cocosScene];
@@ -1802,6 +1820,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument) return;
     
     SequencerSettingsWindow* wc = [[[SequencerSettingsWindow alloc] initWithWindowNibName:@"SequencerSettingsWindow"] autorelease];
+    [wc copySequences:currentDocument.sequences];
     
     NSLog(@"wc: %@ wc.window: %@", wc, wc.window);
     

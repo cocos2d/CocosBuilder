@@ -21,6 +21,7 @@
 #import "SequencerSequence.h"
 #import "SequencerScrubberSelectionView.h"
 #import "CCNode+NodeInfo.h"
+#import "CCBDocument.h"
 
 static SequencerHandler* sharedSequencerHandler;
 
@@ -34,7 +35,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize timeScaleSlider;
 @synthesize scroller;
 @synthesize scrollView;
-@synthesize sequences;
+//@synthesize sequences;
 
 #pragma mark Init and singleton object
 
@@ -60,16 +61,6 @@ static SequencerHandler* sharedSequencerHandler;
     timelineScales[2] = kCCBTimelineScale2;
     timelineScales[3] = kCCBTimelineScale3;
     timelineScales[4] = kCCBTimelineScale4;
-    
-    self.currentSequence = [[[SequencerSequence alloc] init] autorelease];
-    
-    self.sequences = [NSMutableArray array];
-    [sequences addObject:currentSequence];
-    
-    SequencerSequence* seq2 = [[[SequencerSequence alloc] init] autorelease];
-    seq2.name = @"Sequence 2";
-    seq2.sequenceId = 1;
-    [sequences addObject:seq2];
     
     return self;
 }
@@ -527,7 +518,7 @@ static SequencerHandler* sharedSequencerHandler;
     int seqId = [sender tag];
     
     SequencerSequence* seqSet = NULL;
-    for (SequencerSequence* seq in sequences)
+    for (SequencerSequence* seq in [CocosBuilderAppDelegate appDelegate].currentDocument.sequences)
     {
         if (seq.sequenceId == seqId)
         {
@@ -551,7 +542,7 @@ static SequencerHandler* sharedSequencerHandler;
     self.currentSequence = NULL;
     self.scrubberSelectionView = NULL;
     self.timeDisplay = NULL;
-    self.sequences = NULL;
+    //self.sequences = NULL;
     
     [super dealloc];
 }

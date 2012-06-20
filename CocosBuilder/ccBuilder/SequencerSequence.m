@@ -16,6 +16,7 @@
 @synthesize timelineOffset;
 @synthesize timelineLength;
 @synthesize timelinePosition;
+@synthesize timelineResolution;
 @synthesize name;
 @synthesize sequenceId;
 
@@ -94,19 +95,44 @@
     return min(capped, timelineLength);
 }
 
-- (NSString*) currentDisplayTime
+- (NSString*) formatTime:(float)time
 {
-    int mins = floorf(timelinePosition / 60);
-    int secs = ((int)timelinePosition) % 60;
-    int frames = roundf((timelinePosition - floorf(timelinePosition)) * timelineResolution);
+    int mins = floorf(time / 60);
+    int secs = ((int)time) % 60;
+    int frames = roundf((time - floorf(time)) * time);
     
     return [NSString stringWithFormat:@"%02d:%02d:%02d", mins,secs,frames];
+}
+
+- (NSString*) currentDisplayTime
+{
+    return [self formatTime:timelinePosition];
+}
+
+- (NSString*) lengthDisplayTime
+{
+    return [self formatTime:timelineLength];
 }
 
 - (void) dealloc
 {
     self.name = NULL;
     [super dealloc];
+}
+
+- (id) copyWithZone:(NSZone*)zone
+{
+    SequencerSequence* copy = [[SequencerSequence alloc] init];
+    
+    copy.timelineScale = timelineScale;
+    copy.timelineOffset = timelineOffset;
+    copy.timelineLength = timelineLength;
+    copy.timelinePosition = timelinePosition;
+    copy.timelineResolution = timelineResolution;
+    copy.name = name;
+    copy.sequenceId = sequenceId;
+    
+    return copy;
 }
 
 @end

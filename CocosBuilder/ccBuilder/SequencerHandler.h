@@ -34,7 +34,7 @@
     CocosBuilderAppDelegate* appDelegate;
     
     SequencerSequence* currentSequence;
-    NSMutableArray* sequences;
+    //NSMutableArray* sequences;
     SequencerScrubberSelectionView* scrubberSelectionView;
     NSTextField* timeDisplay;
     NSSlider* timeScaleSlider;
@@ -50,7 +50,7 @@
 @property (nonatomic,retain) NSSlider* timeScaleSlider;
 @property (nonatomic,retain) NSScroller* scroller;
 @property (nonatomic,retain) NSScrollView* scrollView;
-@property (nonatomic,retain) NSMutableArray* sequences;
+//@property (nonatomic,retain) NSMutableArray* sequences;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
 
