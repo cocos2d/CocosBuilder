@@ -9,6 +9,7 @@
 #import "SequencerSequence.h"
 #import "SequencerHandler.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCBDocument.h"
 
 @implementation SequencerSequence
 
@@ -30,6 +31,7 @@
     timelineResolution = 30;
     timelineLength = 10;
     self.name = @"Untitled Timeline";
+    sequenceId = -1;
     
     return self;
 }

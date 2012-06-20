@@ -223,4 +223,17 @@
     }
 }
 
+- (void) deleteSequenceId:(int) seqId
+{
+    NodeInfo* info = self.userObject;
+    [info.animatableProperties removeObjectForKey:[NSNumber numberWithInt:seqId]];
+    
+    // Also remove for children
+    CCNode* child = NULL;
+    CCARRAY_FOREACH([self children], child)
+    {
+        [child deleteSequenceId:seqId];
+    }
+}
+
 @end

@@ -25,6 +25,22 @@
     NSLog(@"sequences: %@", self.sequences);
 }
 
+- (BOOL) sheetIsValid
+{
+    if ([self.sequences count] > 0)
+    {
+        return YES;
+    }
+    else
+    {
+        // Display warning!
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Missing Timeline" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"You need to have at least one timeline in your document."];
+        [alert beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
+        
+        return NO;
+    }
+}
+
 - (void) dealloc
 {
     self.sequences = NULL;

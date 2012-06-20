@@ -1822,9 +1822,50 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     SequencerSettingsWindow* wc = [[[SequencerSettingsWindow alloc] initWithWindowNibName:@"SequencerSettingsWindow"] autorelease];
     [wc copySequences:currentDocument.sequences];
     
-    NSLog(@"wc: %@ wc.window: %@", wc, wc.window);
-    
     int success = [wc runModalSheetForWindow:window];
+    
+    if (success)
+    {
+        // Successfully updated timeline settings
+        
+        // Check for deleted timelines
+        for (SequencerSequence* seq in currentDocument.sequences)
+        {
+            BOOL foundSeq = NO;
+            for (SequencerSequence* newSeq in wc.sequences)
+            {
+                if (seq.sequenceId == newSeq.sequenceId)
+                {
+                    foundSeq = YES;
+                    break;
+                }
+            }
+            if (!foundSeq)
+            {
+                // Sequence deleted, remove from all nodes
+                [[CocosScene cocosScene].rootNode deleteSequenceId:seq.sequenceId];
+            }
+        }
+        
+        // Assign id:s to new sequences
+        for (SequencerSequence* seq in wc.sequences)
+        {
+            if (seq.sequenceId == -1)
+            {
+                // Find a unique id
+                int maxId = -1;
+                for (SequencerSequence* seqCheck in wc.sequences)
+                {
+                    if (seqCheck.sequenceId > maxId) maxId = seqCheck.sequenceId;
+                }
+                seq.sequenceId = maxId + 1;
+            }
+        }
+    
+        // Update the timelines
+        currentDocument.sequences = wc.sequences;
+        sequenceHandler.currentSequence = [currentDocument.sequences objectAtIndex:0];
+    }
     
     /*
     ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];

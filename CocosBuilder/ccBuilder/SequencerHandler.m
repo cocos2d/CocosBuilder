@@ -513,6 +513,21 @@ static SequencerHandler* sharedSequencerHandler;
     [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode]];
 }
 
+- (void) setCurrentSequence:(SequencerSequence *)seq
+{
+    if (seq != currentSequence)
+    {
+        [currentSequence release];
+        currentSequence = [seq retain];
+        
+        [outlineHierarchy reloadData];
+        [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    }
+}
+
 - (void) menuSetSequence:(id)sender
 {
     int seqId = [sender tag];
@@ -528,11 +543,6 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     self.currentSequence = seqSet;
-    [outlineHierarchy reloadData];
-    [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
-    [self redrawTimeline];
-    [self updatePropertiesToTimelinePosition];
-    [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
 }
 
 #pragma mark Destructor
