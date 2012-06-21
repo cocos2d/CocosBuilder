@@ -35,4 +35,7 @@
 - (void) deleteSequenceId:(int) seqId;
 
 - (BOOL) deleteSelectedKeyframesForSequenceId:(int)seqId;
+
+- (BOOL) deleteDuplicateKeyframesForSequenceId:(int)seqId;
+
 @end

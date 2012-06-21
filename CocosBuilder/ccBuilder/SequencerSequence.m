@@ -101,7 +101,7 @@
 {
     int mins = floorf(time / 60);
     int secs = ((int)time) % 60;
-    int frames = roundf((time - floorf(time)) * time);
+    int frames = roundf((time - floorf(time)) * timelineResolution);
     
     return [NSString stringWithFormat:@"%02d:%02d:%02d", mins,secs,frames];
 }

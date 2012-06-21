@@ -74,5 +74,5 @@
 - (void) updatePropertiesToTimelinePosition;
 
 - (BOOL) deleteSelectedKeyframesForCurrentSequence;
-
+- (void) deleteDuplicateKeyframesForCurrentSequence;
 @end

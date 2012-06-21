@@ -487,6 +487,18 @@ static SequencerHandler* sharedSequencerHandler;
     return didDelete;
 }
 
+- (void) deleteDuplicateKeyframesForCurrentSequence
+{
+    BOOL didDelete = [[CocosScene cocosScene].rootNode deleteDuplicateKeyframesForSequenceId:currentSequence.sequenceId];
+    
+    if (didDelete)
+    {
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    }
+}
+
 - (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
 {
     [node addSelectedKeyframesToArray:keyframes];

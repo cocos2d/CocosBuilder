@@ -283,4 +283,35 @@
     return deletedKeyframe;
 }
 
+- (BOOL) deleteDuplicateKeyframesForSequenceId:(int)seqId
+{
+    BOOL deletedKeyframe = NO;
+    
+    NodeInfo* info = self.userObject;
+    NSMutableDictionary* seq = [info.animatableProperties objectForKey:[NSNumber numberWithInt:seqId]];
+    if (seq)
+    {
+        NSEnumerator* seqEnum = [seq objectEnumerator];
+        SequencerNodeProperty* seqNodeProp;
+        while ((seqNodeProp = [seqEnum nextObject]))
+        {
+            if ([seqNodeProp deleteDuplicateKeyframes])
+            {
+                deletedKeyframe = YES;
+            }
+        }
+    }
+    
+    // Also remove keyframes for children
+    CCNode* child = NULL;
+    CCARRAY_FOREACH([self children], child)
+    {
+        if ([child deleteDuplicateKeyframesForSequenceId:seqId])
+        {
+            deletedKeyframe = YES;
+        }
+    }
+    return deletedKeyframe;
+}
+
 @end

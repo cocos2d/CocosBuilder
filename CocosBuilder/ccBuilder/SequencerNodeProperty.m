@@ -81,6 +81,39 @@
     [keyframes sortUsingSelector:@selector(compareTime:)];
 }
 
+- (BOOL) deleteDuplicateKeyframes
+{
+    BOOL didDelete = NO;
+    
+    // Remove duplicates
+    int i = 0;
+    while (i < (keyframes.count - 1))
+    {
+        SequencerKeyframe* kf0 = [keyframes objectAtIndex:i];
+        SequencerKeyframe* kf1 = [keyframes objectAtIndex:i+1];
+        
+        if (kf0.time == kf1.time)
+        {
+            if (kf0.selected)
+            {
+                [keyframes removeObjectAtIndex:i+1];
+            }
+            else
+            {
+                [keyframes removeObjectAtIndex:i];
+            }
+            
+            didDelete = YES;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    
+    return didDelete;
+}
+
 - (id) valueAtTime:(float)time
 {
     int numKeyframes = [keyframes count];

@@ -764,18 +764,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     NSMutableArray* sequences = [NSMutableArray array];
     
-    SequencerSequence* seq1 = [[[SequencerSequence alloc] init] autorelease];
-    seq1.name = @"Sequence 1";
-    seq1.sequenceId = 0;
-    [sequences addObject:seq1];
-    
-    SequencerSequence* seq2 = [[[SequencerSequence alloc] init] autorelease];
-    seq2.name = @"Sequence 2";
-    seq2.sequenceId = 1;
-    [sequences addObject:seq2];
+    SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+    seq.name = @"Default Timeline";
+    seq.sequenceId = 0;
+    [sequences addObject:seq];
     
     currentDocument.sequences = sequences;
-    sequenceHandler.currentSequence = seq1;
+    sequenceHandler.currentSequence = seq;
     
     NSLog(@"Setting up sequences");
     

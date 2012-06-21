@@ -703,6 +703,12 @@
             [[SequencerHandler sharedHandler] deselectAllKeyframes];
             mouseDownKeyframe.selected = YES;
         }
+        else
+        {
+            // Moved keyframes, clean up duplicates
+            [[SequencerHandler sharedHandler] deleteDuplicateKeyframesForCurrentSequence];
+            [outlineView reloadData];
+        }
     }
     
     // Clean up

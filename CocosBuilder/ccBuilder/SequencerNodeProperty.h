@@ -29,5 +29,6 @@
 - (id) valueAtTime:(float)time;
 - (BOOL) hasKeyframeAtTime:(float)time;
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
+- (BOOL) deleteDuplicateKeyframes;
 //- (void) updateNode:(CCNode*)node toTime:(float)time;
 @end
