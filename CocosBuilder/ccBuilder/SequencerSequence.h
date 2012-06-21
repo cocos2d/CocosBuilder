@@ -35,4 +35,7 @@
 - (float) timeToPosition:(float)time;
 - (float) positionToTime:(float)pos;
 
+- (id) initWithSerialization:(id)ser;
+- (id) serialize;
+
 @end

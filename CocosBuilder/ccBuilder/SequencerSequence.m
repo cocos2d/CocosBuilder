@@ -36,6 +36,37 @@
     return self;
 }
 
+- (id) initWithSerialization:(id)ser
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    timelineScale = [[ser objectForKey:@"scale"] floatValue];
+    timelineOffset = [[ser objectForKey:@"offset"] floatValue];
+    timelineLength = [[ser objectForKey:@"length"] floatValue];
+    timelinePosition = [[ser objectForKey:@"position"] floatValue];
+    timelineResolution = [[ser objectForKey:@"resolution"] floatValue];
+    self.name = [ser objectForKey:@"name"];
+    sequenceId = [[ser objectForKey:@"sequenceId"] intValue];
+    
+    return self;
+}
+
+- (id) serialize
+{
+    NSMutableDictionary* ser = [NSMutableDictionary dictionary];
+    
+    [ser setObject:[NSNumber numberWithFloat:timelineScale] forKey:@"scale"];
+    [ser setObject:[NSNumber numberWithFloat:timelineOffset] forKey:@"offset"];
+    [ser setObject:[NSNumber numberWithFloat:timelineLength] forKey:@"length"];
+    [ser setObject:[NSNumber numberWithFloat:timelinePosition] forKey:@"position"];
+    [ser setObject:[NSNumber numberWithFloat:timelineResolution] forKey:@"resolution"];
+    [ser setObject:name forKey:@"name"];
+    [ser setObject:[NSNumber numberWithInt:sequenceId] forKey:@"sequenceId"];
+    
+    return ser;
+}
+
 - (void) setTimelinePosition:(float)tp
 {
     if (tp < 0) tp = 0;

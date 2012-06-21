@@ -690,6 +690,18 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         [dict setObject:[NSNumber numberWithInt:doc.currentResolution] forKey:@"currentResolution"];
     }
     
+    // Sequencer timelines
+    if (doc.sequences)
+    {
+        NSMutableArray* sequences = [NSMutableArray array];
+        for (SequencerSequence* seq in doc.sequences)
+        {
+            [sequences addObject:[seq serialize]];
+        }
+        [dict setObject:sequences forKey:@"sequences"];
+        [dict setObject:[NSNumber numberWithInt:sequenceHandler.currentSequence.sequenceId] forKey:@"currentSequenceId"];
+    }
+    
     if (doc.exportPath && doc.exportPlugIn)
     {
         [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
@@ -761,17 +773,42 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
     
-    // TODO: Setup sequencer timelines (for real)
+    // Setup sequencer timelines
+    NSMutableArray* serializedSequences = [doc objectForKey:@"sequences"];
+    if (serializedSequences)
+    {
+        // Load from the file
+        int currentSequenceId = [[doc objectForKey:@"currentSequenceId"] intValue];
+        SequencerSequence* currentSeq = NULL;
+        
+        NSMutableArray* sequences = [NSMutableArray array];
+        for (id serSeq in serializedSequences)
+        {
+            SequencerSequence* seq = [[[SequencerSequence alloc] initWithSerialization:serSeq] autorelease];
+            [sequences addObject:seq];
+            
+            if (seq.sequenceId == currentSequenceId)
+            {
+                currentSeq = seq;
+            }
+        }
+        
+        currentDocument.sequences = sequences;
+        sequenceHandler.currentSequence = currentSeq;
+    }
+    else
+    {
+        // Setup a default timeline
+        NSMutableArray* sequences = [NSMutableArray array];
     
-    NSMutableArray* sequences = [NSMutableArray array];
+        SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+        seq.name = @"Default Timeline";
+        seq.sequenceId = 0;
+        [sequences addObject:seq];
     
-    SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
-    seq.name = @"Default Timeline";
-    seq.sequenceId = 0;
-    [sequences addObject:seq];
-    
-    currentDocument.sequences = sequences;
-    sequenceHandler.currentSequence = seq;
+        currentDocument.sequences = sequences;
+        sequenceHandler.currentSequence = seq;
+    }
     
     // Process contents
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
