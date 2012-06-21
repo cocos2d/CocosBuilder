@@ -66,6 +66,8 @@
 - (void) redrawTimeline;
 - (void) updateScroller;
 
+- (void) updateScaleSlider;
+
 - (float) visibleTimeArea;
 - (float) maxTimelineOffset;
 

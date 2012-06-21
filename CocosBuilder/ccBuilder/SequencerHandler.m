@@ -92,6 +92,30 @@ static SequencerHandler* sharedSequencerHandler;
     currentSequence.timelineScale = timelineScales[scale];
 }
 
+- (void) updateScaleSlider
+{
+    if (!currentSequence)
+    {
+        timeScaleSlider.doubleValue = 2;
+        [timeScaleSlider setEnabled:NO];
+        return;
+    }
+    
+    [timeScaleSlider setEnabled:YES];
+    
+    int val = 0;
+    for (int i = 0; i < kCCBNumTimlineScales; i++)
+    {
+        if (currentSequence.timelineScale == timelineScales[i])
+        {
+            val = i;
+            break;
+        }
+    }
+    
+    timeScaleSlider.doubleValue = val;
+}
+
 #pragma mark Handle scroller
 
 - (float) visibleTimeArea
@@ -450,7 +474,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) redrawTimeline
 {
     [scrubberSelectionView setNeedsDisplay:YES];
-    [timeDisplay setStringValue:[currentSequence currentDisplayTime]];
+    NSString* displayTime = [currentSequence currentDisplayTime];
+    if (!displayTime) displayTime = @"00:00:00";
+    [timeDisplay setStringValue:displayTime];
     [self updateScroller];
 }
 
@@ -549,6 +575,7 @@ static SequencerHandler* sharedSequencerHandler;
         [self redrawTimeline];
         [self updatePropertiesToTimelinePosition];
         [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+        [self updateScaleSlider];
     }
 }
 

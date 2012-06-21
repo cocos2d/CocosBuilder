@@ -146,6 +146,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     sequenceHandler.scrollView = sequenceScrollView;
     
     [self updateTimelineMenu];
+    [sequenceHandler updateScaleSlider];
 }
 
 - (void) setupTabBar
@@ -705,7 +706,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setSelectedNode:NULL];
     CocosScene* cs = [CocosScene cocosScene];
     
-    
     if (![self hasOpenedDocument]) return;
     currentDocument.docData = [self docDataFromCurrentNodeGraph];
     currentDocument.stageZoom = [cs stageZoom];
@@ -772,8 +772,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     currentDocument.sequences = sequences;
     sequenceHandler.currentSequence = seq;
-    
-    NSLog(@"Setting up sequences");
     
     // Process contents
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
@@ -852,7 +850,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [[CocosScene cocosScene].notesLayer removeAllNotes];
     [[CocosScene cocosScene].rulerLayer mouseExited:NULL];
     self.currentDocument = NULL;
+    sequenceHandler.currentSequence = NULL;
     
+    [self updateTimelineMenu];
     [outlineHierarchy reloadData];
     
     [resManagerPanel.window setIsVisible:NO];
