@@ -70,6 +70,7 @@
 #import "SequencerNodeProperty.h"
 #import "SequencerSequence.h"
 #import "SequencerSettingsWindow.h"
+#import "SequencerDurationWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1865,18 +1866,20 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         currentDocument.sequences = wc.sequences;
         sequenceHandler.currentSequence = [currentDocument.sequences objectAtIndex:0];
     }
+}
+
+- (IBAction)menuTimelineDuration:(id)sender
+{
+    if (!currentDocument) return;
     
-    /*
-    ResolutionSettingsWindow* wc = [[[ResolutionSettingsWindow alloc] initWithWindowNibName:@"ResolutionSettingsWindow"] autorelease];
-    [wc copyResolutions: currentDocument.resolutions];
+    SequencerDurationWindow* wc = [[[SequencerDurationWindow alloc] initWithWindowNibName:@"SequencerDurationWindow"] autorelease];
+    wc.duration = sequenceHandler.currentSequence.timelineLength;
     
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
-        currentDocument.resolutions = wc.resolutions;
-        [self updateResolutionMenu];
-        [self setResolution:0];
-    }*/
+        sequenceHandler.currentSequence.timelineLength = wc.duration;
+    }
 }
 
 - (IBAction) menuOpenResourceManager:(id)sender

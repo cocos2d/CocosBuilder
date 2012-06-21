@@ -575,6 +575,8 @@
 		E3F3F847153D9126005443EE /* StickyNoteEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F846153D9126005443EE /* StickyNoteEditView.xib */; };
 		E3F3F849153DB893005443EE /* notes-close.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F848153DB893005443EE /* notes-close.png */; };
 		E3F3F84B153DBA43005443EE /* notes-close-down.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F84A153DBA43005443EE /* notes-close-down.png */; };
+		E3F73DB61593908A00D74084 /* SequencerDurationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F73DB51593908A00D74084 /* SequencerDurationWindow.m */; };
+		E3F73DB81593916E00D74084 /* SequencerDurationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */; };
 		E3FCE8671524856D0028E8E7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3FCE86D1524856D0028E8E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3FCE86B1524856D0028E8E7 /* InfoPlist.strings */; };
 		E3FCE874152485A20028E8E7 /* CCScrollView.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */; };
@@ -1510,6 +1512,9 @@
 		E3F3F846153D9126005443EE /* StickyNoteEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickyNoteEditView.xib; sourceTree = "<group>"; };
 		E3F3F848153DB893005443EE /* notes-close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close.png"; sourceTree = "<group>"; };
 		E3F3F84A153DBA43005443EE /* notes-close-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close-down.png"; sourceTree = "<group>"; };
+		E3F73DB41593908A00D74084 /* SequencerDurationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerDurationWindow.h; sourceTree = "<group>"; };
+		E3F73DB51593908A00D74084 /* SequencerDurationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerDurationWindow.m; sourceTree = "<group>"; };
+		E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SequencerDurationWindow.xib; sourceTree = "<group>"; };
 		E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCScrollView.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3FCE86A1524856D0028E8E7 /* CCScrollView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCScrollView-Info.plist"; sourceTree = "<group>"; };
 		E3FCE86C1524856D0028E8E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2300,6 +2305,9 @@
 				E3A0ED56159118F3000BDF4B /* SequencerSettingsWindow.xib */,
 				E3A0ED58159119E7000BDF4B /* SequencerSettingsWindow.h */,
 				E3A0ED59159119E7000BDF4B /* SequencerSettingsWindow.m */,
+				E3F73DB41593908A00D74084 /* SequencerDurationWindow.h */,
+				E3F73DB51593908A00D74084 /* SequencerDurationWindow.m */,
+				E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -3807,6 +3815,7 @@
 				E3A0ED52158FE3AB000BDF4B /* btn-dropdown.png in Resources */,
 				E3A0ED55158FEAC0000BDF4B /* btn-dropdown-arrows.png in Resources */,
 				E3A0ED57159118F3000BDF4B /* SequencerSettingsWindow.xib in Resources */,
+				E3F73DB81593916E00D74084 /* SequencerDurationWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4219,6 +4228,7 @@
 				E36ECCE5158648EE003C177E /* SequencerNodeProperty.m in Sources */,
 				E36ECD0D15868F57003C177E /* SequencerKeyframe.m in Sources */,
 				E3A0ED5A159119E7000BDF4B /* SequencerSettingsWindow.m in Sources */,
+				E3F73DB61593908A00D74084 /* SequencerDurationWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
