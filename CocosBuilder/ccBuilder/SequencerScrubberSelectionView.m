@@ -509,6 +509,7 @@
                 if (theEvent.clickCount == 2)
                 {
                     seq.timelinePosition = mouseDownKeyframe.time;
+                    [CocosBuilderAppDelegate appDelegate].selectedNode = node;
                 }
                 
                 // Start dragging keyframe(s)
