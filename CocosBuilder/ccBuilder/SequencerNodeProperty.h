@@ -34,5 +34,5 @@
 - (BOOL) hasKeyframeAtTime:(float)time;
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
 - (BOOL) deleteDuplicateKeyframes;
-
+- (void) deleteKeyframesAfterTime:(float)time;
 @end

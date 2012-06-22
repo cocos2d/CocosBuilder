@@ -1133,6 +1133,18 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self addDocument:currentDocument];
     
+    // Setup a default timeline
+    NSMutableArray* sequences = [NSMutableArray array];
+    
+    SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+    seq.name = @"Default Timeline";
+    seq.sequenceId = 0;
+    [sequences addObject:seq];
+    
+    currentDocument.sequences = sequences;
+    sequenceHandler.currentSequence = seq;
+    
+    
     self.hasOpenedDocument = YES;
     
     [self updateStateOriginCenteredMenu];
@@ -1918,6 +1930,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
+        [sequenceHandler deleteKeyframesForCurrentSequenceAfterTime:wc.duration];
         sequenceHandler.currentSequence.timelineLength = wc.duration;
     }
 }

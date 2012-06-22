@@ -45,6 +45,18 @@
     return info.plugIn;
 }
 
+- (id) baseValueForProperty:(NSString*)name
+{
+    NodeInfo* info = self.userObject;
+    return [info.baseValues objectForKey:name];
+}
+
+- (void) setBaseValue:(id)value forProperty:(NSString*)name
+{
+    NodeInfo* info = self.userObject;
+    [info.baseValues setObject:value forKey:name];
+}
+
 - (SequencerNodeProperty*) sequenceNodeProperty:(NSString*)name sequenceId:(int)seqId
 {
     NodeInfo* info = self.userObject;
@@ -312,6 +324,27 @@
         }
     }
     return deletedKeyframe;
+}
+
+- (void) deleteKeyframesAfterTime:(float)time sequenceId:(int)seqId
+{
+    NodeInfo* info = self.userObject;
+    NSMutableDictionary* seq = [info.animatableProperties objectForKey:[NSNumber numberWithInt:seqId]];
+    if (seq)
+    {
+        NSEnumerator* seqEnum = [seq objectEnumerator];
+        SequencerNodeProperty* seqNodeProp;
+        while ((seqNodeProp = [seqEnum nextObject]))
+        {
+            [seqNodeProp deleteKeyframesAfterTime:time];
+        }
+    }
+    // Also remove keyframes for children
+    CCNode* child = NULL;
+    CCARRAY_FOREACH([self children], child)
+    {
+        [child deleteKeyframesAfterTime:time sequenceId:seqId];
+    }
 }
 
 - (id) serializeAnimatedProperties

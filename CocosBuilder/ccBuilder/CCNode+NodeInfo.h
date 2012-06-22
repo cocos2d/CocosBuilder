@@ -20,6 +20,9 @@
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;
 
+- (id) baseValueForProperty:(NSString*)name;
+- (void) setBaseValue:(id)value forProperty:(NSString*)name;
+
 - (SequencerNodeProperty*) sequenceNodeProperty:(NSString*)name sequenceId:(int)seqId;
 - (void) enableSequenceNodeProperty:(NSString*)name sequenceId:(int)seqId;
 
@@ -37,7 +40,7 @@
 - (BOOL) deleteSelectedKeyframesForSequenceId:(int)seqId;
 
 - (BOOL) deleteDuplicateKeyframesForSequenceId:(int)seqId;
-
+- (void) deleteKeyframesAfterTime:(float)time sequenceId:(int)seqId;
 
 - (id) serializeAnimatedProperties;
 - (void) loadAnimatedPropertiesFromSerialization:(id)ser;

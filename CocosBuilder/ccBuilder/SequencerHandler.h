@@ -77,4 +77,5 @@
 
 - (BOOL) deleteSelectedKeyframesForCurrentSequence;
 - (void) deleteDuplicateKeyframesForCurrentSequence;
+- (void) deleteKeyframesForCurrentSequenceAfterTime:(float)time;
 @end

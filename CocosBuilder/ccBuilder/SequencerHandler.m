@@ -525,6 +525,11 @@ static SequencerHandler* sharedSequencerHandler;
     }
 }
 
+- (void) deleteKeyframesForCurrentSequenceAfterTime:(float)time
+{
+    [[CocosScene cocosScene].rootNode deleteKeyframesAfterTime:time sequenceId:currentSequence.sequenceId];
+}
+
 - (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
 {
     [node addSelectedKeyframesToArray:keyframes];

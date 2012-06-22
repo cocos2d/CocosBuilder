@@ -151,6 +151,18 @@
     return didDelete;
 }
 
+- (void) deleteKeyframesAfterTime:(float)time
+{
+    for (int i = keyframes.count-1; i >= 0; i--)
+    {
+        SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+        if (keyframe.time > time)
+        {
+            [keyframes removeObjectAtIndex:i];
+        }
+    }
+}
+
 - (id) valueAtTime:(float)time
 {
     int numKeyframes = [keyframes count];

@@ -407,6 +407,9 @@
         [prop setValue:serializedValue forKey:@"value"];
         if (platform) [prop setValue:platform forKey:@"platform"];
         
+        id baseValue = [node baseValueForProperty:name];
+        if (baseValue) [prop setValue:baseValue forKey:@"baseValue"];
+        
         [props addObject:prop];
     }
     
@@ -434,6 +437,10 @@
     if (anim)
     {
         [dict setObject:anim forKey:@"animatedProperties"];
+    }
+    if (node.seqExpanded)
+    {
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"seqExpanded"];
     }
     
     // Add code connection props
