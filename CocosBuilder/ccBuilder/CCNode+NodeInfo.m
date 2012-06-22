@@ -335,10 +335,8 @@
             [serProperties setObject:[seqNodeProp serialization] forKey:propName];
         }
         
-        [serAnimatableProps setObject:serProperties forKey:seqId];
+        [serAnimatableProps setObject:serProperties forKey:[seqId stringValue]];
     }
-    
-    NSLog(@"serAnimatableProps: %@",serAnimatableProps);
     
     return serAnimatableProps;
 }
@@ -353,12 +351,10 @@
         return;
     }
     
-    NSLog(@"loadAnimatedProperties: %@",ser);
-    
     NSMutableDictionary* serAnimatableProps = ser;
     NSMutableDictionary* animatableProps = [NSMutableDictionary dictionaryWithCapacity:serAnimatableProps.count];
     
-    for (NSNumber* seqId in serAnimatableProps)
+    for (NSString* seqId in serAnimatableProps)
     {
         NSMutableDictionary* serProperties = [serAnimatableProps objectForKey:seqId];
         NSMutableDictionary* properties = [NSMutableDictionary dictionaryWithCapacity:serProperties.count];
@@ -369,7 +365,9 @@
             [properties setObject:seqNodeProp forKey:propName];
         }
         
-        [animatableProps setObject:properties forKey:seqId];
+        NSNumber* seqIdNum = [NSNumber numberWithInt:[seqId intValue]];
+        
+        [animatableProps setObject:properties forKey:seqIdNum];
     }
     
     info.animatableProperties = animatableProps;

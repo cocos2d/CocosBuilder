@@ -352,11 +352,6 @@
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
     id animatedProps = [dict objectForKey:@"animatedProperties"];
-    if (animatedProps)
-    {
-        NSLog(@"animatedProps: %@", animatedProps);
-    }
-    
     [node loadAnimatedPropertiesFromSerialization:animatedProps];
     
     CGSize contentSize = node.contentSize;

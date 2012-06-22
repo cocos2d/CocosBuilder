@@ -1060,10 +1060,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) saveFile:(NSString*) fileName
 {
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
-    
-    NSLog(@"Write to file: %@", fileName);
      
     [doc writeToFile:fileName atomically:YES];
+    
     currentDocument.fileName = fileName;
     currentDocument.docData = doc;
     
