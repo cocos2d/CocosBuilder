@@ -660,6 +660,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (NSMutableDictionary*) docDataFromCurrentNodeGraph
 {
+    NSLog(@"docDataFromCurrentNodeGraph");
+    
     CCBGlobals* g= [CCBGlobals globals];
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     CCBDocument* doc = [self currentDocument];
@@ -1058,6 +1060,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) saveFile:(NSString*) fileName
 {
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
+    
+    NSLog(@"Write to file: %@", fileName);
      
     [doc writeToFile:fileName atomically:YES];
     currentDocument.fileName = fileName;

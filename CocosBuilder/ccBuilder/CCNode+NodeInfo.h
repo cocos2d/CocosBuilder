@@ -38,4 +38,8 @@
 
 - (BOOL) deleteDuplicateKeyframesForSequenceId:(int)seqId;
 
+
+- (id) serializeAnimatedProperties;
+- (void) loadAnimatedPropertiesFromSerialization:(id)ser;
+
 @end

@@ -314,4 +314,65 @@
     return deletedKeyframe;
 }
 
+- (id) serializeAnimatedProperties
+{
+    NodeInfo* info = self.userObject;
+    NSMutableDictionary* animatableProps = info.animatableProperties;
+    if (!animatableProps.count)
+    {
+        return NULL;
+    }
+    
+    NSMutableDictionary* serAnimatableProps = [NSMutableDictionary dictionaryWithCapacity:animatableProps.count];
+    for (NSNumber* seqId in animatableProps)
+    {
+        NSMutableDictionary* properties = [animatableProps objectForKey:seqId];
+        NSMutableDictionary* serProperties = [NSMutableDictionary dictionaryWithCapacity:animatableProps.count];
+        
+        for (NSString* propName in properties)
+        {
+            SequencerNodeProperty* seqNodeProp = [properties objectForKey:propName];
+            [serProperties setObject:[seqNodeProp serialization] forKey:propName];
+        }
+        
+        [serAnimatableProps setObject:serProperties forKey:seqId];
+    }
+    
+    NSLog(@"serAnimatableProps: %@",serAnimatableProps);
+    
+    return serAnimatableProps;
+}
+
+- (void) loadAnimatedPropertiesFromSerialization:(id)ser
+{
+    NodeInfo* info = self.userObject;
+    
+    if (!ser)
+    {
+        info.animatableProperties = [NSMutableDictionary dictionary];
+        return;
+    }
+    
+    NSLog(@"loadAnimatedProperties: %@",ser);
+    
+    NSMutableDictionary* serAnimatableProps = ser;
+    NSMutableDictionary* animatableProps = [NSMutableDictionary dictionaryWithCapacity:serAnimatableProps.count];
+    
+    for (NSNumber* seqId in serAnimatableProps)
+    {
+        NSMutableDictionary* serProperties = [serAnimatableProps objectForKey:seqId];
+        NSMutableDictionary* properties = [NSMutableDictionary dictionaryWithCapacity:serProperties.count];
+        
+        for (NSString* propName in serProperties)
+        {
+            SequencerNodeProperty* seqNodeProp = [[[SequencerNodeProperty alloc] initWithSerialization:[serProperties objectForKey:propName]] autorelease];
+            [properties setObject:seqNodeProp forKey:propName];
+        }
+        
+        [animatableProps setObject:properties forKey:seqId];
+    }
+    
+    info.animatableProperties = animatableProps;
+}
+
 @end

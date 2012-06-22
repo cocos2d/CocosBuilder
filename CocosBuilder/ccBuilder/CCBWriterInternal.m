@@ -28,6 +28,7 @@
 #import "PlugInNode.h"
 #import "TexturePropertySetter.h"
 #import "PositionPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CCBWriterInternal
 
@@ -427,6 +428,13 @@
     [dict setObject:props forKey:@"properties"];
     [dict setObject:baseClass forKey:@"baseClass"];
     [dict setObject:children forKey:@"children"];
+    
+    // Serialize any animations
+    id anim = [node serializeAnimatedProperties];
+    if (anim)
+    {
+        [dict setObject:anim forKey:@"animatedProperties"];
+    }
     
     // Add code connection props
     NSString* customClass = [extraProps objectForKey:@"customClass"];

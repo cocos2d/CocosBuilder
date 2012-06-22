@@ -40,6 +40,9 @@ enum
 
 @property (nonatomic,assign) SequencerNodeProperty* parent;
 
+- (id) initWithSerialization:(id)ser;
+- (id) serialization;
+
 + (int) keyframeTypeFromPropertyType:(NSString*)type;
 
 @end

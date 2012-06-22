@@ -21,6 +21,30 @@
 
 @synthesize parent;
 
+- (id) initWithSerialization:(id)ser
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.value = [ser valueForKey:@"value"];
+    self.type = [[ser valueForKey:@"type"] intValue];
+    self.name = [ser valueForKey:@"name"];
+    self.time = [[ser valueForKey:@"time"] floatValue];
+    
+    return self;
+}
+
+- (id) serialization
+{
+    NSMutableDictionary* ser = [NSMutableDictionary dictionaryWithCapacity:4];
+    
+    [ser setValue:value forKey:@"value"];
+    [ser setValue:[NSNumber numberWithInt:type] forKey:@"type"];
+    [ser setValue:name forKey:@"name"];
+    [ser setValue:[NSNumber numberWithFloat:time] forKey:@"time"];
+    
+    return ser;
+}
 
 + (int) keyframeTypeFromPropertyType:(NSString*)type
 {

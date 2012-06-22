@@ -35,6 +35,7 @@
 #import "ResourceManager.h"
 #import "NodeGraphPropertySetter.h"
 #import "PositionPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CCBReaderInternal
 
@@ -349,6 +350,14 @@
     [extraProps setObject:customClass forKey:@"customClass"];
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
+    
+    id animatedProps = [dict objectForKey:@"animatedProperties"];
+    if (animatedProps)
+    {
+        NSLog(@"animatedProps: %@", animatedProps);
+    }
+    
+    [node loadAnimatedPropertiesFromSerialization:animatedProps];
     
     CGSize contentSize = node.contentSize;
     for (int i = 0; i < [children count]; i++)

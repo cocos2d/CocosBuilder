@@ -22,6 +22,10 @@
 @property (nonatomic,readonly) NSString* propName;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n;
+- (id) initWithSerialization: (id) ser;
+
+- (id) serialization;
+
 - (void) setKeyframe:(SequencerKeyframe*)keyframe;
 - (SequencerKeyframe*) keyframeBetweenMinTime:(float)minTime maxTime:(float)maxTime;
 - (NSArray*) keyframesBetweenMinTime:(float)minTime maxTime:(float)maxTime;
@@ -30,5 +34,5 @@
 - (BOOL) hasKeyframeAtTime:(float)time;
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
 - (BOOL) deleteDuplicateKeyframes;
-//- (void) updateNode:(CCNode*)node toTime:(float)time;
+
 @end

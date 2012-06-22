@@ -51,7 +51,7 @@
     [extraProps setObject:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
     [extraProps setObject:@"" forKey:@"memberVarAssignmentName"];
     
-    animatableProperties = [[NSMutableDictionary alloc] init];
+    self.animatableProperties = [NSMutableDictionary dictionary];
     baseValues = [[NSMutableDictionary alloc] init];
     
     return self;
@@ -60,7 +60,7 @@
 - (void) dealloc
 {
     [extraProps release];
-    [animatableProperties release];
+    self.animatableProperties = NULL;
     [baseValues release];
     [super dealloc];
 }

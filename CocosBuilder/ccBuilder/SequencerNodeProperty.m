@@ -35,6 +35,43 @@
     return self;
 }
 
+- (id) initWithSerialization: (id) ser
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    propName = [[ser objectForKey:@"name"] copy];
+    type = [[ser objectForKey:@"type"] intValue];
+    
+    NSArray* serKeyframes = [ser objectForKey:@"keyframes"];
+    keyframes = [[NSMutableArray alloc] initWithCapacity:serKeyframes.count];
+    for (id keyframeSer in serKeyframes)
+    {
+        SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] initWithSerialization:keyframeSer] autorelease];
+        [keyframes addObject:keyframe];
+    }
+    
+    return self;
+}
+
+- (id) serialization
+{
+    NSMutableDictionary* ser = [NSMutableDictionary dictionaryWithCapacity:3];
+    
+    [ser setObject:propName forKey:@"name"];
+    [ser setObject:[NSNumber numberWithInt:type] forKey:@"type"];
+    
+    NSMutableArray* serKeyframes = [NSMutableArray arrayWithCapacity:keyframes.count];
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        [serKeyframes addObject:[keyframe serialization]];
+    }
+    
+    [ser setObject:serKeyframes forKey:@"keyframes"];
+    
+    return ser;
+}
+
 - (void) dealloc
 {
     [keyframes release];
