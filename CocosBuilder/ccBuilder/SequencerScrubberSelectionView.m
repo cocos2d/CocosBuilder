@@ -13,6 +13,7 @@
 #import "PlugInNode.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -648,6 +649,7 @@
             
             if (oldTime != newTime)
             {
+                [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*keyframe"];
                 keyframe.time = newTime;
                 moved = YES;
             }
