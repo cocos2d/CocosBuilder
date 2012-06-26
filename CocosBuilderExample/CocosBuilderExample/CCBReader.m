@@ -408,7 +408,7 @@
         NSString* spriteSheet = [self readCachedString];
         NSString* spriteFile = [self readCachedString];
         
-        if (setProp)
+        if (setProp && ![spriteFile isEqualToString:@""])
         {
             CCSpriteFrame* spriteFrame;
             if ([spriteSheet isEqualToString:@""])
@@ -463,7 +463,7 @@
     {
         NSString* spriteFile = [self readCachedString];
         
-        if (setProp)
+        if (setProp && ![spriteFile isEqualToString:@""])
         {
             CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
             [node setValue:texture forKey:name];
