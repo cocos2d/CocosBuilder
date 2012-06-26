@@ -545,8 +545,8 @@ static CocosScene* sharedCocosScene;
         }
         else if (th == kCCBTransformHandleScale)
         {
-            transformStartScaleX = selectedNode.scaleX;
-            transformStartScaleY = selectedNode.scaleY;
+            transformStartScaleX = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
+            transformStartScaleY = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
         }
         else if (th == kCCBTransformHandleRotate)
         {
@@ -677,8 +677,10 @@ static CocosScene* sharedCocosScene;
         float delta = (int)xDelta;
         
         [appDelegate saveUndoStateWillChangeProperty:@"scale"];
-        appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
-        appDelegate.selectedNode.scaleY = transformStartScaleY + delta/100.0f;
+        
+        int type = [PositionPropertySetter scaledFloatTypeForNode:selectedNode prop:@"scale"];
+        [PositionPropertySetter setScaledX:transformStartScaleX + delta/100.0f Y:transformStartScaleY + delta/100.0f type:type forNode:selectedNode prop:@"scale"];
+        
         [appDelegate refreshProperty:@"scale"];
     }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
