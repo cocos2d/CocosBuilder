@@ -1243,7 +1243,7 @@
 		E3A16AF21536D096004B528A /* GuidesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidesLayer.m; sourceTree = "<group>"; };
 		E3A16AF41536D69A004B528A /* CCBPLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPLabelTTF.h; sourceTree = "<group>"; };
 		E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPLabelTTF.m; sourceTree = "<group>"; };
-		E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CocosBuilderPlayerIcon.icns; sourceTree = "<group>"; };
+		E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CocosBuilderPlayerIcon.icns; path = ../CocosBuilderPlayerIcon.icns; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -1293,7 +1293,7 @@
 		E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentWindow.m; sourceTree = "<group>"; };
 		E3B9AF4C153C48E300489438 /* CCBTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTransparentView.h; sourceTree = "<group>"; };
 		E3B9AF4D153C48E300489438 /* CCBTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentView.m; sourceTree = "<group>"; };
-		E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CocosBuilderProjectIcon.icns; path = Resources/CocosBuilderProjectIcon.icns; sourceTree = "<group>"; };
+		E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CocosBuilderProjectIcon.icns; sourceTree = "<group>"; };
 		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1716,6 +1716,8 @@
 		776041E61498F7980078095D /* Icons & Logos */ = {
 			isa = PBXGroup;
 			children = (
+				E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */,
+				E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */,
 				77AC50241360A0FB00B04360 /* Icon.icns */,
 				776C687513872CA700153214 /* CocosBuilderDocIcon.icns */,
 				77055FB313D0E5CA009DD63A /* logo-icon.png */,
@@ -1849,11 +1851,6 @@
 		7789ABB3133AA82000CEFCC7 = {
 			isa = PBXGroup;
 			children = (
-				E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */,
-				E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */,
-				E3E0878F15669FA2008F1FDB /* libffi.dylib */,
-				E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */,
-				FA98CFDA154E8D16006E58C5 /* CoreServices.framework */,
 				E3D08A321524581100E55891 /* README.md */,
 				E3D59118150F50D1004180CA /* AUTHORS */,
 				E395DC7D1511FDF70075979E /* CHANGELOG */,
@@ -1902,6 +1899,8 @@
 		7789ABC1133AA82000CEFCC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */,
+				FA98CFDA154E8D16006E58C5 /* CoreServices.framework */,
 				E33BC1961510B8D0009AE29A /* Sparkle.framework */,
 				776A37151395925D00960E94 /* Quartz.framework */,
 				776A3713139590AA00960E94 /* ImageCaptureCore.framework */,
@@ -1916,6 +1915,7 @@
 		7789ABC4133AA82000CEFCC7 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3E0878F15669FA2008F1FDB /* libffi.dylib */,
 				7789ABED133AB12F00CEFCC7 /* libz.dylib */,
 				7789ABEB133AB12000CEFCC7 /* OpenGL.framework */,
 				7789ABE9133AB10E00CEFCC7 /* QuartzCore.framework */,
