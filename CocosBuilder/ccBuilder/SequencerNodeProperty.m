@@ -217,7 +217,8 @@
         
         return [NSNumber numberWithFloat:fStart+span*interpolVal];
     }
-    else if (type == kCCBKeyframeTypePosition)
+    else if (type == kCCBKeyframeTypePosition
+             || type == kCCBKeyframeTypeScaleLock)
     {
         CGPoint pStart = CGPointZero;
         CGPoint pEnd = CGPointZero;

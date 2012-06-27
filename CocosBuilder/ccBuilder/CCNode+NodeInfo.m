@@ -169,6 +169,15 @@
                 [NSNumber numberWithFloat:pos.y],
                 nil];
     }
+    else if (type == kCCBKeyframeTypeScaleLock)
+    {
+        float x = [PositionPropertySetter scaleXForNode:self prop:name];
+        float y = [PositionPropertySetter scaleYForNode:self prop:name];
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithFloat:x],
+                [NSNumber numberWithFloat:y],
+                nil];
+    }
     
     return NULL;
 }
@@ -195,6 +204,14 @@
             pos.y = [[value objectAtIndex:1] floatValue];
             
             [PositionPropertySetter setPosition: pos forNode:self prop:propName];
+        }
+        else if (type == kCCBKeyframeTypeScaleLock)
+        {
+            float x = [[value objectAtIndex:0] floatValue];
+            float y = [[value objectAtIndex:1] floatValue];
+            int type = [PositionPropertySetter scaledFloatTypeForNode:self prop:propName];
+            
+            [PositionPropertySetter setScaledX:x Y:y type:type forNode:self prop:propName];
         }
     }
 }

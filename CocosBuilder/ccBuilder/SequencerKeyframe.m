@@ -56,6 +56,10 @@
     {
         return kCCBKeyframeTypePosition;
     }
+    else if ([type isEqualToString:@"ScaleLock"])
+    {
+        return kCCBKeyframeTypeScaleLock;
+    }
     else
     {
         return kCCBKeyframeTypeUndefined;
