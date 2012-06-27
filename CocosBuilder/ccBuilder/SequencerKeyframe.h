@@ -47,4 +47,5 @@ enum
 
 + (int) keyframeTypeFromPropertyType:(NSString*)type;
 
+- (BOOL) valueIsEqualTo:(SequencerKeyframe*)keyframe;
 @end

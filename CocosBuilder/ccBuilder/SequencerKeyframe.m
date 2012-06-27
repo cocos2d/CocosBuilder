@@ -81,4 +81,24 @@
     [parent sortKeyframes];
 }
 
+- (BOOL) valueIsEqualTo:(SequencerKeyframe*)keyframe
+{
+    if (type != keyframe.type)
+    {
+        return NO;
+    }
+    
+    if (type == kCCBKeyframeTypeDegrees)
+    {
+        return ([value floatValue] == [keyframe.value floatValue]);
+    }
+    else if (type == kCCBKeyframeTypePosition
+             || type == kCCBKeyframeTypeScaleLock)
+    {
+        return ([[value objectAtIndex:0] floatValue] == [[keyframe.value objectAtIndex:0] floatValue]
+                && [[value objectAtIndex:1] floatValue] == [[keyframe.value objectAtIndex:1] floatValue]);
+    }
+    return NO;
+}
+
 @end

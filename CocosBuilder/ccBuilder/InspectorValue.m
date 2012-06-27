@@ -117,6 +117,8 @@
             {
                 keyframe.value = value;
             }
+            
+            [[SequencerHandler sharedHandler] redrawTimeline];
         }
         else
         {

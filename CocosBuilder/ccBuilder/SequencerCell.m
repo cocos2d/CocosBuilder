@@ -78,7 +78,7 @@
     
     if (nodeProp)
     {        
-        // Draw keyframes
+        // Draw keyframes & interpolation lines
         NSArray* keyframes = nodeProp.keyframes;
         for (int i = 0; i < [keyframes count]; i++)
         {
@@ -91,15 +91,35 @@
             
             int xPos = [seq timeToPosition:keyframe.time];
             
+            // Dim interpolation if keyframes are equal
+            float fraction = 1;
+            if ([keyframe valueIsEqualTo:keyframeNext])
+            {
+                fraction = 0.5f;
+            }
+            
             if (keyframeNext)
             {
+                // Draw interpolation line
                 int xPosNext = [seq timeToPosition:keyframeNext.time];
                 
                 NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+5, xPosNext-xPos, 7);
                 
-                [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+                [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                
+                // Draw ease in/out
+                NSGraphicsContext* gc = [NSGraphicsContext currentContext];
+                [gc saveGraphicsState];
+                [NSBezierPath clipRect:interpolRect];
+                
+                [imgEaseIn drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos + 5, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                
+                [imgEaseOut drawAtPoint:NSMakePoint(cellFrame.origin.x + xPosNext - 18, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                
+                [gc restoreGraphicsState];
             }
             
+            // Draw keyframe
             NSImage* img = NULL;
             if (keyframe.selected)
             {

@@ -732,9 +732,9 @@ static CocosScene* sharedCocosScene;
                 keyframe.type = type;
                 
                 [seqNodeProp setKeyframe:keyframe];
-                
-                [sh redrawTimeline];
             }
+            
+            [sh redrawTimeline];
         }
         else
         {
