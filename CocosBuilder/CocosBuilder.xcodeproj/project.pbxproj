@@ -402,6 +402,7 @@
 		E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */; };
 		E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */; };
 		E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */; };
+		E3E05578159B2322001066C5 /* NSString+AppendToFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E05577159B2322001066C5 /* NSString+AppendToFile.m */; };
 		E3E086CA1566366E008F1FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3E086D01566366E008F1FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3E086CE1566366E008F1FDB /* InfoPlist.strings */; };
 		E3E086D21566366E008F1FDB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E086D11566366E008F1FDB /* main.m */; };
@@ -1321,7 +1322,7 @@
 		E3A16AF21536D096004B528A /* GuidesLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidesLayer.m; sourceTree = "<group>"; };
 		E3A16AF41536D69A004B528A /* CCBPLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPLabelTTF.h; sourceTree = "<group>"; };
 		E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPLabelTTF.m; sourceTree = "<group>"; };
-		E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CocosBuilderPlayerIcon.icns; sourceTree = "<group>"; };
+		E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CocosBuilderPlayerIcon.icns; path = ../CocosBuilderPlayerIcon.icns; sourceTree = "<group>"; };
 		E3B4220F14E49DEB004547D6 /* InspectorInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorInteger.h; sourceTree = "<group>"; };
 		E3B4221014E49DEB004547D6 /* InspectorInteger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorInteger.m; sourceTree = "<group>"; };
 		E3B4221214E4A350004547D6 /* InspectorCheck.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCheck.xib; sourceTree = "<group>"; };
@@ -1371,7 +1372,7 @@
 		E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentWindow.m; sourceTree = "<group>"; };
 		E3B9AF4C153C48E300489438 /* CCBTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTransparentView.h; sourceTree = "<group>"; };
 		E3B9AF4D153C48E300489438 /* CCBTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentView.m; sourceTree = "<group>"; };
-		E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CocosBuilderProjectIcon.icns; path = Resources/CocosBuilderProjectIcon.icns; sourceTree = "<group>"; };
+		E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CocosBuilderProjectIcon.icns; sourceTree = "<group>"; };
 		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1436,6 +1437,8 @@
 		E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskStatusWindow.xib; sourceTree = "<group>"; };
 		E3DCFD9D1562A3AD00BD7D7F /* TaskStatusWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskStatusWindow.h; sourceTree = "<group>"; };
 		E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskStatusWindow.m; sourceTree = "<group>"; };
+		E3E05576159B2322001066C5 /* NSString+AppendToFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AppendToFile.h"; sourceTree = "<group>"; };
+		E3E05577159B2322001066C5 /* NSString+AppendToFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AppendToFile.m"; sourceTree = "<group>"; };
 		E3E086C81566366E008F1FDB /* Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3E086CD1566366E008F1FDB /* Player-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Player-Info.plist"; sourceTree = "<group>"; };
 		E3E086CF1566366E008F1FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1751,6 +1754,8 @@
 		776041E21498F5A70078095D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				E3E05576159B2322001066C5 /* NSString+AppendToFile.h */,
+				E3E05577159B2322001066C5 /* NSString+AppendToFile.m */,
 				772BE563133C06320009B5B9 /* NSFlippedView.h */,
 				772BE564133C06320009B5B9 /* NSFlippedView.m */,
 				77156DAF137F0351005EF746 /* CCBSpriteSheetParser.h */,
@@ -1819,6 +1824,8 @@
 		776041E61498F7980078095D /* Icons & Logos */ = {
 			isa = PBXGroup;
 			children = (
+				E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */,
+				E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */,
 				77AC50241360A0FB00B04360 /* Icon.icns */,
 				776C687513872CA700153214 /* CocosBuilderDocIcon.icns */,
 				77055FB313D0E5CA009DD63A /* logo-icon.png */,
@@ -1980,11 +1987,6 @@
 		7789ABB3133AA82000CEFCC7 = {
 			isa = PBXGroup;
 			children = (
-				E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */,
-				E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */,
-				E3E0878F15669FA2008F1FDB /* libffi.dylib */,
-				E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */,
-				FA98CFDA154E8D16006E58C5 /* CoreServices.framework */,
 				E3D08A321524581100E55891 /* README.md */,
 				E3D59118150F50D1004180CA /* AUTHORS */,
 				E395DC7D1511FDF70075979E /* CHANGELOG */,
@@ -2033,6 +2035,8 @@
 		7789ABC1133AA82000CEFCC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */,
+				FA98CFDA154E8D16006E58C5 /* CoreServices.framework */,
 				E33BC1961510B8D0009AE29A /* Sparkle.framework */,
 				776A37151395925D00960E94 /* Quartz.framework */,
 				776A3713139590AA00960E94 /* ImageCaptureCore.framework */,
@@ -2047,6 +2051,7 @@
 		7789ABC4133AA82000CEFCC7 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3E0878F15669FA2008F1FDB /* libffi.dylib */,
 				7789ABED133AB12F00CEFCC7 /* libz.dylib */,
 				7789ABEB133AB12000CEFCC7 /* OpenGL.framework */,
 				7789ABE9133AB10E00CEFCC7 /* QuartzCore.framework */,
@@ -4229,6 +4234,7 @@
 				E36ECD0D15868F57003C177E /* SequencerKeyframe.m in Sources */,
 				E3A0ED5A159119E7000BDF4B /* SequencerSettingsWindow.m in Sources */,
 				E3F73DB61593908A00D74084 /* SequencerDurationWindow.m in Sources */,
+				E3E05578159B2322001066C5 /* NSString+AppendToFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
