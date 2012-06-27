@@ -705,7 +705,6 @@ static CocosScene* sharedCocosScene;
     return YES;
 }
 
-#warning TODO: Create new keyframes if neccessary
 - (void) updateAnimateablePropertyValue:(id)value propName:(NSString*)propertyName type:(int)type
 {
     NodeInfo* nodeInfo = selectedNode.userObject;

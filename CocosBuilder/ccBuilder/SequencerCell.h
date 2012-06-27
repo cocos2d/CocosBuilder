@@ -21,6 +21,10 @@
     NSImage* imgRowBg0;
     NSImage* imgRowBg1;
     NSImage* imgRowBgN;
+    
+    NSImage* imgInterpol;
+    NSImage* imgEaseIn;
+    NSImage* imgEaseOut;
 }
 
 @property (nonatomic,assign) CCNode* node;

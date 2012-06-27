@@ -80,9 +80,25 @@
     {        
         // Draw keyframes
         NSArray* keyframes = nodeProp.keyframes;
-        for (SequencerKeyframe* keyframe in keyframes)
+        for (int i = 0; i < [keyframes count]; i++)
         {
+            SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+            SequencerKeyframe* keyframeNext = NULL;
+            if (i + 1 < [keyframes count])
+            {
+                keyframeNext = [keyframes objectAtIndex:i+1];
+            }
+            
             int xPos = [seq timeToPosition:keyframe.time];
+            
+            if (keyframeNext)
+            {
+                int xPosNext = [seq timeToPosition:keyframeNext.time];
+                
+                NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+5, xPosNext-xPos, 7);
+                
+                [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            }
             
             NSImage* img = NULL;
             if (keyframe.selected)
@@ -94,7 +110,7 @@
                 img = imgKeyframe;
             }
             
-            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
         }
     }
 }
@@ -117,14 +133,23 @@
         imgKeyframeSel = [[NSImage imageNamed:@"seq-keyframe-sel.png"] retain];
         [imgKeyframeSel setFlipped:YES];
         
-        imgRowBg0 = [[NSImage imageNamed:@"seq-row-0-bg"] retain];
+        imgRowBg0 = [[NSImage imageNamed:@"seq-row-0-bg.png"] retain];
         [imgRowBg0 setFlipped:YES];
         
-        imgRowBg1 = [[NSImage imageNamed:@"seq-row-1-bg"] retain];
+        imgRowBg1 = [[NSImage imageNamed:@"seq-row-1-bg.png"] retain];
         [imgRowBg1 setFlipped:YES];
         
-        imgRowBgN = [[NSImage imageNamed:@"seq-row-n-bg"] retain];
+        imgRowBgN = [[NSImage imageNamed:@"seq-row-n-bg.png"] retain];
         [imgRowBgN setFlipped:YES];
+        
+        imgInterpol = [[NSImage imageNamed:@"seq-keyframe-interpol.png"] retain];
+        [imgInterpol setFlipped:YES];
+        
+        imgEaseIn = [[NSImage imageNamed:@"seq-keyframe-easein.png"] retain];
+        [imgEaseIn setFlipped:YES];
+        
+        imgEaseOut = [[NSImage imageNamed:@"seq-keyframe-easeout.png"] retain];
+        [imgEaseOut setFlipped:YES];
     }
     
     [self drawPropertyRowVisiblityWithFrame:cellFrame inView:controlView];
@@ -145,6 +170,12 @@
 {
     [imgKeyframe release];
     [imgKeyframeSel release];
+    [imgRowBg0 release];
+    [imgRowBg1 release];
+    [imgRowBgN release];
+    [imgInterpol release];
+    [imgEaseIn release];
+    [imgEaseOut release];
     [super dealloc];
 }
 
