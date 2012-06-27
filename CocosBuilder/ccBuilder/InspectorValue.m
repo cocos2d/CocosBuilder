@@ -101,7 +101,7 @@
 
 - (void) updateAnimateablePropertyValue:(id)value
 {
-     NodeInfo* nodeInfo = selection.userObject;
+    NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     
     if ([plugIn isAnimatableProperty:propertyName])
