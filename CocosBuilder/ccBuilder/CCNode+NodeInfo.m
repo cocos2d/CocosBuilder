@@ -354,6 +354,25 @@
     }
 }
 
+- (NSArray*) keyframesForProperty:(NSString*) prop
+{
+    NSMutableArray* keyframes = [NSMutableArray array];
+    
+    NodeInfo* info = self.userObject;
+    
+    NSEnumerator* animPropEnum = [info.animatableProperties objectEnumerator];
+    NSDictionary* seq;
+    while ((seq = [animPropEnum nextObject]))
+    {
+        SequencerNodeProperty* seqNodeProp = [seq objectForKey:prop];
+        if (seqNodeProp)
+        {
+            [keyframes addObjectsFromArray:seqNodeProp.keyframes];
+        }
+    }
+    return keyframes;
+}
+
 - (id) serializeAnimatedProperties
 {
     NodeInfo* info = self.userObject;

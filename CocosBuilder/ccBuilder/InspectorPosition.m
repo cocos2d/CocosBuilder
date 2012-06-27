@@ -26,6 +26,8 @@
 #import "PositionPropertySetter.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCNode+NodeInfo.h"
+#import "SequencerKeyframe.h"
 
 @implementation InspectorPosition
 
@@ -73,14 +75,43 @@
     return [PositionPropertySetter positionForNode:selection prop:propertyName].y;
 }
 
+- (id) convertAnimatableValue:(id)value fromType:(int)fromType toType:(int)toType
+{
+    NSPoint relPos = NSZeroPoint;
+    relPos.x = [[value objectAtIndex:0] floatValue];
+    relPos.y = [[value objectAtIndex:1] floatValue];
+    
+    relPos = [PositionPropertySetter convertPosition:relPos fromType:fromType toType:toType forNode:selection];
+    
+    return [NSArray arrayWithObjects:
+                              [NSNumber numberWithFloat:relPos.x],
+                              [NSNumber numberWithFloat:relPos.y],
+                              NULL];
+}
+
 - (void) setPositionType:(int)positionType
 {
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
+    int oldPositionType = [PositionPropertySetter positionTypeForNode:selection prop:propertyName];
+    
+    // Update keyframes
+    NSArray* keyframes = [selection keyframesForProperty:propertyName];
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        keyframe.value = [self convertAnimatableValue:keyframe.value fromType:oldPositionType toType:positionType];
+    }
+    
+    // Update base value
+    id baseValue = [selection baseValueForProperty:propertyName];
+    if (baseValue)
+    {
+        baseValue = [self convertAnimatableValue:baseValue fromType:oldPositionType toType:positionType];
+        [selection setBaseValue:baseValue forProperty:propertyName];
+    }
+    
     [PositionPropertySetter setPositionType:positionType forNode:selection prop:propertyName];
     [self refresh];
-    
-    // TODO: Update animated values!
     
     [self updateAffectedProperties];
 }
