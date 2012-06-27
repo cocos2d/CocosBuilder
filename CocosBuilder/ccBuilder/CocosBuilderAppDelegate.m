@@ -660,8 +660,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (NSMutableDictionary*) docDataFromCurrentNodeGraph
 {
-    NSLog(@"docDataFromCurrentNodeGraph");
-    
     CCBGlobals* g= [CCBGlobals globals];
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     CCBDocument* doc = [self currentDocument];

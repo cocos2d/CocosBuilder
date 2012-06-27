@@ -217,6 +217,26 @@
         
         return [NSNumber numberWithFloat:fStart+span*interpolVal];
     }
+    else if (type == kCCBKeyframeTypePosition)
+    {
+        CGPoint pStart = CGPointZero;
+        CGPoint pEnd = CGPointZero;
+        
+        pStart.x = [[keyframeStart.value objectAtIndex:0] floatValue];
+        pStart.y = [[keyframeStart.value objectAtIndex:1] floatValue];
+        
+        pEnd.x = [[keyframeEnd.value objectAtIndex:0] floatValue];
+        pEnd.y = [[keyframeEnd.value objectAtIndex:1] floatValue];
+        
+        CGPoint span = ccpSub(pEnd, pStart);
+        
+        CGPoint inter = ccpAdd(pStart, ccpMult(span, interpolVal));
+        
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithFloat:inter.x],
+                [NSNumber numberWithFloat:inter.y],
+                NULL];
+    }
     
     // Unsupported value type
     return NULL;

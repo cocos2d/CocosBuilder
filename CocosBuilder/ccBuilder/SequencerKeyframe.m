@@ -52,6 +52,10 @@
     {
         return kCCBKeyframeTypeDegrees;
     }
+    else if ([type isEqualToString:@"Position"])
+    {
+        return kCCBKeyframeTypePosition;
+    }
     else
     {
         return kCCBKeyframeTypeUndefined;

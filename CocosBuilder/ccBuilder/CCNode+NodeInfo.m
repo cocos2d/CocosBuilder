@@ -14,6 +14,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
+#import "PositionPropertySetter.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -148,8 +149,6 @@
     // Check for base value
     NodeInfo* info = self.userObject;
     
-    if (info.baseValues) NSLog(@"info.baseValues: %@", info.baseValues);
-    
     id baseValue = [info.baseValues objectForKey:name];
     if (baseValue)
     {
@@ -162,6 +161,14 @@
     {
         return [self valueForKey:name];
     }
+    else if (type == kCCBKeyframeTypePosition)
+    {
+        CGPoint pos = [PositionPropertySetter positionForNode:self prop:name];
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithFloat:pos.x],
+                [NSNumber numberWithFloat:pos.y],
+                nil];
+    }
     
     return NULL;
 }
@@ -171,13 +178,6 @@
     NSArray* animatableProps = [self.plugIn animatableProperties];
     for (NSString* propName in animatableProps)
     {
-        //SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:propName sequenceId:seqId];
-        //if (seqNodeProp)
-        //{
-        //    [seqNodeProp updateNode:self toTime:time];
-        //}
-        
-        
         int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:propName]];
         
         if (!type) continue;
@@ -186,8 +186,15 @@
         
         if (type == kCCBKeyframeTypeDegrees)
         {
-            NSLog(@"setValue: %@ forKey: %@", value, propName);
             [self setValue:value forKey:propName];
+        }
+        else if (type == kCCBKeyframeTypePosition)
+        {
+            NSPoint pos = NSZeroPoint;
+            pos.x = [[value objectAtIndex:0] floatValue];
+            pos.y = [[value objectAtIndex:1] floatValue];
+            
+            [PositionPropertySetter setPosition: pos forNode:self prop:propName];
         }
     }
 }

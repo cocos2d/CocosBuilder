@@ -15,6 +15,7 @@ enum
     kCCBKeyframeTypeUndefined,
     kCCBKeyframeTypeVisible,
     kCCBKeyframeTypeDegrees,
+    kCCBKeyframeTypePosition,
 };
 
 @interface SequencerKeyframe : NSObject

@@ -99,23 +99,11 @@
     
 }
 
-- (void) setPropertyForSelection:(id)value
+- (void) updateAnimateablePropertyValue:(id)value
 {
-    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
-    
-    NodeInfo* nodeInfo = selection.userObject;
+     NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
-    if ([plugIn dontSetInEditorProperty:propertyName])
-    {
-        // Set the property in the extra props dict
-        [nodeInfo.extraProps setObject:value forKey:propertyName];
-    }
-    else
-    {
-        [selection setValue:value forKey:propertyName];
-    }
     
-    // Handle animatable properties
     if ([plugIn isAnimatableProperty:propertyName])
     {
         SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
@@ -135,6 +123,26 @@
             [nodeInfo.baseValues setObject:value forKey:propertyName];
         }
     }
+}
+
+- (void) setPropertyForSelection:(id)value
+{
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    NodeInfo* nodeInfo = selection.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    if ([plugIn dontSetInEditorProperty:propertyName])
+    {
+        // Set the property in the extra props dict
+        [nodeInfo.extraProps setObject:value forKey:propertyName];
+    }
+    else
+    {
+        [selection setValue:value forKey:propertyName];
+    }
+    
+    // Handle animatable properties
+    [self updateAnimateablePropertyValue:value];
     
     // Update affected properties
     [self updateAffectedProperties];

@@ -37,6 +37,12 @@
     pt.x = posX;
     [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
     
+    NSArray* animValue = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:pt.x],
+                          [NSNumber numberWithFloat:pt.y],
+                          NULL];
+    [self updateAnimateablePropertyValue:animValue];
+    
     [self updateAffectedProperties];
 }
 
@@ -53,6 +59,12 @@
     pt.y = posY;
     [PositionPropertySetter setPosition:pt type:[PositionPropertySetter positionTypeForNode:selection prop:propertyName] forNode:selection prop:propertyName];
     
+    NSArray* animValue = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:pt.x],
+                          [NSNumber numberWithFloat:pt.y],
+                          NULL];
+    [self updateAnimateablePropertyValue:animValue];
+    
     [self updateAffectedProperties];
 }
 
@@ -67,6 +79,8 @@
     
     [PositionPropertySetter setPositionType:positionType forNode:selection prop:propertyName];
     [self refresh];
+    
+    // TODO: Update animated values!
     
     [self updateAffectedProperties];
 }
