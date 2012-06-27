@@ -39,6 +39,10 @@
 #import "CCBGLView.h"
 #import "MainWindow.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
 
 static CocosScene* sharedCocosScene;
 
@@ -701,12 +705,92 @@ static CocosScene* sharedCocosScene;
     return YES;
 }
 
+#warning TODO: Create new keyframes if neccessary
+- (void) updateAnimateablePropertyValue:(id)value propName:(NSString*)propertyName type:(int)type
+{
+    NodeInfo* nodeInfo = selectedNode.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    SequencerHandler* sh = [SequencerHandler sharedHandler];
+    
+    if ([plugIn isAnimatableProperty:propertyName])
+    {
+        SequencerSequence* seq = sh.currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:propertyName sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = value;
+            }
+            else
+            {
+                SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
+                keyframe.time = seq.timelinePosition;
+                keyframe.value = value;
+                keyframe.type = type;
+                
+                [seqNodeProp setKeyframe:keyframe];
+                
+                [sh redrawTimeline];
+            }
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:value forKey:propertyName];
+        }
+    }
+}
+
 - (BOOL) ccMouseUp:(NSEvent *)event
 {
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
+    
+    if (currentMouseTransform != kCCBTransformHandleNone)
+    {
+        // Update keyframes & base value
+        id value = NULL;
+        NSString* propName = NULL;
+        int type = kCCBKeyframeTypeDegrees;
+        
+        if (currentMouseTransform == kCCBTransformHandleRotate)
+        {
+            value = [NSNumber numberWithFloat: selectedNode.rotation];
+            propName = @"rotation";
+            type = kCCBKeyframeTypeDegrees;
+        }
+        else if (currentMouseTransform == kCCBTransformHandleScale)
+        {
+            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
+            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
+            value = [NSArray arrayWithObjects:
+                     [NSNumber numberWithFloat:x],
+                     [NSNumber numberWithFloat:y],
+                     nil];
+            propName = @"scale";
+            type = kCCBKeyframeTypeScaleLock;
+        }
+        else if (currentMouseTransform == kCCBTransformHandleMove)
+        {
+            CGPoint pt = [PositionPropertySetter positionForNode:selectedNode prop:@"position"];
+            value = [NSArray arrayWithObjects:
+                     [NSNumber numberWithFloat:pt.x],
+                     [NSNumber numberWithFloat:pt.y],
+                     nil];
+            propName = @"position";
+            type = kCCBKeyframeTypePosition;
+        }
+        
+        if (value)
+        {
+            [self updateAnimateablePropertyValue:value propName:propName type:type];
+        }
+    }
     
     if ([notesLayer mouseUp:pos event:event]) return YES;
     if ([guideLayer mouseUp:pos event:event]) return YES;
