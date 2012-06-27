@@ -30,6 +30,7 @@
 #import "PlugInManager.h"
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
+#import "NSString+AppendToFile.h"
 
 @implementation CCBPublisher
 
@@ -115,6 +116,30 @@
     return YES;
 }
 
+- (void) clearResourceLog
+{
+    NSString* logPath = [[projectSettings.projectPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"ccbresourcelog"];
+    [@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+}
+
+- (void) writeToResourceLogSubPath: (NSString*) subpath file:(NSString*)file
+{
+    NSString* logPath = [[projectSettings.projectPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"ccbresourcelog"];
+    
+    NSString* str = NULL;
+    if (subpath && !projectSettings.flattenPaths)
+    {
+        str = [subpath stringByAppendingPathComponent:file];
+    }
+    else
+    {
+        str = file;
+    }
+    str = [str stringByAppendingString:@"\n"];
+    
+    [str appendToFile:logPath usingEncoding:NSUTF8StringEncoding];
+}
+
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
     CocosBuilderAppDelegate* ad = [[CCBGlobals globals] appDelegate];
@@ -168,28 +193,29 @@
                 if ([[fileName lowercaseString] hasSuffix:ext])
                 {
                     // This file should be copied
-                    //NSString* dstFile = NULL;
-                    //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@",outputDir,subPath,fileName];
-                    //else dstFile = [NSString stringWithFormat:@"%@/%@",outputDir,fileName];
-                    
                     NSString* dstFile = [outDir stringByAppendingPathComponent:fileName];
+                    [self writeToResourceLogSubPath:subPath file:fileName];
                     
-                    if ([dstFile isEqualToString:filePath])
+                    // Igore resource copies if setting is only publish ccb-files
+                    if (!projectSettings.onlyPublishCCBs)
                     {
-                        [warnings addWarningWithDescription:@"Publish will overwrite file in resource directory." isFatal:YES];
-                        return NO;
-                    }
+                        if ([dstFile isEqualToString:filePath])
+                        {
+                            [warnings addWarningWithDescription:@"Publish will overwrite file in resource directory." isFatal:YES];
+                            return NO;
+                        }
                     
-                    if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
-                    {
-                        [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
+                        if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
+                        {
+                            [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
                         
-                        // Remove old file
-                        [fm removeItemAtPath:dstFile error:NULL];
+                            // Remove old file
+                            [fm removeItemAtPath:dstFile error:NULL];
                         
-                        // Copy the file
-                        BOOL sucess = [fm copyItemAtPath:filePath toPath:dstFile error:NULL];
-                        if (!sucess) [warnings addWarningWithDescription:[NSString stringWithFormat:@"Failed to publish file: %@", fileName]];
+                            // Copy the file
+                            BOOL sucess = [fm copyItemAtPath:filePath toPath:dstFile error:NULL];
+                            if (!sucess) [warnings addWarningWithDescription:[NSString stringWithFormat:@"Failed to publish file: %@", fileName]];
+                        }
                     }
                 }
             }
@@ -199,10 +225,8 @@
             {
                 NSString* strippedFileName = [fileName stringByDeletingPathExtension];
                 
-                //NSString* dstFile = NULL;
-                //if (subPath) dstFile = [NSString stringWithFormat:@"%@/%@/%@.%@",outputDir,subPath,strippedFileName, publishFormat];
-                //else dstFile = [NSString stringWithFormat:@"%@/%@.%@",outputDir,strippedFileName, publishFormat];
                 NSString* dstFile = [[outDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
+                [self writeToResourceLogSubPath:subPath file:[strippedFileName stringByAppendingPathExtension:publishFormat]];
                 
                 if ([dstFile isEqualToString:filePath])
                 {
@@ -266,6 +290,8 @@
 
 - (void) publish
 {
+    [self clearResourceLog];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         [self publish_];
