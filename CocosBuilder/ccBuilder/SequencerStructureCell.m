@@ -7,9 +7,11 @@
 //
 
 #import "SequencerStructureCell.h"
+#import "SequencerNodeProperty.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
 #import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation SequencerStructureCell
 
@@ -20,6 +22,8 @@
     // Only draw property names if cell is expanded
     if ([node seqExpanded])
     {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        
         // Color
         NSColor* textColor = [[self textColor] colorWithAlphaComponent:0.6];
         
@@ -34,16 +38,38 @@
         // Setup attributes
         NSMutableDictionary* attrib = [NSMutableDictionary dictionary];
         [attrib setObject:style forKey:NSParagraphStyleAttributeName];
-        [attrib setObject:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
         [attrib setObject:textColor forKey:NSForegroundColorAttributeName];
         
         // Draw property names
+        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:@"visible" sequenceId:seq.sequenceId];
+        BOOL hasKeyframes = ([seqNodeProp.keyframes count] > 0);
+        if (hasKeyframes)
+        {
+            [attrib setObject:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
+        }
+        else
+        {
+            [attrib setObject:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
+        }
+        
         [@"Visible" drawInRect:propNameRect withAttributes:attrib];
         
         NSArray* props = node.plugIn.animatableProperties;
         
         for (NSString* prop in props)
         {
+            seqNodeProp = [node sequenceNodeProperty:prop sequenceId:seq.sequenceId];
+            BOOL hasKeyframes = ([seqNodeProp.keyframes count] > 0);
+            
+            if (hasKeyframes)
+            {
+                [attrib setObject:[NSFont boldSystemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
+            }
+            else
+            {
+                [attrib setObject:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]] forKey:NSFontAttributeName];
+            }
+            
             NSString* displayName = [[node.plugIn.nodePropertiesDict objectForKey:prop] objectForKey:@"displayName"];
             
             propNameRect.origin.y += kCCBSeqDefaultRowHeight;

@@ -480,6 +480,7 @@ static SequencerHandler* sharedSequencerHandler;
     if (!displayTime) displayTime = @"00:00:00";
     [timeDisplay setStringValue:displayTime];
     [self updateScroller];
+    [outlineHierarchy reloadData];
 }
 
 #pragma mark Util

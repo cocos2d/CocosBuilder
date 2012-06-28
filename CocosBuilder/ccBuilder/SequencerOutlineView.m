@@ -32,8 +32,6 @@
     
     NSInteger column = [self columnAtPoint:mouseLocationInTable];
     
-    NSLog(@"mouseDown in col: %d seq-col: %d", (int)column, (int)[self columnWithIdentifier:@"sequencer"]);
-    
     if (column == [self columnWithIdentifier:@"sequencer"])
     {
         // Events in the sequencer are handled by the SequencerOutlineView which
