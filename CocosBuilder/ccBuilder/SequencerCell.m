@@ -39,23 +39,66 @@
     
     if (nodeProp)
     {        
-        // Draw keyframes
+        // Draw keyframes & and visibility
         NSArray* keyframes = nodeProp.keyframes;
-        for (SequencerKeyframe* keyframe in keyframes)
+        
+        for (int i = 0; i < [keyframes count]; i++)
         {
+            SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+            SequencerKeyframe* keyframeNext = NULL;
+            if (i < [keyframes count]-1)
+            {
+                keyframeNext = [keyframes objectAtIndex:i+1];
+            }
+            
             int xPos = [seq timeToPosition:keyframe.time];
             
-            NSImage* img = NULL;
-            if (keyframe.selected)
+            // Draw visibility
+            if ((i % 2) == 0)
             {
-                img = imgKeyframeSel;
+                // Draw interpolation line
+                int xPosNext = 0;
+                if (keyframeNext)
+                {
+                    xPosNext = [seq timeToPosition:keyframeNext.time];
+                }
+                else
+                {
+                    xPosNext = [seq timeToPosition:seq.timelineLength];
+                }
+                
+                NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+1, xPosNext-xPos, 13);
+                
+                [imgInterpolVis drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+            }
+            
+            // Draw keyframes
+            
+            NSImage* img = NULL;
+            if (i % 2 == 0)
+            {
+                if (keyframe.selected)
+                {
+                    img = imgKeyframeLSel;
+                }
+                else
+                {
+                    img = imgKeyframeL;
+                }
             }
             else
             {
-                img = imgKeyframe;
+                if (keyframe.selected)
+                {
+                    img = imgKeyframeRSel;
+                }
+                else
+                {
+                    img = imgKeyframeR;
+                }
             }
             
-            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
         }
     }
 }
@@ -183,6 +226,21 @@
         
         imgEaseOut = [[NSImage imageNamed:@"seq-keyframe-easeout.png"] retain];
         [imgEaseOut setFlipped:YES];
+        
+        imgInterpolVis = [[NSImage imageNamed:@"seq-keyframe-interpol-vis.png"] retain];
+        [imgInterpolVis setFlipped:YES];
+        
+        imgKeyframeL = [[NSImage imageNamed:@"seq-keyframe-l.png"] retain];
+        [imgKeyframeL setFlipped:YES];
+        
+        imgKeyframeR = [[NSImage imageNamed:@"seq-keyframe-r.png"] retain];
+        [imgKeyframeR setFlipped:YES];
+        
+        imgKeyframeLSel = [[NSImage imageNamed:@"seq-keyframe-l-sel.png"] retain];
+        [imgKeyframeLSel setFlipped:YES];
+        
+        imgKeyframeRSel = [[NSImage imageNamed:@"seq-keyframe-r-sel.png"] retain];
+        [imgKeyframeRSel setFlipped:YES];
     }
     
     [self drawPropertyRowVisiblityWithFrame:cellFrame inView:controlView];
@@ -209,6 +267,11 @@
     [imgInterpol release];
     [imgEaseIn release];
     [imgEaseOut release];
+    [imgInterpolVis release];
+    [imgKeyframeL release];
+    [imgKeyframeR release];
+    [imgKeyframeLSel release];
+    [imgKeyframeRSel release];
     [super dealloc];
 }
 

@@ -19,7 +19,7 @@
 {
     // Only draw property names if cell is expanded
     if ([node seqExpanded])
-    {   
+    {
         // Color
         NSColor* textColor = [[self textColor] colorWithAlphaComponent:0.6];
         

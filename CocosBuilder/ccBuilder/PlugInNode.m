@@ -169,6 +169,7 @@
     if (cachedAnimatableProperties) return cachedAnimatableProperties;
     
     NSMutableArray* props = [NSMutableArray array];
+    
     for (NSDictionary* propInfo in nodeProperties)
     {
         if ([[propInfo objectForKey:@"animatable"] boolValue])

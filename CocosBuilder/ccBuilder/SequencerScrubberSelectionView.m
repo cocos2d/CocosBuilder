@@ -314,7 +314,6 @@
     CCNode* node = [outlineView itemAtRow:row];
     NSString* prop = [self propNameForNode:node subRow:sub];
     
-    NSLog(@"addKeyframe at: %f", time);
     [node addDefaultKeyframeForProperty:prop atTime:time sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
 }
 

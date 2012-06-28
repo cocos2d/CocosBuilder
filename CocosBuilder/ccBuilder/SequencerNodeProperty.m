@@ -185,6 +185,12 @@
         return NULL;
     }
     
+    if (numKeyframes == 1 && type == kCCBKeyframeTypeVisible)
+    {
+        SequencerKeyframe* keyframe = [keyframes objectAtIndex:0];
+        return [NSNumber numberWithBool: (time >= keyframe.time)];
+    }
+    
     if (numKeyframes == 1)
     {
         SequencerKeyframe* keyframe = [keyframes objectAtIndex:0];
@@ -193,6 +199,15 @@
     
     SequencerKeyframe* keyframeFirst = [keyframes objectAtIndex:0];
     SequencerKeyframe* keyframeLast = [keyframes objectAtIndex:numKeyframes-1];
+    
+    if (time < keyframeFirst.time && type == kCCBKeyframeTypeVisible)
+    {
+        return [NSNumber numberWithBool:NO];
+    }
+    if (time >= keyframeLast.time && type == kCCBKeyframeTypeVisible)
+    {
+        return [NSNumber numberWithBool:([keyframes count] % 2 == 1)];
+    }
     
     if (time <= keyframeFirst.time)
     {
@@ -214,6 +229,13 @@
     
     SequencerKeyframe* keyframeStart = [keyframes objectAtIndex:startFrameNum];
     SequencerKeyframe* keyframeEnd = [keyframes objectAtIndex:endFrameNum];
+    
+    // Skip interpolations etc for visiblity (special case)
+    if (type == kCCBKeyframeTypeVisible)
+    {
+        BOOL val = (startFrameNum % 2 == 0);
+        return [NSNumber numberWithBool:val];
+    }
     
     // interpolVal will be in the range 0.0 - 1.0
     float interpolVal = (time - keyframeStart.time)/(keyframeEnd.time-keyframeStart.time);

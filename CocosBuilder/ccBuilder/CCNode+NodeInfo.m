@@ -123,7 +123,17 @@
     keyframe.time = time;
     keyframe.type = keyframeType;
     keyframe.name = name;
-    keyframe.value = [self valueForProperty:name atTime:time sequenceId:seqId];
+    
+    if (keyframeType == kCCBKeyframeTypeVisible)
+    {
+        // Values for visiblity keyframes are ignored (each keyframe toggles the state)
+        keyframe.value = [NSNumber numberWithBool:YES];
+    }
+    else
+    {
+        // Get the interpolated value
+        keyframe.value = [self valueForProperty:name atTime:time sequenceId:seqId];
+    }
     
     NSLog(@"keyframe.value: %@", keyframe.value);
     
@@ -152,7 +162,6 @@
     id baseValue = [info.baseValues objectForKey:name];
     if (baseValue)
     {
-        NSLog(@"Returning baseValue: %@ for: %@", baseValue, name);
         return baseValue;
     }
     
@@ -178,41 +187,56 @@
                 [NSNumber numberWithFloat:y],
                 nil];
     }
+    else if (type == kCCBKeyframeTypeVisible)
+    {
+        return [self valueForKey:@"visible"];
+    }
     
     return NULL;
 }
 
+- (void) updateProperty:(NSString*) propName time:(float)time sequenceId:(int)seqId
+{
+    int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:propName]];
+    
+    if (!type) return;
+    
+    id value = [self valueForProperty:propName atTime:time sequenceId:seqId];
+    
+    if (type == kCCBKeyframeTypeDegrees)
+    {
+        [self setValue:value forKey:propName];
+    }
+    else if (type == kCCBKeyframeTypePosition)
+    {
+        NSPoint pos = NSZeroPoint;
+        pos.x = [[value objectAtIndex:0] floatValue];
+        pos.y = [[value objectAtIndex:1] floatValue];
+        
+        [PositionPropertySetter setPosition: pos forNode:self prop:propName];
+    }
+    else if (type == kCCBKeyframeTypeScaleLock)
+    {
+        float x = [[value objectAtIndex:0] floatValue];
+        float y = [[value objectAtIndex:1] floatValue];
+        int type = [PositionPropertySetter scaledFloatTypeForNode:self prop:propName];
+        
+        [PositionPropertySetter setScaledX:x Y:y type:type forNode:self prop:propName];
+    }
+    else if (type == kCCBKeyframeTypeVisible)
+    {
+        [self setValue:value forKey:propName];
+    }
+}
+
 - (void) updatePropertiesTime:(float)time sequenceId:(int)seqId
 {
+    [self updateProperty:@"visible" time:time sequenceId:seqId];
+    
     NSArray* animatableProps = [self.plugIn animatableProperties];
     for (NSString* propName in animatableProps)
     {
-        int type = [SequencerKeyframe keyframeTypeFromPropertyType:[self.plugIn propertyTypeForProperty:propName]];
-        
-        if (!type) continue;
-        
-        id value = [self valueForProperty:propName atTime:time sequenceId:seqId];
-        
-        if (type == kCCBKeyframeTypeDegrees)
-        {
-            [self setValue:value forKey:propName];
-        }
-        else if (type == kCCBKeyframeTypePosition)
-        {
-            NSPoint pos = NSZeroPoint;
-            pos.x = [[value objectAtIndex:0] floatValue];
-            pos.y = [[value objectAtIndex:1] floatValue];
-            
-            [PositionPropertySetter setPosition: pos forNode:self prop:propName];
-        }
-        else if (type == kCCBKeyframeTypeScaleLock)
-        {
-            float x = [[value objectAtIndex:0] floatValue];
-            float y = [[value objectAtIndex:1] floatValue];
-            int type = [PositionPropertySetter scaledFloatTypeForNode:self prop:propName];
-            
-            [PositionPropertySetter setScaledX:x Y:y type:type forNode:self prop:propName];
-        }
+        [self updateProperty:propName time:time sequenceId:seqId];
     }
 }
 

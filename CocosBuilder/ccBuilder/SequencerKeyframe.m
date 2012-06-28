@@ -74,6 +74,10 @@
     {
         return kCCBKeyframeTypeScaleLock;
     }
+    else if ([type isEqualToString:@"Check"])
+    {
+        return kCCBKeyframeTypeVisible;
+    }
     else
     {
         return kCCBKeyframeTypeUndefined;

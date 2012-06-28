@@ -25,6 +25,12 @@
     NSImage* imgInterpol;
     NSImage* imgEaseIn;
     NSImage* imgEaseOut;
+    
+    NSImage* imgInterpolVis;
+    NSImage* imgKeyframeL;
+    NSImage* imgKeyframeR;
+    NSImage* imgKeyframeLSel;
+    NSImage* imgKeyframeRSel;
 }
 
 @property (nonatomic,assign) CCNode* node;
