@@ -104,6 +104,8 @@
     
     // Update property inspector
     [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    [[SequencerHandler sharedHandler] redrawTimeline];
+    [self updateProperty:name time:[SequencerHandler sharedHandler].currentSequence.timelinePosition sequenceId:seqId];
 }
 
 - (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
@@ -134,8 +136,6 @@
         // Get the interpolated value
         keyframe.value = [self valueForProperty:name atTime:time sequenceId:seqId];
     }
-    
-    NSLog(@"keyframe.value: %@", keyframe.value);
     
     [self addKeyframe:keyframe forProperty:name atTime:time sequenceId:seqId];
 }
