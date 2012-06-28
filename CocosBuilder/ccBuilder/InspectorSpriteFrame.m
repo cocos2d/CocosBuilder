@@ -83,6 +83,8 @@
         [selection setExtraProp:ssf forKey:[NSString stringWithFormat:@"%@Sheet", propertyName]];
     
         [TexturePropertySetter setSpriteFrameForNode:selection andProperty:propertyName withFile:sf andSheetFile:ssf];
+        
+        [self updateAnimateablePropertyValue:[NSArray arrayWithObjects:sf, ssf , nil]];
     }
     
     [self updateAffectedProperties];

@@ -230,11 +230,18 @@
     SequencerKeyframe* keyframeStart = [keyframes objectAtIndex:startFrameNum];
     SequencerKeyframe* keyframeEnd = [keyframes objectAtIndex:endFrameNum];
     
-    // Skip interpolations etc for visiblity (special case)
+    // Skip interpolations for visiblity (special case)
     if (type == kCCBKeyframeTypeVisible)
     {
         BOOL val = (startFrameNum % 2 == 0);
         return [NSNumber numberWithBool:val];
+    }
+    
+    // Skip interpolation for spriteframes
+    if (type == kCCBKeyframeTypeSpriteFrame)
+    {
+        if (time < keyframeEnd.time) return keyframeStart.value;
+        else return keyframeEnd.value;
     }
     
     // interpolVal will be in the range 0.0 - 1.0
@@ -274,6 +281,44 @@
                 [NSNumber numberWithFloat:inter.y],
                 NULL];
     }
+    else if (type == kCCBKeyframeTypeByte)
+    {
+        float fStart = [keyframeStart.value intValue];
+        float fEnd = [keyframeEnd.value intValue];
+        
+        float span = fEnd - fStart;
+        
+        return [NSNumber numberWithInt:(int)(roundf(fStart+span*interpolVal))];
+    }
+    else if (type == kCCBKeyframeTypeColor3)
+    {
+        float rStart = [[keyframeStart.value objectAtIndex:0] intValue];
+        float gStart = [[keyframeStart.value objectAtIndex:1] intValue];
+        float bStart = [[keyframeStart.value objectAtIndex:2] intValue];
+        
+        float rEnd = [[keyframeEnd.value objectAtIndex:0] intValue];
+        float gEnd = [[keyframeEnd.value objectAtIndex:1] intValue];
+        float bEnd = [[keyframeEnd.value objectAtIndex:2] intValue];
+        
+        float rSpan = rEnd - rStart;
+        float gSpan = gEnd - gStart;
+        float bSpan = bEnd - bStart;
+        
+        int r = (roundf(rStart+rSpan*interpolVal));
+        int g = (roundf(gStart+gSpan*interpolVal));
+        int b = (roundf(bStart+bSpan*interpolVal));
+        
+        NSAssert(r >= 0 && r <= 255, @"Color value is out of range");
+        NSAssert(g >= 0 && g <= 255, @"Color value is out of range");
+        NSAssert(b >= 0 && b <= 255, @"Color value is out of range");
+        
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithInt:r],
+                [NSNumber numberWithInt:g],
+                [NSNumber numberWithInt:b],
+                nil];
+    }
+    
     
     // Unsupported value type
     return NULL;

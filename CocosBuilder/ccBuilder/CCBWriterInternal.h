@@ -32,4 +32,7 @@
     
 }
 + (NSMutableDictionary*) dictionaryFromCCObject: (CCNode*) node;
+
++ (id) serializeColor3:(ccColor3B)c;
+
 @end

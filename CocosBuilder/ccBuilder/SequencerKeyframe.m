@@ -78,6 +78,18 @@
     {
         return kCCBKeyframeTypeVisible;
     }
+    else if ([type isEqualToString:@"Byte"])
+    {
+        return kCCBKeyframeTypeByte;
+    }
+    else if ([type isEqualToString:@"Color3"])
+    {
+        return kCCBKeyframeTypeColor3;
+    }
+    else if ([type isEqualToString:@"SpriteFrame"])
+    {
+        return kCCBKeyframeTypeSpriteFrame;
+    }
     else
     {
         return kCCBKeyframeTypeUndefined;
@@ -115,6 +127,22 @@
     {
         return ([[value objectAtIndex:0] floatValue] == [[keyframe.value objectAtIndex:0] floatValue]
                 && [[value objectAtIndex:1] floatValue] == [[keyframe.value objectAtIndex:1] floatValue]);
+    }
+    else if (type == kCCBKeyframeTypeByte)
+    {
+        return ([value intValue] == [keyframe.value intValue]);
+    }
+    else if (type == kCCBKeyframeTypeColor3)
+    {
+        int r0 = [[value objectAtIndex:0] intValue];
+        int g0 = [[value objectAtIndex:1] intValue];
+        int b0 = [[value objectAtIndex:2] intValue];
+        
+        int r1 = [[keyframe.value objectAtIndex:0] intValue];
+        int g1 = [[keyframe.value objectAtIndex:1] intValue];
+        int b1 = [[keyframe.value objectAtIndex:2] intValue];
+        
+        return (r0 == r1 && g0 == g1 && b0 == b1);
     }
     return NO;
 }

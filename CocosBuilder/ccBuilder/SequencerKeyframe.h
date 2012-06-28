@@ -18,6 +18,9 @@ enum
     kCCBKeyframeTypeDegrees,
     kCCBKeyframeTypePosition,
     kCCBKeyframeTypeScaleLock,
+    kCCBKeyframeTypeByte,
+    kCCBKeyframeTypeColor3,
+    kCCBKeyframeTypeSpriteFrame,
 };
 
 @interface SequencerKeyframe : NSObject

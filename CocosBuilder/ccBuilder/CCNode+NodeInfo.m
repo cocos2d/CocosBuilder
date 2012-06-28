@@ -11,10 +11,14 @@
 #import "PlugInNode.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 #import "CocosBuilderAppDelegate.h"
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
 #import "PositionPropertySetter.h"
+#import "TexturePropertySetter.h"
+#import "CCBWriterInternal.h"
+#import "CCBReaderInternal.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -96,6 +100,8 @@
 
 - (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*addkeyframe"];
+    
     // Make sure timeline is enabled for this property
     [self enableSequenceNodeProperty:name sequenceId:seqId];
     
@@ -121,10 +127,15 @@
     }
     
     // Create keyframe
-    SequencerKeyframe* keyframe = [[SequencerKeyframe alloc] init];
+    SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
     keyframe.time = time;
     keyframe.type = keyframeType;
     keyframe.name = name;
+    
+    if (keyframeType == kCCBKeyframeTypeSpriteFrame)
+    {
+        keyframe.easing.type = kCCBKeyframeEasingInstant;
+    }
     
     if (keyframeType == kCCBKeyframeTypeVisible)
     {
@@ -166,7 +177,8 @@
     }
     
     // Just use standard value
-    if (type == kCCBKeyframeTypeDegrees)
+    if (type == kCCBKeyframeTypeDegrees
+        || type == kCCBKeyframeTypeByte)
     {
         return [self valueForKey:name];
     }
@@ -190,6 +202,21 @@
     else if (type == kCCBKeyframeTypeVisible)
     {
         return [self valueForKey:@"visible"];
+    }
+    else if (type == kCCBKeyframeTypeColor3)
+    {
+        NSValue* colorValue = [self valueForKey:name];
+        ccColor3B c;
+        [colorValue getValue:&c];
+        return [CCBWriterInternal serializeColor3:c];
+    }
+    else if (type == kCCBKeyframeTypeSpriteFrame)
+    {
+        //[TexturePropertySetter 
+        NSString* sprite = [self extraPropForKey:name];
+        NSString* sheet = [self extraPropForKey:[name stringByAppendingString:@"Sheet"]];
+        
+        return [NSArray arrayWithObjects:sprite, sheet, nil];
     }
     
     return NULL;
@@ -224,6 +251,24 @@
         [PositionPropertySetter setScaledX:x Y:y type:type forNode:self prop:propName];
     }
     else if (type == kCCBKeyframeTypeVisible)
+    {
+        [self setValue:value forKey:propName];
+    }
+    else if (type == kCCBKeyframeTypeColor3)
+    {
+        ccColor3B c = [CCBReaderInternal deserializeColor3:value];
+        NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor3B)];
+        [self setValue:colorValue forKey:propName];
+        
+    }
+    else if (type == kCCBKeyframeTypeSpriteFrame)
+    {
+        NSString* sprite = [value objectAtIndex:0];
+        NSString* sheet = [value objectAtIndex:1];
+        
+        [TexturePropertySetter setSpriteFrameForNode:self andProperty:propName withFile:sprite andSheetFile:sheet];
+    }
+    else if (type == kCCBKeyframeTypeByte)
     {
         [self setValue:value forKey:propName];
     }
@@ -298,6 +343,8 @@
 
 - (BOOL) deleteSelectedKeyframesForSequenceId:(int)seqId
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*deletekeyframes"];
+    
     BOOL deletedKeyframe = NO;
     
     NodeInfo* info = self.userObject;

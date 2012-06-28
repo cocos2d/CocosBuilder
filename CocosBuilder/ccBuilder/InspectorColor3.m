@@ -23,6 +23,7 @@
  */
 
 #import "InspectorColor3.h"
+#import "CCBWriterInternal.h"
 
 @implementation InspectorColor3
 
@@ -35,6 +36,8 @@
     
     NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor3B)];
     [self setPropertyForSelection:colorValue];
+    
+    [self updateAnimateablePropertyValue: [CCBWriterInternal serializeColor3:c]];
     
 }
 
