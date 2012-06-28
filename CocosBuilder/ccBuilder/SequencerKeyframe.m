@@ -8,6 +8,7 @@
 
 #import "SequencerKeyframe.h"
 #import "SequencerNodeProperty.h"
+#import "SequencerKeyframeEasing.h"
 
 @implementation SequencerKeyframe
 
@@ -20,6 +21,17 @@
 @synthesize selected;
 
 @synthesize parent;
+@synthesize easing;
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.easing = [SequencerKeyframeEasing easing];
+    
+    return self;
+}
 
 - (id) initWithSerialization:(id)ser
 {
@@ -30,6 +42,7 @@
     self.type = [[ser valueForKey:@"type"] intValue];
     self.name = [ser valueForKey:@"name"];
     self.time = [[ser valueForKey:@"time"] floatValue];
+    self.easing = [[[SequencerKeyframeEasing alloc] initWithSerialization:[ser objectForKey:@"easing"]] autorelease];
     
     return self;
 }
@@ -42,6 +55,7 @@
     [ser setValue:[NSNumber numberWithInt:type] forKey:@"type"];
     [ser setValue:name forKey:@"name"];
     [ser setValue:[NSNumber numberWithFloat:time] forKey:@"time"];
+    [ser setValue:[easing serialization] forKey:@"easing"];
     
     return ser;
 }
@@ -99,6 +113,13 @@
                 && [[value objectAtIndex:1] floatValue] == [[keyframe.value objectAtIndex:1] floatValue]);
     }
     return NO;
+}
+
+- (void) dealloc
+{
+    self.easing = NULL;
+    self.parent = NULL;
+    [super dealloc];
 }
 
 @end

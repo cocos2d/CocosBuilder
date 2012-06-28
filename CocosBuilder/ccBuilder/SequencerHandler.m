@@ -20,6 +20,8 @@
 #import "SequencerCell.h"
 #import "SequencerSequence.h"
 #import "SequencerScrubberSelectionView.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 #import "CCNode+NodeInfo.h"
 #import "CCBDocument.h"
 
@@ -35,7 +37,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize timeScaleSlider;
 @synthesize scroller;
 @synthesize scrollView;
-//@synthesize sequences;
+@synthesize contextKeyframe;
 
 #pragma mark Init and singleton object
 
@@ -599,6 +601,19 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     self.currentSequence = seqSet;
+}
+
+#pragma mark Easings
+
+- (void) setContextKeyframeEasingType:(int) type
+{
+    if (!contextKeyframe) return;
+    if (contextKeyframe.easing.type == type) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*keyframeeasing"];
+    
+    contextKeyframe.easing.type = type;
+    [self redrawTimeline];
 }
 
 #pragma mark Destructor

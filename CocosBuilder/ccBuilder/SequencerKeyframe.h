@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SequencerNodeProperty;
+@class SequencerKeyframeEasing;
 
 enum
 {
@@ -30,6 +31,7 @@ enum
     BOOL selected;
     
     SequencerNodeProperty* parent;
+    SequencerKeyframeEasing* easing;
 }
 
 @property (nonatomic,retain) id value;
@@ -41,6 +43,7 @@ enum
 @property (nonatomic,assign) BOOL selected;
 
 @property (nonatomic,assign) SequencerNodeProperty* parent;
+@property (nonatomic,retain) SequencerKeyframeEasing* easing;
 
 - (id) initWithSerialization:(id)ser;
 - (id) serialization;

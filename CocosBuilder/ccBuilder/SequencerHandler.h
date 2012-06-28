@@ -23,6 +23,7 @@
 @class CocosBuilderAppDelegate;
 @class SequencerSequence;
 @class SequencerScrubberSelectionView;
+@class SequencerKeyframe;
 
 @interface SequencerHandler : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
@@ -40,6 +41,8 @@
     NSSlider* timeScaleSlider;
     NSScroller* scroller;
     NSScrollView* scrollView;
+    
+    SequencerKeyframe* contextKeyframe;
 }
 
 @property (nonatomic,assign) BOOL dragAndDropEnabled;
@@ -53,6 +56,8 @@
 //@property (nonatomic,retain) NSMutableArray* sequences;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
+
+@property (nonatomic,retain) SequencerKeyframe* contextKeyframe;
 
 
 // Obtain the shared instance
@@ -78,4 +83,6 @@
 - (BOOL) deleteSelectedKeyframesForCurrentSequence;
 - (void) deleteDuplicateKeyframesForCurrentSequence;
 - (void) deleteKeyframesForCurrentSequenceAfterTime:(float)time;
+
+- (void) setContextKeyframeEasingType:(int) type;
 @end

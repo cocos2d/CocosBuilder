@@ -102,6 +102,8 @@ enum {
     IBOutlet NSMenu* menuCanvasSize;
     IBOutlet NSMenu* menuCanvasBorder;
     IBOutlet NSMenu* menuResolution;
+    IBOutlet NSMenu* menuContextKeyframe;
+    IBOutlet NSMenu* menuContextKeyframeInterpol;
     
     IBOutlet NSPopUpButton* menuTimelinePopup;
     IBOutlet NSMenu* menuTimeline;
@@ -177,6 +179,9 @@ enum {
 
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
+
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframe;
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframeInterpol;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
 

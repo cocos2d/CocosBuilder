@@ -8,6 +8,32 @@
 
 #import <Foundation/Foundation.h>
 
+enum
+{
+    kCCBKeyframeEasingInstant,
+    kCCBKeyframeEasingLinear,
+    kCCBKeyframeEasingCubicIn,
+    kCCBKeyframeEasingCubicOut,
+    kCCBKeyframeEasingCubicInOut,
+};
+
 @interface SequencerKeyframeEasing : NSObject
+{
+    int type;
+    id options;
+}
+
++ (id) easing;
+
+- (id) initWithSerialization:(id) ser;
+- (id) serialization;
+
+@property (nonatomic,assign) int type;
+@property (nonatomic,retain) id options;
+@property (nonatomic,readonly) BOOL hasEaseIn;
+@property (nonatomic,readonly) BOOL hasEaseOut;
+@property (nonatomic,readonly) BOOL hasOptions;
+
+- (float) easeValue:(float)t;
 
 @end

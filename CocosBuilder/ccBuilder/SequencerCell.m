@@ -13,6 +13,7 @@
 #import "SequencerNodeProperty.h"
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 
 @implementation SequencerCell
 
@@ -98,7 +99,7 @@
                 fraction = 0.5f;
             }
             
-            if (keyframeNext)
+            if (keyframeNext && keyframe.easing.type != kCCBKeyframeEasingInstant)
             {
                 // Draw interpolation line
                 int xPosNext = [seq timeToPosition:keyframeNext.time];
@@ -107,16 +108,28 @@
                 
                 [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
                 
-                // Draw ease in/out
-                NSGraphicsContext* gc = [NSGraphicsContext currentContext];
-                [gc saveGraphicsState];
-                [NSBezierPath clipRect:interpolRect];
+                BOOL easeIn = keyframe.easing.hasEaseIn;
+                BOOL easeOut = keyframe.easing.hasEaseOut;
                 
-                [imgEaseIn drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos + 5, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                if (easeIn || easeOut)
+                {
+                    // Draw ease in/out
+                    NSGraphicsContext* gc = [NSGraphicsContext currentContext];
+                    [gc saveGraphicsState];
+                    [NSBezierPath clipRect:interpolRect];
+                    
+                    if (easeIn)
+                    {
+                        [imgEaseIn drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos + 5, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                    }
+                    
+                    if (easeOut)
+                    {
+                        [imgEaseOut drawAtPoint:NSMakePoint(cellFrame.origin.x + xPosNext - 18, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                    }
                 
-                [imgEaseOut drawAtPoint:NSMakePoint(cellFrame.origin.x + xPosNext - 18, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+7) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
-                
-                [gc restoreGraphicsState];
+                    [gc restoreGraphicsState];
+                }
             }
             
             // Draw keyframe

@@ -92,6 +92,8 @@
 @synthesize guiWindow;
 @synthesize showStickyNotes;
 @synthesize playerController;
+@synthesize menuContextKeyframe;
+@synthesize menuContextKeyframeInterpol;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -2015,6 +2017,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
         }
     }
+}
+
+- (IBAction)menuSetEasing:(id)sender
+{
+    int easingType = [sender tag];
+    [sequenceHandler setContextKeyframeEasingType:easingType];
 }
 
 - (IBAction)menuAddStickyNote:(id)sender

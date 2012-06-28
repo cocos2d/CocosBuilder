@@ -29,6 +29,7 @@
 - (void) setKeyframe:(SequencerKeyframe*)keyframe;
 - (SequencerKeyframe*) keyframeBetweenMinTime:(float)minTime maxTime:(float)maxTime;
 - (NSArray*) keyframesBetweenMinTime:(float)minTime maxTime:(float)maxTime;
+- (SequencerKeyframe*) keyframeForInterpolationAtTime:(float)time;
 - (void) sortKeyframes;
 - (id) valueAtTime:(float)time;
 - (BOOL) hasKeyframeAtTime:(float)time;

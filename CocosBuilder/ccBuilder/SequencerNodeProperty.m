@@ -9,6 +9,7 @@
 #import "SequencerNodeProperty.h"
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
 
@@ -112,6 +113,18 @@
     return kfs;
 }
 
+- (SequencerKeyframe*) keyframeForInterpolationAtTime:(float)time
+{
+    for (int i = 0; i < [keyframes count]-1; i++)
+    {
+        SequencerKeyframe* k0 = [keyframes objectAtIndex:i];
+        SequencerKeyframe* k1 = [keyframes objectAtIndex:i+1];
+        
+        if (time > k0.time && time < k1.time) return k0;
+    }
+    return NULL;
+}
+
 - (void) sortKeyframes
 {
     // TODO: Optimize sorting (only sort once even if more than one keyframe is moved)
@@ -205,7 +218,8 @@
     // interpolVal will be in the range 0.0 - 1.0
     float interpolVal = (time - keyframeStart.time)/(keyframeEnd.time-keyframeStart.time);
     
-    // TODO: Support for tweening etc
+    // Support for easing
+    interpolVal = [keyframeFirst.easing easeValue:interpolVal];
     
     // Interpolate according to type
     if (type == kCCBKeyframeTypeDegrees)

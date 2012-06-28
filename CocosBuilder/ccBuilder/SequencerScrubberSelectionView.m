@@ -328,6 +328,17 @@
     return [seqNodeProp keyframeBetweenMinTime:minTime maxTime:maxTime];
 }
 
+- (SequencerKeyframe*) keyframeForInterpolationInRow:(int)row sub:(int)sub time:(float)time
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    CCNode* node = [outlineView itemAtRow:row];
+    NSString* prop = [self propNameForNode:node subRow:sub];
+    
+    SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+    
+    return [seqNodeProp keyframeForInterpolationAtTime:time];
+}
+
 - (NSArray*) keyframesInSelectionArea
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
@@ -728,6 +739,44 @@
     seq.timelineOffset -= theEvent.deltaX/seq.timelineScale*2.0f;
     
     [super scrollWheel:theEvent];
+}
+
+- (NSMenu*) menuForEvent:(NSEvent *)theEvent
+{
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    // Check that document is open
+    if (!ad.hasOpenedDocument) return NULL;
+    
+    // Check that user clicked a row
+    int row = [self yMousePosToRow:mouseLocation.y];
+    if (row < 0) return NULL;
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    int subRow = [self yMousePosToSubRow:mouseLocation.y];
+    float timeMin = [seq positionToTime:mouseLocation.x - 3];
+    float timeMax = [seq positionToTime:mouseLocation.x + 3];
+    
+    // Check if a keyframe was clicked
+    SequencerKeyframe* keyframe = [self keyframeForRow:row sub:subRow minTime:timeMin maxTime:timeMax];
+    if (keyframe)
+    {
+        [SequencerHandler sharedHandler].contextKeyframe = keyframe;
+        return [CocosBuilderAppDelegate appDelegate].menuContextKeyframe;
+    }
+    
+    // Check if an interpolation was clicked
+    keyframe = [self keyframeForInterpolationInRow:row sub:subRow time:[seq positionToTime:mouseLocation.x]];
+    if (keyframe)
+    {
+        [SequencerHandler sharedHandler].contextKeyframe = keyframe;
+        return [CocosBuilderAppDelegate appDelegate].menuContextKeyframeInterpol;
+    }
+    
+    return NULL;
 }
 
 - (void) dealloc
