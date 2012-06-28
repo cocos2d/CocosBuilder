@@ -13,6 +13,7 @@
 #import "PlugInNode.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 #import "CocosBuilderAppDelegate.h"
 
 @implementation SequencerScrubberSelectionView
@@ -773,7 +774,19 @@
     if (keyframe)
     {
         [SequencerHandler sharedHandler].contextKeyframe = keyframe;
-        return [CocosBuilderAppDelegate appDelegate].menuContextKeyframeInterpol;
+        
+        // Highlight selected option in context menu
+        NSMenu* menu = [CocosBuilderAppDelegate appDelegate].menuContextKeyframeInterpol;
+        
+        for (NSMenuItem* item in menu.itemArray)
+        {
+            [item setState:NSOffState];
+        }
+        
+        NSMenuItem* item = [menu itemWithTag:keyframe.easing.type];
+        [item setState:NSOnState];
+        
+        return menu;
     }
     
     return NULL;
