@@ -520,6 +520,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Do not disable if animation hasn't been enabled
     if (!seqNodeProp) return NO;
     
+    // Disable visiblilty if there are keyframes
+    if (seqNodeProp.keyframes.count > 0 && [name isEqualToString:@"visible"]) return YES;
+    
     // Do not disable if we are currently at a keyframe
     if ([seqNodeProp hasKeyframeAtTime: seq.timelinePosition]) return NO;
     
@@ -571,6 +574,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
             NSString* extra = [propInfo objectForKey:@"extra"];
             BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
+            if ([name isEqualToString:@"visible"]) animated = YES;
             
             // TODO: Handle read only for animated properties
             if ([self isDisabledProperty:name animatable:animated])
