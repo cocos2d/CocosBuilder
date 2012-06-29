@@ -11,10 +11,24 @@
 enum
 {
     kCCBKeyframeEasingInstant,
+    
     kCCBKeyframeEasingLinear,
+    
     kCCBKeyframeEasingCubicIn,
     kCCBKeyframeEasingCubicOut,
     kCCBKeyframeEasingCubicInOut,
+    
+    kCCBKeyframeEasingElasticIn,
+    kCCBKeyframeEasingElasticOut,
+    kCCBKeyframeEasingElasticInOut,
+    
+    kCCBKeyframeEasingBounceIn,
+    kCCBKeyframeEasingBounceOut,
+    kCCBKeyframeEasingBounceInOut,
+    
+    kCCBKeyframeEasingBackIn,
+    kCCBKeyframeEasingBackOut,
+    kCCBKeyframeEasingBackInOut,
 };
 
 @interface SequencerKeyframeEasing : NSObject

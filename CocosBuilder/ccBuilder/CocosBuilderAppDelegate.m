@@ -2029,6 +2029,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [sequenceHandler setContextKeyframeEasingType:easingType];
 }
 
+- (IBAction)menuSetEasingOption:(id)sender
+{
+}
+
 - (IBAction)menuAddStickyNote:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];

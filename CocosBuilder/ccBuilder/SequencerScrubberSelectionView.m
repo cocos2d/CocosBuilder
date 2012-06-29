@@ -785,6 +785,10 @@
         NSMenuItem* item = [menu itemWithTag:keyframe.easing.type];
         [item setState:NSOnState];
         
+        // Enable or disable options menu item
+        NSMenuItem* itemOpt = [menu itemWithTag:-1];
+        [itemOpt setEnabled: keyframe.easing.hasOptions];
+        
         return menu;
     }
     
