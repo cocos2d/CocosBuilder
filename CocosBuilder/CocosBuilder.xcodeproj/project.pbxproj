@@ -591,6 +591,8 @@
 		E3FCE86D1524856D0028E8E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3FCE86B1524856D0028E8E7 /* InfoPlist.strings */; };
 		E3FCE874152485A20028E8E7 /* CCScrollView.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */; };
 		E3FCE876152486030028E8E7 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3FCE875152486030028E8E7 /* CCBPProperties.plist */; };
+		E3FD4DCF15A09F6D0032C2DD /* SequencerKeyframeEasingWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FD4DCE15A09F6D0032C2DD /* SequencerKeyframeEasingWindow.xib */; };
+		E3FD4DD315A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DD215A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
 		E3FEA8AA14E45F1000119FBE /* InspectorSize.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8A914E45F1000119FBE /* InspectorSize.m */; };
 		E3FEA8AC14E47C5700119FBE /* InspectorPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8AB14E47C5700119FBE /* InspectorPoint.xib */; };
@@ -1542,6 +1544,9 @@
 		E3FCE86C1524856D0028E8E7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E3FCE86E1524856D0028E8E7 /* CCScrollView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCScrollView-Prefix.pch"; sourceTree = "<group>"; };
 		E3FCE875152486030028E8E7 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E3FD4DCE15A09F6D0032C2DD /* SequencerKeyframeEasingWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SequencerKeyframeEasingWindow.xib; sourceTree = "<group>"; };
+		E3FD4DD115A0A2C10032C2DD /* SequencerKeyframeEasingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerKeyframeEasingWindow.h; sourceTree = "<group>"; };
+		E3FD4DD215A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerKeyframeEasingWindow.m; sourceTree = "<group>"; };
 		E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSize.xib; sourceTree = "<group>"; };
 		E3FEA8A814E45F1000119FBE /* InspectorSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSize.h; sourceTree = "<group>"; };
 		E3FEA8A914E45F1000119FBE /* InspectorSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSize.m; sourceTree = "<group>"; };
@@ -2342,6 +2347,9 @@
 				E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */,
 				E3926186159C69D20034FF1D /* SequencerKeyframeEasing.h */,
 				E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */,
+				E3FD4DCE15A09F6D0032C2DD /* SequencerKeyframeEasingWindow.xib */,
+				E3FD4DD115A0A2C10032C2DD /* SequencerKeyframeEasingWindow.h */,
+				E3FD4DD215A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -3858,6 +3866,7 @@
 				E3926191159CAAA10034FF1D /* seq-keyframe-l.png in Resources */,
 				E3926192159CAAA10034FF1D /* seq-keyframe-r-sel.png in Resources */,
 				E3926193159CAAA10034FF1D /* seq-keyframe-r.png in Resources */,
+				E3FD4DCF15A09F6D0032C2DD /* SequencerKeyframeEasingWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4273,6 +4282,7 @@
 				E3F73DB61593908A00D74084 /* SequencerDurationWindow.m in Sources */,
 				E3E05578159B2322001066C5 /* NSString+AppendToFile.m in Sources */,
 				E3926188159C69D20034FF1D /* SequencerKeyframeEasing.m in Sources */,
+				E3FD4DD315A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

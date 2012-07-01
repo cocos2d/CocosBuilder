@@ -71,6 +71,9 @@
 #import "SequencerSequence.h"
 #import "SequencerSettingsWindow.h"
 #import "SequencerDurationWindow.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
+#import "SequencerKeyframeEasingWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -2027,10 +2030,45 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     int easingType = [sender tag];
     [sequenceHandler setContextKeyframeEasingType:easingType];
+    [sequenceHandler updatePropertiesToTimelinePosition];
 }
 
 - (IBAction)menuSetEasingOption:(id)sender
 {
+    if (!currentDocument) return;
+    
+    float opt = [sequenceHandler.contextKeyframe.easing.options floatValue];
+    
+    
+    SequencerKeyframeEasingWindow* wc = [[[SequencerKeyframeEasingWindow alloc] initWithWindowNibName:@"SequencerKeyframeEasingWindow"] autorelease];
+    wc.option = opt;
+    
+    int type = sequenceHandler.contextKeyframe.easing.type;
+    if (type == kCCBKeyframeEasingCubicIn
+        || type == kCCBKeyframeEasingCubicOut
+        || type == kCCBKeyframeEasingCubicInOut)
+    {
+        wc.optionName = @"Rate:";
+    }
+    else if (type == kCCBKeyframeEasingElasticIn
+             || type == kCCBKeyframeEasingElasticOut
+             || type == kCCBKeyframeEasingElasticInOut)
+    {
+        wc.optionName = @"Period:";
+    }
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        float newOpt = wc.option;
+        
+        if (newOpt != opt)
+        {
+            [self saveUndoStateWillChangeProperty:@"*keyframeeasingoption"];
+            sequenceHandler.contextKeyframe.easing.options = [NSNumber numberWithFloat:wc.option];
+            [sequenceHandler updatePropertiesToTimelinePosition];
+        }
+    }
 }
 
 - (IBAction)menuAddStickyNote:(id)sender
