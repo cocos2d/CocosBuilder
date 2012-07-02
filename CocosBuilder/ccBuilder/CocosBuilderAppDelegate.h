@@ -153,6 +153,10 @@ enum {
     // Player
     PlayerController* playerController;
     
+    // Animation playback
+    BOOL playingBack;
+    double playbackLastFrameTime;
+    
 @private
     MainWindow *window;
     

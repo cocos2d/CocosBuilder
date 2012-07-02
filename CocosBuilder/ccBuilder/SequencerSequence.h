@@ -35,6 +35,9 @@
 - (float) timeToPosition:(float)time;
 - (float) positionToTime:(float)pos;
 
+- (void) stepForward:(int)numSteps;
+- (void) stepBack:(int)numSteps;
+
 - (id) initWithSerialization:(id)ser;
 - (id) serialize;
 

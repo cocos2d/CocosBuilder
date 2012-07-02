@@ -147,6 +147,23 @@
     return [self formatTime:timelineLength];
 }
 
+- (float) alignTimeToResolution:(float)time
+{
+    return roundf(time * timelineResolution)/timelineResolution;
+}
+
+- (void) stepForward:(int)numSteps
+{
+    float newTime = [self alignTimeToResolution: timelinePosition + 1/timelineResolution*numSteps];
+    self.timelinePosition = newTime;
+}
+
+- (void) stepBack:(int)numSteps
+{
+    float newTime = [self alignTimeToResolution: timelinePosition - 1/timelineResolution*numSteps];
+    self.timelinePosition = newTime;
+}
+
 - (void) dealloc
 {
     self.name = NULL;

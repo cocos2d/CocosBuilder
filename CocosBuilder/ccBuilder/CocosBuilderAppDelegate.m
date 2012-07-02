@@ -1957,48 +1957,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
-/*
-- (IBAction) menuAlignChildren:(id)sender
-{
-#warning TODO: Fix with new position types
-    if (!currentDocument) return;
-    if (!selectedNode) return;
-    
-    // Check if node can have children
-    NodeInfo* info = selectedNode.userObject;
-    PlugInNode* plugIn = info.plugIn;
-    if (!plugIn.canHaveChildren) return;
-    
-    CCArray* children = [selectedNode children];
-    if ([children count] == 0) return;
-    
-    float sum = 0;
-    
-    for (int i = 0; i < [children count]; i++)
-    {
-        CCNode* c = [children objectAtIndex:i];
-        
-        if ([sender tag] == 1) sum += c.position.x;
-        else if ([sender tag] == 2) sum += c.position.y;
-        else
-        {
-            c.position = ccp(roundf(c.position.x), roundf(c.position.y));
-        }
-    }
-    
-    if ([sender tag])
-    {
-        float avg = sum/[children count];
-        for (int i = 0; i < [children count]; i++)
-        {
-            CCNode* c = [children objectAtIndex:i];
-            
-            if ([sender tag] == 1) c.position = ccp(avg, c.position.y);
-            else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
-        }
-    }
-}*/
-
 - (IBAction) menuAlignChildrenToPixels:(id)sender
 {
     if (!currentDocument) return;
@@ -2078,6 +2036,107 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];
 }
+
+#pragma mark Playback countrols
+
+- (void) playbackStep
+{
+    if (!currentDocument)
+    {
+        [self playbackStop:NULL];
+    }
+    
+    if (playingBack)
+    {
+        // Step forward
+        [sequenceHandler.currentSequence stepForward:1];
+        
+        if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
+        {
+            [self playbackStop:NULL];
+        }
+        else
+        {
+            double thisTime = [NSDate timeIntervalSinceReferenceDate];
+            double requestedDelay = 1/sequenceHandler.currentSequence.timelineResolution;
+            double extraTime = thisTime - (playbackLastFrameTime + requestedDelay);
+            
+            double delayTime = requestedDelay - extraTime;
+            playbackLastFrameTime = thisTime;
+            
+            if (requestedDelay < 0)
+            {
+                // TODO: Handle frame skipping
+                requestedDelay = 0;
+            }
+            
+            // Call this method again in a little while
+            [self performSelector:@selector(playbackStep) withObject:NULL afterDelay:delayTime];
+        }
+    }
+}
+
+- (IBAction)playbackPlay:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    if (playingBack) return;
+    
+    // Jump to start of sequence if the end is reached
+    if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
+    {
+        sequenceHandler.currentSequence.timelinePosition = 0;
+    }
+    
+    // Deselect all objects to improve performance
+    self.selectedNode = NULL;
+    
+    // Start playback
+    playbackLastFrameTime = [NSDate timeIntervalSinceReferenceDate];
+    playingBack = YES;
+    [self playbackStep];
+}
+
+- (IBAction)playbackStop:(id)sender
+{
+    NSLog(@"playbackStop");
+    playingBack = NO;
+}
+
+- (IBAction)playbackJumpToStart:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    sequenceHandler.currentSequence.timelinePosition = 0;
+}
+
+- (IBAction)playbackStepBack:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    [sequenceHandler.currentSequence stepBack:1];
+}
+
+- (IBAction)playbackStepForward:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    [sequenceHandler.currentSequence stepForward:1];
+}
+
+- (IBAction)pressedPlaybackControl:(id)sender
+{
+    NSSegmentedControl* sc = sender;
+    
+    int tag = [sc selectedSegment];
+    if (tag == 0) [self playbackJumpToStart:sender];
+    else if (tag == 1) [self playbackStepBack:sender];
+    else if (tag == 2) [self playbackStepForward:sender];
+    else if (tag == 3) [self playbackStop:sender];
+    else if (tag == 4) [self playbackPlay:sender];
+    else if (tag == -1)
+    {
+        NSLog(@"No selected index!!");
+    }
+}
+
+#pragma mark Delegate methods
 
 - (BOOL) windowShouldClose:(id)sender
 {
