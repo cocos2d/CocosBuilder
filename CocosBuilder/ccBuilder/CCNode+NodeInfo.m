@@ -151,6 +151,34 @@
     [self addKeyframe:keyframe forProperty:name atTime:time sequenceId:seqId];
 }
 
+- (void) duplicateKeyframesFromSequenceId:(int)fromSeqId toSequenceId:(int)toSeqId
+{
+    NodeInfo* info = self.userObject;
+    
+    NSMutableDictionary* fromNodeProps = [info.animatableProperties objectForKey:[NSNumber numberWithInt:fromSeqId]];
+    if (fromNodeProps)
+    {
+        for (NSString* propName in fromNodeProps)
+        {
+            SequencerNodeProperty* fromSeqNodeProp = [fromNodeProps objectForKey:propName];
+            SequencerNodeProperty* toSeqNodeProp = [fromSeqNodeProp duplicate];
+            
+            [self enableSequenceNodeProperty:propName sequenceId:toSeqId];
+            
+            NSMutableDictionary* toNodeProps = [info.animatableProperties objectForKey:[NSNumber numberWithInt:toSeqId]];
+            [toNodeProps setObject:toSeqNodeProp forKey:propName];
+        }
+    }
+    
+    
+    // Also do for children
+    CCNode* child = NULL;
+    CCARRAY_FOREACH([self children], child)
+    {
+        [child duplicateKeyframesFromSequenceId:fromSeqId toSequenceId:toSeqId];
+    }
+}
+
 - (id) valueForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];

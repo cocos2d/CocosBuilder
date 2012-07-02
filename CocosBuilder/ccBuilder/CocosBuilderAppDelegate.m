@@ -1922,12 +1922,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             if (seq.sequenceId == -1)
             {
                 // Find a unique id
-                /*
-                int maxId = -1;
-                for (SequencerSequence* seqCheck in wc.sequences)
-                {
-                    if (seqCheck.sequenceId > maxId) maxId = seqCheck.sequenceId;
-                }*/
                 seq.sequenceId = [self uniqueSequenceIdFromSequences:wc.sequences];
             }
         }
@@ -1940,6 +1934,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)menuTimelineNew:(id)sender
 {
+    if (!currentDocument) return;
+    
     // Create new sequence and assign unique id
     SequencerSequence* newSeq = [[[SequencerSequence alloc] init] autorelease];
     newSeq.name = @"Untitled Timeline";
@@ -1954,7 +1950,17 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)menuTimelineDuplicate:(id)sender
 {
+    if (!currentDocument) return;
+    
     // Duplicate current timeline
+    int newSeqId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
+    SequencerSequence* newSeq = [sequenceHandler.currentSequence duplicateWithNewId:newSeqId];
+    
+    // Add it to list
+    [currentDocument.sequences addObject:newSeq];
+    
+    // and set it to current
+    sequenceHandler.currentSequence = newSeq;
 }
 
 - (IBAction)menuTimelineDuration:(id)sender

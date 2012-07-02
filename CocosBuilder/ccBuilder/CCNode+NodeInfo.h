@@ -28,6 +28,7 @@
 
 - (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
 - (void) addDefaultKeyframeForProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId;
+- (void) duplicateKeyframesFromSequenceId:(int)fromSeqId toSequenceId:(int)toSeqId;
 
 - (void) deselectAllKeyframes;
 - (void) addSelectedKeyframesToArray:(NSMutableArray*)keyframes;

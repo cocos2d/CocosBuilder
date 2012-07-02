@@ -342,6 +342,13 @@
     return NULL;
 }
 
+- (SequencerNodeProperty*) duplicate
+{
+    id serialization = [self serialization];
+    SequencerNodeProperty* duplicate = [[[SequencerNodeProperty alloc] initWithSerialization:serialization] autorelease];
+    return duplicate;
+}
+
 /*
 - (void) updateNode:(CCNode*)node toTime:(float)time
 {

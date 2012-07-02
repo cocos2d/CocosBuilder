@@ -10,6 +10,8 @@
 #import "SequencerHandler.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBDocument.h"
+#import "CocosScene.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation SequencerSequence
 
@@ -162,6 +164,17 @@
 {
     float newTime = [self alignTimeToResolution: timelinePosition - 1/timelineResolution*numSteps];
     self.timelinePosition = newTime;
+}
+
+- (SequencerSequence*) duplicateWithNewId:(int)seqId
+{
+    SequencerSequence* copy = [self copy];
+    copy.name = [copy.name stringByAppendingString:@" copy"];
+    copy.sequenceId = seqId;
+    
+    [[CocosScene cocosScene].rootNode duplicateKeyframesFromSequenceId:sequenceId toSequenceId:seqId];
+    
+    return copy;
 }
 
 - (void) dealloc

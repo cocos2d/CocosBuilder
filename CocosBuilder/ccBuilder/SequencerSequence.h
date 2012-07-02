@@ -41,4 +41,6 @@
 - (id) initWithSerialization:(id)ser;
 - (id) serialize;
 
+- (SequencerSequence*) duplicateWithNewId:(int)seqId;
+
 @end
