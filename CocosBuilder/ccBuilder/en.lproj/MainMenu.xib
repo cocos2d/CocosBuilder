@@ -2609,6 +2609,7 @@
 													</object>
 													<reference key="NSMenuFont" ref="1005547521"/>
 												</object>
+												<int key="NSSelectedIndex">-1</int>
 												<bool key="NSPullDown">YES</bool>
 												<int key="NSPreferredEdge">1</int>
 												<bool key="NSUsesItemFromMenu">YES</bool>
@@ -4179,6 +4180,14 @@
 					<int key="connectionID">1646</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuTimelineNew:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="575337505"/>
+					</object>
+					<int key="connectionID">1660</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">appDelegate</string>
 						<reference key="source" ref="1039955690"/>
@@ -4473,7 +4482,7 @@
 						<string key="label">enabled: projectSettings</string>
 						<reference key="source" ref="481429480"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector" id="124820824">
+						<object class="NSNibBindingConnector" key="connector" id="932585807">
 							<reference key="NSSource" ref="481429480"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled: projectSettings</string>
@@ -4503,7 +4512,7 @@
 								<string key="NS.key.0">NSValueTransformerName</string>
 								<string key="NS.object.0">NSNegateBoolean</string>
 							</object>
-							<reference key="NSPreviousConnector" ref="124820824"/>
+							<reference key="NSPreviousConnector" ref="932585807"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -6960,7 +6969,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1659</int>
+			<int key="maxID">1660</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

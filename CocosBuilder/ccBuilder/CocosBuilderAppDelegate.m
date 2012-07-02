@@ -1874,6 +1874,16 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     cs.currentTool = [sc selectedSegment];
 }
 
+- (int) uniqueSequenceIdFromSequences:(NSArray*) seqs
+{
+    int maxId = -1;
+    for (SequencerSequence* seqCheck in seqs)
+    {
+        if (seqCheck.sequenceId > maxId) maxId = seqCheck.sequenceId;
+    }
+    return maxId + 1;
+}
+
 - (IBAction)menuTimelineSettings:(id)sender
 {
     if (!currentDocument) return;
@@ -1912,12 +1922,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             if (seq.sequenceId == -1)
             {
                 // Find a unique id
+                /*
                 int maxId = -1;
                 for (SequencerSequence* seqCheck in wc.sequences)
                 {
                     if (seqCheck.sequenceId > maxId) maxId = seqCheck.sequenceId;
-                }
-                seq.sequenceId = maxId + 1;
+                }*/
+                seq.sequenceId = [self uniqueSequenceIdFromSequences:wc.sequences];
             }
         }
     
@@ -1925,6 +1936,25 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         currentDocument.sequences = wc.sequences;
         sequenceHandler.currentSequence = [currentDocument.sequences objectAtIndex:0];
     }
+}
+
+- (IBAction)menuTimelineNew:(id)sender
+{
+    // Create new sequence and assign unique id
+    SequencerSequence* newSeq = [[[SequencerSequence alloc] init] autorelease];
+    newSeq.name = @"Untitled Timeline";
+    newSeq.sequenceId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
+    
+    // Add it to list
+    [currentDocument.sequences addObject:newSeq];
+    
+    // and set it to current
+    sequenceHandler.currentSequence = newSeq;
+}
+
+- (IBAction)menuTimelineDuplicate:(id)sender
+{
+    // Duplicate current timeline
 }
 
 - (IBAction)menuTimelineDuration:(id)sender
