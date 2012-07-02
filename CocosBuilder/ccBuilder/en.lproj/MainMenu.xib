@@ -2763,7 +2763,7 @@
 											<string key="NSFrame">{{0, -22}, {233, 550}}</string>
 											<reference key="NSSuperview" ref="650525934"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="885143300"/>
+											<reference key="NSNextKeyView" ref="677469954"/>
 										</object>
 									</object>
 									<string key="NSFrame">{{1, 1}, {248, 528}}</string>
@@ -2780,6 +2780,7 @@
 									<string key="NSFrame">{{234, 1}, {15, 528}}</string>
 									<reference key="NSSuperview" ref="949082143"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSEnabled">YES</bool>
 									<reference key="NSTarget" ref="949082143"/>
 									<string key="NSAction">_doScroller:</string>
@@ -2801,7 +2802,7 @@
 							<string key="NSFrame">{{751, -1}, {250, 530}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="650525934"/>
+							<reference key="NSNextKeyView" ref="885143300"/>
 							<int key="NSsFlags">133202</int>
 							<reference key="NSVScroller" ref="677469954"/>
 							<reference key="NSHScroller" ref="885143300"/>
@@ -4170,6 +4171,14 @@
 					<int key="connectionID">1645</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuPublishProjectAndRun:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="481429480"/>
+					</object>
+					<int key="connectionID">1646</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">appDelegate</string>
 						<reference key="source" ref="1039955690"/>
@@ -4442,6 +4451,63 @@
 						</object>
 					</object>
 					<int key="connectionID">1515</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: hasOpenedDocument</string>
+						<reference key="source" ref="824095981"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="824095981"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled: hasOpenedDocument</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">hasOpenedDocument</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1649</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: projectSettings</string>
+						<reference key="source" ref="481429480"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector" id="124820824">
+							<reference key="NSSource" ref="481429480"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled: projectSettings</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">projectSettings</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSIsNotNil</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1658</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: projectSettings.javascriptBased</string>
+						<reference key="source" ref="481429480"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="481429480"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">hidden: projectSettings.javascriptBased</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">projectSettings.javascriptBased</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<reference key="NSPreviousConnector" ref="124820824"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1659</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -6722,7 +6788,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="4"/>
+					<integer value="0"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -6894,7 +6960,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1645</int>
+			<int key="maxID">1659</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
