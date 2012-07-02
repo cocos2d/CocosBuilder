@@ -200,11 +200,39 @@
     SequencerKeyframe* keyframeFirst = [keyframes objectAtIndex:0];
     SequencerKeyframe* keyframeLast = [keyframes objectAtIndex:numKeyframes-1];
     
-    if (time < keyframeFirst.time && type == kCCBKeyframeTypeVisible)
+    if (type == kCCBKeyframeTypeVisible)
     {
-        return [NSNumber numberWithBool:NO];
+        if (time < keyframeFirst.time)
+        {
+            return [NSNumber numberWithBool:NO];
+        }
+        
+        BOOL visible = YES;
+        for (int i = 1; i < [keyframes count]; i++)
+        {
+            SequencerKeyframe* kf = [keyframes objectAtIndex:i];
+            
+            if (visible)
+            {
+                if (time <= kf.time)
+                {
+                    return [NSNumber numberWithBool:visible];
+                }
+            }
+            else
+            {
+                if (time < kf.time)
+                {
+                    return [NSNumber numberWithBool:visible];
+                }
+            }
+            
+            visible = !visible;
+        }
+        return [NSNumber numberWithBool:visible];
     }
-    if (time >= keyframeLast.time && type == kCCBKeyframeTypeVisible)
+    
+    if (time > keyframeLast.time && type == kCCBKeyframeTypeVisible)
     {
         return [NSNumber numberWithBool:([keyframes count] % 2 == 1)];
     }
