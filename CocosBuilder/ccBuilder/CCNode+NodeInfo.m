@@ -106,6 +106,7 @@
     [self enableSequenceNodeProperty:name sequenceId:seqId];
     
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
+    keyframe.parent = seqNodeProp;
     [seqNodeProp setKeyframe:keyframe];
     
     // Update property inspector
