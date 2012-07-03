@@ -109,6 +109,10 @@ enum {
     IBOutlet NSMenu* menuTimeline;
     IBOutlet NSTextField* lblTimeline;
     
+    IBOutlet NSPopUpButton* menuTimelineChainedPopup;
+    IBOutlet NSMenu* menuTimelineChained;
+    IBOutlet NSTextField* lblTimelineChained;
+    
     CGSize defaultCanvasSizes[5];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;

@@ -22,6 +22,7 @@
 @synthesize timelineResolution;
 @synthesize name;
 @synthesize sequenceId;
+@synthesize chainedSequenceId;
 
 - (id) init
 {
@@ -34,6 +35,7 @@
     timelineLength = 10;
     self.name = @"Untitled Timeline";
     sequenceId = -1;
+    chainedSequenceId = -1;
     
     return self;
 }
@@ -50,6 +52,9 @@
     timelineResolution = [[ser objectForKey:@"resolution"] floatValue];
     self.name = [ser objectForKey:@"name"];
     sequenceId = [[ser objectForKey:@"sequenceId"] intValue];
+    NSNumber* chainedSeqIdNum = [ser objectForKey:@"chainedSequenceId"];
+    if (chainedSeqIdNum) chainedSequenceId = [chainedSeqIdNum intValue];
+    else chainedSequenceId = -1;
     
     return self;
 }
@@ -65,6 +70,7 @@
     [ser setObject:[NSNumber numberWithFloat:timelineResolution] forKey:@"resolution"];
     [ser setObject:name forKey:@"name"];
     [ser setObject:[NSNumber numberWithInt:sequenceId] forKey:@"sequenceId"];
+    [ser setObject:[NSNumber numberWithInt:chainedSequenceId] forKey:@"chainedSequenceId"];
     
     return ser;
 }

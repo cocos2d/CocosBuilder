@@ -485,6 +485,23 @@ static SequencerHandler* sharedSequencerHandler;
 
 #pragma mark Util
 
+- (void) deleteSequenceId:(int)seqId
+{
+    // Delete any keyframes for the sequence
+    [[CocosScene cocosScene].rootNode deleteSequenceId:seqId];
+    
+    // Delete any chained sequence references
+    for (SequencerSequence* seq in [CocosBuilderAppDelegate appDelegate].currentDocument.sequences)
+    {
+        if (seq.chainedSequenceId == seqId)
+        {
+            seq.chainedSequenceId = -1;
+        }
+    }
+    
+    [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+}
+
 - (void) deselectKeyframesForNode:(CCNode*)node
 {
     [node deselectAllKeyframes];
@@ -602,6 +619,17 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     self.currentSequence = seqSet;
+}
+
+- (void) menuSetChainedSequence:(id)sender
+{
+    int seqId = [sender tag];
+    if (seqId != self.currentSequence.chainedSequenceId)
+    {
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*chainedseqid"];
+        self.currentSequence.chainedSequenceId = [sender tag];
+        [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+    }
 }
 
 #pragma mark Easings

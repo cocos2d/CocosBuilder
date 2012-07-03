@@ -76,6 +76,8 @@
 - (float) visibleTimeArea;
 - (float) maxTimelineOffset;
 
+- (void) deleteSequenceId:(int)seqId;
+
 - (void) deselectAllKeyframes;
 - (NSArray*) selectedKeyframesForCurrentSequence;
 - (void) updatePropertiesToTimelinePosition;

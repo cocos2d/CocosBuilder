@@ -628,25 +628,69 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument)
     {
         lblTimeline.stringValue = @"";
+        lblTimelineChained.stringValue = @"";
         [menuTimelinePopup setEnabled:NO];
+        [menuTimelineChainedPopup setEnabled:NO];
         return;
     }
     
     [menuTimelinePopup setEnabled:YES];
+    [menuTimelineChainedPopup setEnabled:YES];
     
     // Clear menu
     [menuTimeline removeAllItems];
+    [menuTimelineChained removeAllItems];
+    
+    int currentId = sequenceHandler.currentSequence.sequenceId;
+    int chainedId = sequenceHandler.currentSequence.chainedSequenceId;
+    
+    // Add dummy item
+    NSMenuItem* itemDummy = [[[NSMenuItem alloc] initWithTitle:@"Dummy" action:NULL keyEquivalent:@""] autorelease];
+    [menuTimelineChained addItem:itemDummy];
+    
+    // Add empty option for chained seq
+    NSMenuItem* itemCh = [[[NSMenuItem alloc] initWithTitle: @"No Chained Timeline" action:@selector(menuSetChainedSequence:) keyEquivalent:@""] autorelease];
+    itemCh.target = sequenceHandler;
+    itemCh.tag = -1;
+    if (chainedId == -1) [itemCh setState:NSOnState];
+    [menuTimelineChained addItem:itemCh];
+    
+    // Add separator item
+    [menuTimelineChained addItem:[NSMenuItem separatorItem]];
     
     for (SequencerSequence* seq in currentDocument.sequences)
     {
+        // Add to sequence selector
         NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:seq.name action:@selector(menuSetSequence:) keyEquivalent:@""] autorelease];
         item.target = sequenceHandler;
         item.tag = seq.sequenceId;
-        
+        if (currentId == seq.sequenceId) [item setState:NSOnState];
         [menuTimeline addItem:item];
+        
+        // Add to chained sequence selector
+        itemCh = [[[NSMenuItem alloc] initWithTitle: seq.name action:@selector(menuSetChainedSequence:) keyEquivalent:@""] autorelease];
+        itemCh.target = sequenceHandler;
+        itemCh.tag = seq.sequenceId;
+        if (chainedId == seq.sequenceId) [itemCh setState:NSOnState];
+        [menuTimelineChained addItem:itemCh];
     }
     
     lblTimeline.stringValue = sequenceHandler.currentSequence.name;
+    if (chainedId == -1)
+    {
+        lblTimelineChained.stringValue = @"No chained timeline";
+    }
+    else
+    {
+        for (SequencerSequence* seq in currentDocument.sequences)
+        {
+            if (seq.sequenceId == chainedId)
+            {
+                lblTimelineChained.stringValue = seq.name;
+                break;
+            }
+        }
+    }
 }
 
 #pragma mark Document handling
@@ -2006,7 +2050,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             if (!foundSeq)
             {
                 // Sequence deleted, remove from all nodes
-                [[CocosScene cocosScene].rootNode deleteSequenceId:seq.sequenceId];
+                [sequenceHandler deleteSequenceId:seq.sequenceId];
             }
         }
         

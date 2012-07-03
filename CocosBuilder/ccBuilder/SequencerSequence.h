@@ -18,6 +18,7 @@
     
     NSString* name;
     int sequenceId;
+    int chainedSequenceId;
 }
 
 @property (nonatomic,assign) float timelineScale;
@@ -27,6 +28,7 @@
 @property (nonatomic,assign) float timelineResolution;
 @property (nonatomic,copy) NSString* name;
 @property (nonatomic,assign) int sequenceId;
+@property (nonatomic,assign) int chainedSequenceId;
 
 @property (nonatomic,readonly) NSString* currentDisplayTime;
 @property (nonatomic,readonly) NSString* lengthDisplayTime;
