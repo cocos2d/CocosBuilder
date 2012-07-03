@@ -19,6 +19,7 @@
 #import "TexturePropertySetter.h"
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
+#import "CCBDocument.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -100,11 +101,26 @@
 
 - (void) addKeyframe:(SequencerKeyframe*)keyframe forProperty:(NSString*)name atTime:(float)time sequenceId:(int)seqId
 {
+    // Check so we are not adding a keyframe out of bounds
+    NSArray* seqs = [CocosBuilderAppDelegate appDelegate].currentDocument.sequences;
+    SequencerSequence* seq = NULL;
+    for (SequencerSequence* seqt in seqs)
+    {
+        if (seqt.sequenceId == seqId)
+        {
+            seq = seqt;
+            break;
+        }
+    }
+    if (time > seq.timelineLength) return;
+    
+    // Save undo state
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*addkeyframe"];
     
     // Make sure timeline is enabled for this property
     [self enableSequenceNodeProperty:name sequenceId:seqId];
     
+    // Add the keyframe
     SequencerNodeProperty* seqNodeProp = [self sequenceNodeProperty:name sequenceId:seqId];
     keyframe.parent = seqNodeProp;
     [seqNodeProp setKeyframe:keyframe];
