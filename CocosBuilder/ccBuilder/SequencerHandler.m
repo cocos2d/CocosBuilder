@@ -24,6 +24,8 @@
 #import "SequencerKeyframeEasing.h"
 #import "CCNode+NodeInfo.h"
 #import "CCBDocument.h"
+#import "CCBPCCBFile.h"
+#import <objc/runtime.h>
 
 static SequencerHandler* sharedSequencerHandler;
 
@@ -570,22 +572,28 @@ static SequencerHandler* sharedSequencerHandler;
     return keyframes;
 }
 
-- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node
+- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId
 {
-    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:currentSequence.sequenceId];
+    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:seqId];
     
     // Also deselect keyframes of children
     CCArray* children = [node children];
     CCNode* child = NULL;
     CCARRAY_FOREACH(children, child)
     {
-        [self updatePropertiesToTimelinePositionForNode:child];
+        int childSeqId = seqId;
+        
+        // Sub ccb files uses different sequence id:s
+        NSNumber* childSequence = [child extraPropForKey:@"*sequenceId"];
+        if (childSequence) childSeqId = [childSequence intValue];
+        
+        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId];
     }
 }
 
 - (void) updatePropertiesToTimelinePosition
 {
-    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode]];
+    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId];
 }
 
 - (void) setCurrentSequence:(SequencerSequence *)seq
