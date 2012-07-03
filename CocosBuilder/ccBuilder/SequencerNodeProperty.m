@@ -272,7 +272,7 @@
     float interpolVal = (time - keyframeStart.time)/(keyframeEnd.time-keyframeStart.time);
     
     // Support for easing
-    interpolVal = [keyframeFirst.easing easeValue:interpolVal];
+    interpolVal = [keyframeStart.easing easeValue:interpolVal];
     
     // Interpolate according to type
     if (type == kCCBKeyframeTypeDegrees)
