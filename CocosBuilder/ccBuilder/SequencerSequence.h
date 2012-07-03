@@ -43,4 +43,6 @@
 
 - (SequencerSequence*) duplicateWithNewId:(int)seqId;
 
+- (float) alignTimeToResolution:(float)time;
+
 @end

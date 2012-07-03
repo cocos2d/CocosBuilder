@@ -50,6 +50,7 @@
     {
         SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] initWithSerialization:keyframeSer] autorelease];
         [keyframes addObject:keyframe];
+        keyframe.parent = self;
     }
     
     return self;
@@ -230,11 +231,6 @@
             visible = !visible;
         }
         return [NSNumber numberWithBool:visible];
-    }
-    
-    if (time > keyframeLast.time && type == kCCBKeyframeTypeVisible)
-    {
-        return [NSNumber numberWithBool:([keyframes count] % 2 == 1)];
     }
     
     if (time <= keyframeFirst.time)

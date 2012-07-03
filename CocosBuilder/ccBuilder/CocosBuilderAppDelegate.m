@@ -1341,6 +1341,54 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) copy:(id) sender
 {
+    // Copy keyframes
+    
+    NSArray* keyframes = [sequenceHandler selectedKeyframesForCurrentSequence];
+    if ([keyframes count] > 0)
+    {
+        NSMutableSet* propsSet = [NSMutableSet set];
+        NSMutableSet* seqsSet = [NSMutableSet set];
+        BOOL duplicatedProps = NO;
+        
+        for (int i = 0; i < keyframes.count; i++)
+        {
+            SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+            
+            NSValue* seqVal = [NSValue valueWithPointer:keyframe.parent];
+            if (![seqsSet containsObject:seqVal])
+            {
+                NSString* propName = keyframe.name;
+                if ([propsSet containsObject:propName])
+                {
+                    duplicatedProps = YES;
+                    break;
+                }
+                [propsSet addObject:propName];
+                [seqsSet addObject:seqVal];
+            }
+        }
+        
+        if (duplicatedProps)
+        {
+            [self modalDialogTitle:@"Failed to Copy" message:@"You can only copy keyframes from one node."];
+            return;
+        }
+        
+        // Serialize keyframe
+        NSMutableArray* serKeyframes = [NSMutableArray array];
+        for (SequencerKeyframe* keyframe in keyframes)
+        {
+            [serKeyframes addObject:[keyframe serialization]];
+        }
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:serKeyframes];
+        NSPasteboard* cb = [NSPasteboard generalPasteboard];
+        [cb declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.keyframes"] owner:self];
+        [cb setData:clipData forType:@"com.cocosbuilder.keyframes"];
+        
+        return;
+    }
+    
+    // Copy node
     if (!selectedNode) return;
     
     // Serialize selected node
@@ -1373,6 +1421,52 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) paste:(id) sender
 {
+    if (!currentDocument) return;
+    
+    // Paste keyframes
+    NSPasteboard* cb = [NSPasteboard generalPasteboard];
+    NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.keyframes", nil]];
+    
+    if (type)
+    {
+        if (!selectedNode)
+        {
+            [self modalDialogTitle:@"Paste Failed" message:@"You need to select a node to paste keyframes"];
+            return;
+        }
+            
+        // Unarchive keyframes
+        NSData* clipData = [cb dataForType:type];
+        NSMutableArray* serKeyframes = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
+        NSMutableArray* keyframes = [NSMutableArray array];
+        
+        // Save keyframes and find time of first kf
+        float firstTime = MAXFLOAT;
+        for (id serKeyframe in serKeyframes)
+        {
+            SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] initWithSerialization:serKeyframe] autorelease];
+            if (keyframe.time < firstTime)
+            {
+                firstTime = keyframe.time;
+            }
+            [keyframes addObject:keyframe];
+        }
+            
+        // Adjust times and add keyframes
+        SequencerSequence* seq = sequenceHandler.currentSequence;
+        
+        for (SequencerKeyframe* keyframe in keyframes)
+        {
+            // Adjust time
+            keyframe.time = [seq alignTimeToResolution:keyframe.time - firstTime + seq.timelinePosition];
+            
+            // Add the keyframe
+            [selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
+        }
+        
+    }
+    
+    // Paste nodes
     [self doPasteAsChild:NO];
 }
 
