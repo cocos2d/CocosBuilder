@@ -16,4 +16,6 @@
 @property (nonatomic,retain) NSMutableArray* sequences;
 
 - (void) copySequences:(NSMutableArray *)res;
+
+- (void) disableAutoPlayForAllItems;
 @end

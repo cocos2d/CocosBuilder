@@ -12,6 +12,7 @@
 #import "CCBDocument.h"
 #import "CocosScene.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerSettingsWindow.h"
 
 @implementation SequencerSequence
 
@@ -23,6 +24,8 @@
 @synthesize name;
 @synthesize sequenceId;
 @synthesize chainedSequenceId;
+@synthesize autoPlay;
+@synthesize settingsWindow;
 
 - (id) init
 {
@@ -55,6 +58,7 @@
     NSNumber* chainedSeqIdNum = [ser objectForKey:@"chainedSequenceId"];
     if (chainedSeqIdNum) chainedSequenceId = [chainedSeqIdNum intValue];
     else chainedSequenceId = -1;
+    autoPlay = [[ser objectForKey:@"autoPlay"] boolValue];
     
     return self;
 }
@@ -71,6 +75,7 @@
     [ser setObject:name forKey:@"name"];
     [ser setObject:[NSNumber numberWithInt:sequenceId] forKey:@"sequenceId"];
     [ser setObject:[NSNumber numberWithInt:chainedSequenceId] forKey:@"chainedSequenceId"];
+    [ser setObject:[NSNumber numberWithBool:autoPlay] forKey:@"autoPlay"];
     
     return ser;
 }
@@ -150,6 +155,17 @@
     return [self formatTime:timelinePosition];
 }
 
+- (void) setAutoPlay:(BOOL)ap
+{
+    if (ap)
+    {
+        [settingsWindow disableAutoPlayForAllItems];
+    }
+    
+    NSLog(@"setAutoPlay: %d", ap);
+    autoPlay = ap;
+}
+
 - (NSString*) lengthDisplayTime
 {
     return [self formatTime:timelineLength];
@@ -200,6 +216,7 @@
     copy.timelineResolution = timelineResolution;
     copy.name = name;
     copy.sequenceId = sequenceId;
+    copy.autoPlay = autoPlay;
     
     return copy;
 }

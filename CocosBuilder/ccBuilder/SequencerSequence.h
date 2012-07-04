@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SequencerSettingsWindow;
+
 @interface SequencerSequence : NSObject
 {
     float timelineScale;
@@ -19,6 +21,10 @@
     NSString* name;
     int sequenceId;
     int chainedSequenceId;
+    
+    BOOL autoPlay;
+    
+    SequencerSettingsWindow* settingsWindow;
 }
 
 @property (nonatomic,assign) float timelineScale;
@@ -32,6 +38,10 @@
 
 @property (nonatomic,readonly) NSString* currentDisplayTime;
 @property (nonatomic,readonly) NSString* lengthDisplayTime;
+
+@property (nonatomic,assign) BOOL autoPlay;
+
+@property (nonatomic,assign) SequencerSettingsWindow* settingsWindow;
 
 // Convert between actual time and position in sequence view
 - (float) timeToPosition:(float)time;

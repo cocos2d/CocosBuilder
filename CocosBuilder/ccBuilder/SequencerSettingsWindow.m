@@ -19,10 +19,10 @@
     
     for (SequencerSequence* seq in seqs)
     {
-        [sequences addObject:[[seq copy] autorelease]];
+        SequencerSequence* seqCopy = [[seq copy] autorelease];
+        seqCopy.settingsWindow = self;
+        [sequences addObject:seqCopy];
     }
-    
-    NSLog(@"sequences: %@", self.sequences);
 }
 
 - (BOOL) sheetIsValid
@@ -38,6 +38,17 @@
         [alert beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
         
         return NO;
+    }
+}
+
+- (void) disableAutoPlayForAllItems
+{
+    NSLog(@"disableAutoPlay %@", self.sequences);
+    
+    for (SequencerSequence* seq in self.sequences)
+    {
+        NSLog(@" -");
+        seq.autoPlay = NO;
     }
 }
 

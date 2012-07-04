@@ -857,6 +857,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
         seq.name = @"Default Timeline";
         seq.sequenceId = 0;
+        seq.autoPlay = YES;
         [sequences addObject:seq];
     
         currentDocument.sequences = sequences;
@@ -1190,6 +1191,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
     seq.name = @"Default Timeline";
     seq.sequenceId = 0;
+    seq.autoPlay = YES;
     [sequences addObject:seq];
     
     currentDocument.sequences = sequences;
