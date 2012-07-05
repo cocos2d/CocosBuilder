@@ -25,7 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-#define kCCBVersion 2
+@class CCBActionManager;
+
+#define kCCBVersion 3
 
 enum {
     kCCBPropTypePosition = 0,
@@ -102,6 +104,29 @@ enum
     kCCBScaleTypeMultiplyResolution
 };
 
+enum
+{
+    kCCBKeyframeEasingInstant,
+    
+    kCCBKeyframeEasingLinear,
+    
+    kCCBKeyframeEasingCubicIn,
+    kCCBKeyframeEasingCubicOut,
+    kCCBKeyframeEasingCubicInOut,
+    
+    kCCBKeyframeEasingElasticIn,
+    kCCBKeyframeEasingElasticOut,
+    kCCBKeyframeEasingElasticInOut,
+    
+    kCCBKeyframeEasingBounceIn,
+    kCCBKeyframeEasingBounceOut,
+    kCCBKeyframeEasingBounceInOut,
+    
+    kCCBKeyframeEasingBackIn,
+    kCCBKeyframeEasingBackOut,
+    kCCBKeyframeEasingBackInOut,
+};
+
 @interface CCBReader : NSObject
 {
     NSData* data;
@@ -116,7 +141,11 @@ enum
     id owner;
     CGSize rootContainerSize;
     int resolutionScale;
+    
+    CCBActionManager* actionManager;
 }
+
+@property (nonatomic,retain) CCBActionManager* actionManager;
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;

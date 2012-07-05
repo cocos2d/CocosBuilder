@@ -24,6 +24,10 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+#import "CCBActionManager.h"
+#import "CCBSequence.h"
+#import "CCBSequenceProperty.h"
+#import "CCBKeyframe.h"
 
 #ifdef CCB_ENABLE_UNZIP
 #import "SSZipArchive.h"
@@ -34,6 +38,8 @@
 #endif
 
 @implementation CCBReader
+
+@synthesize actionManager;
 
 - (id) initWithFile:(NSString*)file owner:(id)o
 {
@@ -67,6 +73,9 @@
     }
 #endif
     
+    // Setup action manager
+    self.actionManager = [[[CCBActionManager alloc] init] autorelease];
+    
     return self;
 }
 
@@ -78,6 +87,7 @@
     [data release];
     [stringCache release];
     [loadedSpriteSheets release];
+    self.actionManager = NULL;
     [super dealloc];
 }
 
@@ -689,6 +699,90 @@
     }
 }
 
+- (CCBKeyframe*) readKeyframeOfType:(int)type
+{
+    CCBKeyframe* keyframe = [[[CCBKeyframe alloc] init] autorelease];
+    
+    keyframe.time = [self readFloat];
+    
+    int easingType = [self readIntWithSign:NO];
+    float easingOpt = 0;
+    id value = NULL;
+    
+    if (easingType == kCCBKeyframeEasingCubicIn
+        || easingType == kCCBKeyframeEasingCubicOut
+        || easingType == kCCBKeyframeEasingCubicInOut
+        || easingType == kCCBKeyframeEasingElasticIn
+        || easingType == kCCBKeyframeEasingElasticOut
+        || easingType == kCCBKeyframeEasingElasticInOut)
+    {
+        easingOpt = [self readFloat];
+    }
+    keyframe.easingType = easingType;
+    keyframe.easingOpt = easingOpt;
+    
+    if (type == kCCBPropTypeCheck)
+    {
+        value = [NSNumber numberWithBool:[self readBool]];
+    }
+    else if (type == kCCBPropTypeByte)
+    {
+        value = [NSNumber numberWithInt:[self readByte]];
+    }
+    else if (type == kCCBPropTypeColor3)
+    {
+        int r = [self readByte];
+        int g = [self readByte];
+        int b = [self readByte];
+        
+        ccColor3B c = ccc3(r,g,b);
+        value = [NSValue value:&c withObjCType:@encode(ccColor3B)];
+    }
+    else if (type == kCCBPropTypeDegrees)
+    {
+        value = [NSNumber numberWithFloat:[self readFloat]];
+    }
+    else if (type == kCCBPropTypeScaleLock
+             || kCCBPropTypePosition)
+    {
+        value = [NSArray arrayWithObjects:
+                 [NSNumber numberWithFloat:[self readFloat]],
+                 [NSNumber numberWithFloat:[self readFloat]],
+                 nil];
+    }
+    else if (type == kCCBPropTypeSpriteFrame)
+    {
+        NSString* spriteSheet = [self readCachedString];
+        NSString* spriteFile = [self readCachedString];
+        
+        CCSpriteFrame* spriteFrame;
+        if ([spriteSheet isEqualToString:@""])
+        {
+            CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
+            CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
+            spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+        }
+        else
+        {
+            CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
+                
+            // Load the sprite sheet only if it is not loaded
+            if (![loadedSpriteSheets member:spriteSheet])
+            {
+                [frameCache addSpriteFramesWithFile:spriteSheet];
+                [loadedSpriteSheets addObject:spriteSheet];
+            }
+            
+            spriteFrame = [frameCache spriteFrameByName:spriteFile];
+        }
+        value = spriteFrame;
+    }
+    
+    keyframe.value = value;
+    
+    return  keyframe;
+}
+
 - (CCNode*) readNodeGraphParent:(CCNode*)parent
 {
     // Read class
@@ -748,6 +842,43 @@
     }
 #endif
     
+    // Read animated properties
+    NSMutableDictionary* seqs = [NSMutableDictionary dictionary];
+    
+    int numSequences = [self readIntWithSign:NO];
+    for (int i = 0; i < numSequences; i++)
+    {
+        int seqId = [self readIntWithSign:NO];
+        NSMutableDictionary* seqNodeProps = [NSMutableDictionary dictionary];
+        
+        int numProps = [self readIntWithSign:NO];
+        
+        for (int j = 0; j < numProps; j++)
+        {
+            CCBSequenceProperty* seqProp = [[[CCBSequenceProperty alloc] init] autorelease];
+            
+            seqProp.name = [self readCachedString];
+            seqProp.type = [self readIntWithSign:NO];
+            
+            int numKeyframes = [self readIntWithSign:NO];
+            for (int k = 0; k < numKeyframes; k++)
+            {
+                CCBKeyframe* keyframe = [self readKeyframeOfType:seqProp.type];
+                
+                [seqProp.keyframes addObject:keyframe];
+            }
+            
+            [seqNodeProps setObject:seqProp forKey:seqProp.name];
+        }
+        
+        [seqs setObject:seqNodeProps forKey:[NSNumber numberWithInt:seqId]];
+    }
+    
+    if (seqs.count > 0)
+    {
+        [actionManager addNode:node andSequences:seqs];
+    }
+    
     // Read and add children
     int numChildren = [self readIntWithSign:NO];
     for (int i = 0; i < numChildren; i++)
@@ -768,6 +899,27 @@
 - (CCNode*) readNodeGraph
 {
     return [self readNodeGraphParent:NULL];
+}
+
+- (BOOL) readSequences
+{
+    NSMutableArray* sequences = actionManager.sequences;
+    
+    int numSeqs = [self readIntWithSign:NO];
+    
+    for (int i = 0; i < numSeqs; i++)
+    {
+        CCBSequence* seq = [[[CCBSequence alloc] init] autorelease];
+        seq.duration = [self readFloat];
+        seq.name = [self readCachedString];
+        seq.sequenceId = [self readIntWithSign:NO];
+        seq.chainedSequenceId = [self readIntWithSign:YES];
+        
+        [sequences addObject:seq];
+    }
+    
+    actionManager.autoPlaySequenceId = [self readIntWithSign:YES];
+    return YES;
 }
 
 - (BOOL) readStringCache
@@ -807,8 +959,8 @@
 - (CCNode*) readFile
 {
     if (![self readHeader]) return NULL;
-    
     if (![self readStringCache]) return NULL;
+    if (![self readSequences]) return NULL;
     
     CCNode* node = [self readNodeGraph];
     

@@ -162,6 +162,10 @@
 		E375984214FD270200CD9F5F /* CCBReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E375984114FD270200CD9F5F /* CCBReader.m */; };
 		E375986114FE149C00CD9F5F /* HelloCocosBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E375986014FE149C00CD9F5F /* HelloCocosBuilder.m */; };
 		E3C0D9F615238F0C00D7DF3D /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C0D9F515238F0C00D7DF3D /* CCScrollView.m */; };
+		E3FD4DE815A59DB60032C2DD /* CCBActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DE715A59DB60032C2DD /* CCBActionManager.m */; };
+		E3FD4DEB15A59E040032C2DD /* CCBSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DEA15A59E040032C2DD /* CCBSequence.m */; };
+		E3FD4DEE15A5ADB30032C2DD /* CCBKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DED15A5ADB30032C2DD /* CCBKeyframe.m */; };
+		E3FD4DF115A5B1450032C2DD /* CCBSequenceProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DF015A5B1450032C2DD /* CCBSequenceProperty.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -471,6 +475,14 @@
 		E375986014FE149C00CD9F5F /* HelloCocosBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelloCocosBuilder.m; sourceTree = "<group>"; };
 		E3C0D9F415238F0C00D7DF3D /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E3C0D9F515238F0C00D7DF3D /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
+		E3FD4DE615A59DB60032C2DD /* CCBActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBActionManager.h; sourceTree = "<group>"; };
+		E3FD4DE715A59DB60032C2DD /* CCBActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBActionManager.m; sourceTree = "<group>"; };
+		E3FD4DE915A59E040032C2DD /* CCBSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSequence.h; sourceTree = "<group>"; };
+		E3FD4DEA15A59E040032C2DD /* CCBSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBSequence.m; sourceTree = "<group>"; };
+		E3FD4DEC15A5ADB30032C2DD /* CCBKeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBKeyframe.h; sourceTree = "<group>"; };
+		E3FD4DED15A5ADB30032C2DD /* CCBKeyframe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBKeyframe.m; sourceTree = "<group>"; };
+		E3FD4DEF15A5B1450032C2DD /* CCBSequenceProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSequenceProperty.h; sourceTree = "<group>"; };
+		E3FD4DF015A5B1450032C2DD /* CCBSequenceProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBSequenceProperty.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -851,8 +863,7 @@
 				E375986014FE149C00CD9F5F /* HelloCocosBuilder.m */,
 				E375982D14FD224A00CD9F5F /* AppDelegate.h */,
 				E375982E14FD224A00CD9F5F /* AppDelegate.m */,
-				E375984014FD270200CD9F5F /* CCBReader.h */,
-				E375984114FD270200CD9F5F /* CCBReader.m */,
+				E3FD4DE415A59D7B0032C2DD /* CCBReader */,
 				E36F3C60152D990B00AAD805 /* Tests */,
 				E37596BA14FD224800CD9F5F /* Resources */,
 				E37596D014FD224800CD9F5F /* Shaders */,
@@ -1008,6 +1019,23 @@
 			);
 			name = CCScrollView;
 			path = libs/CCScrollView;
+			sourceTree = "<group>";
+		};
+		E3FD4DE415A59D7B0032C2DD /* CCBReader */ = {
+			isa = PBXGroup;
+			children = (
+				E375984014FD270200CD9F5F /* CCBReader.h */,
+				E375984114FD270200CD9F5F /* CCBReader.m */,
+				E3FD4DE615A59DB60032C2DD /* CCBActionManager.h */,
+				E3FD4DE715A59DB60032C2DD /* CCBActionManager.m */,
+				E3FD4DE915A59E040032C2DD /* CCBSequence.h */,
+				E3FD4DEA15A59E040032C2DD /* CCBSequence.m */,
+				E3FD4DEC15A5ADB30032C2DD /* CCBKeyframe.h */,
+				E3FD4DED15A5ADB30032C2DD /* CCBKeyframe.m */,
+				E3FD4DEF15A5B1450032C2DD /* CCBSequenceProperty.h */,
+				E3FD4DF015A5B1450032C2DD /* CCBSequenceProperty.m */,
+			);
+			name = CCBReader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1215,6 +1243,10 @@
 				E32BBCDD156162E600C58395 /* unzip.c in Sources */,
 				E32BBCDE156162E600C58395 /* zip.c in Sources */,
 				E32BBCE0156162E600C58395 /* SSZipArchive.m in Sources */,
+				E3FD4DE815A59DB60032C2DD /* CCBActionManager.m in Sources */,
+				E3FD4DEB15A59E040032C2DD /* CCBSequence.m in Sources */,
+				E3FD4DEE15A5ADB30032C2DD /* CCBKeyframe.m in Sources */,
+				E3FD4DF115A5B1450032C2DD /* CCBSequenceProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
