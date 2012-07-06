@@ -82,30 +82,6 @@ enum {
 
 enum
 {
-    kCCBPositionTypeRelativeBottomLeft,
-    kCCBPositionTypeRelativeTopLeft,
-    kCCBPositionTypeRelativeTopRight,
-    kCCBPositionTypeRelativeBottomRight,
-    kCCBPositionTypePercent
-};
-
-enum
-{
-    kCCBSizeTypeAbsolute,
-    kCCBSizeTypePercent,
-    kCCBSizeTypeRelativeContainer,
-    kCCBSizeTypeHorizontalPercent,
-    kCCBSzieTypeVerticalPercent
-};
-
-enum
-{
-    kCCBScaleTypeAbsolute,
-    kCCBScaleTypeMultiplyResolution
-};
-
-enum
-{
     kCCBKeyframeEasingInstant,
     
     kCCBKeyframeEasingLinear,
@@ -137,12 +113,10 @@ enum
     NSMutableArray* stringCache;
     NSMutableSet* loadedSpriteSheets;
     
-    CCNode* rootNode;
     id owner;
-    CGSize rootContainerSize;
-    int resolutionScale;
     
     CCBActionManager* actionManager;
+    NSMutableSet* animatedProps;
 }
 
 @property (nonatomic,retain) CCBActionManager* actionManager;

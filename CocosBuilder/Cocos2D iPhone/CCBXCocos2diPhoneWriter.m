@@ -636,6 +636,71 @@
         [self writeCachedString:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     }
     
+    // Write animated properties
+    NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
+    
+    if (animatedProps)
+    {
+        NSLog(@"animatedProps: %@", animatedProps);
+    }
+    
+    // Animated sequences count
+    [self writeInt:[animatedProps count] withSign:NO];
+    
+    
+    for (NSString* seqIdStr in animatedProps)
+    {
+        // Write a sequence
+        
+        int seqId = [seqIdStr intValue];
+        [self writeInt:seqId withSign:NO];
+        
+        NSDictionary* props = [animatedProps objectForKey:seqIdStr];
+        
+        // Animated properties count
+        [self writeInt:[props count] withSign:NO];
+        
+        for (NSString* propName in props)
+        {
+            NSMutableDictionary* prop = [props objectForKey:propName];
+            
+            // Write a sequence node property
+            [self writeCachedString:propName isPath:NO];
+            
+            // Write property type
+            int kfType = [[prop objectForKey:@"type"] intValue];
+            NSString* propType = NULL;
+            if (kfType == kCCBKeyframeTypeVisible) propType = @"Check";
+            else if (kfType == kCCBKeyframeTypeByte) propType = @"Byte";
+            else if (kfType == kCCBKeyframeTypeColor3) propType = @"Color3";
+            else if (kfType == kCCBKeyframeTypeDegrees) propType = @"Degrees";
+            else if (kfType == kCCBKeyframeTypeScaleLock) propType = @"ScaleLock";
+            else if (kfType == kCCBKeyframeTypeSpriteFrame) propType = @"SpriteFrame";
+            else if (kfType == kCCBKeyframeTypePosition) propType = @"Position";
+            
+            if (!propType) NSLog(@"kfType: %d", kfType);
+            NSAssert(propType, @"Unknown animated property type");
+            
+            [self writeInt:[self propTypeIdForName:propType] withSign:NO];
+            
+            // Write number of keyframes
+            NSArray* keyframes = [prop objectForKey:@"keyframes"];
+            [self writeInt:[keyframes count] withSign:NO];
+            
+            for (NSDictionary* keyframe in keyframes)
+            {
+                // Write a keyframe
+                id value = [keyframe objectForKey:@"value"];
+                float time = [[keyframe objectForKey:@"time"] floatValue];
+                NSDictionary* easing = [keyframe objectForKey:@"easing"];
+                int easingType = [[easing objectForKey:@"type"] intValue];
+                float easingOpt = [[easing objectForKey:@"opt"] floatValue];
+                
+                [self writeKeyframeValue:value type: propType time:time easingType: easingType easingOpt: easingOpt];
+            }
+        }
+    }
+    
     // Write properties
     NSArray* props = [node objectForKey:@"properties"];
     [self writeInt:(int)[props count] withSign:NO];
@@ -675,64 +740,6 @@
         }
         
         [self writeProperty:value type:type name:name platform:[prop objectForKey:@"platform"]];
-    }
-    
-    // Write animated properties
-    NSDictionary* animatedProps = [node objectForKey:@"animatedProps"];
-    
-    // Animated sequences count
-    [self writeInt:[animatedProps count] withSign:NO];
-    
-    
-    for (NSString* seqIdStr in animatedProps)
-    {
-        // Write a sequence
-        
-        int seqId = [seqIdStr intValue];
-        [self writeInt:seqId withSign:NO];
-        
-        NSDictionary* props = [animatedProps objectForKey:seqIdStr];
-        
-        // Animated properties count
-        [self writeInt:[props count] withSign:NO];
-        
-        for (NSString* propName in props)
-        {
-            NSMutableDictionary* prop = [props objectForKey:propName];
-            
-            // Write a sequence node property
-            [self writeCachedString:propName isPath:NO];
-            
-            // Write property type
-            int kfType = [[prop objectForKey:@"type"] intValue];
-            NSString* propType = NULL;
-            if (kfType == kCCBKeyframeTypeVisible) propType = @"Check";
-            else if (kfType == kCCBKeyframeTypeByte) propType = @"Byte";
-            else if (kfType == kCCBKeyframeTypeColor3) propType = @"Color3";
-            else if (kfType == kCCBKeyframeTypeDegrees) propType = @"Degrees";
-            else if (kfType == kCCBKeyframeTypeScaleLock) propType = @"ScaleLock";
-            else if (kfType == kCCBKeyframeTypeSpriteFrame) propType = @"SpriteFrame";
-            
-            NSAssert(propType, @"Unknown animated property type");
-            
-            [self writeInt:[self propTypeIdForName:propType] withSign:NO];
-            
-            // Write number of keyframes
-            NSArray* keyframes = [prop objectForKey:@"keyframes"];
-            [self writeInt:[keyframes count] withSign:NO];
-            
-            for (NSDictionary* keyframe in keyframes)
-            {
-                // Write a keyframe
-                id value = [keyframe objectForKey:value];
-                float time = [[keyframe objectForKey:@"time"] floatValue];
-                NSDictionary* easing = [keyframe objectForKey:@"easing"];
-                int easingType = [[easing objectForKey:@"type"] intValue];
-                float easingOpt = [[easing objectForKey:@"opt"] floatValue];
-                
-                [self writeKeyframeValue:value type: propType time:time easingType: easingType easingOpt: easingOpt];
-            }
-        }
     }
     
     // Write children

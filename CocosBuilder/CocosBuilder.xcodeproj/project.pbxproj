@@ -595,6 +595,10 @@
 		E3FD4DD315A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DD215A0A2C10032C2DD /* SequencerKeyframeEasingWindow.m */; };
 		E3FD4DDB15A301EF0032C2DD /* seq-next-seq.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FD4DDA15A301EF0032C2DD /* seq-next-seq.png */; };
 		E3FD4DDF15A455B90032C2DD /* SequencerSequenceArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DDE15A455B90032C2DD /* SequencerSequenceArrayController.m */; };
+		E3FD4DFE15A701820032C2DD /* CCBActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DF715A701820032C2DD /* CCBActionManager.m */; };
+		E3FD4DFF15A701820032C2DD /* CCBKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DF915A701820032C2DD /* CCBKeyframe.m */; };
+		E3FD4E0015A701820032C2DD /* CCBSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DFB15A701820032C2DD /* CCBSequence.m */; };
+		E3FD4E0115A701820032C2DD /* CCBSequenceProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD4DFD15A701820032C2DD /* CCBSequenceProperty.m */; };
 		E3FEA8A714E45EEF00119FBE /* InspectorSize.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */; };
 		E3FEA8AA14E45F1000119FBE /* InspectorSize.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FEA8A914E45F1000119FBE /* InspectorSize.m */; };
 		E3FEA8AC14E47C5700119FBE /* InspectorPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FEA8AB14E47C5700119FBE /* InspectorPoint.xib */; };
@@ -1552,6 +1556,14 @@
 		E3FD4DDA15A301EF0032C2DD /* seq-next-seq.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-next-seq.png"; sourceTree = "<group>"; };
 		E3FD4DDD15A455B90032C2DD /* SequencerSequenceArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerSequenceArrayController.h; sourceTree = "<group>"; };
 		E3FD4DDE15A455B90032C2DD /* SequencerSequenceArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerSequenceArrayController.m; sourceTree = "<group>"; };
+		E3FD4DF615A701820032C2DD /* CCBActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBActionManager.h; path = ../../CocosBuilderExample/CocosBuilderExample/CCBActionManager.h; sourceTree = "<group>"; };
+		E3FD4DF715A701820032C2DD /* CCBActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBActionManager.m; path = ../../CocosBuilderExample/CocosBuilderExample/CCBActionManager.m; sourceTree = "<group>"; };
+		E3FD4DF815A701820032C2DD /* CCBKeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBKeyframe.h; path = ../../CocosBuilderExample/CocosBuilderExample/CCBKeyframe.h; sourceTree = "<group>"; };
+		E3FD4DF915A701820032C2DD /* CCBKeyframe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBKeyframe.m; path = ../../CocosBuilderExample/CocosBuilderExample/CCBKeyframe.m; sourceTree = "<group>"; };
+		E3FD4DFA15A701820032C2DD /* CCBSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBSequence.h; path = ../../CocosBuilderExample/CocosBuilderExample/CCBSequence.h; sourceTree = "<group>"; };
+		E3FD4DFB15A701820032C2DD /* CCBSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBSequence.m; path = ../../CocosBuilderExample/CocosBuilderExample/CCBSequence.m; sourceTree = "<group>"; };
+		E3FD4DFC15A701820032C2DD /* CCBSequenceProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBSequenceProperty.h; path = ../../CocosBuilderExample/CocosBuilderExample/CCBSequenceProperty.h; sourceTree = "<group>"; };
+		E3FD4DFD15A701820032C2DD /* CCBSequenceProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBSequenceProperty.m; path = ../../CocosBuilderExample/CocosBuilderExample/CCBSequenceProperty.m; sourceTree = "<group>"; };
 		E3FEA8A614E45EEF00119FBE /* InspectorSize.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSize.xib; sourceTree = "<group>"; };
 		E3FEA8A814E45F1000119FBE /* InspectorSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSize.h; sourceTree = "<group>"; };
 		E3FEA8A914E45F1000119FBE /* InspectorSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSize.m; sourceTree = "<group>"; };
@@ -3237,6 +3249,14 @@
 		E3E0875D1566846D008F1FDB /* Reader */ = {
 			isa = PBXGroup;
 			children = (
+				E3FD4DF615A701820032C2DD /* CCBActionManager.h */,
+				E3FD4DF715A701820032C2DD /* CCBActionManager.m */,
+				E3FD4DF815A701820032C2DD /* CCBKeyframe.h */,
+				E3FD4DF915A701820032C2DD /* CCBKeyframe.m */,
+				E3FD4DFA15A701820032C2DD /* CCBSequence.h */,
+				E3FD4DFB15A701820032C2DD /* CCBSequence.m */,
+				E3FD4DFC15A701820032C2DD /* CCBSequenceProperty.h */,
+				E3FD4DFD15A701820032C2DD /* CCBSequenceProperty.m */,
 				E3E0875E156684A7008F1FDB /* CCBReader.h */,
 				E3E0875F156684A7008F1FDB /* CCBReader.m */,
 			);
@@ -4522,6 +4542,10 @@
 				E3E0878015669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
 				E3E087A2156A7846008F1FDB /* ConsoleWindow.m in Sources */,
+				E3FD4DFE15A701820032C2DD /* CCBActionManager.m in Sources */,
+				E3FD4DFF15A701820032C2DD /* CCBKeyframe.m in Sources */,
+				E3FD4E0015A701820032C2DD /* CCBSequence.m in Sources */,
+				E3FD4E0115A701820032C2DD /* CCBSequenceProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

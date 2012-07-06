@@ -15,14 +15,39 @@
 {
     NSMutableArray* sequences;
     NSMutableDictionary* nodeSequences;
+    NSMutableDictionary* baseValues;
     int autoPlaySequenceId;
+    
+    CCNode* rootNode;
+    CGSize rootContainerSize;
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
+@property (nonatomic,retain) CCNode* rootNode;
+@property (nonatomic,assign) CGSize rootContainerSize;
+
+- (CGSize) containerSize:(CCNode*)node;
 
 - (void) addNode:(CCNode*)node andSequences:(NSDictionary*)seq;
+- (void) setBaseValue:(id)value forNode:(CCNode*)node propertyName:(NSString*)propName;
 
 - (void) runActionsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration;
 - (void) runActionsForSequenceNamed:(NSString*)name;
+- (void) runActionsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration;
 
+- (void) debug;
+
+@end
+
+
+#pragma mark Custom Actions
+
+@interface CCBSetSpriteFrame : CCActionInstant <NSCopying>
+{
+	CCSpriteFrame* spriteFrame;
+}
+/** creates a Place action with a position */
++(id) actionWithSpriteFrame: (CCSpriteFrame*) sf;
+/** Initializes a Place action with a position */
+-(id) initWithSpriteFrame: (CCSpriteFrame*) sf;
 @end
