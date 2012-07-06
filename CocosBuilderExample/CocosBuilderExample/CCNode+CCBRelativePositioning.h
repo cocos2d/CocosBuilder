@@ -34,6 +34,8 @@ enum
 
 @interface CCNode (CCBRelativePositioning)
 
+- (float) resolutionScale;
+
 #pragma mark Positions
 
 - (CGPoint) absolutePositionFromRelative:(CGPoint)pt type:(int)type parentSize:(CGSize)containerSize propertyName:(NSString*) propertyName;

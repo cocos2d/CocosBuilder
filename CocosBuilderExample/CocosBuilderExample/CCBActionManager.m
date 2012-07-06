@@ -107,7 +107,6 @@
     }
     else if (type == kCCBPropTypeScaleLock)
     {
-        /*
         // Get position type
         int type = [[[self baseValueForNode:node propertyName:name] objectAtIndex:2] intValue];
         
@@ -115,7 +114,7 @@
         float x = [[value objectAtIndex:0] floatValue];
         float y = [[value objectAtIndex:1] floatValue];
         
-        [node setRelativeScaleX:x Y:y type:type propertyName:name];*/
+        [node setRelativeScaleX:x Y:y type:type propertyName:name];
     }
     else
     {
@@ -204,6 +203,27 @@
         CGPoint absPos = [node absolutePositionFromRelative:ccp(x,y) type:type parentSize:containerSize propertyName:name];
         
         return [CCMoveTo actionWithDuration:duration position:absPos];
+    }
+    else if (type == kCCBPropTypeScaleLock
+             && [name isEqualToString:@"scale"])
+    {
+        // Get position type
+        int type = [[[self baseValueForNode:node propertyName:name] objectAtIndex:2] intValue];
+        
+        id value = kf1.value;
+        
+        // Get relative scale
+        float x = [[value objectAtIndex:0] floatValue];
+        float y = [[value objectAtIndex:1] floatValue];
+        
+        if (type == kCCBScaleTypeMultiplyResolution)
+        {
+            float resolutionScale = [node resolutionScale];
+            x *= resolutionScale;
+            y *= resolutionScale;
+        }
+        
+        return [CCScaleTo actionWithDuration:duration scaleX:x scaleY:y];
     }
     else
     {
