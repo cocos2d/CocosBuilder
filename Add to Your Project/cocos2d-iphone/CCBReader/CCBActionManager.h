@@ -1,0 +1,1 @@
+../../../CocosBuilderExample/CocosBuilderExample/CCBActionManager.h
