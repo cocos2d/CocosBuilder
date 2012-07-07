@@ -243,8 +243,6 @@
     
     NSNumber* num = [stringCacheLookup objectForKey:str];
     
-    if (!num) NSLog(@"failedToWrite: %@", str);
-    
     NSAssert(num, @"ccbi export: Trying to write string not added to cache (%@)", str);
     
     [self writeInt:[num intValue] withSign:NO];
@@ -308,14 +306,7 @@
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
         int scaleType = 0;
-        if ([prop count] > 3)
-        {
-            scaleType = [[prop objectAtIndex:3] intValue];
-        }
-        else
-        {
-            NSLog(@"type:%@ name:%@ prop: %@",type,name, prop);
-        }
+
         [self writeFloat:a];
         [self writeFloat:b];
         [self writeInt:scaleType withSign:NO];
@@ -681,7 +672,6 @@
             else if (kfType == kCCBKeyframeTypeSpriteFrame) propType = @"SpriteFrame";
             else if (kfType == kCCBKeyframeTypePosition) propType = @"Position";
             
-            if (!propType) NSLog(@"kfType: %d", kfType);
             NSAssert(propType, @"Unknown animated property type");
             
             [self writeInt:[self propTypeIdForName:propType] withSign:NO];
