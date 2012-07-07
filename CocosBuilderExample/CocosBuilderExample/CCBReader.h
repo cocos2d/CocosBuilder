@@ -124,10 +124,14 @@ enum
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
++ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner actionManager:(CCBActionManager **)actionManager;
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager;
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner  actionManager:(CCBActionManager**)actionManager;
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager;
 
 #ifdef CCB_ENABLE_UNZIP
 + (BOOL) unzipResources:(NSString*)resPath;

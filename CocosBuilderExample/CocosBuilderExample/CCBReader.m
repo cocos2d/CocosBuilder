@@ -942,7 +942,7 @@
     return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
 }
 
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
 {
     CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
     reader.actionManager.rootContainerSize = parentSize;
@@ -957,7 +957,23 @@
         [reader.actionManager runActionsForSequenceId:reader.actionManager.autoPlaySequenceId tweenDuration:0];
     }
     
+    // Return action manager by reference
+    if (actionManager)
+    {
+        *actionManager = reader.actionManager;
+    }
+    
     return nodeGraph;
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
+{
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:NULL];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner actionManager:(CCBActionManager **)actionManager
+{
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] actionManager:actionManager];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file
@@ -972,7 +988,17 @@
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize
 {
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize];
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:NULL];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner  actionManager:(CCBActionManager**)actionManager
+{
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] actionManager:actionManager];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
+{
+    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:actionManager];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;
