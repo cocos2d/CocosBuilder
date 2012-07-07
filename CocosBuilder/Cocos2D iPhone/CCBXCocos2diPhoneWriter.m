@@ -280,19 +280,19 @@
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:2] intValue];
+        int positionType = [[prop objectAtIndex:2] intValue];
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:positionType withSign:NO];
     }
     else if([type isEqualToString:@"Size"])
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:2] intValue];
+        int sizeType = [[prop objectAtIndex:2] intValue];
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:sizeType withSign:NO];
     }
     else if ([type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"]
@@ -307,10 +307,18 @@
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:2] intValue];
+        int scaleType = 0;
+        if ([prop count] > 3)
+        {
+            scaleType = [[prop objectAtIndex:3] intValue];
+        }
+        else
+        {
+            NSLog(@"type:%@ name:%@ prop: %@",type,name, prop);
+        }
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:scaleType withSign:NO];
     }
     else if ([type isEqualToString:@"Degrees"]
              || [type isEqualToString:@"Float"])
@@ -639,11 +647,6 @@
     // Write animated properties
     NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
     
-    if (animatedProps)
-    {
-        NSLog(@"animatedProps: %@", animatedProps);
-    }
-    
     // Animated sequences count
     [self writeInt:[animatedProps count] withSign:NO];
     
@@ -716,13 +719,21 @@
         if (baseValue)
         {
             // We need to transform the base value to a normal value (base values override normal values)
-            if ([type isEqualToString:@"Position"]
-                || [type isEqualToString:@"ScaleLock"])
+            if ([type isEqualToString:@"Position"])
             {
                 value = [NSArray arrayWithObjects:
                          [baseValue objectAtIndex:0],
                          [baseValue objectAtIndex:1],
                          [value objectAtIndex:2],
+                         nil];
+            }
+            else if ([type isEqualToString:@"ScaleLock"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [NSNumber numberWithBool:NO],
+                         [value objectAtIndex:3],
                          nil];
             }
             else if ([type isEqualToString:@"SpriteFrame"])

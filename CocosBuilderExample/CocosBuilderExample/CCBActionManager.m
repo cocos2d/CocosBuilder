@@ -34,15 +34,6 @@
 
 - (CGSize) containerSize:(CCNode*)node
 {
-    if (node)
-    {
-        NSLog(@"node: %@", node);
-    }
-    else
-    {
-        NSLog(@"rootContainerSize: (%f,%f)", rootContainerSize.width, rootContainerSize.height);
-    }
-    
     if (node) return node.contentSize;
     else return rootContainerSize;
 }
@@ -101,16 +92,16 @@
         float x = [[value objectAtIndex:0] floatValue];
         float y = [[value objectAtIndex:1] floatValue];
         
-        NSLog(@"animatedProperty type: %d pos: (%f,%f) baseValue: %@", type, x, y, [self baseValueForNode:node propertyName:name]);
-        
         [node setRelativePosition:ccp(x,y) type:type parentSize:[self containerSize:node.parent] propertyName:name];
     }
     else if (type == kCCBPropTypeScaleLock)
     {
-        // Get position type
+        // Get scale type
         int type = [[[self baseValueForNode:node propertyName:name] objectAtIndex:2] intValue];
         
-        // Get relative position
+        NSLog(@"scale type: %d", type);
+        
+        // Get relative scale
         float x = [[value objectAtIndex:0] floatValue];
         float y = [[value objectAtIndex:1] floatValue];
         
@@ -151,19 +142,16 @@
     if (type == kCCBPropTypeDegrees 
         && [name isEqualToString:@"rotation"])
     {
-        NSLog(@"rotation");
         return [CCRotateTo actionWithDuration:duration angle:[kf1.value floatValue]];
     }
     else if (type == kCCBPropTypeByte
              && [name isEqualToString:@"opacity"])
     {
-        NSLog(@"opacity");
         return [CCFadeTo actionWithDuration:duration opacity:[kf1.value intValue]];
     }
     else if (type == kCCBPropTypeColor3
              && [name isEqualToString:@"color"])
     {
-        NSLog(@"color");
         ccColor3B c;
         [kf1.value getValue:&c];
         

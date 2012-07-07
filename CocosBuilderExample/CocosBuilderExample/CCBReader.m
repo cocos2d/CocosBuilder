@@ -282,18 +282,6 @@
         
         if (setProp)
         {
-            /*
-            if (type == kCCBScaleTypeMultiplyResolution)
-            {
-                x *= resolutionScale;
-                y *= resolutionScale;
-            }
-            
-            NSString* nameX = [NSString stringWithFormat:@"%@X",name];
-            NSString* nameY = [NSString stringWithFormat:@"%@Y",name];
-            [node setValue:[NSNumber numberWithFloat:x] forKey:nameX];
-            [node setValue:[NSNumber numberWithFloat:y] forKey:nameY];
-             */
             [node setRelativeScaleX:x Y:y type:type propertyName:name];
             
             if ([animatedProps containsObject:name])
@@ -725,11 +713,6 @@
                  [NSNumber numberWithFloat:a],
                  [NSNumber numberWithFloat:b],
                  nil];
-        
-        if (type == kCCBPropTypePosition)
-        {
-            NSLog(@"READ position: %@", value);
-        }
     }
     else if (type == kCCBPropTypeSpriteFrame)
     {
