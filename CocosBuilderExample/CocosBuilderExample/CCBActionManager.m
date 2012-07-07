@@ -19,6 +19,7 @@
 @synthesize autoPlaySequenceId;
 @synthesize rootNode;
 @synthesize rootContainerSize;
+@synthesize delegate;
 
 - (id) init
 {
@@ -79,6 +80,15 @@
         }
     }
     return -1;
+}
+
+- (CCBSequence*) sequenceFromSequenceId:(int)seqId
+{
+    for (CCBSequence* seq in sequences)
+    {
+        if (seq.sequenceId == seqId) return seq;
+    }
+    return NULL;
 }
 
 - (void) setAnimatedProperty:(NSString*)name forNode:(CCNode*)node toValue:(id)value ofType:(int)type
@@ -340,6 +350,14 @@
             [self runActionsForNode:node sequenceProperty:seqProp tweenDuration:tweenDuration];
         }
     }
+    
+    // Make callback at end of sequence
+    CCBSequence* seq = [self sequenceFromSequenceId:seqId];
+    CCAction* completeAction = [CCSequence actionOne:[CCDelayTime actionWithDuration:seq.duration] two:[CCCallFunc actionWithTarget:self selector:@selector(sequenceCompleted)]];
+    [rootNode runAction:completeAction];
+    
+    // Set the running scene
+    runningSequence = [self sequenceFromSequenceId:seqId];
 }
 
 - (void) runActionsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration
@@ -351,6 +369,24 @@
 - (void) runActionsForSequenceNamed:(NSString*)name
 {
     [self runActionsForSequenceNamed:name tweenDuration:0];
+}
+
+- (void) sequenceCompleted
+{
+    [delegate completedAnimationSequenceNamed:runningSequence.name];
+    int nextSeqId = runningSequence.chainedSequenceId;
+    runningSequence = NULL;
+    
+    if (nextSeqId != -1)
+    {
+        [self runActionsForSequenceId:nextSeqId tweenDuration:0];
+    }
+    
+}
+
+- (NSString*) runningSequenceName
+{
+    return runningSequence.name;
 }
 
 - (void) dealloc
@@ -371,6 +407,7 @@
     [sequences release];
     [nodeSequences release];
     self.rootNode = NULL;
+    self.delegate = NULL;
     [super dealloc];
 }
 

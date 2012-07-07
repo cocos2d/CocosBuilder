@@ -11,6 +11,16 @@
 
 @class CCBSequence;
 
+#pragma mark Delegate
+
+@protocol CCBActionManagerDelegate <NSObject>
+
+- (void) completedAnimationSequenceNamed:(NSString*)name;
+
+@end
+
+#pragma mark Action Manager
+
 @interface CCBActionManager : NSObject
 {
     NSMutableArray* sequences;
@@ -20,11 +30,16 @@
     
     CCNode* rootNode;
     CGSize rootContainerSize;
+    
+    NSObject<CCBActionManagerDelegate>* delegate;
+    CCBSequence* runningSequence;
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
 @property (nonatomic,retain) CCNode* rootNode;
 @property (nonatomic,assign) CGSize rootContainerSize;
+@property (nonatomic,retain) NSObject<CCBActionManagerDelegate>* delegate;
+@property (nonatomic,readonly) NSString* runningSequenceName;
 
 - (CGSize) containerSize:(CCNode*)node;
 
@@ -39,8 +54,7 @@
 
 @end
 
-
-#pragma mark Custom Actions
+#pragma mark Custom Animation Actions
 
 @interface CCBSetSpriteFrame : CCActionInstant <NSCopying>
 {
