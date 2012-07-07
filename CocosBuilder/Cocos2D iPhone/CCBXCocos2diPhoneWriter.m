@@ -678,18 +678,44 @@
             
             // Write number of keyframes
             NSArray* keyframes = [prop objectForKey:@"keyframes"];
-            [self writeInt:[keyframes count] withSign:NO];
             
-            for (NSDictionary* keyframe in keyframes)
+            if (kfType == kCCBKeyframeTypeVisible && keyframes.count > 0)
             {
-                // Write a keyframe
-                id value = [keyframe objectForKey:@"value"];
-                float time = [[keyframe objectForKey:@"time"] floatValue];
-                NSDictionary* easing = [keyframe objectForKey:@"easing"];
-                int easingType = [[easing objectForKey:@"type"] intValue];
-                float easingOpt = [[easing objectForKey:@"opt"] floatValue];
+                BOOL visible = YES;
+                NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];
+                if ([[keyframeFirst objectForKey:@"time"] floatValue] != 0)
+                {
+                    [self writeInt:[keyframes count]+1 withSign:NO];
+                    // Add a first keyframe
+                    [self writeKeyframeValue:[NSNumber numberWithBool:NO] type:propType time:0 easingType:kCCBKeyframeEasingInstant easingOpt:0];
+                }
+                else
+                {
+                    [self writeInt:[keyframes count] withSign:NO];
+                }
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    float time = [[keyframe objectForKey:@"time"] floatValue];
+                    [self writeKeyframeValue:[NSNumber numberWithBool:visible] type:propType time:time easingType:kCCBKeyframeEasingInstant easingOpt:0];
+                    visible = !visible;
+                }
                 
-                [self writeKeyframeValue:value type: propType time:time easingType: easingType easingOpt: easingOpt];
+            }
+            else
+            {
+                [self writeInt:[keyframes count] withSign:NO];
+                
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    // Write a keyframe
+                    id value = [keyframe objectForKey:@"value"];
+                    float time = [[keyframe objectForKey:@"time"] floatValue];
+                    NSDictionary* easing = [keyframe objectForKey:@"easing"];
+                    int easingType = [[easing objectForKey:@"type"] intValue];
+                    float easingOpt = [[easing objectForKey:@"opt"] floatValue];
+                    
+                    [self writeKeyframeValue:value type: propType time:time easingType: easingType easingOpt: easingOpt];
+                }
             }
         }
     }

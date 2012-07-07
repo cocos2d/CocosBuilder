@@ -139,11 +139,6 @@
         y *= resolutionScale;
     }
     
-    if ([self isKindOfClass:[CCLabelBMFont class]] && resolutionScale == 2)
-    {
-        NSLog(@"REL SCALE 2 BMFONT! %@", propertyName);
-    }
-    
     NSString* nameX = [NSString stringWithFormat:@"%@X",propertyName];
     NSString* nameY = [NSString stringWithFormat:@"%@Y",propertyName];
     [self setValue:[NSNumber numberWithFloat:x] forKey:nameX];
