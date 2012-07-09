@@ -41,12 +41,26 @@
     
     // Setup default resolutions
     self.resolutions = [NSMutableArray array];
+    
+    // iOS resolutions
     ResolutionSetting* iPhoneLandscape = [ResolutionSetting settingIPhoneLandscape];
     iPhoneLandscape.enabled = YES;
     [resolutions addObject:iPhoneLandscape];
     [resolutions addObject:[ResolutionSetting settingIPhonePortrait]];
     [resolutions addObject:[ResolutionSetting settingIPadLandscape]];
     [resolutions addObject:[ResolutionSetting settingIPadPortrait]];
+    
+    // Android resolutions
+    [resolutions addObject:[ResolutionSetting settingAndroidXSmallPortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidXSmallLandscape]];
+    [resolutions addObject:[ResolutionSetting settingAndroidSmallPortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidSmallLandscape]];
+    [resolutions addObject:[ResolutionSetting settingAndroidMediumPortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidMediumLandscape]];
+    [resolutions addObject:[ResolutionSetting settingAndroidLargePortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidLargeLandscape]];
+    [resolutions addObject:[ResolutionSetting settingAndroidXLargePortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidXLargeLandscape]];
     
     return self;
 }

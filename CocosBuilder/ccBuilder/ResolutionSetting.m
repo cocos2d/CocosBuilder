@@ -158,6 +158,137 @@
     return setting;
 }
 
++ (ResolutionSetting*) settingAndroidXSmallLandscape
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android X-Small Landscape";
+    setting.width = 320;
+    setting.height = 240;
+    setting.ext = @"xsmall";
+    setting.scale = 0.5f;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidXSmallPortrait
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android X-Small Portrait";
+    setting.width = 240;
+    setting.height = 320;
+    setting.ext = @"xsmall";
+    setting.scale = 0.5f;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidSmallLandscape
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Small Landscape";
+    setting.width = 480;
+    setting.height = 340;
+    setting.ext = @"small";
+    setting.scale = 1;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidSmallPortrait
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Small Portrait";
+    setting.width = 340;
+    setting.height = 480;
+    setting.ext = @"small";
+    setting.scale = 1;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidMediumLandscape
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Medium Landscape";
+    setting.width = 800;
+    setting.height = 480;
+    setting.ext = @"medium";
+    setting.scale = 1.5f;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidMediumPortrait
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Medium Portrait";
+    setting.width = 480;
+    setting.height = 800;
+    setting.ext = @"medium";
+    setting.scale = 1.5f;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidLargeLandscape
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Large Landscape";
+    setting.width = 1280;
+    setting.height = 800;
+    setting.ext = @"large";
+    setting.scale = 2;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidLargePortrait
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android Large Portrait";
+    setting.width = 800;
+    setting.height = 1280;
+    setting.ext = @"large";
+    setting.scale = 2;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidXLargeLandscape
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android X-Large Landscape";
+    setting.width = 2048;
+    setting.height = 1536;
+    setting.ext = @"xlarge";
+    setting.scale = 4;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingAndroidXLargePortrait
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"Android X-Large Portrait";
+    setting.width = 1536;
+    setting.height = 2048;
+    setting.ext = @"xlarge";
+    setting.scale = 4;
+    
+    return setting;
+}
+
+
 - (NSString *) description
 {
     return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), self, width, height];
