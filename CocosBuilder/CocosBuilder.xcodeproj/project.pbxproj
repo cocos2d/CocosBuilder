@@ -379,6 +379,8 @@
 		E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */; };
 		E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */; };
 		E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */; };
+		E3DFA77415AB3AA5005D3B6F /* ccCArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA77315AB3AA5005D3B6F /* ccCArray.m */; };
+		E3DFA77515AB3AA5005D3B6F /* ccCArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA77315AB3AA5005D3B6F /* ccCArray.m */; };
 		E3E086CA1566366E008F1FDB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3E086D01566366E008F1FDB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3E086CE1566366E008F1FDB /* InfoPlist.strings */; };
 		E3E086D21566366E008F1FDB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E086D11566366E008F1FDB /* main.m */; };
@@ -510,8 +512,6 @@
 		E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0876F15669080008F1FDB /* JSCocoaLib.m */; };
 		E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877115669080008F1FDB /* JSCocoaPrivateObject.m */; };
 		E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E0877115669080008F1FDB /* JSCocoaPrivateObject.m */; };
-		E3E0878A1566914D008F1FDB /* cocos2d.bridgesupport in Resources */ = {isa = PBXBuildFile; fileRef = E3E087891566914D008F1FDB /* cocos2d.bridgesupport */; };
-		E3E0878B1566914D008F1FDB /* cocos2d.bridgesupport in Resources */ = {isa = PBXBuildFile; fileRef = E3E087891566914D008F1FDB /* cocos2d.bridgesupport */; };
 		E3E0878D15669F49008F1FDB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */; };
 		E3E0878E15669F58008F1FDB /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */; };
 		E3E0879015669FA2008F1FDB /* libffi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E0878F15669FA2008F1FDB /* libffi.dylib */; };
@@ -1361,6 +1361,7 @@
 		E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskStatusWindow.xib; sourceTree = "<group>"; };
 		E3DCFD9D1562A3AD00BD7D7F /* TaskStatusWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskStatusWindow.h; sourceTree = "<group>"; };
 		E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskStatusWindow.m; sourceTree = "<group>"; };
+		E3DFA77315AB3AA5005D3B6F /* ccCArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ccCArray.m; path = Support/ccCArray.m; sourceTree = "<group>"; };
 		E3E086C81566366E008F1FDB /* Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3E086CD1566366E008F1FDB /* Player-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Player-Info.plist"; sourceTree = "<group>"; };
 		E3E086CF1566366E008F1FDB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1394,7 +1395,6 @@
 		E3E0877115669080008F1FDB /* JSCocoaPrivateObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSCocoaPrivateObject.m; sourceTree = "<group>"; };
 		E3E0877215669080008F1FDB /* jslint-jscocoa.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jslint-jscocoa.js"; sourceTree = "<group>"; };
 		E3E0877315669080008F1FDB /* json.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = json.js; sourceTree = "<group>"; };
-		E3E087891566914D008F1FDB /* cocos2d.bridgesupport */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = cocos2d.bridgesupport; path = "libs/cocos2d-iphone/Resources-Mac/cocos2d.bridgesupport"; sourceTree = SOURCE_ROOT; };
 		E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		E3E0878F15669FA2008F1FDB /* libffi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libffi.dylib; path = usr/lib/libffi.dylib; sourceTree = SDKROOT; };
 		E3E0879E156A77CB008F1FDB /* ConsoleWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleWindow.xib; sourceTree = "<group>"; };
@@ -2418,6 +2418,7 @@
 		E36A270F152263B4004986A8 /* cocos2d */ = {
 			isa = PBXGroup;
 			children = (
+				E3DFA77315AB3AA5005D3B6F /* ccCArray.m */,
 				E36A2710152263B4004986A8 /* CCAction.h */,
 				E36A2711152263B4004986A8 /* CCAction.m */,
 				E36A2712152263B4004986A8 /* CCActionCamera.h */,
@@ -3052,7 +3053,6 @@
 		E3E0878815669114008F1FDB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E3E087891566914D008F1FDB /* cocos2d.bridgesupport */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3616,7 +3616,6 @@
 				E3DCFD9415627FAB00BD7D7F /* WarningsWindow.xib in Resources */,
 				E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */,
 				E3E0877915669080008F1FDB /* Info.plist in Resources */,
-				E3E0878B1566914D008F1FDB /* cocos2d.bridgesupport in Resources */,
 				E3BF89D9156D36B7001A24CE /* CocosBuilderProjectIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3767,7 +3766,6 @@
 				E3E086DC1566366E008F1FDB /* MainMenu.xib in Resources */,
 				E3E0875315666AD4008F1FDB /* fps_images.png in Resources */,
 				E3E0877815669080008F1FDB /* Info.plist in Resources */,
-				E3E0878A1566914D008F1FDB /* cocos2d.bridgesupport in Resources */,
 				E3E0879F156A77CB008F1FDB /* ConsoleWindow.xib in Resources */,
 				E3A16D8F156E145700F6C326 /* CocosBuilderPlayerIcon.icns in Resources */,
 			);
@@ -4017,6 +4015,7 @@
 				E3E0878115669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878315669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
 				E38283D5159B11DF0026706A /* NSString+AppendToFile.m in Sources */,
+				E3DFA77515AB3AA5005D3B6F /* ccCArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4246,6 +4245,7 @@
 				E3E0878015669080008F1FDB /* JSCocoaLib.m in Sources */,
 				E3E0878215669080008F1FDB /* JSCocoaPrivateObject.m in Sources */,
 				E3E087A2156A7846008F1FDB /* ConsoleWindow.m in Sources */,
+				E3DFA77415AB3AA5005D3B6F /* ccCArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
