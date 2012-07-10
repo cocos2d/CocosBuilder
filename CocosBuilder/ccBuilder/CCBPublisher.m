@@ -36,6 +36,7 @@
 
 @synthesize publishFormat;
 @synthesize runAfterPublishing;
+@synthesize runningInBackground;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w
 {
@@ -290,6 +291,8 @@
 
 - (void) publish
 {
+    runningInBackground = YES;
+    
     [self clearResourceLog];
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -300,7 +303,26 @@
             [ad publisher:self finishedWithWarnings:warnings];
         });
     });
+}
+
+- (void) publishSingleCCBFile:(NSString*)fileName
+{
+    runningInBackground = NO;
     
+    if (projectSettings.publishToZipFile)
+    {
+        [warnings addWarningWithDescription:@"Cannot publish a single file to a zip file." isFatal:YES];
+        [[[CCBGlobals globals] appDelegate] publisher:self finishedWithWarnings:warnings];
+        return;
+    }
+    
+    NSString* strippedFileName = [[fileName stringByDeletingPathExtension] lastPathComponent];
+    NSString* dstFile = [[outputDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
+    
+    [self publishCCBFile:fileName to:dstFile];
+    
+    // Finish up
+    [[[CCBGlobals globals] appDelegate] publisher:self finishedWithWarnings:warnings];
 }
 
 + (void) cleanAllCacheDirectories

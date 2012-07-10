@@ -35,13 +35,16 @@
     NSArray* copyExtensions;
     NSString* publishFormat;
     BOOL runAfterPublishing;
+    BOOL runningInBackground;
 }
 
 @property (nonatomic,copy) NSString* publishFormat;
 @property (nonatomic,assign) BOOL runAfterPublishing;
+@property (nonatomic,readonly) BOOL runningInBackground;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w;
 - (void) publish;
+- (void) publishSingleCCBFile:(NSString*)fileName;
 + (void) cleanAllCacheDirectories;
 
 @end

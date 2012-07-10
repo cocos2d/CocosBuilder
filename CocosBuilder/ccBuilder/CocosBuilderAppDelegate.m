@@ -1603,7 +1603,7 @@
 
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
 {
-    [self modalStatusWindowFinish];
+    if (publisher.runningInBackground) [self modalStatusWindowFinish];
     
     // Create warnings window if it is not already created
     if (!publishWarningsWindow)
@@ -1621,7 +1621,7 @@
         [playerController runPlayerForProject:projectSettings];
     }
     
-    [publisher release];
+    if (publisher.runningInBackground) [publisher release];
 }
 
 - (IBAction) menuPublishProject:(id)sender
@@ -1632,6 +1632,21 @@
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
     [self publishAndRun:YES];
+}
+
+- (IBAction) menuPublishActiveFile:(id)sender
+{
+    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+    warnings.warningsDescription = @"Publisher Warnings";
+    
+    // Setup publisher
+    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    publisher.runAfterPublishing = NO;
+    
+    // Publish the file
+    [publisher publishSingleCCBFile:self.currentDocument.fileName];
+    
+    [publisher autorelease];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
