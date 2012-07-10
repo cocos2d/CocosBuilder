@@ -111,10 +111,10 @@ static CocosScene* sharedCocosScene;
     [borderLayer addChild:borderLeft];
     [borderLayer addChild:borderRight];
     
-    borderDeviceIPhone = [CCSprite spriteWithFile:@"frame-iphone.png"];
-    borderDeviceIPad = [CCSprite spriteWithFile:@"frame-ipad.png"];
-    [borderLayer addChild:borderDeviceIPhone z:1];
-    [borderLayer addChild:borderDeviceIPad z:1];
+    //borderDeviceIPhone = [CCSprite spriteWithFile:@"frame-iphone.png"];
+    //borderDeviceIPad = [CCSprite spriteWithFile:@"frame-ipad.png"];
+    borderDevice = [CCSprite node];
+    [borderLayer addChild:borderDevice z:1];
     
     // Gray background
     bgLayer = [CCLayerColor layerWithColor:ccc4(128, 128, 128, 255) width:4096 height:4096];
@@ -134,8 +134,9 @@ static CocosScene* sharedCocosScene;
 
 - (void) setStageBorder:(int)type
 {
-    borderDeviceIPhone.visible = NO;
-    borderDeviceIPad.visible = NO;
+    //borderDeviceIPhone.visible = NO;
+    //borderDeviceIPad.visible = NO;
+    borderDevice.visible = NO;
     
     if (type == kCCBBorderDevice)
     {
@@ -144,27 +145,70 @@ static CocosScene* sharedCocosScene;
         [borderLeft setOpacity:255];
         [borderRight setOpacity:255];
         
+        CCTexture2D* deviceTexture = NULL;
+        BOOL rotateDevice = NO;
+        
         int devType = [appDelegate orientedDeviceTypeForSize:stageBgLayer.contentSize];
         if (devType == kCCBCanvasSizeIPhonePortrait)
         {
-            borderDeviceIPhone.visible = YES;
-            borderDeviceIPhone.rotation = 0;
-            
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
+            rotateDevice = NO;
         }
         else if (devType == kCCBCanvasSizeIPhoneLandscape)
         {
-            borderDeviceIPhone.visible = YES;
-            borderDeviceIPhone.rotation = 90;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
+            rotateDevice = YES;
         }
         else if (devType == kCCBCanvasSizeIPadPortrait)
         {
-            borderDeviceIPad.visible = YES;
-            borderDeviceIPad.rotation = 0;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
+            rotateDevice = NO;
         }
         else if (devType == kCCBCanvasSizeIPadLandscape)
         {
-            borderDeviceIPad.visible = YES;
-            borderDeviceIPad.rotation = 90;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidXSmallPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-xsmall.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidXSmallLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-xsmall.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidSmallPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-small.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidSmallLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-small.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidMediumPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-medium.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidMediumLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-medium.png"];
+            rotateDevice = YES;
+        }
+        
+        if (deviceTexture)
+        {
+            if (rotateDevice) borderDevice.rotation = 90;
+            else borderDevice.rotation = 0;
+            
+            borderDevice.texture = deviceTexture;
+            borderDevice.textureRect = CGRectMake(0, 0, deviceTexture.contentSize.width, deviceTexture.contentSize.height);
+            
+            borderDevice.visible = YES;
         }
     }
     else if (type == kCCBBorderTransparent)
@@ -242,8 +286,7 @@ static CocosScene* sharedCocosScene;
     scrollOffset = ccpMult(scrollOffset, zoomFactor);
     
     stageBgLayer.scale = zoom;
-    borderDeviceIPad.scale = zoom;
-    borderDeviceIPhone.scale = zoom;
+    borderDevice.scale = zoom;
     
     stageZoom = zoom;
 }
@@ -875,8 +918,7 @@ static CocosScene* sharedCocosScene;
         // Use normal rendering
         stageBgLayer.visible = YES;
         renderedScene.visible = NO;
-        [[borderDeviceIPhone texture] setAntiAliasTexParameters];
-        [[borderDeviceIPad texture] setAntiAliasTexParameters];
+        [[borderDevice texture] setAntiAliasTexParameters];
     }
     else
     {
@@ -887,8 +929,7 @@ static CocosScene* sharedCocosScene;
         [renderedScene beginWithClear:0 g:0 b:0 a:1];
         [contentLayer visit];
         [renderedScene end];
-        [[borderDeviceIPhone texture] setAliasTexParameters];
-        [[borderDeviceIPad texture] setAliasTexParameters];
+        [[borderDevice texture] setAliasTexParameters];
     }
     
     [self updateSelection];
@@ -909,8 +950,7 @@ static CocosScene* sharedCocosScene;
     [borderRight setContentSize:CGSizeMake(winSize.width - bounds.origin.x - bounds.size.width, bounds.size.height)];
     
     CGPoint center = ccp(bounds.origin.x+bounds.size.width/2, bounds.origin.y+bounds.size.height/2);
-    borderDeviceIPhone.position = center;
-    borderDeviceIPad.position = center;
+    borderDevice.position = center;
     
     // Update rulers
     origin = ccpAdd(stageCenter, ccpMult(contentLayer.position,stageZoom));

@@ -27,12 +27,20 @@
 #import "cocos2d.h"
 #import "PSMTabBarControl.h"
 
+#define kCCBNumCanvasDevices 10
+
 enum {
     kCCBCanvasSizeCustom = 0,
     kCCBCanvasSizeIPhoneLandscape,
     kCCBCanvasSizeIPhonePortrait,
     kCCBCanvasSizeIPadLandscape,
-    kCCBCanvasSizeIPadPortrait
+    kCCBCanvasSizeIPadPortrait,
+    kCCBCanvasSizeAndroidXSmallLandscape,
+    kCCBCanvasSizeAndroidXSmallPortrait,
+    kCCBCanvasSizeAndroidSmallLandscape,
+    kCCBCanvasSizeAndroidSmallPortrait,
+    kCCBCanvasSizeAndroidMediumLandscape,
+    kCCBCanvasSizeAndroidMediumPortrait,
 };
 
 enum {
@@ -112,8 +120,8 @@ enum {
     IBOutlet NSPopUpButton* menuTimelineChainedPopup;
     IBOutlet NSMenu* menuTimelineChained;
     IBOutlet NSTextField* lblTimelineChained;
-    
-    CGSize defaultCanvasSizes[5];
+
+    CGSize defaultCanvasSizes[kCCBNumCanvasDevices+1];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
     
