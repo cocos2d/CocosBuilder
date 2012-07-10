@@ -1646,7 +1646,7 @@
     // Publish the file
     [publisher publishSingleCCBFile:self.currentDocument.fileName];
     
-    [publisher autorelease];
+    //[publisher autorelease];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
