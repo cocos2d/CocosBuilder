@@ -51,16 +51,16 @@
     [resolutions addObject:[ResolutionSetting settingIPadPortrait]];
     
     // Android resolutions
-    [resolutions addObject:[ResolutionSetting settingAndroidXSmallPortrait]];
     [resolutions addObject:[ResolutionSetting settingAndroidXSmallLandscape]];
-    [resolutions addObject:[ResolutionSetting settingAndroidSmallPortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidXSmallPortrait]];
     [resolutions addObject:[ResolutionSetting settingAndroidSmallLandscape]];
-    [resolutions addObject:[ResolutionSetting settingAndroidMediumPortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidSmallPortrait]];
     [resolutions addObject:[ResolutionSetting settingAndroidMediumLandscape]];
-    [resolutions addObject:[ResolutionSetting settingAndroidLargePortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidMediumPortrait]];
     [resolutions addObject:[ResolutionSetting settingAndroidLargeLandscape]];
-    [resolutions addObject:[ResolutionSetting settingAndroidXLargePortrait]];
+    [resolutions addObject:[ResolutionSetting settingAndroidLargePortrait]];
     [resolutions addObject:[ResolutionSetting settingAndroidXLargeLandscape]];
+    [resolutions addObject:[ResolutionSetting settingAndroidXLargePortrait]];
     
     return self;
 }

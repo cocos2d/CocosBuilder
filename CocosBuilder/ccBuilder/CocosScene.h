@@ -103,8 +103,9 @@ enum {
     CCLayerColor* borderTop;
     CCLayerColor* borderLeft;
     CCLayerColor* borderRight;
-    CCSprite* borderDeviceIPhone;
-    CCSprite* borderDeviceIPad;
+    //CCSprite* borderDeviceIPhone;
+    //CCSprite* borderDeviceIPad;
+    CCSprite* borderDevice;
     
     int stageBorderType;
     float stageZoom;
