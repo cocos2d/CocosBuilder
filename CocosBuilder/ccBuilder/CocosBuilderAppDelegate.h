@@ -218,6 +218,7 @@ enum {
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
 - (void) openFile:(NSString*) fileName;
+- (void) openJSFile:(NSString*) fileName;
 
 // Menu options
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
@@ -231,15 +232,14 @@ enum {
 - (IBAction) menuSelectBehind:(id)sender;
 - (IBAction) menuDeselect:(id)sender;
 
-- (IBAction) menuCloseDocument:(id)sender;
 - (void) closeProject;
+- (IBAction) performClose:(id)sender;
 
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;
 - (BOOL) addCCObject:(CCNode*)obj asChild:(BOOL)asChild;
 - (void) deleteNode:(CCNode*)node;
 - (IBAction) pasteAsChild:(id)sender;
-- (IBAction) saveDocument:(id)sender;
 - (IBAction) menuQuit:(id)sender;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;

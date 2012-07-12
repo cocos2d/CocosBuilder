@@ -59,7 +59,7 @@
         docStr = NULL;
     }
     
-    [self setUndoManager:[fragariaTextView undoManager]];
+    //[self setUndoManager:[fragariaTextView undoManager]];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -88,16 +88,46 @@
     return YES;
 }
 
-/*
+
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:1];
+    docEdited = YES;
+}
+
+/*
+- (BOOL) isDocumentEdited
+{
+    return docEdited;
 }*/
+
+- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    if ([menuItem.title isEqualToString:@"Save"]) return YES;
+    return [super validateMenuItem:menuItem];
+}
 
 + (BOOL)autosavesInPlace
 {
     return NO;
 }
+
+- (IBAction)undo:(id)sender
+{
+    [fragariaTextView.undoManager undo];
+}
+
+- (IBAction)redo:(id)sender
+{
+    [fragariaTextView.undoManager redo];
+}
+
+/*
+- (IBAction)close:(id)sender
+{
+    NSLog(@"close!");
+    [super close];
+}*/
 
 
 - (void) dealloc

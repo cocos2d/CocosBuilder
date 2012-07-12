@@ -7,6 +7,7 @@
 //
 
 #import "MainWindow.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation MainWindow
 
@@ -26,6 +27,20 @@
         needsEnableUpdate = NO;
         NSEnableScreenUpdates();
     }
+}
+
+-(IBAction)performClose:(id)sender
+{
+    [[CocosBuilderAppDelegate appDelegate] performClose:sender];
+}
+
+- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    if ([menuItem.title isEqualToString:@"Close"])
+    {
+        return [[CocosBuilderAppDelegate appDelegate] hasOpenedDocument];
+    }
+    return [super validateMenuItem:menuItem];
 }
 
 @end

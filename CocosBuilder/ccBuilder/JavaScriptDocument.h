@@ -20,5 +20,6 @@
     SMLTextView* fragariaTextView;
     
     NSString* docStr;
+    BOOL docEdited;
 }
 @end

@@ -1769,7 +1769,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                         [self openFile:absPath];
                         [self saveFile:absPath];
                         //[self publishDocument:NULL];
-                        [self menuCloseDocument:sender];
+                        [self performClose:sender];
                     }
                 }
             }
@@ -1876,8 +1876,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
-- (IBAction) menuCloseDocument:(id)sender
+- (IBAction) performClose:(id)sender
 {
+    NSLog(@"performClose (AppDelegate)");
+    
     if (!currentDocument) return;
     NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
     if (!item) return;
@@ -2237,6 +2239,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [cs setStageZoom:1];
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];
+}
+
+- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    NSLog(@"validateMenuItem: %@", menuItem);
+    
+    if ([menuItem.title isEqualToString:@"Save"]) return hasOpenedDocument;
+    else if ([menuItem.title isEqualToString:@"Save As…"]) return hasOpenedDocument;
+    else if ([menuItem.title isEqualToString:@"Undo"]) return hasOpenedDocument;
+    else if ([menuItem.title isEqualToString:@"Redo"]) return hasOpenedDocument;
+    else if ([menuItem.title isEqualToString:@"Close"]) return hasOpenedDocument;
+    
+    return YES;
 }
 
 #pragma mark Playback countrols
