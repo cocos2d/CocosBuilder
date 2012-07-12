@@ -74,6 +74,7 @@
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
 #import "SequencerKeyframeEasingWindow.h"
+#import "JavaScriptDocument.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1221,6 +1222,17 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     [self openProject:filename];
     return YES;
+}
+
+- (void) openJSFile:(NSString*) fileName
+{
+    JavaScriptDocument* jsDoc = [[[JavaScriptDocument alloc] initWithContentsOfURL:[[[NSURL alloc] initFileURLWithPath:fileName] autorelease] ofType:@"JavaScript" error:NULL] autorelease];
+    
+    [[NSDocumentController sharedDocumentController] addDocument:jsDoc];
+    [jsDoc makeWindowControllers];
+    [jsDoc showWindows];
+    
+    NSLog(@"jsDoc: %@", jsDoc);
 }
 
 #pragma mark Undo

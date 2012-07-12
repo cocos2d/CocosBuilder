@@ -590,6 +590,9 @@
 		E3F3F847153D9126005443EE /* StickyNoteEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F846153D9126005443EE /* StickyNoteEditView.xib */; };
 		E3F3F849153DB893005443EE /* notes-close.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F848153DB893005443EE /* notes-close.png */; };
 		E3F3F84B153DBA43005443EE /* notes-close-down.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F84A153DBA43005443EE /* notes-close-down.png */; };
+		E3F541CF15AED86800EAAFBD /* MGSFragaria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F541CC15AED68500EAAFBD /* MGSFragaria.framework */; };
+		E3F541D415AF04E600EAAFBD /* JavaScriptDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F541D215AF04E600EAAFBD /* JavaScriptDocument.m */; };
+		E3F541D515AF04E600EAAFBD /* JavaScriptDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F541D315AF04E600EAAFBD /* JavaScriptDocument.xib */; };
 		E3F73DB61593908A00D74084 /* SequencerDurationWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F73DB51593908A00D74084 /* SequencerDurationWindow.m */; };
 		E3F73DB81593916E00D74084 /* SequencerDurationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */; };
 		E3FCE8671524856D0028E8E7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
@@ -735,6 +738,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = E3E086C71566366E008F1FDB;
 			remoteInfo = Player;
+		};
+		E3F541C715AED68500EAAFBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB648E2A11FB385700AEF7BD;
+			remoteInfo = "Fragaria Document Based App";
+		};
+		E3F541C915AED68500EAAFBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1107320486CEB800E47090;
+			remoteInfo = Fragaria;
+		};
+		E3F541CB15AED68500EAAFBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB69B62B118B745700903D1D;
+			remoteInfo = MGSFragaria;
+		};
+		E3F541CD15AED85800EAAFBD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB69B62A118B745700903D1D;
+			remoteInfo = MGSFragaria;
 		};
 		E3FCE8721524859A0028E8E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1552,6 +1583,10 @@
 		E3F3F846153D9126005443EE /* StickyNoteEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickyNoteEditView.xib; sourceTree = "<group>"; };
 		E3F3F848153DB893005443EE /* notes-close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close.png"; sourceTree = "<group>"; };
 		E3F3F84A153DBA43005443EE /* notes-close-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close-down.png"; sourceTree = "<group>"; };
+		E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Fragaria.xcodeproj; path = Fragaria/Fragaria.xcodeproj; sourceTree = "<group>"; };
+		E3F541D115AF04E600EAAFBD /* JavaScriptDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JavaScriptDocument.h; sourceTree = "<group>"; };
+		E3F541D215AF04E600EAAFBD /* JavaScriptDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JavaScriptDocument.m; sourceTree = "<group>"; };
+		E3F541D315AF04E600EAAFBD /* JavaScriptDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JavaScriptDocument.xib; sourceTree = "<group>"; };
 		E3F73DB41593908A00D74084 /* SequencerDurationWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerDurationWindow.h; sourceTree = "<group>"; };
 		E3F73DB51593908A00D74084 /* SequencerDurationWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerDurationWindow.m; sourceTree = "<group>"; };
 		E3F73DB71593916E00D74084 /* SequencerDurationWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SequencerDurationWindow.xib; sourceTree = "<group>"; };
@@ -1602,6 +1637,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3F541CF15AED86800EAAFBD /* MGSFragaria.framework in Frameworks */,
 				E3E0879015669FA2008F1FDB /* libffi.dylib in Frameworks */,
 				E3E0878E15669F58008F1FDB /* JavaScriptCore.framework in Frameworks */,
 				776A37161395925D00960E94 /* Quartz.framework in Frameworks */,
@@ -2140,6 +2176,7 @@
 				E3DCFD851562611700BD7D7F /* Error handling & notifications */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				776041EA1498FB600078095D /* Dialogs */,
+				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
 				E335CB071577C55F00A612EE /* Node info */,
 				776041E21498F5A70078095D /* Util */,
@@ -2165,6 +2202,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E3F541BA15AED66D00EAAFBD /* Fragaria */,
 				E3E087611566907F008F1FDB /* JSCocoa */,
 				E32BBCAA156135C300C58395 /* HashValue */,
 				E36A270F152263B4004986A8 /* cocos2d */,
@@ -3322,6 +3360,34 @@
 			name = Console;
 			sourceTree = "<group>";
 		};
+		E3F541BA15AED66D00EAAFBD /* Fragaria */ = {
+			isa = PBXGroup;
+			children = (
+				E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */,
+			);
+			name = Fragaria;
+			sourceTree = "<group>";
+		};
+		E3F541BD15AED68500EAAFBD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E3F541C815AED68500EAAFBD /* Fragaria Document Based App.app */,
+				E3F541CA15AED68500EAAFBD /* Fragaria.app */,
+				E3F541CC15AED68500EAAFBD /* MGSFragaria.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E3F541D015AF040A00EAAFBD /* JavaScript Editor */ = {
+			isa = PBXGroup;
+			children = (
+				E3F541D115AF04E600EAAFBD /* JavaScriptDocument.h */,
+				E3F541D215AF04E600EAAFBD /* JavaScriptDocument.m */,
+				E3F541D315AF04E600EAAFBD /* JavaScriptDocument.xib */,
+			);
+			name = "JavaScript Editor";
+			sourceTree = "<group>";
+		};
 		E3FCE8681524856D0028E8E7 /* CCScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -3376,6 +3442,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E3F541CE15AED85800EAAFBD /* PBXTargetDependency */,
 				E398C02F14FB82090078E771 /* PBXTargetDependency */,
 				E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */,
 				E3C365F814E9E4DD007CD5FF /* PBXTargetDependency */,
@@ -3723,6 +3790,12 @@
 			mainGroup = 7789ABB3133AA82000CEFCC7;
 			productRefGroup = 7789ABBF133AA82000CEFCC7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E3F541BD15AED68500EAAFBD /* Products */;
+					ProjectRef = E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E398C02114FB81A30078E771 /* Cocos2D iPhone */,
@@ -3747,6 +3820,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E3F541C815AED68500EAAFBD /* Fragaria Document Based App.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Fragaria Document Based App.app";
+			remoteRef = E3F541C715AED68500EAAFBD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E3F541CA15AED68500EAAFBD /* Fragaria.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Fragaria.app;
+			remoteRef = E3F541C915AED68500EAAFBD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E3F541CC15AED68500EAAFBD /* MGSFragaria.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MGSFragaria.framework;
+			remoteRef = E3F541CB15AED68500EAAFBD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7789ABBC133AA82000CEFCC7 /* Resources */ = {
@@ -3913,6 +4010,7 @@
 				E3DFA7CD15ACA0CD005D3B6F /* frame-android-medium.png in Resources */,
 				E3DFA7CE15ACA0CD005D3B6F /* frame-android-small.png in Resources */,
 				E3DFA7CF15ACA0CD005D3B6F /* frame-android-xsmall.png in Resources */,
+				E3F541D515AF04E600EAAFBD /* JavaScriptDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4331,6 +4429,7 @@
 				E3FD4DDF15A455B90032C2DD /* SequencerSequenceArrayController.m in Sources */,
 				E3DFA79115AC9DD3005D3B6F /* ccCArray.m in Sources */,
 				E3DFA7B115AC9DE1005D3B6F /* CCNode+Debug.m in Sources */,
+				E3F541D415AF04E600EAAFBD /* JavaScriptDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4670,6 +4769,11 @@
 			target = E3E086C71566366E008F1FDB /* Player */;
 			targetProxy = E3E086E115663916008F1FDB /* PBXContainerItemProxy */;
 		};
+		E3F541CE15AED85800EAAFBD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MGSFragaria;
+			targetProxy = E3F541CD15AED85800EAAFBD /* PBXContainerItemProxy */;
+		};
 		E3FCE8731524859A0028E8E7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E3FCE8651524856D0028E8E7 /* CCScrollView */;
@@ -4911,6 +5015,7 @@
 					"CC_ENABLE_GL_STATE_CACHE=1",
 					DEBUG,
 				);
+				HEADER_SEARCH_PATHS = libs/Fragaria;
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
@@ -4937,6 +5042,7 @@
 					NS_BLOCK_ASSERTIONS,
 					"CC_ENABLE_GL_STATE_CACHE=1",
 				);
+				HEADER_SEARCH_PATHS = libs/Fragaria;
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;

@@ -325,6 +325,10 @@
         {
             [[CocosBuilderAppDelegate appDelegate] openFile: res.filePath];
         }
+        else if (res.type == kCCBResTypeJS)
+        {
+            [[CocosBuilderAppDelegate appDelegate] openJSFile:res.filePath];
+        }
     }
     
 }
