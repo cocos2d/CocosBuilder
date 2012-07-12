@@ -18,4 +18,4 @@ function pressedMenuButton()
 	[sprtLogo runAction:bounceSeq];
 	
 	log("pressedMenuButton");
-}
+} 

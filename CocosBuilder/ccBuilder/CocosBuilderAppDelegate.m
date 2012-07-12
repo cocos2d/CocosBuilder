@@ -1226,13 +1226,18 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) openJSFile:(NSString*) fileName
 {
-    JavaScriptDocument* jsDoc = [[[JavaScriptDocument alloc] initWithContentsOfURL:[[[NSURL alloc] initFileURLWithPath:fileName] autorelease] ofType:@"JavaScript" error:NULL] autorelease];
+    NSURL* docURL = [[[NSURL alloc] initFileURLWithPath:fileName] autorelease];
     
-    [[NSDocumentController sharedDocumentController] addDocument:jsDoc];
-    [jsDoc makeWindowControllers];
+    JavaScriptDocument* jsDoc = [[NSDocumentController sharedDocumentController] documentForURL:docURL];
+    
+    if (!jsDoc)
+    {
+        jsDoc = [[[JavaScriptDocument alloc] initWithContentsOfURL:docURL ofType:@"JavaScript" error:NULL] autorelease];
+        [[NSDocumentController sharedDocumentController] addDocument:jsDoc];
+        [jsDoc makeWindowControllers];
+    }
+    
     [jsDoc showWindows];
-    
-    NSLog(@"jsDoc: %@", jsDoc);
 }
 
 #pragma mark Undo

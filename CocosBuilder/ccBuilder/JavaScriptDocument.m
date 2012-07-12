@@ -58,6 +58,8 @@
         [docStr release];
         docStr = NULL;
     }
+    
+    [self setUndoManager:[fragariaTextView undoManager]];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -86,15 +88,17 @@
     return YES;
 }
 
+/*
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:1];
-}
+}*/
 
 + (BOOL)autosavesInPlace
 {
     return NO;
 }
+
 
 - (void) dealloc
 {
