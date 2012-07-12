@@ -8,6 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface JavaScriptDocument : NSDocument
+@class MGSFragaria;
+@class SMLTextView;
 
+@interface JavaScriptDocument : NSDocument
+{
+    IBOutlet NSView* jsView;
+    IBOutlet NSWindow* docWindow;
+    
+    MGSFragaria* fragaria;
+    SMLTextView* fragariaTextView;
+    
+    NSString* docStr;
+}
 @end
