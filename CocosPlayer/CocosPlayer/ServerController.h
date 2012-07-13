@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ThoMoServerStub.h"
+#import "cocos2d.h"
 
-@interface ServerController : NSObject
+@interface ServerController : NSObject <ThoMoServerDelegateProtocol>
+{
+    ThoMoServerStub* server;
+    
+    NSMutableSet* connectedClients;
+}
+
+- (void) start;
 
 @end

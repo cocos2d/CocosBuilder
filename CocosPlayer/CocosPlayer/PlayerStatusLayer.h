@@ -7,7 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
-@interface PlayerStatusLayer : NSObject
+@interface PlayerStatusLayer : CCLayer
+{
+    CCLabelTTF* lblStatus;
+}
+
++ (PlayerStatusLayer*) sharedInstance;
+
+- (void) setStatus:(NSString*)status;
 
 @end
