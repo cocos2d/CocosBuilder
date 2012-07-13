@@ -75,6 +75,7 @@
 #import "SequencerKeyframeEasing.h"
 #import "SequencerKeyframeEasingWindow.h"
 #import "JavaScriptDocument.h"
+#import "PlayerConnection.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -181,6 +182,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.playerController = [[[PlayerController alloc] init] autorelease];
 }
 
+- (void) setupPlayerConnection
+{
+    PlayerConnection* connection = [[PlayerConnection alloc] init];
+    [connection run];
+}
+
 - (void) setupResourceManager
 {
     // Load resource manager
@@ -279,6 +286,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupGUIWindow];
     
     [self setupPlayerController];
+    [self setupPlayerConnection];
     
     self.showGuides = YES;
     self.snapToGuides = YES;

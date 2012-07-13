@@ -163,6 +163,11 @@
 		E353927E1518D78D00471721 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E353927C1518D78D00471721 /* InfoPlist.strings */; };
 		E35392851518D81000471721 /* CCScale9Sprite.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35392771518D78D00471721 /* CCScale9Sprite.ccbPlugNode */; };
 		E35392871518D89100471721 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35392861518D89100471721 /* CCBPProperties.plist */; };
+		E35A135F15B038D700C9AA15 /* ThoMoClientStub.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A135115B038D700C9AA15 /* ThoMoClientStub.m */; };
+		E35A136015B038D700C9AA15 /* ThoMoNetworkStub.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A135615B038D700C9AA15 /* ThoMoNetworkStub.m */; };
+		E35A136115B038D700C9AA15 /* ThoMoServerStub.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A135915B038D700C9AA15 /* ThoMoServerStub.m */; };
+		E35A136215B038D700C9AA15 /* ThoMoTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A135D15B038D700C9AA15 /* ThoMoTCPConnection.m */; };
+		E35A136615B0395600C9AA15 /* PlayerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A136515B0395600C9AA15 /* PlayerConnection.m */; };
 		E35A2D8D1540111A00F78B72 /* position-0.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D871540111A00F78B72 /* position-0.png */; };
 		E35A2D8E1540111A00F78B72 /* position-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D881540111A00F78B72 /* position-1.png */; };
 		E35A2D8F1540111A00F78B72 /* position-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D891540111A00F78B72 /* position-2.png */; };
@@ -1068,6 +1073,22 @@
 		E353927D1518D78D00471721 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E353927F1518D78D00471721 /* CCScale9Sprite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCScale9Sprite-Prefix.pch"; sourceTree = "<group>"; };
 		E35392861518D89100471721 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		E35A135015B038D700C9AA15 /* ThoMoClientDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoClientDelegateProtocol.h; sourceTree = "<group>"; };
+		E35A135115B038D700C9AA15 /* ThoMoClientStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThoMoClientStub.m; sourceTree = "<group>"; };
+		E35A135215B038D700C9AA15 /* ThoMoClientStub_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoClientStub_private.h; sourceTree = "<group>"; };
+		E35A135315B038D700C9AA15 /* ThoMoClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoClientStub.h; sourceTree = "<group>"; };
+		E35A135415B038D700C9AA15 /* ThoMoNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoNetworking.h; sourceTree = "<group>"; };
+		E35A135515B038D700C9AA15 /* ThoMoNetworkStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoNetworkStub.h; sourceTree = "<group>"; };
+		E35A135615B038D700C9AA15 /* ThoMoNetworkStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThoMoNetworkStub.m; sourceTree = "<group>"; };
+		E35A135815B038D700C9AA15 /* ThoMoServerDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoServerDelegateProtocol.h; sourceTree = "<group>"; };
+		E35A135915B038D700C9AA15 /* ThoMoServerStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThoMoServerStub.m; sourceTree = "<group>"; };
+		E35A135A15B038D700C9AA15 /* ThoMoServerStub_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoServerStub_private.h; sourceTree = "<group>"; };
+		E35A135B15B038D700C9AA15 /* ThoMoServerStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoServerStub.h; sourceTree = "<group>"; };
+		E35A135C15B038D700C9AA15 /* ThoMoTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoTCPConnection.h; sourceTree = "<group>"; };
+		E35A135D15B038D700C9AA15 /* ThoMoTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThoMoTCPConnection.m; sourceTree = "<group>"; };
+		E35A135E15B038D700C9AA15 /* ThoMoTCPConnectionDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoTCPConnectionDelegateProtocol.h; sourceTree = "<group>"; };
+		E35A136415B0395600C9AA15 /* PlayerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerConnection.h; sourceTree = "<group>"; };
+		E35A136515B0395600C9AA15 /* PlayerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerConnection.m; sourceTree = "<group>"; };
 		E35A2D871540111A00F78B72 /* position-0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "position-0.png"; sourceTree = "<group>"; };
 		E35A2D881540111A00F78B72 /* position-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "position-1.png"; sourceTree = "<group>"; };
 		E35A2D891540111A00F78B72 /* position-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "position-2.png"; sourceTree = "<group>"; };
@@ -2177,6 +2198,7 @@
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				776041EA1498FB600078095D /* Dialogs */,
 				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
+				E35A136315B0392800C9AA15 /* Player Connection */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
 				E335CB071577C55F00A612EE /* Node info */,
 				776041E21498F5A70078095D /* Util */,
@@ -2202,6 +2224,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E35A134E15B038D700C9AA15 /* ThoMoNetworking */,
 				E3F541BA15AED66D00EAAFBD /* Fragaria */,
 				E3E087611566907F008F1FDB /* JSCocoa */,
 				E32BBCAA156135C300C58395 /* HashValue */,
@@ -2551,6 +2574,52 @@
 				E35392861518D89100471721 /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E35A134E15B038D700C9AA15 /* ThoMoNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				E35A134F15B038D700C9AA15 /* ThoMoClient */,
+				E35A135315B038D700C9AA15 /* ThoMoClientStub.h */,
+				E35A135415B038D700C9AA15 /* ThoMoNetworking.h */,
+				E35A135515B038D700C9AA15 /* ThoMoNetworkStub.h */,
+				E35A135615B038D700C9AA15 /* ThoMoNetworkStub.m */,
+				E35A135715B038D700C9AA15 /* ThoMoServer */,
+				E35A135B15B038D700C9AA15 /* ThoMoServerStub.h */,
+				E35A135C15B038D700C9AA15 /* ThoMoTCPConnection.h */,
+				E35A135D15B038D700C9AA15 /* ThoMoTCPConnection.m */,
+				E35A135E15B038D700C9AA15 /* ThoMoTCPConnectionDelegateProtocol.h */,
+			);
+			path = ThoMoNetworking;
+			sourceTree = "<group>";
+		};
+		E35A134F15B038D700C9AA15 /* ThoMoClient */ = {
+			isa = PBXGroup;
+			children = (
+				E35A135015B038D700C9AA15 /* ThoMoClientDelegateProtocol.h */,
+				E35A135115B038D700C9AA15 /* ThoMoClientStub.m */,
+				E35A135215B038D700C9AA15 /* ThoMoClientStub_private.h */,
+			);
+			path = ThoMoClient;
+			sourceTree = "<group>";
+		};
+		E35A135715B038D700C9AA15 /* ThoMoServer */ = {
+			isa = PBXGroup;
+			children = (
+				E35A135815B038D700C9AA15 /* ThoMoServerDelegateProtocol.h */,
+				E35A135915B038D700C9AA15 /* ThoMoServerStub.m */,
+				E35A135A15B038D700C9AA15 /* ThoMoServerStub_private.h */,
+			);
+			path = ThoMoServer;
+			sourceTree = "<group>";
+		};
+		E35A136315B0392800C9AA15 /* Player Connection */ = {
+			isa = PBXGroup;
+			children = (
+				E35A136415B0395600C9AA15 /* PlayerConnection.h */,
+				E35A136515B0395600C9AA15 /* PlayerConnection.m */,
+			);
+			name = "Player Connection";
 			sourceTree = "<group>";
 		};
 		E35DBB6A14F21E7D0070A6E4 /* CCLayer */ = {
@@ -4430,6 +4499,11 @@
 				E3DFA79115AC9DD3005D3B6F /* ccCArray.m in Sources */,
 				E3DFA7B115AC9DE1005D3B6F /* CCNode+Debug.m in Sources */,
 				E3F541D415AF04E600EAAFBD /* JavaScriptDocument.m in Sources */,
+				E35A135F15B038D700C9AA15 /* ThoMoClientStub.m in Sources */,
+				E35A136015B038D700C9AA15 /* ThoMoNetworkStub.m in Sources */,
+				E35A136115B038D700C9AA15 /* ThoMoServerStub.m in Sources */,
+				E35A136215B038D700C9AA15 /* ThoMoTCPConnection.m in Sources */,
+				E35A136615B0395600C9AA15 /* PlayerConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

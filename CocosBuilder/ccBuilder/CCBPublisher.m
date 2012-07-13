@@ -31,6 +31,7 @@
 #import "CCBGlobals.h"
 #import "CocosBuilderAppDelegate.h"
 #import "NSString+AppendToFile.h"
+#import "PlayerConnection.h"
 
 @implementation CCBPublisher
 
@@ -271,18 +272,40 @@
         }
     }
     
-    if (projectSettings.publishToZipFile)
+    if (projectSettings.publishToZipFile || runAfterPublishing)
     {
         [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
+        
+        NSString* zipFile = NULL;
+        if (runAfterPublishing)
+        {
+            zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
+        }
+        else
+        {
+            zipFile = [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"];
+        }
+        
+        // Remove the old file
+        [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
         
         // Zip it up!
         NSTask* zipTask = [[NSTask alloc] init];
         [zipTask setCurrentDirectoryPath:outputDir];
         [zipTask setLaunchPath:@"/usr/bin/zip"];
-        NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"], @".", @"-i", @"*", nil];
+        NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", zipFile, @".", @"-i", @"*", nil];
         [zipTask setArguments:args];
         [zipTask launch];
         [zipTask waitUntilExit];
+        
+        if (runAfterPublishing)
+        {
+            [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];
+            
+            // Send to player
+            PlayerConnection* conn = [PlayerConnection sharedPlayerConnection];
+            [conn sendResourceZip:zipFile];
+        }
     }
     
     return YES;
