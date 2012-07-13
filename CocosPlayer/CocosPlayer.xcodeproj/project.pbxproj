@@ -472,6 +472,19 @@
 		E35A13C915B0536600C9AA15 /* CCBSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13C115B0536600C9AA15 /* CCBSequence.m */; };
 		E35A13CA15B0536600C9AA15 /* CCBSequenceProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13C315B0536600C9AA15 /* CCBSequenceProperty.m */; };
 		E35A13CB15B0536600C9AA15 /* CCNode+CCBRelativePositioning.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13C515B0536600C9AA15 /* CCNode+CCBRelativePositioning.m */; };
+		E35A144215B0697F00C9AA15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		E35A145815B0699E00C9AA15 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A144D15B0699E00C9AA15 /* crypt.h */; };
+		E35A145915B0699E00C9AA15 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = E35A144E15B0699E00C9AA15 /* ioapi.c */; };
+		E35A145A15B0699E00C9AA15 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A144F15B0699E00C9AA15 /* ioapi.h */; };
+		E35A145B15B0699E00C9AA15 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = E35A145015B0699E00C9AA15 /* mztools.c */; };
+		E35A145C15B0699E00C9AA15 /* mztools.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A145115B0699E00C9AA15 /* mztools.h */; };
+		E35A145D15B0699E00C9AA15 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = E35A145215B0699E00C9AA15 /* unzip.c */; };
+		E35A145E15B0699E00C9AA15 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A145315B0699E00C9AA15 /* unzip.h */; };
+		E35A145F15B0699E00C9AA15 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E35A145415B0699E00C9AA15 /* zip.c */; };
+		E35A146015B0699E00C9AA15 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A145515B0699E00C9AA15 /* zip.h */; };
+		E35A146115B0699E00C9AA15 /* SSZipArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = E35A145615B0699E00C9AA15 /* SSZipArchive.h */; };
+		E35A146215B0699E00C9AA15 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A145715B0699E00C9AA15 /* SSZipArchive.m */; };
+		E35A146515B069F800C9AA15 /* libSSZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E35A144115B0697F00C9AA15 /* libSSZipArchive.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -502,6 +515,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
 			remoteInfo = cocos2d;
+		};
+		E35A146315B069E800C9AA15 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E35A144015B0697F00C9AA15;
+			remoteInfo = SSZipArchive;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1206,6 +1226,19 @@
 		E35A13C315B0536600C9AA15 /* CCBSequenceProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBSequenceProperty.m; path = ../CocosBuilderExample/CocosBuilderExample/CCBSequenceProperty.m; sourceTree = "<group>"; };
 		E35A13C415B0536600C9AA15 /* CCNode+CCBRelativePositioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CCNode+CCBRelativePositioning.h"; path = "../CocosBuilderExample/CocosBuilderExample/CCNode+CCBRelativePositioning.h"; sourceTree = "<group>"; };
 		E35A13C515B0536600C9AA15 /* CCNode+CCBRelativePositioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CCNode+CCBRelativePositioning.m"; path = "../CocosBuilderExample/CocosBuilderExample/CCNode+CCBRelativePositioning.m"; sourceTree = "<group>"; };
+		E35A144115B0697F00C9AA15 /* libSSZipArchive.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSSZipArchive.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E35A144515B0697F00C9AA15 /* SSZipArchive-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SSZipArchive-Prefix.pch"; sourceTree = "<group>"; };
+		E35A144D15B0699E00C9AA15 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		E35A144E15B0699E00C9AA15 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		E35A144F15B0699E00C9AA15 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		E35A145015B0699E00C9AA15 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		E35A145115B0699E00C9AA15 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		E35A145215B0699E00C9AA15 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		E35A145315B0699E00C9AA15 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		E35A145415B0699E00C9AA15 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		E35A145515B0699E00C9AA15 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		E35A145615B0699E00C9AA15 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = ../CocosBuilder/libs/ssziparchive/SSZipArchive.h; sourceTree = "<group>"; };
+		E35A145715B0699E00C9AA15 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../CocosBuilder/libs/ssziparchive/SSZipArchive.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1269,6 +1302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35A146515B069F800C9AA15 /* libSSZipArchive.a in Frameworks */,
 				A04E8618159B6B7100F4BE65 /* libCocosDenshion.a in Frameworks */,
 				A04E8617159B6B6900F4BE65 /* libChipmunk.a in Frameworks */,
 				A0D6C02D159B6A25008EED97 /* Foundation.framework in Frameworks */,
@@ -1282,6 +1316,14 @@
 				A04E861A159B6B9400F4BE65 /* AudioToolbox.framework in Frameworks */,
 				A00495DA159B8ACB00B5D4DF /* AVFoundation.framework in Frameworks */,
 				A021C073159BAC74008450B6 /* libjs_static.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E35A143E15B0697F00C9AA15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35A144215B0697F00C9AA15 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1299,6 +1341,7 @@
 				503164CD10277665003ACFE7 /* liblibpng.a */,
 				A04A1FEB13B826B300ABAFB7 /* libkazmath.a */,
 				A0D6C037159B6A25008EED97 /* CocosPlayer.app */,
+				E35A144115B0697F00C9AA15 /* libSSZipArchive.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2688,8 +2731,38 @@
 		E35A141015B0552000C9AA15 /* SSZipArchive */ = {
 			isa = PBXGroup;
 			children = (
+				E35A144C15B0699E00C9AA15 /* minizip */,
+				E35A145615B0699E00C9AA15 /* SSZipArchive.h */,
+				E35A145715B0699E00C9AA15 /* SSZipArchive.m */,
+				E35A144415B0697F00C9AA15 /* Supporting Files */,
 			);
 			name = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		E35A144415B0697F00C9AA15 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E35A144515B0697F00C9AA15 /* SSZipArchive-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		E35A144C15B0699E00C9AA15 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				E35A144D15B0699E00C9AA15 /* crypt.h */,
+				E35A144E15B0699E00C9AA15 /* ioapi.c */,
+				E35A144F15B0699E00C9AA15 /* ioapi.h */,
+				E35A145015B0699E00C9AA15 /* mztools.c */,
+				E35A145115B0699E00C9AA15 /* mztools.h */,
+				E35A145215B0699E00C9AA15 /* unzip.c */,
+				E35A145315B0699E00C9AA15 /* unzip.h */,
+				E35A145415B0699E00C9AA15 /* zip.c */,
+				E35A145515B0699E00C9AA15 /* zip.h */,
+			);
+			name = minizip;
+			path = ../CocosBuilder/libs/ssziparchive/minizip;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2941,6 +3014,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E35A143F15B0697F00C9AA15 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35A145815B0699E00C9AA15 /* crypt.h in Headers */,
+				E35A145A15B0699E00C9AA15 /* ioapi.h in Headers */,
+				E35A145C15B0699E00C9AA15 /* mztools.h in Headers */,
+				E35A145E15B0699E00C9AA15 /* unzip.h in Headers */,
+				E35A146015B0699E00C9AA15 /* zip.h in Headers */,
+				E35A146115B0699E00C9AA15 /* SSZipArchive.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -3079,11 +3165,29 @@
 				A04E8616159B6B6200F4BE65 /* PBXTargetDependency */,
 				A04E8614159B6B5D00F4BE65 /* PBXTargetDependency */,
 				A0D6BFEC159B6A25008EED97 /* PBXTargetDependency */,
+				E35A146415B069E800C9AA15 /* PBXTargetDependency */,
 			);
 			name = CocosPlayer;
 			productName = AtlasSpriteTest;
 			productReference = A0D6C037159B6A25008EED97 /* CocosPlayer.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E35A144015B0697F00C9AA15 /* SSZipArchive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E35A144915B0697F00C9AA15 /* Build configuration list for PBXNativeTarget "SSZipArchive" */;
+			buildPhases = (
+				E35A143D15B0697F00C9AA15 /* Sources */,
+				E35A143E15B0697F00C9AA15 /* Frameworks */,
+				E35A143F15B0697F00C9AA15 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SSZipArchive;
+			productName = SSZipArchive;
+			productReference = E35A144115B0697F00C9AA15 /* libSSZipArchive.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -3107,6 +3211,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E35A144015B0697F00C9AA15 /* SSZipArchive */,
 				5042256F0FC0B39C00B992F7 /* box2d */,
 				50B2C4D00E100AEA00AE9530 /* Chipmunk */,
 				5018F24C0DFDEAC400C013A5 /* cocos2d */,
@@ -3451,6 +3556,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E35A143D15B0697F00C9AA15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E35A145915B0699E00C9AA15 /* ioapi.c in Sources */,
+				E35A145B15B0699E00C9AA15 /* mztools.c in Sources */,
+				E35A145D15B0699E00C9AA15 /* unzip.c in Sources */,
+				E35A145F15B0699E00C9AA15 /* zip.c in Sources */,
+				E35A146215B0699E00C9AA15 /* SSZipArchive.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3473,6 +3590,11 @@
 			isa = PBXTargetDependency;
 			target = 5018F24C0DFDEAC400C013A5 /* cocos2d */;
 			targetProxy = A0D6BFED159B6A25008EED97 /* PBXContainerItemProxy */;
+		};
+		E35A146415B069E800C9AA15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E35A144015B0697F00C9AA15 /* SSZipArchive */;
+			targetProxy = E35A146315B069E800C9AA15 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3698,6 +3820,13 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CC_ENABLE_GL_STATE_CACHE=1",
+					"CD_DEBUG=1",
+					DEBUG,
+					"COCOS2D_DEBUG=2",
+					"CCB_ENABLE_UNZIP=1",
+				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -3726,6 +3855,12 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"CC_ENABLE_GL_STATE_CACHE=1",
+					NS_BLOCK_ASSERTIONS,
+					NDEBUG,
+					"CCB_ENABLE_UNZIP=1",
+				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				HEADER_SEARCH_PATHS = (
@@ -3817,6 +3952,45 @@
 			};
 			name = Release;
 		};
+		E35A144A15B0697F00C9AA15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/SSZipArchive.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SSZipArchive/SSZipArchive-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E35A144B15B0697F00C9AA15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/SSZipArchive.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SSZipArchive/SSZipArchive-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3900,6 +4074,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		E35A144915B0697F00C9AA15 /* Build configuration list for PBXNativeTarget "SSZipArchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E35A144A15B0697F00C9AA15 /* Debug */,
+				E35A144B15B0697F00C9AA15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
