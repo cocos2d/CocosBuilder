@@ -13,6 +13,7 @@
 
 #import "ServerController.h"
 #import "PlayerStatusLayer.h"
+#import "CCBReader.h"
 
 // dlopen
 #include <dlfcn.h>
@@ -39,6 +40,9 @@ static AppController* appController = NULL;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     appController = self;
+    
+    // Initalize custom file utils
+    [CCBFileUtils sharedFileUtils];
     
 	// Don't call super
 	// Init the window

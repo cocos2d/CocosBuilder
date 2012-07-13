@@ -15,6 +15,8 @@
 
 @implementation ServerController
 
+#pragma mark Initializers and setup
+
 - (id) init
 {
     self = [super init];
@@ -36,6 +38,8 @@
         NSLog(@"Server started");
     }
 }
+
+#pragma mark Helper methods
 
 - (void) executeJavaScript:(NSString*)script
 {
@@ -80,6 +84,12 @@
 	}
 				  waitUntilDone:NO];
 }
+
+- (void) extractZipData:(NSData*)data
+{
+}
+
+#pragma mark Server callbacks
 
 - (void) server:(ThoMoServerStub *)theServer acceptedConnectionFromClient:(NSString *)aClientIdString
 {
@@ -147,10 +157,14 @@
     else if ([cmd isEqualToString:@"run"])
     {
     }
-    else if ([cmd isEqualToString:@"resource"])
+    else if ([cmd isEqualToString:@"zip"])
     {
+        NSData* zipData = [msg objectForKey:@"data"];
+        [self extractZipData:zipData];
     }
 }
+
+#pragma mark Common
 
 - (void) dealloc
 {
