@@ -171,7 +171,6 @@ static AppController* appController = NULL;
     
     // Run status scene
     [[CCDirector sharedDirector] runWithScene:statusScene];
-	//[[ScriptingCore sharedInstance] runScript:@"javascript-spidermonkey/main.js"];
 }
 
 - (void) setStatus:(NSString*)status forceStop:(BOOL)forceStop

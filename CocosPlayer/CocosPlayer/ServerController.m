@@ -111,6 +111,15 @@
     NSLog(@"Resources unzipped!");
 }
 
+- (void) runMain
+{
+    NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
+    if (fullScriptPath)
+    {
+        [[ScriptingCore sharedInstance] runScript:@"main.js"];
+    }
+}
+
 #pragma mark Server callbacks
 
 - (void) server:(ThoMoServerStub *)theServer acceptedConnectionFromClient:(NSString *)aClientIdString
@@ -178,6 +187,7 @@
     }
     else if ([cmd isEqualToString:@"run"])
     {
+        [self runMain];
     }
     else if ([cmd isEqualToString:@"zip"])
     {
