@@ -11,6 +11,7 @@
 #import "AppController.h"
 
 #import "ScriptingCore.h"
+#import "CCBReader.h"
 #import "js_manual_conversions.h"
 
 @implementation ServerController
@@ -87,6 +88,27 @@
 
 - (void) extractZipData:(NSData*)data
 {
+    NSString* dirPath = [CCBReader ccbDirectoryPath] ;
+    NSString* zipPath = [dirPath stringByAppendingPathComponent:@"ccb.zip"];
+
+    BOOL isDirectory = NO;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDirectory])
+    {
+        [[NSFileManager defaultManager] createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    
+    if(![data writeToFile:zipPath atomically:YES])
+    {
+        NSLog(@"Failed to write zip file");
+        return;
+    }
+    
+    if (![CCBReader unzipResources:zipPath])
+    {
+        NSLog(@"Failed to unzip resources");
+    }
+    
+    NSLog(@"Resources unzipped!");
 }
 
 #pragma mark Server callbacks

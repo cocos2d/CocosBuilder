@@ -78,6 +78,16 @@ static PlayerConnection* sharedPlayerConnection;
     [msg setObject:@"zip" forKey:@"cmd"];
     [msg setObject:zipData forKey:@"data"];
     
+    NSLog(@"Sending zip data (len: %d)", (int)zipData.length);
+    [client sendToAllServers:msg];
+}
+
+- (void) sendRunCommand
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"run" forKey:@"cmd"];
+    
+    NSLog(@"Sending run command!");
     [client sendToAllServers:msg];
 }
 

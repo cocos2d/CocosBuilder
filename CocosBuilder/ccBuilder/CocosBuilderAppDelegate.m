@@ -1729,7 +1729,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     if (publisher.runAfterPublishing)
     {
-        [playerController runPlayerForProject:projectSettings];
+        //[playerController runPlayerForProject:projectSettings];
+        [[PlayerConnection sharedPlayerConnection] sendRunCommand];
     }
     
     [publisher release];

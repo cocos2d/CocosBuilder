@@ -121,6 +121,8 @@ enum
 
 @property (nonatomic,retain) CCBActionManager* actionManager;
 
++ (NSString*) ccbDirectoryPath;
+
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;

@@ -19,5 +19,5 @@
 - (void) run;
 
 - (void) sendResourceZip:(NSString*) zipPath;
-
+- (void) sendRunCommand;
 @end
