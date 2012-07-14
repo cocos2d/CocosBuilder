@@ -132,6 +132,7 @@
     if (connectedClients.count == 1)
     {
         [[AppController appController] setStatus:@"Connected" forceStop:NO];
+        [self sendDeviceName];
     }
     else
     {
@@ -194,6 +195,17 @@
         NSData* zipData = [msg objectForKey:@"data"];
         [self extractZipData:zipData];
     }
+}
+
+#pragma mark Sending messages
+
+- (void) sendDeviceName
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"devicename" forKey:@"cmd"];
+    [msg setObject:[[UIDevice currentDevice] name] forKey:@"devicename"];
+    
+    [server sendToAllClients:msg];
 }
 
 #pragma mark Common

@@ -76,6 +76,7 @@
 #import "SequencerKeyframeEasingWindow.h"
 #import "JavaScriptDocument.h"
 #import "PlayerConnection.h"
+#import "PlayerConsoleWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1739,7 +1740,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)runProject:(id)sender
 {
-    
+    if (!playerConsoleWindow)
+    {
+        playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
+    }
+    [playerConsoleWindow.window makeKeyAndOrderFront:self];
 }
 
 - (IBAction) menuPublishProject:(id)sender

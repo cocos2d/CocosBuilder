@@ -7,7 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PlayerConnection.h"
 
-@interface PlayerConsoleWindow : NSWindowController
+@interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate>
+{
+    IBOutlet NSPopUpButton* devicePopup;
+    IBOutlet NSMenu* deviceMenu;
+}
 
 @end

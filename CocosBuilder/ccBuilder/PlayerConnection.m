@@ -12,6 +12,9 @@ static PlayerConnection* sharedPlayerConnection;
 
 @implementation PlayerConnection
 
+@synthesize delegate;
+@synthesize selectedServer;
+
 + (PlayerConnection*) sharedPlayerConnection
 {
     return  sharedPlayerConnection;
@@ -23,6 +26,8 @@ static PlayerConnection* sharedPlayerConnection;
     if (!self) return NULL;
     
     sharedPlayerConnection = self;
+    
+    connectedServers = [[NSMutableDictionary alloc] init];
     
     client = [[ThoMoClientStub alloc] initWithProtocolIdentifier:@"CocosPlayer"];
     client.delegate = self;
@@ -37,19 +42,81 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (void) dealloc
 {
+    [connectedServers release];
+    [selectedServer release];
     [client release];
     [super dealloc];
 }
 
+- (NSDictionary*) connectedServers
+{
+    return connectedServers;
+}
+
+- (void) setSelectedServer:(NSString *)server
+{
+    NSString* serverName = [connectedServers objectForKey:server];
+    if (serverName)
+    {
+        // Server exist
+        if (server != selectedServer)
+        {
+            [selectedServer release];
+            selectedServer = [server copy];
+        }
+    }
+    else
+    {
+        // Server doesn't exist, fall back on current selection
+        NSString* currentServerName = [connectedServers objectForKey:selectedServer];
+        if (!currentServerName)
+        {
+            // Current server selection is invalid. Select another one
+            if (connectedServers.count == 0)
+            {
+                // There are no servers
+                [selectedServer release];
+                selectedServer = NULL;
+            }
+            else
+            {
+                // Select another server at random
+                [selectedServer release];
+                selectedServer = [[[connectedServers keyEnumerator] nextObject] copy];
+            }
+        }
+    }
+}
+
 - (void)client:(ThoMoClientStub *)theClient didConnectToServer:(NSString *)aServerIdString
 {
-    NSLog(@"Connected");
+    NSLog(@"Connected: %@", aServerIdString);
+    
+    [connectedServers setObject:aServerIdString forKey:aServerIdString];
+    
+    // Select the server if no other server is selected
+    if (!selectedServer)
+    {
+        self.selectedServer = aServerIdString;
+    }
+    
+    [delegate playerConnection:self updatedPlayerList:connectedServers];
 }
 
 
 - (void)client:(ThoMoClientStub *)theClient didDisconnectFromServer:(NSString *)aServerIdString errorMessage:(NSString *)errorMessage
 {
-    NSLog(@"Disconnected");
+    NSLog(@"Disconnected: %@", aServerIdString);
+    
+    [connectedServers removeObjectForKey:aServerIdString];
+    
+    if ([aServerIdString isEqualToString:selectedServer])
+    {
+        // Select another server is the current one is disconnected
+        [self setSelectedServer:[[connectedServers keyEnumerator] nextObject]];
+    }
+    
+    [delegate playerConnection:self updatedPlayerList:connectedServers];
 }
 
 
@@ -65,7 +132,20 @@ static PlayerConnection* sharedPlayerConnection;
 }
 
 -(void)client:(ThoMoClientStub *)theClient didReceiveData:(id)theData fromServer:(NSString *)aServerIdString
-{}
+{
+    NSDictionary* msg = theData;
+    
+    NSString* cmd = [msg objectForKey:@"cmd"];
+    
+    if ([cmd isEqualToString:@"devicename"])
+    {
+        NSString* serverName = [msg objectForKey:@"devicename"];
+        [connectedServers setObject:serverName forKey:aServerIdString];
+        [delegate playerConnection:self updatedPlayerList:connectedServers];
+        
+        NSLog(@"Got device name: %@", serverName);
+    }
+}
 
 #pragma mark Sending data
 

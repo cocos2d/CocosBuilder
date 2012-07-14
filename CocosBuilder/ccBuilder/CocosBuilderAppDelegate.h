@@ -69,6 +69,7 @@ enum {
 @class SequencerHandler;
 @class SequencerScrubberSelectionView;
 @class MainWindow;
+@class PlayerConsoleWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -164,6 +165,7 @@ enum {
     
     // Player
     PlayerController* playerController;
+    PlayerConsoleWindow* playerConsoleWindow;
     
     // Animation playback
     BOOL playingBack;

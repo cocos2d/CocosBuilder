@@ -19,4 +19,6 @@
 
 - (void) start;
 
+- (void) sendDeviceName;
+
 @end
