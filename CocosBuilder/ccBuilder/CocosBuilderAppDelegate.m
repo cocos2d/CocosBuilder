@@ -1731,9 +1731,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         //[playerController runPlayerForProject:projectSettings];
         [[PlayerConnection sharedPlayerConnection] sendRunCommand];
+        [self runProject:self];
     }
     
     [publisher release];
+}
+
+- (IBAction)runProject:(id)sender
+{
+    
 }
 
 - (IBAction) menuPublishProject:(id)sender

@@ -270,8 +270,9 @@ enum {
 
 - (IBAction) debug:(id)sender;
 
-// Publishing
+// Publishing & running
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings;
+- (IBAction)runProject:(id)sender;
 
 // For warning messages
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;
