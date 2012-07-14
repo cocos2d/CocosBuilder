@@ -125,6 +125,7 @@
     else
     {
         absPath = [[ResourceManager sharedManager] toAbsolutePath:fontFile];
+        absPath = [CCBFileUtil toResolutionIndependentFile:absPath];
     }
     
     @try
