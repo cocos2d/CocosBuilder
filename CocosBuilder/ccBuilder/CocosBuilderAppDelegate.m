@@ -2172,7 +2172,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [[CCTextureCache sharedTextureCache] removeAllTextures];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
-    
+    FNTConfigRemoveCache();  
+  
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
