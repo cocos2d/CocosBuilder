@@ -9,10 +9,28 @@
 #import <Cocoa/Cocoa.h>
 #import "PlayerConnection.h"
 
-@interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate>
+@class MGSFragaria;
+@class SMLTextView;
+
+@interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate,NSWindowDelegate>
 {
     IBOutlet NSPopUpButton* devicePopup;
     IBOutlet NSMenu* deviceMenu;
+    
+    IBOutlet NSTextView* textView;
+    BOOL scrolledToBottomWhenResizing;
+    
+    // Javascript editor
+    IBOutlet NSView* jsView;
+    
+    MGSFragaria* fragaria;
+    SMLTextView* fragariaTextView;
 }
+
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
+
+- (IBAction)pressedPlay:(id)sender;
+- (IBAction)pressedStop:(id)sender;
+- (IBAction)pressedSendJSCode:(id)sender;
 
 @end

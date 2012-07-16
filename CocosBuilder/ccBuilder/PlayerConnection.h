@@ -14,6 +14,7 @@
 @protocol PlayerConnectionDelegate <NSObject>
 
 - (void) playerConnection: (PlayerConnection*)playerConn updatedPlayerList:(NSDictionary*)playerList;
+- (void) playerConnection:(PlayerConnection *)playerConn receivedResult:(NSString*)result;
 
 @end
 
@@ -30,6 +31,7 @@
 @property (nonatomic,retain) NSObject<PlayerConnectionDelegate>* delegate;
 @property (nonatomic,readonly) NSDictionary* connectedServers;
 @property (nonatomic,copy) NSString* selectedServer;
+@property (nonatomic,readonly) BOOL connected;
 
 + (PlayerConnection*) sharedPlayerConnection;
 
@@ -37,4 +39,5 @@
 
 - (void) sendResourceZip:(NSString*) zipPath;
 - (void) sendRunCommand;
+- (void) sendJavaScript:(NSString*)script;
 @end

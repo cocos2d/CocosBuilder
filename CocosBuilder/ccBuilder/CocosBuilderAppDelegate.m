@@ -1730,8 +1730,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     if (publisher.runAfterPublishing)
     {
-        //[playerController runPlayerForProject:projectSettings];
-        [[PlayerConnection sharedPlayerConnection] sendRunCommand];
+        //[playerController runPlayerForProject:projectSettings]
         [self runProject:self];
     }
     
@@ -1745,6 +1744,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
     }
     [playerConsoleWindow.window makeKeyAndOrderFront:self];
+    
+    [[PlayerConnection sharedPlayerConnection] sendRunCommand];
 }
 
 - (IBAction) menuPublishProject:(id)sender

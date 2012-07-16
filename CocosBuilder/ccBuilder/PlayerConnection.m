@@ -145,9 +145,28 @@ static PlayerConnection* sharedPlayerConnection;
         
         NSLog(@"Got device name: %@", serverName);
     }
+    else if ([cmd isEqualToString:@"result"])
+    {
+        NSString* result = [msg objectForKey:@"result"];
+        [delegate playerConnection:self receivedResult:result];
+    }
+}
+
+- (BOOL) connected
+{
+    if (!selectedServer) return NO;
+    if ([connectedServers objectForKey:selectedServer]) return YES;
+    return NO;
 }
 
 #pragma mark Sending data
+
+- (void) sendMessage:(NSDictionary*) msg
+{
+    if (![self connected]) return;
+    
+    [client send:msg toServer:selectedServer];
+}
 
 - (void) sendResourceZip:(NSString*) zipPath
 {
@@ -159,7 +178,16 @@ static PlayerConnection* sharedPlayerConnection;
     [msg setObject:zipData forKey:@"data"];
     
     NSLog(@"Sending zip data (len: %d)", (int)zipData.length);
-    [client sendToAllServers:msg];
+    [self sendMessage:msg];
+}
+
+- (void) sendJavaScript:(NSString*)script
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"script" forKey:@"cmd"];
+    [msg setObject:script forKey:@"script"];
+    
+    [self sendMessage:msg];
 }
 
 - (void) sendRunCommand
@@ -168,7 +196,7 @@ static PlayerConnection* sharedPlayerConnection;
     [msg setObject:@"run" forKey:@"cmd"];
     
     NSLog(@"Sending run command!");
-    [client sendToAllServers:msg];
+    [self sendMessage:msg];
 }
 
 @end

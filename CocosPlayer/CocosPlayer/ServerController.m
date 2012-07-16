@@ -80,8 +80,7 @@
 			string = [NSString stringWithFormat:@"Error evaluating script:\n#############################\n%@\n#############################\n", script];
 		}
 		
-		[server sendToAllClients:string];
-		
+		[self sendResultString:string];
 	}
 				  waitUntilDone:NO];
 }
@@ -199,13 +198,30 @@
 
 #pragma mark Sending messages
 
+- (void) sendMessage:(NSDictionary*) msg
+{
+    if (connectedClients.count == 1)
+    {
+        [server sendToAllClients:msg];
+    }
+}
+
 - (void) sendDeviceName
 {
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"devicename" forKey:@"cmd"];
     [msg setObject:[[UIDevice currentDevice] name] forKey:@"devicename"];
+
+    [self sendMessage:msg];
+}
+
+- (void) sendResultString:(NSString*) str
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"result" forKey:@"cmd"];
+    [msg setObject:str forKey:@"result"];
     
-    [server sendToAllClients:msg];
+    [self sendMessage:msg];
 }
 
 #pragma mark Common

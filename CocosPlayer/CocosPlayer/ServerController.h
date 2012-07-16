@@ -20,5 +20,6 @@
 - (void) start;
 
 - (void) sendDeviceName;
+- (void) sendResultString:(NSString*) str;
 
 @end
