@@ -17,6 +17,8 @@
 
 @implementation PlayerConsoleWindow
 
+@synthesize playerConnection;
+
 #pragma mark Init & Setup
 
 - (id)initWithWindow:(NSWindow *)window
@@ -27,7 +29,8 @@
     }
     
     // Setup delegate
-    [PlayerConnection sharedPlayerConnection].delegate = self;
+    playerConnection = [PlayerConnection sharedPlayerConnection];
+    playerConnection.delegate = self;
     
     return self;
 }
@@ -53,7 +56,7 @@
             
             [deviceMenu addItem:item];
             
-            if ([serverIdentifier isEqualToString:[PlayerConnection sharedPlayerConnection].selectedServer])
+            if ([serverIdentifier isEqualToString:playerConnection.selectedServer])
             {
                 selectedItem = item;
             }
@@ -77,7 +80,7 @@
 {
     NSMenuItem* item = sender;
     
-    [PlayerConnection sharedPlayerConnection].selectedServer = item.representedObject;
+    playerConnection.selectedServer = item.representedObject;
 }
 
 - (void) setupFragaria
@@ -122,13 +125,14 @@
 
 - (IBAction)pressedStop:(id)sender
 {
+    [playerConnection sendStopCommand];
 }
 
 - (IBAction)pressedSendJSCode:(id)sender
 {
     NSString* script = [fragariaTextView string];
     
-    [[PlayerConnection sharedPlayerConnection] sendJavaScript:script];
+    [playerConnection sendJavaScript:script];
 }
 
 #pragma mark PlayerConnection delegate

@@ -39,5 +39,6 @@
 
 - (void) sendResourceZip:(NSString*) zipPath;
 - (void) sendRunCommand;
+- (void) sendStopCommand;
 - (void) sendJavaScript:(NSString*)script;
 @end

@@ -101,6 +101,10 @@ static PlayerConnection* sharedPlayerConnection;
     }
     
     [delegate playerConnection:self updatedPlayerList:connectedServers];
+    
+    // Update property
+    [self willChangeValueForKey:@"connected"];
+    [self didChangeValueForKey:@"connected"];
 }
 
 
@@ -117,6 +121,10 @@ static PlayerConnection* sharedPlayerConnection;
     }
     
     [delegate playerConnection:self updatedPlayerList:connectedServers];
+    
+    // Update property
+    [self willChangeValueForKey:@"connected"];
+    [self didChangeValueForKey:@"connected"];
 }
 
 
@@ -196,6 +204,15 @@ static PlayerConnection* sharedPlayerConnection;
     [msg setObject:@"run" forKey:@"cmd"];
     
     NSLog(@"Sending run command!");
+    [self sendMessage:msg];
+}
+
+- (void) sendStopCommand
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"stop" forKey:@"cmd"];
+    
+    NSLog(@"Sending stop command!");
     [self sendMessage:msg];
 }
 

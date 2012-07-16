@@ -110,8 +110,15 @@
     NSLog(@"Resources unzipped!");
 }
 
+- (void) stopMain
+{
+    
+}
+
 - (void) runMain
 {
+    [self stopMain];
+    
     NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
     if (fullScriptPath)
     {
@@ -188,6 +195,10 @@
     else if ([cmd isEqualToString:@"run"])
     {
         [self runMain];
+    }
+    else if ([cmd isEqualToString:@"stop"])
+    {
+        [self stopMain];
     }
     else if ([cmd isEqualToString:@"zip"])
     {

@@ -14,6 +14,8 @@
 
 @interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate,NSWindowDelegate>
 {
+    PlayerConnection* playerConnection;
+    
     IBOutlet NSPopUpButton* devicePopup;
     IBOutlet NSMenu* deviceMenu;
     
@@ -26,6 +28,8 @@
     MGSFragaria* fragaria;
     SMLTextView* fragariaTextView;
 }
+
+@property (nonatomic,readonly) PlayerConnection* playerConnection;
 
 - (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
 
