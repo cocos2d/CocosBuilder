@@ -12,6 +12,45 @@
 
 @synthesize isExpanded;
 
+- (void) loadImages
+{
+    imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
+    [imgExpand setFlipped:YES];
+    [imgExpand retain];
+    
+    imgCollapse = [NSImage imageNamed:@"seq-btn-collapse.png"];
+    [imgCollapse setFlipped:YES];
+    [imgCollapse retain];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    [self loadImages];
+    return self;
+}
+
+- (id) initImageCell:(NSImage *)image
+{
+    self = [super initImageCell:image];
+    [self loadImages];
+    return self;
+}
+
+- (id) initTextCell:(NSString *)aString
+{
+    self = [super initTextCell:aString];
+    [self loadImages];
+    return self;
+}
+
+- (id) init
+{
+    self = [super init];
+    [self loadImages];
+    return self;
+}
+
 - (BOOL) trackMouse:(NSEvent *)theEvent
              inRect:(NSRect)cellFrame
              ofView:(NSView *)controlView
@@ -33,6 +72,7 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    /*
     if (!imgExpand)
     {
         imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
@@ -45,6 +85,7 @@
         [imgCollapse setFlipped:YES];
         [imgCollapse retain];
     }
+    */
     
     if (isExpanded)
     {
@@ -58,8 +99,9 @@
 
 - (void) dealloc
 {
-    [imgExpand release];
-    [imgCollapse release];
+#warning Why do I get the -[NSImage release]: message sent to deallocated instance ??
+    //[imgExpand release];
+    //[imgCollapse release];
     [super dealloc];
 }
 

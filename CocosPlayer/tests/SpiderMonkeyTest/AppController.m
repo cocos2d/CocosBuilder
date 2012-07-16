@@ -156,7 +156,7 @@ static AppController* appController = NULL;
 
 - (void) setupStatusScene
 {
-    PlayerStatusLayer* statusLayer = [[[PlayerStatusLayer alloc] init] autorelease];
+    PlayerStatusLayer* statusLayer = (PlayerStatusLayer*)[CCBReader nodeGraphFromFile:@"StatusLayer.ccbi"];
     statusScene = [[CCScene node] retain];
     [statusScene addChild:statusLayer];
 }
