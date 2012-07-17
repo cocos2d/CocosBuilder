@@ -18,6 +18,7 @@
     
     IBOutlet NSPopUpButton* devicePopup;
     IBOutlet NSMenu* deviceMenu;
+    IBOutlet NSButton *btnPairing;
     
     IBOutlet NSTextView* textView;
     BOOL scrolledToBottomWhenResizing;
@@ -36,5 +37,6 @@
 - (IBAction)pressedPlay:(id)sender;
 - (IBAction)pressedStop:(id)sender;
 - (IBAction)pressedSendJSCode:(id)sender;
+- (IBAction)pressedPairing:(id)sender;
 
 @end

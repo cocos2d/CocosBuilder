@@ -7,6 +7,7 @@
 //
 
 #import "PlayerConsoleWindow.h"
+#import "PlayerConsolePairingWindow.h"
 #import "MGSFragaria.h"
 #import "SMLTextView.h"
 #import "CocosBuilderAppDelegate.h"
@@ -103,6 +104,20 @@
     fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
 }
 
+- (void) updatePairingButton
+{
+    NSString* pairing = [[NSUserDefaults standardUserDefaults] objectForKey:@"pairing"];
+    
+    if (pairing)
+    {
+        [btnPairing setTitle:pairing];
+    }
+    else
+    {
+        [btnPairing setTitle:@"Auto"];
+    }
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
@@ -110,6 +125,7 @@
     [self setupFragaria];
     
     [self setupDeviceMenu];
+    [self updatePairingButton];
     
     [self writeToConsole:@"CocosPlayer JavaScript Console\n" bold:NO];
     
@@ -133,6 +149,30 @@
     NSString* script = [fragariaTextView string];
     
     [playerConnection sendJavaScript:script];
+}
+
+- (IBAction)pressedPairing:(id)sender
+{
+    PlayerConsolePairingWindow* wc = [[[PlayerConsolePairingWindow alloc] initWithWindowNibName:@"PlayerConsolePairingWindow"] autorelease];
+    
+    int pairing = [[[NSUserDefaults standardUserDefaults] objectForKey:@"pairing"] intValue];
+    wc.pairing = pairing;
+    
+    int success = [wc runModalSheetForWindow:self.window];
+    if (success)
+    {
+        NSLog(@"Setting pairing! %d", wc.pairing);
+        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%d",wc.pairing] forKey:@"pairing"];
+    }
+    else
+    {
+        NSLog(@"Removing pairing!");
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"pairing"];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self updatePairingButton];
+    [playerConnection updatePairing];
 }
 
 #pragma mark PlayerConnection delegate

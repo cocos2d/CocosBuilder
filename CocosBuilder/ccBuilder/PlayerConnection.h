@@ -36,6 +36,7 @@
 + (PlayerConnection*) sharedPlayerConnection;
 
 - (void) run;
+- (void) updatePairing;
 
 - (void) sendResourceZip:(NSString*) zipPath;
 - (void) sendRunCommand;

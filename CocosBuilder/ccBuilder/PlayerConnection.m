@@ -20,6 +20,20 @@ static PlayerConnection* sharedPlayerConnection;
     return  sharedPlayerConnection;
 }
 
+- (NSString*) protocolIdentifier
+{
+    NSString* pairing = [[NSUserDefaults standardUserDefaults] objectForKey:@"pairing"];
+    
+    if (pairing)
+    {
+        return [NSString stringWithFormat:@"CocosP-%@",pairing];
+    }
+    else
+    {
+        return @"CocosPlayer";
+    }
+}
+
 - (id) init
 {
     self = [super init];
@@ -29,7 +43,7 @@ static PlayerConnection* sharedPlayerConnection;
     
     connectedServers = [[NSMutableDictionary alloc] init];
     
-    client = [[ThoMoClientStub alloc] initWithProtocolIdentifier:@"CocosPlayer"];
+    client = [[ThoMoClientStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
     client.delegate = self;
     
     return self;
@@ -38,6 +52,19 @@ static PlayerConnection* sharedPlayerConnection;
 - (void) run
 {
     [client start];
+}
+
+- (void) updatePairing
+{
+    [client stop];
+    [client release];
+    [connectedServers removeAllObjects];
+    
+    client = [[ThoMoClientStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
+    client.delegate = self;
+    [client start];
+    
+    [delegate playerConnection:self updatedPlayerList:connectedServers];
 }
 
 - (void) dealloc
