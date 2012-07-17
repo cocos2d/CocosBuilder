@@ -3,11 +3,13 @@
 #import "cocos2d.h"
 
 @class ServerController;
+@class PlayerStatusLayer;
 
 @interface AppController : BaseAppController
 {
     ServerController* server;
-    CCScene* statusScene;
+    NSString* serverStatus;
+    PlayerStatusLayer* statusLayer;
 }
 
 + (AppController*) appController;

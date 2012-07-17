@@ -17,6 +17,8 @@
     NSMutableSet* connectedClients;
 }
 
+@property (nonatomic,copy) NSString* serverStatus;
+
 - (void) start;
 - (void) updatePairing;
 

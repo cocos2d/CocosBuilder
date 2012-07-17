@@ -41,6 +41,8 @@ static AppController* appController = NULL;
 {
     appController = self;
     
+    [self setStatus:kCCBStatusStringWaiting forceStop:NO];
+    
     // Initalize custom file utils
     [CCBFileUtils sharedFileUtils];
     
@@ -148,39 +150,45 @@ static AppController* appController = NULL;
 
 -(void)dealloc
 {
-    [statusScene release];
     [server release];
     
 	[super dealloc];
 }
 
-- (void) setupStatusScene
+- (CCScene*) createStatusScene
 {
-    PlayerStatusLayer* statusLayer = (PlayerStatusLayer*)[CCBReader nodeGraphFromFile:@"StatusLayer.ccbi"];
-    statusScene = [[CCScene node] retain];
+    statusLayer = (PlayerStatusLayer*)[CCBReader nodeGraphFromFile:@"StatusLayer.ccbi"];
+    CCScene* statusScene = [CCScene node];
     [statusScene addChild:statusLayer];
+    
+    [statusLayer setStatus:serverStatus];
+    
+    return statusScene;
 }
 
 -(void) run
 {
-    [self setupStatusScene];
-    
 	// Init server
 	server = [[ServerController alloc] init];
     [server start];
     
     // Run status scene
-    [[CCDirector sharedDirector] runWithScene:statusScene];
+    [[CCDirector sharedDirector] runWithScene:[self createStatusScene]];
 }
 
 - (void) setStatus:(NSString*)status forceStop:(BOOL)forceStop
 {
-    [[PlayerStatusLayer sharedInstance] setStatus:status];
+    [serverStatus release];
+    serverStatus = [status copy];
+    
+    [statusLayer setStatus:status];
 }
 
 - (void) runJSApp
 {
     [self stopJSApp];
+    
+    statusLayer = NULL;
     
     NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
     if (fullScriptPath)
@@ -191,7 +199,7 @@ static AppController* appController = NULL;
 
 - (void) stopJSApp
 {
-    [[CCDirector sharedDirector] replaceScene:statusScene];
+    [[CCDirector sharedDirector] replaceScene:[self createStatusScene]];
 }
 
 - (void) updatePairing
