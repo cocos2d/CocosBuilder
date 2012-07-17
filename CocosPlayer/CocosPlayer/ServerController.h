@@ -18,6 +18,7 @@
 }
 
 - (void) start;
+- (void) updatePairing;
 
 - (void) sendDeviceName;
 - (void) sendResultString:(NSString*) str;

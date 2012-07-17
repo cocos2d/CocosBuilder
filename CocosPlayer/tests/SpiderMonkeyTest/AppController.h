@@ -14,5 +14,7 @@
 
 - (void) setStatus:(NSString*)status forceStop:(BOOL)forceStop;
 
+- (void) runJSApp;
+- (void) stopJSApp;
 @end
 

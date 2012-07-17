@@ -9,9 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface PlayerStatusLayer : CCLayer
+#define kCCBStatusStringWaiting @"Waiting for connections"
+#define kCCBStatusStringTooMany @"Too many connections"
+#define kCCBStatusStringConnected @"Connected"
+
+@interface PlayerStatusLayer : CCLayer<UITextFieldDelegate>
 {
+    CCMenuItemImage* btnRun;
+    CCMenuItemImage* btnReset;
+    CCMenuItemImage* btnPair;
+    
     CCLabelTTF* lblStatus;
+    CCLabelTTF* lblInstructions;
+    CCLabelTTF* lblPair;
 }
 
 + (PlayerStatusLayer*) sharedInstance;

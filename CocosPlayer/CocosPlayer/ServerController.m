@@ -112,18 +112,12 @@
 
 - (void) stopMain
 {
-    
+    [[AppController appController] stopJSApp];
 }
 
 - (void) runMain
 {
-    [self stopMain];
-    
-    NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
-    if (fullScriptPath)
-    {
-        [[ScriptingCore sharedInstance] runScript:@"main.js"];
-    }
+    [[AppController appController] runJSApp];
 }
 
 #pragma mark Server callbacks
@@ -137,12 +131,12 @@
     
     if (connectedClients.count == 1)
     {
-        [[AppController appController] setStatus:@"Connected" forceStop:NO];
+        [[AppController appController] setStatus:kCCBStatusStringConnected forceStop:NO];
         [self sendDeviceName];
     }
     else
     {
-        [[AppController appController] setStatus: @"Connected to more than one client" forceStop:YES];
+        [[AppController appController] setStatus: kCCBStatusStringTooMany forceStop:YES];
     }
 }
 
@@ -153,15 +147,15 @@
     
     if (connectedClients.count == 0)
     {
-        [[AppController appController] setStatus:@"Waiting for connections" forceStop:YES];
+        [[AppController appController] setStatus:kCCBStatusStringWaiting forceStop:YES];
     }
     else if (connectedClients.count == 1)
     {
-        [[AppController appController] setStatus:@"Connected" forceStop:NO];
+        [[AppController appController] setStatus:kCCBStatusStringConnected forceStop:NO];
     }
     else
     {
-        [[AppController appController] setStatus: @"Connected to more than one client" forceStop:YES];
+        [[AppController appController] setStatus: kCCBStatusStringTooMany forceStop:YES];
     }
 }
 

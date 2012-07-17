@@ -178,6 +178,22 @@ static AppController* appController = NULL;
     [[PlayerStatusLayer sharedInstance] setStatus:status];
 }
 
+- (void) runJSApp
+{
+    [self stopJSApp];
+    
+    NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
+    if (fullScriptPath)
+    {
+        [[ScriptingCore sharedInstance] runScript:@"main.js"];
+    }
+}
+
+- (void) stopJSApp
+{
+    [[CCDirector sharedDirector] replaceScene:statusScene];
+}
+
 @end
 
 

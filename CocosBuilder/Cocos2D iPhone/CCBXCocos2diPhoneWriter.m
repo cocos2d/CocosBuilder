@@ -757,7 +757,7 @@
                 NSString* a = [baseValue objectAtIndex:0];
                 NSString* b = [baseValue objectAtIndex:1];
                 if ([b isEqualToString:@"Use regular file"]) b = @"";
-                value = [NSArray arrayWithObjects:a, b, nil];
+                value = [NSArray arrayWithObjects:b, a, nil];
             }
             else
             {
