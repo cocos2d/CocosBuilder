@@ -9,5 +9,10 @@
 #import "CCBModalSheetController.h"
 
 @interface PlayerConsolePairingWindow : CCBModalSheetController
+{
+    int pairing;
+}
+
+@property (nonatomic,assign) int pairing;
 
 @end

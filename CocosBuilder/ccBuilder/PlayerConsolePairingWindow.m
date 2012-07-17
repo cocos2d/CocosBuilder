@@ -14,6 +14,8 @@
 
 @implementation PlayerConsolePairingWindow
 
+@synthesize pairing;
+
 - (id)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
