@@ -12,6 +12,7 @@
 #define kCCBStatusStringWaiting @"Waiting for connections"
 #define kCCBStatusStringTooMany @"Too many connections"
 #define kCCBStatusStringConnected @"Connected"
+#define kCCBStatusStringShutDown @"Server shut down"
 
 @interface PlayerStatusLayer : CCLayer<UITextFieldDelegate>
 {

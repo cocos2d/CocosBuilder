@@ -16,5 +16,8 @@
 
 - (void) runJSApp;
 - (void) stopJSApp;
+
+- (void) updatePairing;
+
 @end
 

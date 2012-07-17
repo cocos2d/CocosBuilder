@@ -18,6 +18,20 @@
 
 #pragma mark Initializers and setup
 
+- (NSString*) protocolIdentifier
+{
+    NSString* pairing = [[NSUserDefaults standardUserDefaults] objectForKey:@"pairing"];
+    
+    if (pairing)
+    {
+        return [NSString stringWithFormat:@"CocosP-%@",pairing];
+    }
+    else
+    {
+        return @"CocosPlayer";
+    }
+}
+
 - (id) init
 {
     self = [super init];
@@ -25,7 +39,7 @@
     
     connectedClients = [[NSMutableSet alloc] init];
     
-    server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:@"CocosPlayer"];
+    server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
     [server setDelegate:self];
     
     return self;
@@ -38,6 +52,22 @@
         [server start];
         NSLog(@"Server started");
     }
+}
+
+- (void) updatePairing
+{
+    // Stop old server
+    [server stop];
+    [server release];
+    server = NULL;
+    [connectedClients removeAllObjects];
+    
+    // Start new server
+    server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
+    [server setDelegate:self];
+    [server start];
+    
+    [[PlayerStatusLayer sharedInstance] setStatus:kCCBStatusStringWaiting];
 }
 
 #pragma mark Helper methods
@@ -161,14 +191,10 @@
 
 - (void)serverDidShutDown:(ThoMoServerStub *)theServer
 {
-    NSLog(@"Server shut down");
-    exit(1);
 }
 
 - (void)netServiceProblemEncountered:(NSString *)errorMessage onServer:(ThoMoServerStub *)theServer
 {
-    NSLog(@"Net service problem: %@", errorMessage);
-    exit(1);
 }
 
 - (void) server:(ThoMoServerStub *)theServer didReceiveData:(id)theData fromClient:(NSString *)aClientIdString

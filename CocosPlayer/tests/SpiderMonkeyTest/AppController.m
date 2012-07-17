@@ -194,6 +194,11 @@ static AppController* appController = NULL;
     [[CCDirector sharedDirector] replaceScene:statusScene];
 }
 
+- (void) updatePairing
+{
+    [server updatePairing];
+}
+
 @end
 
 

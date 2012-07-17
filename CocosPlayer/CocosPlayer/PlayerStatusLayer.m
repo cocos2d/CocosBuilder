@@ -9,6 +9,7 @@
 #import "PlayerStatusLayer.h"
 #import "CCBReader.h"
 #import "AppController.h"
+#import "ServerController.h"
 
 static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
 
@@ -108,6 +109,7 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [self updatePairingLabel];
+    [[AppController appController] updatePairing];
 }
 
 - (BOOL)textField:(UITextField *)theTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string 
