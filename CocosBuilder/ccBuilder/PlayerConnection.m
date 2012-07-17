@@ -64,7 +64,13 @@ static PlayerConnection* sharedPlayerConnection;
     client.delegate = self;
     [client start];
     
+    [selectedServer release];
+    selectedServer = NULL;
+    
     [delegate playerConnection:self updatedPlayerList:connectedServers];
+    
+    [self willChangeValueForKey:@"connected"];
+    [self didChangeValueForKey:@"connected"];
 }
 
 - (void) dealloc
