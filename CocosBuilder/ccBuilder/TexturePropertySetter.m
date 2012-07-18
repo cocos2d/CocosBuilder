@@ -63,13 +63,16 @@
         @try
         {
             fileName = [CCBFileUtil toResolutionIndependentFile:fileName];
-            CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
-            
-            if (texture)
+            if (fileName)
             {
-                CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
+                CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
+            
+                if (texture)
+                {
+                    CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
                 
-                spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+                    spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+                }
             }
         }
         @catch (NSException *exception) {
