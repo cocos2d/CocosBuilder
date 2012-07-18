@@ -30,7 +30,7 @@
 #endif
 
 #ifdef CCB_ENABLE_JAVASCRIPT
-#import "JSCocoa.h"
+//#import "JSCocoa.h"
 #endif
 
 @implementation CCBReader
@@ -576,6 +576,7 @@
         if (setProp)
         {
 #ifdef CCB_ENABLE_JAVASCRIPT
+            /*
             if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
             {
                 void (^block)(id sender);
@@ -594,7 +595,7 @@
                 {
                     NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
                 }
-            }
+            }*/
 #else
             if (selectorTarget)
             {
@@ -722,10 +723,11 @@
     
     // Assign to variable (if applicable)
 #ifdef CCB_ENABLE_JAVASCRIPT
+    /*
     if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
     {
         [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
-    }
+    }*/
 #else
     if (memberVarAssignmentType)
     {

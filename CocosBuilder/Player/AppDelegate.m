@@ -25,7 +25,7 @@
 #import "AppDelegate.h"
 #import "CCBPFileUtils.h"
 #import "CCBReader.h"
-#import "JSCocoa.h"
+//#import "JSCocoa.h"
 #import "ConsoleWindow.h"
 
 @implementation AppDelegate
@@ -76,6 +76,7 @@
 
 - (void) setupJavaScript
 {
+    /*
     JSCocoa* jsController = [JSCocoa sharedController];
     
     CCFileUtils* fileUtils = [CCFileUtils sharedFileUtils];
@@ -85,6 +86,7 @@
     
     NSString* mainScript = [fileUtils fullPathFromRelativePath:@"main.js"];
     [jsController evalJSFile:mainScript];
+     */
 }
 
 - (void) setupConsole
