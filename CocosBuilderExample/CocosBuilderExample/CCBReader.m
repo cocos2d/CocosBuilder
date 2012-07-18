@@ -769,7 +769,7 @@
     CCNode* node = [[[class alloc] init] autorelease];
     
     // Set root node
-    if (!actionManager.rootNode) actionManager.rootNode = [node retain];
+    if (!actionManager.rootNode) actionManager.rootNode = node;
     
     // Read animated properties
     NSMutableDictionary* seqs = [NSMutableDictionary dictionary];
