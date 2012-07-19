@@ -409,6 +409,9 @@
 
 - (void) setSelectedNode:(CCNode*) selection
 {
+    // Close the color picker
+    [[NSColorPanel sharedColorPanel] close];
+    
     if (![[self window] makeFirstResponder:[self window]])
     {
         return;
