@@ -741,6 +741,8 @@
             spriteFrame = [frameCache spriteFrameByName:spriteFile];
         }
         value = spriteFrame;
+        
+        NSLog(@"SpriteFrame value: %@ sheet: %@ file: %@",value, spriteSheet, spriteFile);
     }
     
     keyframe.value = value;

@@ -180,7 +180,7 @@
         }
     }
     else if (type == kCCBPropTypeSpriteFrame
-             && [name isEqualToString:@"spriteFrame"])
+             && [name isEqualToString:@"displayFrame"])
     {
         return [CCSequence actionOne:[CCDelayTime actionWithDuration:duration] two:[CCBSetSpriteFrame actionWithSpriteFrame:kf1.value]];
     }
@@ -424,6 +424,8 @@
 @implementation CCBSetSpriteFrame
 +(id) actionWithSpriteFrame: (CCSpriteFrame*) sf;
 {
+    NSLog(@"actionWithSpriteFrame: %@",sf);
+    
 	return [[[self alloc]initWithSpriteFrame:sf]autorelease];
 }
 

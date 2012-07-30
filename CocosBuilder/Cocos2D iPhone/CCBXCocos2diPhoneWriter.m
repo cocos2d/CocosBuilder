@@ -426,6 +426,34 @@
     [self addToStringCache:[node objectForKey:@"customClass"] isPath:NO];
     [self addToStringCache:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     
+    // Animated properties
+    NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
+    for (NSString* seqIdStr in animatedProps)
+    {
+        NSDictionary* props = [animatedProps objectForKey:seqIdStr];
+        for (NSString* propName in props)
+        {
+            NSMutableDictionary* prop = [props objectForKey:propName];
+            int kfType = [[prop objectForKey:@"type"] intValue];
+            if (kfType == kCCBKeyframeTypeSpriteFrame)
+            {
+                NSArray* keyframes = [prop objectForKey:@"keyframes"];
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    // Write a keyframe
+                    id value = [keyframe objectForKey:@"value"];
+                    NSString* a = [value objectAtIndex:0];
+                    NSString* b = [value objectAtIndex:1];
+                    
+                    if ([b isEqualToString:@"Use regular file"]) b = @"";
+                    
+                    [self addToStringCache:a isPath:YES];
+                    [self addToStringCache:b isPath:[a isEqualToString:@""]];
+                }
+            }
+        }
+    }
+    
     // Properties
     NSArray* props = [node objectForKey:@"properties"];
     for (int i = 0; i < [props count]; i++)
@@ -607,8 +635,8 @@
     }
     else if ([type isEqualToString:@"SpriteFrame"])
     {
-        NSString* a = [value objectAtIndex:0];
-        NSString* b = [value objectAtIndex:1];
+        NSString* a = [value objectAtIndex:1];
+        NSString* b = [value objectAtIndex:0];
         
         if ([b isEqualToString:@"Use regular file"]) b = @"";
         
