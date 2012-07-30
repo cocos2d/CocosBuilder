@@ -109,8 +109,6 @@
         // Get scale type
         int type = [[[self baseValueForNode:node propertyName:name] objectAtIndex:2] intValue];
         
-        NSLog(@"scale type: %d", type);
-        
         // Get relative scale
         float x = [[value objectAtIndex:0] floatValue];
         float y = [[value objectAtIndex:1] floatValue];
@@ -424,8 +422,6 @@
 @implementation CCBSetSpriteFrame
 +(id) actionWithSpriteFrame: (CCSpriteFrame*) sf;
 {
-    NSLog(@"actionWithSpriteFrame: %@",sf);
-    
 	return [[[self alloc]initWithSpriteFrame:sf]autorelease];
 }
 
