@@ -6,8 +6,15 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "CCLayer.h"
+#import "cocos2d.h"
+
+@class CCBActionManager;
 
 @interface TestAnimations : CCLayer
+{
+    CCBActionManager* actionManager;
+}
+
+@property (nonatomic,retain) CCBActionManager* actionManager;
 
 @end

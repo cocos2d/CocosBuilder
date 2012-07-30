@@ -24,6 +24,8 @@
 
 #import "HelloCocosBuilder.h"
 #import "CCBReader.h"
+#import "CCBActionManager.h"
+#import "TestAnimations.h"
 
 @implementation HelloCocosBuilder
 
@@ -70,9 +72,19 @@
     [self openTest:@"TestButtons.ccbi"];
 }
 
-- (void) pressedLabels:(id)sender
+- (void) pressedAnimations:(id)sender
 {
-    [self openTest:@"TestLabels.ccbi"];
+    // Load node graph and assign action manager
+    CCBActionManager* actionManager = NULL;
+    TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:@"TestAnimations.ccbi" owner:self actionManager:&actionManager];
+    animationsTest.actionManager = actionManager;
+    
+    // Create a scene
+    CCScene* scene = [CCScene node];
+    [scene addChild:animationsTest];
+    
+    // Use a transition to go to the test scene
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5f scene:scene withColor:ccc3(0, 0, 0)]];
 }
 
 - (void) pressedParticleSystems:(id)sender
