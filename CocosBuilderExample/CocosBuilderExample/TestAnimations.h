@@ -12,9 +12,9 @@
 
 @interface TestAnimations : CCLayer
 {
-    CCBActionManager* actionManager;
+    CCBActionManager* ccbActionManager;
 }
 
-@property (nonatomic,retain) CCBActionManager* actionManager;
+@property (nonatomic,retain) CCBActionManager* ccbActionManager;
 
 @end

@@ -74,12 +74,14 @@
 
 - (void) pressedAnimations:(id)sender
 {
-    // Load node graph and assign action manager
+    // Load node graph (TestAnimations is a sub class of CCLayer) and retrieve the ccb action manager
     CCBActionManager* actionManager = NULL;
     TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:@"TestAnimations.ccbi" owner:self actionManager:&actionManager];
-    animationsTest.actionManager = actionManager;
     
-    // Create a scene
+    // Assign the action manager so we can access it from our custom test class
+    animationsTest.ccbActionManager = actionManager;
+    
+    // Create a scene and add our test layer
     CCScene* scene = [CCScene node];
     [scene addChild:animationsTest];
     
