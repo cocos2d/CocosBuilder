@@ -129,6 +129,18 @@
     }
 }
 
+- (void) setTimelineLength:(float)tl
+{
+    if (tl == timelineLength) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*timelineLength"];
+    
+    timelineLength = tl;
+    if (timelinePosition > timelineLength) timelinePosition = timelineLength;
+    
+    [[SequencerHandler sharedHandler] redrawTimeline];
+}
+
 - (float) timeToPosition:(float)time
 {
     return roundf((time - timelineOffset)*timelineScale);
