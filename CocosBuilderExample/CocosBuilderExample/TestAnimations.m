@@ -33,6 +33,11 @@
     [ccbActionManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.3f];
 }
 
+- (void) pressedFunky:(id)sender
+{
+    [ccbActionManager runActionsForSequenceNamed:@"Funky" tweenDuration:0.3f];
+}
+
 - (void) dealloc
 {
     self.ccbActionManager = NULL;
