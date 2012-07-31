@@ -1627,6 +1627,37 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Update the selected node
     [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
     [self refreshProperty:@"position"];
+    
+    // Update animated value
+    NSArray* animValue = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:newPos.x],
+                          [NSNumber numberWithFloat:newPos.y],
+                          NULL];
+    
+    NodeInfo* nodeInfo = selectedNode.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    
+    if ([plugIn isAnimatableProperty:@"position"])
+    {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = animValue;
+            }
+            
+            [[SequencerHandler sharedHandler] redrawTimeline];
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:animValue forKey:@"position"];
+        }
+    }
 }
 
 - (IBAction) menuNudgeObject:(id)sender
