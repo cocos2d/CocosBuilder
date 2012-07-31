@@ -20,34 +20,23 @@
 
 - (void) pressedIdle:(id)sender
 {
-    NSLog(@"pressedIdle self: %@", self);
-    
-    [ccbActionManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.5f];
-    
-    [self stopAllActions];
-    [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:2] two:[CCCallFunc actionWithTarget:self selector:@selector(testing)]]];
-    [self runAction:[CCRotateBy actionWithDuration:2 angle:360]];
+    [ccbActionManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.3f];
 }
 
 - (void) pressedWave:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Wave" tweenDuration:0.5f];
+    [ccbActionManager runActionsForSequenceNamed:@"Wave" tweenDuration:0.3f];
 }
 
 - (void) pressedJump:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.5f];
+    [ccbActionManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.3f];
 }
 
 - (void) dealloc
 {
     self.ccbActionManager = NULL;
     [super dealloc];
-}
-
-- (void) testing
-{
-    NSLog(@"Testing testing!");
 }
 
 @end
