@@ -8,6 +8,7 @@
 
 #import "SequencerOutlineView.h"
 #import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation SequencerOutlineView
 
@@ -58,6 +59,24 @@
     NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
     NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
     [super drawGridInClipRect:finalClipRect];
+}
+
+- (void) drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:dirtyRect];
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    float xPos = [seq timeToPosition:seq.timelineLength];
+    
+    if (!imgEndmarker) imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
+    
+    [imgEndmarker drawInRect:NSMakeRect(xPos+250, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+}
+
+- (void) dealloc
+{
+    [imgEndmarker release];
+    [super dealloc];
 }
 
 @end

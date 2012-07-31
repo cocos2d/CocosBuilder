@@ -9,5 +9,7 @@
 #import "CCBOutlineView.h"
 
 @interface SequencerOutlineView : CCBOutlineView
-
+{
+    NSImage* imgEndmarker;
+}
 @end

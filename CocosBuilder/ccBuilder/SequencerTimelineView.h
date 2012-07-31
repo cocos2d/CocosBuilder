@@ -14,6 +14,7 @@
     NSImage* imgMarkMajor;
     NSImage* imgMarkMinor;
     NSImage* imgNumbers;
+    NSImage* imgEndmarker;
     NSRect numberRects[10];
 }
 @end

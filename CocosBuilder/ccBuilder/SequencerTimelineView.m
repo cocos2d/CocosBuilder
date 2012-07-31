@@ -30,6 +30,8 @@
     [imgMarkMajor setFlipped:YES];
     [imgMarkMinor setFlipped:YES];
     
+    imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
+    
     // Numbers
     imgNumbers = [[NSImage imageNamed:@"ruler-numbers.png"] retain];
     
@@ -98,11 +100,16 @@
         step++;
         xPos+=stepSize;
     }
+    
+    // Draw end marker
+    xPos = roundf([seq timeToPosition: seq.timelineLength]);
+    [imgEndmarker drawAtPoint:NSMakePoint(xPos, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
 }
 
 - (void) dealloc
 {
     [imgBg release];
+    [imgEndmarker release];
     [super dealloc];
 }
 
