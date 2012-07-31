@@ -2287,6 +2287,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return YES;
 }
 
+- (NSUndoManager*) windowWillReturnUndoManager:(NSWindow *)window
+{
+    return currentDocument.undoManager;
+}
+
 #pragma mark Playback countrols
 
 - (void) playbackStep
