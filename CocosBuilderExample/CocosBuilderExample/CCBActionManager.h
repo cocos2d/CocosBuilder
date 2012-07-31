@@ -65,3 +65,13 @@
 /** Initializes a Place action with a position */
 -(id) initWithSpriteFrame: (CCSpriteFrame*) sf;
 @end
+
+@interface CCBRotateTo : CCActionInterval <NSCopying>
+{
+    float startAngle_;
+    float dstAngle_;
+    float diffAngle_;
+}
++(id) actionWithDuration:(ccTime)duration angle:(float)angle;
+-(id) initWithDuration:(ccTime)duration angle:(float)angle;
+@end

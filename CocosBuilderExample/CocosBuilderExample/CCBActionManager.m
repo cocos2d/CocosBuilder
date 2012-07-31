@@ -97,7 +97,7 @@
     
     if ([name isEqualToString:@"rotation"])
     {
-        return [CCRotateTo actionWithDuration:duration angle:[kf1.value floatValue]];
+        return [CCBRotateTo actionWithDuration:duration angle:[kf1.value floatValue]];
     }
     else if ([name isEqualToString:@"opacity"])
     {
@@ -476,6 +476,44 @@
 -(void) update:(ccTime)time
 {
 	((CCSprite *)target_).displayFrame = spriteFrame;
+}
+
+@end
+
+
+@implementation CCBRotateTo
+
++(id) actionWithDuration:(ccTime)duration angle:(float)angle
+{
+    return [[[CCBRotateTo alloc] initWithDuration:duration angle:angle] autorelease];
+}
+
+-(id) initWithDuration:(ccTime)duration angle:(float)angle
+{
+    self = [super initWithDuration:duration];
+    if (!self) return NULL;
+    
+    dstAngle_ = angle;
+    
+    return self;
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+    CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration:[self duration] angle:dstAngle_];
+	return copy;
+}
+
+-(void) startWithTarget:(CCNode *)aTarget
+{
+	[super startWithTarget:aTarget];
+    startAngle_ = [target_ rotation];
+    diffAngle_ = dstAngle_ - startAngle_;
+}
+
+-(void) update: (ccTime) t
+{
+	[target_ setRotation: startAngle_ + diffAngle_ * t];
 }
 
 @end
