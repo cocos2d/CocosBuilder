@@ -25,8 +25,14 @@
 #import "SequencerUtil.h"
 #import "CocosBuilderAppDelegate.h"
 #import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
+#import "CCBWriterInternal.h"
 
 @implementation SequencerUtil
 
@@ -62,7 +68,7 @@
                 return NO;
             }
         }
-        else
+        else if (![selectedObj isKindOfClass:[RMSpriteFrame class]])
         {
             return NO;
         }
@@ -83,8 +89,51 @@
 + (void) createFramesFromSelectedResources
 {
     BOOL canCreate = [SequencerUtil canCreateFramesFromSelectedResources];
+    if (!canCreate) return;
     
-    NSLog(@"canCreate: %d", canCreate);
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    CCNode* selectedNode = [[CocosBuilderAppDelegate appDelegate] selectedNode];
+    NSArray* selectedImages = [SequencerUtil selectedResources];
+    
+    float currentTime = seq.timelinePosition;
+    
+    for (id item in selectedImages)
+    {
+        // Get spriteFile and spriteSheet
+        NSString* spriteFile = NULL;
+        NSString* spriteSheetFile = NULL;
+        
+        if ([item isKindOfClass:[RMResource class]])
+        {
+            RMResource* res = item;
+            spriteFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
+        }
+        else if ([item isKindOfClass:[RMSpriteFrame class]])
+        {
+            RMSpriteFrame* frame = item;
+            spriteFile = frame.spriteFrameName;
+            spriteSheetFile = [ResourceManagerUtil relativePathFromAbsolutePath: frame.spriteSheetFile];
+            if (!spriteSheetFile) spriteFile = NULL;
+        }
+        
+        if (!spriteFile) spriteFile = @"";
+        if (!spriteSheetFile) spriteSheetFile = kCCBUseRegularFile;
+        
+        // Create keyframe
+        SequencerKeyframe* kf = [[[SequencerKeyframe alloc] init] autorelease];
+        kf.time = currentTime;
+        kf.type = kCCBKeyframeTypeSpriteFrame;
+        kf.name = @"displayFrame";
+        kf.value = [NSArray arrayWithObjects: spriteFile, spriteSheetFile, nil];
+        kf.easing.type = kCCBKeyframeEasingInstant;
+        
+        // Add the keyframe
+        [selectedNode addKeyframe:kf forProperty:@"displayFrame" atTime:currentTime sequenceId:seq.sequenceId];
+        
+        // Step one keyframe ahead
+        currentTime = [seq alignTimeToResolution: currentTime + 1/seq.timelineResolution];
+    }
 }
 
 @end
