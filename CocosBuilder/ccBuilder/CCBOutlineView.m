@@ -47,7 +47,7 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {
-#warning Only gets last added row indexes for some reason (causes weird looking multiple selections)
+#warning The clipping rect is a problem since the gradient spans more than one row, the hackish solution is to call setNeedsDisplay after selection has changed
     NSIndexSet *selectedRowIndexes = [self selectedRowIndexes];
     
     NSRect currentRect = NSZeroRect;

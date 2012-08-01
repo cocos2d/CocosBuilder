@@ -215,7 +215,6 @@
     return @"";
 }
 
-
 - (NSImage*) smallIconForFile:(NSString*)file
 {
     NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFile:file];
@@ -312,6 +311,10 @@
     
     if (preview) [lblNoPreview setHidden:YES];
     else [lblNoPreview setHidden:NO];
+    
+#warning Hackish solution to make multiple selections look good
+    NSLog(@"needsDisplay!");
+    [resourceList setNeedsDisplay];
 }
 
 - (void) doubleClicked:(id)sender
