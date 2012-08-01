@@ -23,7 +23,68 @@
  */
 
 #import "SequencerUtil.h"
+#import "CocosBuilderAppDelegate.h"
+#import "ResourceManager.h"
+#import "CCNode+NodeInfo.h"
+#import "PlugInNode.h"
 
 @implementation SequencerUtil
+
++ (NSArray*) selectedResources
+{
+    NSMutableArray* selRes = [NSMutableArray array];
+    
+    NSOutlineView* outlineView = [CocosBuilderAppDelegate appDelegate].outlineProject;
+    NSIndexSet* idxSet = [outlineView selectedRowIndexes];
+    
+    NSUInteger idx = [idxSet firstIndex];
+    while (idx != NSNotFound)
+    {
+        [selRes addObject:[outlineView itemAtRow:idx]];
+        idx = [idxSet indexGreaterThanIndex:idx];
+    }
+    
+    return selRes;
+}
+
++ (BOOL) canCreateFramesFromSelectedResources
+{
+    // Check that all selected resources are images
+    NSArray* selRes = [SequencerUtil selectedResources];
+    
+    for (id selectedObj in selRes)
+    {
+        if ([selectedObj isKindOfClass:[RMResource class]])
+        {
+            RMResource* res = selectedObj;
+            if (res.type != kCCBResTypeImage)
+            {
+                return NO;
+            }
+        }
+        else
+        {
+            return NO;
+        }
+    }
+    
+    // Check that the selected object is a sprite
+    CCNode* selectedNode = [[CocosBuilderAppDelegate appDelegate] selectedNode];
+    if (!selectedNode) return NO;
+    
+    if (![selectedNode.plugIn.nodeClassName isEqualToString:@"CCSprite"])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (void) createFramesFromSelectedResources
+{
+    BOOL canCreate = [SequencerUtil canCreateFramesFromSelectedResources];
+    
+    NSLog(@"canCreate: %d", canCreate);
+}
 
 @end

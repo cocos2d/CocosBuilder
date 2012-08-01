@@ -207,6 +207,8 @@ enum {
 
 @property (nonatomic,retain) PlayerController* playerController;
 
+@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
+
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 

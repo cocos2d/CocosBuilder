@@ -77,6 +77,7 @@
 #import "JavaScriptDocument.h"
 #import "PlayerConnection.h"
 #import "PlayerConsoleWindow.h"
+#import "SequencerUtil.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -101,6 +102,7 @@
 @synthesize menuContextKeyframe;
 @synthesize menuContextKeyframeInterpol;
 @synthesize menuContextResManager;
+@synthesize outlineProject;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -2301,6 +2303,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (IBAction)menuCreateKeyframesFromSelection:(id)sender
 {
     NSLog(@"create keyframes from selection!");
+    
+    [SequencerUtil createFramesFromSelectedResources];
 }
 
 - (IBAction)menuAddStickyNote:(id)sender
@@ -2318,6 +2322,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(menuCreateKeyframesFromSelection:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canCreateFramesFromSelectedResources]);
+    }
     
     return YES;
 }

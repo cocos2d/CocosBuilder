@@ -26,4 +26,7 @@
 
 @interface SequencerUtil : NSObject
 
++ (BOOL) canCreateFramesFromSelectedResources;
++ (void) createFramesFromSelectedResources;
+
 @end
