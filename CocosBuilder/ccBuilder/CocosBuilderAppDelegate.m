@@ -100,6 +100,7 @@
 @synthesize playerController;
 @synthesize menuContextKeyframe;
 @synthesize menuContextKeyframeInterpol;
+@synthesize menuContextResManager;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -2297,6 +2298,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
+- (IBAction)menuCreateKeyframesFromSelection:(id)sender
+{
+    NSLog(@"create keyframes from selection!");
+}
+
 - (IBAction)menuAddStickyNote:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
@@ -2309,11 +2315,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     NSLog(@"validateMenuItem: %@", menuItem);
     
-    if ([menuItem.title isEqualToString:@"Save"]) return hasOpenedDocument;
-    else if ([menuItem.title isEqualToString:@"Save As…"]) return hasOpenedDocument;
-    else if ([menuItem.title isEqualToString:@"Undo"]) return hasOpenedDocument;
-    else if ([menuItem.title isEqualToString:@"Redo"]) return hasOpenedDocument;
-    else if ([menuItem.title isEqualToString:@"Close"]) return hasOpenedDocument;
+    if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
     
     return YES;
 }

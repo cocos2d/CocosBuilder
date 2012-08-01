@@ -7,6 +7,7 @@
 //
 
 #import "ResourceManagerOutlineView.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation ResourceManagerOutlineView
 
@@ -17,7 +18,11 @@
     
     NSLog(@"menuForRow: %d", row);
     
-    return NULL;
+    NSMenu* menu = [CocosBuilderAppDelegate appDelegate].menuContextResManager;
+    
+    // TODO: Update menu
+    
+    return menu;
 }
 
 @end

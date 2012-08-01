@@ -113,6 +113,7 @@ enum {
     IBOutlet NSMenu* menuResolution;
     IBOutlet NSMenu* menuContextKeyframe;
     IBOutlet NSMenu* menuContextKeyframeInterpol;
+    IBOutlet NSMenu* menuContextResManager;
     
     IBOutlet NSPopUpButton* menuTimelinePopup;
     IBOutlet NSMenu* menuTimeline;
@@ -200,6 +201,7 @@ enum {
 
 @property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframe;
 @property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframeInterpol;
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextResManager;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
 
