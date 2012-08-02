@@ -13,11 +13,6 @@
 
 @synthesize ccbActionManager;
 
-- (void) didLoadFromCCB
-{
-    
-}
-
 - (void) pressedIdle:(id)sender
 {
     [ccbActionManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.3f];
