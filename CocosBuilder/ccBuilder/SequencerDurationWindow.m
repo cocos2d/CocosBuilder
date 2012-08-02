@@ -40,7 +40,7 @@
 
 - (float) duration
 {
-    return self.mins * 60 + self.secs + self.frames/30;
+    return self.mins * 60 + self.secs + self.frames/30.0f;
 }
 
 @end
