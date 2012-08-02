@@ -54,6 +54,23 @@
     return selRes;
 }
 
++ (void) removeDuplicateKeyframesForSelection
+{
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    // Find all affected seqNodeProps
+    NSMutableSet* seqNodeProps = [NSMutableSet set];
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        [seqNodeProps addObject:kf.parent];
+    }
+    
+    for (SequencerNodeProperty* seqNodeProp in seqNodeProps)
+    {
+        [seqNodeProp deleteDuplicateKeyframes];
+    }
+}
+
 + (BOOL) canCreateFramesFromSelectedResources
 {
     // Check that all selected resources are images
@@ -167,10 +184,10 @@
         kf.time = seq.timelinePosition;
     }
     
+    [SequencerUtil removeDuplicateKeyframesForSelection];
+    
     [[SequencerHandler sharedHandler] redrawTimeline];
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
-    
-    // TODO: Remove duplicate keyframes
 }
 
 + (BOOL) canStretchSelectedKeyframes
@@ -208,10 +225,10 @@
         kf.time = newTime;
     }
     
+    [SequencerUtil removeDuplicateKeyframesForSelection];
+    
     [[SequencerHandler sharedHandler] redrawTimeline];
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
-    
-    // TODO: Remove duplicate keyframes
 }
 
 + (BOOL) canReverseSelectedKeyframes
@@ -263,7 +280,7 @@
         kf.time = [seq alignTimeToResolution: timeLast - delta];
     }
     
-    // TODO: Remove duplicate keyframes
+    [SequencerUtil removeDuplicateKeyframesForSelection];
     
     [[SequencerHandler sharedHandler] redrawTimeline];
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
