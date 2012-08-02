@@ -136,4 +136,38 @@
     }
 }
 
++ (BOOL) canAlignKeyframesToMarker
+{
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    if (keyframes.count == 0) return NO;
+    
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        if (kf.time != seq.timelinePosition) return YES;
+    }
+    
+    return NO;
+}
+
++ (void) alignKeyframesToMarker
+{
+    BOOL canAlign = [SequencerUtil canAlignKeyframesToMarker];
+    if (!canAlign) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*alignKeyframesToMarker"];
+    
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        kf.time = seq.timelinePosition;
+    }
+    
+    [[SequencerHandler sharedHandler] redrawTimeline];
+    [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
+}
+
 @end

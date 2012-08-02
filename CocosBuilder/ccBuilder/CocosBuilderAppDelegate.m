@@ -2302,9 +2302,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)menuCreateKeyframesFromSelection:(id)sender
 {
-    NSLog(@"create keyframes from selection!");
-    
     [SequencerUtil createFramesFromSelectedResources];
+}
+
+- (IBAction)menuAlignKeyframeToMarker:(id)sender
+{
+    [SequencerUtil alignKeyframesToMarker];
 }
 
 - (IBAction)menuAddStickyNote:(id)sender
@@ -2325,6 +2328,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuCreateKeyframesFromSelection:))
     {
         return (hasOpenedDocument && [SequencerUtil canCreateFramesFromSelectedResources]);
+    }
+    else if (menuItem.action == @selector(menuAlignKeyframeToMarker:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canAlignKeyframesToMarker]);
     }
     
     return YES;

@@ -29,4 +29,7 @@
 + (BOOL) canCreateFramesFromSelectedResources;
 + (void) createFramesFromSelectedResources;
 
++ (BOOL) canAlignKeyframesToMarker;
++ (void) alignKeyframesToMarker;
+
 @end
