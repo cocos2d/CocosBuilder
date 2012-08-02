@@ -32,6 +32,7 @@
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "SequencerNodeProperty.h"
 #import "CCBWriterInternal.h"
 
 @implementation SequencerUtil
@@ -168,6 +169,8 @@
     
     [[SequencerHandler sharedHandler] redrawTimeline];
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
+    
+    // TODO: Remove duplicate keyframes
 }
 
 + (BOOL) canStretchSelectedKeyframes
@@ -188,8 +191,14 @@
     SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
     NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
     
-    float timeFirst = [[keyframes objectAtIndex:0] time];
+    // Find time of first keyframe
+    float timeFirst = MAXFLOAT;
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        if (kf.time < timeFirst) timeFirst = kf.time;
+    }
     
+    // Stretch the keyframes
     for (SequencerKeyframe* kf in keyframes)
     {
         float delta = kf.time - timeFirst;
@@ -198,6 +207,63 @@
         if (newTime > seq.timelineLength) newTime = seq.timelineLength;
         kf.time = newTime;
     }
+    
+    [[SequencerHandler sharedHandler] redrawTimeline];
+    [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
+    
+    // TODO: Remove duplicate keyframes
+}
+
++ (BOOL) canReverseSelectedKeyframes
+{
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    if (keyframes.count < 2) return NO;
+    return YES;
+}
+
++ (void) reverseSelectedKeyframes
+{
+    BOOL canReverse = [SequencerUtil canReverseSelectedKeyframes];
+    if (!canReverse) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*reverseSelectedKeyframes"];
+    
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    // Find time of first & last keyframe
+    float timeFirst = MAXFLOAT;
+    float timeLast = 0;
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        if (kf.time < timeFirst) timeFirst = kf.time;
+        if (kf.time > timeLast) timeLast = kf.time;
+    }
+    
+    // Reverse the keyframes
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        // Reset easing for the keyframe
+        if (kf.type == kCCBKeyframeTypeSpriteFrame)
+        {
+            kf.easing.type = kCCBKeyframeEasingInstant;
+        }
+        else
+        {
+            kf.easing.type = kCCBKeyframeEasingLinear;
+        }
+        
+        // Move keyframe
+        float delta = kf.time - timeFirst;
+        //float delta2 = reverseLen - delta;
+        
+        NSLog(@"first: %f last: %f delta2: %f", timeFirst, timeLast, delta);
+        
+        kf.time = [seq alignTimeToResolution: timeLast - delta];
+    }
+    
+    // TODO: Remove duplicate keyframes
     
     [[SequencerHandler sharedHandler] redrawTimeline];
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];

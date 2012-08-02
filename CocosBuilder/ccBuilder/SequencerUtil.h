@@ -35,4 +35,7 @@
 + (BOOL) canStretchSelectedKeyframes;
 + (void) stretchSelectedKeyframes:(float) factor;
 
++ (BOOL) canReverseSelectedKeyframes;
++ (void) reverseSelectedKeyframes;
+
 @end

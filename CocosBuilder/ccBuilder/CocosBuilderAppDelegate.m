@@ -2313,15 +2313,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)menuStretchSelectedKeyframes:(id)sender
 {
-    NSLog(@"menuStretchSelectedKeyframes");
-    
     SequencerStretchWindow* wc = [[[SequencerStretchWindow alloc] initWithWindowNibName:@"SequencerStretchWindow"] autorelease];
+    wc.factor = 1;
     
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
         [SequencerUtil stretchSelectedKeyframes:wc.factor];
     }
+}
+
+- (IBAction)menuReverseSelectedKeyframes:(id)sender
+{
+    [SequencerUtil reverseSelectedKeyframes];
 }
 
 - (IBAction)menuAddStickyNote:(id)sender
@@ -2350,6 +2354,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuStretchSelectedKeyframes:))
     {
         return (hasOpenedDocument && [SequencerUtil canStretchSelectedKeyframes]);
+    }
+    else if (menuItem.action == @selector(menuReverseSelectedKeyframes:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canReverseSelectedKeyframes]);
     }
     
     return YES;
