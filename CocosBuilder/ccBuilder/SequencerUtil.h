@@ -32,4 +32,7 @@
 + (BOOL) canAlignKeyframesToMarker;
 + (void) alignKeyframesToMarker;
 
++ (BOOL) canStretchSelectedKeyframes;
++ (void) stretchSelectedKeyframes:(float) factor;
+
 @end

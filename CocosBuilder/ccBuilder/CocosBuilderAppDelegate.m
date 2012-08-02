@@ -78,6 +78,7 @@
 #import "PlayerConnection.h"
 #import "PlayerConsoleWindow.h"
 #import "SequencerUtil.h"
+#import "SequencerStretchWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -2310,6 +2311,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [SequencerUtil alignKeyframesToMarker];
 }
 
+- (IBAction)menuStretchSelectedKeyframes:(id)sender
+{
+    NSLog(@"menuStretchSelectedKeyframes");
+    
+    SequencerStretchWindow* wc = [[[SequencerStretchWindow alloc] initWithWindowNibName:@"SequencerStretchWindow"] autorelease];
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [SequencerUtil stretchSelectedKeyframes:wc.factor];
+    }
+}
+
 - (IBAction)menuAddStickyNote:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
@@ -2332,6 +2346,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuAlignKeyframeToMarker:))
     {
         return (hasOpenedDocument && [SequencerUtil canAlignKeyframesToMarker]);
+    }
+    else if (menuItem.action == @selector(menuStretchSelectedKeyframes:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canStretchSelectedKeyframes]);
     }
     
     return YES;

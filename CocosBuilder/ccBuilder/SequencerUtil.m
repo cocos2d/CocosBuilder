@@ -170,4 +170,37 @@
     [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
 }
 
++ (BOOL) canStretchSelectedKeyframes
+{
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    if (keyframes.count < 2) return NO;
+    return YES;
+}
+
++ (void) stretchSelectedKeyframes:(float) factor
+{
+    BOOL canStrech = [SequencerUtil canStretchSelectedKeyframes];
+    if (!canStrech) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*stretchSelectedKeyframes"];
+    
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    NSArray* keyframes = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+    
+    float timeFirst = [[keyframes objectAtIndex:0] time];
+    
+    for (SequencerKeyframe* kf in keyframes)
+    {
+        float delta = kf.time - timeFirst;
+        delta *= factor;
+        float newTime = [seq alignTimeToResolution: timeFirst + delta];
+        if (newTime > seq.timelineLength) newTime = seq.timelineLength;
+        kf.time = newTime;
+    }
+    
+    [[SequencerHandler sharedHandler] redrawTimeline];
+    [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
+}
+
 @end
