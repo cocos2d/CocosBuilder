@@ -244,6 +244,7 @@
     copy.timelineResolution = timelineResolution;
     copy.name = name;
     copy.sequenceId = sequenceId;
+    copy.chainedSequenceId = chainedSequenceId;
     copy.autoPlay = autoPlay;
     
     return copy;
