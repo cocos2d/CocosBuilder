@@ -38,7 +38,14 @@
 {
     if (self.controlView == self.controlView.window.firstResponder)
     {
-        return [NSColor blackColor];
+        if ([self isHighlighted])
+        {
+            return [NSColor whiteColor];
+        }
+        else
+        {
+            return [NSColor blackColor];
+        }
     }
     else if ([self isHighlighted])
     {
