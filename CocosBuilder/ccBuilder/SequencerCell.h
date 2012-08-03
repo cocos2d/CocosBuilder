@@ -47,6 +47,8 @@
     NSImage* imgKeyframeR;
     NSImage* imgKeyframeLSel;
     NSImage* imgKeyframeRSel;
+    
+    NSImage* imgKeyframeHint;
 }
 
 @property (nonatomic,assign) CCNode* node;

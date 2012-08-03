@@ -207,6 +207,33 @@
     }
 }
 
+- (void) drawCollapsedProps:(NSArray*)props withFrame:(NSRect)cellFrame inView:(NSView*)controlView
+{
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    // Create a set with the times of keyframes
+    NSMutableSet* keyframeTimes = [NSMutableSet set];
+    for (NSString* propName in props)
+    {
+        SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+        
+        NSArray* keyframes = nodeProp.keyframes;
+        for (SequencerKeyframe* kf in keyframes)
+        {
+            [keyframeTimes addObject:[NSNumber numberWithFloat: kf.time]];
+        }
+    }
+    
+    // Draw the keyframes
+    for (NSNumber* timeVal in keyframeTimes)
+    {
+        float time = [timeVal floatValue];
+        int xPos = [seq timeToPosition:time];
+        
+        [imgKeyframeHint drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos -3,cellFrame.origin.y+3) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+}
+
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     NSGraphicsContext* gc = [NSGraphicsContext currentContext];
@@ -257,18 +284,23 @@
         
         imgKeyframeRSel = [[NSImage imageNamed:@"seq-keyframe-r-sel.png"] retain];
         [imgKeyframeRSel setFlipped:YES];
+        
+        imgKeyframeHint = [[NSImage imageNamed:@"seq-keyframe-hint.png"] retain];
+        [imgKeyframeHint setFlipped:YES];
     }
     
     [self drawPropertyRowVisiblityWithFrame:cellFrame inView:controlView];
     
+    NSArray* props = node.plugIn.animatableProperties;
     if (node.seqExpanded)
     {
-        NSArray* props = node.plugIn.animatableProperties;
         for (int i = 0; i < [props count]; i++)
         {
             [self drawPropertyRow:i+1 property:[props objectAtIndex:i] withFrame:cellFrame inView:controlView];
         }
     }
+    
+    [self drawCollapsedProps:props withFrame:cellFrame inView:controlView];
     
     [gc restoreGraphicsState];
 }
@@ -288,6 +320,7 @@
     [imgKeyframeR release];
     [imgKeyframeLSel release];
     [imgKeyframeRSel release];
+    [imgKeyframeHint release];
     [super dealloc];
 }
 
