@@ -33,14 +33,19 @@
 #import "ResourceManagerUtil.h"
 #import "ResourceManager.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation InspectorSpriteFrame
 
 - (void) willBeAdded
 {
     // Setup menu
-    NSString* sf = [selection extraPropForKey:propertyName];
-    NSString* ssf = [selection extraPropForKey:[NSString stringWithFormat:@"%@Sheet", propertyName]];
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    id value = [selection valueForProperty:propertyName atTime:seq.timelinePosition sequenceId:seq.sequenceId];
+    
+    NSString* sf = [value objectAtIndex:0];
+    NSString* ssf = [value objectAtIndex:1];
     
     if ([ssf isEqualToString:kCCBUseRegularFile] || [ssf isEqualToString:@""]) ssf = NULL;
     
