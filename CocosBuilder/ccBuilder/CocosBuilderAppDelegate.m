@@ -1032,7 +1032,7 @@
         [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
         
         // Notify the user
-        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
+        [[[CCBGlobals globals] appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project. When creating a new project, try to save the project file inside an empty directory."];
     }
 }
 
