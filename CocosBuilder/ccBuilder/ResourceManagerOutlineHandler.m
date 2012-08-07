@@ -56,7 +56,11 @@
     lblNoPreview = [lbl retain];
     resType = rt;
     
-    [[resourceList outlineTableColumn] setDataCell:[[[ImageAndTextCell alloc] init] autorelease]];
+    ImageAndTextCell* imageTextCell = [[[ImageAndTextCell alloc] init] autorelease];
+#warning Use to enable editing!
+    //[imageTextCell setEditable:YES];
+    [[resourceList outlineTableColumn] setDataCell:imageTextCell];
+    [[resourceList outlineTableColumn] setEditable:YES];
     
     [resourceList setDataSource:self];
     [resourceList setDelegate:self];
@@ -215,6 +219,11 @@
     return @"";
 }
 
+- (void) outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+    NSLog(@"Value: %@", object);
+}
+
 - (NSImage*) smallIconForFile:(NSString*)file
 {
     NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFile:file];
@@ -334,6 +343,12 @@
         }
     }
     
+}
+
+- (BOOL) outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    NSLog(@"shouldEdit (ResManager)");
+    return YES;
 }
 
 - (void) resourceListUpdated

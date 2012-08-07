@@ -353,6 +353,12 @@
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
+    NSString* displayName = [dict objectForKey:@"displayName"];
+    if (displayName)
+    {
+        node.displayName = displayName;
+    }
+    
     id animatedProps = [dict objectForKey:@"animatedProperties"];
     [node loadAnimatedPropertiesFromSerialization:animatedProps];
     node.seqExpanded = [[dict objectForKey:@"seqExpanded"] boolValue];

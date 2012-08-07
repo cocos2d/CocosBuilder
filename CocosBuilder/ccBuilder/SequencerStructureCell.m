@@ -99,6 +99,12 @@
     [super drawWithFrame:cellFrame inView:controlView];
 }
 
+- (BOOL) isEditable
+{
+    NSLog(@"isEditable");
+    return YES;
+}
+
 - (void) dealloc
 {
     //self.node = NULL;

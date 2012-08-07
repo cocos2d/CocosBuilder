@@ -75,6 +75,8 @@ static SequencerHandler* sharedSequencerHandler;
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
     
+    [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
+    
     // Set default values for timeline scale & offset
     timelineScales[0] = kCCBTimelineScale0;
     timelineScales[1] = kCCBTimelineScale1;
@@ -314,29 +316,25 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     CCNode* node = item;
-    NodeInfo* info = node.userObject;
+    return node.displayName;
+}
+
+- (void) outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+    CCNode* node = item;
     
-    // Get class name
-    NSString* className = @"";
-    NSString* customClass = [node extraPropForKey:@"customClass"];
-    if (customClass && ![customClass isEqualToString:@""]) className = customClass;
-    else className = info.plugIn.nodeClassName;
-    
-    // Assignment name
-    NSString* assignmentName = [node extraPropForKey:@"memberVarAssignmentName"];
-    if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
-    
-    if ([item isKindOfClass:[CCMenuItemImage class]])
+    if (![object isEqualToString:node.displayName])
     {
-        NSString* textureName = [node extraPropForKey:@"spriteFileNormal"];
-        if (textureName && ![textureName isEqualToString:@""])
-        {
-            return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
-        }
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*nodeDisplayName"];
+        node.displayName = object;
     }
-    
-    // Fallback, just use the class name
-    return className;
+}
+
+- (BOOL) outlineView:(NSOutlineView *)outline shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    NSLog(@"should edit?");
+    [outline editColumn:0 row:[outline selectedRow] withEvent:[NSApp currentEvent] select:YES];
+    return YES;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard

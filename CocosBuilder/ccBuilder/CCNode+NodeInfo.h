@@ -32,6 +32,7 @@
 
 @property (nonatomic,assign) BOOL seqExpanded;
 @property (nonatomic,readonly) PlugInNode* plugIn;
+@property (nonatomic,copy) NSString* displayName;
 
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;

@@ -443,6 +443,12 @@
         [dict setObject:[NSNumber numberWithBool:YES] forKey:@"seqExpanded"];
     }
     
+    // Custom display names
+    if (node.displayName)
+    {
+        [dict setObject:node.displayName forKey:@"displayName"];
+    }
+    
     // Add code connection props
     NSString* customClass = [extraProps objectForKey:@"customClass"];
     if (!customClass) customClass = @"";

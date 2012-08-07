@@ -31,6 +31,7 @@
 @synthesize extraProps;
 @synthesize animatableProperties;
 @synthesize baseValues;
+@synthesize displayName;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin
 {
@@ -61,6 +62,7 @@
 {
     [extraProps release];
     self.animatableProperties = NULL;
+    self.displayName = NULL;
     [baseValues release];
     [super dealloc];
 }

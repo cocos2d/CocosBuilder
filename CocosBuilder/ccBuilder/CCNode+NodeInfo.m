@@ -581,4 +581,26 @@
     info.animatableProperties = animatableProps;
 }
 
+- (NSString*) displayName
+{
+    CCNode* node = self;
+    NodeInfo* info = node.userObject;
+    
+    if (info.displayName && ![info.displayName isEqualToString:@""]) return info.displayName;
+    
+    // Get class name
+    NSString* className = @"";
+    NSString* customClass = [node extraPropForKey:@"customClass"];
+    if (customClass && ![customClass isEqualToString:@""]) className = customClass;
+    else className = info.plugIn.nodeClassName;
+    
+    return className;
+}
+
+- (void) setDisplayName:(NSString *)displayName
+{
+    NodeInfo* info = self.userObject;
+    info.displayName = displayName;
+}
+
 @end

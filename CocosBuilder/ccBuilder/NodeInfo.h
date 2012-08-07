@@ -39,6 +39,7 @@
 @property (nonatomic,readonly) NSMutableDictionary* extraProps;
 @property (nonatomic,retain) NSMutableDictionary* animatableProperties;
 @property (nonatomic,readonly) NSMutableDictionary* baseValues;
+@property (nonatomic,copy) NSString* displayName;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin;
 
