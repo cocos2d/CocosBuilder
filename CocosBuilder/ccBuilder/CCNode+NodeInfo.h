@@ -61,6 +61,7 @@
 - (void) deleteKeyframesAfterTime:(float)time sequenceId:(int)seqId;
 
 - (NSArray*) keyframesForProperty:(NSString*) prop;
+- (BOOL) hasKeyframesForProperty:(NSString*) prop;
 
 - (id) serializeAnimatedProperties;
 - (void) loadAnimatedPropertiesFromSerialization:(id)ser;

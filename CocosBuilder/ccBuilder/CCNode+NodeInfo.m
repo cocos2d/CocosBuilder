@@ -522,6 +522,23 @@
     return keyframes;
 }
 
+- (BOOL) hasKeyframesForProperty:(NSString*) prop
+{
+    NodeInfo* info = self.userObject;
+    
+    NSEnumerator* animPropEnum = [info.animatableProperties objectEnumerator];
+    NSDictionary* seq;
+    while ((seq = [animPropEnum nextObject]))
+    {
+        SequencerNodeProperty* seqNodeProp = [seq objectForKey:prop];
+        if (seqNodeProp)
+        {
+            if ([seqNodeProp.keyframes count]) return YES;
+        }
+    }
+    return NO;
+}
+
 - (id) serializeAnimatedProperties
 {
     NodeInfo* info = self.userObject;
