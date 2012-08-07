@@ -64,6 +64,7 @@ enum
 // Positioning helpers
 + (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type parentSize:(CGSize) parentSize;
 + (NSPoint) calcRelativePositionFromAbsolute:(NSPoint)pos type:(int)type parentSize:(CGSize)parentSize;
++ (NSPoint) convertPosition:(NSPoint)pos fromType:(int)fromType toType:(int)toType forNode:(CCNode*) node;
 
 
 // Setting/getting sizes

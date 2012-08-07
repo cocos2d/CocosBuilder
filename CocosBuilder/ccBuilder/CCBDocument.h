@@ -40,6 +40,9 @@
     
     NSMutableArray* resolutions;
     int currentResolution;
+    
+    NSMutableArray* sequences;
+    int currentSequenceId;
 }
 
 @property (nonatomic,retain) NSString* fileName;
@@ -56,4 +59,6 @@
 - (NSString*) formattedName;
 @property (nonatomic,retain) NSMutableArray* resolutions;
 @property (nonatomic,assign) int currentResolution;
+@property (nonatomic,retain) NSMutableArray* sequences;
+@property (nonatomic,assign) int currentSequenceId;
 @end

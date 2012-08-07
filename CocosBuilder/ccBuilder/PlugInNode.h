@@ -66,5 +66,8 @@
 - (id) initWithBundle:(NSBundle*) b;
 
 - (NSArray*) readablePropertiesForType:(NSString*)type;
+- (NSString*) propertyTypeForProperty:(NSString*)property;
+
+- (BOOL) isAnimatableProperty:(NSString*)prop;
 
 @end

@@ -30,6 +30,8 @@
 
 + (void) gradientFillRect:(NSRect)rect
 {
+    if (NSEqualRects(rect, NSZeroRect)) return;
+    
     NSGradient* gradient = [[[NSGradient alloc]
                               initWithColorsAndLocations:[NSColor colorWithCalibratedRed:0.62 green:0.70 blue:0.80 alpha:1.0], (CGFloat)0.0,
                               [NSColor colorWithCalibratedRed:0.46 green:0.53 blue:0.71 alpha:1.0], (CGFloat)1.0,
@@ -45,26 +47,43 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {
+#warning The clipping rect is a problem since the gradient spans more than one row, the hackish solution is to call setNeedsDisplay after selection has changed
     NSIndexSet *selectedRowIndexes = [self selectedRowIndexes];
-    NSRange visibleRows = [self rowsInRect:clipRect];
+    
+    NSRect currentRect = NSZeroRect;
+    NSUInteger lastSelectedRow = -2;
     
     NSUInteger selectedRow = [selectedRowIndexes firstIndex];
     while (selectedRow != NSNotFound)
     {
-        if (selectedRow == -1 || !NSLocationInRange(selectedRow, visibleRows)) 
+        // Skipping invisible rows causes multiple selections to look weird
+        
+        //if (selectedRow == -1 || !NSLocationInRange(selectedRow, visibleRows)) 
+        //{
+        //    selectedRow = [selectedRowIndexes indexGreaterThanIndex:selectedRow];
+        //    continue;
+        //}
+        
+        if (selectedRow == lastSelectedRow + 1)
         {
-            selectedRow = [selectedRowIndexes indexGreaterThanIndex:selectedRow];
-            continue;
-        }   
+            // Add to current rect
+            currentRect = NSUnionRect(currentRect, [self rectOfRow:selectedRow]);
+        }
+        else
+        {
+            // Draw the last current rect
+            [CCBOutlineView gradientFillRect:currentRect];
+            
+            // Remeber the current rect
+            currentRect = [self rectOfRow:selectedRow];
+        }
         
-        [[NSColor alternateSelectedControlColor] set];
-        [[NSColor redColor] set];
-        
-        NSRectFill([self rectOfRow:selectedRow]);
-        [CCBOutlineView gradientFillRect:[self rectOfRow:selectedRow]];
-        
+        lastSelectedRow = selectedRow;
         selectedRow = [selectedRowIndexes indexGreaterThanIndex:selectedRow];
     }
+    
+    // Draw the final rect
+    [CCBOutlineView gradientFillRect:currentRect];
 }
 
 - (NSFocusRingType) focusRingType

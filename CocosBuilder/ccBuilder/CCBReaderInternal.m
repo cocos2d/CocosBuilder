@@ -35,6 +35,7 @@
 #import "ResourceManager.h"
 #import "NodeGraphPropertySetter.h"
 #import "PositionPropertySetter.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CCBReaderInternal
 
@@ -337,6 +338,8 @@
         {
             [CCBReaderInternal setProp:name ofType:type toValue:serializedValue forNode:node parentSize:parentSize];
         }
+        id baseValue = [propInfo objectForKey:@"baseValue"];
+        if (baseValue) [node setBaseValue:baseValue forProperty:name];
     }
     
     // Set extra properties for code connections
@@ -349,6 +352,16 @@
     [extraProps setObject:customClass forKey:@"customClass"];
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
+    
+    NSString* displayName = [dict objectForKey:@"displayName"];
+    if (displayName)
+    {
+        node.displayName = displayName;
+    }
+    
+    id animatedProps = [dict objectForKey:@"animatedProperties"];
+    [node loadAnimatedPropertiesFromSerialization:animatedProps];
+    node.seqExpanded = [[dict objectForKey:@"seqExpanded"] boolValue];
     
     CGSize contentSize = node.contentSize;
     for (int i = 0; i < [children count]; i++)

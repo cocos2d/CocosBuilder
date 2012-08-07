@@ -27,6 +27,11 @@
 #import "CCBGlobals.h"
 #import "NodeInfo.h"
 #import "PlugInNode.h"
+#import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerKeyframe.h"
+#import "SequencerNodeProperty.h"
 
 @implementation InspectorValue
 
@@ -94,6 +99,34 @@
     
 }
 
+- (void) updateAnimateablePropertyValue:(id)value
+{
+    NodeInfo* nodeInfo = selection.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    
+    if ([plugIn isAnimatableProperty:propertyName])
+    {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selection sequenceNodeProperty:propertyName sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = value;
+            }
+            
+            [[SequencerHandler sharedHandler] redrawTimeline];
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:value forKey:propertyName];
+        }
+    }
+}
+
 - (void) setPropertyForSelection:(id)value
 {
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
@@ -109,6 +142,11 @@
     {
         [selection setValue:value forKey:propertyName];
     }
+    
+    // Handle animatable properties
+    [self updateAnimateablePropertyValue:value];
+    
+    // Update affected properties
     [self updateAffectedProperties];
 }
 

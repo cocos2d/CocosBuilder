@@ -1,13 +1,30 @@
-//
-//  SequencerOutlineView.m
-//  CocosBuilder
-//
-//  Created by Viktor Lidholt on 5/31/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "SequencerOutlineView.h"
 #import "SequencerHandler.h"
+#import "SequencerSequence.h"
 
 @implementation SequencerOutlineView
 
@@ -31,8 +48,6 @@
     SequencerHandler* sh = (SequencerHandler*) [self dataSource];
     
     NSInteger column = [self columnAtPoint:mouseLocationInTable];
-    
-    NSLog(@"mouseDown in col: %d seq-col: %d", (int)column, (int)[self columnWithIdentifier:@"sequencer"]);
     
     if (column == [self columnWithIdentifier:@"sequencer"])
     {
@@ -60,6 +75,24 @@
     NSRect myClipRect = NSMakeRect(0, 0, lastRowRect.size.width, NSMaxY(lastRowRect));
     NSRect finalClipRect = NSIntersectionRect(clipRect, myClipRect);
     [super drawGridInClipRect:finalClipRect];
+}
+
+- (void) drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:dirtyRect];
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    float xPos = [seq timeToPosition:seq.timelineLength];
+    
+    if (!imgEndmarker) imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
+    
+    [imgEndmarker drawInRect:NSMakeRect(xPos+250, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+}
+
+- (void) dealloc
+{
+    [imgEndmarker release];
+    [super dealloc];
 }
 
 @end

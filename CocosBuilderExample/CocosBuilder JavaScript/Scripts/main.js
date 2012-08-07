@@ -1,21 +1,16 @@
-var director = CCDirector.sharedDirector;
+var director = cc.Director.getInstance();
 
-// Load scene
-var scene = CCBReader.sceneWithNodeGraphFromFile("HelloJavaScript.ccbi");
-director.runWithScene(scene);
+var scene = cc.Scene.create();
 
-// Animate the burst in the background
-[sprtBurst runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:10 angle:360]]];
+var node = cc.Node.create();
 
-// Respond to pressed button
-function pressedMenuButton()
-{
-	[sprtLogo stopAllActions];
-	
-	var bounceOut = [CCEaseBounceOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:1.5]];
-	var bounceBack = [CCEaseBounceOut actionWithAction:[CCScaleTo actionWithDuration:0.5 scale:1]];
-	var bounceSeq = [CCSequence actionsWithArray:[bounceOut, bounceBack]];
-	[sprtLogo runAction:bounceSeq];
-	
-	log("pressedMenuButton");
-}
+var sprite = cc.Sprite.create("logo.png");
+sprite.setPosition (cc.p(160,240));
+sprite.setScale(0.7);
+node.addChild(sprite);
+
+scene.addChild(node);
+
+director.replaceScene(scene);
+
+cc.log("Testing script!");

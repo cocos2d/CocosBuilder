@@ -1,16 +1,36 @@
-//
-//  SequencerScrubberSelectionView.m
-//  CocosBuilder
-//
-//  Created by Viktor Lidholt on 6/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "SequencerScrubberSelectionView.h"
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -70,7 +90,23 @@
     NSPoint convPoint = [outlineView convertPoint:NSMakePoint(0, y) fromView:self];
     
     float yInCell = convPoint.y - cellFrame.origin.y;
-    return yInCell/kCCBSeqDefaultRowHeight;
+    int subRow = yInCell/kCCBSeqDefaultRowHeight;
+    
+    // Check bounds
+    CCNode* node = [outlineView itemAtRow:row];
+    if (node.seqExpanded)
+    {
+        if (subRow > [[node plugIn].animatableProperties count])
+        {
+            subRow = [[node plugIn].animatableProperties count];
+        }
+    }
+    else
+    {
+        subRow = 0;
+    }
+    
+    return subRow;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -212,6 +248,8 @@
         {
             xEndSelectTime = [seq positionToTime:lastMousePosition.x];
         }
+        
+        didAutoScroll = YES;
     }
 }
 
@@ -255,6 +293,8 @@
         
         // Reschedule callback
         [self performSelector:@selector(updateAutoScrollVertical) withObject:NULL afterDelay:0.1f];
+        
+        didAutoScroll = YES;
     }
 }
 
@@ -269,6 +309,166 @@
         // Schedule callback
         [self updateAutoScrollVertical];
     }
+}
+
+- (NSString*) propNameForNode:(CCNode*) node subRow:(int)sub
+{
+    NSArray* props = node.plugIn.animatableProperties;
+    
+    NSString* prop = NULL;
+    if (sub == 0) prop = @"visible";
+    else prop = [props objectAtIndex:sub-1];
+    
+    return prop;
+}
+
+- (void) addKeyframeAtRow:(int)row sub:(int)sub time:(float) time
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    // Get the double clicked node
+    CCNode* node = [outlineView itemAtRow:row];
+    NSString* prop = [self propNameForNode:node subRow:sub];
+    
+    [node addDefaultKeyframeForProperty:prop atTime:time sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+}
+
+- (SequencerKeyframe*) keyframeForRow:(int)row sub:(int)sub minTime:(float)minTime maxTime:(float)maxTime
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    CCNode* node = [outlineView itemAtRow:row];
+    NSString* prop = [self propNameForNode:node subRow:sub];
+    
+    SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+    
+    return [seqNodeProp keyframeBetweenMinTime:minTime maxTime:maxTime];
+}
+
+- (SequencerKeyframe*) keyframeForInterpolationInRow:(int)row sub:(int)sub time:(float)time
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    CCNode* node = [outlineView itemAtRow:row];
+    NSString* prop = [self propNameForNode:node subRow:sub];
+    
+    SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
+    
+    return [seqNodeProp keyframeForInterpolationAtTime:time];
+}
+
+- (NSArray*) keyframesInSelectionArea
+{
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    SequencerSequence* seq = [[SequencerHandler sharedHandler] currentSequence];
+    
+    NSMutableArray* selectedKeyframes = [NSMutableArray array];
+    
+    // Determine min/max values for the selection
+    float xMinTime = 0;
+    float xMaxTime = 0;
+    if (xStartSelectTime < xEndSelectTime)
+    {
+        xMinTime = xStartSelectTime;
+        xMaxTime = xEndSelectTime;
+    }
+    else
+    {
+        xMinTime = xEndSelectTime;
+        xMaxTime = xStartSelectTime;
+    }
+    
+    // Rows
+    int yMinRow = 0;
+    int yMaxRow = 0;
+    int yMinSubRow = 0;
+    int yMaxSubRow = 0;
+    
+    if (yStartSelectRow < yEndSelectRow)
+    {
+        yMinRow = yStartSelectRow;
+        yMaxRow = yEndSelectRow;
+        yMinSubRow = yStartSelectSubRow;
+        yMaxSubRow = yEndSelectSubRow;
+    }
+    else
+    {
+        yMinRow = yEndSelectRow;
+        yMaxRow = yStartSelectRow;
+        yMinSubRow = yEndSelectSubRow;
+        yMaxSubRow = yStartSelectSubRow;
+    }
+    
+    if (yMinRow == yMaxRow)
+    {
+        // Only selection within a row
+        
+        if (yStartSelectSubRow < yEndSelectSubRow)
+        {
+            yMinSubRow = yStartSelectSubRow;
+            yMaxSubRow = yEndSelectSubRow;
+        }
+        else
+        {
+            yMinSubRow = yEndSelectSubRow;
+            yMaxSubRow = yStartSelectSubRow;
+        }
+        
+        CCNode* node = [outlineView itemAtRow:yMinRow];
+        for (int subRow = yMinSubRow; subRow <= yMaxSubRow; subRow++)
+        {
+            NSString* propName = [self propNameForNode:node subRow:subRow];
+            SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+            [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+        }
+    }
+    else
+    {
+        // Selection spanning multiple rows
+        for (int row = yMinRow; row <= yMaxRow; row++)
+        {
+            CCNode* node = [outlineView itemAtRow:row];
+            
+            if (node.seqExpanded)
+            {
+                // This row is expanded
+                if (row == yMinRow)
+                {
+                    for (int subRow = yMinSubRow; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+                else if (row == yMaxRow)
+                {
+                    for (int subRow = 0; subRow <= yMaxSubRow; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+                else
+                {
+                    for (int subRow = 0; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    {
+                        NSString* propName  = [self propNameForNode:node subRow:subRow];
+                        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                        [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+                    }
+                }
+            }
+            else
+            {
+                // Row is not expaned, only select the first visible property
+                NSString* propName  = [self propNameForNode:node subRow:0];
+                SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+            }
+        }
+    }
+    
+    return selectedKeyframes;
 }
 
 - (void) mouseDown:(NSEvent *)theEvent
@@ -289,28 +489,96 @@
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
+    // Calculate the clicked time and time span for hit area of keyframes
+    float time = [seq positionToTime:mouseLocation.x];
+    
+    float timeMin = [seq positionToTime:mouseLocation.x - 3];
+    float timeMax = [seq positionToTime:mouseLocation.x + 3];
+    
+    int row = [self yMousePosToRow:mouseLocation.y];
+    int subRow = [self yMousePosToSubRow:mouseLocation.y];
+    
+    CCNode* node = NULL;
+    if (row >= 0)
+    {
+        node = [outlineView itemAtRow:row];
+    }
+    
+    didAutoScroll = NO;
+    mouseDownPosition = mouseLocation;
+    mouseDownKeyframe = [self keyframeForRow:row sub:subRow minTime:timeMin maxTime:timeMax];
+    mouseDownRelPositionX = (seq.timelineScale*seq.timelineOffset)+mouseLocation.x;
+    
     if (mouseLocation.y > self.bounds.size.height - kCCBSeqScrubberHeight)
     {
         // Scrubbing
-        seq.timelinePosition = [seq positionToTime:mouseLocation.x];
+        seq.timelinePosition = time;
         mouseState = kCCBSeqMouseStateScrubbing;
     }
     else
     {
-        mouseState = kCCBSeqMouseStateSelecting;
+        if (mouseDownKeyframe)
+        {
+            if (theEvent.modifierFlags & NSShiftKeyMask)
+            {
+                mouseDownKeyframe.selected = ! mouseDownKeyframe.selected;
+            }
+            else
+            {
+                // Handle selections
+                if (!mouseDownKeyframe.selected)
+                {
+                    [[SequencerHandler sharedHandler] deselectAllKeyframes];
+                    mouseDownKeyframe.selected = YES;
+                }
+                
+                // Center on keyframe for double clicks
+                if (theEvent.clickCount == 2)
+                {
+                    seq.timelinePosition = mouseDownKeyframe.time;
+                    [CocosBuilderAppDelegate appDelegate].selectedNode = node;
+                }
+                
+                // Start dragging keyframe(s)
+                for (SequencerKeyframe* keyframe in [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence])
+                {
+                    keyframe.timeAtDragStart = keyframe.time;
+                }
+                
+                mouseState = kCCBSeqMouseStateKeyframe;
+            }
+            
+            [outlineView reloadItem:node];
+        }
+        else if (theEvent.modifierFlags & NSAlternateKeyMask)
+        {
+            mouseState = kCCBSeqMouseStateNone;
+            
+            int clickedRow = row;
+            int clickedSubRow = subRow;
+            
+            if (clickedRow != -1)
+            {
+                [self addKeyframeAtRow:clickedRow sub:clickedSubRow time:time];
+            }
+        }
+        else
+        {
+            mouseState = kCCBSeqMouseStateSelecting;
         
-        // Position in time
-        xStartSelectTime = [seq positionToTime:mouseLocation.x];
-        xEndSelectTime = xStartSelectTime;
+            // Position in time
+            xStartSelectTime = time;
+            xEndSelectTime = xStartSelectTime;
         
-        // Row selection
-        yStartSelectRow = [self yMousePosToRow:mouseLocation.y];
-        if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
-        yEndSelectRow = yStartSelectRow;
+            // Row selection
+            yStartSelectRow = row;
+            if (yStartSelectRow < 0) yStartSelectRow = [outlineView numberOfRows] - 1;
+            yEndSelectRow = yStartSelectRow;
         
-        // Selection in row
-        yStartSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
-        yEndSelectSubRow = yStartSelectSubRow;
+            // Selection in row
+            yStartSelectSubRow = subRow;
+            yEndSelectSubRow = yStartSelectSubRow;
+        }
     }
 }
 
@@ -328,9 +596,10 @@
     
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
-    lastMousePosition = mouseLocation;
-    
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    lastMousePosition = mouseLocation;
+    int relMousePosX = (seq.timelineScale*seq.timelineOffset)+mouseLocation.x;
     
     if (mouseLocation.x < 0)
     {
@@ -347,10 +616,14 @@
     
     if (mouseState == kCCBSeqMouseStateScrubbing)
     {
+        // Scrubbing in the timeline
+        
         seq.timelinePosition = [seq positionToTime:mouseLocation.x];
     }
     else if (mouseState == kCCBSeqMouseStateSelecting)
     {
+        // Drawing a selection box
+        
         xEndSelectTime = [seq positionToTime:mouseLocation.x];
         yEndSelectRow = [self yMousePosToRow:mouseLocation.y];
         
@@ -385,6 +658,37 @@
         
         [self setNeedsDisplay:YES];
     }
+    else if (mouseState == kCCBSeqMouseStateKeyframe)
+    {
+        // Mouse down in a keyframe
+        
+        int xDelta = relMousePosX - mouseDownRelPositionX;
+        
+        NSArray* selection = [[SequencerHandler sharedHandler] selectedKeyframesForCurrentSequence];
+        
+        BOOL moved = NO;
+        
+        for (SequencerKeyframe* keyframe in selection)
+        {
+            float oldTime = keyframe.time;
+            
+            float startPos = [seq timeToPosition:keyframe.timeAtDragStart];
+            float newTime = [seq positionToTime:startPos + xDelta];
+            
+            if (oldTime != newTime)
+            {
+                [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*keyframe"];
+                keyframe.time = newTime;
+                moved = YES;
+            }
+        }
+        
+        if (moved)
+        {
+            [[SequencerHandler sharedHandler].outlineHierarchy reloadData];
+            [[SequencerHandler sharedHandler] updatePropertiesToTimelinePosition];
+        }
+    }
 }
 
 - (void) mouseUp:(NSEvent *)theEvent
@@ -392,11 +696,52 @@
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
     
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    // Check for out of bounds
     if (mouseLocation.x > [self activeWidth])
     {
         [super mouseUp:theEvent];
     }
     
+    if (mouseState == kCCBSeqMouseStateSelecting)
+    {
+        if (theEvent.modifierFlags & NSShiftKeyMask)
+        {
+            NSArray* selectedKeyframes = [self keyframesInSelectionArea];
+            for (SequencerKeyframe* keyframe in selectedKeyframes)
+            {
+                keyframe.selected = YES;
+                [outlineView reloadData];
+            }
+        }
+        else
+        {
+            [[SequencerHandler sharedHandler] deselectAllKeyframes];
+            NSArray* selectedKeyframes = [self keyframesInSelectionArea];
+            for (SequencerKeyframe* keyframe in selectedKeyframes)
+            {
+                keyframe.selected = YES;
+                [outlineView reloadData];
+            }
+        }
+    }
+    else if (mouseState == kCCBSeqMouseStateKeyframe)
+    {
+        if (NSEqualPoints(mouseLocation, mouseDownPosition) && !didAutoScroll)
+        {
+            [[SequencerHandler sharedHandler] deselectAllKeyframes];
+            mouseDownKeyframe.selected = YES;
+        }
+        else
+        {
+            // Moved keyframes, clean up duplicates
+            [[SequencerHandler sharedHandler] deleteDuplicateKeyframesForCurrentSequence];
+            [outlineView reloadData];
+        }
+    }
+    
+    // Clean up
     mouseState = kCCBSeqMouseStateNone;
     [self autoScrollHorizontalDirection:kCCBSeqAutoScrollHorizontalNone];
     [self autoScrollVerticalDirection:kCCBSeqAutoScrollVerticalNone];
@@ -410,6 +755,60 @@
     seq.timelineOffset -= theEvent.deltaX/seq.timelineScale*2.0f;
     
     [super scrollWheel:theEvent];
+}
+
+- (NSMenu*) menuForEvent:(NSEvent *)theEvent
+{
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocation = [self convertPoint: mouseLocationInWindow fromView: NULL];
+    
+    // Check that document is open
+    if (!ad.hasOpenedDocument) return NULL;
+    
+    // Check that user clicked a row
+    int row = [self yMousePosToRow:mouseLocation.y];
+    if (row < 0) return NULL;
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    int subRow = [self yMousePosToSubRow:mouseLocation.y];
+    float timeMin = [seq positionToTime:mouseLocation.x - 3];
+    float timeMax = [seq positionToTime:mouseLocation.x + 3];
+    
+    // Check if a keyframe was clicked
+    SequencerKeyframe* keyframe = [self keyframeForRow:row sub:subRow minTime:timeMin maxTime:timeMax];
+    if (keyframe)
+    {
+        [SequencerHandler sharedHandler].contextKeyframe = keyframe;
+        return [CocosBuilderAppDelegate appDelegate].menuContextKeyframe;
+    }
+    
+    // Check if an interpolation was clicked
+    keyframe = [self keyframeForInterpolationInRow:row sub:subRow time:[seq positionToTime:mouseLocation.x]];
+    if (keyframe)
+    {
+        [SequencerHandler sharedHandler].contextKeyframe = keyframe;
+        
+        // Highlight selected option in context menu
+        NSMenu* menu = [CocosBuilderAppDelegate appDelegate].menuContextKeyframeInterpol;
+        
+        for (NSMenuItem* item in menu.itemArray)
+        {
+            [item setState:NSOffState];
+        }
+        
+        NSMenuItem* item = [menu itemWithTag:keyframe.easing.type];
+        [item setState:NSOnState];
+        
+        // Enable or disable options menu item
+        NSMenuItem* itemOpt = [menu itemWithTag:-1];
+        [itemOpt setEnabled: keyframe.easing.hasOptions];
+        
+        return menu;
+    }
+    
+    return NULL;
 }
 
 - (void) dealloc

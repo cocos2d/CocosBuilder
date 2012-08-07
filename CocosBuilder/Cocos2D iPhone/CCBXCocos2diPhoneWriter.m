@@ -23,6 +23,8 @@
  */
 
 #import "CCBXCocos2diPhoneWriter.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 
 @implementation CCBXCocos2diPhoneWriter
 
@@ -240,7 +242,8 @@
     }
     
     NSNumber* num = [stringCacheLookup objectForKey:str];
-    NSAssert(num, @"ccbi export: Trying to write string not added to cache");
+    
+    NSAssert(num, @"ccbi export: Trying to write string not added to cache (%@)", str);
     
     [self writeInt:[num intValue] withSign:NO];
 }
@@ -275,19 +278,19 @@
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:2] intValue];
+        int positionType = [[prop objectAtIndex:2] intValue];
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:positionType withSign:NO];
     }
     else if([type isEqualToString:@"Size"])
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:2] intValue];
+        int sizeType = [[prop objectAtIndex:2] intValue];
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:sizeType withSign:NO];
     }
     else if ([type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"]
@@ -302,10 +305,11 @@
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
-        int type = [[prop objectAtIndex:3] intValue];
+        int scaleType = 0;
+
         [self writeFloat:a];
         [self writeFloat:b];
-        [self writeInt:type withSign:NO];
+        [self writeInt:scaleType withSign:NO];
     }
     else if ([type isEqualToString:@"Degrees"]
              || [type isEqualToString:@"Float"])
@@ -422,6 +426,34 @@
     [self addToStringCache:[node objectForKey:@"customClass"] isPath:NO];
     [self addToStringCache:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     
+    // Animated properties
+    NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
+    for (NSString* seqIdStr in animatedProps)
+    {
+        NSDictionary* props = [animatedProps objectForKey:seqIdStr];
+        for (NSString* propName in props)
+        {
+            NSMutableDictionary* prop = [props objectForKey:propName];
+            int kfType = [[prop objectForKey:@"type"] intValue];
+            if (kfType == kCCBKeyframeTypeSpriteFrame)
+            {
+                NSArray* keyframes = [prop objectForKey:@"keyframes"];
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    // Write a keyframe
+                    id value = [keyframe objectForKey:@"value"];
+                    NSString* a = [value objectAtIndex:0];
+                    NSString* b = [value objectAtIndex:1];
+                    
+                    if ([b isEqualToString:@"Use regular file"]) b = @"";
+                    
+                    [self addToStringCache:a isPath:YES];
+                    [self addToStringCache:b isPath:[a isEqualToString:@""]];
+                }
+            }
+        }
+    }
+    
     // Properties
     NSArray* props = [node objectForKey:@"properties"];
     for (int i = 0; i < [props count]; i++)
@@ -474,6 +506,43 @@
     }
 }
 
+- (void) cacheStringsForSequences:(NSDictionary*)doc
+{
+    NSArray* seqs = [doc objectForKey:@"sequences"];
+    for (NSDictionary* seq in seqs)
+    {
+        [self addToStringCache:[seq objectForKey:@"name"] isPath:NO];
+    }
+}
+
+- (void) writeSequences:(NSDictionary*)doc
+{
+    NSArray* seqs = [doc objectForKey:@"sequences"];
+    
+    // Write number of sequences
+    [self writeInt:[seqs count] withSign:NO];
+    
+    int autoPlaySeqId = -1;
+    
+    // Write each sequence
+    for (NSDictionary* seq in seqs)
+    {
+        [self writeFloat:[[seq objectForKey:@"length"] floatValue]];
+        [self writeCachedString:[seq objectForKey:@"name"] isPath:NO];
+        [self writeInt:[[seq objectForKey:@"sequenceId"] intValue] withSign:NO];
+        [self writeInt:[[seq objectForKey:@"chainedSequenceId"] intValue] withSign:YES];
+        
+        // Check if autoplay is enabled
+        if ([[seq objectForKey:@"autoPlay"] boolValue])
+        {
+            autoPlaySeqId = [[seq objectForKey:@"sequenceId"] intValue];
+        }
+    }
+    
+    // Write autoPlay sequence (-1 for no autoplay)
+    [self writeInt:autoPlaySeqId withSign:YES];
+}
+
 - (void) transformStringCache
 {
     NSArray* stringCacheSorted = [stringCacheLookup keysSortedByValueUsingSelector:@selector(compare:)];
@@ -517,6 +586,65 @@
     }
 }
 
+- (void) writeKeyframeValue:(id)value type: (NSString*)type time:(float)time easingType: (int)easingType easingOpt: (float)easingOpt
+{
+    // Write time
+    [self writeFloat:time];
+    
+    // Write easing type
+    [self writeInt:easingType withSign:NO];
+    if (easingType == kCCBKeyframeEasingCubicIn
+        || easingType == kCCBKeyframeEasingCubicOut
+        || easingType == kCCBKeyframeEasingCubicInOut
+        || easingType == kCCBKeyframeEasingElasticIn
+        || easingType == kCCBKeyframeEasingElasticOut
+        || easingType == kCCBKeyframeEasingElasticInOut)
+    {
+        [self writeFloat:easingOpt];
+    }
+    
+    // Write value
+    if ([type isEqualToString:@"Check"])
+    {
+        [self writeBool:[value boolValue]];
+    }
+    else if ([type isEqualToString:@"Byte"])
+    {
+        [self writeByte:[value intValue]];
+    }
+    else if ([type isEqualToString:@"Color3"])
+    {
+        int a = [[value objectAtIndex:0] intValue];
+        int b = [[value objectAtIndex:1] intValue];
+        int c = [[value objectAtIndex:2] intValue];
+        [self writeByte:a];
+        [self writeByte:b];
+        [self writeByte:c];
+    }
+    else if ([type isEqualToString:@"Degrees"])
+    {
+        [self writeFloat:[value floatValue]];
+    }
+    else if ([type isEqualToString:@"ScaleLock"]
+             || [type isEqualToString:@"Position"])
+    {
+        float a = [[value objectAtIndex:0] floatValue];
+        float b = [[value objectAtIndex:1] floatValue];
+        [self writeFloat:a];
+        [self writeFloat:b];
+    }
+    else if ([type isEqualToString:@"SpriteFrame"])
+    {
+        NSString* a = [value objectAtIndex:1];
+        NSString* b = [value objectAtIndex:0];
+        
+        if ([b isEqualToString:@"Use regular file"]) b = @"";
+        
+        [self writeCachedString:a isPath:YES];
+        [self writeCachedString:b isPath:[a isEqualToString:@""]];
+    }
+}
+
 - (void) writeNodeGraph:(NSDictionary*)node
 {
     // Write class
@@ -535,13 +663,138 @@
         [self writeCachedString:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
     }
     
+    // Write animated properties
+    NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
+    
+    // Animated sequences count
+    [self writeInt:[animatedProps count] withSign:NO];
+    
+    
+    for (NSString* seqIdStr in animatedProps)
+    {
+        // Write a sequence
+        
+        int seqId = [seqIdStr intValue];
+        [self writeInt:seqId withSign:NO];
+        
+        NSDictionary* props = [animatedProps objectForKey:seqIdStr];
+        
+        // Animated properties count
+        [self writeInt:[props count] withSign:NO];
+        
+        for (NSString* propName in props)
+        {
+            NSMutableDictionary* prop = [props objectForKey:propName];
+            
+            // Write a sequence node property
+            [self writeCachedString:propName isPath:NO];
+            
+            // Write property type
+            int kfType = [[prop objectForKey:@"type"] intValue];
+            NSString* propType = NULL;
+            if (kfType == kCCBKeyframeTypeVisible) propType = @"Check";
+            else if (kfType == kCCBKeyframeTypeByte) propType = @"Byte";
+            else if (kfType == kCCBKeyframeTypeColor3) propType = @"Color3";
+            else if (kfType == kCCBKeyframeTypeDegrees) propType = @"Degrees";
+            else if (kfType == kCCBKeyframeTypeScaleLock) propType = @"ScaleLock";
+            else if (kfType == kCCBKeyframeTypeSpriteFrame) propType = @"SpriteFrame";
+            else if (kfType == kCCBKeyframeTypePosition) propType = @"Position";
+            
+            NSAssert(propType, @"Unknown animated property type");
+            
+            [self writeInt:[self propTypeIdForName:propType] withSign:NO];
+            
+            // Write number of keyframes
+            NSArray* keyframes = [prop objectForKey:@"keyframes"];
+            
+            if (kfType == kCCBKeyframeTypeVisible && keyframes.count > 0)
+            {
+                BOOL visible = YES;
+                NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];
+                if ([[keyframeFirst objectForKey:@"time"] floatValue] != 0)
+                {
+                    [self writeInt:[keyframes count]+1 withSign:NO];
+                    // Add a first keyframe
+                    [self writeKeyframeValue:[NSNumber numberWithBool:NO] type:propType time:0 easingType:kCCBKeyframeEasingInstant easingOpt:0];
+                }
+                else
+                {
+                    [self writeInt:[keyframes count] withSign:NO];
+                }
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    float time = [[keyframe objectForKey:@"time"] floatValue];
+                    [self writeKeyframeValue:[NSNumber numberWithBool:visible] type:propType time:time easingType:kCCBKeyframeEasingInstant easingOpt:0];
+                    visible = !visible;
+                }
+                
+            }
+            else
+            {
+                [self writeInt:[keyframes count] withSign:NO];
+                
+                for (NSDictionary* keyframe in keyframes)
+                {
+                    // Write a keyframe
+                    id value = [keyframe objectForKey:@"value"];
+                    float time = [[keyframe objectForKey:@"time"] floatValue];
+                    NSDictionary* easing = [keyframe objectForKey:@"easing"];
+                    int easingType = [[easing objectForKey:@"type"] intValue];
+                    float easingOpt = [[easing objectForKey:@"opt"] floatValue];
+                    
+                    [self writeKeyframeValue:value type: propType time:time easingType: easingType easingOpt: easingOpt];
+                }
+            }
+        }
+    }
+    
     // Write properties
     NSArray* props = [node objectForKey:@"properties"];
     [self writeInt:(int)[props count] withSign:NO];
     for (int i = 0; i < [props count]; i++)
     {
         NSDictionary* prop = [props objectAtIndex:i];
-        [self writeProperty:[prop objectForKey:@"value"] type:[prop objectForKey:@"type"] name:[prop objectForKey:@"name"] platform:[prop objectForKey:@"platform"]];
+        
+        id value = [prop objectForKey:@"value"];
+        NSString* type = [prop objectForKey:@"type"];
+        NSString* name = [prop objectForKey:@"name"];
+        id baseValue = [prop objectForKey:@"baseValue"];
+        
+        if (baseValue)
+        {
+            // We need to transform the base value to a normal value (base values override normal values)
+            if ([type isEqualToString:@"Position"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [value objectAtIndex:2],
+                         nil];
+            }
+            else if ([type isEqualToString:@"ScaleLock"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [NSNumber numberWithBool:NO],
+                         [value objectAtIndex:3],
+                         nil];
+            }
+            else if ([type isEqualToString:@"SpriteFrame"])
+            {
+                NSString* a = [baseValue objectAtIndex:0];
+                NSString* b = [baseValue objectAtIndex:1];
+                if ([b isEqualToString:@"Use regular file"]) b = @"";
+                value = [NSArray arrayWithObjects:b, a, nil];
+            }
+            else
+            {
+                // Value needs no transformation
+                value = baseValue;
+            }
+        }
+        
+        [self writeProperty:value type:type name:name platform:[prop objectForKey:@"platform"]];
     }
     
     // Write children
@@ -558,10 +811,12 @@
     NSDictionary* nodeGraph = [doc objectForKey:@"nodeGraph"];
     
     [self cacheStringsForNode:nodeGraph];
+    [self cacheStringsForSequences:doc];
     [self transformStringCache];
     
     [self writeHeader];
     [self writeStringCache];
+    [self writeSequences:doc];
     [self writeNodeGraph:nodeGraph];
 }
 

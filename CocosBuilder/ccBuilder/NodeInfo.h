@@ -25,15 +25,21 @@
 #import <Foundation/Foundation.h>
 
 @class PlugInNode;
+@class SequencerNodeProperty;
 
 @interface NodeInfo : NSObject
 {
     PlugInNode* plugIn;
     NSMutableDictionary* extraProps;
+    NSMutableDictionary* animatableProperties;
+    NSMutableDictionary* baseValues;
 }
 
 @property (nonatomic,assign) PlugInNode* plugIn;
 @property (nonatomic,readonly) NSMutableDictionary* extraProps;
+@property (nonatomic,retain) NSMutableDictionary* animatableProperties;
+@property (nonatomic,readonly) NSMutableDictionary* baseValues;
+@property (nonatomic,copy) NSString* displayName;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin;
 

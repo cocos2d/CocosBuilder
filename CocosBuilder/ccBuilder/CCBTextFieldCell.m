@@ -36,7 +36,20 @@
 
 - (NSColor *)textColor
 {
-    if([self isHighlighted])
+    if (self.controlView == self.controlView.window.firstResponder)
+    {
+        // Is being edited
+        
+        //if ([self isHighlighted])
+        //{
+            //return [NSColor whiteColor];
+        //}
+        //else
+        //{
+            return [NSColor blackColor];
+        //}
+    }
+    else if ([self isHighlighted])
     {
         return [NSColor whiteColor];
     }
@@ -44,6 +57,12 @@
     {
         return [NSColor blackColor];
     }
+}
+
+- (NSText*) setUpFieldEditorAttributes:(NSText *)textObj
+{
+    NSLog(@"setUpFiledEditor");
+    return [super setUpFieldEditorAttributes:textObj];
 }
 
 @end

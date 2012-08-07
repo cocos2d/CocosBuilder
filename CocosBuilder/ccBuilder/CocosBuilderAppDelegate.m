@@ -66,6 +66,19 @@
 #import "PlayerController.h"
 #import "SequencerHandler.h"
 #import "MainWindow.h"
+#import "CCNode+NodeInfo.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerSequence.h"
+#import "SequencerSettingsWindow.h"
+#import "SequencerDurationWindow.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
+#import "SequencerKeyframeEasingWindow.h"
+#import "JavaScriptDocument.h"
+#import "PlayerConnection.h"
+#import "PlayerConsoleWindow.h"
+#import "SequencerUtil.h"
+#import "SequencerStretchWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -87,6 +100,10 @@
 @synthesize guiWindow;
 @synthesize showStickyNotes;
 @synthesize playerController;
+@synthesize menuContextKeyframe;
+@synthesize menuContextKeyframeInterpol;
+@synthesize menuContextResManager;
+@synthesize outlineProject;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -139,6 +156,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     sequenceHandler.timeScaleSlider = timeScaleSlider;
     sequenceHandler.scroller = timelineScroller;
     sequenceHandler.scrollView = sequenceScrollView;
+    
+    [self updateTimelineMenu];
+    [sequenceHandler updateScaleSlider];
 }
 
 - (void) setupTabBar
@@ -165,6 +185,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) setupPlayerController
 {
     self.playerController = [[[PlayerController alloc] init] autorelease];
+}
+
+- (void) setupPlayerConnection
+{
+    PlayerConnection* connection = [[PlayerConnection alloc] init];
+    [connection run];
 }
 
 - (void) setupResourceManager
@@ -208,10 +234,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
     
+    // iOS
     defaultCanvasSizes[kCCBCanvasSizeIPhoneLandscape] = CGSizeMake(480, 320);
     defaultCanvasSizes[kCCBCanvasSizeIPhonePortrait] = CGSizeMake(320, 480);
     defaultCanvasSizes[kCCBCanvasSizeIPadLandscape] = CGSizeMake(1024, 768);
     defaultCanvasSizes[kCCBCanvasSizeIPadPortrait] = CGSizeMake(768, 1024);
+    
+    // Android
+    defaultCanvasSizes[kCCBCanvasSizeAndroidXSmallLandscape] = CGSizeMake(320, 240);
+    defaultCanvasSizes[kCCBCanvasSizeAndroidXSmallPortrait] = CGSizeMake(240, 320);
+    defaultCanvasSizes[kCCBCanvasSizeAndroidSmallLandscape] = CGSizeMake(480, 340);
+    defaultCanvasSizes[kCCBCanvasSizeAndroidSmallPortrait] = CGSizeMake(340, 480);
+    defaultCanvasSizes[kCCBCanvasSizeAndroidMediumLandscape] = CGSizeMake(800, 480);
+    defaultCanvasSizes[kCCBCanvasSizeAndroidMediumPortrait] = CGSizeMake(480, 800);
     
     [window setDelegate:self];
     
@@ -256,12 +291,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupGUIWindow];
     
     [self setupPlayerController];
+    [self setupPlayerConnection];
     
     self.showGuides = YES;
     self.snapToGuides = YES;
     self.showStickyNotes = YES;
     
-    [self.window zoom:self];
     [self.window makeKeyWindow];
 }
 
@@ -385,6 +420,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setSelectedNode:(CCNode*) selection
 {
+    // Close the color picker
+    [[NSColorPanel sharedColorPanel] close];
+    
     if (![[self window] makeFirstResponder:[self window]])
     {
         return;
@@ -499,6 +537,28 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return offset;
 }
 
+- (BOOL) isDisabledProperty:(NSString*)name animatable:(BOOL)animatable
+{
+    // Only animatable properties can be disabled
+    if (!animatable) return NO;
+    
+    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+    
+    SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:name sequenceId:seq.sequenceId];
+    
+    // Do not disable if animation hasn't been enabled
+    if (!seqNodeProp) return NO;
+    
+    // Disable visiblilty if there are keyframes
+    if (seqNodeProp.keyframes.count > 0 && [name isEqualToString:@"visible"]) return YES;
+    
+    // Do not disable if we are currently at a keyframe
+    if ([seqNodeProp hasKeyframeAtTime: seq.timelinePosition]) return NO;
+    
+    // Between keyframes - disable
+    return YES;
+}
+
 - (void) updateInspectorFromSelection
 {
     // Notifiy panes that they will be removed
@@ -542,6 +602,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             BOOL readOnly = [[propInfo objectForKey:@"readOnly"] boolValue];
             NSArray* affectsProps = [propInfo objectForKey:@"affectsProperties"];
             NSString* extra = [propInfo objectForKey:@"extra"];
+            BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
+            if ([name isEqualToString:@"visible"]) animated = YES;
+            
+            // TODO: Handle read only for animated properties
+            if ([self isDisabledProperty:name animatable:animated])
+            {
+                readOnly = YES;
+            }
             
             paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
@@ -570,7 +638,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         NSString* keyEquivalent = @"";
         if (i < 10) keyEquivalent = [NSString stringWithFormat:@"%d",i+1];
         
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent];
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:resolution.name action:@selector(menuResolution:) keyEquivalent:keyEquivalent] autorelease];
         item.target = self;
         item.tag = i;
         
@@ -578,6 +646,76 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         if (i == currentDocument.currentResolution) item.state = NSOnState;
         
         i++;
+    }
+}
+
+- (void) updateTimelineMenu
+{
+    if (!currentDocument)
+    {
+        lblTimeline.stringValue = @"";
+        lblTimelineChained.stringValue = @"";
+        [menuTimelinePopup setEnabled:NO];
+        [menuTimelineChainedPopup setEnabled:NO];
+        return;
+    }
+    
+    [menuTimelinePopup setEnabled:YES];
+    [menuTimelineChainedPopup setEnabled:YES];
+    
+    // Clear menu
+    [menuTimeline removeAllItems];
+    [menuTimelineChained removeAllItems];
+    
+    int currentId = sequenceHandler.currentSequence.sequenceId;
+    int chainedId = sequenceHandler.currentSequence.chainedSequenceId;
+    
+    // Add dummy item
+    NSMenuItem* itemDummy = [[[NSMenuItem alloc] initWithTitle:@"Dummy" action:NULL keyEquivalent:@""] autorelease];
+    [menuTimelineChained addItem:itemDummy];
+    
+    // Add empty option for chained seq
+    NSMenuItem* itemCh = [[[NSMenuItem alloc] initWithTitle: @"No Chained Timeline" action:@selector(menuSetChainedSequence:) keyEquivalent:@""] autorelease];
+    itemCh.target = sequenceHandler;
+    itemCh.tag = -1;
+    if (chainedId == -1) [itemCh setState:NSOnState];
+    [menuTimelineChained addItem:itemCh];
+    
+    // Add separator item
+    [menuTimelineChained addItem:[NSMenuItem separatorItem]];
+    
+    for (SequencerSequence* seq in currentDocument.sequences)
+    {
+        // Add to sequence selector
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:seq.name action:@selector(menuSetSequence:) keyEquivalent:@""] autorelease];
+        item.target = sequenceHandler;
+        item.tag = seq.sequenceId;
+        if (currentId == seq.sequenceId) [item setState:NSOnState];
+        [menuTimeline addItem:item];
+        
+        // Add to chained sequence selector
+        itemCh = [[[NSMenuItem alloc] initWithTitle: seq.name action:@selector(menuSetChainedSequence:) keyEquivalent:@""] autorelease];
+        itemCh.target = sequenceHandler;
+        itemCh.tag = seq.sequenceId;
+        if (chainedId == seq.sequenceId) [itemCh setState:NSOnState];
+        [menuTimelineChained addItem:itemCh];
+    }
+    
+    lblTimeline.stringValue = sequenceHandler.currentSequence.name;
+    if (chainedId == -1)
+    {
+        lblTimelineChained.stringValue = @"No chained timeline";
+    }
+    else
+    {
+        for (SequencerSequence* seq in currentDocument.sequences)
+        {
+            if (seq.sequenceId == chainedId)
+            {
+                lblTimelineChained.stringValue = seq.name;
+                break;
+            }
+        }
     }
 }
 
@@ -631,6 +769,18 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         [dict setObject:[NSNumber numberWithInt:doc.currentResolution] forKey:@"currentResolution"];
     }
     
+    // Sequencer timelines
+    if (doc.sequences)
+    {
+        NSMutableArray* sequences = [NSMutableArray array];
+        for (SequencerSequence* seq in doc.sequences)
+        {
+            [sequences addObject:[seq serialize]];
+        }
+        [dict setObject:sequences forKey:@"sequences"];
+        [dict setObject:[NSNumber numberWithInt:sequenceHandler.currentSequence.sequenceId] forKey:@"currentSequenceId"];
+    }
+    
     if (doc.exportPath && doc.exportPlugIn)
     {
         [dict setObject:doc.exportPlugIn forKey:@"exportPlugIn"];
@@ -646,7 +796,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self.window makeKeyWindow];
     [self setSelectedNode:NULL];
     CocosScene* cs = [CocosScene cocosScene];
-    
     
     if (![self hasOpenedDocument]) return;
     currentDocument.docData = [self docDataFromCurrentNodeGraph];
@@ -703,6 +852,44 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
     
+    // Setup sequencer timelines
+    NSMutableArray* serializedSequences = [doc objectForKey:@"sequences"];
+    if (serializedSequences)
+    {
+        // Load from the file
+        int currentSequenceId = [[doc objectForKey:@"currentSequenceId"] intValue];
+        SequencerSequence* currentSeq = NULL;
+        
+        NSMutableArray* sequences = [NSMutableArray array];
+        for (id serSeq in serializedSequences)
+        {
+            SequencerSequence* seq = [[[SequencerSequence alloc] initWithSerialization:serSeq] autorelease];
+            [sequences addObject:seq];
+            
+            if (seq.sequenceId == currentSequenceId)
+            {
+                currentSeq = seq;
+            }
+        }
+        
+        currentDocument.sequences = sequences;
+        sequenceHandler.currentSequence = currentSeq;
+    }
+    else
+    {
+        // Setup a default timeline
+        NSMutableArray* sequences = [NSMutableArray array];
+    
+        SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+        seq.name = @"Default Timeline";
+        seq.sequenceId = 0;
+        seq.autoPlay = YES;
+        [sequences addObject:seq];
+    
+        currentDocument.sequences = sequences;
+        sequenceHandler.currentSequence = seq;
+    }
+    
     // Process contents
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
     
@@ -751,6 +938,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self replaceDocumentData:doc];
     
     [self updateResolutionMenu];
+    [self updateTimelineMenu];
     [self updateStateOriginCenteredMenu];
     
     CocosScene* cs = [CocosScene cocosScene];
@@ -779,7 +967,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [[CocosScene cocosScene].notesLayer removeAllNotes];
     [[CocosScene cocosScene].rulerLayer mouseExited:NULL];
     self.currentDocument = NULL;
+    sequenceHandler.currentSequence = NULL;
     
+    [self updateTimelineMenu];
     [outlineHierarchy reloadData];
     
     [resManagerPanel.window setIsVisible:NO];
@@ -950,6 +1140,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     NSMutableDictionary* doc = [self docDataFromCurrentNodeGraph];
      
     [doc writeToFile:fileName atomically:YES];
+    
     currentDocument.fileName = fileName;
     currentDocument.docData = doc;
     
@@ -1020,6 +1211,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self addDocument:currentDocument];
     
+    // Setup a default timeline
+    NSMutableArray* sequences = [NSMutableArray array];
+    
+    SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+    seq.name = @"Default Timeline";
+    seq.sequenceId = 0;
+    seq.autoPlay = YES;
+    [sequences addObject:seq];
+    
+    currentDocument.sequences = sequences;
+    sequenceHandler.currentSequence = seq;
+    
+    
     self.hasOpenedDocument = YES;
     
     [self updateStateOriginCenteredMenu];
@@ -1034,6 +1238,22 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     [self openProject:filename];
     return YES;
+}
+
+- (void) openJSFile:(NSString*) fileName
+{
+    NSURL* docURL = [[[NSURL alloc] initFileURLWithPath:fileName] autorelease];
+    
+    JavaScriptDocument* jsDoc = [[NSDocumentController sharedDocumentController] documentForURL:docURL];
+    
+    if (!jsDoc)
+    {
+        jsDoc = [[[JavaScriptDocument alloc] initWithContentsOfURL:docURL ofType:@"JavaScript" error:NULL] autorelease];
+        [[NSDocumentController sharedDocumentController] addDocument:jsDoc];
+        [jsDoc makeWindowControllers];
+    }
+    
+    [jsDoc showWindows];
 }
 
 #pragma mark Undo
@@ -1209,6 +1429,54 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) copy:(id) sender
 {
+    // Copy keyframes
+    
+    NSArray* keyframes = [sequenceHandler selectedKeyframesForCurrentSequence];
+    if ([keyframes count] > 0)
+    {
+        NSMutableSet* propsSet = [NSMutableSet set];
+        NSMutableSet* seqsSet = [NSMutableSet set];
+        BOOL duplicatedProps = NO;
+        
+        for (int i = 0; i < keyframes.count; i++)
+        {
+            SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+            
+            NSValue* seqVal = [NSValue valueWithPointer:keyframe.parent];
+            if (![seqsSet containsObject:seqVal])
+            {
+                NSString* propName = keyframe.name;
+                if ([propsSet containsObject:propName])
+                {
+                    duplicatedProps = YES;
+                    break;
+                }
+                [propsSet addObject:propName];
+                [seqsSet addObject:seqVal];
+            }
+        }
+        
+        if (duplicatedProps)
+        {
+            [self modalDialogTitle:@"Failed to Copy" message:@"You can only copy keyframes from one node."];
+            return;
+        }
+        
+        // Serialize keyframe
+        NSMutableArray* serKeyframes = [NSMutableArray array];
+        for (SequencerKeyframe* keyframe in keyframes)
+        {
+            [serKeyframes addObject:[keyframe serialization]];
+        }
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:serKeyframes];
+        NSPasteboard* cb = [NSPasteboard generalPasteboard];
+        [cb declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.keyframes"] owner:self];
+        [cb setData:clipData forType:@"com.cocosbuilder.keyframes"];
+        
+        return;
+    }
+    
+    // Copy node
     if (!selectedNode) return;
     
     // Serialize selected node
@@ -1241,6 +1509,52 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) paste:(id) sender
 {
+    if (!currentDocument) return;
+    
+    // Paste keyframes
+    NSPasteboard* cb = [NSPasteboard generalPasteboard];
+    NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.keyframes", nil]];
+    
+    if (type)
+    {
+        if (!selectedNode)
+        {
+            [self modalDialogTitle:@"Paste Failed" message:@"You need to select a node to paste keyframes"];
+            return;
+        }
+            
+        // Unarchive keyframes
+        NSData* clipData = [cb dataForType:type];
+        NSMutableArray* serKeyframes = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
+        NSMutableArray* keyframes = [NSMutableArray array];
+        
+        // Save keyframes and find time of first kf
+        float firstTime = MAXFLOAT;
+        for (id serKeyframe in serKeyframes)
+        {
+            SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] initWithSerialization:serKeyframe] autorelease];
+            if (keyframe.time < firstTime)
+            {
+                firstTime = keyframe.time;
+            }
+            [keyframes addObject:keyframe];
+        }
+            
+        // Adjust times and add keyframes
+        SequencerSequence* seq = sequenceHandler.currentSequence;
+        
+        for (SequencerKeyframe* keyframe in keyframes)
+        {
+            // Adjust time
+            keyframe.time = [seq alignTimeToResolution:keyframe.time - firstTime + seq.timelinePosition];
+            
+            // Add the keyframe
+            [selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
+        }
+        
+    }
+    
+    // Paste nodes
     [self doPasteAsChild:NO];
 }
 
@@ -1251,7 +1565,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) deleteNode:(CCNode*)node
 {
-    CCBGlobals* g= [CCBGlobals globals];
+    CCBGlobals* g = [CCBGlobals globals];
+    
     if (node == g.rootNode) return;
     if (!node) return;
     
@@ -1277,8 +1592,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) delete:(id) sender
 {
-    if (!selectedNode) return;
+    // First attempt to delete selected keyframes
+    if ([sequenceHandler deleteSelectedKeyframesForCurrentSequence]) return;
     
+    // Then delete the selected node
+    if (!selectedNode) return;
     [self deleteNode:selectedNode];
 }
 
@@ -1313,6 +1631,37 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Update the selected node
     [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
     [self refreshProperty:@"position"];
+    
+    // Update animated value
+    NSArray* animValue = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:newPos.x],
+                          [NSNumber numberWithFloat:newPos.y],
+                          NULL];
+    
+    NodeInfo* nodeInfo = selectedNode.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    
+    if ([plugIn isAnimatableProperty:@"position"])
+    {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = animValue;
+            }
+            
+            [[SequencerHandler sharedHandler] redrawTimeline];
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:animValue forKey:@"position"];
+        }
+    }
 }
 
 - (IBAction) menuNudgeObject:(id)sender
@@ -1419,10 +1768,30 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     if (publisher.runAfterPublishing)
     {
-        [playerController runPlayerForProject:projectSettings];
+        //[playerController runPlayerForProject:projectSettings]
+        [self runProject:self];
     }
     
     [publisher release];
+}
+
+- (IBAction)runProject:(id)sender
+{
+    // Open CocosPlayer console
+    if (!playerConsoleWindow)
+    {
+        playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
+    }
+    [playerConsoleWindow.window makeKeyAndOrderFront:self];
+    
+    if ([[PlayerConnection sharedPlayerConnection] connected])
+    {
+        [[PlayerConnection sharedPlayerConnection] sendRunCommand];
+    }
+    else
+    {
+        [self modalDialogTitle:@"No Player Connected" message:@"There is no CocosPlayer connected to CocosBuilder. Make sure that a player is running and that it has the same pairing number as CocosBuilder."];
+    }
 }
 
 - (IBAction) menuPublishProject:(id)sender
@@ -1467,7 +1836,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                         [self openFile:absPath];
                         [self saveFile:absPath];
                         //[self publishDocument:NULL];
-                        [self menuCloseDocument:sender];
+                        [self performClose:sender];
                     }
                 }
             }
@@ -1574,8 +1943,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
-- (IBAction) menuCloseDocument:(id)sender
+- (IBAction) performClose:(id)sender
 {
+    NSLog(@"performClose (AppDelegate)");
+    
     if (!currentDocument) return;
     NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
     if (!item) return;
@@ -1612,7 +1983,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size
 {
-    for (int i = 1; i < 5; i++)
+    for (int i = 1; i <= kCCBNumCanvasDevices; i++)
     {
         if (size.width == defaultCanvasSizes[i].width && size.height == defaultCanvasSizes[i].height) return i;
     }
@@ -1738,10 +2109,112 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     cs.currentTool = [sc selectedSegment];
 }
 
+- (int) uniqueSequenceIdFromSequences:(NSArray*) seqs
+{
+    int maxId = -1;
+    for (SequencerSequence* seqCheck in seqs)
+    {
+        if (seqCheck.sequenceId > maxId) maxId = seqCheck.sequenceId;
+    }
+    return maxId + 1;
+}
+
+- (IBAction)menuTimelineSettings:(id)sender
+{
+    if (!currentDocument) return;
+    
+    SequencerSettingsWindow* wc = [[[SequencerSettingsWindow alloc] initWithWindowNibName:@"SequencerSettingsWindow"] autorelease];
+    [wc copySequences:currentDocument.sequences];
+    
+    int success = [wc runModalSheetForWindow:window];
+    
+    if (success)
+    {
+        // Successfully updated timeline settings
+        
+        // Check for deleted timelines
+        for (SequencerSequence* seq in currentDocument.sequences)
+        {
+            BOOL foundSeq = NO;
+            for (SequencerSequence* newSeq in wc.sequences)
+            {
+                if (seq.sequenceId == newSeq.sequenceId)
+                {
+                    foundSeq = YES;
+                    break;
+                }
+            }
+            if (!foundSeq)
+            {
+                // Sequence deleted, remove from all nodes
+                [sequenceHandler deleteSequenceId:seq.sequenceId];
+            }
+        }
+        
+        // Assign id:s to new sequences
+        for (SequencerSequence* seq in wc.sequences)
+        {
+            if (seq.sequenceId == -1)
+            {
+                // Find a unique id
+                seq.sequenceId = [self uniqueSequenceIdFromSequences:wc.sequences];
+            }
+        }
+    
+        // Update the timelines
+        currentDocument.sequences = wc.sequences;
+        sequenceHandler.currentSequence = [currentDocument.sequences objectAtIndex:0];
+    }
+}
+
+- (IBAction)menuTimelineNew:(id)sender
+{
+    if (!currentDocument) return;
+    
+    // Create new sequence and assign unique id
+    SequencerSequence* newSeq = [[[SequencerSequence alloc] init] autorelease];
+    newSeq.name = @"Untitled Timeline";
+    newSeq.sequenceId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
+    
+    // Add it to list
+    [currentDocument.sequences addObject:newSeq];
+    
+    // and set it to current
+    sequenceHandler.currentSequence = newSeq;
+}
+
+- (IBAction)menuTimelineDuplicate:(id)sender
+{
+    if (!currentDocument) return;
+    
+    // Duplicate current timeline
+    int newSeqId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
+    SequencerSequence* newSeq = [sequenceHandler.currentSequence duplicateWithNewId:newSeqId];
+    
+    // Add it to list
+    [currentDocument.sequences addObject:newSeq];
+    
+    // and set it to current
+    sequenceHandler.currentSequence = newSeq;
+}
+
+- (IBAction)menuTimelineDuration:(id)sender
+{
+    if (!currentDocument) return;
+    
+    SequencerDurationWindow* wc = [[[SequencerDurationWindow alloc] initWithWindowNibName:@"SequencerDurationWindow"] autorelease];
+    wc.duration = sequenceHandler.currentSequence.timelineLength;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [sequenceHandler deleteKeyframesForCurrentSequenceAfterTime:wc.duration];
+        sequenceHandler.currentSequence.timelineLength = wc.duration;
+    }
+}
+
 - (IBAction) menuOpenResourceManager:(id)sender
 {
-    //[[assetsWindowController window] setIsVisible:![[assetsWindowController window] isVisible]];
-    
     [resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
 }
 
@@ -1751,51 +2224,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [[CCTextureCache sharedTextureCache] removeAllTextures];
     [[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
-    
+    FNTConfigRemoveCache();  
+  
     [self switchToDocument:currentDocument forceReload:YES];
 }
-
-/*
-- (IBAction) menuAlignChildren:(id)sender
-{
-#warning TODO: Fix with new position types
-    if (!currentDocument) return;
-    if (!selectedNode) return;
-    
-    // Check if node can have children
-    NodeInfo* info = selectedNode.userObject;
-    PlugInNode* plugIn = info.plugIn;
-    if (!plugIn.canHaveChildren) return;
-    
-    CCArray* children = [selectedNode children];
-    if ([children count] == 0) return;
-    
-    float sum = 0;
-    
-    for (int i = 0; i < [children count]; i++)
-    {
-        CCNode* c = [children objectAtIndex:i];
-        
-        if ([sender tag] == 1) sum += c.position.x;
-        else if ([sender tag] == 2) sum += c.position.y;
-        else
-        {
-            c.position = ccp(roundf(c.position.x), roundf(c.position.y));
-        }
-    }
-    
-    if ([sender tag])
-    {
-        float avg = sum/[children count];
-        for (int i = 0; i < [children count]; i++)
-        {
-            CCNode* c = [children objectAtIndex:i];
-            
-            if ([sender tag] == 1) c.position = ccp(avg, c.position.y);
-            else if ([sender tag] == 2) c.position = ccp(c.position.x, avg);
-        }
-    }
-}*/
 
 - (IBAction) menuAlignChildrenToPixels:(id)sender
 {
@@ -1824,6 +2256,78 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
+- (IBAction)menuSetEasing:(id)sender
+{
+    int easingType = [sender tag];
+    [sequenceHandler setContextKeyframeEasingType:easingType];
+    [sequenceHandler updatePropertiesToTimelinePosition];
+}
+
+- (IBAction)menuSetEasingOption:(id)sender
+{
+    if (!currentDocument) return;
+    
+    float opt = [sequenceHandler.contextKeyframe.easing.options floatValue];
+    
+    
+    SequencerKeyframeEasingWindow* wc = [[[SequencerKeyframeEasingWindow alloc] initWithWindowNibName:@"SequencerKeyframeEasingWindow"] autorelease];
+    wc.option = opt;
+    
+    int type = sequenceHandler.contextKeyframe.easing.type;
+    if (type == kCCBKeyframeEasingCubicIn
+        || type == kCCBKeyframeEasingCubicOut
+        || type == kCCBKeyframeEasingCubicInOut)
+    {
+        wc.optionName = @"Rate:";
+    }
+    else if (type == kCCBKeyframeEasingElasticIn
+             || type == kCCBKeyframeEasingElasticOut
+             || type == kCCBKeyframeEasingElasticInOut)
+    {
+        wc.optionName = @"Period:";
+    }
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        float newOpt = wc.option;
+        
+        if (newOpt != opt)
+        {
+            [self saveUndoStateWillChangeProperty:@"*keyframeeasingoption"];
+            sequenceHandler.contextKeyframe.easing.options = [NSNumber numberWithFloat:wc.option];
+            [sequenceHandler updatePropertiesToTimelinePosition];
+        }
+    }
+}
+
+- (IBAction)menuCreateKeyframesFromSelection:(id)sender
+{
+    [SequencerUtil createFramesFromSelectedResources];
+}
+
+- (IBAction)menuAlignKeyframeToMarker:(id)sender
+{
+    [SequencerUtil alignKeyframesToMarker];
+}
+
+- (IBAction)menuStretchSelectedKeyframes:(id)sender
+{
+    SequencerStretchWindow* wc = [[[SequencerStretchWindow alloc] initWithWindowNibName:@"SequencerStretchWindow"] autorelease];
+    wc.factor = 1;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [SequencerUtil stretchSelectedKeyframes:wc.factor];
+    }
+}
+
+- (IBAction)menuReverseSelectedKeyframes:(id)sender
+{
+    [SequencerUtil reverseSelectedKeyframes];
+}
+
 - (IBAction)menuAddStickyNote:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
@@ -1831,6 +2335,139 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.showStickyNotes = YES;
     [cs.notesLayer addNote];
 }
+
+- (BOOL) validateMenuItem:(NSMenuItem *)menuItem
+{
+    NSLog(@"validateMenuItem: %@", menuItem);
+    
+    if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(menuCreateKeyframesFromSelection:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canCreateFramesFromSelectedResources]);
+    }
+    else if (menuItem.action == @selector(menuAlignKeyframeToMarker:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canAlignKeyframesToMarker]);
+    }
+    else if (menuItem.action == @selector(menuStretchSelectedKeyframes:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canStretchSelectedKeyframes]);
+    }
+    else if (menuItem.action == @selector(menuReverseSelectedKeyframes:))
+    {
+        return (hasOpenedDocument && [SequencerUtil canReverseSelectedKeyframes]);
+    }
+    
+    return YES;
+}
+
+- (NSUndoManager*) windowWillReturnUndoManager:(NSWindow *)window
+{
+    return currentDocument.undoManager;
+}
+
+#pragma mark Playback countrols
+
+- (void) playbackStep
+{
+    if (!currentDocument)
+    {
+        [self playbackStop:NULL];
+    }
+    
+    if (playingBack)
+    {
+        // Step forward
+        [sequenceHandler.currentSequence stepForward:1];
+        
+        if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
+        {
+            [self playbackStop:NULL];
+        }
+        else
+        {
+            double thisTime = [NSDate timeIntervalSinceReferenceDate];
+            double requestedDelay = 1/sequenceHandler.currentSequence.timelineResolution;
+            double extraTime = thisTime - (playbackLastFrameTime + requestedDelay);
+            
+            double delayTime = requestedDelay - extraTime;
+            playbackLastFrameTime = thisTime;
+            
+            if (requestedDelay < 0)
+            {
+                // TODO: Handle frame skipping
+                requestedDelay = 0;
+            }
+            
+            // Call this method again in a little while
+            [self performSelector:@selector(playbackStep) withObject:NULL afterDelay:delayTime];
+        }
+    }
+}
+
+- (IBAction)playbackPlay:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    if (playingBack) return;
+    
+    // Jump to start of sequence if the end is reached
+    if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
+    {
+        sequenceHandler.currentSequence.timelinePosition = 0;
+    }
+    
+    // Deselect all objects to improve performance
+    self.selectedNode = NULL;
+    
+    // Start playback
+    playbackLastFrameTime = [NSDate timeIntervalSinceReferenceDate];
+    playingBack = YES;
+    [self playbackStep];
+}
+
+- (IBAction)playbackStop:(id)sender
+{
+    NSLog(@"playbackStop");
+    playingBack = NO;
+}
+
+- (IBAction)playbackJumpToStart:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    sequenceHandler.currentSequence.timelinePosition = 0;
+}
+
+- (IBAction)playbackStepBack:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    [sequenceHandler.currentSequence stepBack:1];
+}
+
+- (IBAction)playbackStepForward:(id)sender
+{
+    if (!self.hasOpenedDocument) return;
+    [sequenceHandler.currentSequence stepForward:1];
+}
+
+- (IBAction)pressedPlaybackControl:(id)sender
+{
+    NSSegmentedControl* sc = sender;
+    
+    int tag = [sc selectedSegment];
+    if (tag == 0) [self playbackJumpToStart:sender];
+    else if (tag == 1) [self playbackStepBack:sender];
+    else if (tag == 2) [self playbackStepForward:sender];
+    else if (tag == 3) [self playbackStop:sender];
+    else if (tag == 4) [self playbackPlay:sender];
+    else if (tag == -1)
+    {
+        NSLog(@"No selected index!!");
+    }
+}
+
+#pragma mark Delegate methods
 
 - (BOOL) windowShouldClose:(id)sender
 {

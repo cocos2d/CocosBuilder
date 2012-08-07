@@ -59,6 +59,7 @@
 - (void) updateAffectedProperties;
 
 - (id) propertyForSelection;
+- (void) updateAnimateablePropertyValue:(id)value;
 - (void) setPropertyForSelection:(id)value;
 
 - (id) propertyForSelectionX;

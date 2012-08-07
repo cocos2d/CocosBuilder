@@ -234,6 +234,16 @@
     return [[node extraPropForKey:[NSString stringWithFormat:@"%@Type", prop]] intValue];
 }
 
++ (NSPoint) convertPosition:(NSPoint)pos fromType:(int)fromType toType:(int)toType forNode:(CCNode*) node
+{
+    if (fromType == toType) return pos;
+    
+    CGSize parentSize = [PositionPropertySetter getParentSize:node];
+    
+    NSPoint absPos = [PositionPropertySetter calcAbsolutePositionFromRelative:pos type:fromType parentSize:parentSize];
+    return [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:toType parentSize:parentSize];
+}
+
 + (void) setSize:(NSSize)size type:(int)type forNode:(CCNode*)node prop:(NSString*)prop
 {
     [PositionPropertySetter setSize:size type:type forNode:node prop:prop parentSize:[PositionPropertySetter getParentSize:node]];

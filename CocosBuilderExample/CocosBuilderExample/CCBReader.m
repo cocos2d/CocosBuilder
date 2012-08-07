@@ -24,16 +24,23 @@
 
 #import "CCBReader.h"
 #import <objc/runtime.h>
+#import "CCBActionManager.h"
+#import "CCBSequence.h"
+#import "CCBSequenceProperty.h"
+#import "CCBKeyframe.h"
+#import "CCNode+CCBRelativePositioning.h"
 
 #ifdef CCB_ENABLE_UNZIP
 #import "SSZipArchive.h"
 #endif
 
 #ifdef CCB_ENABLE_JAVASCRIPT
-#import "JSCocoa.h"
+//#import "JSCocoa.h"
 #endif
 
 @implementation CCBReader
+
+@synthesize actionManager;
 
 - (id) initWithFile:(NSString*)file owner:(id)o
 {
@@ -43,6 +50,9 @@
     // Load binary file
     NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
     data = [[NSData dataWithContentsOfFile:path] retain];
+    
+    // Setup action manager
+    self.actionManager = [[[CCBActionManager alloc] init] autorelease];
     
     // Setup byte array
     bytes = (unsigned char*)[data bytes];
@@ -55,29 +65,19 @@
     owner = [o retain];
     
     // Setup resolution scale and container size
-    rootContainerSize = [[CCDirector sharedDirector] winSize];
-    
-    resolutionScale = 1;
-    
-#ifdef __CC_PLATFORM_IOS
-    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        // iPad
-        resolutionScale = 2;
-    }
-#endif
+    actionManager.rootContainerSize = [[CCDirector sharedDirector] winSize];
     
     return self;
 }
 
 - (void) dealloc
 {
-    [rootNode release];
     [owner release];
     bytes = NULL;
     [data release];
     [stringCache release];
     [loadedSpriteSheets release];
+    self.actionManager = NULL;
     [super dealloc];
 }
 
@@ -202,12 +202,6 @@
     return [stringCache objectAtIndex:n];
 }
 
-- (CGSize) containerSize:(CCNode*)node
-{
-    if (node) return node.contentSize;
-    else return rootContainerSize;
-}
-
 - (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent
 {
     // Read type and property name
@@ -231,41 +225,23 @@
         float y = [self readFloat];
         int type = [self readIntWithSign:NO];
         
-        CGSize containerSize = [self containerSize:parent];
-        
+        CGSize containerSize = [actionManager containerSize:parent];
+
         if (setProp)
         {
             CGPoint pt = ccp(x,y);
-            CGPoint absPt = ccp(0,0);
-            if (type == kCCBPositionTypeRelativeBottomLeft)
+            
+            [node setRelativePosition:pt type:type parentSize:containerSize propertyName:name];
+            
+            if ([animatedProps containsObject:name])
             {
-                absPt = pt;
+                id baseValue = [NSArray arrayWithObjects:
+                                [NSNumber numberWithFloat:x],
+                                [NSNumber numberWithFloat:y],
+                                [NSNumber numberWithInt:type],
+                                nil];
+                [actionManager setBaseValue:baseValue forNode:node propertyName:name];
             }
-            else if (type == kCCBPositionTypeRelativeTopLeft)
-            {
-                absPt.x = pt.x;
-                absPt.y = containerSize.height - pt.y;
-            }
-            else if (type == kCCBPositionTypeRelativeTopRight)
-            {
-                absPt.x = containerSize.width - pt.x;
-                absPt.y = containerSize.height - pt.y;
-            }
-            else if (type == kCCBPositionTypeRelativeBottomRight)
-            {
-                absPt.x = containerSize.width - pt.x;
-                absPt.y = pt.y;
-            }
-            else if (type == kCCBPositionTypePercent)
-            {
-                absPt.x = (int)(containerSize.width * pt.x / 100.0f);
-                absPt.y = (int)(containerSize.height * pt.y / 100.0f);
-            }
-#ifdef __CC_PLATFORM_IOS
-            [node setValue:[NSValue valueWithCGPoint:absPt] forKey:name];
-#else
-            [node setValue:[NSValue valueWithPoint:NSPointFromCGPoint(absPt)] forKey:name];
-#endif
         }
     }
     else if(type == kCCBPropTypePoint
@@ -290,42 +266,12 @@
         float h = [self readFloat];
         int type = [self readIntWithSign:NO];
         
-        CGSize containerSize = [self containerSize:parent];
+        CGSize containerSize = [actionManager containerSize:parent];
         
         if (setProp)
         {
             CGSize size = CGSizeMake(w, h);
-            CGSize absSize = CGSizeZero;
-            if (type == kCCBSizeTypeAbsolute)
-            {
-                absSize = size;
-            }
-            else if (type == kCCBSizeTypeRelativeContainer)
-            {
-                absSize.width = containerSize.width - size.width;
-                absSize.height = containerSize.height - size.height;
-            }
-            else if (type == kCCBSizeTypePercent)
-            {
-                absSize.width = (int)(containerSize.width * size.width / 100.0f);
-                absSize.height = (int)(containerSize.height * size.height / 100.0f);
-            }
-            else if (type == kCCBSizeTypeHorizontalPercent)
-            {
-                absSize.width = (int)(containerSize.width * size.width / 100.0f);
-                absSize.height = size.height;
-            }
-            else if (type == kCCBSzieTypeVerticalPercent)
-            {
-                absSize.width = size.width;
-                absSize.height = (int)(containerSize.height * size.height / 100.0f);
-            }
-            
-#ifdef __CC_PLATFORM_IOS
-            [node setValue:[NSValue valueWithCGSize:absSize] forKey:name];
-#else
-            [node setValue:[NSValue valueWithSize:NSSizeFromCGSize(absSize)] forKey:name];
-#endif
+            [node setRelativeSize:size type:type parentSize:containerSize propertyName:name];
         }
     }
     else if (type == kCCBPropTypeScaleLock)
@@ -336,16 +282,17 @@
         
         if (setProp)
         {
-            if (type == kCCBScaleTypeMultiplyResolution)
-            {
-                x *= resolutionScale;
-                y *= resolutionScale;
-            }
+            [node setRelativeScaleX:x Y:y type:type propertyName:name];
             
-            NSString* nameX = [NSString stringWithFormat:@"%@X",name];
-            NSString* nameY = [NSString stringWithFormat:@"%@Y",name];
-            [node setValue:[NSNumber numberWithFloat:x] forKey:nameX];
-            [node setValue:[NSNumber numberWithFloat:y] forKey:nameY];
+            if ([animatedProps containsObject:name])
+            {
+                id baseValue = [NSArray arrayWithObjects:
+                                [NSNumber numberWithFloat:x],
+                                [NSNumber numberWithFloat:y],
+                                [NSNumber numberWithInt:type],
+                                nil];
+                [actionManager setBaseValue:baseValue forNode:node propertyName:name];
+            }
         }
     }
     else if (type == kCCBPropTypeDegrees
@@ -355,7 +302,13 @@
         
         if (setProp)
         {
-            [node setValue:[NSNumber numberWithFloat:f] forKey:name];
+            id value = [NSNumber numberWithFloat:f];
+            [node setValue:value forKey:name];
+            
+            if ([animatedProps containsObject:name])
+            {
+                [actionManager setBaseValue:value forNode:node propertyName:name];
+            }
         }
     }
     else if (type == kCCBPropTypeFloatScale)
@@ -365,11 +318,7 @@
         
         if (setProp)
         {
-            if (type == kCCBScaleTypeMultiplyResolution)
-            {
-                f *= resolutionScale;
-            }
-            [node setValue:[NSNumber numberWithFloat:f] forKey:name];
+            [node setRelativeFloat:f type:type propertyName:name];
         }
     }
     else if (type == kCCBPropTypeInteger
@@ -400,7 +349,13 @@
         
         if (setProp)
         {
-            [node setValue:[NSNumber numberWithBool:b] forKey:name];
+            id value = [NSNumber numberWithBool:b];
+            [node setValue:value forKey:name];
+            
+            if ([animatedProps containsObject:name])
+            {
+                [actionManager setBaseValue:value forNode:node propertyName:name];
+            }
         }
     }
     else if (type == kCCBPropTypeSpriteFrame)
@@ -408,7 +363,7 @@
         NSString* spriteSheet = [self readCachedString];
         NSString* spriteFile = [self readCachedString];
         
-        if (setProp)
+        if (setProp && ![spriteFile isEqualToString:@""])
         {
             CCSpriteFrame* spriteFrame;
             if ([spriteSheet isEqualToString:@""])
@@ -431,6 +386,11 @@
                 spriteFrame = [frameCache spriteFrameByName:spriteFile];
             }
             [node setValue:spriteFrame forKey:name];
+            
+            if ([animatedProps containsObject:name])
+            {
+                [actionManager setBaseValue:spriteFrame forNode:node propertyName:name];
+            }
         }
     }
 	else if(type == kCCBPropTypeAnimation)
@@ -463,7 +423,7 @@
     {
         NSString* spriteFile = [self readCachedString];
         
-        if (setProp)
+        if (setProp && ![spriteFile isEqualToString:@""])
         {
             CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
             [node setValue:texture forKey:name];
@@ -475,7 +435,13 @@
         
         if (setProp)
         {
-            [node setValue:[NSNumber numberWithInt:byte] forKey:name];
+            id value = [NSNumber numberWithInt:byte];
+            [node setValue:value forKey:name];
+            
+            if ([animatedProps containsObject:name])
+            {
+                [actionManager setBaseValue:value forNode:node propertyName:name];
+            }
         }
     }
     else if (type == kCCBPropTypeColor3)
@@ -489,6 +455,11 @@
             ccColor3B c = ccc3(r,g,b);
             NSValue* cVal = [NSValue value:&c withObjCType:@encode(ccColor3B)];
             [node setValue:cVal forKey:name];
+            
+            if ([animatedProps containsObject:name])
+            {
+                [actionManager setBaseValue:cVal forNode:node propertyName:name];
+            }
         }
     }
     else if (type == kCCBPropTypeColor4FVar)
@@ -576,6 +547,7 @@
         if (setProp)
         {
 #ifdef CCB_ENABLE_JAVASCRIPT
+            /*
             if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
             {
                 void (^block)(id sender);
@@ -594,12 +566,12 @@
                 {
                     NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
                 }
-            }
+            }*/
 #else
             if (selectorTarget)
             {
                 id target = NULL;
-                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = rootNode;
+                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
                 else if (selectorTarget == kCCBTargetTypeOwner) target = owner;
                 
                 if (target)
@@ -647,7 +619,7 @@
             {
                 SEL selector = NSSelectorFromString(selectorName);
                 id target = NULL;
-                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = rootNode;
+                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
                 else if (selectorTarget == kCCBTargetTypeOwner) target = owner;
                 
                 if (selector && target)
@@ -689,6 +661,93 @@
     }
 }
 
+- (CCBKeyframe*) readKeyframeOfType:(int)type
+{
+    CCBKeyframe* keyframe = [[[CCBKeyframe alloc] init] autorelease];
+    
+    keyframe.time = [self readFloat];
+    
+    int easingType = [self readIntWithSign:NO];
+    float easingOpt = 0;
+    id value = NULL;
+    
+    if (easingType == kCCBKeyframeEasingCubicIn
+        || easingType == kCCBKeyframeEasingCubicOut
+        || easingType == kCCBKeyframeEasingCubicInOut
+        || easingType == kCCBKeyframeEasingElasticIn
+        || easingType == kCCBKeyframeEasingElasticOut
+        || easingType == kCCBKeyframeEasingElasticInOut)
+    {
+        easingOpt = [self readFloat];
+    }
+    keyframe.easingType = easingType;
+    keyframe.easingOpt = easingOpt;
+    
+    if (type == kCCBPropTypeCheck)
+    {
+        value = [NSNumber numberWithBool:[self readBool]];
+    }
+    else if (type == kCCBPropTypeByte)
+    {
+        value = [NSNumber numberWithInt:[self readByte]];
+    }
+    else if (type == kCCBPropTypeColor3)
+    {
+        int r = [self readByte];
+        int g = [self readByte];
+        int b = [self readByte];
+        
+        ccColor3B c = ccc3(r,g,b);
+        value = [NSValue value:&c withObjCType:@encode(ccColor3B)];
+    }
+    else if (type == kCCBPropTypeDegrees)
+    {
+        value = [NSNumber numberWithFloat:[self readFloat]];
+    }
+    else if (type == kCCBPropTypeScaleLock
+             || type == kCCBPropTypePosition)
+    {
+        float a = [self readFloat];
+        float b = [self readFloat];
+        
+        value = [NSArray arrayWithObjects:
+                 [NSNumber numberWithFloat:a],
+                 [NSNumber numberWithFloat:b],
+                 nil];
+    }
+    else if (type == kCCBPropTypeSpriteFrame)
+    {
+        NSString* spriteSheet = [self readCachedString];
+        NSString* spriteFile = [self readCachedString];
+        
+        CCSpriteFrame* spriteFrame;
+        if ([spriteSheet isEqualToString:@""])
+        {
+            CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:spriteFile];
+            CGRect bounds = CGRectMake(0, 0, texture.contentSize.width, texture.contentSize.height);
+            spriteFrame = [CCSpriteFrame frameWithTexture:texture rect:bounds];
+        }
+        else
+        {
+            CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
+                
+            // Load the sprite sheet only if it is not loaded
+            if (![loadedSpriteSheets member:spriteSheet])
+            {
+                [frameCache addSpriteFramesWithFile:spriteSheet];
+                [loadedSpriteSheets addObject:spriteSheet];
+            }
+            
+            spriteFrame = [frameCache spriteFrameByName:spriteFile];
+        }
+        value = spriteFrame;
+    }
+    
+    keyframe.value = value;
+    
+    return  keyframe;
+}
+
 - (CCNode*) readNodeGraphParent:(CCNode*)parent
 {
     // Read class
@@ -711,7 +770,47 @@
     CCNode* node = [[[class alloc] init] autorelease];
     
     // Set root node
-    if (!rootNode) rootNode = [node retain];
+    if (!actionManager.rootNode) actionManager.rootNode = node;
+    
+    // Read animated properties
+    NSMutableDictionary* seqs = [NSMutableDictionary dictionary];
+    animatedProps = [[NSMutableSet alloc] init];
+    
+    int numSequences = [self readIntWithSign:NO];
+    for (int i = 0; i < numSequences; i++)
+    {
+        int seqId = [self readIntWithSign:NO];
+        NSMutableDictionary* seqNodeProps = [NSMutableDictionary dictionary];
+        
+        int numProps = [self readIntWithSign:NO];
+        
+        for (int j = 0; j < numProps; j++)
+        {
+            CCBSequenceProperty* seqProp = [[[CCBSequenceProperty alloc] init] autorelease];
+            
+            seqProp.name = [self readCachedString];
+            seqProp.type = [self readIntWithSign:NO];
+            [animatedProps addObject:seqProp.name];
+            
+            int numKeyframes = [self readIntWithSign:NO];
+            
+            for (int k = 0; k < numKeyframes; k++)
+            {
+                CCBKeyframe* keyframe = [self readKeyframeOfType:seqProp.type];
+                
+                [seqProp.keyframes addObject:keyframe];
+            }
+            
+            [seqNodeProps setObject:seqProp forKey:seqProp.name];
+        }
+        
+        [seqs setObject:seqNodeProps forKey:[NSNumber numberWithInt:seqId]];
+    }
+    
+    if (seqs.count > 0)
+    {
+        [actionManager addNode:node andSequences:seqs];
+    }
     
     // Read properties
     int numProps = [self readIntWithSign:NO];
@@ -722,15 +821,16 @@
     
     // Assign to variable (if applicable)
 #ifdef CCB_ENABLE_JAVASCRIPT
+    /*
     if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
     {
         [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
-    }
+    }*/
 #else
     if (memberVarAssignmentType)
     {
         id target = NULL;
-        if (memberVarAssignmentType == kCCBTargetTypeDocumentRoot) target = rootNode;
+        if (memberVarAssignmentType == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
         else if (memberVarAssignmentType == kCCBTargetTypeOwner) target = owner;
         
         if (target)
@@ -747,6 +847,9 @@
         }
     }
 #endif
+    
+    [animatedProps release];
+    animatedProps = NULL;
     
     // Read and add children
     int numChildren = [self readIntWithSign:NO];
@@ -768,6 +871,27 @@
 - (CCNode*) readNodeGraph
 {
     return [self readNodeGraphParent:NULL];
+}
+
+- (BOOL) readSequences
+{
+    NSMutableArray* sequences = actionManager.sequences;
+    
+    int numSeqs = [self readIntWithSign:NO];
+    
+    for (int i = 0; i < numSeqs; i++)
+    {
+        CCBSequence* seq = [[[CCBSequence alloc] init] autorelease];
+        seq.duration = [self readFloat];
+        seq.name = [self readCachedString];
+        seq.sequenceId = [self readIntWithSign:NO];
+        seq.chainedSequenceId = [self readIntWithSign:YES];
+        
+        [sequences addObject:seq];
+    }
+    
+    actionManager.autoPlaySequenceId = [self readIntWithSign:YES];
+    return YES;
 }
 
 - (BOOL) readStringCache
@@ -807,8 +931,8 @@
 - (CCNode*) readFile
 {
     if (![self readHeader]) return NULL;
-    
     if (![self readStringCache]) return NULL;
+    if (![self readSequences]) return NULL;
     
     CCNode* node = [self readNodeGraph];
     
@@ -820,12 +944,38 @@
     return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
 }
 
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
 {
     CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
-    reader->rootContainerSize = parentSize;
+    reader.actionManager.rootContainerSize = parentSize;
     
-    return [reader readFile];
+    CCNode* nodeGraph = [reader readFile];
+    
+    [reader.actionManager debug];
+    
+    if (nodeGraph && reader.actionManager.autoPlaySequenceId != -1)
+    {
+        // Auto play animations
+        [reader.actionManager runActionsForSequenceId:reader.actionManager.autoPlaySequenceId tweenDuration:0];
+    }
+    
+    // Return action manager by reference
+    if (actionManager)
+    {
+        *actionManager = reader.actionManager;
+    }
+    
+    return nodeGraph;
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
+{
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:NULL];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner actionManager:(CCBActionManager **)actionManager
+{
+    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] actionManager:actionManager];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file
@@ -840,7 +990,17 @@
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize
 {
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize];
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:NULL];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner  actionManager:(CCBActionManager**)actionManager
+{
+    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] actionManager:actionManager];
+}
+
++ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
+{
+    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize actionManager:actionManager];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;

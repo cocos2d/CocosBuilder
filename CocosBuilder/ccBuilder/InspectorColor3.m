@@ -23,18 +23,24 @@
  */
 
 #import "InspectorColor3.h"
+#import "CCBWriterInternal.h"
 
 @implementation InspectorColor3
 
 - (void) setColor:(NSColor *)color
 {
     CGFloat r, g, b, a;
+    
+    color = [color colorUsingColorSpace:[NSColorSpace deviceRGBColorSpace]];
+    
     [color getRed:&r green:&g blue:&b alpha:&a];
     
     ccColor3B c = ccc3(r*255, g*255, b*255);
     
     NSValue* colorValue = [NSValue value:&c withObjCType:@encode(ccColor3B)];
     [self setPropertyForSelection:colorValue];
+    
+    [self updateAnimateablePropertyValue: [CCBWriterInternal serializeColor3:c]];
     
 }
 

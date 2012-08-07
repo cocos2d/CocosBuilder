@@ -326,7 +326,7 @@
 {
     NSString* fileNoExt = [file stringByDeletingPathExtension];
     
-    NSArray* resIndependentExts = [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", nil];
+    NSArray* resIndependentExts = [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", nil];
     
     for (NSString* ext in resIndependentExts)
     {

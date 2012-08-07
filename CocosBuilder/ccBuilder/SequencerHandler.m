@@ -1,24 +1,47 @@
-//
-//  SequencerHandler.m
-//  CocosBuilder
-//
-//  Created by Viktor Lidholt on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "SequencerHandler.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
 #import "NodeInfo.h"
+#import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
 #import "PositionPropertySetter.h"
 #import "SequencerExpandBtnCell.h"
 #import "SequencerStructureCell.h"
+#import "SequencerCell.h"
 #import "SequencerSequence.h"
 #import "SequencerScrubberSelectionView.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 #import "CCNode+NodeInfo.h"
+#import "CCBDocument.h"
+#import "CCBPCCBFile.h"
+#import <objc/runtime.h>
 
 static SequencerHandler* sharedSequencerHandler;
 
@@ -32,6 +55,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize timeScaleSlider;
 @synthesize scroller;
 @synthesize scrollView;
+@synthesize contextKeyframe;
 
 #pragma mark Init and singleton object
 
@@ -51,14 +75,14 @@ static SequencerHandler* sharedSequencerHandler;
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
     
+    [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
+    
     // Set default values for timeline scale & offset
     timelineScales[0] = kCCBTimelineScale0;
     timelineScales[1] = kCCBTimelineScale1;
     timelineScales[2] = kCCBTimelineScale2;
     timelineScales[3] = kCCBTimelineScale3;
     timelineScales[4] = kCCBTimelineScale4;
-    
-    self.currentSequence = [[[SequencerSequence alloc] init] autorelease];
     
     return self;
 }
@@ -88,6 +112,30 @@ static SequencerHandler* sharedSequencerHandler;
     timeScaleSlider.doubleValue = scale;
     
     currentSequence.timelineScale = timelineScales[scale];
+}
+
+- (void) updateScaleSlider
+{
+    if (!currentSequence)
+    {
+        timeScaleSlider.doubleValue = 2;
+        [timeScaleSlider setEnabled:NO];
+        return;
+    }
+    
+    [timeScaleSlider setEnabled:YES];
+    
+    int val = 0;
+    for (int i = 0; i < kCCBNumTimlineScales; i++)
+    {
+        if (currentSequence.timelineScale == timelineScales[i])
+        {
+            val = i;
+            break;
+        }
+    }
+    
+    timeScaleSlider.doubleValue = val;
 }
 
 #pragma mark Handle scroller
@@ -268,29 +316,25 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     CCNode* node = item;
-    NodeInfo* info = node.userObject;
+    return node.displayName;
+}
+
+- (void) outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
+    CCNode* node = item;
     
-    // Get class name
-    NSString* className = @"";
-    NSString* customClass = [node extraPropForKey:@"customClass"];
-    if (customClass && ![customClass isEqualToString:@""]) className = customClass;
-    else className = info.plugIn.nodeClassName;
-    
-    // Assignment name
-    NSString* assignmentName = [node extraPropForKey:@"memberVarAssignmentName"];
-    if (assignmentName && ![assignmentName isEqualToString:@""]) return [NSString stringWithFormat:@"%@ (%@)",className,assignmentName];
-    
-    if ([item isKindOfClass:[CCMenuItemImage class]])
+    if (![object isEqualToString:node.displayName])
     {
-        NSString* textureName = [node extraPropForKey:@"spriteFileNormal"];
-        if (textureName && ![textureName isEqualToString:@""])
-        {
-            return [NSString stringWithFormat:@"CCMenuItemImage (%@)", textureName];
-        }
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*nodeDisplayName"];
+        node.displayName = object;
     }
-    
-    // Fallback, just use the class name
-    return className;
+}
+
+- (BOOL) outlineView:(NSOutlineView *)outline shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    NSLog(@"should edit?");
+    [outline editColumn:0 row:[outline selectedRow] withEvent:[NSApp currentEvent] select:YES];
+    return YES;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard *)pboard
@@ -408,6 +452,11 @@ static SequencerHandler* sharedSequencerHandler;
         SequencerStructureCell* strCell = cell;
         strCell.node = node;
     }
+    else if ([tableColumn.identifier isEqualToString:@"sequencer"])
+    {
+        SequencerCell* seqCell = cell;
+        seqCell.node = node;
+    }
 }
 
 - (void) updateExpandedForNode:(CCNode*)node
@@ -443,10 +492,180 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) redrawTimeline
 {
     [scrubberSelectionView setNeedsDisplay:YES];
-    [timeDisplay setStringValue:[currentSequence currentDisplayTime]];
+    NSString* displayTime = [currentSequence currentDisplayTime];
+    if (!displayTime) displayTime = @"00:00:00";
+    [timeDisplay setStringValue:displayTime];
     [self updateScroller];
+    [outlineHierarchy reloadData];
 }
 
+#pragma mark Util
+
+- (void) deleteSequenceId:(int)seqId
+{
+    // Delete any keyframes for the sequence
+    [[CocosScene cocosScene].rootNode deleteSequenceId:seqId];
+    
+    // Delete any chained sequence references
+    for (SequencerSequence* seq in [CocosBuilderAppDelegate appDelegate].currentDocument.sequences)
+    {
+        if (seq.chainedSequenceId == seqId)
+        {
+            seq.chainedSequenceId = -1;
+        }
+    }
+    
+    [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+}
+
+- (void) deselectKeyframesForNode:(CCNode*)node
+{
+    [node deselectAllKeyframes];
+    
+    // Also deselect keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        [self deselectKeyframesForNode:child];
+    }
+}
+
+- (void) deselectAllKeyframes
+{
+    [self deselectKeyframesForNode:[[CocosScene cocosScene] rootNode]];
+    [outlineHierarchy reloadData];
+}
+
+- (BOOL) deleteSelectedKeyframesForCurrentSequence
+{
+    BOOL didDelete = [[CocosScene cocosScene].rootNode deleteSelectedKeyframesForSequenceId:currentSequence.sequenceId];
+    if (didDelete)
+    {
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    }
+    return didDelete;
+}
+
+- (void) deleteDuplicateKeyframesForCurrentSequence
+{
+    BOOL didDelete = [[CocosScene cocosScene].rootNode deleteDuplicateKeyframesForSequenceId:currentSequence.sequenceId];
+    
+    if (didDelete)
+    {
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+    }
+}
+
+- (void) deleteKeyframesForCurrentSequenceAfterTime:(float)time
+{
+    [[CocosScene cocosScene].rootNode deleteKeyframesAfterTime:time sequenceId:currentSequence.sequenceId];
+}
+
+- (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
+{
+    [node addSelectedKeyframesToArray:keyframes];
+    
+    // Also add selected keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        [self addSelectedKeyframesForNode:child toArray:keyframes];
+    }
+}
+
+- (NSArray*) selectedKeyframesForCurrentSequence
+{
+    NSMutableArray* keyframes = [NSMutableArray array];
+    [self addSelectedKeyframesForNode:[[CocosScene cocosScene] rootNode] toArray:keyframes];
+    return keyframes;
+}
+
+- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId
+{
+    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:seqId];
+    
+    // Also deselect keyframes of children
+    CCArray* children = [node children];
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(children, child)
+    {
+        int childSeqId = seqId;
+        
+        // Sub ccb files uses different sequence id:s
+        NSNumber* childSequence = [child extraPropForKey:@"*sequenceId"];
+        if (childSequence) childSeqId = [childSequence intValue];
+        
+        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId];
+    }
+}
+
+- (void) updatePropertiesToTimelinePosition
+{
+    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId];
+}
+
+- (void) setCurrentSequence:(SequencerSequence *)seq
+{
+    if (seq != currentSequence)
+    {
+        [currentSequence release];
+        currentSequence = [seq retain];
+        
+        [outlineHierarchy reloadData];
+        [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+        [self redrawTimeline];
+        [self updatePropertiesToTimelinePosition];
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
+        [self updateScaleSlider];
+    }
+}
+
+- (void) menuSetSequence:(id)sender
+{
+    int seqId = [sender tag];
+    
+    SequencerSequence* seqSet = NULL;
+    for (SequencerSequence* seq in [CocosBuilderAppDelegate appDelegate].currentDocument.sequences)
+    {
+        if (seq.sequenceId == seqId)
+        {
+            seqSet = seq;
+            break;
+        }
+    }
+    
+    self.currentSequence = seqSet;
+}
+
+- (void) menuSetChainedSequence:(id)sender
+{
+    int seqId = [sender tag];
+    if (seqId != self.currentSequence.chainedSequenceId)
+    {
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*chainedseqid"];
+        self.currentSequence.chainedSequenceId = [sender tag];
+        [[CocosBuilderAppDelegate appDelegate] updateTimelineMenu];
+    }
+}
+
+#pragma mark Easings
+
+- (void) setContextKeyframeEasingType:(int) type
+{
+    if (!contextKeyframe) return;
+    if (contextKeyframe.easing.type == type) return;
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*keyframeeasing"];
+    
+    contextKeyframe.easing.type = type;
+    [self redrawTimeline];
+}
 
 #pragma mark Destructor
 
@@ -455,6 +674,7 @@ static SequencerHandler* sharedSequencerHandler;
     self.currentSequence = NULL;
     self.scrubberSelectionView = NULL;
     self.timeDisplay = NULL;
+    //self.sequences = NULL;
     
     [super dealloc];
 }

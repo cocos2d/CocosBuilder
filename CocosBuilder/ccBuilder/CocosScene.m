@@ -39,6 +39,10 @@
 #import "CCBGLView.h"
 #import "MainWindow.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
 
 static CocosScene* sharedCocosScene;
 
@@ -107,10 +111,10 @@ static CocosScene* sharedCocosScene;
     [borderLayer addChild:borderLeft];
     [borderLayer addChild:borderRight];
     
-    borderDeviceIPhone = [CCSprite spriteWithFile:@"frame-iphone.png"];
-    borderDeviceIPad = [CCSprite spriteWithFile:@"frame-ipad.png"];
-    [borderLayer addChild:borderDeviceIPhone z:1];
-    [borderLayer addChild:borderDeviceIPad z:1];
+    //borderDeviceIPhone = [CCSprite spriteWithFile:@"frame-iphone.png"];
+    //borderDeviceIPad = [CCSprite spriteWithFile:@"frame-ipad.png"];
+    borderDevice = [CCSprite node];
+    [borderLayer addChild:borderDevice z:1];
     
     // Gray background
     bgLayer = [CCLayerColor layerWithColor:ccc4(128, 128, 128, 255) width:4096 height:4096];
@@ -130,8 +134,9 @@ static CocosScene* sharedCocosScene;
 
 - (void) setStageBorder:(int)type
 {
-    borderDeviceIPhone.visible = NO;
-    borderDeviceIPad.visible = NO;
+    //borderDeviceIPhone.visible = NO;
+    //borderDeviceIPad.visible = NO;
+    borderDevice.visible = NO;
     
     if (type == kCCBBorderDevice)
     {
@@ -140,27 +145,70 @@ static CocosScene* sharedCocosScene;
         [borderLeft setOpacity:255];
         [borderRight setOpacity:255];
         
+        CCTexture2D* deviceTexture = NULL;
+        BOOL rotateDevice = NO;
+        
         int devType = [appDelegate orientedDeviceTypeForSize:stageBgLayer.contentSize];
         if (devType == kCCBCanvasSizeIPhonePortrait)
         {
-            borderDeviceIPhone.visible = YES;
-            borderDeviceIPhone.rotation = 0;
-            
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
+            rotateDevice = NO;
         }
         else if (devType == kCCBCanvasSizeIPhoneLandscape)
         {
-            borderDeviceIPhone.visible = YES;
-            borderDeviceIPhone.rotation = 90;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
+            rotateDevice = YES;
         }
         else if (devType == kCCBCanvasSizeIPadPortrait)
         {
-            borderDeviceIPad.visible = YES;
-            borderDeviceIPad.rotation = 0;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
+            rotateDevice = NO;
         }
         else if (devType == kCCBCanvasSizeIPadLandscape)
         {
-            borderDeviceIPad.visible = YES;
-            borderDeviceIPad.rotation = 90;
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidXSmallPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-xsmall.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidXSmallLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-xsmall.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidSmallPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-small.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidSmallLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-small.png"];
+            rotateDevice = YES;
+        }
+        else if (devType == kCCBCanvasSizeAndroidMediumPortrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-medium.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeAndroidMediumLandscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-android-medium.png"];
+            rotateDevice = YES;
+        }
+        
+        if (deviceTexture)
+        {
+            if (rotateDevice) borderDevice.rotation = 90;
+            else borderDevice.rotation = 0;
+            
+            borderDevice.texture = deviceTexture;
+            borderDevice.textureRect = CGRectMake(0, 0, deviceTexture.contentSize.width, deviceTexture.contentSize.height);
+            
+            borderDevice.visible = YES;
         }
     }
     else if (type == kCCBBorderTransparent)
@@ -238,8 +286,7 @@ static CocosScene* sharedCocosScene;
     scrollOffset = ccpMult(scrollOffset, zoomFactor);
     
     stageBgLayer.scale = zoom;
-    borderDeviceIPad.scale = zoom;
-    borderDeviceIPhone.scale = zoom;
+    borderDevice.scale = zoom;
     
     stageZoom = zoom;
 }
@@ -545,8 +592,8 @@ static CocosScene* sharedCocosScene;
         }
         else if (th == kCCBTransformHandleScale)
         {
-            transformStartScaleX = selectedNode.scaleX;
-            transformStartScaleY = selectedNode.scaleY;
+            transformStartScaleX = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
+            transformStartScaleY = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
         }
         else if (th == kCCBTransformHandleRotate)
         {
@@ -677,8 +724,10 @@ static CocosScene* sharedCocosScene;
         float delta = (int)xDelta;
         
         [appDelegate saveUndoStateWillChangeProperty:@"scale"];
-        appDelegate.selectedNode.scaleX = transformStartScaleX + delta/100.0f;
-        appDelegate.selectedNode.scaleY = transformStartScaleY + delta/100.0f;
+        
+        int type = [PositionPropertySetter scaledFloatTypeForNode:selectedNode prop:@"scale"];
+        [PositionPropertySetter setScaledX:transformStartScaleX + delta/100.0f Y:transformStartScaleY + delta/100.0f type:type forNode:selectedNode prop:@"scale"];
+        
         [appDelegate refreshProperty:@"scale"];
     }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
@@ -699,12 +748,91 @@ static CocosScene* sharedCocosScene;
     return YES;
 }
 
+- (void) updateAnimateablePropertyValue:(id)value propName:(NSString*)propertyName type:(int)type
+{
+    NodeInfo* nodeInfo = selectedNode.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    SequencerHandler* sh = [SequencerHandler sharedHandler];
+    
+    if ([plugIn isAnimatableProperty:propertyName])
+    {
+        SequencerSequence* seq = sh.currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:propertyName sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = value;
+            }
+            else
+            {
+                SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
+                keyframe.time = seq.timelinePosition;
+                keyframe.value = value;
+                keyframe.type = type;
+                
+                [seqNodeProp setKeyframe:keyframe];
+            }
+            
+            [sh redrawTimeline];
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:value forKey:propertyName];
+        }
+    }
+}
+
 - (BOOL) ccMouseUp:(NSEvent *)event
 {
     if (!appDelegate.hasOpenedDocument) return YES;
     
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
+    
+    if (currentMouseTransform != kCCBTransformHandleNone)
+    {
+        // Update keyframes & base value
+        id value = NULL;
+        NSString* propName = NULL;
+        int type = kCCBKeyframeTypeDegrees;
+        
+        if (currentMouseTransform == kCCBTransformHandleRotate)
+        {
+            value = [NSNumber numberWithFloat: selectedNode.rotation];
+            propName = @"rotation";
+            type = kCCBKeyframeTypeDegrees;
+        }
+        else if (currentMouseTransform == kCCBTransformHandleScale)
+        {
+            float x = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
+            float y = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
+            value = [NSArray arrayWithObjects:
+                     [NSNumber numberWithFloat:x],
+                     [NSNumber numberWithFloat:y],
+                     nil];
+            propName = @"scale";
+            type = kCCBKeyframeTypeScaleLock;
+        }
+        else if (currentMouseTransform == kCCBTransformHandleMove)
+        {
+            CGPoint pt = [PositionPropertySetter positionForNode:selectedNode prop:@"position"];
+            value = [NSArray arrayWithObjects:
+                     [NSNumber numberWithFloat:pt.x],
+                     [NSNumber numberWithFloat:pt.y],
+                     nil];
+            propName = @"position";
+            type = kCCBKeyframeTypePosition;
+        }
+        
+        if (value)
+        {
+            [self updateAnimateablePropertyValue:value propName:propName type:type];
+        }
+    }
     
     if ([notesLayer mouseUp:pos event:event]) return YES;
     if ([guideLayer mouseUp:pos event:event]) return YES;
@@ -790,8 +918,7 @@ static CocosScene* sharedCocosScene;
         // Use normal rendering
         stageBgLayer.visible = YES;
         renderedScene.visible = NO;
-        [[borderDeviceIPhone texture] setAntiAliasTexParameters];
-        [[borderDeviceIPad texture] setAntiAliasTexParameters];
+        [[borderDevice texture] setAntiAliasTexParameters];
     }
     else
     {
@@ -802,8 +929,7 @@ static CocosScene* sharedCocosScene;
         [renderedScene beginWithClear:0 g:0 b:0 a:1];
         [contentLayer visit];
         [renderedScene end];
-        [[borderDeviceIPhone texture] setAliasTexParameters];
-        [[borderDeviceIPad texture] setAliasTexParameters];
+        [[borderDevice texture] setAliasTexParameters];
     }
     
     [self updateSelection];
@@ -824,8 +950,7 @@ static CocosScene* sharedCocosScene;
     [borderRight setContentSize:CGSizeMake(winSize.width - bounds.origin.x - bounds.size.width, bounds.size.height)];
     
     CGPoint center = ccp(bounds.origin.x+bounds.size.width/2, bounds.origin.y+bounds.size.height/2);
-    borderDeviceIPhone.position = center;
-    borderDeviceIPad.position = center;
+    borderDevice.position = center;
     
     // Update rulers
     origin = ccpAdd(stageCenter, ccpMult(contentLayer.position,stageZoom));

@@ -45,10 +45,23 @@
 @property (nonatomic,assign) BOOL centeredOrigin;
 @property (nonatomic,readonly) NSArray* exts;
 
+// iOS resolutions
 + (ResolutionSetting*) settingIPhoneLandscape;
 + (ResolutionSetting*) settingIPhonePortrait;
 + (ResolutionSetting*) settingIPadLandscape;
 + (ResolutionSetting*) settingIPadPortrait;
+
+// Android resolutions
++ (ResolutionSetting*) settingAndroidXSmallLandscape;
++ (ResolutionSetting*) settingAndroidXSmallPortrait;
++ (ResolutionSetting*) settingAndroidSmallLandscape;
++ (ResolutionSetting*) settingAndroidSmallPortrait;
++ (ResolutionSetting*) settingAndroidMediumLandscape;
++ (ResolutionSetting*) settingAndroidMediumPortrait;
++ (ResolutionSetting*) settingAndroidLargeLandscape;
++ (ResolutionSetting*) settingAndroidLargePortrait;
++ (ResolutionSetting*) settingAndroidXLargeLandscape;
++ (ResolutionSetting*) settingAndroidXLargePortrait;
 
 - (id) initWithSerialization:(id)serialization;
 

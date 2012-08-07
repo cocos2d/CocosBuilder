@@ -27,12 +27,20 @@
 #import "cocos2d.h"
 #import "PSMTabBarControl.h"
 
+#define kCCBNumCanvasDevices 10
+
 enum {
     kCCBCanvasSizeCustom = 0,
     kCCBCanvasSizeIPhoneLandscape,
     kCCBCanvasSizeIPhonePortrait,
     kCCBCanvasSizeIPadLandscape,
-    kCCBCanvasSizeIPadPortrait
+    kCCBCanvasSizeIPadPortrait,
+    kCCBCanvasSizeAndroidXSmallLandscape,
+    kCCBCanvasSizeAndroidXSmallPortrait,
+    kCCBCanvasSizeAndroidSmallLandscape,
+    kCCBCanvasSizeAndroidSmallPortrait,
+    kCCBCanvasSizeAndroidMediumLandscape,
+    kCCBCanvasSizeAndroidMediumPortrait,
 };
 
 enum {
@@ -61,6 +69,7 @@ enum {
 @class SequencerHandler;
 @class SequencerScrubberSelectionView;
 @class MainWindow;
+@class PlayerConsoleWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -102,7 +111,19 @@ enum {
     IBOutlet NSMenu* menuCanvasSize;
     IBOutlet NSMenu* menuCanvasBorder;
     IBOutlet NSMenu* menuResolution;
-    CGSize defaultCanvasSizes[5];
+    IBOutlet NSMenu* menuContextKeyframe;
+    IBOutlet NSMenu* menuContextKeyframeInterpol;
+    IBOutlet NSMenu* menuContextResManager;
+    
+    IBOutlet NSPopUpButton* menuTimelinePopup;
+    IBOutlet NSMenu* menuTimeline;
+    IBOutlet NSTextField* lblTimeline;
+    
+    IBOutlet NSPopUpButton* menuTimelineChainedPopup;
+    IBOutlet NSMenu* menuTimelineChained;
+    IBOutlet NSTextField* lblTimelineChained;
+
+    CGSize defaultCanvasSizes[kCCBNumCanvasDevices+1];
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
     
@@ -145,6 +166,11 @@ enum {
     
     // Player
     PlayerController* playerController;
+    PlayerConsoleWindow* playerConsoleWindow;
+    
+    // Animation playback
+    BOOL playingBack;
+    double playbackLastFrameTime;
     
 @private
     MainWindow *window;
@@ -173,9 +199,15 @@ enum {
 @property (nonatomic,readonly) CCBTransparentView* guiView;
 @property (nonatomic,readonly) CCBTransparentWindow* guiWindow;
 
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframe;
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframeInterpol;
+@property (nonatomic,readonly) IBOutlet NSMenu* menuContextResManager;
+
 @property (nonatomic,retain) ProjectSettings* projectSettings;
 
 @property (nonatomic,retain) PlayerController* playerController;
+
+@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
@@ -187,15 +219,18 @@ enum {
 // Methods
 + (CocosBuilderAppDelegate*) appDelegate;
 
+- (void) updateTimelineMenu;
 - (void) updateInspectorFromSelection;
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
 - (void) openFile:(NSString*) fileName;
+- (void) openJSFile:(NSString*) fileName;
 
 // Menu options
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
 
+- (IBAction)menuTimelineSettings:(id)sender;
 
 - (IBAction) menuNudgeObject:(id)sender;
 - (IBAction) menuMoveObject:(id)sender;
@@ -203,15 +238,14 @@ enum {
 - (IBAction) menuSelectBehind:(id)sender;
 - (IBAction) menuDeselect:(id)sender;
 
-- (IBAction) menuCloseDocument:(id)sender;
 - (void) closeProject;
+- (IBAction) performClose:(id)sender;
 
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;
 - (BOOL) addCCObject:(CCNode*)obj asChild:(BOOL)asChild;
 - (void) deleteNode:(CCNode*)node;
 - (IBAction) pasteAsChild:(id)sender;
-- (IBAction) saveDocument:(id)sender;
 - (IBAction) menuQuit:(id)sender;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;
@@ -242,8 +276,9 @@ enum {
 
 - (IBAction) debug:(id)sender;
 
-// Publishing
+// Publishing & running
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings;
+- (IBAction)runProject:(id)sender;
 
 // For warning messages
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;

@@ -30,6 +30,14 @@
 
 @implementation InspectorScaleLock
 
+- (void) updateAnimateableX:(float)x Y:(float)y
+{
+    [self updateAnimateablePropertyValue:
+     [NSArray arrayWithObjects:
+      [NSNumber numberWithFloat:x],
+      [NSNumber numberWithFloat:y],
+      nil]];
+}
 
 - (void) setScaleX:(float)scaleX
 {
@@ -47,6 +55,7 @@
         scaleY = [PositionPropertySetter scaleYForNode:selection prop:propertyName];
     }
     
+    [self updateAnimateableX:scaleX Y:scaleY];
     [PositionPropertySetter setScaledX:scaleX Y:scaleY type:type forNode:selection prop:propertyName];
     
     [self refresh];
@@ -74,6 +83,7 @@
         scaleX = [PositionPropertySetter scaleXForNode:selection prop:propertyName];
     }
     
+    [self updateAnimateableX:scaleX Y:scaleY];
     [PositionPropertySetter setScaledX:scaleX Y:scaleY type:type forNode:selection prop:propertyName];
     
     [self refresh];

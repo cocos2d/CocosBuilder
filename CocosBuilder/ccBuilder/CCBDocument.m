@@ -28,7 +28,20 @@
 
 @implementation CCBDocument
 
-@synthesize fileName,docData,undoManager, lastEditedProperty, isDirty, stageScrollOffset, stageZoom, exportPath, exportPlugIn,exportFlattenPaths, resolutions, currentResolution;
+@synthesize fileName;
+@synthesize docData;
+@synthesize undoManager;
+@synthesize lastEditedProperty;
+@synthesize isDirty;
+@synthesize stageScrollOffset;
+@synthesize stageZoom;
+@synthesize exportPath;
+@synthesize exportPlugIn;
+@synthesize exportFlattenPaths;
+@synthesize resolutions;
+@synthesize currentResolution;
+@synthesize sequences;
+@synthesize currentSequenceId;
 
 - (id)init
 {

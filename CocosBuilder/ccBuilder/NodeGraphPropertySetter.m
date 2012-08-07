@@ -35,6 +35,7 @@
 + (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize
 {
     CCNode* ccbFile = NULL;
+    int currentSequenceId = 0;
     
     if (ccbFileName && ![ccbFileName isEqualToString:@""])
     {
@@ -57,6 +58,9 @@
                 // Parse the node graph
                 ccbFile = [CCBReaderInternal nodeGraphFromDictionary:[doc objectForKey:@"nodeGraph"] parentSize:parentSize];
             }
+            
+            // Get first timeline
+            currentSequenceId = [[doc objectForKey:@"currentSequenceId"] intValue];
         }
     }
     
@@ -66,6 +70,7 @@
     // Set extra prop
     if (!ccbFileName) ccbFileName = @"";
     [node setExtraProp:ccbFileName forKey:prop];
+    [ccbFile setExtraProp:[NSNumber numberWithInt:currentSequenceId] forKey:@"*sequenceId"];
 }
 
 + (NSString*) nodeGraphNameForNode:(CCNode*)node andProperty:(NSString*)prop

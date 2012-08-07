@@ -96,6 +96,8 @@
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
+    NSLog(@"editWithFrame");
+    
     NSRect textFrame, imageFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
     [super editWithFrame: textFrame inView: controlView editor:textObj delegate:anObject event: theEvent];
@@ -157,6 +159,12 @@
     {
         return [NSColor blackColor];
     }
+}
+
+- (BOOL) isEditable
+{
+    NSLog(@"isEditable (ImageAndTextCell)");
+    return YES;
 }
 
 @end

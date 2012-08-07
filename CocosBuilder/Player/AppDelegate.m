@@ -25,7 +25,7 @@
 #import "AppDelegate.h"
 #import "CCBPFileUtils.h"
 #import "CCBReader.h"
-#import "JSCocoa.h"
+//#import "JSCocoa.h"
 #import "ConsoleWindow.h"
 
 @implementation AppDelegate
@@ -74,6 +74,7 @@
     fileUtils.ccbDirectoryPath = baseDirectory;
 }
 
+/*
 - (void) setupJavaScript
 {
     JSCocoa* jsController = [JSCocoa sharedController];
@@ -81,11 +82,11 @@
     CCFileUtils* fileUtils = [CCFileUtils sharedFileUtils];
     NSString* cocos2dBridge = [fileUtils fullPathFromRelativePath:@"cocos2d.bridgesupport"];
     
-    [[BridgeSupportController sharedController] loadBridgeSupport:cocos2dBridge];
+    //[[BridgeSupportController sharedController] loadBridgeSupport:cocos2dBridge];
     
     NSString* mainScript = [fileUtils fullPathFromRelativePath:@"main.js"];
     [jsController evalJSFile:mainScript];
-}
+}*/
 
 - (void) setupConsole
 {

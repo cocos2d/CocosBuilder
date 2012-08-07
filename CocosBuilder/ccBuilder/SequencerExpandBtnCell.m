@@ -1,16 +1,70 @@
-//
-//  SequencerExpandBtnCell.m
-//  CocosBuilder
-//
-//  Created by Viktor Lidholt on 5/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 #import "SequencerExpandBtnCell.h"
 
 @implementation SequencerExpandBtnCell
 
 @synthesize isExpanded;
+
+- (void) loadImages
+{
+    imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
+    [imgExpand setFlipped:YES];
+    [imgExpand retain];
+    
+    imgCollapse = [NSImage imageNamed:@"seq-btn-collapse.png"];
+    [imgCollapse setFlipped:YES];
+    [imgCollapse retain];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    [self loadImages];
+    return self;
+}
+
+- (id) initImageCell:(NSImage *)image
+{
+    self = [super initImageCell:image];
+    [self loadImages];
+    return self;
+}
+
+- (id) initTextCell:(NSString *)aString
+{
+    self = [super initTextCell:aString];
+    [self loadImages];
+    return self;
+}
+
+- (id) init
+{
+    self = [super init];
+    [self loadImages];
+    return self;
+}
 
 - (BOOL) trackMouse:(NSEvent *)theEvent
              inRect:(NSRect)cellFrame
@@ -33,6 +87,7 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    /*
     if (!imgExpand)
     {
         imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
@@ -45,6 +100,7 @@
         [imgCollapse setFlipped:YES];
         [imgCollapse retain];
     }
+    */
     
     if (isExpanded)
     {
@@ -58,8 +114,9 @@
 
 - (void) dealloc
 {
-    [imgExpand release];
-    [imgCollapse release];
+#warning Why do I get the -[NSImage release]: message sent to deallocated instance ??
+    //[imgExpand release];
+    //[imgCollapse release];
     [super dealloc];
 }
 

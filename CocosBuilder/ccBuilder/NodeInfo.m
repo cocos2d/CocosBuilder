@@ -27,7 +27,11 @@
 
 @implementation NodeInfo
 
-@synthesize plugIn,extraProps;
+@synthesize plugIn;
+@synthesize extraProps;
+@synthesize animatableProperties;
+@synthesize baseValues;
+@synthesize displayName;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin
 {
@@ -48,12 +52,18 @@
     [extraProps setObject:[NSNumber numberWithInt:0] forKey:@"memberVarAssignmentType"];
     [extraProps setObject:@"" forKey:@"memberVarAssignmentName"];
     
+    self.animatableProperties = [NSMutableDictionary dictionary];
+    baseValues = [[NSMutableDictionary alloc] init];
+    
     return self;
 }
 
 - (void) dealloc
 {
     [extraProps release];
+    self.animatableProperties = NULL;
+    self.displayName = NULL;
+    [baseValues release];
     [super dealloc];
 }
 
