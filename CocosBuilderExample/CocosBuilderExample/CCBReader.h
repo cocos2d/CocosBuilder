@@ -141,13 +141,6 @@ enum
 
 @end
 
-@interface CCBFile : CCNode
-{
-    CCNode* ccbFile;
-}
-@property (nonatomic,retain) CCNode* ccbFile;
-@end
-
 @interface CCBFileUtils : CCFileUtils
 {
     NSString* ccbDirectoryPath;

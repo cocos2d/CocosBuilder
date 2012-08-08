@@ -38,6 +38,16 @@
 //#import "JSCocoa.h"
 #endif
 
+
+@interface CCBFile : CCNode
+{
+    CCNode* ccbFile;
+}
+@property (nonatomic,retain) CCNode* ccbFile;
+@end
+
+
+
 @implementation CCBReader
 
 @synthesize actionManager;
@@ -819,6 +829,25 @@
         [self readPropertyForNode:node parent:parent];
     }
     
+    // Handle sub ccb files (remove middle node)
+    if ([node isKindOfClass:[CCBFile class]])
+    {
+        CCBFile* ccbFileNode = (CCBFile*)node;
+        
+        CCNode* embeddedNode = ccbFileNode.ccbFile;
+        embeddedNode.position = ccbFileNode.position;
+        embeddedNode.anchorPoint = ccbFileNode.anchorPoint;
+        embeddedNode.rotation = ccbFileNode.rotation;
+        embeddedNode.scale = ccbFileNode.scale;
+        embeddedNode.tag = ccbFileNode.tag;
+        embeddedNode.visible = YES;
+        embeddedNode.ignoreAnchorPointForPosition = ccbFileNode.ignoreAnchorPointForPosition;
+        
+        ccbFileNode.ccbFile = NULL;
+        
+        node = embeddedNode;
+    }
+    
     // Assign to variable (if applicable)
 #ifdef CCB_ENABLE_JAVASCRIPT
     /*
@@ -1030,23 +1059,12 @@
 @end
 
 
+
 @implementation CCBFile
-
 @synthesize ccbFile;
-
-- (void) setCcbFile:(CCNode*)node
-{
-    ccbFile = node;
-    
-    [self removeAllChildrenWithCleanup:YES];
-    
-    if (node)
-    {
-        [self addChild:node];
-    }
-}
-
 @end
+
+
 
 @implementation CCBFileUtils
 
