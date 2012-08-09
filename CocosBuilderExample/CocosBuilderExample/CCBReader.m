@@ -993,6 +993,11 @@
     return nodeGraph;
 }
 
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize
+{
+    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:NULL];
+}
+
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
 {
     // Load binary file
