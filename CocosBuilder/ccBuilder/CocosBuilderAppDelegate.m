@@ -79,6 +79,8 @@
 #import "PlayerConsoleWindow.h"
 #import "SequencerUtil.h"
 #import "SequencerStretchWindow.h"
+#import "CustomPropSettingsWindow.h"
+#import "CustomPropSetting.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -2027,6 +2029,19 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument) return;
     
     [self setResolution:(int)[sender tag]];
+}
+
+- (IBAction)menuEditCustomPropSettings:(id)sender
+{
+    if (!currentDocument) return;
+    
+    CustomPropSettingsWindow* wc = [[[CustomPropSettingsWindow alloc] initWithWindowNibName:@"CustomPropSettingsWindow"] autorelease];
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        NSLog(@"Edited custom properties");
+    }
 }
 
 - (void) updateStateOriginCenteredMenu

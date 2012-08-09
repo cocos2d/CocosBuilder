@@ -108,6 +108,9 @@
 		A09AB6BC14E9935F009C8B91 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AD14E9935F009C8B91 /* vec3.c */; };
 		A09AB6BD14E9935F009C8B91 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AE14E9935F009C8B91 /* vec4.c */; };
 		A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6F614E993AA009C8B91 /* fps_images.png */; };
+		E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */; };
+		E3214C4415D3C29D002413A7 /* CustomPropSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */; };
+		E3214C4715D3C3AF002413A7 /* CustomPropSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */; };
 		E325F64514F531F500D29BCF /* InspectorFloatVar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E325F64414F531F500D29BCF /* InspectorFloatVar.xib */; };
 		E325F64814F5336E00D29BCF /* InspectorFloatVar.m in Sources */ = {isa = PBXBuildFile; fileRef = E325F64714F5336E00D29BCF /* InspectorFloatVar.m */; };
 		E325F64A14F53FD000D29BCF /* InspectorColor4FVar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E325F64914F53FD000D29BCF /* InspectorColor4FVar.xib */; };
@@ -982,6 +985,11 @@
 		A09AB6AD14E9935F009C8B91 /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3.c; sourceTree = "<group>"; };
 		A09AB6AE14E9935F009C8B91 /* vec4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec4.c; sourceTree = "<group>"; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
+		E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPropSettingsWindow.xib; sourceTree = "<group>"; };
+		E3214C4215D3C29D002413A7 /* CustomPropSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPropSettingsWindow.h; sourceTree = "<group>"; };
+		E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPropSettingsWindow.m; sourceTree = "<group>"; };
+		E3214C4515D3C3AF002413A7 /* CustomPropSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPropSetting.h; sourceTree = "<group>"; };
+		E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPropSetting.m; sourceTree = "<group>"; };
 		E325F64414F531F500D29BCF /* InspectorFloatVar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorFloatVar.xib; sourceTree = "<group>"; };
 		E325F64614F5336E00D29BCF /* InspectorFloatVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloatVar.h; sourceTree = "<group>"; };
 		E325F64714F5336E00D29BCF /* InspectorFloatVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloatVar.m; sourceTree = "<group>"; };
@@ -2203,6 +2211,7 @@
 				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
 				E35A136315B0392800C9AA15 /* Player Connection */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
+				E3214C3F15D3B9D0002413A7 /* Custom Properties */,
 				E335CB071577C55F00A612EE /* Node info */,
 				776041E21498F5A70078095D /* Util */,
 				776041EE1498FC320078095D /* GUI Util */,
@@ -2381,6 +2390,18 @@
 				A09AB6A414E9935F009C8B91 /* matrix.c */,
 			);
 			path = GL;
+			sourceTree = "<group>";
+		};
+		E3214C3F15D3B9D0002413A7 /* Custom Properties */ = {
+			isa = PBXGroup;
+			children = (
+				E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */,
+				E3214C4215D3C29D002413A7 /* CustomPropSettingsWindow.h */,
+				E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */,
+				E3214C4515D3C3AF002413A7 /* CustomPropSetting.h */,
+				E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */,
+			);
+			name = "Custom Properties";
 			sourceTree = "<group>";
 		};
 		E325F65C14F65C8E00D29BCF /* CCMenuItemImage */ = {
@@ -4084,6 +4105,7 @@
 				E326EFB615C84123006D6CE6 /* seq-endmarker.png in Resources */,
 				E33C2AB515CAE2590043EF9B /* SequencerStretchWindow.xib in Resources */,
 				E33C2ABA15CBF2580043EF9B /* seq-keyframe-hint.png in Resources */,
+				E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4504,6 +4526,8 @@
 				E33C2AAC15C987EB0043EF9B /* ResourceManagerOutlineView.m in Sources */,
 				E33C2AAF15C9A0D40043EF9B /* SequencerUtil.m in Sources */,
 				E33C2AB815CAE3980043EF9B /* SequencerStretchWindow.m in Sources */,
+				E3214C4415D3C29D002413A7 /* CustomPropSettingsWindow.m in Sources */,
+				E3214C4715D3C3AF002413A7 /* CustomPropSetting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
