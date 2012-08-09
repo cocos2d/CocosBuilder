@@ -122,6 +122,8 @@ enum
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
 
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize;
+
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
