@@ -35,14 +35,13 @@
 
 @implementation CCBReader
 
-- (id) initWithFile:(NSString*)file owner:(id)o
+- (id) initWithData:(NSData*)d owner:(id)o
 {
     self = [super init];
     if (!self) return NULL;
     
     // Load binary file
-    NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
-    data = [[NSData dataWithContentsOfFile:path] retain];
+    data = [d retain];
     
     // Setup byte array
     bytes = (unsigned char*)[data bytes];
@@ -822,12 +821,21 @@
     return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
 }
 
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize
 {
-    CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
+    CCBReader* reader = [[[CCBReader alloc] initWithData:data owner:owner] autorelease];
     reader->rootContainerSize = parentSize;
     
     return [reader readFile];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
+{
+    // Load binary file
+    NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
+    NSData* data = [NSData dataWithContentsOfFile:path];
+    
+    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file
