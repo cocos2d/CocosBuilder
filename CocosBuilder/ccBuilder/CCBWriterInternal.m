@@ -241,11 +241,11 @@
             continue;
         }
         
-        // Ignore read only properties (not working with sub ccb-files (yet)
-        //if (readOnly)
-        //{
-            //continue;
-        //}
+        // Ignore read only properties
+        if (readOnly)
+        {
+            continue;
+        }
         
         // Handle different type of properties
         if ([plugIn dontSetInEditorProperty:name])
