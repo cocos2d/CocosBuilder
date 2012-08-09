@@ -54,8 +54,6 @@
         [propNames addObject:propName];
     }
     
-    NSLog(@"propNames: %@", propNames);
-    
     for (CustomPropSetting* setting in settings)
     {
         // Make sure all properties have names

@@ -621,6 +621,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         NSLog(@"WARNING info:%@ plugIn:%@ selectedNode: %@", info, plugIn, selectedNode);
     }
     
+    // Custom properties
+    NSArray* customProps = selectedNode.customProperties;
+    if ([customProps count])
+    {
+        paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+    }
+    
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
 }
 
@@ -2036,6 +2043,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument) return;
     if (!selectedNode) return;
     
+    NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
+    if (!customClass || [customClass isEqualToString:@""])
+    {
+        [self modalDialogTitle:@"Custom Class Needed" message:@"To add custom properties to a node you need to use a custom class."];
+        return;
+    }
+    
     CustomPropSettingsWindow* wc = [[[CustomPropSettingsWindow alloc] initWithWindowNibName:@"CustomPropSettingsWindow"] autorelease];
     [wc copySettingsForNode:selectedNode];
     
@@ -2043,6 +2057,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (success)
     {
         selectedNode.customProperties = wc.settings;
+        [self updateInspectorFromSelection];
     }
 }
 
