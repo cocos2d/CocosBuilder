@@ -620,4 +620,16 @@
     info.displayName = displayName;
 }
 
+- (NSMutableArray*) customProperties
+{
+    NodeInfo* info = self.userObject;
+    return info.customProperties;
+}
+
+- (void) setCustomProperties:(NSMutableArray *)customProperties
+{
+    NodeInfo* info = self.userObject;
+    info.customProperties = customProperties;
+}
+
 @end

@@ -2034,13 +2034,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (IBAction)menuEditCustomPropSettings:(id)sender
 {
     if (!currentDocument) return;
+    if (!selectedNode) return;
     
     CustomPropSettingsWindow* wc = [[[CustomPropSettingsWindow alloc] initWithWindowNibName:@"CustomPropSettingsWindow"] autorelease];
+    [wc copySettingsForNode:selectedNode];
     
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
-        NSLog(@"Edited custom properties");
+        selectedNode.customProperties = wc.settings;
     }
 }
 

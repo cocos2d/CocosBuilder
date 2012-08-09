@@ -20,6 +20,7 @@ enum
 {
     NSString* name;
     int type;
+    NSString* value;
     NSString* defaultValue;
     BOOL optimized;
 }
@@ -28,5 +29,6 @@ enum
 @property (nonatomic,assign) int type;
 @property (nonatomic,assign) BOOL optimized;
 @property (nonatomic,copy) NSString* defaultValue;
+@property (nonatomic,copy) NSString* value;
 
 @end

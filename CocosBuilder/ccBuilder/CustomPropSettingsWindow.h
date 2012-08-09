@@ -7,12 +7,16 @@
 //
 
 #import "CCBModalSheetController.h"
+#import "cocos2d.h"
 
 @interface CustomPropSettingsWindow : CCBModalSheetController
 {
     NSMutableArray* settings;
+    CCNode* node;
 }
 
 @property (nonatomic,retain) NSMutableArray* settings;
+
+- (void) copySettingsForNode:(CCNode*)n;
 
 @end

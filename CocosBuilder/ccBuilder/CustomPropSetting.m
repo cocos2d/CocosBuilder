@@ -14,6 +14,7 @@
 @synthesize type;
 @synthesize defaultValue;
 @synthesize optimized;
+@synthesize value;
 
 - (id) init
 {
@@ -32,6 +33,7 @@
 {
     self.name = NULL;
     self.defaultValue = NULL;
+    self.value = NULL;
     [super dealloc];
 }
 
@@ -74,6 +76,19 @@
     type = t;
     
     self.defaultValue = self.defaultValue;
+}
+
+- (id) copyWithZone:(NSZone*)zone
+{
+    CustomPropSetting* copy = [[CustomPropSetting alloc] init];
+    
+    copy.name = name;
+    copy.type = type;
+    copy.defaultValue = defaultValue;
+    copy.optimized = optimized;
+    copy.value = value;
+    
+    return copy;
 }
 
 @end
