@@ -61,6 +61,7 @@
     self.actionManager = [[[CCBActionManager alloc] init] autorelease];
     
     // Setup byte array
+    data = [d retain];
     bytes = (unsigned char*)[d bytes];
     currentByte = 0;
     currentBit = 0;
@@ -1012,7 +1013,7 @@
 {
     // Load binary file
     NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
-    NSData* data = [[NSData dataWithContentsOfFile:path] retain];
+    NSData* data = [NSData dataWithContentsOfFile:path];
     
     return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:actionManager];
 }
