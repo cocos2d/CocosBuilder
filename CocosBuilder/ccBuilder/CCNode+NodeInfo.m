@@ -635,8 +635,7 @@
 
 - (NSString*) customPropertyNamed:(NSString*)name
 {
-    NodeInfo* info = self.userObject;
-    for (CustomPropSetting* setting in info.customProperties)
+    for (CustomPropSetting* setting in self.customProperties)
     {
         if ([setting.name isEqualToString:name])
         {
@@ -686,6 +685,17 @@
     }
     
     self.customProperties = customProps;
+}
+
+- (void) loadCustomPropertyValuesFromSerialization:(id)ser
+{
+    if (!ser) return;
+    
+    for (id serSetting in ser)
+    {
+        CustomPropSetting* setting = [[[CustomPropSetting alloc] initWithSerialization:serSetting] autorelease];
+        [self setCustomPropertyNamed:setting.name value:setting.value];
+    }
 }
 
 @end

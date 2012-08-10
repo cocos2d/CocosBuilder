@@ -585,12 +585,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Add show panes according to selections
     if (!selectedNode) return;
     
-    // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
-    
-    // Add panes for each property
     NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
+    
+    BOOL isCCBSubFile = [plugIn.nodeClassName isEqualToString:@"CCBFile"];
+    
+    // Always add the code connections pane
+    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    
+    // Add panes for each property
     
     if (plugIn)
     {
@@ -626,15 +629,44 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     NSArray* customProps = selectedNode.customProperties;
     if (customClass && ![customClass isEqualToString:@""])
     {
-        paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+        if ([customProps count] || !isCCBSubFile)
+        {
+            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+        }
         
         for (CustomPropSetting* setting in customProps)
         {
             paneOffset = [self addInspectorPropertyOfType:@"Custom" name:setting.name displayName:setting.name extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
         }
         
-        paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+        if (!isCCBSubFile)
+        {
+            paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+        }
     }
+    
+    /*
+    // Custom properties from sub ccb
+    if (isCCBSubFile)
+    {
+        CCNode* subCCB = [[selectedNode children] objectAtIndex:0];
+        if (subCCB)
+        {
+            NSString* subCustomClass = [subCCB extraPropForKey:@"customClass"];
+            NSArray* subCustomProps = subCCB.customProperties;
+            
+            if (subCustomClass && ![subCustomClass isEqualToString:@""])
+            {
+                paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:subCustomClass extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+                
+                for (CustomPropSetting* setting in customProps)
+                {
+                    
+                }
+            }
+        }
+    }
+     */
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
 }

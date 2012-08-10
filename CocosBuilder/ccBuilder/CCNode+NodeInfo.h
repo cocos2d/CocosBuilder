@@ -72,5 +72,6 @@
 
 - (id) serializeCustomProperties;
 - (void) loadCustomPropertiesFromSerialization:(id)ser;
+- (void) loadCustomPropertyValuesFromSerialization:(id)ser;
 
 @end

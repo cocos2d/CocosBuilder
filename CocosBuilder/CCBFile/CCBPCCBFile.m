@@ -28,10 +28,19 @@
 #import "CCBGlobals.h"
 #import "CCBDocument.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CCBPCCBFile
 
 @synthesize ccbFile;
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    return self;
+}
 
 - (void) setCcbFile:(CCNode *)cf
 {
@@ -44,6 +53,25 @@
     }
     
     self.contentSize = ccbFile.contentSize;
+}
+
+- (id) extraPropForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"customClass"] && ccbFile)
+    {
+        return [ccbFile extraPropForKey:@"customClass"];
+    }
+    else
+    {
+        return [super extraPropForKey:key];
+    }
+}
+
+- (NSMutableArray*) customProperties
+{
+    if (!ccbFile) return [NSMutableArray array];
+    
+    return [ccbFile customProperties];
 }
 
 @end

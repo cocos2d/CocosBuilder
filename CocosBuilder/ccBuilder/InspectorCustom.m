@@ -33,8 +33,6 @@
     
     [selection setCustomPropertyNamed:propertyName value:text];
     
-    NSLog(@"setStringValue: %@", [selection customPropertyNamed:propertyName]);
-    
     [textField setStringValue:[selection customPropertyNamed:propertyName]];
 }
 

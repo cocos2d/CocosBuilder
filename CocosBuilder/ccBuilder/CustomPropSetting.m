@@ -103,8 +103,6 @@
     NSString* newVal = [self formatValue:val];
     if (newVal == value) return;
     
-    NSLog(@"setValue: %@", newVal);
-    
     [value release];
     value = [newVal retain];
 }

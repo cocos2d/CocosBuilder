@@ -32,4 +32,6 @@ enum
 - (id) initWithSerialization:(id)ser;
 - (id) serialization;
 
+- (NSString*) formatValue:(NSString*) val;
+
 @end
