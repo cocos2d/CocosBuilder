@@ -36,6 +36,7 @@
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
 #import "CCBDocument.h"
+#import "CustomPropSetting.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -630,6 +631,31 @@
 {
     NodeInfo* info = self.userObject;
     info.customProperties = customProperties;
+}
+
+- (NSString*) customPropertyNamed:(NSString*)name
+{
+    NodeInfo* info = self.userObject;
+    for (CustomPropSetting* setting in info.customProperties)
+    {
+        if ([setting.name isEqualToString:name])
+        {
+            return setting.value;
+        }
+    }
+    return NULL;
+}
+
+- (void) setCustomPropertyNamed:(NSString*)name value:(NSString*)value
+{
+    NodeInfo* info = self.userObject;
+    for (CustomPropSetting* setting in info.customProperties)
+    {
+        if ([setting.name isEqualToString:name])
+        {
+            setting.value = value;
+        }
+    }
 }
 
 @end

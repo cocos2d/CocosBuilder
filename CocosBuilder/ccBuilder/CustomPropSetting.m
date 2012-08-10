@@ -14,7 +14,6 @@
 @synthesize type;
 @synthesize defaultValue;
 @synthesize optimized;
-@synthesize value;
 
 - (id) init
 {
@@ -25,6 +24,7 @@
     self.type = kCCBCustomPropTypeInt;
     self.optimized = NO;
     self.defaultValue = @"0";
+    self.value = @"0";
     
     return self;
 }
@@ -37,36 +37,41 @@
     [super dealloc];
 }
 
-- (void) setDefaultValue:(NSString *)val
+- (NSString*) formatValue:(NSString*) val
 {
-    NSString* newVal = [[val copy] autorelease];
-    
-    [defaultValue release];
-    defaultValue = NULL;
-    
     if (type == kCCBCustomPropTypeInt)
     {
-        int n = [newVal intValue];
-        defaultValue = [[NSString stringWithFormat:@"%d",n] retain];
+        int n = [val intValue];
+        return [NSString stringWithFormat:@"%d",n];
     }
     else if (type == kCCBCustomPropTypeFloat)
     {
-        float f = [newVal floatValue];
-        defaultValue = [[NSString stringWithFormat:@"%f",f] retain];
+        float f = [val floatValue];
+        return [NSString stringWithFormat:@"%f",f];
     }
     else if (type == kCCBCustomPropTypeBool)
     {
-        BOOL b = [newVal boolValue];
-        defaultValue = [[NSString stringWithFormat:@"%d", b] retain];
+        BOOL b = [val boolValue];
+        return [NSString stringWithFormat:@"%d", b];
     }
     else if (type == kCCBCustomPropTypeString)
     {
-        defaultValue = [newVal retain];
+        return val;
     }
     else
     {
         NSAssert(NO, @"Undefined value type");
+        return NULL;
     }
+}
+
+- (void) setDefaultValue:(NSString *)val
+{
+    NSString* newVal = [self formatValue:val];
+    if (newVal == defaultValue) return;
+    
+    [defaultValue release];
+    defaultValue = [newVal retain];
 }
 
 - (void) setType:(int)t
@@ -76,6 +81,26 @@
     type = t;
     
     self.defaultValue = self.defaultValue;
+    self.value = self.value;
+}
+
+- (void) setValue:(NSString *)val
+{
+    if (!val) val = @"";
+    
+    NSString* newVal = [self formatValue:val];
+    if (newVal == value) return;
+    
+    NSLog(@"setValue: %@", newVal);
+    
+    [value release];
+    value = [newVal retain];
+}
+
+- (NSString*) value
+{
+    if (!value) return @"";
+    return value;
 }
 
 - (id) copyWithZone:(NSZone*)zone

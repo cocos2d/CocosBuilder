@@ -67,4 +67,6 @@
 - (id) serializeAnimatedProperties;
 - (void) loadAnimatedPropertiesFromSerialization:(id)ser;
 
+- (NSString*) customPropertyNamed:(NSString*)name;
+- (void) setCustomPropertyNamed:(NSString*)name value:(NSString*)value;
 @end
