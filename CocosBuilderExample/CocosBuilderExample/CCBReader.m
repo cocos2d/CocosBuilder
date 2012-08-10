@@ -225,6 +225,16 @@
     if (platform == kCCBPlatformMac) setProp = YES;
 #endif
     
+    // Forward properties for sub ccb files
+    if ([node isKindOfClass:[CCBFile class]])
+    {
+        CCBFile* ccbNode = (CCBFile*) node;
+        if (ccbNode.ccbFile)
+        {
+            node = ccbNode.ccbFile;
+        }
+    }
+    
     if (type == kCCBPropTypePosition)
     {
         float x = [self readFloat];
