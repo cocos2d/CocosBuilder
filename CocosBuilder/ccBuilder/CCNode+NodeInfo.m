@@ -648,14 +648,44 @@
 
 - (void) setCustomPropertyNamed:(NSString*)name value:(NSString*)value
 {
-    NodeInfo* info = self.userObject;
-    for (CustomPropSetting* setting in info.customProperties)
+    for (CustomPropSetting* setting in self.customProperties)
     {
         if ([setting.name isEqualToString:name])
         {
             setting.value = value;
         }
     }
+}
+
+- (id) serializeCustomProperties
+{
+    if ([self.customProperties count] == 0)
+    {
+        return NULL;
+    }
+    
+    NSMutableArray* ser = [NSMutableArray array];
+    
+    for (CustomPropSetting* setting in self.customProperties)
+    {
+        [ser addObject:[setting serialization]];
+    }
+    
+    return ser;
+}
+
+- (void) loadCustomPropertiesFromSerialization:(id)ser
+{
+    if (!ser) return;
+    
+    NSMutableArray* customProps = [NSMutableArray array];
+    
+    for (id serSetting in ser)
+    {
+        [customProps addObject:[[[CustomPropSetting alloc] initWithSerialization:serSetting] autorelease]];
+    }
+    
+    self.customProperties = customProps;
 }
 
 @end

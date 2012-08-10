@@ -370,6 +370,9 @@
         [node addChild:child z:i];
     }
     
+    // Load custom properties
+    [node loadCustomPropertiesFromSerialization:[dict objectForKey:@"customProperties"]];
+    
     return node;
 }
 

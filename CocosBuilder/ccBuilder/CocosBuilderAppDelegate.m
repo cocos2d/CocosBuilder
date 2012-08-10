@@ -624,7 +624,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Custom properties
     NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
     NSArray* customProps = selectedNode.customProperties;
-    if ([customProps count] && customClass && ![customClass isEqualToString:@""])
+    if (customClass && ![customClass isEqualToString:@""])
     {
         paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
         
@@ -632,6 +632,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         {
             paneOffset = [self addInspectorPropertyOfType:@"Custom" name:setting.name displayName:setting.name extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
         }
+        
+        paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
     }
     
     [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];

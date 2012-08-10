@@ -25,6 +25,7 @@
 #import "CCBXCocos2diPhoneWriter.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "CustomPropSetting.h"
 
 @implementation CCBXCocos2diPhoneWriter
 
@@ -498,6 +499,19 @@
         }
     }
     
+    // Custom properties
+    NSArray* customProps = [node objectForKey:@"customProperties"];
+    for (NSDictionary* customProp in customProps)
+    {
+        [self addToStringCache:[customProp objectForKey:@"name"] isPath:NO];
+        
+        int customType = [[customProp objectForKey:@"type"] intValue];
+        if (customType == kCCBCustomPropTypeString)
+        {
+            [self addToStringCache:[customProp value] isPath:NO];
+        }
+    }
+    
     // Children
     NSArray* children = [node objectForKey:@"children"];
     for (int i = 0; i < [children count]; i++)
@@ -750,7 +764,10 @@
     
     // Write properties
     NSArray* props = [node objectForKey:@"properties"];
-    [self writeInt:(int)[props count] withSign:NO];
+    NSArray* customProps = [node objectForKey:@"customProperties"];
+    
+    [self writeInt:(int)[props count]+[customProps count] withSign:NO];
+    
     for (int i = 0; i < [props count]; i++)
     {
         NSDictionary* prop = [props objectAtIndex:i];
@@ -795,6 +812,42 @@
         }
         
         [self writeProperty:value type:type name:name platform:[prop objectForKey:@"platform"]];
+    }
+    
+    // Write custom properties
+    for (NSDictionary* customProp in customProps)
+    {
+        int customType = [[customProp objectForKey:@"type"] intValue];
+        NSString* customValue = [customProp objectForKey:@"value"];
+        NSString* name = [customProp objectForKey:@"name"];
+        
+        NSString* type = NULL;
+        id value = NULL;
+        
+        if (customType == kCCBCustomPropTypeInt)
+        {
+            type = @"Integer";
+            value = [NSNumber numberWithInt:[customValue intValue]];
+        }
+        else if (customType == kCCBCustomPropTypeFloat)
+        {
+            type = @"Float";
+            value = [NSNumber numberWithFloat:[customValue floatValue]];
+        }
+        else if (customType == kCCBCustomPropTypeBool)
+        {
+            type = @"Check";
+            value = [NSNumber numberWithBool:[customValue boolValue]];
+        }
+        else if (customType == kCCBCustomPropTypeString)
+        {
+            type = @"String";
+            value = customValue;
+        }
+        
+        NSAssert(type, @"Failed to find custom type");
+        
+        [self writeProperty:value type:type name:name platform:kCCBXPlatformAll];
     }
     
     // Write children

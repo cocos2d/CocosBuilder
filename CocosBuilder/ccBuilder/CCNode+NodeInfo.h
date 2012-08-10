@@ -69,4 +69,8 @@
 
 - (NSString*) customPropertyNamed:(NSString*)name;
 - (void) setCustomPropertyNamed:(NSString*)name value:(NSString*)value;
+
+- (id) serializeCustomProperties;
+- (void) loadCustomPropertiesFromSerialization:(id)ser;
+
 @end

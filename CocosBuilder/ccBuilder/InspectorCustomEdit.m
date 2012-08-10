@@ -22,26 +22,28 @@
  * THE SOFTWARE.
  */
 
-#import "InspectorCustom.h"
-#import "CCNode+NodeInfo.h"
+#import "InspectorCustomEdit.h"
+#import "CocosBuilderAppDelegate.h"
 
-@implementation InspectorCustom
+@implementation InspectorCustomEdit
 
-- (void) setText:(NSString *)text
+@synthesize name;
+
+- (IBAction)pressedEdit:(id)sender
 {
-    if (!text) text = @"";
-    
-    [selection setCustomPropertyNamed:propertyName value:text];
-    
-    NSLog(@"setStringValue: %@", [selection customPropertyNamed:propertyName]);
-    
-    [textField setStringValue:[selection customPropertyNamed:propertyName]];
+    NSLog(@"pressedEdit");
+    [[CocosBuilderAppDelegate appDelegate] menuEditCustomPropSettings:sender];
 }
 
-- (NSString*) text
+- (void) willBeAdded
 {
-    return [selection customPropertyNamed:propertyName];
+    self.name = @"Edit Custom Properties";
 }
 
+- (void) dealloc
+{
+    self.name = NULL;
+    [super dealloc];
+}
 
 @end

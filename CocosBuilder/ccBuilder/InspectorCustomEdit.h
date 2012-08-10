@@ -22,26 +22,15 @@
  * THE SOFTWARE.
  */
 
-#import "InspectorCustom.h"
-#import "CCNode+NodeInfo.h"
+#import "InspectorValue.h"
 
-@implementation InspectorCustom
-
-- (void) setText:(NSString *)text
+@interface InspectorCustomEdit : InspectorValue
 {
-    if (!text) text = @"";
-    
-    [selection setCustomPropertyNamed:propertyName value:text];
-    
-    NSLog(@"setStringValue: %@", [selection customPropertyNamed:propertyName]);
-    
-    [textField setStringValue:[selection customPropertyNamed:propertyName]];
+    IBOutlet NSButton* btn;
+    NSString* name;
 }
 
-- (NSString*) text
-{
-    return [selection customPropertyNamed:propertyName];
-}
-
+- (IBAction)pressedEdit:(id)sender;
+@property (nonatomic,retain) NSString* name;
 
 @end

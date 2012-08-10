@@ -26,6 +26,7 @@
 #import "CocosScene.h"
 #import "CCBGlobals.h"
 #import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorCodeConnections
 

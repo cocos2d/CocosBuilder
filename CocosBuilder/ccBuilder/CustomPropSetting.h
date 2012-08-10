@@ -21,14 +21,15 @@ enum
     NSString* name;
     int type;
     NSString* value;
-    NSString* defaultValue;
     BOOL optimized;
 }
 
 @property (nonatomic,copy) NSString* name;
 @property (nonatomic,assign) int type;
 @property (nonatomic,assign) BOOL optimized;
-@property (nonatomic,copy) NSString* defaultValue;
 @property (nonatomic,copy) NSString* value;
+
+- (id) initWithSerialization:(id)ser;
+- (id) serialization;
 
 @end

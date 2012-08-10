@@ -12,7 +12,6 @@
 
 @synthesize name;
 @synthesize type;
-@synthesize defaultValue;
 @synthesize optimized;
 
 - (id) init
@@ -23,16 +22,39 @@
     self.name = @"myCustomProperty";
     self.type = kCCBCustomPropTypeInt;
     self.optimized = NO;
-    self.defaultValue = @"0";
     self.value = @"0";
     
     return self;
 }
 
+- (id) initWithSerialization:(id)ser
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.name = [ser objectForKey:@"name"];
+    self.type = [[ser objectForKey:@"type"] intValue];
+    self.optimized = [[ser objectForKey:@"optimized"] boolValue];
+    self.value = [ser objectForKey:@"value"];
+    
+    return self;
+}
+
+- (id) serialization
+{
+    NSMutableDictionary* ser = [NSMutableDictionary dictionary];
+    
+    [ser setObject:name forKey:@"name"];
+    [ser setObject:[NSNumber numberWithInt:type] forKey:@"type"];
+    [ser setObject:[NSNumber numberWithBool:optimized] forKey:@"optimized"];
+    [ser setObject:value forKey:@"value"];
+    
+    return ser;
+}
+
 - (void) dealloc
 {
     self.name = NULL;
-    self.defaultValue = NULL;
     self.value = NULL;
     [super dealloc];
 }
@@ -65,22 +87,12 @@
     }
 }
 
-- (void) setDefaultValue:(NSString *)val
-{
-    NSString* newVal = [self formatValue:val];
-    if (newVal == defaultValue) return;
-    
-    [defaultValue release];
-    defaultValue = [newVal retain];
-}
-
 - (void) setType:(int)t
 {
     if (t == type) return;
     
     type = t;
     
-    self.defaultValue = self.defaultValue;
     self.value = self.value;
 }
 
@@ -99,7 +111,7 @@
 
 - (NSString*) value
 {
-    if (!value) return @"";
+    if (!value) return [self formatValue: @""];
     return value;
 }
 
@@ -109,7 +121,6 @@
     
     copy.name = name;
     copy.type = type;
-    copy.defaultValue = defaultValue;
     copy.optimized = optimized;
     copy.value = value;
     
