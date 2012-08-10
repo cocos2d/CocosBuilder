@@ -508,7 +508,7 @@
         int customType = [[customProp objectForKey:@"type"] intValue];
         if (customType == kCCBCustomPropTypeString)
         {
-            [self addToStringCache:[customProp value] isPath:NO];
+            [self addToStringCache:[customProp objectForKey:@"value"] isPath:NO];
         }
     }
     
