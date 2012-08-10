@@ -2096,6 +2096,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
+        [self saveUndoStateWillChangeProperty:@"*customPropSettings"];
         selectedNode.customProperties = wc.settings;
         [self updateInspectorFromSelection];
     }

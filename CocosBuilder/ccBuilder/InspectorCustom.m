@@ -24,12 +24,15 @@
 
 #import "InspectorCustom.h"
 #import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorCustom
 
 - (void) setText:(NSString *)text
 {
     if (!text) text = @"";
+    
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
     
     [selection setCustomPropertyNamed:propertyName value:text];
     
