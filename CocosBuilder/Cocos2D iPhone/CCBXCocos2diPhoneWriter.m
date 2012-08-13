@@ -766,7 +766,8 @@
     NSArray* props = [node objectForKey:@"properties"];
     NSArray* customProps = [node objectForKey:@"customProperties"];
     
-    [self writeInt:(int)[props count]+[customProps count] withSign:NO];
+    [self writeInt:(int)[props count] withSign:NO];
+    [self writeInt:(int)[customProps count] withSign:NO];
     
     for (int i = 0; i < [props count]; i++)
     {

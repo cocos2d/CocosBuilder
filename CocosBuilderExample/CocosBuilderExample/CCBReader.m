@@ -209,7 +209,7 @@
     return [stringCache objectAtIndex:n];
 }
 
-- (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent
+- (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent isExtraProp:(BOOL)isExtraProp
 {
     // Read type and property name
     int type = [self readIntWithSign:NO];
@@ -230,10 +230,29 @@
     if ([node isKindOfClass:[CCBFile class]])
     {
         CCBFile* ccbNode = (CCBFile*) node;
-        if (ccbNode.ccbFile)
+        if (ccbNode.ccbFile && isExtraProp)
         {
             node = ccbNode.ccbFile;
+            
+            NSLog(@"settingExtraProp: %@ inheritedProps: %@ node: %@", name, node.userObject, node);
+            
+            // Skip properties that doesn't have a value to override
+            NSSet* extraPropsNames = node.userObject;
+            setProp &= [extraPropsNames containsObject:name];
         }
+    }
+    else if (isExtraProp && node == actionManager.rootNode)
+    {
+        NSMutableSet* extraPropNames = node.userObject;
+        if (!extraPropNames)
+        {
+            extraPropNames = [NSMutableSet set];
+            node.userObject = extraPropNames;
+        }
+        
+        [extraPropNames addObject:name];
+        
+        NSLog(@"storingExtraProp: %@ values: %@ node: %@", name, node.userObject, node);
     }
     
     if (type == kCCBPropTypePosition)
@@ -664,8 +683,20 @@
         // Change path extension to .ccbi
         ccbFileName = [NSString stringWithFormat:@"%@.ccbi", [ccbFileName stringByDeletingPathExtension]];
         
-        // Load sub file and add it
-        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner parentSize:parent.contentSize];
+        // Load sub file
+        NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:ccbFileName];
+        NSData* d = [NSData dataWithContentsOfFile:path];
+        
+        CCBReader* reader = [[[CCBReader alloc] initWithData: d owner:owner] autorelease];
+        reader.actionManager.rootContainerSize = parent.contentSize;
+        
+        CCNode* ccbFile = [reader readFileWithCleanUp:NO];
+        
+        if (ccbFile && reader.actionManager.autoPlaySequenceId != -1)
+        {
+            // Auto play animations
+            [reader.actionManager runActionsForSequenceId:reader.actionManager.autoPlaySequenceId tweenDuration:0];
+        }
         
         if (setProp)
         {
@@ -830,10 +861,15 @@
     }
     
     // Read properties
-    int numProps = [self readIntWithSign:NO];
+    int numRegularProps = [self readIntWithSign:NO];
+    int numExtraProps = [self readIntWithSign:NO];
+    int numProps = numRegularProps + numExtraProps;
+    
     for (int i = 0; i < numProps; i++)
     {
-        [self readPropertyForNode:node parent:parent];
+        BOOL isExtraProp = (i >= numRegularProps);
+        
+        [self readPropertyForNode:node parent:parent isExtraProp:isExtraProp];
     }
     
     // Handle sub ccb files (remove middle node)
@@ -964,13 +1000,32 @@
     return YES;
 }
 
-- (CCNode*) readFile
+- (void) cleanUpNodeGraph:(CCNode*)node
+{
+    if (node.userObject)
+    {
+        NSLog(@"cleaning up: %@", node.userObject);
+        node.userObject = NULL;
+    }
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(node.children, child)
+    {
+        [self cleanUpNodeGraph:child];
+    }
+}
+
+- (CCNode*) readFileWithCleanUp:(BOOL)cleanUp
 {
     if (![self readHeader]) return NULL;
     if (![self readStringCache]) return NULL;
     if (![self readSequences]) return NULL;
     
     CCNode* node = [self readNodeGraph];
+    
+    if (cleanUp)
+    {
+        [self cleanUpNodeGraph:node];
+    }
     
     return node;
 }
@@ -985,9 +1040,7 @@
     CCBReader* reader = [[[CCBReader alloc] initWithData: data owner:owner] autorelease];
     reader.actionManager.rootContainerSize = parentSize;
     
-    CCNode* nodeGraph = [reader readFile];
-    
-    [reader.actionManager debug];
+    CCNode* nodeGraph = [reader readFileWithCleanUp:YES];
     
     if (nodeGraph && reader.actionManager.autoPlaySequenceId != -1)
     {
