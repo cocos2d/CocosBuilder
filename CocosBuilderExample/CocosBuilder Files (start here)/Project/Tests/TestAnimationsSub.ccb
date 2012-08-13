@@ -25,6 +25,97 @@
 				<dict>
 					<key>0</key>
 					<dict>
+						<key>color</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>color</string>
+									<key>time</key>
+									<real>0.0</real>
+									<key>type</key>
+									<integer>6</integer>
+									<key>value</key>
+									<array>
+										<integer>0</integer>
+										<integer>0</integer>
+										<integer>0</integer>
+									</array>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>color</string>
+									<key>time</key>
+									<real>4.8333334922790527</real>
+									<key>type</key>
+									<integer>6</integer>
+									<key>value</key>
+									<array>
+										<integer>255</integer>
+										<integer>254</integer>
+										<integer>255</integer>
+									</array>
+								</dict>
+							</array>
+							<key>name</key>
+							<string>color</string>
+							<key>type</key>
+							<integer>6</integer>
+						</dict>
+						<key>rotation</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotation</string>
+									<key>time</key>
+									<real>0.0</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>0.0</real>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotation</string>
+									<key>time</key>
+									<real>10</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>360</real>
+								</dict>
+							</array>
+							<key>name</key>
+							<string>rotation</string>
+							<key>type</key>
+							<integer>2</integer>
+						</dict>
+					</dict>
+					<key>1</key>
+					<dict>
 						<key>rotation</key>
 						<dict>
 							<key>keyframes</key>
@@ -83,18 +174,6 @@
 				<array>
 					<dict>
 						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>290</real>
-							<real>290</real>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>scale</string>
 						<key>type</key>
 						<string>ScaleLock</string>
@@ -114,7 +193,7 @@
 						<key>type</key>
 						<string>Degrees</string>
 						<key>value</key>
-						<real>157.19999694824219</real>
+						<real>0.0</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -133,6 +212,32 @@
 						<array>
 							<string></string>
 							<string>burst.png</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>opacity</string>
+						<key>type</key>
+						<string>Byte</string>
+						<key>value</key>
+						<integer>100</integer>
+					</dict>
+					<dict>
+						<key>baseValue</key>
+						<array>
+							<integer>255</integer>
+							<integer>254</integer>
+							<integer>255</integer>
+						</array>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -282,21 +387,41 @@
 			<key>autoPlay</key>
 			<true/>
 			<key>chainedSequenceId</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>length</key>
 			<real>10</real>
 			<key>name</key>
-			<string>Main</string>
+			<string>Intro</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>4.3666667938232422</real>
+			<real>0.0</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
 			<real>32</real>
 			<key>sequenceId</key>
 			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>autoPlay</key>
+			<false/>
+			<key>chainedSequenceId</key>
+			<integer>1</integer>
+			<key>length</key>
+			<real>10</real>
+			<key>name</key>
+			<string>Loop</string>
+			<key>offset</key>
+			<real>0.0</real>
+			<key>position</key>
+			<real>2.7999999523162842</real>
+			<key>resolution</key>
+			<real>30</real>
+			<key>scale</key>
+			<real>32</real>
+			<key>sequenceId</key>
+			<integer>1</integer>
 		</dict>
 	</array>
 </dict>
