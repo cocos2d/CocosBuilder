@@ -234,8 +234,6 @@
         {
             node = ccbNode.ccbFile;
             
-            NSLog(@"settingExtraProp: %@ inheritedProps: %@ node: %@", name, node.userObject, node);
-            
             // Skip properties that doesn't have a value to override
             NSSet* extraPropsNames = node.userObject;
             setProp &= [extraPropsNames containsObject:name];
@@ -251,8 +249,6 @@
         }
         
         [extraPropNames addObject:name];
-        
-        NSLog(@"storingExtraProp: %@ values: %@ node: %@", name, node.userObject, node);
     }
     
     if (type == kCCBPropTypePosition)
@@ -1002,11 +998,8 @@
 
 - (void) cleanUpNodeGraph:(CCNode*)node
 {
-    if (node.userObject)
-    {
-        NSLog(@"cleaning up: %@", node.userObject);
-        node.userObject = NULL;
-    }
+    node.userObject = NULL;
+    
     CCNode* child = NULL;
     CCARRAY_FOREACH(node.children, child)
     {
