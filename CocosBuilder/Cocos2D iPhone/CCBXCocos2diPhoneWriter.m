@@ -557,6 +557,22 @@
     [self writeInt:autoPlaySeqId withSign:YES];
 }
 
+- (void) writeResolutions:(NSDictionary *)doc
+{
+    NSArray *resolutions = [doc objectForKey:@"resolutions"];
+    
+    // Write number of resolutions
+    [self writeInt:(int)[resolutions count] withSign:NO];
+    
+    // Write each resolution
+    for (NSDictionary *res in resolutions)
+    {
+        [self writeInt:[[res objectForKey:@"width"] intValue] withSign:NO];
+        [self writeInt:[[res objectForKey:@"height"] intValue] withSign:NO];
+        [self writeFloat:[[res objectForKey:@"scale"] floatValue]];
+    }
+}
+
 - (void) transformStringCache
 {
     NSArray* stringCacheSorted = [stringCacheLookup keysSortedByValueUsingSelector:@selector(compare:)];
@@ -871,6 +887,7 @@
     [self writeHeader];
     [self writeStringCache];
     [self writeSequences:doc];
+    [self writeResolutions:doc];
     [self writeNodeGraph:nodeGraph];
 }
 

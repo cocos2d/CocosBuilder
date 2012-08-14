@@ -962,6 +962,33 @@
     return YES;
 }
 
+- (BOOL) readResolutions
+{
+    float deviceScale = 1;
+#ifdef __CC_PLATFORM_IOS
+    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        // iPad
+        deviceScale = 2;
+    }
+#endif
+    
+    int numRes = [self readIntWithSign:NO];
+    
+    for (int i = 0; i < numRes; ++i)
+    {
+        int width = [self readIntWithSign:NO];
+        int height = [self readIntWithSign:NO];
+        float scale = [self readFloat];
+        if (scale == deviceScale)
+        {
+            actionManager.rootContainerSize = CGSizeMake(width, height);
+        }
+    }
+    
+    return YES;
+}
+
 - (BOOL) readStringCache
 {
     int numStrings = [self readIntWithSign:NO];
@@ -1012,6 +1039,7 @@
     if (![self readHeader]) return NULL;
     if (![self readStringCache]) return NULL;
     if (![self readSequences]) return NULL;
+    if (![self readResolutions]) return NULL;
     
     CCNode* node = [self readNodeGraph];
     
