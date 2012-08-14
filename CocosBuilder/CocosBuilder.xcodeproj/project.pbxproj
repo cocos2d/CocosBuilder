@@ -115,6 +115,7 @@
 		E3214C4C15D40F01002413A7 /* InspectorCustom.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C4A15D40F01002413A7 /* InspectorCustom.xib */; };
 		E3214C5D15D54356002413A7 /* InspectorCustomEdit.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C5B15D54355002413A7 /* InspectorCustomEdit.m */; };
 		E3214C5E15D54356002413A7 /* InspectorCustomEdit.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C5C15D54355002413A7 /* InspectorCustomEdit.xib */; };
+		E3214CC615DA73E3002413A7 /* HelloCocosBuilder.ccb in Resources */ = {isa = PBXBuildFile; fileRef = E3214CC515DA73E3002413A7 /* HelloCocosBuilder.ccb */; };
 		E325F64514F531F500D29BCF /* InspectorFloatVar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E325F64414F531F500D29BCF /* InspectorFloatVar.xib */; };
 		E325F64814F5336E00D29BCF /* InspectorFloatVar.m in Sources */ = {isa = PBXBuildFile; fileRef = E325F64714F5336E00D29BCF /* InspectorFloatVar.m */; };
 		E325F64A14F53FD000D29BCF /* InspectorColor4FVar.xib in Resources */ = {isa = PBXBuildFile; fileRef = E325F64914F53FD000D29BCF /* InspectorColor4FVar.xib */; };
@@ -1000,6 +1001,7 @@
 		E3214C5A15D54355002413A7 /* InspectorCustomEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorCustomEdit.h; sourceTree = "<group>"; };
 		E3214C5B15D54355002413A7 /* InspectorCustomEdit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCustomEdit.m; sourceTree = "<group>"; };
 		E3214C5C15D54355002413A7 /* InspectorCustomEdit.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorCustomEdit.xib; sourceTree = "<group>"; };
+		E3214CC515DA73E3002413A7 /* HelloCocosBuilder.ccb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HelloCocosBuilder.ccb; sourceTree = "<group>"; };
 		E325F64414F531F500D29BCF /* InspectorFloatVar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorFloatVar.xib; sourceTree = "<group>"; };
 		E325F64614F5336E00D29BCF /* InspectorFloatVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloatVar.h; sourceTree = "<group>"; };
 		E325F64714F5336E00D29BCF /* InspectorFloatVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloatVar.m; sourceTree = "<group>"; };
@@ -2264,6 +2266,7 @@
 		7789ACEB133AB6A700CEFCC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E3214CC415DA73BD002413A7 /* Templates */,
 				E35DBBDD14F3D1830070A6E4 /* Configurations */,
 				776041E71498F7DE0078095D /* Sparkle (for updates) */,
 				776041E41498F6AF0078095D /* Images */,
@@ -2412,6 +2415,14 @@
 				E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */,
 			);
 			name = "Custom Properties";
+			sourceTree = "<group>";
+		};
+		E3214CC415DA73BD002413A7 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				E3214CC515DA73E3002413A7 /* HelloCocosBuilder.ccb */,
+			);
+			name = Templates;
 			sourceTree = "<group>";
 		};
 		E325F65C14F65C8E00D29BCF /* CCMenuItemImage */ = {
@@ -4124,6 +4135,7 @@
 				E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */,
 				E3214C4C15D40F01002413A7 /* InspectorCustom.xib in Resources */,
 				E3214C5E15D54356002413A7 /* InspectorCustomEdit.xib in Resources */,
+				E3214CC615DA73E3002413A7 /* HelloCocosBuilder.ccb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

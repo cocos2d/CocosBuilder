@@ -1085,6 +1085,16 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Create a default project
     ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
     settings.projectPath = fileName;
+    
+    // Copy resource
+    NSString* templateFile = [[NSBundle mainBundle] pathForResource:@"HelloCocosBuilder" ofType:@"ccb"];
+    NSString* toFile = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:toFile])
+    {
+        [[NSFileManager defaultManager] copyItemAtPath:templateFile toPath:toFile error:NULL];
+    }
+    
     return [settings store];
 }
 
@@ -1953,6 +1963,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             if ([self createProject: fileName])
             {
                 [self openProject:fileName];
+                [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
             }
             else
             {
