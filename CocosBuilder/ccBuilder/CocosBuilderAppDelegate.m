@@ -1073,6 +1073,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         [self closeProject];
         
+        [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
+        
         // Notify the user
         [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
     }
@@ -2582,7 +2584,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     NSLog(@"DEBUG");
     
-    NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
+    [resManager debugPrintDirectories];
 }
 
 @end
