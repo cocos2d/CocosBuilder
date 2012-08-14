@@ -47,7 +47,8 @@
     
     resourcePaths = [[NSMutableArray alloc] init];
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
-    self.publishDirectory = @"";
+    self.publishDirectory = @".";
+    self.onlyPublishCCBs = YES;
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];

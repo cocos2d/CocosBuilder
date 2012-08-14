@@ -1944,6 +1944,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Accepted create document, prompt for place for file
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
+    saveDlg.message = @"Save your project file in the same directory as your projects resources.";
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
