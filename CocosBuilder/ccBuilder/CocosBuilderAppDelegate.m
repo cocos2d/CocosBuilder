@@ -1257,7 +1257,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     selectedNode = NULL;
     [[CocosScene cocosScene] setStageSize:stageSize centeredOrigin:origin];
     
+    // Create new node
     [[CocosScene cocosScene] replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
+    
+    // Set default contentSize to 100% x 100%
+    if ([type isEqualToString:@"CCNode"] || [type isEqualToString:@"CCLayer"])
+    {
+        [PositionPropertySetter setSize:NSMakeSize(100, 100) type:kCCBSizeTypePercent forNode:[CocosScene cocosScene].rootNode prop:@"contentSize"];
+    }
     
     [outlineHierarchy reloadData];
     [sequenceHandler updateOutlineViewSelection];
