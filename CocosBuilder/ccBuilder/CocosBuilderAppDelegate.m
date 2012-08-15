@@ -2430,10 +2430,26 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [cs.notesLayer addNote];
 }
 
+- (NSString*) keyframePropNameFromTag:(int)tag
+{
+    if (tag == 0) return @"visible";
+    else if (tag == 1) return @"position";
+    else if (tag == 2) return @"scale";
+    else if (tag == 3) return @"rotation";
+    else if (tag == 4) return @"displayFrame";
+    else if (tag == 5) return @"opacity";
+    else if (tag == 6) return @"color";
+    else return NULL;
+}
+
+- (IBAction)menuAddKeyframe:(id)sender
+{
+    int tag = [sender tag];
+    [sequenceHandler menuAddKeyframeNamed:[self keyframePropNameFromTag:tag]];
+}
+
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
 {
-    NSLog(@"validateMenuItem: %@", menuItem);
-    
     if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
@@ -2452,6 +2468,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuReverseSelectedKeyframes:))
     {
         return (hasOpenedDocument && [SequencerUtil canReverseSelectedKeyframes]);
+    }
+    else if (menuItem.action == @selector(menuAddKeyframe:))
+    {
+        if (!hasOpenedDocument) return NO;
+        if (!selectedNode) return NO;
+        return [sequenceHandler canInsertKeyframeNamed:[self keyframePropNameFromTag:menuItem.tag]];
     }
     
     return YES;

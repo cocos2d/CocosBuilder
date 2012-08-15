@@ -160,6 +160,13 @@
         return;
     }
     
+    // Ensure that the keyframe type is animated
+    if (![self.plugIn.animatableProperties containsObject:name]
+        && ![name isEqualToString:@"visible"])
+    {
+        return;
+    }
+    
     // Create keyframe
     SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
     keyframe.time = time;
