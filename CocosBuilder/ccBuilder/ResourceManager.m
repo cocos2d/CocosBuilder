@@ -324,6 +324,8 @@
 
 - (BOOL) isResolutionDependentFile: (NSString*) file
 {
+    if ([[file pathExtension] isEqualToString:@"ccb"]) return NO;
+    
     NSString* fileNoExt = [file stringByDeletingPathExtension];
     
     NSArray* resIndependentExts = [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", nil];
