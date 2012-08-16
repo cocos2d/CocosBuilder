@@ -120,7 +120,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     currentInspectorValues = [[NSMutableDictionary alloc] init];
     
-    inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
+    //[inspectorScroll setScrollerStyle: NSScrollerStyleLegacy];
+    
+    inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, [inspectorScroll contentSize].width, 1)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
     [inspectorDocumentView setAutoresizingMask:NSViewWidthSizable];
     [inspectorScroll setDocumentView:inspectorDocumentView];
@@ -669,7 +671,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
      */
     
-    [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
+    [inspectorDocumentView setFrameSize:NSMakeSize([inspectorScroll contentSize].width, paneOffset)];
 }
 
 #pragma mark Populating menus
