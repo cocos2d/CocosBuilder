@@ -1261,7 +1261,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [[CocosScene cocosScene] replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
     
     // Set default contentSize to 100% x 100%
-    if ([type isEqualToString:@"CCNode"] || [type isEqualToString:@"CCLayer"])
+    if (([type isEqualToString:@"CCNode"] || [type isEqualToString:@"CCLayer"])
+        && stageSize.width != 0 && stageSize.height != 0)
     {
         [PositionPropertySetter setSize:NSMakeSize(100, 100) type:kCCBSizeTypePercent forNode:[CocosScene cocosScene].rootNode prop:@"contentSize"];
     }

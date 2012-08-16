@@ -134,9 +134,17 @@ static CocosScene* sharedCocosScene;
 
 - (void) setStageBorder:(int)type
 {
-    //borderDeviceIPhone.visible = NO;
-    //borderDeviceIPad.visible = NO;
     borderDevice.visible = NO;
+    
+    if (stageBgLayer.contentSize.width == 0 || stageBgLayer.contentSize.height == 0)
+    {
+        type = kCCBBorderNone;
+        stageBgLayer.visible = NO;
+    }
+    else
+    {
+        stageBgLayer.visible = YES;
+    }
     
     if (type == kCCBBorderDevice)
     {
@@ -210,6 +218,7 @@ static CocosScene* sharedCocosScene;
             
             borderDevice.visible = YES;
         }
+        borderLayer.visible = YES;
     }
     else if (type == kCCBBorderTransparent)
     {
@@ -217,6 +226,8 @@ static CocosScene* sharedCocosScene;
         [borderTop setOpacity:180];
         [borderLeft setOpacity:180];
         [borderRight setOpacity:180];
+        
+        borderLayer.visible = YES;
     }
     else if (type == kCCBBorderOpaque)
     {
@@ -224,13 +235,11 @@ static CocosScene* sharedCocosScene;
         [borderTop setOpacity:255];
         [borderLeft setOpacity:255];
         [borderRight setOpacity:255];
+        borderLayer.visible = YES;
     }
     else
     {
-        [borderBottom setOpacity:0];
-        [borderTop setOpacity:0];
-        [borderLeft setOpacity:0];
-        [borderRight setOpacity:0];
+        borderLayer.visible = NO;
     }
     
     stageBorderType = type;
