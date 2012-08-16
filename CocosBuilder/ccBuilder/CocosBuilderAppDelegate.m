@@ -802,6 +802,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
+    [dict setObject:[NSNumber numberWithInt:[[CocosScene cocosScene] stageBorder]] forKey:@"stageBorder"];
+    
     // Guides & notes
     [dict setObject:[[CocosScene cocosScene].guideLayer serializeGuides] forKey:@"guides"];
     [dict setObject:[[CocosScene cocosScene].notesLayer serializeNotes] forKey:@"notes"];
@@ -900,6 +902,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self updateResolutionMenu];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
+    
+    // Stage border
+    [[CocosScene cocosScene] setStageBorder:[[doc objectForKey:@"stageBorder"] intValue]];
     
     // Setup sequencer timelines
     NSMutableArray* serializedSequences = [doc objectForKey:@"sequences"];
@@ -2098,6 +2103,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument) return;
     
     [self setResolution:(int)[sender tag]];
+    [self updateCanvasBorderMenu];
 }
 
 - (IBAction)menuEditCustomPropSettings:(id)sender
@@ -2157,7 +2163,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     int tag = (int)[sender tag];
     [cs setStageBorder:tag];
-    [self updateCanvasBorderMenu];
 }
 
 - (IBAction) menuZoomIn:(id)sender
@@ -2475,6 +2480,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         if (!hasOpenedDocument) return NO;
         if (!selectedNode) return NO;
         return [sequenceHandler canInsertKeyframeNamed:[self keyframePropNameFromTag:menuItem.tag]];
+    }
+    else if (menuItem.action == @selector(menuSetCanvasBorder:))
+    {
+        if (!hasOpenedDocument) return NO;
+        int tag = [menuItem tag];
+        if (tag == kCCBBorderNone) return YES;
+        CGSize canvasSize = [[CocosScene cocosScene] stageSize];
+        if (canvasSize.width == 0 || canvasSize.height == 0) return NO;
+        return YES;
     }
     
     return YES;

@@ -243,6 +243,8 @@ static CocosScene* sharedCocosScene;
     }
     
     stageBorderType = type;
+    
+    [appDelegate updateCanvasBorderMenu];
 }
 
 - (int) stageBorder
