@@ -472,6 +472,21 @@ static CocosScene* sharedCocosScene;
         btnRotate.position = rectBtnRotate.origin;
         btnRotate.anchorPoint = ccp(0,0);
         [selectionLayer addChild:btnRotate z:1];
+        
+        
+        // Disable handles for root node
+        if (selectedNode == rootNode)
+        {
+            btnMove.opacity = 127;
+            btnScale.opacity = 127;
+            btnRotate.opacity = 127;
+        }
+        else
+        {
+            btnMove.opacity = 255;
+            btnScale.opacity = 255;
+            btnRotate.opacity = 255;
+        }
     }
 }
 
@@ -597,6 +612,12 @@ static CocosScene* sharedCocosScene;
     int th = [self transformHandleUnderPt:pos];
     if (th)
     {
+        // Disable handles for root node
+        if (selectedNode == rootNode)
+        {
+            return YES;
+        }
+        
         if (th == kCCBTransformHandleMove)
         {
             transformStartPosition = [selectedNode.parent convertToWorldSpace:[self selectedNodePos]];

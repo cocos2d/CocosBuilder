@@ -73,5 +73,5 @@
 - (id) serializeCustomProperties;
 - (void) loadCustomPropertiesFromSerialization:(id)ser;
 - (void) loadCustomPropertyValuesFromSerialization:(id)ser;
-
+- (BOOL) shouldDisableProperty:(NSString*) prop;
 @end

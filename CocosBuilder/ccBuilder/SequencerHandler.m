@@ -688,6 +688,8 @@ static SequencerHandler* sharedSequencerHandler;
     if (!node) return NO;
     if (!prop) return NO;
     
+    if ([node shouldDisableProperty:prop]) return NO;
+    
     if ([prop isEqualToString:@"visible"]) return YES;
     return [node.plugIn.animatableProperties containsObject:prop];
 }

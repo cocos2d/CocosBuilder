@@ -37,6 +37,7 @@
 #import "CCBReaderInternal.h"
 #import "CCBDocument.h"
 #import "CustomPropSetting.h"
+#import "CocosScene.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -166,6 +167,9 @@
     {
         return;
     }
+    
+    // Do not add keyframes for disabled properties
+    if ([self shouldDisableProperty:name]) return;
     
     // Create keyframe
     SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
@@ -703,6 +707,21 @@
         CustomPropSetting* setting = [[[CustomPropSetting alloc] initWithSerialization:serSetting] autorelease];
         [self setCustomPropertyNamed:setting.name value:setting.value];
     }
+}
+
+- (BOOL) shouldDisableProperty:(NSString*) prop
+{
+    if (self != [CocosScene cocosScene].rootNode) return NO;
+    
+    if ([prop isEqualToString:@"position"]) return YES;
+    else if ([prop isEqualToString:@"anchorPoint"]) return YES;
+    else if ([prop isEqualToString:@"scale"]) return YES;
+    else if ([prop isEqualToString:@"rotation"]) return YES;
+    else if ([prop isEqualToString:@"tag"]) return YES;
+    else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return YES;
+    else if ([prop isEqualToString:@"visible"]) return YES;
+    
+    return NO;
 }
 
 @end

@@ -609,6 +609,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSString* extra = [propInfo objectForKey:@"extra"];
             BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
             if ([name isEqualToString:@"visible"]) animated = YES;
+            if ([selectedNode shouldDisableProperty:name]) readOnly = YES;
             
             // TODO: Handle read only for animated properties
             if ([self isDisabledProperty:name animatable:animated])

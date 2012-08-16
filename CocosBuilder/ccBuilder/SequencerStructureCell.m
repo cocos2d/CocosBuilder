@@ -42,6 +42,7 @@
         
         // Color
         NSColor* textColor = [[self textColor] colorWithAlphaComponent:0.6];
+        NSColor* textColorDisabled = [[self textColor] colorWithAlphaComponent:0.3];
         
         // Dimensions (spacing from right side)
         NSRect propNameRect = cellFrame;
@@ -58,6 +59,14 @@
         
         // Draw property names
         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:@"visible" sequenceId:seq.sequenceId];
+        
+        // Check for disabled visible
+        if ([node shouldDisableProperty:@"visible"])
+        {
+            [attrib setObject:textColorDisabled forKey:NSForegroundColorAttributeName];
+        }
+        
+        
         BOOL hasKeyframes = ([seqNodeProp.keyframes count] > 0);
         if (hasKeyframes)
         {
@@ -76,6 +85,15 @@
         {
             seqNodeProp = [node sequenceNodeProperty:prop sequenceId:seq.sequenceId];
             BOOL hasKeyframes = ([seqNodeProp.keyframes count] > 0);
+            
+            if ([node shouldDisableProperty:prop])
+            {
+                [attrib setObject:textColorDisabled forKey:NSForegroundColorAttributeName];
+            }
+            else
+            {
+                [attrib setObject:textColor forKey:NSForegroundColorAttributeName];
+            }
             
             if (hasKeyframes)
             {
