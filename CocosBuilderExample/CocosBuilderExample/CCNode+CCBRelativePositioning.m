@@ -8,6 +8,8 @@
 
 #import "CCNode+CCBRelativePositioning.h"
 
+float ccbResolutionScale = 0;
+
 @implementation CCNode (CCBRelativePositioning)
 
 #pragma mark Positions
@@ -133,22 +135,34 @@
 
 - (float) resolutionScale
 {
-#ifdef __CC_PLATFORM_IOS
-    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (!ccbResolutionScale)
     {
-        // iPad
-        return 2;
-    }
+#ifdef __CC_PLATFORM_IOS
+        if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            // iPad
+            ccbResolutionScale = 2;
+        }
+        else
+        {
+            // iPhone
+            ccbResolutionScale = 1;
+        }
+#else
+        // Mac/Desktop
+        ccbResolutionScale = 1;
 #endif
-    return 1;
+    }
+    
+    return ccbResolutionScale;
 }
 
 - (void) setRelativeScaleX:(float)x Y:(float)y type:(int)type propertyName:(NSString*)propertyName
 {
-    float resolutionScale = [self resolutionScale];
-    
     if (type == kCCBScaleTypeMultiplyResolution)
     {
+        float resolutionScale = [self resolutionScale];
+        
         x *= resolutionScale;
         y *= resolutionScale;
     }

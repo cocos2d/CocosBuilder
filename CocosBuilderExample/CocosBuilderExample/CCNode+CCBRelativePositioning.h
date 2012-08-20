@@ -34,6 +34,8 @@ enum
     kCCBScaleTypeMultiplyResolution
 };
 
+extern float ccbResolutionScale;
+
 @interface CCNode (CCBRelativePositioning)
 
 - (float) resolutionScale;

@@ -1113,6 +1113,11 @@
     return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
 }
 
++ (void) setResolutionScale:(float)scale
+{
+    ccbResolutionScale = scale;
+}
+
 #ifdef CCB_ENABLE_UNZIP
 + (BOOL) unzipResources:(NSString*)resPath
 {
