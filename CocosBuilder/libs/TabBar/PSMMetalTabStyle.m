@@ -344,8 +344,9 @@
 			aRect.size.width--;
 			aRect.size.height -= 0.5;
 			//NSDrawWindowBackground(aRect);
-            if ([[[cell controlView] window] isMainWindow]) [[NSColor colorWithCalibratedWhite:0.6 alpha:1] set];
-            else [[NSColor colorWithCalibratedWhite:0.8 alpha:1] set];
+            if ([[[cell controlView] window] isMainWindow]) [[NSColor colorWithCalibratedWhite:0.63 alpha:1] set];
+            else [[NSColor colorWithCalibratedWhite:0.84 alpha:1] set];
+            
             NSRectFill(aRect);
 			aRect.size.width++;
 			aRect.size.height += 0.5;
