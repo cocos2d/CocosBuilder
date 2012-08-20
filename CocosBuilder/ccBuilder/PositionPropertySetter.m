@@ -139,6 +139,15 @@
         absPos.x = parentSize.width - pos.x;
         absPos.y = pos.y;
     }
+    else if (type == kCCBPositionTypeMultiplyResolution)
+    {
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+        int currentResolution = ad.currentDocument.currentResolution;
+        ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+        
+        absPos.x = pos.x * resolution.scale;
+        absPos.y = pos.y * resolution.scale;
+    }
     
     return absPos;
 }
@@ -188,6 +197,15 @@
     {
         relPos.x = parentSize.width - pos.x;
         relPos.y = pos.y;
+    }
+    else if (type == kCCBPositionTypeMultiplyResolution)
+    {
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+        int currentResolution = ad.currentDocument.currentResolution;
+        ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+        
+        relPos.x = pos.x / resolution.scale;
+        relPos.y = pos.y / resolution.scale;
     }
     
     return relPos;
@@ -278,6 +296,15 @@
         absSize.width = size.width;
         absSize.height = size.height * 0.01 * parentSize.height;
     }
+    else if (type == kCCBSizeTypeMultiplyResolution)
+    {
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+        int currentResolution = ad.currentDocument.currentResolution;
+        ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+        
+        absSize.width = size.width * resolution.scale;
+        absSize.height = size.height * resolution.scale;
+    }
     
     // Set the size value
     [node setValue:[NSValue valueWithSize:absSize] forKey:prop];
@@ -326,6 +353,15 @@
         
         if (parentSize.height == 0) relSize.height = 0;
         else relSize.height = 100.0f * absSize.height/parentSize.height;
+    }
+    else if (type == kCCBSizeTypeMultiplyResolution)
+    {
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+        int currentResolution = ad.currentDocument.currentResolution;
+        ResolutionSetting* resolution = [ad.currentDocument.resolutions objectAtIndex:currentResolution];
+        
+        relSize.width = absSize.width / resolution.scale;
+        relSize.height = absSize.height / resolution.scale;
     }
     
     [PositionPropertySetter setSize:relSize type:type forNode:node prop:prop];
