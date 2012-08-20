@@ -39,6 +39,13 @@
         absPt.x = (int)(containerSize.width * pt.x / 100.0f);
         absPt.y = (int)(containerSize.height * pt.y / 100.0f);
     }
+    else if (type == kCCBPositionTypeMultiplyResolution)
+    {
+        float resolutionScale = [self resolutionScale];
+        
+        absPt.x = pt.x * resolutionScale;
+        absPt.y = pt.y * resolutionScale;
+    }
     
     return absPt;
 }
@@ -91,10 +98,17 @@
         absSize.width = (int)(containerSize.width * size.width / 100.0f);
         absSize.height = size.height;
     }
-    else if (type == kCCBSzieTypeVerticalPercent)
+    else if (type == kCCBSizeTypeVerticalPercent)
     {
         absSize.width = size.width;
         absSize.height = (int)(containerSize.height * size.height / 100.0f);
+    }
+    else if (type == kCCBSizeTypeMultiplyResolution)
+    {
+        float resolutionScale = [self resolutionScale];
+        
+        absSize.width = size.width * resolutionScale;
+        absSize.height = size.height * resolutionScale;
     }
     
 #ifdef __CC_PLATFORM_IOS

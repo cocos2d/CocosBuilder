@@ -14,7 +14,8 @@ enum
     kCCBPositionTypeRelativeTopLeft,
     kCCBPositionTypeRelativeTopRight,
     kCCBPositionTypeRelativeBottomRight,
-    kCCBPositionTypePercent
+    kCCBPositionTypePercent,
+    kCCBPositionTypeMultiplyResolution,
 };
 
 enum
@@ -23,7 +24,8 @@ enum
     kCCBSizeTypePercent,
     kCCBSizeTypeRelativeContainer,
     kCCBSizeTypeHorizontalPercent,
-    kCCBSzieTypeVerticalPercent
+    kCCBSizeTypeVerticalPercent,
+    kCCBSizeTypeMultiplyResolution,
 };
 
 enum
