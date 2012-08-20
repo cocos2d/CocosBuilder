@@ -307,6 +307,8 @@
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];
         int scaleType = 0;
+        NSNumber* scaleTypeNum = [prop objectAtIndex:3];
+        if (scaleTypeNum) scaleType = [scaleTypeNum intValue];
 
         [self writeFloat:a];
         [self writeFloat:b];
