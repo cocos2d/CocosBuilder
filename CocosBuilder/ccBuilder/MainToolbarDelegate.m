@@ -8,6 +8,11 @@
 
 #import "MainToolbarDelegate.h"
 
+#import "PlugInManager.h"
+#import "PlugInNode.h"
+#import "CocosBuilderAppDelegate.h"
+
+
 @implementation MainToolbarDelegate
 
 - (NSToolbarItem *) toolbar:(NSToolbar *)toolbar
@@ -30,6 +35,8 @@
     
     if (!plugIns) return NULL;
     
+    PlugInManager* pim = [PlugInManager sharedManager];
+    
     // Setup toolbar item
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
     
@@ -42,18 +49,25 @@
     segmCell.trackingMode = NSSegmentSwitchTrackingMomentary;
     
     [segmControl setSegmentCount:plugIns.count];
+    [segmControl setTarget:self];
+    [segmControl setAction:@selector(pressedSegment:)];
     for (int i = 0; i < plugIns.count; i++)
     {
-        //[segmControl setLabel:[plugIns objectAtIndex:i] forSegment:i];
         [segmControl setWidth:34 forSegment:i];
         [segmCell setToolTip:[plugIns objectAtIndex:i] forSegment:i];
         
+        // Load icon
+        PlugInNode* plugIn = [pim plugInNodeNamed:[plugIns objectAtIndex:i]];
+        [segmCell setImage:plugIn.icon forSegment:i];
     }
     
     segmControl.segmentStyle = NSSegmentStyleTexturedRounded;
     [segmControl sizeToFit];
     
     [toolbarItem setView:segmControl];
+    
+    // Bind enabled property
+    [toolbarItem bind:@"enabled" toObject:[CocosBuilderAppDelegate appDelegate] withKeyPath:@"hasOpenedDocument" options:NULL];
     
     return toolbarItem;
 }
@@ -72,6 +86,15 @@
         
         [toolbar insertItemWithItemIdentifier:groupName atIndex:[[toolbar items] count]];
     }
+}
+
+- (void) pressedSegment:(id) sender
+{
+    int selectedSegment = [[sender cell] selectedSegment];
+    NSString* objType = [[sender cell] toolTipForSegment:selectedSegment];
+    
+    CCNode* node = [[PlugInManager sharedManager] createDefaultNodeOfType:objType];
+    [[CocosBuilderAppDelegate appDelegate] addCCObject:node asChild:NO];
 }
 
 - (void) dealloc

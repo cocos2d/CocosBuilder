@@ -189,7 +189,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupToolbar
 {
-    MainToolbarDelegate* toolbarDelegate = [[[MainToolbarDelegate alloc] init] autorelease];
+    MainToolbarDelegate* toolbarDelegate = [[MainToolbarDelegate alloc] init];
     toolbar.delegate = toolbarDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }

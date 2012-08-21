@@ -31,6 +31,8 @@
     NSString* nodeClassName;
     NSString* nodeEditorClassName;
     
+    NSImage* icon;
+    
     NSString* dropTargetSpriteFrameClass;
     NSString* dropTargetSpriteFrameProperty;
     
@@ -61,6 +63,8 @@
 @property (nonatomic,readonly) NSArray* requireChildClass;
 @property (nonatomic,readonly) NSString* positionProperty;
 @property (nonatomic,readonly) NSArray* animatableProperties;
+@property (nonatomic,retain) NSImage* icon;
+
 - (BOOL) dontSetInEditorProperty: (NSString*) prop;
 
 - (id) initWithBundle:(NSBundle*) b;
