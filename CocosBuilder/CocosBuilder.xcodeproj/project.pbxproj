@@ -383,6 +383,8 @@
 		E3B7AEE914E33F4C00DFD402 /* InspectorPosition.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AEE814E33F4C00DFD402 /* InspectorPosition.xib */; };
 		E3B7AEEC14E342E200DFD402 /* InspectorPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */; };
 		E3B7AEEF14E34A4D00DFD402 /* InspectorValue.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */; };
+		E3B7BC9C15E3B7F100CF95EF /* NodePlugInsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B7BC9B15E3B7F100CF95EF /* NodePlugInsList.plist */; };
+		E3B7BCA015E3BCFE00CF95EF /* MainToolbarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B7BC9F15E3BCFE00CF95EF /* MainToolbarDelegate.m */; };
 		E3B84C3A151A2C02004B743C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3B84C40151A2C02004B743C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B84C3E151A2C02004B743C /* InfoPlist.strings */; };
 		E3B84C48151A2C93004B743C /* CCControlButton.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */; };
@@ -1334,6 +1336,9 @@
 		E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorPosition.m; sourceTree = "<group>"; };
 		E3B7AEED14E34A4D00DFD402 /* InspectorValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorValue.h; sourceTree = "<group>"; };
 		E3B7AEEE14E34A4D00DFD402 /* InspectorValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorValue.m; sourceTree = "<group>"; };
+		E3B7BC9B15E3B7F100CF95EF /* NodePlugInsList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NodePlugInsList.plist; sourceTree = "<group>"; };
+		E3B7BC9E15E3BCFE00CF95EF /* MainToolbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainToolbarDelegate.h; path = ccBuilder/MainToolbarDelegate.h; sourceTree = "<group>"; };
+		E3B7BC9F15E3BCFE00CF95EF /* MainToolbarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainToolbarDelegate.m; path = ccBuilder/MainToolbarDelegate.m; sourceTree = "<group>"; };
 		E3B84C39151A2C02004B743C /* CCControlButton.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCControlButton.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B84C3D151A2C02004B743C /* CCControlButton-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCControlButton-Info.plist"; sourceTree = "<group>"; };
 		E3B84C3F151A2C02004B743C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2042,6 +2047,7 @@
 				E3DCFD851562611700BD7D7F /* Error handling & notifications */,
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				776041EA1498FB600078095D /* Dialogs */,
+				E3B7BC9D15E3B97900CF95EF /* Toolbar */,
 				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
 				E35A136315B0392800C9AA15 /* Player Connection */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
@@ -2601,6 +2607,7 @@
 			isa = PBXGroup;
 			children = (
 				E35DBBDE14F3D1B60070A6E4 /* FontListTTF.plist */,
+				E3B7BC9B15E3B7F100CF95EF /* NodePlugInsList.plist */,
 			);
 			name = Configurations;
 			sourceTree = "<group>";
@@ -3076,6 +3083,16 @@
 				E3C6512A151C7E3600D639C0 /* InspectorBlockCCControl.m */,
 			);
 			name = "Inspector Properties";
+			sourceTree = "<group>";
+		};
+		E3B7BC9D15E3B97900CF95EF /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				E3B7BC9E15E3BCFE00CF95EF /* MainToolbarDelegate.h */,
+				E3B7BC9F15E3BCFE00CF95EF /* MainToolbarDelegate.m */,
+			);
+			name = Toolbar;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E3B84C3B151A2C02004B743C /* CCControlButton */ = {
@@ -3861,6 +3878,7 @@
 				E3214C4C15D40F01002413A7 /* InspectorCustom.xib in Resources */,
 				E3214C5E15D54356002413A7 /* InspectorCustomEdit.xib in Resources */,
 				E3214CC615DA73E3002413A7 /* HelloCocosBuilder.ccb in Resources */,
+				E3B7BC9C15E3B7F100CF95EF /* NodePlugInsList.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4271,6 +4289,7 @@
 				E3214C4715D3C3AF002413A7 /* CustomPropSetting.m in Sources */,
 				E3214C4B15D40F01002413A7 /* InspectorCustom.m in Sources */,
 				E3214C5D15D54356002413A7 /* InspectorCustomEdit.m in Sources */,
+				E3B7BCA015E3BCFE00CF95EF /* MainToolbarDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

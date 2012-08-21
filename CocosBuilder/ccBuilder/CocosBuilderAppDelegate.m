@@ -81,6 +81,7 @@
 #import "SequencerStretchWindow.h"
 #import "CustomPropSettingsWindow.h"
 #import "CustomPropSetting.h"
+#import "MainToolbarDelegate.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -186,6 +187,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window setShowsToolbarButton:NO];
 }
 
+- (void) setupToolbar
+{
+    MainToolbarDelegate* toolbarDelegate = [[[MainToolbarDelegate alloc] init] autorelease];
+    toolbar.delegate = toolbarDelegate;
+    [toolbarDelegate addPlugInItemsToToolbar:toolbar];
+}
+
 - (void) setupPlayerController
 {
     self.playerController = [[[PlayerController alloc] init] autorelease];
@@ -270,6 +278,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Load plug-ins
     plugInManager = [PlugInManager sharedManager];
     [plugInManager loadPlugIns];
+    
+    // Update toolbar with plug-ins
+    [self setupToolbar];
     
     // Populate object menus
     [menuAddObject removeAllItems];

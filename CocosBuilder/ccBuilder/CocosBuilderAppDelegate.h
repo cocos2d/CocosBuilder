@@ -83,6 +83,8 @@ enum {
     NSView* inspectorDocumentView;
     NSMutableDictionary* currentInspectorValues;
     
+    IBOutlet NSToolbar* toolbar;
+    
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
     NSTabView* tabView;

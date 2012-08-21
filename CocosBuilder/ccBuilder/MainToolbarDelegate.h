@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MainToolbarDelegate : NSObject
+@interface MainToolbarDelegate : NSObject <NSToolbarDelegate>
+{
+    NSDictionary* plugInSettings;
+}
+
+- (void) addPlugInItemsToToolbar:(NSToolbar*) toolbar;
 
 @end
