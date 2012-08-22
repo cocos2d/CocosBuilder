@@ -22,17 +22,27 @@
  * THE SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import "InspectorCustom.h"
+#import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
-@interface ConsoleWindow : NSWindowController <NSWindowDelegate>
-{    
-    NSPipe* pipe;
-    NSFileHandle* pipeReadHandle;
+@implementation InspectorCustom
+
+- (void) setText:(NSString *)text
+{
+    if (!text) text = @"";
     
-    IBOutlet NSTextView* textView;
-    BOOL scrolledToBottomWhenResizing;
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:propertyName];
+    
+    [selection setCustomPropertyNamed:propertyName value:text];
+    
+    [textField setStringValue:[selection customPropertyNamed:propertyName]];
 }
 
-- (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
+- (NSString*) text
+{
+    return [selection customPropertyNamed:propertyName];
+}
+
 
 @end

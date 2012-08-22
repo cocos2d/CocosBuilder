@@ -71,6 +71,9 @@
     }
     
     [self updateAffectedProperties];
+    
+    // Reload the inspector
+    [[CocosBuilderAppDelegate appDelegate] performSelectorOnMainThread:@selector(updateInspectorFromSelection) withObject:NULL waitUntilDone:NO];
 }
 
 @end

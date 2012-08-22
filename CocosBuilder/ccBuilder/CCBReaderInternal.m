@@ -370,6 +370,19 @@
         [node addChild:child z:i];
     }
     
+    BOOL isCCBSubFile = [baseClass isEqualToString:@"CCBFile"];
+    
+    // Load custom properties
+    if (isCCBSubFile)
+    {
+        // For sub ccb files the custom properties are already loaded by the sub file and forwarded. We just need to override the values from the sub ccb file
+        [node loadCustomPropertyValuesFromSerialization:[dict objectForKey:@"customProperties"]];
+    }
+    else
+    {
+        [node loadCustomPropertiesFromSerialization:[dict objectForKey:@"customProperties"]];
+    }
+    
     return node;
 }
 

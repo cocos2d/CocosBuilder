@@ -103,4 +103,7 @@
 - (void) deleteKeyframesForCurrentSequenceAfterTime:(float)time;
 
 - (void) setContextKeyframeEasingType:(int) type;
+
+- (void) menuAddKeyframeNamed:(NSString*)keyframeName;
+- (BOOL) canInsertKeyframeNamed:(NSString*)prop;
 @end

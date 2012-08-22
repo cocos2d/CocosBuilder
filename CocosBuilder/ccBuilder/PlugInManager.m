@@ -118,6 +118,9 @@
                     [plugInsNodeNamesCanBeRoot addObject:plugIn.nodeClassName];
                 }
             }
+            
+            // Load icon
+            plugIn.icon = [[[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"Icon.png"]] autorelease];
         }
     }
 #endif

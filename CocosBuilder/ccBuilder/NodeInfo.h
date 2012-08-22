@@ -33,6 +33,7 @@
     NSMutableDictionary* extraProps;
     NSMutableDictionary* animatableProperties;
     NSMutableDictionary* baseValues;
+    NSMutableArray* customProperties;
 }
 
 @property (nonatomic,assign) PlugInNode* plugIn;
@@ -40,6 +41,7 @@
 @property (nonatomic,retain) NSMutableDictionary* animatableProperties;
 @property (nonatomic,readonly) NSMutableDictionary* baseValues;
 @property (nonatomic,copy) NSString* displayName;
+@property (nonatomic,retain) NSMutableArray* customProperties;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin;
 

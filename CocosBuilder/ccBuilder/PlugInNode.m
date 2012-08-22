@@ -26,7 +26,18 @@
 
 @implementation PlugInNode
 
-@synthesize nodeClassName, nodeEditorClassName, nodeProperties, nodePropertiesDict, dropTargetSpriteFrameClass, dropTargetSpriteFrameProperty, canBeRoot, canHaveChildren, isAbstract, requireParentClass, requireChildClass;
+@synthesize nodeClassName;
+@synthesize nodeEditorClassName;
+@synthesize nodeProperties;
+@synthesize nodePropertiesDict;
+@synthesize dropTargetSpriteFrameClass;
+@synthesize dropTargetSpriteFrameProperty;
+@synthesize canBeRoot;
+@synthesize canHaveChildren;
+@synthesize isAbstract;
+@synthesize requireParentClass;
+@synthesize requireChildClass;
+@synthesize icon;
 
 - (void) loadPropertiesForBundle:(NSBundle*) b intoArray:(NSMutableArray*)arr
 {

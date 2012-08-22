@@ -667,6 +667,33 @@ static SequencerHandler* sharedSequencerHandler;
     [self redrawTimeline];
 }
 
+#pragma mark Adding keyframes
+
+- (void) menuAddKeyframeNamed:(NSString*)prop
+{
+    CCNode* node = [CocosBuilderAppDelegate appDelegate].selectedNode;
+    if (!node) return;
+    
+    SequencerSequence* seq = self.currentSequence;
+    
+    [node addDefaultKeyframeForProperty:prop atTime: seq.timelinePosition sequenceId:seq.sequenceId];
+    [self deleteDuplicateKeyframesForCurrentSequence];
+    
+    node.seqExpanded = YES;
+}
+
+- (BOOL) canInsertKeyframeNamed:(NSString*)prop
+{
+    CCNode* node = [CocosBuilderAppDelegate appDelegate].selectedNode;
+    if (!node) return NO;
+    if (!prop) return NO;
+    
+    if ([node shouldDisableProperty:prop]) return NO;
+    
+    if ([prop isEqualToString:@"visible"]) return YES;
+    return [node.plugIn.animatableProperties containsObject:prop];
+}
+
 #pragma mark Destructor
 
 - (void) dealloc

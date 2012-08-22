@@ -36,6 +36,8 @@
 #import "CCBWriterInternal.h"
 #import "CCBReaderInternal.h"
 #import "CCBDocument.h"
+#import "CustomPropSetting.h"
+#import "CocosScene.h"
 
 @implementation CCNode (NodeInfo)
 
@@ -158,6 +160,16 @@
     {
         return;
     }
+    
+    // Ensure that the keyframe type is animated
+    if (![self.plugIn.animatableProperties containsObject:name]
+        && ![name isEqualToString:@"visible"])
+    {
+        return;
+    }
+    
+    // Do not add keyframes for disabled properties
+    if ([self shouldDisableProperty:name]) return;
     
     // Create keyframe
     SequencerKeyframe* keyframe = [[[SequencerKeyframe alloc] init] autorelease];
@@ -618,6 +630,98 @@
 {
     NodeInfo* info = self.userObject;
     info.displayName = displayName;
+}
+
+- (NSMutableArray*) customProperties
+{
+    NodeInfo* info = self.userObject;
+    return info.customProperties;
+}
+
+- (void) setCustomProperties:(NSMutableArray *)customProperties
+{
+    NodeInfo* info = self.userObject;
+    info.customProperties = customProperties;
+}
+
+- (NSString*) customPropertyNamed:(NSString*)name
+{
+    for (CustomPropSetting* setting in self.customProperties)
+    {
+        if ([setting.name isEqualToString:name])
+        {
+            return setting.value;
+        }
+    }
+    return NULL;
+}
+
+- (void) setCustomPropertyNamed:(NSString*)name value:(NSString*)value
+{
+    for (CustomPropSetting* setting in self.customProperties)
+    {
+        if ([setting.name isEqualToString:name])
+        {
+            setting.value = value;
+        }
+    }
+}
+
+- (id) serializeCustomProperties
+{
+    if ([self.customProperties count] == 0)
+    {
+        return NULL;
+    }
+    
+    NSMutableArray* ser = [NSMutableArray array];
+    
+    for (CustomPropSetting* setting in self.customProperties)
+    {
+        [ser addObject:[setting serialization]];
+    }
+    
+    return ser;
+}
+
+- (void) loadCustomPropertiesFromSerialization:(id)ser
+{
+    if (!ser) return;
+    
+    NSMutableArray* customProps = [NSMutableArray array];
+    
+    for (id serSetting in ser)
+    {
+        [customProps addObject:[[[CustomPropSetting alloc] initWithSerialization:serSetting] autorelease]];
+    }
+    
+    self.customProperties = customProps;
+}
+
+- (void) loadCustomPropertyValuesFromSerialization:(id)ser
+{
+    if (!ser) return;
+    
+    for (id serSetting in ser)
+    {
+        CustomPropSetting* setting = [[[CustomPropSetting alloc] initWithSerialization:serSetting] autorelease];
+        [self setCustomPropertyNamed:setting.name value:setting.value];
+    }
+}
+
+- (BOOL) shouldDisableProperty:(NSString*) prop
+{
+    if (self != [CocosScene cocosScene].rootNode) return NO;
+    
+    if ([prop isEqualToString:@"position"]) return YES;
+    else if ([prop isEqualToString:@"anchorPoint"]) return YES;
+    else if ([prop isEqualToString:@"scale"]) return YES;
+    else if ([prop isEqualToString:@"rotation"]) return YES;
+    else if ([prop isEqualToString:@"tag"]) return YES;
+    else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return YES;
+    else if ([prop isEqualToString:@"visible"]) return YES;
+    
+    return NO;
 }
 
 @end

@@ -22,13 +22,15 @@
  * THE SOFTWARE.
  */
 
-#import "cocos2d.h"
+#import "InspectorValue.h"
 
-@interface CCBPFileUtils : CCFileUtils
+@interface InspectorCustomEdit : InspectorValue
 {
-    NSString* ccbDirectoryPath;
+    IBOutlet NSButton* btn;
+    NSString* name;
 }
 
-@property (nonatomic,copy) NSString* ccbDirectoryPath;
+- (IBAction)pressedEdit:(id)sender;
+@property (nonatomic,retain) NSString* name;
 
 @end

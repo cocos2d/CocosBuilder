@@ -32,12 +32,17 @@
     NSString* rootObjectType;
     
     NSMutableArray* resolutions;
+    IBOutlet NSArrayController* resolutionsController;
+    BOOL fullScreen;
+    BOOL canBeFullScreen;
 }
 
 @property (nonatomic,retain) NSArray* rootObjectTypes;
 @property (nonatomic,retain) NSString* rootObjectType;
 @property (nonatomic,retain) NSMutableArray* resolutions;
 @property (nonatomic,readonly) NSMutableArray* availableResolutions;
+@property (nonatomic,assign) BOOL fullScreen;
+@property (nonatomic,assign) BOOL canBeFullScreen;
 
 - (IBAction)acceptSheet:(id)sender;
 - (IBAction)cancelSheet:(id)sender;

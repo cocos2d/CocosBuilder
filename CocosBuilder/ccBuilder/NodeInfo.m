@@ -32,6 +32,7 @@
 @synthesize animatableProperties;
 @synthesize baseValues;
 @synthesize displayName;
+@synthesize customProperties;
 
 + (id) nodeInfoWithPlugIn:(PlugInNode*)pin
 {
@@ -55,6 +56,8 @@
     self.animatableProperties = [NSMutableDictionary dictionary];
     baseValues = [[NSMutableDictionary alloc] init];
     
+    self.customProperties = [NSMutableArray array];
+    
     return self;
 }
 
@@ -63,6 +66,7 @@
     [extraProps release];
     self.animatableProperties = NULL;
     self.displayName = NULL;
+    self.customProperties = NULL;
     [baseValues release];
     [super dealloc];
 }

@@ -26,13 +26,19 @@
 #import "CocosScene.h"
 #import "CCBGlobals.h"
 #import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation InspectorCodeConnections
 
 - (void) setCustomClass:(NSString *)customClass
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"customClass"];
+    
     if (!customClass) customClass = @"";
     [selection setExtraProp:customClass forKey:@"customClass"];
+    
+    // Reload the inspector
+    [[CocosBuilderAppDelegate appDelegate] performSelectorOnMainThread:@selector(updateInspectorFromSelection) withObject:NULL waitUntilDone:NO];
 }
 
 - (NSString*) customClass
@@ -42,6 +48,8 @@
 
 - (void) setMemberVarAssignmentName:(NSString *)memberVarAssignmentName
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"memberVarAssignmentName"];
+    
     if (!memberVarAssignmentName) memberVarAssignmentName = @"";
     [selection setExtraProp:memberVarAssignmentName forKey:@"memberVarAssignmentName"];
 }
@@ -53,6 +61,8 @@
 
 - (void) setMemberVarAssignmentType:(int)memberVarAssignmentType
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"memberVarAssignmentType"];
+    
     [selection setExtraProp:[NSNumber numberWithInt: memberVarAssignmentType] forKey:@"memberVarAssignmentType"];
 }
 

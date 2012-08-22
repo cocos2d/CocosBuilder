@@ -22,22 +22,28 @@
  * THE SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "cocos2d.h"
+#import "InspectorCustomEdit.h"
+#import "CocosBuilderAppDelegate.h"
 
-@class JSCocoa;
-@class ConsoleWindow;
+@implementation InspectorCustomEdit
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
+@synthesize name;
+
+- (IBAction)pressedEdit:(id)sender
 {
-    IBOutlet NSWindow* window;
-    IBOutlet CCGLView* glView;
-    
-    ConsoleWindow* console;
+    NSLog(@"pressedEdit");
+    [[CocosBuilderAppDelegate appDelegate] menuEditCustomPropSettings:sender];
 }
 
+- (void) willBeAdded
+{
+    self.name = @"Edit Custom Properties";
+}
 
-@property (nonatomic,retain) NSWindow *window;
-@property (nonatomic,readonly) ConsoleWindow* console;
+- (void) dealloc
+{
+    self.name = NULL;
+    [super dealloc];
+}
 
 @end

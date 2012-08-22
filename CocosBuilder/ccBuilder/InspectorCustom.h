@@ -22,9 +22,13 @@
  * THE SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import "InspectorValue.h"
 
-int main(int argc, char *argv[])
+@interface InspectorCustom : InspectorValue<NSTextFieldDelegate>
 {
-    return NSApplicationMain(argc, (const char **)argv);
+    IBOutlet NSTextField* textField;
 }
+
+@property (nonatomic,assign) NSString* text;
+
+@end

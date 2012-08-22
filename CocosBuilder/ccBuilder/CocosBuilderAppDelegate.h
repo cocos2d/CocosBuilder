@@ -83,6 +83,8 @@ enum {
     NSView* inspectorDocumentView;
     NSMutableDictionary* currentInspectorValues;
     
+    IBOutlet NSToolbar* toolbar;
+    
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
     NSTabView* tabView;
@@ -250,6 +252,7 @@ enum {
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;
 //- (IBAction) menuSetCanvasSize:(id)sender;
+- (IBAction)menuEditCustomPropSettings:(id)sender;
 - (void) updateStateOriginCenteredMenu;
 - (IBAction) menuSetStateOriginCentered:(id)sender;
 - (void) updateCanvasBorderMenu;

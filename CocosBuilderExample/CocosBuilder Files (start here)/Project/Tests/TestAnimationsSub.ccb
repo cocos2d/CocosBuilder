@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>centeredOrigin</key>
-	<false/>
+	<true/>
 	<key>currentResolution</key>
 	<integer>0</integer>
 	<key>currentSequenceId</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>fileType</key>
 	<string>CocosBuilder</string>
 	<key>fileVersion</key>
@@ -23,9 +23,9 @@
 			<dict>
 				<key>animatedProperties</key>
 				<dict>
-					<key>1</key>
+					<key>0</key>
 					<dict>
-						<key>position</key>
+						<key>color</key>
 						<dict>
 							<key>keyframes</key>
 							<array>
@@ -36,15 +36,16 @@
 										<integer>1</integer>
 									</dict>
 									<key>name</key>
-									<string>position</string>
+									<string>color</string>
 									<key>time</key>
 									<real>0.0</real>
 									<key>type</key>
-									<integer>3</integer>
+									<integer>6</integer>
 									<key>value</key>
 									<array>
-										<real>66</real>
-										<real>141</real>
+										<integer>0</integer>
+										<integer>0</integer>
+										<integer>0</integer>
 									</array>
 								</dict>
 								<dict>
@@ -53,21 +54,24 @@
 										<key>type</key>
 										<integer>1</integer>
 									</dict>
+									<key>name</key>
+									<string>color</string>
 									<key>time</key>
-									<real>4</real>
+									<real>4.8333334922790527</real>
 									<key>type</key>
-									<integer>3</integer>
+									<integer>6</integer>
 									<key>value</key>
 									<array>
-										<real>440</real>
-										<real>157</real>
+										<integer>255</integer>
+										<integer>254</integer>
+										<integer>255</integer>
 									</array>
 								</dict>
 							</array>
 							<key>name</key>
-							<string>position</string>
+							<string>color</string>
 							<key>type</key>
-							<integer>3</integer>
+							<integer>6</integer>
 						</dict>
 						<key>rotation</key>
 						<dict>
@@ -86,7 +90,7 @@
 									<key>type</key>
 									<integer>2</integer>
 									<key>value</key>
-									<real>-40</real>
+									<real>0.0</real>
 								</dict>
 								<dict>
 									<key>easing</key>
@@ -97,11 +101,54 @@
 									<key>name</key>
 									<string>rotation</string>
 									<key>time</key>
-									<real>4</real>
+									<real>10</real>
 									<key>type</key>
 									<integer>2</integer>
 									<key>value</key>
-									<real>48.5</real>
+									<real>360</real>
+								</dict>
+							</array>
+							<key>name</key>
+							<string>rotation</string>
+							<key>type</key>
+							<integer>2</integer>
+						</dict>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>rotation</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotation</string>
+									<key>time</key>
+									<real>0.0</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>0.0</real>
+								</dict>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>rotation</string>
+									<key>time</key>
+									<real>10</real>
+									<key>type</key>
+									<integer>2</integer>
+									<key>value</key>
+									<real>360</real>
 								</dict>
 							</array>
 							<key>name</key>
@@ -112,11 +159,13 @@
 					</dict>
 				</dict>
 				<key>baseClass</key>
-				<string>CCBFile</string>
+				<string>CCSprite</string>
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCSprite</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -124,83 +173,27 @@
 				<key>properties</key>
 				<array>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>66</real>
-							<real>141</real>
-						</array>
-						<key>name</key>
-						<string>position</string>
-						<key>type</key>
-						<string>Position</string>
-						<key>value</key>
-						<array>
-							<real>440</real>
-							<real>157</real>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>0.0</real>
-							<real>0.0</real>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>anchorPoint</string>
-						<key>type</key>
-						<string>Point</string>
-						<key>value</key>
-						<array>
-							<real>0.0</real>
-							<real>0.0</real>
-						</array>
-					</dict>
-					<dict>
 						<key>name</key>
 						<string>scale</string>
 						<key>type</key>
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1</real>
-							<real>1</real>
+							<real>2.5</real>
+							<real>2.5</real>
 							<false/>
-							<integer>0</integer>
+							<integer>1</integer>
 						</array>
 					</dict>
 					<dict>
 						<key>baseValue</key>
-						<real>-40</real>
+						<real>0.0</real>
 						<key>name</key>
 						<string>rotation</string>
 						<key>type</key>
 						<string>Degrees</string>
 						<key>value</key>
-						<real>48.5</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>ignoreAnchorPointForPosition</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<false/>
+						<real>0.0</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -212,11 +205,51 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>ccbFile</string>
+						<string>displayFrame</string>
 						<key>type</key>
-						<string>CCBFile</string>
+						<string>SpriteFrame</string>
 						<key>value</key>
-						<string>Tests/TestAnimations.ccb</string>
+						<array>
+							<string></string>
+							<string>burst.png</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>opacity</string>
+						<key>type</key>
+						<string>Byte</string>
+						<key>value</key>
+						<integer>100</integer>
+					</dict>
+					<dict>
+						<key>baseValue</key>
+						<array>
+							<integer>255</integer>
+							<integer>254</integer>
+							<integer>255</integer>
+						</array>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>blendFunc</string>
+						<key>type</key>
+						<string>Blendmode</string>
+						<key>value</key>
+						<array>
+							<integer>1</integer>
+							<integer>1</integer>
+						</array>
 					</dict>
 				</array>
 				<key>seqExpanded</key>
@@ -225,6 +258,8 @@
 		</array>
 		<key>customClass</key>
 		<string></string>
+		<key>displayName</key>
+		<string>CCLayer</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
@@ -233,37 +268,13 @@
 		<array>
 			<dict>
 				<key>name</key>
-				<string>position</string>
-				<key>type</key>
-				<string>Position</string>
-				<key>value</key>
-				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-					<integer>0</integer>
-				</array>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>contentSize</string>
-				<key>type</key>
-				<string>Size</string>
-				<key>value</key>
-				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-					<integer>0</integer>
-				</array>
-			</dict>
-			<dict>
-				<key>name</key>
 				<string>anchorPoint</string>
 				<key>type</key>
 				<string>Point</string>
 				<key>value</key>
 				<array>
-					<real>0.5</real>
-					<real>0.5</real>
+					<real>0.0</real>
+					<real>0.0</real>
 				</array>
 			</dict>
 			<dict>
@@ -278,22 +289,6 @@
 					<false/>
 					<integer>0</integer>
 				</array>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>rotation</string>
-				<key>type</key>
-				<string>Degrees</string>
-				<key>value</key>
-				<real>0.0</real>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>tag</string>
-				<key>type</key>
-				<string>Integer</string>
-				<key>value</key>
-				<integer>-1</integer>
 			</dict>
 			<dict>
 				<key>name</key>
@@ -363,13 +358,13 @@
 			<key>ext</key>
 			<string> </string>
 			<key>height</key>
-			<integer>320</integer>
+			<integer>1024</integer>
 			<key>name</key>
 			<string>iPhone Landscape</string>
 			<key>scale</key>
 			<real>1</real>
 			<key>width</key>
-			<integer>480</integer>
+			<integer>1024</integer>
 		</dict>
 		<dict>
 			<key>centeredOrigin</key>
@@ -377,50 +372,54 @@
 			<key>ext</key>
 			<string>ipad hd</string>
 			<key>height</key>
-			<integer>768</integer>
+			<integer>2048</integer>
 			<key>name</key>
 			<string>iPad Landscape</string>
 			<key>scale</key>
 			<real>2</real>
 			<key>width</key>
-			<integer>1024</integer>
+			<integer>2048</integer>
 		</dict>
 	</array>
 	<key>sequences</key>
 	<array>
 		<dict>
+			<key>autoPlay</key>
+			<true/>
 			<key>chainedSequenceId</key>
-			<integer>-1</integer>
+			<integer>1</integer>
 			<key>length</key>
 			<real>10</real>
 			<key>name</key>
-			<string>Default Timeline</string>
+			<string>Intro</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>1.2000000476837158</real>
+			<real>0.0</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
-			<real>128</real>
+			<real>32</real>
 			<key>sequenceId</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
+			<key>autoPlay</key>
+			<false/>
 			<key>chainedSequenceId</key>
-			<integer>-1</integer>
+			<integer>1</integer>
 			<key>length</key>
-			<real>4</real>
+			<real>10</real>
 			<key>name</key>
-			<string>Untitled Timeline</string>
+			<string>Loop</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
-			<real>4.0333333015441895</real>
+			<real>2.7999999523162842</real>
 			<key>resolution</key>
 			<real>30</real>
 			<key>scale</key>
-			<real>128</real>
+			<real>32</real>
 			<key>sequenceId</key>
 			<integer>1</integer>
 		</dict>

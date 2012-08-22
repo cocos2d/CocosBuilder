@@ -46,20 +46,27 @@
 @property (nonatomic,readonly) NSArray* exts;
 
 // iOS resolutions
++ (ResolutionSetting*) settingIPhone;
 + (ResolutionSetting*) settingIPhoneLandscape;
 + (ResolutionSetting*) settingIPhonePortrait;
++ (ResolutionSetting*) settingIPad;
 + (ResolutionSetting*) settingIPadLandscape;
 + (ResolutionSetting*) settingIPadPortrait;
 
 // Android resolutions
++ (ResolutionSetting*) settingAndroidXSmall;
 + (ResolutionSetting*) settingAndroidXSmallLandscape;
 + (ResolutionSetting*) settingAndroidXSmallPortrait;
++ (ResolutionSetting*) settingAndroidSmall;
 + (ResolutionSetting*) settingAndroidSmallLandscape;
 + (ResolutionSetting*) settingAndroidSmallPortrait;
++ (ResolutionSetting*) settingAndroidMedium;
 + (ResolutionSetting*) settingAndroidMediumLandscape;
 + (ResolutionSetting*) settingAndroidMediumPortrait;
++ (ResolutionSetting*) settingAndroidLarge;
 + (ResolutionSetting*) settingAndroidLargeLandscape;
 + (ResolutionSetting*) settingAndroidLargePortrait;
++ (ResolutionSetting*) settingAndroidXLarge;
 + (ResolutionSetting*) settingAndroidXLargeLandscape;
 + (ResolutionSetting*) settingAndroidXLargePortrait;
 

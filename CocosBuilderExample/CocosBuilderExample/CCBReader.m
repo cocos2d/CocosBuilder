@@ -38,24 +38,31 @@
 //#import "JSCocoa.h"
 #endif
 
+
+@interface CCBFile : CCNode
+{
+    CCNode* ccbFile;
+}
+@property (nonatomic,retain) CCNode* ccbFile;
+@end
+
+
+
 @implementation CCBReader
 
 @synthesize actionManager;
 
-- (id) initWithFile:(NSString*)file owner:(id)o
+- (id) initWithData:(NSData*)d owner:(id)o
 {
     self = [super init];
     if (!self) return NULL;
-    
-    // Load binary file
-    NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
-    data = [[NSData dataWithContentsOfFile:path] retain];
     
     // Setup action manager
     self.actionManager = [[[CCBActionManager alloc] init] autorelease];
     
     // Setup byte array
-    bytes = (unsigned char*)[data bytes];
+    data = [d retain];
+    bytes = (unsigned char*)[d bytes];
     currentByte = 0;
     currentBit = 0;
     
@@ -202,7 +209,7 @@
     return [stringCache objectAtIndex:n];
 }
 
-- (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent
+- (void) readPropertyForNode:(CCNode*) node parent:(CCNode*)parent isExtraProp:(BOOL)isExtraProp
 {
     // Read type and property name
     int type = [self readIntWithSign:NO];
@@ -218,6 +225,31 @@
 #elif defined(__CC_PLATFORM_MAC)
     if (platform == kCCBPlatformMac) setProp = YES;
 #endif
+    
+    // Forward properties for sub ccb files
+    if ([node isKindOfClass:[CCBFile class]])
+    {
+        CCBFile* ccbNode = (CCBFile*) node;
+        if (ccbNode.ccbFile && isExtraProp)
+        {
+            node = ccbNode.ccbFile;
+            
+            // Skip properties that doesn't have a value to override
+            NSSet* extraPropsNames = node.userObject;
+            setProp &= [extraPropsNames containsObject:name];
+        }
+    }
+    else if (isExtraProp && node == actionManager.rootNode)
+    {
+        NSMutableSet* extraPropNames = node.userObject;
+        if (!extraPropNames)
+        {
+            extraPropNames = [NSMutableSet set];
+            node.userObject = extraPropNames;
+        }
+        
+        [extraPropNames addObject:name];
+    }
     
     if (type == kCCBPropTypePosition)
     {
@@ -647,8 +679,20 @@
         // Change path extension to .ccbi
         ccbFileName = [NSString stringWithFormat:@"%@.ccbi", [ccbFileName stringByDeletingPathExtension]];
         
-        // Load sub file and add it
-        CCNode* ccbFile = [CCBReader nodeGraphFromFile:ccbFileName owner:owner parentSize:parent.contentSize];
+        // Load sub file
+        NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:ccbFileName];
+        NSData* d = [NSData dataWithContentsOfFile:path];
+        
+        CCBReader* reader = [[[CCBReader alloc] initWithData: d owner:owner] autorelease];
+        reader.actionManager.rootContainerSize = parent.contentSize;
+        
+        CCNode* ccbFile = [reader readFileWithCleanUp:NO];
+        
+        if (ccbFile && reader.actionManager.autoPlaySequenceId != -1)
+        {
+            // Auto play animations
+            [reader.actionManager runActionsForSequenceId:reader.actionManager.autoPlaySequenceId tweenDuration:0];
+        }
         
         if (setProp)
         {
@@ -813,10 +857,34 @@
     }
     
     // Read properties
-    int numProps = [self readIntWithSign:NO];
+    int numRegularProps = [self readIntWithSign:NO];
+    int numExtraProps = [self readIntWithSign:NO];
+    int numProps = numRegularProps + numExtraProps;
+    
     for (int i = 0; i < numProps; i++)
     {
-        [self readPropertyForNode:node parent:parent];
+        BOOL isExtraProp = (i >= numRegularProps);
+        
+        [self readPropertyForNode:node parent:parent isExtraProp:isExtraProp];
+    }
+    
+    // Handle sub ccb files (remove middle node)
+    if ([node isKindOfClass:[CCBFile class]])
+    {
+        CCBFile* ccbFileNode = (CCBFile*)node;
+        
+        CCNode* embeddedNode = ccbFileNode.ccbFile;
+        embeddedNode.position = ccbFileNode.position;
+        embeddedNode.anchorPoint = ccbFileNode.anchorPoint;
+        embeddedNode.rotation = ccbFileNode.rotation;
+        embeddedNode.scale = ccbFileNode.scale;
+        embeddedNode.tag = ccbFileNode.tag;
+        embeddedNode.visible = YES;
+        embeddedNode.ignoreAnchorPointForPosition = ccbFileNode.ignoreAnchorPointForPosition;
+        
+        ccbFileNode.ccbFile = NULL;
+        
+        node = embeddedNode;
     }
     
     // Assign to variable (if applicable)
@@ -928,13 +996,29 @@
     return YES;
 }
 
-- (CCNode*) readFile
+- (void) cleanUpNodeGraph:(CCNode*)node
+{
+    node.userObject = NULL;
+    
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(node.children, child)
+    {
+        [self cleanUpNodeGraph:child];
+    }
+}
+
+- (CCNode*) readFileWithCleanUp:(BOOL)cleanUp
 {
     if (![self readHeader]) return NULL;
     if (![self readStringCache]) return NULL;
     if (![self readSequences]) return NULL;
     
     CCNode* node = [self readNodeGraph];
+    
+    if (cleanUp)
+    {
+        [self cleanUpNodeGraph:node];
+    }
     
     return node;
 }
@@ -944,14 +1028,12 @@
     return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
 }
 
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
 {
-    CCBReader* reader = [[[CCBReader alloc] initWithFile:file owner:owner] autorelease];
+    CCBReader* reader = [[[CCBReader alloc] initWithData: data owner:owner] autorelease];
     reader.actionManager.rootContainerSize = parentSize;
     
-    CCNode* nodeGraph = [reader readFile];
-    
-    [reader.actionManager debug];
+    CCNode* nodeGraph = [reader readFileWithCleanUp:YES];
     
     if (nodeGraph && reader.actionManager.autoPlaySequenceId != -1)
     {
@@ -966,6 +1048,20 @@
     }
     
     return nodeGraph;
+}
+
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize
+{
+    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:NULL];
+}
+
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager
+{
+    // Load binary file
+    NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
+    NSData* data = [NSData dataWithContentsOfFile:path];
+    
+    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:actionManager];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
@@ -1017,6 +1113,11 @@
     return [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:@"ccb"];
 }
 
++ (void) setResolutionScale:(float)scale
+{
+    ccbResolutionScale = scale;
+}
+
 #ifdef CCB_ENABLE_UNZIP
 + (BOOL) unzipResources:(NSString*)resPath
 {
@@ -1030,23 +1131,12 @@
 @end
 
 
+
 @implementation CCBFile
-
 @synthesize ccbFile;
-
-- (void) setCcbFile:(CCNode*)node
-{
-    ccbFile = node;
-    
-    [self removeAllChildrenWithCleanup:YES];
-    
-    if (node)
-    {
-        [self addChild:node];
-    }
-}
-
 @end
+
+
 
 @implementation CCBFileUtils
 

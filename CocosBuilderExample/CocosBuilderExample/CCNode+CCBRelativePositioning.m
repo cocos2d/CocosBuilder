@@ -8,6 +8,8 @@
 
 #import "CCNode+CCBRelativePositioning.h"
 
+float ccbResolutionScale = 0;
+
 @implementation CCNode (CCBRelativePositioning)
 
 #pragma mark Positions
@@ -38,6 +40,13 @@
     {
         absPt.x = (int)(containerSize.width * pt.x / 100.0f);
         absPt.y = (int)(containerSize.height * pt.y / 100.0f);
+    }
+    else if (type == kCCBPositionTypeMultiplyResolution)
+    {
+        float resolutionScale = [self resolutionScale];
+        
+        absPt.x = pt.x * resolutionScale;
+        absPt.y = pt.y * resolutionScale;
     }
     
     return absPt;
@@ -91,10 +100,17 @@
         absSize.width = (int)(containerSize.width * size.width / 100.0f);
         absSize.height = size.height;
     }
-    else if (type == kCCBSzieTypeVerticalPercent)
+    else if (type == kCCBSizeTypeVerticalPercent)
     {
         absSize.width = size.width;
         absSize.height = (int)(containerSize.height * size.height / 100.0f);
+    }
+    else if (type == kCCBSizeTypeMultiplyResolution)
+    {
+        float resolutionScale = [self resolutionScale];
+        
+        absSize.width = size.width * resolutionScale;
+        absSize.height = size.height * resolutionScale;
     }
     
 #ifdef __CC_PLATFORM_IOS
@@ -119,22 +135,34 @@
 
 - (float) resolutionScale
 {
-#ifdef __CC_PLATFORM_IOS
-    if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (!ccbResolutionScale)
     {
-        // iPad
-        return 2;
-    }
+#ifdef __CC_PLATFORM_IOS
+        if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            // iPad
+            ccbResolutionScale = 2;
+        }
+        else
+        {
+            // iPhone
+            ccbResolutionScale = 1;
+        }
+#else
+        // Mac/Desktop
+        ccbResolutionScale = 1;
 #endif
-    return 1;
+    }
+    
+    return ccbResolutionScale;
 }
 
 - (void) setRelativeScaleX:(float)x Y:(float)y type:(int)type propertyName:(NSString*)propertyName
 {
-    float resolutionScale = [self resolutionScale];
-    
     if (type == kCCBScaleTypeMultiplyResolution)
     {
+        float resolutionScale = [self resolutionScale];
+        
         x *= resolutionScale;
         y *= resolutionScale;
     }

@@ -79,6 +79,9 @@
 #import "PlayerConsoleWindow.h"
 #import "SequencerUtil.h"
 #import "SequencerStretchWindow.h"
+#import "CustomPropSettingsWindow.h"
+#import "CustomPropSetting.h"
+#import "MainToolbarDelegate.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -118,7 +121,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     currentInspectorValues = [[NSMutableDictionary alloc] init];
     
-    inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, 233, 239+239+121)];
+    //[inspectorScroll setScrollerStyle: NSScrollerStyleLegacy];
+    
+    inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, [inspectorScroll contentSize].width, 1)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
     [inspectorDocumentView setAutoresizingMask:NSViewWidthSizable];
     [inspectorScroll setDocumentView:inspectorDocumentView];
@@ -180,6 +185,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [tabBar setCanCloseOnlyTab:YES];
     
     [window setShowsToolbarButton:NO];
+}
+
+- (void) setupToolbar
+{
+    MainToolbarDelegate* toolbarDelegate = [[MainToolbarDelegate alloc] init];
+    toolbar.delegate = toolbarDelegate;
+    [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
 
 - (void) setupPlayerController
@@ -266,6 +278,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Load plug-ins
     plugInManager = [PlugInManager sharedManager];
     [plugInManager loadPlugIns];
+    
+    // Update toolbar with plug-ins
+    [self setupToolbar];
     
     // Populate object menus
     [menuAddObject removeAllItems];
@@ -583,12 +598,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Add show panes according to selections
     if (!selectedNode) return;
     
-    // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
-    
-    // Add panes for each property
     NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
+    
+    BOOL isCCBSubFile = [plugIn.nodeClassName isEqualToString:@"CCBFile"];
+    
+    // Always add the code connections pane
+    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    
+    // Add panes for each property
     
     if (plugIn)
     {
@@ -604,6 +622,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSString* extra = [propInfo objectForKey:@"extra"];
             BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
             if ([name isEqualToString:@"visible"]) animated = YES;
+            if ([selectedNode shouldDisableProperty:name]) readOnly = YES;
             
             // TODO: Handle read only for animated properties
             if ([self isDisabledProperty:name animatable:animated])
@@ -619,7 +638,51 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         NSLog(@"WARNING info:%@ plugIn:%@ selectedNode: %@", info, plugIn, selectedNode);
     }
     
-    [inspectorDocumentView setFrameSize:NSMakeSize(233, paneOffset)];
+    // Custom properties
+    NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
+    NSArray* customProps = selectedNode.customProperties;
+    if (customClass && ![customClass isEqualToString:@""])
+    {
+        if ([customProps count] || !isCCBSubFile)
+        {
+            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+        }
+        
+        for (CustomPropSetting* setting in customProps)
+        {
+            paneOffset = [self addInspectorPropertyOfType:@"Custom" name:setting.name displayName:setting.name extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+        }
+        
+        if (!isCCBSubFile)
+        {
+            paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+        }
+    }
+    
+    /*
+    // Custom properties from sub ccb
+    if (isCCBSubFile)
+    {
+        CCNode* subCCB = [[selectedNode children] objectAtIndex:0];
+        if (subCCB)
+        {
+            NSString* subCustomClass = [subCCB extraPropForKey:@"customClass"];
+            NSArray* subCustomProps = subCCB.customProperties;
+            
+            if (subCustomClass && ![subCustomClass isEqualToString:@""])
+            {
+                paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:subCustomClass extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+                
+                for (CustomPropSetting* setting in customProps)
+                {
+                    
+                }
+            }
+        }
+    }
+     */
+    
+    [inspectorDocumentView setFrameSize:NSMakeSize([inspectorScroll contentSize].width, paneOffset)];
 }
 
 #pragma mark Populating menus
@@ -753,6 +816,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
+    [dict setObject:[NSNumber numberWithInt:[[CocosScene cocosScene] stageBorder]] forKey:@"stageBorder"];
+    
     // Guides & notes
     [dict setObject:[[CocosScene cocosScene].guideLayer serializeGuides] forKey:@"guides"];
     [dict setObject:[[CocosScene cocosScene].notesLayer serializeNotes] forKey:@"notes"];
@@ -851,6 +916,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self updateResolutionMenu];
     
     ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:currentDocument.currentResolution];
+    
+    // Stage border
+    [[CocosScene cocosScene] setStageBorder:[[doc objectForKey:@"stageBorder"] intValue]];
     
     // Setup sequencer timelines
     NSMutableArray* serializedSequences = [doc objectForKey:@"sequences"];
@@ -1024,6 +1092,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         [self closeProject];
         
+        [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
+        
         // Notify the user
         [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
     }
@@ -1034,6 +1104,16 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Create a default project
     ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
     settings.projectPath = fileName;
+    
+    // Copy resource
+    NSString* templateFile = [[NSBundle mainBundle] pathForResource:@"HelloCocosBuilder" ofType:@"ccb"];
+    NSString* toFile = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:toFile])
+    {
+        [[NSFileManager defaultManager] copyItemAtPath:templateFile toPath:toFile error:NULL];
+    }
+    
     return [settings store];
 }
 
@@ -1196,7 +1276,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     selectedNode = NULL;
     [[CocosScene cocosScene] setStageSize:stageSize centeredOrigin:origin];
     
+    // Create new node
     [[CocosScene cocosScene] replaceRootNodeWith:[[PlugInManager sharedManager] createDefaultNodeOfType:type]];
+    
+    // Set default contentSize to 100% x 100%
+    if (([type isEqualToString:@"CCNode"] || [type isEqualToString:@"CCLayer"])
+        && stageSize.width != 0 && stageSize.height != 0)
+    {
+        [PositionPropertySetter setSize:NSMakeSize(100, 100) type:kCCBSizeTypePercent forNode:[CocosScene cocosScene].rootNode prop:@"contentSize"];
+    }
     
     [outlineHierarchy reloadData];
     [sequenceHandler updateOutlineViewSelection];
@@ -1893,6 +1981,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Accepted create document, prompt for place for file
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
     [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
+    saveDlg.message = @"Save your project file in the same directory as your projects resources.";
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
@@ -1901,6 +1990,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             if ([self createProject: fileName])
             {
                 [self openProject:fileName];
+                [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
             }
             else
             {
@@ -2027,6 +2117,31 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!currentDocument) return;
     
     [self setResolution:(int)[sender tag]];
+    [self updateCanvasBorderMenu];
+}
+
+- (IBAction)menuEditCustomPropSettings:(id)sender
+{
+    if (!currentDocument) return;
+    if (!selectedNode) return;
+    
+    NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
+    if (!customClass || [customClass isEqualToString:@""])
+    {
+        [self modalDialogTitle:@"Custom Class Needed" message:@"To add custom properties to a node you need to use a custom class."];
+        return;
+    }
+    
+    CustomPropSettingsWindow* wc = [[[CustomPropSettingsWindow alloc] initWithWindowNibName:@"CustomPropSettingsWindow"] autorelease];
+    [wc copySettingsForNode:selectedNode];
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [self saveUndoStateWillChangeProperty:@"*customPropSettings"];
+        selectedNode.customProperties = wc.settings;
+        [self updateInspectorFromSelection];
+    }
 }
 
 - (void) updateStateOriginCenteredMenu
@@ -2062,7 +2177,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     int tag = (int)[sender tag];
     [cs setStageBorder:tag];
-    [self updateCanvasBorderMenu];
 }
 
 - (IBAction) menuZoomIn:(id)sender
@@ -2336,10 +2450,26 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [cs.notesLayer addNote];
 }
 
+- (NSString*) keyframePropNameFromTag:(int)tag
+{
+    if (tag == 0) return @"visible";
+    else if (tag == 1) return @"position";
+    else if (tag == 2) return @"scale";
+    else if (tag == 3) return @"rotation";
+    else if (tag == 4) return @"displayFrame";
+    else if (tag == 5) return @"opacity";
+    else if (tag == 6) return @"color";
+    else return NULL;
+}
+
+- (IBAction)menuAddKeyframe:(id)sender
+{
+    int tag = [sender tag];
+    [sequenceHandler menuAddKeyframeNamed:[self keyframePropNameFromTag:tag]];
+}
+
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
 {
-    NSLog(@"validateMenuItem: %@", menuItem);
-    
     if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
@@ -2358,6 +2488,21 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuReverseSelectedKeyframes:))
     {
         return (hasOpenedDocument && [SequencerUtil canReverseSelectedKeyframes]);
+    }
+    else if (menuItem.action == @selector(menuAddKeyframe:))
+    {
+        if (!hasOpenedDocument) return NO;
+        if (!selectedNode) return NO;
+        return [sequenceHandler canInsertKeyframeNamed:[self keyframePropNameFromTag:menuItem.tag]];
+    }
+    else if (menuItem.action == @selector(menuSetCanvasBorder:))
+    {
+        if (!hasOpenedDocument) return NO;
+        int tag = [menuItem tag];
+        if (tag == kCCBBorderNone) return YES;
+        CGSize canvasSize = [[CocosScene cocosScene] stageSize];
+        if (canvasSize.width == 0 || canvasSize.height == 0) return NO;
+        return YES;
     }
     
     return YES;
@@ -2509,7 +2654,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     NSLog(@"DEBUG");
     
-    NSLog(@"currentDocument.resolutions: %@",currentDocument.resolutions);
+    [resManager debugPrintDirectories];
 }
 
 @end

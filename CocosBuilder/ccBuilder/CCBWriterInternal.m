@@ -514,6 +514,13 @@
         [dict setObject:node.displayName forKey:@"displayName"];
     }
     
+    // Custom properties
+    id customProps = [node serializeCustomProperties];
+    if (customProps)
+    {
+        [dict setObject:customProps forKey:@"customProperties"];
+    }
+    
     // Add code connection props
     NSString* customClass = [extraProps objectForKey:@"customClass"];
     if (!customClass) customClass = @"";
