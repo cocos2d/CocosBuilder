@@ -164,16 +164,14 @@
     int selectedSegment = [[sender cell] selectedSegment];
     NSString* objType = [[sender cell] toolTipForSegment:selectedSegment];
     
-    CCNode* node = [[PlugInManager sharedManager] createDefaultNodeOfType:objType];
-    [[CocosBuilderAppDelegate appDelegate] addCCObject:node asChild:NO];
+    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType];
 }
 
 - (void) selectedItem:(id) sender
 {
     NSString* objType = [sender title];
     
-    CCNode* node = [[PlugInManager sharedManager] createDefaultNodeOfType:objType];
-    [[CocosBuilderAppDelegate appDelegate] addCCObject:node asChild:NO];
+    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType];
 }
 
 - (void) dealloc

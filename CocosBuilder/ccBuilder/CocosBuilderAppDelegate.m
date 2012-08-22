@@ -1447,15 +1447,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return success;
 }
 
-- (IBAction) menuAddPlugInNode:(id)sender
+- (IBAction) addPlugInNodeNamed:(NSString*)name
 {
     self.errorDescription = NULL;
-    CCNode* node = [plugInManager createDefaultNodeOfType:[sender title]];
-    BOOL success = [self addCCObject:node asChild:[sender tag]];
+    CCNode* node = [plugInManager createDefaultNodeOfType:name];
+    BOOL success = [self addCCObject:node asChild:NO];
     
     if (!success && self.errorDescription)
     {
-        [self modalDialogTitle:@"Failed to Add Node" message:self.errorDescription];
+        [self modalDialogTitle:@"Failed to Add Object" message:self.errorDescription];
     }
 }
 
