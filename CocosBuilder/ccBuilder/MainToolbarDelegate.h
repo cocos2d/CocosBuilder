@@ -11,6 +11,7 @@
 @interface MainToolbarDelegate : NSObject <NSToolbarDelegate>
 {
     NSDictionary* plugInSettings;
+    NSMutableArray* userPlugIns;
 }
 
 - (void) addPlugInItemsToToolbar:(NSToolbar*) toolbar;
