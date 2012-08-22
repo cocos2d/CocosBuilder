@@ -316,17 +316,12 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [modalTaskStatusWindow.window makeKeyAndOrderFront:self];
     
     [[NSApplication sharedApplication] runModalForWindow:modalTaskStatusWindow.window];
-    
-    //NSModalSession modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalTaskStatusWindow.window];
-    //[[NSApplication sharedApplication] runModalSession:modalSession];
 }
 
 - (void) modalStatusWindowFinish
 {
     [[NSApplication sharedApplication] stopModal];
     [modalTaskStatusWindow.window orderOut:self];
-    
-    //[modalTaskStatusWindow.window setIsVisible:NO];
 }
 
 - (void) modalStatusWindowUpdateStatusText:(NSString*) text
