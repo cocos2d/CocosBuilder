@@ -180,8 +180,6 @@ enum {
 
 @property (assign) IBOutlet MainWindow *window;
 
-//@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
-
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
@@ -252,7 +250,6 @@ enum {
 - (IBAction) menuQuit:(id)sender;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;
-//- (IBAction) menuSetCanvasSize:(id)sender;
 - (IBAction)menuEditCustomPropSettings:(id)sender;
 - (void) updateStateOriginCenteredMenu;
 - (IBAction) menuSetStateOriginCentered:(id)sender;
