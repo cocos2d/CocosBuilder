@@ -146,8 +146,6 @@ enum {
     
     // PlugIns (nodes)
     PlugInManager* plugInManager;
-    IBOutlet NSMenu* menuAddObject;
-    IBOutlet NSMenu* menuAddObjectAsChild;
     
     // Guides
     BOOL showGuides;
@@ -162,6 +160,7 @@ enum {
     
     // Warnings
     WarningsWindow* publishWarningsWindow;
+    NSString* errorDescription;
     
     // Modal status window
     TaskStatusWindow* modalTaskStatusWindow;
@@ -210,6 +209,8 @@ enum {
 @property (nonatomic,retain) PlayerController* playerController;
 
 @property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
+
+@property (nonatomic,copy) NSString* errorDescription;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;

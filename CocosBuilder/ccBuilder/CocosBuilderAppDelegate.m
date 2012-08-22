@@ -107,6 +107,7 @@
 @synthesize menuContextKeyframeInterpol;
 @synthesize menuContextResManager;
 @synthesize outlineProject;
+@synthesize errorDescription;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -281,26 +282,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     // Update toolbar with plug-ins
     [self setupToolbar];
-    
-    // Populate object menus
-    [menuAddObject removeAllItems];
-    [menuAddObjectAsChild removeAllItems];
-    
-    NSArray* plugInNames = plugInManager.plugInsNodeNames;
-    for (int i = 0; i < [plugInNames count]; i++)
-    {
-        NSString* plugInName = [plugInNames objectAtIndex:i];
-        
-        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:plugInName action:@selector(menuAddPlugInNode:) keyEquivalent:@""] autorelease];
-        [item setTarget:self];
-        [item setTag:0];
-        [menuAddObject addItem:item];
-        
-        item = [[[NSMenuItem alloc] initWithTitle:plugInName action:@selector(menuAddPlugInNode:) keyEquivalent:@""] autorelease];
-        [item setTarget:self];
-        [item setTag:1];
-        [menuAddObjectAsChild addItem:item];
-    }
 
     [self setupResourceManager];
     [self setupGUIWindow];
@@ -1389,7 +1370,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // Check that the parent supports children
     if (!nodeInfoParent.plugIn.canHaveChildren)
     {
-        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add children to a %@",nodeInfoParent.plugIn.nodeClassName]];
+        //[self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add children to a %@",nodeInfoParent.plugIn.nodeClassName]];
+        self.errorDescription = [NSString stringWithFormat: @"You cannot add children to a %@",nodeInfoParent.plugIn.nodeClassName];
         return NO;
     }
     
@@ -1397,7 +1379,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     NSString* requireParent = nodeInfo.plugIn.requireParentClass;
     if (requireParent && ![requireParent isEqualToString: nodeInfoParent.plugIn.nodeClassName])
     {
-        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"A %@ must be added to a %@",nodeInfo.plugIn.nodeClassName, requireParent]];
+        //[self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"A %@ must be added to a %@",nodeInfo.plugIn.nodeClassName, requireParent]];
+        self.errorDescription = [NSString stringWithFormat: @"A %@ must be added to a %@",nodeInfo.plugIn.nodeClassName, requireParent];
         return NO;
     }
     
@@ -1405,7 +1388,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     NSArray* requireChild = nodeInfoParent.plugIn.requireChildClass;
     if (requireChild && [requireChild indexOfObject:nodeInfo.plugIn.nodeClassName] == NSNotFound)
     {
-        [self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName]];
+        //[self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName]];
+        self.errorDescription = [NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName];
         return NO;
     }
     
@@ -1457,13 +1441,27 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         if (!parent) selectedNode = g.rootNode;
     }
     
-    return [self addCCObject:obj toParent:parent];
+    BOOL success = [self addCCObject:obj toParent:parent];
+    
+    if (!success && !asChild)
+    {
+        // If failed to add the object, attempt to add it as a child instead
+        return [self addCCObject:obj asChild:YES];
+    }
+    
+    return success;
 }
 
 - (IBAction) menuAddPlugInNode:(id)sender
 {
+    self.errorDescription = NULL;
     CCNode* node = [plugInManager createDefaultNodeOfType:[sender title]];
-    [self addCCObject:node asChild:[sender tag]];
+    BOOL success = [self addCCObject:node asChild:[sender tag]];
+    
+    if (!success && self.errorDescription)
+    {
+        [self modalDialogTitle:@"Failed to Add Node" message:self.errorDescription];
+    }
 }
 
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent

@@ -855,62 +855,6 @@
 							<string key="NSTitle">Object</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMenuItem" id="264745812">
-									<reference key="NSMenu" ref="300359301"/>
-									<string key="NSTitle">Add Object</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="828691237">
-										<string key="NSTitle">Add Object</string>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="300869535">
-												<reference key="NSMenu" ref="828691237"/>
-												<string key="NSTitle">Item</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-											</object>
-										</object>
-									</object>
-								</object>
-								<object class="NSMenuItem" id="195586168">
-									<reference key="NSMenu" ref="300359301"/>
-									<string key="NSTitle">Add Object as Child</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="849264933">
-										<string key="NSTitle">Add Object as Child</string>
-										<object class="NSMutableArray" key="NSMenuItems">
-											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="492653529">
-												<reference key="NSMenu" ref="849264933"/>
-												<string key="NSTitle">Item</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="35465992"/>
-												<reference key="NSMixedImage" ref="502551668"/>
-											</object>
-										</object>
-									</object>
-								</object>
-								<object class="NSMenuItem" id="437535663">
-									<reference key="NSMenu" ref="300359301"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
 								<object class="NSMenuItem" id="320108428">
 									<reference key="NSMenu" ref="300359301"/>
 									<string key="NSTitle">Select Behind</string>
@@ -4030,22 +3974,6 @@
 					<int key="connectionID">1354</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menuAddObject</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="828691237"/>
-					</object>
-					<int key="connectionID">1412</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">menuAddObjectAsChild</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="849264933"/>
-					</object>
-					<int key="connectionID">1416</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAddStickyNote:</string>
 						<reference key="source" ref="976324537"/>
@@ -5656,11 +5584,8 @@
 							<reference ref="1053806773"/>
 							<reference ref="896692341"/>
 							<reference ref="320108428"/>
-							<reference ref="437535663"/>
 							<reference ref="932610319"/>
 							<reference ref="695901406"/>
-							<reference ref="264745812"/>
-							<reference ref="195586168"/>
 							<reference ref="4121080"/>
 							<reference ref="39974634"/>
 							<reference ref="386557722"/>
@@ -5781,11 +5706,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1204</int>
 						<reference key="object" ref="320108428"/>
-						<reference key="parent" ref="300359301"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1249</int>
-						<reference key="object" ref="437535663"/>
 						<reference key="parent" ref="300359301"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -5931,52 +5851,6 @@
 						<int key="objectID">1358</int>
 						<reference key="object" ref="451419006"/>
 						<reference key="parent" ref="304610640"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1409</int>
-						<reference key="object" ref="264745812"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="828691237"/>
-						</object>
-						<reference key="parent" ref="300359301"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1410</int>
-						<reference key="object" ref="828691237"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="300869535"/>
-						</object>
-						<reference key="parent" ref="264745812"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1411</int>
-						<reference key="object" ref="300869535"/>
-						<reference key="parent" ref="828691237"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1413</int>
-						<reference key="object" ref="195586168"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="849264933"/>
-						</object>
-						<reference key="parent" ref="300359301"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1414</int>
-						<reference key="object" ref="849264933"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="492653529"/>
-						</object>
-						<reference key="parent" ref="195586168"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1415</int>
-						<reference key="object" ref="492653529"/>
-						<reference key="parent" ref="849264933"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1417</int>
@@ -7108,7 +6982,6 @@
 					<string>1239.IBPluginDependency</string>
 					<string>124.IBPluginDependency</string>
 					<string>1246.IBPluginDependency</string>
-					<string>1249.IBPluginDependency</string>
 					<string>125.IBPluginDependency</string>
 					<string>126.IBPluginDependency</string>
 					<string>1263.IBPluginDependency</string>
@@ -7141,12 +7014,6 @@
 					<string>1358.IBPluginDependency</string>
 					<string>136.IBPluginDependency</string>
 					<string>1367.IBPluginDependency</string>
-					<string>1409.IBPluginDependency</string>
-					<string>1410.IBPluginDependency</string>
-					<string>1411.IBPluginDependency</string>
-					<string>1413.IBPluginDependency</string>
-					<string>1414.IBPluginDependency</string>
-					<string>1415.IBPluginDependency</string>
 					<string>1417.IBPluginDependency</string>
 					<string>1418.IBPluginDependency</string>
 					<string>1427.IBPluginDependency</string>
@@ -7451,18 +7318,11 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="2"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7990,8 +7850,6 @@
 							<string>lblTimeline</string>
 							<string>lblTimelineChained</string>
 							<string>mainView</string>
-							<string>menuAddObject</string>
-							<string>menuAddObjectAsChild</string>
 							<string>menuCanvasBorder</string>
 							<string>menuCanvasSize</string>
 							<string>menuContextKeyframe</string>
@@ -8029,8 +7887,6 @@
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
 							<string>NSMenuItem</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
@@ -8061,8 +7917,6 @@
 							<string>lblTimeline</string>
 							<string>lblTimelineChained</string>
 							<string>mainView</string>
-							<string>menuAddObject</string>
-							<string>menuAddObjectAsChild</string>
 							<string>menuCanvasBorder</string>
 							<string>menuCanvasSize</string>
 							<string>menuContextKeyframe</string>
@@ -8115,14 +7969,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainView</string>
 								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuAddObject</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">menuAddObjectAsChild</string>
-								<string key="candidateClassName">NSMenu</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">menuCanvasBorder</string>
