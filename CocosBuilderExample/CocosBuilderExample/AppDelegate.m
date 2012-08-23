@@ -98,7 +98,7 @@
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
 
     // Unzip resources published by CocosBuilder
-    [CCBReader unzipResources:@"ccb.zip"];
+    //[CCBReader unzipResources:@"ccb.zip"];
     
     // Use the CCBReader to load the HelloCocosBuilder scene
     // from the ccbi-file.
