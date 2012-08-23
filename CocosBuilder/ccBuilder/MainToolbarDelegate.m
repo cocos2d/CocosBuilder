@@ -26,6 +26,7 @@
 #import "PlugInManager.h"
 #import "PlugInNode.h"
 #import "CocosBuilderAppDelegate.h"
+#import <Carbon/Carbon.h>
 
 
 @implementation MainToolbarDelegate
@@ -157,7 +158,7 @@
         [addedPlugIns addObjectsFromArray:plugIns];
     }
     
-    // Figure out which plug-ins hasn't been added
+    // Figure out which plug-ins hasn't been added (user plug-ins)
     userPlugIns = [[NSMutableArray alloc] init];
     
     PlugInManager* pim = [PlugInManager sharedManager];
@@ -178,15 +179,17 @@
 {
     int selectedSegment = [[sender cell] selectedSegment];
     NSString* objType = [[sender cell] toolTipForSegment:selectedSegment];
+    BOOL asChild = ((GetCurrentKeyModifiers() & shiftKey) != 0);
     
-    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType];
+    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType asChild:asChild];
 }
 
 - (void) selectedItem:(id) sender
 {
     NSString* objType = [sender title];
+    BOOL asChild = ((GetCurrentKeyModifiers() & shiftKey) != 0);
     
-    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType];
+    [[CocosBuilderAppDelegate appDelegate] addPlugInNodeNamed:objType asChild:asChild];
 }
 
 - (void) dealloc

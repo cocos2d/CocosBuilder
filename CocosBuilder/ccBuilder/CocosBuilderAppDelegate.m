@@ -1447,11 +1447,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return success;
 }
 
-- (IBAction) addPlugInNodeNamed:(NSString*)name
+- (void) addPlugInNodeNamed:(NSString*)name asChild:(BOOL) asChild
 {
     self.errorDescription = NULL;
     CCNode* node = [plugInManager createDefaultNodeOfType:name];
-    BOOL success = [self addCCObject:node asChild:NO];
+    BOOL success = [self addCCObject:node asChild:asChild];
     
     if (!success && self.errorDescription)
     {
