@@ -1075,6 +1075,31 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
+- (void) copyDefaultResourcesForProject:(ProjectSettings*) settings
+{
+    // Setup paths
+    NSString* fileListPath = [[NSBundle mainBundle] pathForResource:@"DefaultResourcesList" ofType:@"plist"];
+    NSDictionary* fileListDict = [NSDictionary dictionaryWithContentsOfFile:fileListPath];
+    NSArray* fileList = [fileListDict objectForKey:@"defaultResources"];
+    NSLog(@"fileList: %@", fileList);
+    
+    NSString* destDir = [settings.absoluteResourcePaths objectAtIndex:0];
+    
+    // Copy resources (if they don't already exist)
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    for (NSString* resFile in fileList)
+    {
+        NSString* srcFile = [[NSBundle mainBundle] pathForResource:resFile ofType:@""];
+        NSString* dstFile = [destDir stringByAppendingPathComponent:resFile];
+        
+        if (![fm fileExistsAtPath:dstFile])
+        {
+            [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
+        }
+    }
+}
+
 - (BOOL) createProject:(NSString*) fileName
 {
     // Create a default project
@@ -1082,13 +1107,15 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     settings.projectPath = fileName;
     
     // Copy resource
+    /*
     NSString* templateFile = [[NSBundle mainBundle] pathForResource:@"HelloCocosBuilder" ofType:@"ccb"];
     NSString* toFile = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:toFile])
     {
         [[NSFileManager defaultManager] copyItemAtPath:templateFile toPath:toFile error:NULL];
-    }
+    }*/
+    [self copyDefaultResourcesForProject:settings];
     
     return [settings store];
 }
