@@ -1060,9 +1060,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
-- (void) checkForTooManyDirectoriesInCurrentProject
+- (BOOL) checkForTooManyDirectoriesInCurrentProject
 {
-    if (!projectSettings) return;
+    if (!projectSettings) return NO;
     
     if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
     {
@@ -1072,7 +1072,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         
         // Notify the user
         [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
+        return NO;
     }
+    return YES;
 }
 
 - (void) copyDefaultResourcesForProject:(ProjectSettings*) settings
@@ -1171,7 +1173,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [resManager removeAllDirectories];
 }
 
-- (void) openProject:(NSString*) fileName
+- (BOOL) openProject:(NSString*) fileName
 {
     // TODO: Close currently open project
     [self closeProject];
@@ -1183,14 +1185,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (!projectDict)
     {
         [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File may be missing or invalid."];
-        return;
+        return NO;
     }
     
     ProjectSettings* project = [[[ProjectSettings alloc] initWithSerialization:projectDict] autorelease];
     if (!project)
     {
         [self modalDialogTitle:@"Invalid Project File" message:@"Failed to open the project. File is invalid or is created with a newer version of CocosBuilder."];
-        return;
+        return NO;
     }
     project.projectPath = fileName;
     
@@ -1198,7 +1200,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self updateResourcePathsFromProjectSettings];
     
-    [self checkForTooManyDirectoriesInCurrentProject];
+    return [self checkForTooManyDirectoriesInCurrentProject];
 }
 
 - (void) openFile:(NSString*) fileName
@@ -2025,8 +2027,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSString* fileName = [[saveDlg URL] path];
             if ([self createProject: fileName])
             {
-                [self openProject:fileName];
-                [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
+                if ([self openProject:fileName])
+                {
+                    [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
+                }
             }
             else
             {
