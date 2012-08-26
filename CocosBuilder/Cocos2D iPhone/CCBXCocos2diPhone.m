@@ -34,11 +34,11 @@
 
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths
 {
-    CCBXCocos2diPhoneWriter* writer = [[CCBXCocos2diPhoneWriter alloc] init];
+    CCBXCocos2diPhoneWriter* writer = [[[CCBXCocos2diPhoneWriter alloc] init] autorelease];
     writer.flattenPaths = flattenPaths;
     [writer writeDocument:doc];
     
-    return writer.data;
+    return [[writer.data copy] autorelease];
 }
 
 @end
