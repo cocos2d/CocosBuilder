@@ -536,7 +536,7 @@
     NSArray* seqs = [doc objectForKey:@"sequences"];
     
     // Write number of sequences
-    [self writeInt:[seqs count] withSign:NO];
+    [self writeInt:(int)[seqs count] withSign:NO];
     
     int autoPlaySeqId = -1;
     
@@ -683,7 +683,7 @@
     NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
     
     // Animated sequences count
-    [self writeInt:[animatedProps count] withSign:NO];
+    [self writeInt:(int)[animatedProps count] withSign:NO];
     
     
     for (NSString* seqIdStr in animatedProps)
@@ -696,7 +696,7 @@
         NSDictionary* props = [animatedProps objectForKey:seqIdStr];
         
         // Animated properties count
-        [self writeInt:[props count] withSign:NO];
+        [self writeInt:(int)[props count] withSign:NO];
         
         for (NSString* propName in props)
         {
@@ -729,13 +729,13 @@
                 NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];
                 if ([[keyframeFirst objectForKey:@"time"] floatValue] != 0)
                 {
-                    [self writeInt:[keyframes count]+1 withSign:NO];
+                    [self writeInt:(int)[keyframes count]+1 withSign:NO];
                     // Add a first keyframe
                     [self writeKeyframeValue:[NSNumber numberWithBool:NO] type:propType time:0 easingType:kCCBKeyframeEasingInstant easingOpt:0];
                 }
                 else
                 {
-                    [self writeInt:[keyframes count] withSign:NO];
+                    [self writeInt:(int)[keyframes count] withSign:NO];
                 }
                 for (NSDictionary* keyframe in keyframes)
                 {
@@ -747,7 +747,7 @@
             }
             else
             {
-                [self writeInt:[keyframes count] withSign:NO];
+                [self writeInt:(int)[keyframes count] withSign:NO];
                 
                 for (NSDictionary* keyframe in keyframes)
                 {
