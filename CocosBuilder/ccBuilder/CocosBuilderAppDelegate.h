@@ -107,7 +107,8 @@ enum {
     IBOutlet NSScrollView* sequenceScrollView;
     
     // Selections
-    CCNode* selectedNode;
+    //CCNode* selectedNode;
+    NSMutableArray* selectedNodes;
     
     // Menus
     IBOutlet NSMenu* menuCanvasSize;
@@ -189,7 +190,8 @@ enum {
 @property (nonatomic,assign) BOOL defaultCanvasSize;
 @property (nonatomic,assign) BOOL canEditCustomClass;
 
-@property (nonatomic,assign) CCNode* selectedNode;
+@property (nonatomic,readonly) CCNode* selectedNode;
+@property (nonatomic,retain) NSArray* selectedNodes;
 
 @property (nonatomic,assign) BOOL showGuides;
 @property (nonatomic,assign) BOOL snapToGuides;

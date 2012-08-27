@@ -224,14 +224,15 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) updateOutlineViewSelection
 {
-    if (!appDelegate.selectedNode)
+    if (!appDelegate.selectedNodes.count)
     {
         [outlineHierarchy selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
         return;
     }
     CCBGlobals* g = [CCBGlobals globals];
     
-    CCNode* node = appDelegate.selectedNode;
+    // Expand parents of the selected node
+    CCNode* node = [appDelegate.selectedNodes objectAtIndex:0];
     NSMutableArray* nodesToExpand = [NSMutableArray array];
     while (node != g.rootNode && node != NULL)
     {
@@ -244,8 +245,15 @@ static SequencerHandler* sharedSequencerHandler;
         [outlineHierarchy expandItem:node.parent];
     }
     
-    int row = (int)[outlineHierarchy rowForItem:appDelegate.selectedNode];
-    [outlineHierarchy selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+    // Update the selection
+    NSMutableIndexSet* indexes = [NSMutableIndexSet indexSet];
+    
+    for (CCNode* selectedNode in appDelegate.selectedNodes)
+    {
+        int row = (int)[outlineHierarchy rowForItem:selectedNode];
+        [indexes addIndex:row];
+    }
+    [outlineHierarchy selectRowIndexes:indexes byExtendingSelection:NO];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
@@ -288,8 +296,17 @@ static SequencerHandler* sharedSequencerHandler;
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{
-    appDelegate.selectedNode = [outlineHierarchy itemAtRow:[outlineHierarchy selectedRow]];
+{    
+    NSIndexSet* indexes = [outlineHierarchy selectedRowIndexes];
+    NSMutableArray* selectedNodes = [NSMutableArray array];
+    
+    [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
+        CCNode* node = [outlineHierarchy itemAtRow:idx];
+        [selectedNodes addObject:node];
+    }];
+    
+    appDelegate.selectedNodes = selectedNodes;
+    
     [appDelegate updateInspectorFromSelection];
 }
 
@@ -398,7 +415,7 @@ static SequencerHandler* sharedSequencerHandler;
         CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
         [appDelegate deleteNode:draggedNode];
         
-        [appDelegate setSelectedNode:clipNode];
+        [appDelegate setSelectedNodes:[NSArray arrayWithObject: clipNode]];
         
         [PositionPropertySetter refreshAllPositions];
         

@@ -108,6 +108,7 @@
 @synthesize menuContextResManager;
 @synthesize outlineProject;
 @synthesize errorDescription;
+@synthesize selectedNodes;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -242,6 +243,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [self.window center];
+    
+    selectedNodes = [[NSMutableArray alloc] init];
     
     sharedAppDelegate = self;
     
@@ -409,6 +412,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 #pragma mark Handling selections
 
+/*
 - (void) setSelectedNode:(CCNode*) selection
 {
     // Close the color picker
@@ -424,10 +428,40 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     if (currentDocument) currentDocument.lastEditedProperty = NULL;
 }
+ */
+- (void) setSelectedNodes:(NSArray*) selection
+{
+    // Close the color picker
+    [[NSColorPanel sharedColorPanel] close];
+    
+    // Finish editing inspector
+    if (![[self window] makeFirstResponder:[self window]])
+    {
+        return;
+    }
+    
+    // Update selection
+    [selectedNodes removeAllObjects];
+    if (selection)
+    {
+        [selectedNodes addObjectsFromArray:selection];
+    }
+    [sequenceHandler updateOutlineViewSelection];
+    
+    // Handle undo/redo
+    if (currentDocument) currentDocument.lastEditedProperty = NULL;
+}
 
 - (CCNode*) selectedNode
 {
-    return selectedNode;
+    if (selectedNodes.count == 1)
+    {
+        return [selectedNodes objectAtIndex:0];
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 #pragma mark Window Delegate
@@ -497,7 +531,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
     
     // Create inspector
-    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:selectedNode andPropertyName:prop andDisplayName:displayName andExtra:e];
+    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:self.selectedNode andPropertyName:prop andDisplayName:displayName andExtra:e];
     inspectorValue.readOnly = readOnly;
     
     // Save a reference in case it needs to be updated
@@ -535,7 +569,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
-    SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:name sequenceId:seq.sequenceId];
+    SequencerNodeProperty* seqNodeProp = [self.selectedNode sequenceNodeProperty:name sequenceId:seq.sequenceId];
     
     // Do not disable if animation hasn't been enabled
     if (!seqNodeProp) return NO;
@@ -572,9 +606,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     int paneOffset = 0;
     
     // Add show panes according to selections
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
-    NodeInfo* info = selectedNode.userObject;
+    NodeInfo* info = self.selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     
     BOOL isCCBSubFile = [plugIn.nodeClassName isEqualToString:@"CCBFile"];
@@ -598,7 +632,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSString* extra = [propInfo objectForKey:@"extra"];
             BOOL animated = [[propInfo objectForKey:@"animatable"] boolValue];
             if ([name isEqualToString:@"visible"]) animated = YES;
-            if ([selectedNode shouldDisableProperty:name]) readOnly = YES;
+            if ([self.selectedNode shouldDisableProperty:name]) readOnly = YES;
             
             // TODO: Handle read only for animated properties
             if ([self isDisabledProperty:name animatable:animated])
@@ -611,17 +645,17 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
     else
     {
-        NSLog(@"WARNING info:%@ plugIn:%@ selectedNode: %@", info, plugIn, selectedNode);
+        NSLog(@"WARNING info:%@ plugIn:%@ selectedNode: %@", info, plugIn, self.selectedNode);
     }
     
     // Custom properties
-    NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
-    NSArray* customProps = selectedNode.customProperties;
+    NSString* customClass = [self.selectedNode extraPropForKey:@"customClass"];
+    NSArray* customProps = self.selectedNode.customProperties;
     if (customClass && ![customClass isEqualToString:@""])
     {
         if ([customProps count] || !isCCBSubFile)
         {
-            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[self.selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
         }
         
         for (CustomPropSetting* setting in customProps)
@@ -835,7 +869,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) prepareForDocumentSwitch
 {
     [self.window makeKeyWindow];
-    [self setSelectedNode:NULL];
+    [self setSelectedNodes:NULL];
     CocosScene* cs = [CocosScene cocosScene];
     
     if (![self hasOpenedDocument]) return;
@@ -938,7 +972,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     CCNode* loadedRoot = [CCBReaderInternal nodeGraphFromDocumentDictionary:doc parentSize:CGSizeMake(resolution.width, resolution.height)];
     
     // Replace open document
-    selectedNode = NULL;
+    self.selectedNodes = NULL;
     [[CocosScene cocosScene] replaceRootNodeWith:loadedRoot];
     [outlineHierarchy reloadData];
     [sequenceHandler updateOutlineViewSelection];
@@ -1002,7 +1036,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) closeLastDocument
 {
-    selectedNode = NULL;
+    self.selectedNodes = NULL;
     [[CocosScene cocosScene] replaceRootNodeWith:NULL];
     currentDocument.docData = NULL;
     currentDocument.fileName = NULL;
@@ -1294,7 +1328,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [[CocosScene cocosScene].notesLayer removeAllNotes];
     
-    selectedNode = NULL;
+    self.selectedNodes = NULL;
     [[CocosScene cocosScene] setStageSize:stageSize centeredOrigin:origin];
     
     // Create new node
@@ -1455,7 +1489,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
     
     [outlineHierarchy reloadData];
-    [self setSelectedNode:obj];
+    [self setSelectedNodes: [NSArray arrayWithObject: obj]];
     [self updateInspectorFromSelection];
     
     return YES;
@@ -1471,14 +1505,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     CCBGlobals* g = [CCBGlobals globals];
     
     CCNode* parent;
-    if (!selectedNode) parent = g.rootNode;
-    else if (selectedNode == g.rootNode) parent = g.rootNode;
-    else parent = selectedNode.parent;
+    if (!self.selectedNode) parent = g.rootNode;
+    else if (self.selectedNode == g.rootNode) parent = g.rootNode;
+    else parent = self.selectedNode.parent;
     
     if (asChild)
     {
-        parent = selectedNode;
-        if (!parent) selectedNode = g.rootNode;
+        parent = self.selectedNode;
+        if (!parent) self.selectedNodes = [NSArray arrayWithObject: g.rootNode];
     }
     
     BOOL success = [self addCCObject:obj toParent:parent];
@@ -1533,7 +1567,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     // Sprite dropped in working canvas
     
-    CCNode* node = selectedNode;
+    CCNode* node = self.selectedNode;
     if (!node) node = [CocosScene cocosScene].rootNode;
     
     CCNode* parent = node.parent;
@@ -1603,10 +1637,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
     
     // Copy node
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
     // Serialize selected node
-    NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:selectedNode];
+    NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:self.selectedNode];
     NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
     
@@ -1625,8 +1659,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         CGSize parentSize;
-        if (asChild) parentSize = selectedNode.contentSize;
-        else parentSize = selectedNode.parent.contentSize;
+        if (asChild) parentSize = self.selectedNode.contentSize;
+        else parentSize = self.selectedNode.parent.contentSize;
         
         CCNode* clipNode = [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:parentSize];
         [self addCCObject:clipNode asChild:asChild];
@@ -1643,7 +1677,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     if (type)
     {
-        if (!selectedNode)
+        if (!self.selectedNode)
         {
             [self modalDialogTitle:@"Paste Failed" message:@"You need to select a node to paste keyframes"];
             return;
@@ -1675,7 +1709,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             keyframe.time = [seq alignTimeToResolution:keyframe.time - firstTime + seq.timelinePosition];
             
             // Add the keyframe
-            [selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
+            [self.selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
         }
         
     }
@@ -1712,7 +1746,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [node.parent sortAllChildren];
     [outlineHierarchy reloadData];
     
-    selectedNode = NULL;
+    self.selectedNodes = NULL;
     [sequenceHandler updateOutlineViewSelection];
 }
 
@@ -1722,14 +1756,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if ([sequenceHandler deleteSelectedKeyframesForCurrentSequence]) return;
     
     // Then delete the selected node
-    if (!selectedNode) return;
-    [self deleteNode:selectedNode];
+    if (!self.selectedNode) return;
+    [self deleteNode:self.selectedNode];
 }
 
 - (IBAction) cut:(id) sender
 {
     CCBGlobals* g = [CCBGlobals globals];
-    if (selectedNode == g.rootNode)
+    if (self.selectedNode == g.rootNode)
     {
         [self modalDialogTitle:@"Failed to cut object" message:@"The root node cannot be removed"];
         return;
@@ -1741,21 +1775,21 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) moveSelectedObjectWithDelta:(CGPoint)delta
 {
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
     [self saveUndoStateWillChangeProperty:@"position"];
     
     // Get and update absolute position
-    CGPoint absPos = selectedNode.position;
+    CGPoint absPos = self.selectedNode.position;
     absPos = ccpAdd(absPos, delta);
     
     // Convert to relative position
-    CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
-    int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+    CGSize parentSize = [PositionPropertySetter getParentSize:self.selectedNode];
+    int positionType = [PositionPropertySetter positionTypeForNode:self.selectedNode prop:@"position"];
     NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
     
     // Update the selected node
-    [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
+    [PositionPropertySetter setPosition:newPos forNode:self.selectedNode prop:@"position"];
     [self refreshProperty:@"position"];
     
     // Update animated value
@@ -1764,14 +1798,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                           [NSNumber numberWithFloat:newPos.y],
                           NULL];
     
-    NodeInfo* nodeInfo = selectedNode.userObject;
+    NodeInfo* nodeInfo = self.selectedNode.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     
     if ([plugIn isAnimatableProperty:@"position"])
     {
         SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
         int seqId = seq.sequenceId;
-        SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
+        SequencerNodeProperty* seqNodeProp = [self.selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
         
         if (seqNodeProp)
         {
@@ -1794,7 +1828,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     int dir = (int)[sender tag];
     
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
@@ -1809,7 +1843,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     int dir = (int)[sender tag];
     
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-10, 0);
@@ -2094,7 +2128,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) menuDeselect:(id)sender
 {
-    [self setSelectedNode:NULL];
+    [self setSelectedNodes:NULL];
 }
 
 - (IBAction) undo:(id)sender
@@ -2163,9 +2197,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (IBAction)menuEditCustomPropSettings:(id)sender
 {
     if (!currentDocument) return;
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
-    NSString* customClass = [selectedNode extraPropForKey:@"customClass"];
+    NSString* customClass = [self.selectedNode extraPropForKey:@"customClass"];
     if (!customClass || [customClass isEqualToString:@""])
     {
         [self modalDialogTitle:@"Custom Class Needed" message:@"To add custom properties to a node you need to use a custom class."];
@@ -2173,13 +2207,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
     
     CustomPropSettingsWindow* wc = [[[CustomPropSettingsWindow alloc] initWithWindowNibName:@"CustomPropSettingsWindow"] autorelease];
-    [wc copySettingsForNode:selectedNode];
+    [wc copySettingsForNode:self.selectedNode];
     
     int success = [wc runModalSheetForWindow:window];
     if (success)
     {
         [self saveUndoStateWillChangeProperty:@"*customPropSettings"];
-        selectedNode.customProperties = wc.settings;
+        self.selectedNode.customProperties = wc.settings;
         [self updateInspectorFromSelection];
     }
 }
@@ -2386,14 +2420,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (IBAction) menuAlignChildrenToPixels:(id)sender
 {
     if (!currentDocument) return;
-    if (!selectedNode) return;
+    if (!self.selectedNode) return;
     
     // Check if node can have children
-    NodeInfo* info = selectedNode.userObject;
+    NodeInfo* info = self.selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     if (!plugIn.canHaveChildren) return;
     
-    CCArray* children = [selectedNode children];
+    CCArray* children = [self.selectedNode children];
     if ([children count] == 0) return;
     
     for (int i = 0; i < [children count]; i++)
@@ -2532,7 +2566,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     else if (menuItem.action == @selector(menuAddKeyframe:))
     {
         if (!hasOpenedDocument) return NO;
-        if (!selectedNode) return NO;
+        if (!self.selectedNode) return NO;
         return [sequenceHandler canInsertKeyframeNamed:[self keyframePropNameFromTag:menuItem.tag]];
     }
     else if (menuItem.action == @selector(menuSetCanvasBorder:))
@@ -2604,7 +2638,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
     
     // Deselect all objects to improve performance
-    self.selectedNode = NULL;
+    self.selectedNodes = NULL;
     
     // Start playback
     playbackLastFrameTime = [NSDate timeIntervalSinceReferenceDate];

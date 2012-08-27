@@ -481,7 +481,7 @@ static CocosScene* sharedCocosScene;
         currentNodeAtSelectionPtIdx = (int)[nodesAtSelectionPt count] -1;
     }
     
-    [appDelegate setSelectedNode:[nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx]];
+    [appDelegate setSelectedNodes:[NSArray arrayWithObject:[nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx]]];
 }
 
 #pragma mark Handle mouse input
@@ -637,11 +637,11 @@ static CocosScene* sharedCocosScene;
     currentNodeAtSelectionPtIdx = (int)[nodesAtSelectionPt count] -1;
     if (currentNodeAtSelectionPtIdx >= 0)
     {
-        [appDelegate setSelectedNode:[nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx]];
+        [appDelegate setSelectedNodes:[NSArray arrayWithObject:[nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx]]];
     }
     else
     {
-        [appDelegate setSelectedNode:NULL];
+        [appDelegate setSelectedNodes:NULL];
     }
     
     return YES;

@@ -536,7 +536,7 @@
                 if (theEvent.clickCount == 2)
                 {
                     seq.timelinePosition = mouseDownKeyframe.time;
-                    [CocosBuilderAppDelegate appDelegate].selectedNode = node;
+                    [CocosBuilderAppDelegate appDelegate].selectedNodes = [NSArray arrayWithObject: node];
                 }
                 
                 // Start dragging keyframe(s)
