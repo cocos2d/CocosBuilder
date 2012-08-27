@@ -43,6 +43,9 @@
 #import "SequencerSequence.h"
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
+#import "CCScale9Sprite.h"
+
+#define kCCBSelectionOutset 4
 
 static CocosScene* sharedCocosScene;
 
@@ -351,78 +354,83 @@ static CocosScene* sharedCocosScene;
 
 - (void) updateSelection
 {
-    CCNode* node = appDelegate.selectedNode;
+    NSArray* nodes = appDelegate.selectedNodes;
     
     // Clear selection
     [selectionLayer removeAllChildrenWithCleanup:YES];
     
-    if (node)
+    if (nodes.count > 0)
     {
-        CCNode* parent = node.parent;
-        
-        // Add centerpoint
-        CGPoint center = [parent convertToWorldSpace: node.position];
-        CCSprite* selmarkCenter = [CCSprite spriteWithFile:@"select-pt.png"];
-        selmarkCenter.position = center;
-        [selectionLayer addChild:selmarkCenter];
-        
-        CGPoint minCorner = center;
-        
-        if (node.contentSize.width > 0 && node.contentSize.height > 0)
+        for (CCNode* node in nodes)
         {
-            CGAffineTransform transform = [node nodeToWorldTransform];
-            float angle = -(atan2(transform.b, transform.a)/(M_PI*2))*360;
+            CCNode* parent = node.parent;
             
-            // Add bounding box markers
-            CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
-            CCSprite* blSelmark = [CCSprite spriteWithFile:@"select-bl.png"];
-            blSelmark.position = bl;
-            blSelmark.rotation = angle;
-            [selectionLayer addChild:blSelmark];
+            // Add centerpoint
+            CGPoint center = [parent convertToWorldSpace: node.position];
+            CCSprite* selmarkCenter = [CCSprite spriteWithFile:@"select-pt.png"];
+            selmarkCenter.position = center;
+            [selectionLayer addChild:selmarkCenter z:1];
             
-            CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
-            CCSprite* brSelmark = [CCSprite spriteWithFile:@"select-br.png"];
-            brSelmark.position = br;
-            brSelmark.rotation = angle;
-            [selectionLayer addChild:brSelmark];
+            CGPoint minCorner = center;
             
-            CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
-            CCSprite* tlSelmark = [CCSprite spriteWithFile:@"select-tl.png"];
-            tlSelmark.position = tl;
-            tlSelmark.rotation = angle;
-            [selectionLayer addChild:tlSelmark];
+            if (node.contentSize.width > 0 && node.contentSize.height > 0)
+            {
+                CGAffineTransform transform = [node nodeToWorldTransform];
+                float angleRad = -(atan2(transform.b, transform.a));
+                float angle = angleRad/(M_PI*2)*360;
+                
+                // Selection corners in world space
+                CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
+                CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
+                CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
+                CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
+                
+                // Width & height of selection
+                float width = (int)ccpLength(ccpSub(br, bl));
+                float height = (int)ccpLength(ccpSub(tl, bl));
+                
+                // Round so it is always displayed sharply
+                CGPoint pos = ccpSub(bl, ccpRotateByAngle(ccp(kCCBSelectionOutset,kCCBSelectionOutset), CGPointZero, -angleRad));
+                
+                if (angle == 0)
+                {
+                    pos = ccp((int)pos.x, (int)pos.y);
+                }
+                
+                // Create a sprite for the selection
+                CCScale9Sprite* sel = [CCScale9Sprite spriteWithFile:@"sel-frame.png" capInsets:CGRectMake(7, 7, 10, 10)];
+                sel.anchorPoint = ccp(0,0);
+                sel.rotation = angle;
+                sel.position = pos;
+                sel.preferedSize = CGSizeMake(width + kCCBSelectionOutset * 2, height + kCCBSelectionOutset * 2);
+                [selectionLayer addChild:sel];
+                
+                minCorner.x = MIN(minCorner.x, bl.x);
+                minCorner.x = MIN(minCorner.x, br.x);
+                minCorner.x = MIN(minCorner.x, tl.x);
+                minCorner.x = MIN(minCorner.x, tr.x);
+                
+                minCorner.y = MIN(minCorner.y, bl.y);
+                minCorner.y = MIN(minCorner.y, br.y);
+                minCorner.y = MIN(minCorner.y, tl.y);
+                minCorner.y = MIN(minCorner.y, tr.y);
+            }
             
-            CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
-            CCSprite* trSelmark = [CCSprite spriteWithFile:@"select-tr.png"];
-            trSelmark.position = tr;
-            trSelmark.rotation = angle;
-            [selectionLayer addChild:trSelmark];
+            if (minCorner.x < 10+15) minCorner.x = 10+15;
+            if (minCorner.y < 36+15) minCorner.y = 36+15;
+            if (minCorner.x > self.contentSize.width - 28*3+6) minCorner.x = self.contentSize.width - 28*3+6;
+            if (minCorner.y > self.contentSize.height+6) minCorner.y = self.contentSize.height+6;
             
-            minCorner.x = MIN(minCorner.x, bl.x);
-            minCorner.x = MIN(minCorner.x, br.x);
-            minCorner.x = MIN(minCorner.x, tl.x);
-            minCorner.x = MIN(minCorner.x, tr.x);
+            minCorner.x = (int)minCorner.x;
+            minCorner.y = (int)minCorner.y;
             
-            minCorner.y = MIN(minCorner.y, bl.y);
-            minCorner.y = MIN(minCorner.y, br.y);
-            minCorner.y = MIN(minCorner.y, tl.y);
-            minCorner.y = MIN(minCorner.y, tr.y);
-        }
-        
-        if (minCorner.x < 10+15) minCorner.x = 10+15;
-        if (minCorner.y < 36+15) minCorner.y = 36+15;
-        if (minCorner.x > self.contentSize.width - 28*3+6) minCorner.x = self.contentSize.width - 28*3+6;
-        if (minCorner.y > self.contentSize.height+6) minCorner.y = self.contentSize.height+6;
-        
-        minCorner.x = (int)minCorner.x;
-        minCorner.y = (int)minCorner.y;
-        
-        if (currentMouseTransform == kCCBTransformHandleNone ||
-            currentMouseTransform == kCCBTransformHandleMove)
-        {
-            rectBtnMove = CGRectMake(minCorner.x-8, minCorner.y-36, 28, 28);
-            rectBtnScale = CGRectMake(minCorner.x-8+28, minCorner.y-36, 28, 28);
-            rectBtnRotate = CGRectMake(minCorner.x-8+56, minCorner.y-36, 28, 28);
+            if (currentMouseTransform == kCCBTransformHandleNone ||
+                currentMouseTransform == kCCBTransformHandleMove)
+            {
+                rectBtnMove = CGRectMake(minCorner.x-8, minCorner.y-36, 28, 28);
+                rectBtnScale = CGRectMake(minCorner.x-8+28, minCorner.y-36, 28, 28);
+                rectBtnRotate = CGRectMake(minCorner.x-8+56, minCorner.y-36, 28, 28);
+            }
         }
         
         // Move handle
