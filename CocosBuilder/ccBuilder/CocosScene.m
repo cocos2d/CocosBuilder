@@ -45,7 +45,7 @@
 #import "SequencerKeyframe.h"
 #import "CCScale9Sprite.h"
 
-#define kCCBSelectionOutset 4
+#define kCCBSelectionOutset 3
 
 static CocosScene* sharedCocosScene;
 
@@ -398,7 +398,7 @@ static CocosScene* sharedCocosScene;
                 }
                 
                 // Create a sprite for the selection
-                CCScale9Sprite* sel = [CCScale9Sprite spriteWithFile:@"sel-frame.png" capInsets:CGRectMake(7, 7, 10, 10)];
+                CCScale9Sprite* sel = [CCScale9Sprite spriteWithFile:@"sel-frame.png" capInsets:CGRectMake(8, 8, 8, 8)];
                 sel.anchorPoint = ccp(0,0);
                 sel.rotation = angle;
                 sel.position = pos;
