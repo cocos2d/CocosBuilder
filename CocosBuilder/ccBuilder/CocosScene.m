@@ -512,14 +512,6 @@ static CocosScene* sharedCocosScene;
     return plugIn.positionProperty;
 }
 
-- (void) setSelectedNodePos:(CGPoint) pos
-{
-    if (!appDelegate.selectedNode) return;
-    
-    //[selectedNode setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pos)] forKey:[self positionPropertyForSelectedNode]];
-    [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:appDelegate.selectedNode prop:[self positionPropertyForSelectedNode]];
-}
-
 - (CGPoint) selectedNodePos
 {
     if (!appDelegate.selectedNode) return CGPointZero;
@@ -762,14 +754,13 @@ static CocosScene* sharedCocosScene;
         currentMouseTransform = kCCBTransformHandleMove;
     }
     
-    //CCNode* selectedNode = appDelegate.selectedNode;
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
-        float xDelta = (int)(pos.x - mouseDownPos.x);
-        float yDelta = (int)(pos.y - mouseDownPos.y);
-        
         for (CCNode* selectedNode in appDelegate.selectedNodes)
         {
+            float xDelta = (int)(pos.x - mouseDownPos.x);
+            float yDelta = (int)(pos.y - mouseDownPos.y);
+            
             CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
             
             // Swap axis for relative positions
@@ -841,7 +832,8 @@ static CocosScene* sharedCocosScene;
             NSLog(@"newLocalPos: (%f,%f)", newLocalPos.x, newLocalPos.y);
             
             [appDelegate saveUndoStateWillChangeProperty:@"position"];
-            [self setSelectedNodePos:newLocalPos];
+            
+            [PositionPropertySetter setPosition:NSPointFromCGPoint(newLocalPos) forNode:selectedNode prop:@"position"];
         }
         [appDelegate refreshProperty:@"position"];
     }
