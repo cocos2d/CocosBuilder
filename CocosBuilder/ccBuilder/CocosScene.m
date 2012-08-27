@@ -589,6 +589,7 @@ static CocosScene* sharedCocosScene;
     
     mouseDownPos = pos;
     
+    // Handle grab tool
     if (currentTool == kCCBToolGrab || ([event modifierFlags] & NSCommandKeyMask))
     {
         [[NSCursor closedHandCursor] push];
@@ -597,6 +598,61 @@ static CocosScene* sharedCocosScene;
         return YES;
     }
     
+    // Find out which objects were clicked
+    
+    [nodesAtSelectionPt removeAllObjects];
+    [self nodesUnderPt:pos rootNode:rootNode nodes:nodesAtSelectionPt];
+    currentNodeAtSelectionPtIdx = (int)[nodesAtSelectionPt count] -1;
+    
+    currentMouseTransform = kCCBTransformHandleNone;
+    
+    if (currentNodeAtSelectionPtIdx >= 0)
+    {
+        currentMouseTransform = kCCBTransformHandleDownInside;
+        /*
+        CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
+        
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            // Add to/subtract from selection
+            NSMutableArray* modifiedSelection = [NSMutableArray arrayWithArray: appDelegate.selectedNodes];
+            
+            if ([modifiedSelection containsObject:clickedNode])
+            {
+                [modifiedSelection removeObject:clickedNode];
+            }
+            else
+            {
+                [modifiedSelection addObject:clickedNode];
+                //currentMouseTransform = kCCBTransformHandleMove;
+            }
+            appDelegate.selectedNodes = modifiedSelection;
+        }
+        else
+        {
+            // Replace selection
+            [appDelegate setSelectedNodes:[NSArray arrayWithObject:clickedNode]];
+            //currentMouseTransform = kCCBTransformHandleMove;
+        }*/
+    }
+    else
+    {
+        // No clicked node
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            // Ignore
+            return YES;
+        }
+        else
+        {
+            // Deselect
+            appDelegate.selectedNodes = NULL;
+        }
+    }
+    
+    return YES;
+    
+    /*
     CCNode* selectedNode = appDelegate.selectedNode;
     
     // Check for clicked transform handles
@@ -653,6 +709,7 @@ static CocosScene* sharedCocosScene;
     }
     
     return YES;
+    */
 }
 
 - (BOOL) ccMouseDragged:(NSEvent *)event
@@ -666,83 +723,129 @@ static CocosScene* sharedCocosScene;
     if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
     
-    CCNode* selectedNode = appDelegate.selectedNode;
+    //
     
+    if (currentMouseTransform == kCCBTransformHandleDownInside)
+    {
+        CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
+        
+        
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            // Add to selection
+            NSMutableArray* modifiedSelection = [NSMutableArray arrayWithArray: appDelegate.selectedNodes];
+            
+            if (![modifiedSelection containsObject:clickedNode])
+            {
+                [modifiedSelection addObject:clickedNode];
+            }
+            appDelegate.selectedNodes = modifiedSelection;
+        }
+        else if (![appDelegate.selectedNodes containsObject:clickedNode])
+        {
+            // Replace selection
+            appDelegate.selectedNodes = [NSArray arrayWithObject:clickedNode];
+        }
+        
+        for (CCNode* selectedNode in appDelegate.selectedNodes)
+        {
+            CGPoint pos = NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:@"position"]);
+            
+            selectedNode.transformStartPosition = [selectedNode.parent convertToWorldSpace:pos];
+        }
+    
+        for (CCNode* selectedNode in appDelegate.selectedNodes)
+        {
+            NSLog(@"transformStartPosition: (%f,%f)",selectedNode.transformStartPosition.x, selectedNode.transformStartPosition.y);
+        }
+    
+        currentMouseTransform = kCCBTransformHandleMove;
+    }
+    
+    //CCNode* selectedNode = appDelegate.selectedNode;
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
-        NSString* positionProp = [self positionPropertyForSelectedNode];
-        
         float xDelta = (int)(pos.x - mouseDownPos.x);
         float yDelta = (int)(pos.y - mouseDownPos.y);
         
-        CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
-        
-        // Swap axis for relative positions
-        int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:positionProp];
-        if (positionType == kCCBPositionTypeRelativeBottomRight)
+        for (CCNode* selectedNode in appDelegate.selectedNodes)
         {
-            xDelta = -xDelta;
-        }
-        else if (positionType == kCCBPositionTypeRelativeTopLeft)
-        {
-            yDelta = -yDelta;
-        }
-        else if (positionType == kCCBPositionTypeRelativeTopRight)
-        {
-            xDelta = -xDelta;
-            yDelta = -yDelta;
-        }
-        else if (positionType == kCCBPositionTypePercent)
-        {
-            // Handle percental positions
-            if (parentSize.width > 0)
+            CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+            
+            // Swap axis for relative positions
+            int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+            if (positionType == kCCBPositionTypeRelativeBottomRight)
             {
-                xDelta = (xDelta/parentSize.width)*100.0f;
+                xDelta = -xDelta;
             }
-            else
+            else if (positionType == kCCBPositionTypeRelativeTopLeft)
             {
-                xDelta = 0;
+                yDelta = -yDelta;
+            }
+            else if (positionType == kCCBPositionTypeRelativeTopRight)
+            {
+                xDelta = -xDelta;
+                yDelta = -yDelta;
+            }
+            else if (positionType == kCCBPositionTypePercent)
+            {
+                // Handle percental positions
+                if (parentSize.width > 0)
+                {
+                    xDelta = (xDelta/parentSize.width)*100.0f;
+                }
+                else
+                {
+                    xDelta = 0;
+                }
+                
+                if (parentSize.height > 0)
+                {
+                    yDelta = (yDelta/parentSize.height)*100.0f;
+                }
+                else
+                {
+                    yDelta = 0;
+                }
             }
             
-            if (parentSize.height > 0)
+            CGPoint newPos = ccp(selectedNode.transformStartPosition.x+xDelta, selectedNode.transformStartPosition.y+yDelta);
+            
+            // Snap to guides
+            
+            /*
+            if (appDelegate.showGuides && appDelegate.snapToGuides)
             {
-                yDelta = (yDelta/parentSize.height)*100.0f;
+                // Convert to absolute position (conversion need to happen in node space)
+                CGPoint newAbsPos = [selectedNode.parent convertToNodeSpace:newPos];
+                
+                newAbsPos = NSPointToCGPoint([PositionPropertySetter calcAbsolutePositionFromRelative:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
+                
+                newAbsPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
+                
+                // Perform snapping (snapping happens in world space)
+                newAbsPos = [guideLayer snapPoint:newAbsPos];
+                
+                // Convert back to relative (conversion need to happen in node space)
+                newAbsPos = [selectedNode.parent convertToNodeSpace:newAbsPos];
+                
+                newAbsPos = NSPointToCGPoint([PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
+                
+                newPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
             }
-            else
-            {
-                yDelta = 0;
-            }
+             */
+            
+        
+            CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
+        
+            NSLog(@"newLocalPos: (%f,%f)", newLocalPos.x, newLocalPos.y);
+            
+            [appDelegate saveUndoStateWillChangeProperty:@"position"];
+            [self setSelectedNodePos:newLocalPos];
         }
-        
-        CGPoint newPos = ccp(transformStartPosition.x+xDelta, transformStartPosition.y+yDelta);
-        
-        // Snap to guides
-        if (appDelegate.showGuides && appDelegate.snapToGuides)
-        {
-            // Convert to absolute position (conversion need to happen in node space)
-            CGPoint newAbsPos = [selectedNode.parent convertToNodeSpace:newPos];
-            
-            newAbsPos = NSPointToCGPoint([PositionPropertySetter calcAbsolutePositionFromRelative:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
-            
-            newAbsPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
-            
-            // Perform snapping (snapping happens in world space)
-            newAbsPos = [guideLayer snapPoint:newAbsPos];
-            
-            // Convert back to relative (conversion need to happen in node space)
-            newAbsPos = [selectedNode.parent convertToNodeSpace:newAbsPos];
-            
-            newAbsPos = NSPointToCGPoint([PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPos) type:positionType parentSize:parentSize]);
-            
-            newPos = [selectedNode.parent convertToWorldSpace:newAbsPos];
-        }
-        
-        CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
-        
-        [appDelegate saveUndoStateWillChangeProperty:positionProp];
-        [self setSelectedNodePos:newLocalPos];
-        [appDelegate refreshProperty:[self positionPropertyForSelectedNode]];
+        [appDelegate refreshProperty:@"position"];
     }
+/*
     else if (currentMouseTransform == kCCBTransformHandleScale)
     {
         float xDelta = pos.x - mouseDownPos.x;
@@ -763,7 +866,7 @@ static CocosScene* sharedCocosScene;
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
         [appDelegate refreshProperty:@"rotation"];
-    }
+    }*/
     else if (isPanning)
     {
         CGPoint delta = ccpSub(pos, mouseDownPos);
@@ -821,6 +924,36 @@ static CocosScene* sharedCocosScene;
     
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
+    
+    if (currentMouseTransform == kCCBTransformHandleDownInside)
+    {
+        CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
+        
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            // Add to/subtract from selection
+            NSMutableArray* modifiedSelection = [NSMutableArray arrayWithArray: appDelegate.selectedNodes];
+            
+            if ([modifiedSelection containsObject:clickedNode])
+            {
+                [modifiedSelection removeObject:clickedNode];
+            }
+            else
+            {
+                [modifiedSelection addObject:clickedNode];
+                //currentMouseTransform = kCCBTransformHandleMove;
+            }
+            appDelegate.selectedNodes = modifiedSelection;
+        }
+        else
+        {
+            // Replace selection
+            [appDelegate setSelectedNodes:[NSArray arrayWithObject:clickedNode]];
+            //currentMouseTransform = kCCBTransformHandleMove;
+        }
+        
+        currentMouseTransform = kCCBTransformHandleNone;
+    }
     
     if (currentMouseTransform != kCCBTransformHandleNone)
     {

@@ -724,4 +724,16 @@
     return NO;
 }
 
+- (CGPoint) transformStartPosition
+{
+    NodeInfo* info = self.userObject;
+    return info.transformStartPosition;
+}
+
+- (void) setTransformStartPosition:(CGPoint)transformStartPosition
+{
+    NodeInfo* info = self.userObject;
+    info.transformStartPosition= transformStartPosition;
+}
+
 @end

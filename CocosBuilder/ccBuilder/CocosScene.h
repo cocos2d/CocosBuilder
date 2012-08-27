@@ -46,6 +46,7 @@ enum {
 
 enum {
     kCCBTransformHandleNone = 0,
+    kCCBTransformHandleDownInside,
     kCCBTransformHandleMove,
     kCCBTransformHandleScale,
     kCCBTransformHandleRotate
@@ -84,7 +85,7 @@ enum {
     float transformStartRotation;
     float transformStartScaleX;
     float transformStartScaleY;
-    CGPoint transformStartPosition;
+    //CGPoint transformStartPosition;
     int currentMouseTransform;
     BOOL isMouseTransforming;
     BOOL isPanning;
