@@ -291,7 +291,6 @@ static SequencerHandler* sharedSequencerHandler;
 {
     appDelegate.selectedNode = [outlineHierarchy itemAtRow:[outlineHierarchy selectedRow]];
     [appDelegate updateInspectorFromSelection];
-    [[CocosScene cocosScene] setSelectedNode:appDelegate.selectedNode];
 }
 
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification
