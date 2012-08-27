@@ -67,7 +67,6 @@ enum {
     GuidesLayer* guideLayer;
     NotesLayer* notesLayer;
     CCNode* rootNode;
-    CCNode* selectedNode;
     CCRenderTexture* renderedScene;
     CocosBuilderAppDelegate* appDelegate;
     CGSize winSize;
@@ -103,8 +102,6 @@ enum {
     CCLayerColor* borderTop;
     CCLayerColor* borderLeft;
     CCLayerColor* borderRight;
-    //CCSprite* borderDeviceIPhone;
-    //CCSprite* borderDeviceIPad;
     CCSprite* borderDevice;
     
     int stageBorderType;
@@ -144,7 +141,6 @@ enum {
 
 - (void) replaceRootNodeWith:(CCNode*)node;
 
-- (void) setSelectedNode:(CCNode*) node;
 - (void) updateSelection;
 - (void) selectBehind;
 

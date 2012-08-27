@@ -111,8 +111,6 @@ static CocosScene* sharedCocosScene;
     [borderLayer addChild:borderLeft];
     [borderLayer addChild:borderRight];
     
-    //borderDeviceIPhone = [CCSprite spriteWithFile:@"frame-iphone.png"];
-    //borderDeviceIPad = [CCSprite spriteWithFile:@"frame-ipad.png"];
     borderDevice = [CCSprite node];
     [borderLayer addChild:borderDevice z:1];
     
@@ -309,20 +307,6 @@ static CocosScene* sharedCocosScene;
 
 #pragma mark Extra properties
 
-/*
-- (id) extraPropForKey:(NSString*)key andNode:(CCNode*) node
-{
-    NodeInfo* info = node.userObject;
-    return [info.extraProps objectForKey:key];
-}
-
-- (void) setExtraProp: (id)val forKey:(NSString*)key andNode:(CCNode*) node
-{
-    NodeInfo* info = node.userObject;
-    [info.extraProps setObject:val forKey:key];
-}
-*/
-
 - (void) setupExtraPropsForNode:(CCNode*) node
 {
     [node setExtraProp:[NSNumber numberWithInt:-1] forKey:@"tag"];
@@ -353,13 +337,10 @@ static CocosScene* sharedCocosScene;
 
 #pragma mark Handle selections
 
-- (void) setSelectedNode:(CCNode*) node
-{
-    selectedNode = node;
-}
-
 - (BOOL) selectedNodeHasReadOnlyProperty:(NSString*)prop
 {
+    CCNode* selectedNode = appDelegate.selectedNode;
+    
     if (!selectedNode) return NO;
     NodeInfo* info = selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
@@ -370,7 +351,7 @@ static CocosScene* sharedCocosScene;
 
 - (void) updateSelection
 {
-    CCNode* node = selectedNode;
+    CCNode* node = appDelegate.selectedNode;
     
     // Clear selection
     [selectionLayer removeAllChildrenWithCleanup:YES];
@@ -475,7 +456,7 @@ static CocosScene* sharedCocosScene;
         
         
         // Disable handles for root node
-        if (selectedNode == rootNode)
+        if (appDelegate.selectedNode == rootNode)
         {
             btnMove.opacity = 127;
             btnScale.opacity = 127;
@@ -517,7 +498,7 @@ static CocosScene* sharedCocosScene;
 
 - (NSString*) positionPropertyForSelectedNode
 {
-    NodeInfo* info = selectedNode.userObject;
+    NodeInfo* info = appDelegate.selectedNode.userObject;
     PlugInNode* plugIn = info.plugIn;
     
     return plugIn.positionProperty;
@@ -525,22 +506,22 @@ static CocosScene* sharedCocosScene;
 
 - (void) setSelectedNodePos:(CGPoint) pos
 {
-    if (!selectedNode) return;
+    if (!appDelegate.selectedNode) return;
     
     //[selectedNode setValue:[NSValue valueWithPoint:NSPointFromCGPoint(pos)] forKey:[self positionPropertyForSelectedNode]];
-    [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:selectedNode prop:[self positionPropertyForSelectedNode]];
+    [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:appDelegate.selectedNode prop:[self positionPropertyForSelectedNode]];
 }
 
 - (CGPoint) selectedNodePos
 {
-    if (!selectedNode) return CGPointZero;
+    if (!appDelegate.selectedNode) return CGPointZero;
     //return NSPointToCGPoint([[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue]);
-    return NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:[self positionPropertyForSelectedNode]]);
+    return NSPointToCGPoint([PositionPropertySetter positionForNode:appDelegate.selectedNode prop:[self positionPropertyForSelectedNode]]);
 }
 
 - (int) transformHandleUnderPt:(CGPoint)pt
 {
-    if (!selectedNode) return kCCBTransformHandleNone;
+    if (!appDelegate.selectedNode) return kCCBTransformHandleNone;
     
     if (CGRectContainsPoint(rectBtnMove, pt)) return kCCBTransformHandleMove;
     else if (CGRectContainsPoint(rectBtnScale, pt)) return kCCBTransformHandleScale;
@@ -608,6 +589,8 @@ static CocosScene* sharedCocosScene;
         return YES;
     }
     
+    CCNode* selectedNode = appDelegate.selectedNode;
+    
     // Check for clicked transform handles
     int th = [self transformHandleUnderPt:pos];
     if (th)
@@ -674,6 +657,8 @@ static CocosScene* sharedCocosScene;
     
     if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
+    
+    CCNode* selectedNode = appDelegate.selectedNode;
     
     if (currentMouseTransform == kCCBTransformHandleMove)
     {
@@ -782,6 +767,8 @@ static CocosScene* sharedCocosScene;
 
 - (void) updateAnimateablePropertyValue:(id)value propName:(NSString*)propertyName type:(int)type
 {
+    CCNode* selectedNode = appDelegate.selectedNode;
+    
     NodeInfo* nodeInfo = selectedNode.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     SequencerHandler* sh = [SequencerHandler sharedHandler];
@@ -821,6 +808,8 @@ static CocosScene* sharedCocosScene;
 - (BOOL) ccMouseUp:(NSEvent *)event
 {
     if (!appDelegate.hasOpenedDocument) return YES;
+    
+    CCNode* selectedNode = appDelegate.selectedNode;
     
     NSPoint posRaw = [event locationInWindow];
     CGPoint pos = NSPointToCGPoint([appDelegate.cocosView convertPoint:posRaw fromView:NULL]);
