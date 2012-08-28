@@ -851,9 +851,21 @@ static CocosScene* sharedCocosScene;
         CGPoint deltaStart = ccpSub(nodePos, mouseDownPos);
         CGPoint deltaNew = ccpSub(nodePos, pos);
         
+        // Rotate deltas
+        CGPoint anglePos0 = [transformScalingNode convertToWorldSpace:ccp(0,0)];
+        CGPoint anglePos1 = [transformScalingNode convertToWorldSpace:ccp(1,0)];
+        CGPoint angleVector = ccpSub(anglePos1, anglePos0);
+        
+        float angle = atan2f(angleVector.y, angleVector.x);
+        
+        deltaStart = ccpRotateByAngle(deltaStart, CGPointZero, -angle);
+        deltaNew = ccpRotateByAngle(deltaNew, CGPointZero, -angle);
+        
+        // Calculate new scale
         float xScaleNew = (deltaNew.x  * transformStartScaleX)/deltaStart.x;
         float yScaleNew = (deltaNew.y  * transformStartScaleY)/deltaStart.y;
         
+        // Set new scale
         [appDelegate saveUndoStateWillChangeProperty:@"scale"];
         
         int type = [PositionPropertySetter scaledFloatTypeForNode:transformScalingNode prop:@"scale"];
