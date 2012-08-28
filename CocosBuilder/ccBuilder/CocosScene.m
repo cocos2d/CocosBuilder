@@ -427,58 +427,6 @@ static CocosScene* sharedCocosScene;
             
             minCorner.x = (int)minCorner.x;
             minCorner.y = (int)minCorner.y;
-            
-            if (currentMouseTransform == kCCBTransformHandleNone ||
-                currentMouseTransform == kCCBTransformHandleMove)
-            {
-                rectBtnMove = CGRectMake(minCorner.x-8, minCorner.y-36, 28, 28);
-                rectBtnScale = CGRectMake(minCorner.x-8+28, minCorner.y-36, 28, 28);
-                rectBtnRotate = CGRectMake(minCorner.x-8+56, minCorner.y-36, 28, 28);
-            }
-        }
-        
-        // Move handle
-        CCSprite* btnMove;
-        if (currentMouseTransform == kCCBTransformHandleMove) btnMove = [CCSprite spriteWithFile:@"btn-move-hi.png"];
-        else btnMove = [CCSprite spriteWithFile:@"btn-move.png"];
-        
-        btnMove.position = rectBtnMove.origin;
-        btnMove.anchorPoint = ccp(0,0);
-        [selectionLayer addChild:btnMove z:1];
-        
-        // Scale handle
-        CCSprite* btnScale;
-        if (currentMouseTransform == kCCBTransformHandleScale) btnScale = [CCSprite spriteWithFile:@"btn-scale-hi.png"];
-        else btnScale = [CCSprite spriteWithFile:@"btn-scale.png"];
-        
-        btnScale.position = rectBtnScale.origin;
-        btnScale.anchorPoint = ccp(0,0);
-        [selectionLayer addChild:btnScale z:1];
-        if ([self selectedNodeHasReadOnlyProperty:@"scale"]) btnScale.opacity = 127;
-        
-        // Rotation handle
-        CCSprite* btnRotate;
-        if (currentMouseTransform == kCCBTransformHandleRotate) btnRotate = [CCSprite spriteWithFile:@"btn-rotate-hi.png"];
-        else btnRotate = [CCSprite spriteWithFile:@"btn-rotate.png"];
-        if ([self selectedNodeHasReadOnlyProperty:@"rotation"]) btnRotate.opacity = 127;
-        
-        btnRotate.position = rectBtnRotate.origin;
-        btnRotate.anchorPoint = ccp(0,0);
-        [selectionLayer addChild:btnRotate z:1];
-        
-        
-        // Disable handles for root node
-        if (appDelegate.selectedNode == rootNode)
-        {
-            btnMove.opacity = 127;
-            btnScale.opacity = 127;
-            btnRotate.opacity = 127;
-        }
-        else
-        {
-            btnMove.opacity = 255;
-            btnScale.opacity = 255;
-            btnRotate.opacity = 255;
         }
     }
 }

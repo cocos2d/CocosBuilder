@@ -74,10 +74,6 @@ enum {
     
     NSTrackingArea* trackingArea;
     
-    CGRect rectBtnMove;
-    CGRect rectBtnScale;
-    CGRect rectBtnRotate;
-    
     // Mouse handling
     BOOL mouseInside;
     CGPoint mousePos;
