@@ -632,10 +632,21 @@ static CocosScene* sharedCocosScene;
     int th = [self transformHandleUnderPt:pos];
     if (th == kCCBTransformHandleScale)
     {
-        currentMouseTransform = kCCBTransformHandleScale;
-        transformStartScaleX = [PositionPropertySetter scaleXForNode:transformScalingNode prop:@"scale"];
-        transformStartScaleY = [PositionPropertySetter scaleYForNode:transformScalingNode prop:@"scale"];
-        return YES;
+        if ([event modifierFlags] & NSAlternateKeyMask)
+        {
+            // Start rotation transform (instead of scale)
+            currentMouseTransform = kCCBTransformHandleRotate;
+            transformStartRotation = transformScalingNode.rotation;
+            return YES;
+        }
+        else
+        {
+            // Start scale transform
+            currentMouseTransform = kCCBTransformHandleScale;
+            transformStartScaleX = [PositionPropertySetter scaleXForNode:transformScalingNode prop:@"scale"];
+            transformStartScaleY = [PositionPropertySetter scaleYForNode:transformScalingNode prop:@"scale"];
+            return YES;
+        }
     }
     
     // Clicks inside objects
@@ -665,65 +676,6 @@ static CocosScene* sharedCocosScene;
     }
     
     return YES;
-    
-    /*
-    CCNode* selectedNode = appDelegate.selectedNode;
-    
-    // Check for clicked transform handles
-    int th = [self transformHandleUnderPt:pos];
-    if (th)
-    {
-        // Disable handles for root node
-        if (selectedNode == rootNode)
-        {
-            return YES;
-        }
-        
-        if (th == kCCBTransformHandleMove)
-        {
-            transformStartPosition = [selectedNode.parent convertToWorldSpace:[self selectedNodePos]];
-        }
-        else if (th == kCCBTransformHandleScale)
-        {
-            transformStartScaleX = [PositionPropertySetter scaleXForNode:selectedNode prop:@"scale"];
-            transformStartScaleY = [PositionPropertySetter scaleYForNode:selectedNode prop:@"scale"];
-        }
-        else if (th == kCCBTransformHandleRotate)
-        {
-            transformStartRotation = selectedNode.rotation;
-        }
-        
-        // Check for disabled properties
-        if (th == kCCBTransformHandleScale
-            && [self selectedNodeHasReadOnlyProperty:@"scale"])
-        {
-            th = kCCBTransformHandleNone;
-        }
-        else if (th == kCCBTransformHandleRotate
-                 && [self selectedNodeHasReadOnlyProperty:@"rotation"])
-        {
-            th = kCCBTransformHandleNone;
-        }
-        
-        currentMouseTransform = th;
-        
-        return YES;
-    }
-    
-    [nodesAtSelectionPt removeAllObjects];
-    [self nodesUnderPt:pos rootNode:rootNode nodes:nodesAtSelectionPt];
-    currentNodeAtSelectionPtIdx = (int)[nodesAtSelectionPt count] -1;
-    if (currentNodeAtSelectionPtIdx >= 0)
-    {
-        [appDelegate setSelectedNodes:[NSArray arrayWithObject:[nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx]]];
-    }
-    else
-    {
-        [appDelegate setSelectedNodes:NULL];
-    }
-    
-    return YES;
-    */
 }
 
 - (BOOL) ccMouseDragged:(NSEvent *)event
@@ -888,16 +840,25 @@ static CocosScene* sharedCocosScene;
         
         [appDelegate refreshProperty:@"scale"];
     }
-/*
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
-        float xDelta = pos.x - mouseDownPos.x;
-        float delta = (int)xDelta;
+        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.position];
+        
+        CGPoint handleAngleVectorStart = ccpSub(nodePos, mouseDownPos);
+        CGPoint handleAngleVectorNew = ccpSub(nodePos, pos);
+        
+        float handleAngleRadStart = atan2f(handleAngleVectorStart.y, handleAngleVectorStart.x);
+        float handleAngleRadNew = atan2f(handleAngleVectorNew.y, handleAngleVectorNew.x);
+        
+        float deltaRotationRad = handleAngleRadNew - handleAngleRadStart;
+        float deltaRotation = -(deltaRotationRad/(2*M_PI))*360;
+        
+        float newRotation = fmodf(transformStartRotation + deltaRotation, 360);
         
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
-        appDelegate.selectedNode.rotation = transformStartRotation + delta/4.0f;
+        appDelegate.selectedNode.rotation = newRotation;
         [appDelegate refreshProperty:@"rotation"];
-    }*/
+    }
     else if (isPanning)
     {
         CGPoint delta = ccpSub(pos, mouseDownPos);
