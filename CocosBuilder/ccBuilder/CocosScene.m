@@ -631,8 +631,6 @@ static CocosScene* sharedCocosScene;
     if ([notesLayer mouseDragged:pos event:event]) return YES;
     if ([guideLayer mouseDragged:pos event:event]) return YES;
     
-    //
-    
     if (currentMouseTransform == kCCBTransformHandleDownInside)
     {
         CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
@@ -729,10 +727,22 @@ static CocosScene* sharedCocosScene;
                 }
             }
             
+            // Handle shift key (straight drags)
+            if ([event modifierFlags] & NSShiftKeyMask)
+            {
+                if (fabs(xDelta) > fabs(yDelta))
+                {
+                    yDelta = 0;
+                }
+                else
+                {
+                    xDelta = 0;
+                }
+            }
+            
             CGPoint newPos = ccp(selectedNode.transformStartPosition.x+xDelta, selectedNode.transformStartPosition.y+yDelta);
             
             // Snap to guides
-            
             /*
             if (appDelegate.showGuides && appDelegate.snapToGuides)
             {
@@ -787,6 +797,20 @@ static CocosScene* sharedCocosScene;
         float xScaleNew = (deltaNew.x  * transformStartScaleX)/deltaStart.x;
         float yScaleNew = (deltaNew.y  * transformStartScaleY)/deltaStart.y;
         
+        // Handle shift key (uniform scale)
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            // Use the smallest scale composit
+            if (fabs(xScaleNew) < fabs(yScaleNew))
+            {
+                yScaleNew = xScaleNew;
+            }
+            else
+            {
+                xScaleNew = yScaleNew;
+            }
+        }
+        
         // Set new scale
         [appDelegate saveUndoStateWillChangeProperty:@"scale"];
         
@@ -814,6 +838,13 @@ static CocosScene* sharedCocosScene;
         }
         
         float newRotation = fmodf(transformStartRotation + deltaRotation, 360);
+        
+        // Handle shift key (fixed rotation angles)
+        if ([event modifierFlags] & NSShiftKeyMask)
+        {
+            float factor = 360.0f/16.0f;
+            newRotation = roundf(newRotation/factor)*factor;
+        }
         
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         transformScalingNode.rotation = newRotation;
