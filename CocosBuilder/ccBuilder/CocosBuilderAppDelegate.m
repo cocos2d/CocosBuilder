@@ -412,23 +412,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 #pragma mark Handling selections
 
-/*
-- (void) setSelectedNode:(CCNode*) selection
-{
-    // Close the color picker
-    [[NSColorPanel sharedColorPanel] close];
-    
-    if (![[self window] makeFirstResponder:[self window]])
-    {
-        return;
-    }
-    
-    selectedNode = selection;
-    [sequenceHandler updateOutlineViewSelection];
-    
-    if (currentDocument) currentDocument.lastEditedProperty = NULL;
-}
- */
 - (void) setSelectedNodes:(NSArray*) selection
 {
     // Close the color picker
@@ -442,10 +425,24 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     // Update selection
     [selectedNodes removeAllObjects];
-    if (selection)
+    if (selection && selection.count > 0)
     {
         [selectedNodes addObjectsFromArray:selection];
+        
+        // Make sure all nodes have the same parent
+        CCNode* lastNode = [selectedNodes objectAtIndex:selectedNodes.count-1];
+        CCNode* parent = lastNode.parent;
+        
+        for (int i = selectedNodes.count -1; i >= 0; i--)
+        {
+            CCNode* node = [selectedNodes objectAtIndex:i];
+            if (node.parent != parent)
+            {
+                [selectedNodes removeObjectAtIndex:i];
+            }
+        }
     }
+    
     [sequenceHandler updateOutlineViewSelection];
     
     // Handle undo/redo
