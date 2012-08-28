@@ -1753,8 +1753,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if ([sequenceHandler deleteSelectedKeyframesForCurrentSequence]) return;
     
     // Then delete the selected node
-    if (!self.selectedNode) return;
-    [self deleteNode:self.selectedNode];
+    NSArray* nodesToDelete = [NSArray arrayWithArray:self.selectedNodes];
+    for (CCNode* node in nodesToDelete)
+    {
+        [self deleteNode:node];
+    }
 }
 
 - (IBAction) cut:(id) sender
