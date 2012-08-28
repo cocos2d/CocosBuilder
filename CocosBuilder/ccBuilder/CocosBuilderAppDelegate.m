@@ -516,6 +516,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) refreshProperty:(NSString*) name
 {
+    if (!self.selectedNode) return;
+    
     InspectorValue* inspectorValue = [currentInspectorValues objectForKey:name];
     if (inspectorValue)
     {
@@ -1775,51 +1777,54 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) moveSelectedObjectWithDelta:(CGPoint)delta
 {
-    if (!self.selectedNode) return;
+    if (self.selectedNodes.count == 0) return;
     
-    [self saveUndoStateWillChangeProperty:@"position"];
-    
-    // Get and update absolute position
-    CGPoint absPos = self.selectedNode.position;
-    absPos = ccpAdd(absPos, delta);
-    
-    // Convert to relative position
-    CGSize parentSize = [PositionPropertySetter getParentSize:self.selectedNode];
-    int positionType = [PositionPropertySetter positionTypeForNode:self.selectedNode prop:@"position"];
-    NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
-    
-    // Update the selected node
-    [PositionPropertySetter setPosition:newPos forNode:self.selectedNode prop:@"position"];
-    [self refreshProperty:@"position"];
-    
-    // Update animated value
-    NSArray* animValue = [NSArray arrayWithObjects:
-                          [NSNumber numberWithFloat:newPos.x],
-                          [NSNumber numberWithFloat:newPos.y],
-                          NULL];
-    
-    NodeInfo* nodeInfo = self.selectedNode.userObject;
-    PlugInNode* plugIn = nodeInfo.plugIn;
-    
-    if ([plugIn isAnimatableProperty:@"position"])
+    for (CCNode* selectedNode in self.selectedNodes)
     {
-        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
-        int seqId = seq.sequenceId;
-        SequencerNodeProperty* seqNodeProp = [self.selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
+        [self saveUndoStateWillChangeProperty:@"position"];
         
-        if (seqNodeProp)
+        // Get and update absolute position
+        CGPoint absPos = selectedNode.position;
+        absPos = ccpAdd(absPos, delta);
+        
+        // Convert to relative position
+        CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
+        int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
+        NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+        
+        // Update the selected node
+        [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
+        [self refreshProperty:@"position"];
+        
+        // Update animated value
+        NSArray* animValue = [NSArray arrayWithObjects:
+                              [NSNumber numberWithFloat:newPos.x],
+                              [NSNumber numberWithFloat:newPos.y],
+                              NULL];
+        
+        NodeInfo* nodeInfo = selectedNode.userObject;
+        PlugInNode* plugIn = nodeInfo.plugIn;
+        
+        if ([plugIn isAnimatableProperty:@"position"])
         {
-            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
-            if (keyframe)
-            {
-                keyframe.value = animValue;
-            }
+            SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+            int seqId = seq.sequenceId;
+            SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
             
-            [[SequencerHandler sharedHandler] redrawTimeline];
-        }
-        else
-        {
-            [nodeInfo.baseValues setObject:animValue forKey:@"position"];
+            if (seqNodeProp)
+            {
+                SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+                if (keyframe)
+                {
+                    keyframe.value = animValue;
+                }
+                
+                [[SequencerHandler sharedHandler] redrawTimeline];
+            }
+            else
+            {
+                [nodeInfo.baseValues setObject:animValue forKey:@"position"];
+            }
         }
     }
 }
@@ -1828,7 +1833,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     int dir = (int)[sender tag];
     
-    if (!self.selectedNode) return;
+    if (self.selectedNodes.count == 0) return;
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-1, 0);
@@ -1843,7 +1848,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     int dir = (int)[sender tag];
     
-    if (!self.selectedNode) return;
+    if (self.selectedNodes.count == 0) return;
     
     CGPoint delta;
     if (dir == 0) delta = ccp(-10, 0);
