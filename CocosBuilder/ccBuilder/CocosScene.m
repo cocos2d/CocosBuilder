@@ -467,25 +467,14 @@ static CocosScene* sharedCocosScene;
 - (CGPoint) selectedNodePos
 {
     if (!appDelegate.selectedNode) return CGPointZero;
-    //return NSPointToCGPoint([[selectedNode valueForKey:[self positionPropertyForSelectedNode]] pointValue]);
+    
     return NSPointToCGPoint([PositionPropertySetter positionForNode:appDelegate.selectedNode prop:[self positionPropertyForSelectedNode]]);
 }
 
 - (int) transformHandleUnderPt:(CGPoint)pt
 {
-    /*
-    if (!appDelegate.selectedNode) return kCCBTransformHandleNone;
-     
-    if (CGRectContainsPoint(rectBtnMove, pt)) return kCCBTransformHandleMove;
-    else if (CGRectContainsPoint(rectBtnScale, pt)) return kCCBTransformHandleScale;
-    else if (CGRectContainsPoint(rectBtnRotate, pt)) return kCCBTransformHandleRotate;
-    else return kCCBTransformHandleNone;
-    */
-    
     for (CCNode* node in appDelegate.selectedNodes)
     {
-        //CCNode* parent = node.parent;
-        
         CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
         CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
         CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
@@ -583,7 +572,7 @@ static CocosScene* sharedCocosScene;
     
     // Transform handles
     int th = [self transformHandleUnderPt:pos];
-    if (th == kCCBTransformHandleScale)
+    if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
     {
         if ([event modifierFlags] & NSAlternateKeyMask)
         {
@@ -678,7 +667,10 @@ static CocosScene* sharedCocosScene;
             NSLog(@"transformStartPosition: (%f,%f)",selectedNode.transformStartPosition.x, selectedNode.transformStartPosition.y);
         }
     
-        currentMouseTransform = kCCBTransformHandleMove;
+        if (appDelegate.selectedNode != rootNode)
+        {
+            currentMouseTransform = kCCBTransformHandleMove;
+        }
     }
     
     if (currentMouseTransform == kCCBTransformHandleMove)
