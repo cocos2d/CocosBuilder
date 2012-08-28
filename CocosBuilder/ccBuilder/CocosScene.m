@@ -389,8 +389,23 @@ static CocosScene* sharedCocosScene;
                 float width = (int)ccpLength(ccpSub(br, bl));
                 float height = (int)ccpLength(ccpSub(tl, bl));
                 
+                // Check if selection is mirrored
+                // TODO: Can this be done more efficiently?
+                BOOL isMirroredX = NO;
+                BOOL isMirroredY = NO;
+                CCNode* nodeMirrorCheck = node;
+                while (nodeMirrorCheck != rootNode && nodeMirrorCheck != NULL)
+                {
+                    if (nodeMirrorCheck.scaleY < 0) isMirroredY = !isMirroredY;
+                    if (nodeMirrorCheck.scaleX < 0) isMirroredX = !isMirroredX;
+                    nodeMirrorCheck = nodeMirrorCheck.parent;
+                }
+                
+                CGPoint posRaw = bl;
+                if (isMirroredX ^ isMirroredY) posRaw = tl;
+                
                 // Round so it is always displayed sharply
-                CGPoint pos = ccpSub(bl, ccpRotateByAngle(ccp(kCCBSelectionOutset,kCCBSelectionOutset), CGPointZero, -angleRad));
+                CGPoint pos = ccpSub(posRaw, ccpRotateByAngle(ccp(kCCBSelectionOutset,kCCBSelectionOutset), CGPointZero, -angleRad));
                 
                 if (angle == 0)
                 {
@@ -874,18 +889,6 @@ static CocosScene* sharedCocosScene;
         [appDelegate refreshProperty:@"scale"];
     }
 /*
-    else if (currentMouseTransform == kCCBTransformHandleScale)
-    {
-        float xDelta = pos.x - mouseDownPos.x;
-        float delta = (int)xDelta;
-        
-        [appDelegate saveUndoStateWillChangeProperty:@"scale"];
-        
-        int type = [PositionPropertySetter scaledFloatTypeForNode:selectedNode prop:@"scale"];
-        [PositionPropertySetter setScaledX:transformStartScaleX + delta/100.0f Y:transformStartScaleY + delta/100.0f type:type forNode:selectedNode prop:@"scale"];
-        
-        [appDelegate refreshProperty:@"scale"];
-    }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
         float xDelta = pos.x - mouseDownPos.x;
