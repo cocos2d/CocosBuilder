@@ -82,6 +82,7 @@
 #import "CustomPropSettingsWindow.h"
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
+#import "InspectorSeparator.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -525,12 +526,18 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     }
 }
 
+
+static InspectorValue* lastInspectorValue;
+static BOOL hideAllToNextSeparator;
+
 - (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps atOffset:(int)offset
 {
     NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
     
     // Create inspector
     InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:self.selectedNode andPropertyName:prop andDisplayName:displayName andExtra:e];
+    lastInspectorValue.inspectorValueBelow = inspectorValue;
+    lastInspectorValue = inspectorValue;
     inspectorValue.readOnly = readOnly;
     
     // Save a reference in case it needs to be updated
@@ -550,13 +557,33 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [inspectorValue willBeAdded];
     
+    //if its a separator, check to see if it isExpanded, if not set all of the next non-separator InspectorValues to hidden and don't touch the offset
+    if ([inspectorValue isKindOfClass:[InspectorSeparator class]]) {
+        InspectorSeparator* inspectorSeparator = (InspectorSeparator*)inspectorValue;
+        hideAllToNextSeparator = NO;
+        if (!inspectorSeparator.isExpanded) {
+            hideAllToNextSeparator = YES;
+        }
+        NSRect frame = [view frame];
+        [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
+        offset += frame.size.height;
+    }
+    else {
+        if (hideAllToNextSeparator) {
+            [view setHidden:YES];
+        }
+        else {
+            NSRect frame = [view frame];
+            [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
+            offset += frame.size.height;
+        }
+    }
+    
     // Add view to inspector and place it at the bottom
     [inspectorDocumentView addSubview:view];
     [view setAutoresizingMask:NSViewWidthSizable];
     
-    NSRect frame = [view frame];
-    [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
-    offset += frame.size.height;
+
     
     return offset;
 }
@@ -639,6 +666,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                 readOnly = YES;
             }
             
+            //For the separators; should make this a part of the definition
+            if (name == NULL) {
+                name = displayName;
+            }
+            
             paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
         }
     }
@@ -654,7 +686,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         if ([customProps count] || !isCCBSubFile)
         {
-            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:NULL displayName:[self.selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:[self.selectedNode extraPropForKey:@"customClass"] displayName:[self.selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
         }
         
         for (CustomPropSetting* setting in customProps)
@@ -667,6 +699,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
         }
     }
+    
+    hideAllToNextSeparator = NO;
     
     /*
     // Custom properties from sub ccb

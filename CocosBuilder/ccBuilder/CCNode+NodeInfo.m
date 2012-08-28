@@ -47,6 +47,12 @@
     [info.extraProps setObject:prop forKey:key];
 }
 
+- (void)removeExtraPropForKey:(NSString*)key
+{
+    NodeInfo* info = self.userObject;
+    [info.extraProps removeObjectForKey:key];
+}
+
 - (id) extraPropForKey:(NSString *)key
 {
     NodeInfo* info = self.userObject;
