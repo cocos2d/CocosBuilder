@@ -637,6 +637,15 @@ static CocosScene* sharedCocosScene;
     {
         CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
         
+        BOOL selectedNodeUnderClickPt = NO;
+        for (CCNode* selectedNode in appDelegate.selectedNodes)
+        {
+            if ([nodesAtSelectionPt containsObject:selectedNode])
+            {
+                selectedNodeUnderClickPt = YES;
+                break;
+            }
+        }
         
         if ([event modifierFlags] & NSShiftKeyMask)
         {
@@ -649,7 +658,8 @@ static CocosScene* sharedCocosScene;
             }
             appDelegate.selectedNodes = modifiedSelection;
         }
-        else if (![appDelegate.selectedNodes containsObject:clickedNode])
+        else if (![appDelegate.selectedNodes containsObject:clickedNode]
+                 && ! selectedNodeUnderClickPt)
         {
             // Replace selection
             appDelegate.selectedNodes = [NSArray arrayWithObject:clickedNode];
