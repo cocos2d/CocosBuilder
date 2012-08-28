@@ -24,6 +24,11 @@
 
 #import "InspectorValue.h"
 
-@interface InspectorSeparator : InspectorValue
+@interface InspectorSeparator : InspectorValue {
+    NSButton *disclosureButton;
+}
+
+@property(assign, nonatomic) BOOL isExpanded;
+@property (assign) IBOutlet NSButton *disclosureButton;
 
 @end

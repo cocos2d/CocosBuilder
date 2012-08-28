@@ -38,6 +38,7 @@
 
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;
+- (void)removeExtraPropForKey:(NSString*)key;
 
 - (id) baseValueForProperty:(NSString*)name;
 - (void) setBaseValue:(id)value forProperty:(NSString*)name;
