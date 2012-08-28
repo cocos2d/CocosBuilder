@@ -521,12 +521,33 @@ static CocosScene* sharedCocosScene;
 
 - (int) transformHandleUnderPt:(CGPoint)pt
 {
+    /*
     if (!appDelegate.selectedNode) return kCCBTransformHandleNone;
-    
+     
     if (CGRectContainsPoint(rectBtnMove, pt)) return kCCBTransformHandleMove;
     else if (CGRectContainsPoint(rectBtnScale, pt)) return kCCBTransformHandleScale;
     else if (CGRectContainsPoint(rectBtnRotate, pt)) return kCCBTransformHandleRotate;
     else return kCCBTransformHandleNone;
+    */
+    
+    for (CCNode* node in appDelegate.selectedNodes)
+    {
+        //CCNode* parent = node.parent;
+        
+        CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
+        CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
+        CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
+        CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
+        
+        transformScalingNode = node;
+        if (ccpDistance(pt, bl) < 5) return kCCBTransformHandleScale;
+        if (ccpDistance(pt, br) < 5) return kCCBTransformHandleScale;
+        if (ccpDistance(pt, tl) < 5) return kCCBTransformHandleScale;
+        if (ccpDistance(pt, tr) < 5) return kCCBTransformHandleScale;
+    }
+    
+    transformScalingNode = NULL;
+    return kCCBTransformHandleNone;
 }
 
 - (void) nodesUnderPt:(CGPoint)pt rootNode:(CCNode*) node nodes:(NSMutableArray*)nodes
@@ -592,6 +613,17 @@ static CocosScene* sharedCocosScene;
     
     // Find out which objects were clicked
     
+    // Transform handles
+    int th = [self transformHandleUnderPt:pos];
+    if (th == kCCBTransformHandleScale)
+    {
+        currentMouseTransform = kCCBTransformHandleScale;
+        transformStartScaleX = [PositionPropertySetter scaleXForNode:transformScalingNode prop:@"scale"];
+        transformStartScaleY = [PositionPropertySetter scaleYForNode:transformScalingNode prop:@"scale"];
+        return YES;
+    }
+    
+    // Clicks inside objects
     [nodesAtSelectionPt removeAllObjects];
     [self nodesUnderPt:pos rootNode:rootNode nodes:nodesAtSelectionPt];
     currentNodeAtSelectionPtIdx = (int)[nodesAtSelectionPt count] -1;
@@ -601,31 +633,6 @@ static CocosScene* sharedCocosScene;
     if (currentNodeAtSelectionPtIdx >= 0)
     {
         currentMouseTransform = kCCBTransformHandleDownInside;
-        /*
-        CCNode* clickedNode = [nodesAtSelectionPt objectAtIndex:currentNodeAtSelectionPtIdx];
-        
-        if ([event modifierFlags] & NSShiftKeyMask)
-        {
-            // Add to/subtract from selection
-            NSMutableArray* modifiedSelection = [NSMutableArray arrayWithArray: appDelegate.selectedNodes];
-            
-            if ([modifiedSelection containsObject:clickedNode])
-            {
-                [modifiedSelection removeObject:clickedNode];
-            }
-            else
-            {
-                [modifiedSelection addObject:clickedNode];
-                //currentMouseTransform = kCCBTransformHandleMove;
-            }
-            appDelegate.selectedNodes = modifiedSelection;
-        }
-        else
-        {
-            // Replace selection
-            [appDelegate setSelectedNodes:[NSArray arrayWithObject:clickedNode]];
-            //currentMouseTransform = kCCBTransformHandleMove;
-        }*/
     }
     else
     {
@@ -836,6 +843,23 @@ static CocosScene* sharedCocosScene;
             [PositionPropertySetter setPosition:NSPointFromCGPoint(newLocalPos) forNode:selectedNode prop:@"position"];
         }
         [appDelegate refreshProperty:@"position"];
+    }
+    else if (currentMouseTransform == kCCBTransformHandleScale)
+    {
+        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.position];
+        
+        CGPoint deltaStart = ccpSub(nodePos, mouseDownPos);
+        CGPoint deltaNew = ccpSub(nodePos, pos);
+        
+        float xScaleNew = (deltaNew.x  * transformStartScaleX)/deltaStart.x;
+        float yScaleNew = (deltaNew.y  * transformStartScaleY)/deltaStart.y;
+        
+        [appDelegate saveUndoStateWillChangeProperty:@"scale"];
+        
+        int type = [PositionPropertySetter scaledFloatTypeForNode:transformScalingNode prop:@"scale"];
+        [PositionPropertySetter setScaledX:xScaleNew Y:yScaleNew type:type forNode:transformScalingNode prop:@"scale"];
+        
+        [appDelegate refreshProperty:@"scale"];
     }
 /*
     else if (currentMouseTransform == kCCBTransformHandleScale)

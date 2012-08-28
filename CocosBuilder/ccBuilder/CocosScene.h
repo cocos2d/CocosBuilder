@@ -85,6 +85,7 @@ enum {
     float transformStartRotation;
     float transformStartScaleX;
     float transformStartScaleY;
+    CCNode* transformScalingNode;
     //CGPoint transformStartPosition;
     int currentMouseTransform;
     BOOL isMouseTransforming;
