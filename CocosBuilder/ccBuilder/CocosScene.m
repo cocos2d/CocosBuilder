@@ -390,19 +390,8 @@ static CocosScene* sharedCocosScene;
                 float height = (int)ccpLength(ccpSub(tl, bl));
                 
                 // Check if selection is mirrored
-                // TODO: Can this be done more efficiently?
-                BOOL isMirroredX = NO;
-                BOOL isMirroredY = NO;
-                CCNode* nodeMirrorCheck = node;
-                while (nodeMirrorCheck != rootNode && nodeMirrorCheck != NULL)
-                {
-                    if (nodeMirrorCheck.scaleY < 0) isMirroredY = !isMirroredY;
-                    if (nodeMirrorCheck.scaleX < 0) isMirroredX = !isMirroredX;
-                    nodeMirrorCheck = nodeMirrorCheck.parent;
-                }
-                
                 CGPoint posRaw = bl;
-                if (isMirroredX ^ isMirroredY) posRaw = tl;
+                if ([self isLocalCoordinateSystemFlipped:node]) posRaw = tl;
                 
                 // Round so it is always displayed sharply
                 CGPoint pos = ccpSub(posRaw, ccpRotateByAngle(ccp(kCCBSelectionOutset,kCCBSelectionOutset), CGPointZero, -angleRad));
@@ -603,6 +592,22 @@ static CocosScene* sharedCocosScene;
         [self nodesUnderPt:pt rootNode:[node.children objectAtIndex:i] nodes:nodes];
     }
     
+}
+
+- (BOOL) isLocalCoordinateSystemFlipped:(CCNode*)node
+{
+    // TODO: Can this be done more efficiently?
+    BOOL isMirroredX = NO;
+    BOOL isMirroredY = NO;
+    CCNode* nodeMirrorCheck = node;
+    while (nodeMirrorCheck != rootNode && nodeMirrorCheck != NULL)
+    {
+        if (nodeMirrorCheck.scaleY < 0) isMirroredY = !isMirroredY;
+        if (nodeMirrorCheck.scaleX < 0) isMirroredX = !isMirroredX;
+        nodeMirrorCheck = nodeMirrorCheck.parent;
+    }
+    
+    return (isMirroredX ^ isMirroredY);
 }
 
 - (BOOL) ccMouseDown:(NSEvent *)event
@@ -853,10 +858,15 @@ static CocosScene* sharedCocosScene;
         float deltaRotationRad = handleAngleRadNew - handleAngleRadStart;
         float deltaRotation = -(deltaRotationRad/(2*M_PI))*360;
         
+        if ([self isLocalCoordinateSystemFlipped:transformScalingNode.parent])
+        {
+            deltaRotation = -deltaRotation;
+        }
+        
         float newRotation = fmodf(transformStartRotation + deltaRotation, 360);
         
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
-        appDelegate.selectedNode.rotation = newRotation;
+        transformScalingNode.rotation = newRotation;
         [appDelegate refreshProperty:@"rotation"];
     }
     else if (isPanning)
