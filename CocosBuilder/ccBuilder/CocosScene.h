@@ -49,7 +49,8 @@ enum {
     kCCBTransformHandleDownInside,
     kCCBTransformHandleMove,
     kCCBTransformHandleScale,
-    kCCBTransformHandleRotate
+    kCCBTransformHandleRotate,
+    kCCBTransformHandleAnchorPoint,
 };
 
 enum {

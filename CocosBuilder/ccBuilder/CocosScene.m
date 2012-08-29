@@ -46,6 +46,9 @@
 #import "CCScale9Sprite.h"
 
 #define kCCBSelectionOutset 3
+#define kCCBSinglePointSelectionRadius 23
+#define kCCBAnchorPointRadius 6
+#define kCCBTransformHandleRadius 5
 
 static CocosScene* sharedCocosScene;
 
@@ -371,7 +374,7 @@ static CocosScene* sharedCocosScene;
             selmarkCenter.position = center;
             [selectionLayer addChild:selmarkCenter z:1];
             
-            CGPoint minCorner = center;
+            //CGPoint minCorner = center;
             
             if (node.contentSize.width > 0 && node.contentSize.height > 0)
             {
@@ -383,7 +386,7 @@ static CocosScene* sharedCocosScene;
                 CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
                 CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
                 CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
-                CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
+                //CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
                 
                 // Width & height of selection
                 float width = (int)ccpLength(ccpSub(br, bl));
@@ -409,6 +412,7 @@ static CocosScene* sharedCocosScene;
                 sel.preferedSize = CGSizeMake(width + kCCBSelectionOutset * 2, height + kCCBSelectionOutset * 2);
                 [selectionLayer addChild:sel];
                 
+                /*
                 minCorner.x = MIN(minCorner.x, bl.x);
                 minCorner.x = MIN(minCorner.x, br.x);
                 minCorner.x = MIN(minCorner.x, tl.x);
@@ -418,8 +422,19 @@ static CocosScene* sharedCocosScene;
                 minCorner.y = MIN(minCorner.y, br.y);
                 minCorner.y = MIN(minCorner.y, tl.y);
                 minCorner.y = MIN(minCorner.y, tr.y);
+                 */
+            }
+            else
+            {
+                CGPoint pos = [node convertToWorldSpace: ccp(0,0)];
+                
+                CCSprite* sel = [CCSprite spriteWithFile:@"sel-round.png"];
+                sel.anchorPoint = ccp(0.5f, 00.5f);
+                sel.position = pos;
+                [selectionLayer addChild:sel];
             }
             
+            /*
             if (minCorner.x < 10+15) minCorner.x = 10+15;
             if (minCorner.y < 36+15) minCorner.y = 36+15;
             if (minCorner.x > self.contentSize.width - 28*3+6) minCorner.x = self.contentSize.width - 28*3+6;
@@ -427,6 +442,7 @@ static CocosScene* sharedCocosScene;
             
             minCorner.x = (int)minCorner.x;
             minCorner.y = (int)minCorner.y;
+             */
         }
     }
 }
@@ -475,16 +491,35 @@ static CocosScene* sharedCocosScene;
 {
     for (CCNode* node in appDelegate.selectedNodes)
     {
-        CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
-        CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
-        CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
-        CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
+        CGPoint center = [node.parent convertToWorldSpace: node.position];
+        if (ccpDistance(pt, center) < kCCBAnchorPointRadius) return kCCBTransformHandleAnchorPoint;
         
-        transformScalingNode = node;
-        if (ccpDistance(pt, bl) < 5) return kCCBTransformHandleScale;
-        if (ccpDistance(pt, br) < 5) return kCCBTransformHandleScale;
-        if (ccpDistance(pt, tl) < 5) return kCCBTransformHandleScale;
-        if (ccpDistance(pt, tr) < 5) return kCCBTransformHandleScale;
+        if (node.contentSize.width == 0 || node.contentSize.height == 0)
+        {
+            CGPoint l = ccpAdd(center, ccp(kCCBSinglePointSelectionRadius, 0));
+            CGPoint r = ccpAdd(center, ccp(-kCCBSinglePointSelectionRadius, 0));
+            CGPoint t = ccpAdd(center, ccp(0, kCCBSinglePointSelectionRadius));
+            CGPoint b = ccpAdd(center, ccp(0, -kCCBSinglePointSelectionRadius));
+            
+            transformScalingNode = node;
+            if (ccpDistance(pt, l) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, r) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, t) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, b) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+        }
+        else
+        {
+            CGPoint bl = [node convertToWorldSpace: ccp(0,0)];
+            CGPoint br = [node convertToWorldSpace: ccp(node.contentSize.width,0)];
+            CGPoint tl = [node convertToWorldSpace: ccp(0,node.contentSize.height)];
+            CGPoint tr = [node convertToWorldSpace: ccp(node.contentSize.width,node.contentSize.height)];
+            
+            transformScalingNode = node;
+            if (ccpDistance(pt, bl) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, br) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, tl) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, tr) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+        }
     }
     
     transformScalingNode = NULL;
@@ -497,30 +532,27 @@ static CocosScene* sharedCocosScene;
     
     NodeInfo* parentInfo = node.parent.userObject;
     PlugInNode* parentPlugIn = parentInfo.plugIn;
-    
     if (parentPlugIn && !parentPlugIn.canHaveChildren) return;
     
-    CGRect hitRect = [node boundingBox];
-    
-    // Extend the hit area if it's too small
-    if (node.contentSize.width < 10)
+    if (node.contentSize.width == 0 || node.contentSize.height == 0)
     {
-        hitRect.origin.x -= 5;
-        hitRect.size.width += 10;
+        CGPoint worldPos = [node.parent convertToWorldSpace:node.position];
+        if (ccpDistance(worldPos, pt) < kCCBSinglePointSelectionRadius)
+        {
+            [nodes addObject:node];
+        }
     }
-    
-    if (node.contentSize.height < 10)
+    else
     {
-        hitRect.origin.y -= 5;
-        hitRect.size.height += 10;
-    }
-    
-    CCNode* parent = node.parent;
-    CGPoint ptLocal = [parent convertToNodeSpace:pt];
-    
-    if (CGRectContainsPoint(hitRect, ptLocal))
-    {
-        [nodes addObject:node];
+        CGRect hitRect = [node boundingBox];
+        
+        CCNode* parent = node.parent;
+        CGPoint ptLocal = [parent convertToNodeSpace:pt];
+        
+        if (CGRectContainsPoint(hitRect, ptLocal))
+        {
+            [nodes addObject:node];
+        }
     }
     
     // Visit children
@@ -528,7 +560,6 @@ static CocosScene* sharedCocosScene;
     {
         [self nodesUnderPt:pt rootNode:[node.children objectAtIndex:i] nodes:nodes];
     }
-    
 }
 
 - (BOOL) isLocalCoordinateSystemFlipped:(CCNode*)node
@@ -572,6 +603,13 @@ static CocosScene* sharedCocosScene;
     
     // Transform handles
     int th = [self transformHandleUnderPt:pos];
+    BOOL transformedNodeZeroSize = (transformScalingNode.contentSize.width == 0 || transformScalingNode.contentSize.height == 0);
+    
+    if (th == kCCBTransformHandleAnchorPoint && !transformedNodeZeroSize)
+    {
+        // Move anchor point
+        return YES;
+    }
     if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
     {
         if ([event modifierFlags] & NSAlternateKeyMask)
