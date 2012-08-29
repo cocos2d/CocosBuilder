@@ -38,6 +38,12 @@
 
 - (void)setIsExpanded:(BOOL)isExpanded
 {
+    // Finish editing
+    if (![[view window] makeFirstResponder:[view window]])
+    {
+        return;
+    }
+    
     if (isExpanded) {
         [self.inspectorValueBelow showAllToNextSeparatorWithAbove:self];
     }
