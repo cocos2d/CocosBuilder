@@ -875,7 +875,7 @@
         
         CCNode* embeddedNode = ccbFileNode.ccbFile;
         embeddedNode.position = ccbFileNode.position;
-        embeddedNode.anchorPoint = ccbFileNode.anchorPoint;
+        //embeddedNode.anchorPoint = ccbFileNode.anchorPoint;
         embeddedNode.rotation = ccbFileNode.rotation;
         embeddedNode.scale = ccbFileNode.scale;
         embeddedNode.tag = ccbFileNode.tag;
