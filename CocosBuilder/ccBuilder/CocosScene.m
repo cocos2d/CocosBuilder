@@ -498,15 +498,15 @@ static CocosScene* sharedCocosScene;
         
         if (node.contentSize.width == 0 || node.contentSize.height == 0)
         {
-            CGPoint l = ccpAdd(center, ccp(kCCBSinglePointSelectionRadius, 0));
-            CGPoint r = ccpAdd(center, ccp(-kCCBSinglePointSelectionRadius, 0));
-            CGPoint t = ccpAdd(center, ccp(0, kCCBSinglePointSelectionRadius));
-            CGPoint b = ccpAdd(center, ccp(0, -kCCBSinglePointSelectionRadius));
+            CGPoint bl = ccpAdd(center, ccp(-18, -18));
+            CGPoint br = ccpAdd(center, ccp(18, -18));
+            CGPoint tl = ccpAdd(center, ccp(-18, 18));
+            CGPoint tr = ccpAdd(center, ccp(18, 18));
             
-            if (ccpDistance(pt, l) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
-            if (ccpDistance(pt, r) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
-            if (ccpDistance(pt, t) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
-            if (ccpDistance(pt, b) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, bl) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, br) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, tl) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
+            if (ccpDistance(pt, tr) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
         }
         else
         {
