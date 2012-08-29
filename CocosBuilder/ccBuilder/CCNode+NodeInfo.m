@@ -720,7 +720,6 @@
     if (self != [CocosScene cocosScene].rootNode) return NO;
     
     if ([prop isEqualToString:@"position"]) return YES;
-    else if ([prop isEqualToString:@"anchorPoint"]) return YES;
     else if ([prop isEqualToString:@"scale"]) return YES;
     else if ([prop isEqualToString:@"rotation"]) return YES;
     else if ([prop isEqualToString:@"tag"]) return YES;

@@ -902,7 +902,9 @@ static CocosScene* sharedCocosScene;
         CGPoint deltaLocal = ccpSub(localPos, localDownPos);
         CGPoint deltaAnchorPoint = ccp(deltaLocal.x / transformScalingNode.contentSize.width, deltaLocal.y / transformScalingNode.contentSize.height);
         
+        [appDelegate saveUndoStateWillChangeProperty:@"anchorPoint"];
         transformScalingNode.anchorPoint = ccpAdd(transformScalingNode.transformStartPosition, deltaAnchorPoint);
+        [appDelegate refreshProperty:@"anchorPoint"];
     }
     else if (isPanning)
     {
