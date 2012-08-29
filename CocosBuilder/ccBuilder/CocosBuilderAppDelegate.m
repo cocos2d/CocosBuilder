@@ -1828,8 +1828,12 @@ static BOOL hideAllToNextSeparator;
         
         // Update the selected node
         [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-        [self refreshProperty:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:selectedNode];
         
+        [self refreshProperty:@"position"];
+        //[PositionPropertySetter 
+        
+        /*
         // Update animated value
         NSArray* animValue = [NSArray arrayWithObjects:
                               [NSNumber numberWithFloat:newPos.x],
@@ -1860,6 +1864,7 @@ static BOOL hideAllToNextSeparator;
                 [nodeInfo.baseValues setObject:animValue forKey:@"position"];
             }
         }
+         */
     }
 }
 
@@ -2456,30 +2461,66 @@ static BOOL hideAllToNextSeparator;
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
-- (IBAction) menuAlignChildrenToPixels:(id)sender
+- (IBAction) menuAlignToPixels:(id)sender
 {
     if (!currentDocument) return;
-    if (!self.selectedNode) return;
+    if (self.selectedNodes.count == 0) return;
     
     // Check if node can have children
-    NodeInfo* info = self.selectedNode.userObject;
-    PlugInNode* plugIn = info.plugIn;
-    if (!plugIn.canHaveChildren) return;
-    
-    CCArray* children = [self.selectedNode children];
-    if ([children count] == 0) return;
-    
-    for (int i = 0; i < [children count]; i++)
+    for (CCNode* c in self.selectedNodes)
     {
-        CCNode* c = [children objectAtIndex:i];
-        
         int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
         if (positionType != kCCBPositionTypePercent)
         {
             CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
             pos = ccp(roundf(pos.x), roundf(pos.y));
             [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
+            [PositionPropertySetter addPositionKeyframeForNode:c];
         }
+    }
+    
+    [self refreshProperty:@"position"];
+}
+
+- (IBAction) menuAlignObjects:(id)sender
+{
+    if (!currentDocument) return;
+    if (self.selectedNodes.count <= 1) return;
+    
+    int alignmentType = [sender tag];
+    
+    // Find position
+    float alignmentValue = 0;
+    for (CCNode* node in self.selectedNodes)
+    {
+        if (alignmentType == kCCBAlignHorizontalCenter)
+        {
+            alignmentValue += node.position.x;
+        }
+        else if (alignmentType == kCCBAlignVerticalCenter)
+        {
+            alignmentValue += node.position.y;
+        }
+    }
+    alignmentValue = alignmentValue/self.selectedNodes.count;
+    
+    // Align objects
+    for (CCNode* node in self.selectedNodes)
+    {
+        CGPoint newAbsPosition = node.position;
+        if (alignmentType == kCCBAlignHorizontalCenter)
+        {
+            newAbsPosition.x = alignmentValue;
+        }
+        else if (alignmentType == kCCBAlignVerticalCenter)
+        {
+            newAbsPosition.y = alignmentValue;
+        }
+        
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"position"];
+        NSPoint newRelPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPosition) type:posType parentSize:node.parent.contentSize];
+        [PositionPropertySetter setPosition:newRelPos forNode:node prop:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
     }
 }
 
