@@ -1001,7 +1001,7 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="298260607">
+								<object class="NSMenuItem" id="898611457">
 									<reference key="NSMenu" ref="300359301"/>
 									<string key="NSTitle">Align</string>
 									<string key="NSKeyEquiv"/>
@@ -1009,20 +1009,20 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">submenuAction:</string>
-									<object class="NSMenu" key="NSSubmenu" id="211885851">
+									<object class="NSMenu" key="NSSubmenu" id="416082837">
 										<string key="NSTitle">Align</string>
 										<object class="NSMutableArray" key="NSMenuItems">
 											<bool key="EncodedWithXMLCoder">YES</bool>
-											<object class="NSMenuItem" id="573044074">
-												<reference key="NSMenu" ref="211885851"/>
+											<object class="NSMenuItem" id="4868565">
+												<reference key="NSMenu" ref="416082837"/>
 												<string key="NSTitle">Horizontal Align</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="961861975">
-												<reference key="NSMenu" ref="211885851"/>
+											<object class="NSMenuItem" id="542840758">
+												<reference key="NSMenu" ref="416082837"/>
 												<string key="NSTitle">Vertical Align</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
@@ -1030,8 +1030,18 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">1</int>
 											</object>
+											<object class="NSMenuItem" id="947061520">
+												<reference key="NSMenu" ref="416082837"/>
+												<bool key="NSIsDisabled">YES</bool>
+												<bool key="NSIsSeparator">YES</bool>
+												<string key="NSTitle"/>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="35465992"/>
+												<reference key="NSMixedImage" ref="502551668"/>
+											</object>
 											<object class="NSMenuItem" id="4121080">
-												<reference key="NSMenu" ref="211885851"/>
+												<reference key="NSMenu" ref="416082837"/>
 												<string key="NSTitle">Align to Pixels</string>
 												<string key="NSKeyEquiv">p</string>
 												<int key="NSKeyEquivModMask">1572864</int>
@@ -4580,7 +4590,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAlignObjects:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="961861975"/>
+						<reference key="destination" ref="542840758"/>
 					</object>
 					<int key="connectionID">1760</int>
 				</object>
@@ -4588,7 +4598,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">menuAlignObjects:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="573044074"/>
+						<reference key="destination" ref="4868565"/>
 					</object>
 					<int key="connectionID">1761</int>
 				</object>
@@ -5632,7 +5642,7 @@
 							<reference ref="39974634"/>
 							<reference ref="386557722"/>
 							<reference ref="114639420"/>
-							<reference ref="298260607"/>
+							<reference ref="898611457"/>
 						</object>
 						<reference key="parent" ref="330765285"/>
 					</object>
@@ -6986,38 +6996,44 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1756</int>
-						<reference key="object" ref="298260607"/>
+						<reference key="object" ref="898611457"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="211885851"/>
+							<reference ref="416082837"/>
 						</object>
 						<reference key="parent" ref="300359301"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1757</int>
-						<reference key="object" ref="211885851"/>
+						<reference key="object" ref="416082837"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="573044074"/>
+							<reference ref="4868565"/>
 							<reference ref="4121080"/>
-							<reference ref="961861975"/>
+							<reference ref="542840758"/>
+							<reference ref="947061520"/>
 						</object>
-						<reference key="parent" ref="298260607"/>
+						<reference key="parent" ref="898611457"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1758</int>
-						<reference key="object" ref="573044074"/>
-						<reference key="parent" ref="211885851"/>
+						<reference key="object" ref="4868565"/>
+						<reference key="parent" ref="416082837"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1367</int>
 						<reference key="object" ref="4121080"/>
-						<reference key="parent" ref="211885851"/>
+						<reference key="parent" ref="416082837"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1759</int>
-						<reference key="object" ref="961861975"/>
-						<reference key="parent" ref="211885851"/>
+						<reference key="object" ref="542840758"/>
+						<reference key="parent" ref="416082837"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1763</int>
+						<reference key="object" ref="947061520"/>
+						<reference key="parent" ref="416082837"/>
 					</object>
 				</object>
 			</object>
@@ -7256,6 +7272,7 @@
 					<string>1757.IBPluginDependency</string>
 					<string>1758.IBPluginDependency</string>
 					<string>1759.IBPluginDependency</string>
+					<string>1763.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>195.IBPluginDependency</string>
 					<string>196.IBPluginDependency</string>
@@ -7619,6 +7636,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7682,7 +7700,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1762</int>
+			<int key="maxID">1763</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7747,7 +7765,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>debug:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignChildrenToPixels:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
@@ -7771,7 +7788,6 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -7802,7 +7818,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>debug:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignChildrenToPixels:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
@@ -7832,10 +7847,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuAddStickyNote:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuAlignChildrenToPixels:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
