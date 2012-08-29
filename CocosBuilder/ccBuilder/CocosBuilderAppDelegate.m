@@ -1831,40 +1831,6 @@ static BOOL hideAllToNextSeparator;
         [PositionPropertySetter addPositionKeyframeForNode:selectedNode];
         
         [self refreshProperty:@"position"];
-        //[PositionPropertySetter 
-        
-        /*
-        // Update animated value
-        NSArray* animValue = [NSArray arrayWithObjects:
-                              [NSNumber numberWithFloat:newPos.x],
-                              [NSNumber numberWithFloat:newPos.y],
-                              NULL];
-        
-        NodeInfo* nodeInfo = selectedNode.userObject;
-        PlugInNode* plugIn = nodeInfo.plugIn;
-        
-        if ([plugIn isAnimatableProperty:@"position"])
-        {
-            SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
-            int seqId = seq.sequenceId;
-            SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
-            
-            if (seqNodeProp)
-            {
-                SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
-                if (keyframe)
-                {
-                    keyframe.value = animValue;
-                }
-                
-                [[SequencerHandler sharedHandler] redrawTimeline];
-            }
-            else
-            {
-                [nodeInfo.baseValues setObject:animValue forKey:@"position"];
-            }
-        }
-         */
     }
 }
 
@@ -2466,6 +2432,8 @@ static BOOL hideAllToNextSeparator;
     if (!currentDocument) return;
     if (self.selectedNodes.count == 0) return;
     
+    [self saveUndoStateWillChangeProperty:@"*align"];
+    
     // Check if node can have children
     for (CCNode* c in self.selectedNodes)
     {
@@ -2486,6 +2454,8 @@ static BOOL hideAllToNextSeparator;
 {
     if (!currentDocument) return;
     if (self.selectedNodes.count <= 1) return;
+    
+    [self saveUndoStateWillChangeProperty:@"*align"];
     
     int alignmentType = [sender tag];
     
