@@ -491,6 +491,8 @@ static CocosScene* sharedCocosScene;
 {
     for (CCNode* node in appDelegate.selectedNodes)
     {
+        transformScalingNode = node;
+        
         CGPoint center = [node.parent convertToWorldSpace: node.position];
         if (ccpDistance(pt, center) < kCCBAnchorPointRadius) return kCCBTransformHandleAnchorPoint;
         
@@ -501,7 +503,6 @@ static CocosScene* sharedCocosScene;
             CGPoint t = ccpAdd(center, ccp(0, kCCBSinglePointSelectionRadius));
             CGPoint b = ccpAdd(center, ccp(0, -kCCBSinglePointSelectionRadius));
             
-            transformScalingNode = node;
             if (ccpDistance(pt, l) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
             if (ccpDistance(pt, r) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
             if (ccpDistance(pt, t) < kCCBTransformHandleRadius) return kCCBTransformHandleScale;
@@ -603,11 +604,18 @@ static CocosScene* sharedCocosScene;
     
     // Transform handles
     int th = [self transformHandleUnderPt:pos];
-    BOOL transformedNodeZeroSize = (transformScalingNode.contentSize.width == 0 || transformScalingNode.contentSize.height == 0);
     
-    if (th == kCCBTransformHandleAnchorPoint && !transformedNodeZeroSize)
+    if (th == kCCBTransformHandleAnchorPoint)
     {
-        // Move anchor point
+        // Anchor points are fixed for singel point nodes
+        if (transformScalingNode.contentSize.width == 0 || transformScalingNode.contentSize.height == 0)
+        {
+            return YES;
+        }
+        
+        // Transform anchor point
+        currentMouseTransform = kCCBTransformHandleAnchorPoint;
+        transformScalingNode.transformStartPosition = transformScalingNode.anchorPoint;
         return YES;
     }
     if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
@@ -708,11 +716,6 @@ static CocosScene* sharedCocosScene;
             selectedNode.transformStartPosition = [selectedNode.parent convertToWorldSpace:pos];
         }
     
-        for (CCNode* selectedNode in appDelegate.selectedNodes)
-        {
-            NSLog(@"transformStartPosition: (%f,%f)",selectedNode.transformStartPosition.x, selectedNode.transformStartPosition.y);
-        }
-    
         if (appDelegate.selectedNode != rootNode)
         {
             currentMouseTransform = kCCBTransformHandleMove;
@@ -805,8 +808,6 @@ static CocosScene* sharedCocosScene;
             
         
             CGPoint newLocalPos = [selectedNode.parent convertToNodeSpace:newPos];
-        
-            NSLog(@"newLocalPos: (%f,%f)", newLocalPos.x, newLocalPos.y);
             
             [appDelegate saveUndoStateWillChangeProperty:@"position"];
             
@@ -892,6 +893,16 @@ static CocosScene* sharedCocosScene;
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         transformScalingNode.rotation = newRotation;
         [appDelegate refreshProperty:@"rotation"];
+    }
+    else if (currentMouseTransform == kCCBTransformHandleAnchorPoint)
+    {
+        CGPoint localPos = [transformScalingNode convertToNodeSpace:pos];
+        CGPoint localDownPos = [transformScalingNode convertToNodeSpace:mouseDownPos];
+        
+        CGPoint deltaLocal = ccpSub(localPos, localDownPos);
+        CGPoint deltaAnchorPoint = ccp(deltaLocal.x / transformScalingNode.contentSize.width, deltaLocal.y / transformScalingNode.contentSize.height);
+        
+        transformScalingNode.anchorPoint = ccpAdd(transformScalingNode.transformStartPosition, deltaAnchorPoint);
     }
     else if (isPanning)
     {
