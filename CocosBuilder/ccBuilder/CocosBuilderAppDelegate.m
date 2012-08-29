@@ -2494,6 +2494,10 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
+- (IBAction)menuArrange:(id)sender
+{
+}
+
 - (IBAction)menuSetEasing:(id)sender
 {
     int easingType = [sender tag];
@@ -2627,6 +2631,11 @@ static BOOL hideAllToNextSeparator;
         CGSize canvasSize = [[CocosScene cocosScene] stageSize];
         if (canvasSize.width == 0 || canvasSize.height == 0) return NO;
         return YES;
+    }
+    else if (menuItem.action == @selector(menuArrange:))
+    {
+        if (!hasOpenedDocument) return NO;
+        return (self.selectedNode != NULL);
     }
     
     return YES;
