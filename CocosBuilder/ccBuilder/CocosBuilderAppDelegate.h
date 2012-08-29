@@ -55,6 +55,13 @@ enum {
     kCCBAlignVerticalCenter,
 };
 
+enum {
+    kCCBArrangeBringToFront,
+    kCCBArrangeBringForward,
+    kCCBArrangeSendBackward,
+    kCCBArrangeSendToBack,
+};
+
 
 @class CCBDocument;
 @class ProjectSettings;

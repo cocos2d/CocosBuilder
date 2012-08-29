@@ -2496,6 +2496,34 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction)menuArrange:(id)sender
 {
+    int type = [sender tag];
+    
+    CCNode* node = self.selectedNode;
+    
+    CCArray* siblings = [node.parent children];
+    
+    // Check bounds
+    if ((type == kCCBArrangeSendToBack || type == kCCBArrangeSendBackward)
+        && node.zOrder == 0)
+    {
+        NSBeep();
+        return;
+    }
+    
+    if ((type == kCCBArrangeBringToFront || type == kCCBArrangeBringForward)
+        && node.zOrder == siblings.count - 1)
+    {
+        NSBeep();
+        return;
+    }
+    
+    // Bring forward send backward
+    if (type == kCCBArrangeSendBackward)
+    {
+        
+    }
+    
+    NSLog(@"node z:%d", (int)node.zOrder);
 }
 
 - (IBAction)menuSetEasing:(id)sender
