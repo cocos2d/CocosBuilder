@@ -794,8 +794,13 @@ static CocosScene* sharedCocosScene;
         deltaNew = ccpRotateByAngle(deltaNew, CGPointZero, -angle);
         
         // Calculate new scale
-        float xScaleNew = (deltaNew.x  * transformStartScaleX)/deltaStart.x;
-        float yScaleNew = (deltaNew.y  * transformStartScaleY)/deltaStart.y;
+        float xScaleNew;
+        float yScaleNew;
+        
+        if (fabs(deltaStart.x) > 4) xScaleNew = (deltaNew.x  * transformStartScaleX)/deltaStart.x;
+        else xScaleNew = transformStartScaleX;
+        if (fabs(deltaStart.y) > 4) yScaleNew = (deltaNew.y  * transformStartScaleY)/deltaStart.y;
+        else yScaleNew = transformStartScaleY;
         
         // Handle shift key (uniform scale)
         if ([event modifierFlags] & NSShiftKeyMask)
