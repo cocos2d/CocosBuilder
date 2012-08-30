@@ -110,6 +110,7 @@
 @synthesize outlineProject;
 @synthesize errorDescription;
 @synthesize selectedNodes;
+@synthesize loadedSelectedNodes;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -246,6 +247,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self.window center];
     
     selectedNodes = [[NSMutableArray alloc] init];
+    loadedSelectedNodes = [[NSMutableArray alloc] init];
     
     sharedAppDelegate = self;
     
@@ -915,6 +917,8 @@ static BOOL hideAllToNextSeparator;
 {
     CCBGlobals* g = [CCBGlobals globals];
     
+    [loadedSelectedNodes removeAllObjects];
+    
     BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
     
     // Setup stage & resolutions
@@ -1034,6 +1038,9 @@ static BOOL hideAllToNextSeparator;
     {
         [[CocosScene cocosScene].notesLayer removeAllNotes];
     }
+    
+    // Restore selections
+    self.selectedNodes = loadedSelectedNodes;
 }
 
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload

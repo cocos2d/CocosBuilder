@@ -29,6 +29,7 @@
 #import "TexturePropertySetter.h"
 #import "PositionPropertySetter.h"
 #import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation CCBWriterInternal
 
@@ -519,6 +520,13 @@
     if (customProps)
     {
         [dict setObject:customProps forKey:@"customProperties"];
+    }
+    
+    // Selection
+    NSArray* selection = [CocosBuilderAppDelegate appDelegate].selectedNodes;
+    if (selection && [selection containsObject:node])
+    {
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
     }
     
     // Add code connection props
