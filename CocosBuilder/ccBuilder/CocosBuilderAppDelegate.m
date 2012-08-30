@@ -2814,7 +2814,7 @@ static BOOL hideAllToNextSeparator;
             if (requestedDelay < 0)
             {
                 // TODO: Handle frame skipping
-                requestedDelay = 0;
+                ;//requestedDelay = 0;
             }
             
             // Call this method again in a little while
