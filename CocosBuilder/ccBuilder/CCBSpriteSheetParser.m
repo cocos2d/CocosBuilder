@@ -138,6 +138,7 @@ static NSInteger strSort(id num1, id num2, void *context)
     {
         imgFrame = [[NSImage alloc] initWithSize:rect.size];
     }
+    [imgFrame autorelease];
     [imgFrame setFlipped:YES];
     [imgFrame lockFocus];
     
