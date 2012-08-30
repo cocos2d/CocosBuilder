@@ -313,7 +313,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg
 {
-    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
+    NSAlert* alert = [[[NSAlert alloc] init] autorelease];
+    [alert setMessageText:title];
+    [alert setInformativeText:msg];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert addButtonWithTitle:@"OK"];
     [alert runModal];
 }
 
