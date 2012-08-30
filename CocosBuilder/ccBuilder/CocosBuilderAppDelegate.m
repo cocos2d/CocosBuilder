@@ -1191,15 +1191,7 @@ static BOOL hideAllToNextSeparator;
     ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
     settings.projectPath = fileName;
     
-    // Copy resource
-    /*
-    NSString* templateFile = [[NSBundle mainBundle] pathForResource:@"HelloCocosBuilder" ofType:@"ccb"];
-    NSString* toFile = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:toFile])
-    {
-        [[NSFileManager defaultManager] copyItemAtPath:templateFile toPath:toFile error:NULL];
-    }*/
+    // Copy resources
     [self copyDefaultResourcesForProject:settings];
     
     return [settings store];
@@ -1242,7 +1234,7 @@ static BOOL hideAllToNextSeparator;
 
 - (BOOL) openProject:(NSString*) fileName
 {
-    // TODO: Close currently open project
+    // Close currently open project
     [self closeProject];
     
     // Add to recent list of opened documents
@@ -1267,7 +1259,39 @@ static BOOL hideAllToNextSeparator;
     
     [self updateResourcePathsFromProjectSettings];
     
-    return [self checkForTooManyDirectoriesInCurrentProject];
+    BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
+    
+    if (!success) return NO;
+    
+    // Open ccb file for project if there is only one
+    NSArray* resPaths = project.absoluteResourcePaths;
+    if (resPaths.count > 0)
+    {
+        NSString* resPath = [resPaths objectAtIndex:0];
+        
+        NSArray* resDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resPath error:NULL];
+        
+        int numCCBFiles = 0;
+        NSString* ccbFile = NULL;
+        for (NSString* file in resDir)
+        {
+            if ([file hasSuffix:@".ccb"])
+            {
+                ccbFile = file;
+                numCCBFiles++;
+                
+                if (numCCBFiles > 1) break;
+            }
+        }
+        
+        if (numCCBFiles == 1)
+        {
+            // Open the ccb file
+            [self openFile:[resPath stringByAppendingPathComponent:ccbFile]];
+        }
+    }
+    
+    return YES;
 }
 
 - (void) openFile:(NSString*) fileName
@@ -2071,10 +2095,7 @@ static BOOL hideAllToNextSeparator;
             NSString* fileName = [[saveDlg URL] path];
             if ([self createProject: fileName])
             {
-                if ([self openProject:fileName])
-                {
-                    [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
-                }
+                [self openProject:fileName];
             }
             else
             {
