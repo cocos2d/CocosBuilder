@@ -193,7 +193,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupToolbar
 {
-    MainToolbarDelegate* toolbarDelegate = [[MainToolbarDelegate alloc] init];
+    MainToolbarDelegate* toolbarDelegate = [[[MainToolbarDelegate alloc] init] autorelease];
     toolbar.delegate = toolbarDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
@@ -205,7 +205,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupPlayerConnection
 {
-    PlayerConnection* connection = [[PlayerConnection alloc] init];
+    PlayerConnection* connection = [[[PlayerConnection alloc] init] autorelease];
     [connection run];
 }
 
@@ -2001,7 +2001,7 @@ static BOOL hideAllToNextSeparator;
     warnings.warningsDescription = @"Publisher Warnings";
     
     // Setup publisher
-    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    CCBPublisher* publisher = [[[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings] autorelease];
     publisher.runAfterPublishing = run;
     
     // Open progress window and publish
