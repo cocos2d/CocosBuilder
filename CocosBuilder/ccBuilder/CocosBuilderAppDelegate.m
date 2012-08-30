@@ -2612,7 +2612,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    int newIndex;
+    int newIndex = 0;
     
     // Bring forward / send backward
     if (type == kCCBArrangeSendToBack)
