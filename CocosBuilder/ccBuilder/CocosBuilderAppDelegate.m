@@ -2499,6 +2499,7 @@ static BOOL hideAllToNextSeparator;
     int type = [sender tag];
     
     CCNode* node = self.selectedNode;
+    CCNode* parent = node.parent;
     
     CCArray* siblings = [node.parent children];
     
@@ -2517,13 +2518,34 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    // Bring forward send backward
-    if (type == kCCBArrangeSendBackward)
+    if (siblings.count < 2)
     {
-        
+        NSBeep();
+        return;
     }
     
-    NSLog(@"node z:%d", (int)node.zOrder);
+    int newIndex;
+    
+    // Bring forward / send backward
+    if (type == kCCBArrangeSendToBack)
+    {
+        newIndex = 0;
+    }
+    else if (type == kCCBArrangeBringToFront)
+    {
+        newIndex = siblings.count -1;
+    }
+    else if (type == kCCBArrangeSendBackward)
+    {
+        newIndex = node.zOrder - 1;
+    }
+    else if (type == kCCBArrangeBringForward)
+    {
+        newIndex = node.zOrder + 1;
+    }
+    
+    [self deleteNode:node];
+    [self addCCObject:node toParent:parent atIndex:newIndex];
 }
 
 - (IBAction)menuSetEasing:(id)sender
