@@ -300,6 +300,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.showStickyNotes = YES;
     
     [self.window makeKeyWindow];
+    
+    if(delayOpenFiles)
+	{
+		[self openFiles:delayOpenFiles];
+		[delayOpenFiles release];
+		delayOpenFiles = nil;
+	}	
 }
 
 #pragma mark Notifications to user
@@ -1441,10 +1448,63 @@ static BOOL hideAllToNextSeparator;
     [self checkForTooManyDirectoriesInCurrentDoc];
 }
 
+/*
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
     [self openProject:filename];
     return YES;
+}*/
+
+- (NSString*) findProject:(NSString*) path
+{
+	NSString* projectFile = nil;
+	NSFileManager* fm = [NSFileManager defaultManager];
+    
+	NSArray* files = [fm contentsOfDirectoryAtPath:path error:NULL];
+	for( NSString* file in files )
+	{
+		if( [file hasSuffix:@".ccbproj"] )
+		{
+			projectFile = [path stringByAppendingPathComponent:file];
+			break;
+		}
+	}
+	return projectFile;
+}
+
+- (void)openFiles:(NSArray*)filenames
+{
+	for( NSString* filename in filenames )
+	{
+		if( [filename hasSuffix:@".ccb"] )
+		{
+			NSString* folderPathToSearch = [filename stringByDeletingLastPathComponent];
+			NSString* projectFile = [self findProject:folderPathToSearch];
+			if( projectFile )
+			{
+				[self openProject:projectFile];
+				[self openFile:filename];
+			}
+		}
+		else if ([filename hasSuffix:@".ccbproj"])
+		{
+			[self openProject:filename];		
+		}
+	}
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+	// if resManager isn't initialized wait for it to initialize before opening assets.	
+	if(!resManager)
+	{
+		NSAssert( delayOpenFiles == NULL, @"This shouldn't be set to anything since this value will only get applied once.");
+		delayOpenFiles = [[NSMutableArray alloc] initWithArray:filenames];
+	}
+	else 
+	{
+		[self openFiles:filenames];
+	}
 }
 
 - (void) openJSFile:(NSString*) fileName

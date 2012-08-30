@@ -154,6 +154,7 @@ enum {
     ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
+    NSMutableArray* delayOpenFiles;
     CCBDocument* currentDocument;
     BOOL hasOpenedDocument;
     
