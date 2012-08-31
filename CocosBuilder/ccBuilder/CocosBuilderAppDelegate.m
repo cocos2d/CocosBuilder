@@ -213,8 +213,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     // Load resource manager
     resManager = [ResourceManager sharedManager];
-    resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
-    [resManagerPanel.window setIsVisible:NO];
+    //resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
+    //[resManagerPanel.window setIsVisible:NO];
     
     // Setup project display
     projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
@@ -1097,7 +1097,7 @@ static BOOL hideAllToNextSeparator;
     [self updateTimelineMenu];
     [outlineHierarchy reloadData];
     
-    [resManagerPanel.window setIsVisible:NO];
+    //[resManagerPanel.window setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
 }
@@ -2501,7 +2501,7 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuOpenResourceManager:(id)sender
 {
-    [resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
+    //[resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
 }
 
 - (void) reloadResources
