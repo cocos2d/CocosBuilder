@@ -302,12 +302,22 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self.window makeKeyWindow];
     
+    // Open files
     if(delayOpenFiles)
 	{
 		[self openFiles:delayOpenFiles];
 		[delayOpenFiles release];
 		delayOpenFiles = nil;
-	}	
+	}
+    
+    // Check for first run
+    if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"completedFirstRun"] boolValue])
+    {
+        [self showHelp:self];
+        
+        // First run completed
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"completedFirstRun"];
+    }
 }
 
 #pragma mark Notifications to user
