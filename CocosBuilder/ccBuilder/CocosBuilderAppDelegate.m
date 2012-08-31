@@ -83,6 +83,7 @@
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
+#import "HelpWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -2914,9 +2915,12 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction)showHelp:(id)sender
 {
-    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    if(!helpWindow)
+    {
+        helpWindow = [[HelpWindow alloc] initWithWindowNibName:@"HelpWindow"];
+    }
     
-    [[NSWorkspace sharedWorkspace] openURL:url];
+    [[helpWindow window] makeKeyAndOrderFront:self];
 }
 
 #pragma mark Debug
