@@ -51,7 +51,7 @@
 	director_.wantsFullScreenLayout = YES;
     
     // Use CocosBuilders file utils, so we can load resources from zip files
-    [CCBFileUtils sharedFileUtils];
+    //[CCBFileUtils sharedFileUtils];
 
 	// Display FSP and SPF
 	[director_ setDisplayStats:YES];
