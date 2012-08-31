@@ -7,7 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 
-@interface HelpWindow : NSWindowController
+@interface HelpWindow : NSWindowController <NSTableViewDelegate>
+{
+    IBOutlet NSTableView* tableView;
+    IBOutlet WebView* webView;
+    NSMutableArray* mdFiles;
+}
+
+@property (nonatomic,readonly) NSMutableArray* mdFiles;
 
 @end
