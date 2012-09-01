@@ -83,6 +83,7 @@
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
+#import "HelpWindow.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -301,12 +302,22 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self.window makeKeyWindow];
     
+    // Open files
     if(delayOpenFiles)
 	{
 		[self openFiles:delayOpenFiles];
 		[delayOpenFiles release];
 		delayOpenFiles = nil;
-	}	
+	}
+    
+    // Check for first run
+    if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"completedFirstRun"] boolValue])
+    {
+        [self showHelp:self];
+        
+        // First run completed
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"completedFirstRun"];
+    }
 }
 
 #pragma mark Notifications to user
@@ -2918,9 +2929,12 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction)showHelp:(id)sender
 {
-    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    if(!helpWindow)
+    {
+        helpWindow = [[HelpWindow alloc] initWithWindowNibName:@"HelpWindow"];
+    }
     
-    [[NSWorkspace sharedWorkspace] openURL:url];
+    [[helpWindow window] makeKeyAndOrderFront:self];
 }
 
 #pragma mark Debug

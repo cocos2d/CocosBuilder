@@ -360,6 +360,12 @@
 		E3A16AF01536C885004B528A /* ruler-guide.png in Resources */ = {isa = PBXBuildFile; fileRef = E3A16AEF1536C885004B528A /* ruler-guide.png */; };
 		E3A16AF31536D096004B528A /* GuidesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A16AF21536D096004B528A /* GuidesLayer.m */; };
 		E3A16AF61536D69A004B528A /* CCBPLabelTTF.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */; };
+		E3AF6CD815F0A7E10048DB2A /* HelpWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3AF6CD715F0A7E10048DB2A /* HelpWindow.xib */; };
+		E3AF6CDB15F0A9BC0048DB2A /* HelpWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AF6CDA15F0A9BC0048DB2A /* HelpWindow.m */; };
+		E3AF6CDF15F0CF8B0048DB2A /* libMMMarkdown-Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3AF6CDD15F0CF8B0048DB2A /* libMMMarkdown-Mac.a */; };
+		E3AF6CE115F0CFAE0048DB2A /* Documentation in Resources */ = {isa = PBXBuildFile; fileRef = E3AF6CE015F0CFAE0048DB2A /* Documentation */; };
+		E3AF6CE415F0DBA90048DB2A /* HelpPage.m in Sources */ = {isa = PBXBuildFile; fileRef = E3AF6CE315F0DBA90048DB2A /* HelpPage.m */; };
+		E3AF6CE615F0F5760048DB2A /* help-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E3AF6CE515F0F5760048DB2A /* help-logo.png */; };
 		E3B19F6B15E62ADA000B023E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B19F6A15E62ADA000B023E /* Carbon.framework */; };
 		E3B19F6D15E65229000B023E /* DefaultResourcesList.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B19F6C15E65229000B023E /* DefaultResourcesList.plist */; };
 		E3B19F7415E6554D000B023E /* ccbDefaultImages-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3B19F6E15E6554D000B023E /* ccbDefaultImages-hd.plist */; };
@@ -1328,6 +1334,15 @@
 		E3A16AF41536D69A004B528A /* CCBPLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPLabelTTF.h; sourceTree = "<group>"; };
 		E3A16AF51536D69A004B528A /* CCBPLabelTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPLabelTTF.m; sourceTree = "<group>"; };
 		E3A16D8E156E145700F6C326 /* CocosBuilderPlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CocosBuilderPlayerIcon.icns; path = ../CocosBuilderPlayerIcon.icns; sourceTree = "<group>"; };
+		E3AF6CD715F0A7E10048DB2A /* HelpWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpWindow.xib; sourceTree = "<group>"; };
+		E3AF6CD915F0A9BC0048DB2A /* HelpWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpWindow.h; sourceTree = "<group>"; };
+		E3AF6CDA15F0A9BC0048DB2A /* HelpWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpWindow.m; sourceTree = "<group>"; };
+		E3AF6CDD15F0CF8B0048DB2A /* libMMMarkdown-Mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMMMarkdown-Mac.a"; path = "MMMarkdown/libMMMarkdown-Mac.a"; sourceTree = "<group>"; };
+		E3AF6CDE15F0CF8B0048DB2A /* MMMarkdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMMarkdown.h; path = MMMarkdown/MMMarkdown.h; sourceTree = "<group>"; };
+		E3AF6CE015F0CFAE0048DB2A /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Documentation; path = ../../Documentation; sourceTree = "<group>"; };
+		E3AF6CE215F0DBA90048DB2A /* HelpPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpPage.h; sourceTree = "<group>"; };
+		E3AF6CE315F0DBA90048DB2A /* HelpPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpPage.m; sourceTree = "<group>"; };
+		E3AF6CE515F0F5760048DB2A /* help-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help-logo.png"; sourceTree = "<group>"; };
 		E3B19F6A15E62ADA000B023E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		E3B19F6C15E65229000B023E /* DefaultResourcesList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultResourcesList.plist; sourceTree = "<group>"; };
 		E3B19F6E15E6554D000B023E /* ccbDefaultImages-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ccbDefaultImages-hd.plist"; sourceTree = "<group>"; };
@@ -1591,6 +1606,7 @@
 				7789ABE8133AB10500CEFCC7 /* ApplicationServices.framework in Frameworks */,
 				7789ABC3133AA82000CEFCC7 /* Cocoa.framework in Frameworks */,
 				E33BC1971510B8D0009AE29A /* Sparkle.framework in Frameworks */,
+				E3AF6CDF15F0CF8B0048DB2A /* libMMMarkdown-Mac.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1951,6 +1967,7 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E3AF6CE515F0F5760048DB2A /* help-logo.png */,
 				E33C2AB915CBF2580043EF9B /* seq-keyframe-hint.png */,
 				E326EFB515C84123006D6CE6 /* seq-endmarker.png */,
 				E3E2704A15B1904300287470 /* toolbar-bottom.png */,
@@ -2111,6 +2128,7 @@
 				E3B7AEDA14E3242600DFD402 /* PlugIn Manager */,
 				776041EA1498FB600078095D /* Dialogs */,
 				E3B7BC9D15E3B97900CF95EF /* Toolbar */,
+				E3AF6CD615F0A77F0048DB2A /* Help */,
 				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
 				E35A136315B0392800C9AA15 /* Player Connection */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
@@ -2150,6 +2168,7 @@
 				A09AB68C14E9935F009C8B91 /* kazmath */,
 				77E198DB13858CD1006C361B /* TabBar */,
 				E36F3C3A152C756D00AAD805 /* RelativePath */,
+				E3AF6CDC15F0CF6C0048DB2A /* MMMarkdown */,
 			);
 			path = libs;
 			sourceTree = "<group>";
@@ -2157,6 +2176,7 @@
 		7789ACEB133AB6A700CEFCC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E3AF6CE015F0CFAE0048DB2A /* Documentation */,
 				E3214CC415DA73BD002413A7 /* Templates */,
 				E35DBBDD14F3D1830070A6E4 /* Configurations */,
 				776041E71498F7DE0078095D /* Sparkle (for updates) */,
@@ -3015,6 +3035,27 @@
 				E398C02A14FB81A30078E771 /* Cocos2D iPhone-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E3AF6CD615F0A77F0048DB2A /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				E3AF6CD715F0A7E10048DB2A /* HelpWindow.xib */,
+				E3AF6CD915F0A9BC0048DB2A /* HelpWindow.h */,
+				E3AF6CDA15F0A9BC0048DB2A /* HelpWindow.m */,
+				E3AF6CE215F0DBA90048DB2A /* HelpPage.h */,
+				E3AF6CE315F0DBA90048DB2A /* HelpPage.m */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		E3AF6CDC15F0CF6C0048DB2A /* MMMarkdown */ = {
+			isa = PBXGroup;
+			children = (
+				E3AF6CDD15F0CF8B0048DB2A /* libMMMarkdown-Mac.a */,
+				E3AF6CDE15F0CF8B0048DB2A /* MMMarkdown.h */,
+			);
+			name = MMMarkdown;
 			sourceTree = "<group>";
 		};
 		E3B7AEC714E3193500DFD402 /* CCNode */ = {
@@ -3981,6 +4022,9 @@
 				E3B19F8115E65B51000B023E /* ccbParticleStars.png in Resources */,
 				E360789015EBA5420040A172 /* sel-frame.png in Resources */,
 				E36078BC15EE0B2C0040A172 /* sel-round.png in Resources */,
+				E3AF6CD815F0A7E10048DB2A /* HelpWindow.xib in Resources */,
+				E3AF6CE115F0CFAE0048DB2A /* Documentation in Resources */,
+				E3AF6CE615F0F5760048DB2A /* help-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4406,6 +4450,8 @@
 				E3214C4B15D40F01002413A7 /* InspectorCustom.m in Sources */,
 				E3214C5D15D54356002413A7 /* InspectorCustomEdit.m in Sources */,
 				E3B7BCA015E3BCFE00CF95EF /* MainToolbarDelegate.m in Sources */,
+				E3AF6CDB15F0A9BC0048DB2A /* HelpWindow.m in Sources */,
+				E3AF6CE415F0DBA90048DB2A /* HelpPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4840,6 +4886,10 @@
 				);
 				HEADER_SEARCH_PATHS = libs/Fragaria;
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libs/MMMarkdown\"",
+				);
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
 			};
@@ -4867,6 +4917,10 @@
 				);
 				HEADER_SEARCH_PATHS = libs/Fragaria;
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/libs/MMMarkdown\"",
+				);
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
 			};

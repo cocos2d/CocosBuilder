@@ -82,6 +82,7 @@ enum {
 @class SequencerScrubberSelectionView;
 @class MainWindow;
 @class PlayerConsoleWindow;
+@class HelpWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -182,6 +183,9 @@ enum {
     // Player
     PlayerController* playerController;
     PlayerConsoleWindow* playerConsoleWindow;
+    
+    // Help window
+    HelpWindow* helpWindow;
     
     // Animation playback
     BOOL playingBack;
