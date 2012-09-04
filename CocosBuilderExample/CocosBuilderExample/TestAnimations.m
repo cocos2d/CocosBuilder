@@ -7,35 +7,35 @@
 //
 
 #import "TestAnimations.h"
-#import "CCBActionManager.h"
+#import "CCBAnimationManager.h"
 
 @implementation TestAnimations
 
-@synthesize ccbActionManager;
+@synthesize animationManager;
 
 - (void) pressedIdle:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.3f];
+    [animationManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.3f];
 }
 
 - (void) pressedWave:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Wave" tweenDuration:0.3f];
+    [animationManager runActionsForSequenceNamed:@"Wave" tweenDuration:0.3f];
 }
 
 - (void) pressedJump:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.3f];
+    [animationManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.3f];
 }
 
 - (void) pressedFunky:(id)sender
 {
-    [ccbActionManager runActionsForSequenceNamed:@"Funky" tweenDuration:0.3f];
+    [animationManager runActionsForSequenceNamed:@"Funky" tweenDuration:0.3f];
 }
 
 - (void) dealloc
 {
-    self.ccbActionManager = NULL;
+    self.animationManager = NULL;
     [super dealloc];
 }
 

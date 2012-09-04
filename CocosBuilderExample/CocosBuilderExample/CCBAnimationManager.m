@@ -22,14 +22,14 @@
  * THE SOFTWARE.
  */
 
-#import "CCBActionManager.h"
+#import "CCBAnimationManager.h"
 #import "CCBSequence.h"
 #import "CCBSequenceProperty.h"
 #import "CCBReader.h"
 #import "CCBKeyframe.h"
 #import "CCNode+CCBRelativePositioning.h"
 
-@implementation CCBActionManager
+@implementation CCBAnimationManager
 
 @synthesize sequences;
 @synthesize autoPlaySequenceId;
@@ -353,7 +353,7 @@
 
 - (void) runActionsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration
 {
-    NSAssert(seqId != -1, @"Sequence named %@ couldn't be found");
+    NSAssert(seqId != -1, @"Sequence id %d couldn't be found",seqId);
     
     [rootNode stopAllActions];
     

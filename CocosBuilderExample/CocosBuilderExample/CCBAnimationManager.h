@@ -37,7 +37,7 @@
 
 #pragma mark Action Manager
 
-@interface CCBActionManager : NSObject
+@interface CCBAnimationManager : NSObject
 {
     NSMutableArray* sequences;
     NSMutableDictionary* nodeSequences;

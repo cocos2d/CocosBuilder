@@ -8,13 +8,13 @@
 
 #import "cocos2d.h"
 
-@class CCBActionManager;
+@class CCBAnimationManager;
 
 @interface TestAnimations : CCLayer
 {
-    CCBActionManager* ccbActionManager;
+    CCBAnimationManager* animationManager;
 }
 
-@property (nonatomic,retain) CCBActionManager* ccbActionManager;
+@property (nonatomic,retain) CCBAnimationManager* animationManager;
 
 @end
