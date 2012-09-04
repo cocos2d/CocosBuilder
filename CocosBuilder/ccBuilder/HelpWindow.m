@@ -70,7 +70,23 @@
 {
     [super windowDidLoad];
     
+    [webView setPolicyDelegate:self];
     [self loadHelpFile:[mdFiles objectAtIndex:0]];
 }
 
+
+- (void)webView:(WebView *)sender decidePolicyForNavigationAction:(NSDictionary *)actionInformation
+        request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id)listener
+{
+    if ([[[request URL]scheme] isEqualToString:@"file"])
+    {
+        [listener use];
+    }
+    else
+    {
+        [listener ignore];
+        // Open in Safari instead
+        [[NSWorkspace sharedWorkspace] openURL:[request URL]];
+    }
+}
 @end
