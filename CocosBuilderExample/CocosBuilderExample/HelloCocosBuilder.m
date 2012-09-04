@@ -24,7 +24,7 @@
 
 #import "HelloCocosBuilder.h"
 #import "CCBReader.h"
-#import "CCBActionManager.h"
+#import "CCBAnimationManager.h"
 #import "TestAnimations.h"
 
 @implementation HelloCocosBuilder
@@ -77,14 +77,14 @@
     NSString* ccbFile = @"TestAnimations.ccbi";
     
     // Load node graph (TestAnimations is a sub class of CCLayer) and retrieve the ccb action manager
-    CCBActionManager* actionManager = NULL;
-    TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:ccbFile owner:self actionManager:&actionManager];
+    CCBAnimationManager* actionManager = NULL;
+    TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:ccbFile owner:self animationManager:&actionManager];
     
     // Set the title of the test to the same as the ccbi file's name
     [lblTestTitle setString:ccbFile];
     
     // Assign the action manager so we can access it from our custom test class
-    animationsTest.ccbActionManager = actionManager;
+    animationsTest.animationManager = actionManager;
     
     // Create a scene and add our test layer
     CCScene* scene = [CCScene node];

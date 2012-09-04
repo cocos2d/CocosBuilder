@@ -29,7 +29,7 @@
 
 #pragma mark Delegate
 
-@protocol CCBActionManagerDelegate <NSObject>
+@protocol CCBAnimationManagerDelegate <NSObject>
 
 - (void) completedAnimationSequenceNamed:(NSString*)name;
 
@@ -37,7 +37,7 @@
 
 #pragma mark Action Manager
 
-@interface CCBActionManager : NSObject
+@interface CCBAnimationManager : NSObject
 {
     NSMutableArray* sequences;
     NSMutableDictionary* nodeSequences;
@@ -47,14 +47,14 @@
     CCNode* rootNode;
     CGSize rootContainerSize;
     
-    NSObject<CCBActionManagerDelegate>* delegate;
+    NSObject<CCBAnimationManagerDelegate>* delegate;
     CCBSequence* runningSequence;
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
 @property (nonatomic,retain) CCNode* rootNode;
 @property (nonatomic,assign) CGSize rootContainerSize;
-@property (nonatomic,retain) NSObject<CCBActionManagerDelegate>* delegate;
+@property (nonatomic,retain) NSObject<CCBAnimationManagerDelegate>* delegate;
 @property (nonatomic,readonly) NSString* runningSequenceName;
 
 - (CGSize) containerSize:(CCNode*)node;
@@ -62,9 +62,9 @@
 - (void) addNode:(CCNode*)node andSequences:(NSDictionary*)seq;
 - (void) setBaseValue:(id)value forNode:(CCNode*)node propertyName:(NSString*)propName;
 
-- (void) runActionsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration;
-- (void) runActionsForSequenceNamed:(NSString*)name;
-- (void) runActionsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration;
+- (void) runAnimationsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration;
+- (void) runAnimationsForSequenceNamed:(NSString*)name;
+- (void) runAnimationsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration;
 
 - (void) debug;
 
