@@ -78,7 +78,7 @@
     
     // Load node graph (TestAnimations is a sub class of CCLayer) and retrieve the ccb action manager
     CCBAnimationManager* actionManager = NULL;
-    TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:ccbFile owner:self actionManager:&actionManager];
+    TestAnimations* animationsTest = (TestAnimations*)[CCBReader nodeGraphFromFile:ccbFile owner:self animationManager:&actionManager];
     
     // Set the title of the test to the same as the ccbi file's name
     [lblTestTitle setString:ccbFile];

@@ -15,22 +15,22 @@
 
 - (void) pressedIdle:(id)sender
 {
-    [animationManager runActionsForSequenceNamed:@"Idle" tweenDuration:0.3f];
+    [animationManager runAnimationsForSequenceNamed:@"Idle" tweenDuration:0.3f];
 }
 
 - (void) pressedWave:(id)sender
 {
-    [animationManager runActionsForSequenceNamed:@"Wave" tweenDuration:0.3f];
+    [animationManager runAnimationsForSequenceNamed:@"Wave" tweenDuration:0.3f];
 }
 
 - (void) pressedJump:(id)sender
 {
-    [animationManager runActionsForSequenceNamed:@"Jump" tweenDuration:0.3f];
+    [animationManager runAnimationsForSequenceNamed:@"Jump" tweenDuration:0.3f];
 }
 
 - (void) pressedFunky:(id)sender
 {
-    [animationManager runActionsForSequenceNamed:@"Funky" tweenDuration:0.3f];
+    [animationManager runAnimationsForSequenceNamed:@"Funky" tweenDuration:0.3f];
 }
 
 - (void) dealloc

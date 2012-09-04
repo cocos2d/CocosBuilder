@@ -351,7 +351,7 @@
     }
 }
 
-- (void) runActionsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration
+- (void) runAnimationsForSequenceId:(int)seqId tweenDuration:(float) tweenDuration
 {
     NSAssert(seqId != -1, @"Sequence id %d couldn't be found",seqId);
     
@@ -402,15 +402,15 @@
     runningSequence = [self sequenceFromSequenceId:seqId];
 }
 
-- (void) runActionsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration
+- (void) runAnimationsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration
 {
     int seqId = [self sequenceIdForSequenceNamed:name];
-    [self runActionsForSequenceId:seqId tweenDuration:tweenDuration];
+    [self runAnimationsForSequenceId:seqId tweenDuration:tweenDuration];
 }
 
-- (void) runActionsForSequenceNamed:(NSString*)name
+- (void) runAnimationsForSequenceNamed:(NSString*)name
 {
-    [self runActionsForSequenceNamed:name tweenDuration:0];
+    [self runAnimationsForSequenceNamed:name tweenDuration:0];
 }
 
 - (void) sequenceCompleted
@@ -421,7 +421,7 @@
     
     if (nextSeqId != -1)
     {
-        [self runActionsForSequenceId:nextSeqId tweenDuration:0];
+        [self runAnimationsForSequenceId:nextSeqId tweenDuration:0];
     }
     
 }
