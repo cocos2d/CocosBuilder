@@ -2936,6 +2936,16 @@ static BOOL hideAllToNextSeparator;
     [[helpWindow window] makeKeyAndOrderFront:self];
 }
 
+- (IBAction)reportBug:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/cocos2d/CocosBuilder/issues"]];
+}
+
+- (IBAction)visitCommunity:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.cocos2d-iphone.org/forum/forum/16"]];
+}
+
 #pragma mark Debug
 
 - (IBAction) debug:(id)sender
