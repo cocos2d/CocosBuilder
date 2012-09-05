@@ -259,7 +259,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 			NSUInteger mask;             //we don't need this but we can't pass nil in for the style mask, as some delegate implementations will crash
 
 			if(!(image = [self _miniwindowImageOfWindow:[control window]])) {
-				image = [[self _imageForViewOfCell:[self draggedCell] styleMask:&mask] copy];
+				image = [[[self _imageForViewOfCell:[self draggedCell] styleMask:&mask] copy] autorelease];
 			}
 
 			imageSize = [image size];
