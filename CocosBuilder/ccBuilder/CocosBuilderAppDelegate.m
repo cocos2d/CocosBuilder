@@ -1349,6 +1349,9 @@ static BOOL hideAllToNextSeparator;
     
     [self checkForTooManyDirectoriesInCurrentDoc];
     
+    // Remove selections
+    [self setSelectedNodes:NULL];
+    
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 

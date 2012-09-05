@@ -613,6 +613,12 @@ static CocosScene* sharedCocosScene;
             return YES;
         }
         
+        BOOL readOnly = [[[transformScalingNode.plugIn.nodePropertiesDict objectForKey:@"anchorPoint"] objectForKey:@"readOnly"] boolValue];
+        if (readOnly)
+        {
+            return YES;
+        }
+        
         // Transform anchor point
         currentMouseTransform = kCCBTransformHandleAnchorPoint;
         transformScalingNode.transformStartPosition = transformScalingNode.anchorPoint;
