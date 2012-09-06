@@ -216,7 +216,7 @@
     self.timelinePosition = newTime;
 }
 
-- (SequencerSequence*) duplicateWithNewId:(int)seqId
+- (SequencerSequence*) copyWithNewId:(int)seqId
 {
     SequencerSequence* copy = [self copy];
     copy.name = [copy.name stringByAppendingString:@" copy"];
