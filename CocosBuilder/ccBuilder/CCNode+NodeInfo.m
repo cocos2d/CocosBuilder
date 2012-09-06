@@ -113,7 +113,7 @@
     
     id baseValue = [self valueForProperty:name atTime:0 sequenceId:seqId];
     
-    SequencerNodeProperty* seqNodeProp = [[SequencerNodeProperty alloc] initWithProperty:name node:self];
+    SequencerNodeProperty* seqNodeProp = [[[SequencerNodeProperty alloc] initWithProperty:name node:self] autorelease];
     if (![info.baseValues objectForKey:name])
     {
         NSLog(@"setting baseValue to %@ for %@", baseValue, name);
