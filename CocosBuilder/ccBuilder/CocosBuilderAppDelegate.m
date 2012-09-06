@@ -2493,7 +2493,7 @@ static BOOL hideAllToNextSeparator;
     
     // Duplicate current timeline
     int newSeqId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
-    SequencerSequence* newSeq = [sequenceHandler.currentSequence copyWithNewId:newSeqId];
+    SequencerSequence* newSeq = [[sequenceHandler.currentSequence copyWithNewId:newSeqId] autorelease];
     
     // Add it to list
     [currentDocument.sequences addObject:newSeq];
