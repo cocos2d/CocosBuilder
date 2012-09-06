@@ -311,7 +311,7 @@
 	[super streamEndEncountered:theStream onConnection:theConnection];
 	
 	// remove the connection's service from the connectedNetServices dict (it may still be contained in the offered array)
-	NSNetService *connectionNetService = [[self.connectedNetServices objectForKey:connectionKey] retain]; // retain - will be released after the resolve comes back!
+	NSNetService *connectionNetService = [[[self.connectedNetServices objectForKey:connectionKey] retain] autorelease];
 	[self.connectedNetServices removeObjectForKey:connectionKey];
 	
 	// try to re-resolve the netService if it is still offered by Bonjour
@@ -331,7 +331,7 @@
 	[super streamErrorEncountered:theStream onConnection:theConnection];
 	
 	// remove the connection's service from the connectedNetServices dict (it may still be contained in the offered array)
-	NSNetService *connectionNetService = [[self.connectedNetServices objectForKey:connectionKey] retain]; // retain - will be released after the resolve comes back!
+	NSNetService *connectionNetService = [[[self.connectedNetServices objectForKey:connectionKey] retain] autorelease];
 	[self.connectedNetServices removeObjectForKey:connectionKey];
 	
 	// try to re-resolve the netService if it is still offered by Bonjour
