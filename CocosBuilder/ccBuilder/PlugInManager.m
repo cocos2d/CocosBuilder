@@ -107,9 +107,10 @@
             
             [bundle load];
             
-            PlugInNode* plugIn = [[PlugInNode alloc] initWithBundle:bundle];
+            PlugInNode* plugIn = [[[PlugInNode alloc] initWithBundle:bundle] autorelease];
             if (plugIn && !plugIn.isAbstract)
             {
+                plugIn.icon = [[[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"Icon.png"]] autorelease];
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
                 [plugInsNodeNames addObject:plugIn.nodeClassName];
                 
@@ -118,9 +119,6 @@
                     [plugInsNodeNamesCanBeRoot addObject:plugIn.nodeClassName];
                 }
             }
-            
-            // Load icon
-            plugIn.icon = [[[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:@"Icon.png"]] autorelease];
         }
     }
 #endif
@@ -141,7 +139,7 @@
             
             [bundle load];
             
-            PlugInExport* plugIn = [[PlugInExport alloc] initWithBundle:bundle];
+            PlugInExport* plugIn = [[[PlugInExport alloc] initWithBundle:bundle] autorelease];
             if (plugIn)
             {
                 NSString* plugInName = [[plugInPath lastPathComponent] stringByDeletingPathExtension];
