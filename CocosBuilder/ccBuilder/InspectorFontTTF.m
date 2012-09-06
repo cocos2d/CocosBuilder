@@ -61,7 +61,7 @@
         
         if (res.type == kCCBResTypeTTF)
         {
-            fntFile = res.filePath;
+            //fntFile = res.filePath;
             fntFile = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
             [ResourceManagerUtil setTitle:fntFile forPopup:popup forceMarker:YES];
         }
