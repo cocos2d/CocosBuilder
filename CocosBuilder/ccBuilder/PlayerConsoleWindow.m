@@ -40,15 +40,10 @@
 
 - (id)initWithWindow:(NSWindow *)window
 {
-    self = [super initWithWindow:window];
-    if (self) {
-        // Initialization code here.
+    if (self = [super initWithWindow:window]) {
+        playerConnection = [PlayerConnection sharedPlayerConnection];
+        playerConnection.delegate = self;
     }
-    
-    // Setup delegate
-    playerConnection = [PlayerConnection sharedPlayerConnection];
-    playerConnection.delegate = self;
-    
     return self;
 }
 
