@@ -296,7 +296,7 @@ NSString *const kThoMoNetworkPrefScopeSpecifierKey				= @"kThoMoNetworkPrefScope
 	NSString *connectionKey = [self keyForConnection:theConnection];
 	
 	NSError *theError = [theStream streamError];
-	NSString *userMessage = [NSString stringWithFormat:@"Error %i: \"%@\" on stream to %@! Terminating connection.", [theError code], [theError localizedDescription], connectionKey];
+	NSString *userMessage = [NSString stringWithFormat:@"Error %li: \"%@\" on stream to %@! Terminating connection.", [theError code], [theError localizedDescription], connectionKey];
 	
 	[theConnection close];
 	
