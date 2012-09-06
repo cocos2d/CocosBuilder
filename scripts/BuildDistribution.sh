@@ -16,7 +16,6 @@ cd ..
 mkdir "build/CocosBuilder-$CCB_VERSION-examples"
 cp -RL CocosBuilderExample "build/CocosBuilder-$CCB_VERSION-examples/"
 cp -RL "Add to Your Project" "build/CocosBuilder-$CCB_VERSION-examples/"
-cp -RL Documentation "build/CocosBuilder-$CCB_VERSION-examples/"
 
 cd build/
 zip -r "CocosBuilder-$CCB_VERSION.zip" CocosBuilder.app
