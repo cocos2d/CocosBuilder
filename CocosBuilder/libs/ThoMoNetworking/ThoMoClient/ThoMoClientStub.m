@@ -88,8 +88,8 @@
 	self = [super initWithProtocolIdentifier:theProtocolIdentifier];
 	if (self != nil) {
 		// add inits here
-		self.offeredNetServices		= [[NSMutableArray alloc] init];
-		self.connectedNetServices	= [[NSMutableDictionary alloc] init];
+		self.offeredNetServices		= [[[NSMutableArray alloc] init] autorelease];
+		self.connectedNetServices	= [[[NSMutableDictionary alloc] init] autorelease];
 	}
 	return self;
 }
