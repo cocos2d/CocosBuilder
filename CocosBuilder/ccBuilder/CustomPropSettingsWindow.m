@@ -83,7 +83,7 @@
         // Check that names are not duplicates of existing props
         if ([propNames containsObject:setting.name])
         {
-            NSAlert* alert = [NSAlert alertWithMessageText:@"Duplicate Property Name" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:[NSString stringWithFormat:@"The %@ property has the same name as a predefined property. Please find another name.", setting.name]];
+            NSAlert* alert = [NSAlert alertWithMessageText:@"Duplicate Property Name" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"The %@ property has the same name as a predefined property. Please find another name.", setting.name];
             [alert beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
             return NO;
         }
@@ -94,7 +94,7 @@
         // Custom props cannot have same names
         if ([propNames containsObject:setting.name])
         {
-            NSAlert* alert = [NSAlert alertWithMessageText:@"Duplicate Property Name" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:[NSString stringWithFormat:@"The %@ property has the same name as another custom property. Please find another name.", setting.name]];
+            NSAlert* alert = [NSAlert alertWithMessageText:@"Duplicate Property Name" defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"The %@ property has the same name as another custom property. Please find another name.", setting.name];
             [alert beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
             return NO;
         }
