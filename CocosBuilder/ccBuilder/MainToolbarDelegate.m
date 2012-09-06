@@ -60,7 +60,7 @@
         
         
         // Add menu with plugIns
-        NSMenu* menu = [[NSMenu alloc] initWithTitle:@"User PlugIns"];
+        NSMenu* menu = [[[NSMenu alloc] initWithTitle:@"User PlugIns"] autorelease];
         
         if (userPlugIns.count > 0)
         {
