@@ -53,8 +53,6 @@ static void _events_callback(ConstFSEventStreamRef streamRef,
 							 const FSEventStreamEventFlags eventFlags[], 
 							 const FSEventStreamEventId eventIds[]);
 
-static CFStringRef _strip_trailing_slash(CFStringRef string);
-
 @end
 
 @implementation SCEvents
@@ -347,7 +345,7 @@ static void _events_callback(ConstFSEventStreamRef streamRef,
          */
         
 		NSArray *excludedPaths = [pathWatcher excludedPaths];
-        CFStringRef eventPath = CFArrayGetValueAtIndex(paths, (CFIndex)i);
+        CFStringRef eventPath = CFRetain(CFArrayGetValueAtIndex(paths, (CFIndex)i));
         
         // Check to see if the event should be ignored if it's path is in the exclude list
         if ([excludedPaths containsObject:(NSString *)eventPath]) {
@@ -368,13 +366,15 @@ static void _events_callback(ConstFSEventStreamRef streamRef,
         }
     
         if (!shouldIgnore) {
-			
-			// If present remove the path's trailing slash
-			eventPath = _strip_trailing_slash(eventPath);
+            if (CFStringHasSuffix(eventPath, CFSTR("/"))) {
+                CFStringRef tmp = CFStringCreateWithSubstring(kCFAllocatorDefault, eventPath, CFRangeMake(0, (CFStringGetLength(eventPath) - 1)));
+                CFRelease(eventPath); CFRetain(eventPath = tmp); CFRelease(tmp);
+	    }
+
             
             SCEvent *event = [SCEvent eventWithEventId:(NSUInteger)eventIds[i] eventDate:[NSDate date] eventPath:(NSString *)eventPath eventFlags:(SCEventFlags)eventFlags[i]];
 			
-			CFRelease(eventPath);
+
 			
             if ([[pathWatcher delegate] conformsToProtocol:@protocol(SCEventListenerProtocol)]) {
                 [[pathWatcher delegate] pathWatcher:pathWatcher eventOccurred:event];
@@ -384,26 +384,8 @@ static void _events_callback(ConstFSEventStreamRef streamRef,
                 [pathWatcher setLastEvent:event];
             }
         }
+        CFRelease(eventPath);
     }
-}
-
-/**
- * If present, strips the trailing slash from the supplied string. Note, that the caler is
- * responsible for freeing the associate memory.
- *
- * @param string The string that is to be stripped
- *
- @ @return The resulting string
- */
-static CFStringRef _strip_trailing_slash(CFStringRef string)
-{
-	CFStringRef stripped = string;
-	
-	if (CFStringHasSuffix((CFStringRef)stripped, CFSTR("/"))) {
-		stripped = CFStringCreateWithSubstring(kCFAllocatorDefault, stripped, CFRangeMake(0, (CFStringGetLength(stripped) - 1)));				
-	}
-	
-	return (stripped) ? CFMakeCollectable(stripped) : string;
 }
 
 @end
