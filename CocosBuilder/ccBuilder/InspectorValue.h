@@ -78,4 +78,8 @@
 - (BOOL)isSeparator;
 - (BOOL)setSuperviewFrameHeight;
 
+/* These methods are used for handling keyboard events (arrow up/down) in controls */
+- (void)incrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier;
+- (void)decrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier;
+
 @end

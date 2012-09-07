@@ -250,4 +250,42 @@
     return YES;
 }
 
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)fieldEditor doCommandBySelector:(SEL)commandSelector
+{
+    BOOL handled = NO;
+    
+    if( commandSelector == @selector(moveUp:) )
+    {
+        handled = YES;
+        [self incrementValueWithSender:control modifier:NO];
+    }
+    else if( commandSelector == @selector(moveUpAndModifySelection:) )
+    {
+        handled = YES;
+        [self incrementValueWithSender:control modifier:YES];
+    }
+    else if( commandSelector == @selector(moveDown:) )
+    {
+        handled = YES;
+        [self decrementValueWithSender:control modifier:NO];
+    }
+    else if( commandSelector == @selector(moveDownAndModifySelection:) )
+    {
+        handled = YES;
+        [self decrementValueWithSender:control modifier:YES];
+    }
+    
+    return handled;    // Default handling of the command
+}
+
+- (void)incrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    // Override in sub-class to implement this behavior
+}
+
+- (void)decrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    // Override in sub-class to implement this behavior
+}
+
 @end
