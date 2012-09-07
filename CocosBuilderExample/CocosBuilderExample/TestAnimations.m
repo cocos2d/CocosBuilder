@@ -13,6 +13,11 @@
 
 @synthesize animationManager;
 
+- (void) didLoadFromCCB
+{
+    self.animationManager = self.userObject;
+}
+
 - (void) pressedIdle:(id)sender
 {
     [animationManager runAnimationsForSequenceNamed:@"Idle" tweenDuration:0.3f];
