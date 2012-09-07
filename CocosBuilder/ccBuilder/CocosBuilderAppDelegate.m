@@ -1742,7 +1742,7 @@ static BOOL hideAllToNextSeparator;
     
     CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
     [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
-    [PositionPropertySetter setPosition:[parent convertToNodeSpace:pt] forNode:node prop:@"position"];
+    [PositionPropertySetter setPosition:[parent convertToNodeSpace:pt] type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
     [self addCCObject:node toParent:parent];
 }
 
