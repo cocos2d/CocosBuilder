@@ -84,6 +84,7 @@
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
 #import "HelpWindow.h"
+#import "NodeGraphPropertySetter.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1726,6 +1727,23 @@ static BOOL hideAllToNextSeparator;
     {
         [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[node convertToNodeSpace:pt] parent:node];
     }
+}
+
+- (void) dropAddCCBFileNamed:(NSString*)ccbFile at:(CGPoint)pt parent:(CCNode*)parent
+{
+    if (!parent)
+    {
+        if (self.selectedNode != [CocosScene cocosScene].rootNode)
+        {
+            parent = self.selectedNode.parent;
+        }
+        if (!parent) parent = [CocosScene cocosScene].rootNode;
+    }
+    
+    CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
+    [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:[parent convertToNodeSpace:pt] forNode:node prop:@"position"];
+    [self addCCObject:node toParent:parent];
 }
 
 

@@ -264,6 +264,7 @@
 {
     NSString* spriteFile = NULL;
     NSString* spriteSheetFile = NULL;
+    NSString* ccbFile = NULL;
     
     for (id item in items)
     {
@@ -273,6 +274,10 @@
             if (res.type == kCCBResTypeImage)
             {
                 spriteFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
+            }
+            else if (res.type == kCCBResTypeCCBFile)
+            {
+                ccbFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
             }
         }
         else if ([item isKindOfClass:[RMSpriteFrame class]])
@@ -297,6 +302,17 @@
         NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
         [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.texture"] owner:NULL];
         [pasteboard setData:clipData forType:@"com.cocosbuilder.texture"];
+        
+        return YES;
+    }
+    else if (ccbFile)
+    {
+        NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
+        [clipDict setObject:ccbFile forKey:@"ccbFile"];
+        
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
+        [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.ccb"] owner:NULL];
+        [pasteboard setData:clipData forType:@"com.cocosbuilder.ccb"];
         
         return YES;
     }
