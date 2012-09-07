@@ -1692,6 +1692,10 @@ static BOOL hideAllToNextSeparator;
         // Create the node
         CCNode* node = [plugInManager createDefaultNodeOfType:class];
         
+        // Round position
+        pt.x = roundf(pt.x);
+        pt.y = roundf(pt.y);
+        
         // Set its position
         [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
