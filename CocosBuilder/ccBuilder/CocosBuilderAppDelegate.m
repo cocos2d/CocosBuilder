@@ -1738,11 +1738,13 @@ static BOOL hideAllToNextSeparator;
             parent = self.selectedNode.parent;
         }
         if (!parent) parent = [CocosScene cocosScene].rootNode;
+        
+        pt = [parent convertToNodeSpace:pt];
     }
     
     CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
     [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
-    [PositionPropertySetter setPosition:[parent convertToNodeSpace:pt] type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:pt type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
     [self addCCObject:node toParent:parent];
 }
 
