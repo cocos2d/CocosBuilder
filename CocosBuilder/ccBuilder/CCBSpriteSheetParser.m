@@ -114,7 +114,7 @@ static NSInteger strSort(id num1, id num2, void *context)
     if (![imgRep isKindOfClass:[NSBitmapImageRep class]]) return NULL;
     NSBitmapImageRep* bitmapRep = (NSBitmapImageRep*) imgRep;
             
-    tex = [[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])];
+    tex = [[[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])] autorelease];
     [tex addRepresentation:bitmapRep];
     [tex setFlipped:YES];
     
@@ -138,6 +138,7 @@ static NSInteger strSort(id num1, id num2, void *context)
     {
         imgFrame = [[NSImage alloc] initWithSize:rect.size];
     }
+    [imgFrame autorelease];
     [imgFrame setFlipped:YES];
     [imgFrame lockFocus];
     

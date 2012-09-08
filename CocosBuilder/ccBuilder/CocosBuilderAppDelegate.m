@@ -195,7 +195,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupToolbar
 {
-    MainToolbarDelegate* toolbarDelegate = [[MainToolbarDelegate alloc] init];
+    MainToolbarDelegate* toolbarDelegate = [[[MainToolbarDelegate alloc] init] autorelease];
     toolbar.delegate = toolbarDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
@@ -207,7 +207,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupPlayerConnection
 {
-    PlayerConnection* connection = [[PlayerConnection alloc] init];
+    PlayerConnection* connection = [[[PlayerConnection alloc] init] autorelease];
     [connection run];
 }
 
@@ -325,7 +325,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg
 {
-    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
+    NSAlert* alert = [[[NSAlert alloc] init] autorelease];
+    [alert setMessageText:title];
+    [alert setInformativeText:msg];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert addButtonWithTitle:@"OK"];
     [alert runModal];
 }
 
@@ -2039,7 +2043,7 @@ static BOOL hideAllToNextSeparator;
     warnings.warningsDescription = @"Publisher Warnings";
     
     // Setup publisher
-    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+    CCBPublisher* publisher = [[[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings] autorelease];
     publisher.runAfterPublishing = run;
     
     // Open progress window and publish
@@ -2513,7 +2517,7 @@ static BOOL hideAllToNextSeparator;
     
     // Duplicate current timeline
     int newSeqId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
-    SequencerSequence* newSeq = [sequenceHandler.currentSequence duplicateWithNewId:newSeqId];
+    SequencerSequence* newSeq = [[sequenceHandler.currentSequence copyWithNewId:newSeqId] autorelease];
     
     // Add it to list
     [currentDocument.sequences addObject:newSeq];
@@ -2650,7 +2654,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    int newIndex;
+    int newIndex = 0;
     
     // Bring forward / send backward
     if (type == kCCBArrangeSendToBack)
@@ -2852,7 +2856,7 @@ static BOOL hideAllToNextSeparator;
             if (requestedDelay < 0)
             {
                 // TODO: Handle frame skipping
-                requestedDelay = 0;
+                ;//requestedDelay = 0;
             }
             
             // Call this method again in a little while

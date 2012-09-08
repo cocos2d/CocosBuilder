@@ -354,7 +354,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), self, width, height];
+    return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), (unsigned int)self, width, height];
 }
 
 - (id) copyWithZone:(NSZone*)zone

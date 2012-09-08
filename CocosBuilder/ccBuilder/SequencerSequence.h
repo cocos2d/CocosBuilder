@@ -26,7 +26,7 @@
 
 @class SequencerSettingsWindow;
 
-@interface SequencerSequence : NSObject
+@interface SequencerSequence : NSObject <NSCopying>
 {
     float timelineScale;
     float timelineOffset;
@@ -69,7 +69,7 @@
 - (id) initWithSerialization:(id)ser;
 - (id) serialize;
 
-- (SequencerSequence*) duplicateWithNewId:(int)seqId;
+- (SequencerSequence*) copyWithNewId:(int)seqId;
 
 - (float) alignTimeToResolution:(float)time;
 

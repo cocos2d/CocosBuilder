@@ -31,7 +31,7 @@
 
 - (void) copySequences:(NSMutableArray *)seqs
 {
-    self.sequences = [[NSMutableArray arrayWithCapacity:[seqs count]] retain];
+    self.sequences = [NSMutableArray arrayWithCapacity:[seqs count]];
     
     for (SequencerSequence* seq in seqs)
     {
