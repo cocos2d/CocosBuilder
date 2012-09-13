@@ -49,6 +49,8 @@
 + (ResolutionSetting*) settingIPhone;
 + (ResolutionSetting*) settingIPhoneLandscape;
 + (ResolutionSetting*) settingIPhonePortrait;
++ (ResolutionSetting*) settingIPhone5Landscape;
++ (ResolutionSetting*) settingIPhone5Portrait;
 + (ResolutionSetting*) settingIPad;
 + (ResolutionSetting*) settingIPadLandscape;
 + (ResolutionSetting*) settingIPadPortrait;

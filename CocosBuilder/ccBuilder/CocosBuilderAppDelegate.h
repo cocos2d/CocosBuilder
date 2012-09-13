@@ -27,12 +27,14 @@
 #import "cocos2d.h"
 #import "PSMTabBarControl.h"
 
-#define kCCBNumCanvasDevices 10
+#define kCCBNumCanvasDevices 12
 
 enum {
     kCCBCanvasSizeCustom = 0,
     kCCBCanvasSizeIPhoneLandscape,
     kCCBCanvasSizeIPhonePortrait,
+    kCCBCanvasSizeIPhone5Landscape,
+    kCCBCanvasSizeIPhone5Portrait,
     kCCBCanvasSizeIPadLandscape,
     kCCBCanvasSizeIPadPortrait,
     kCCBCanvasSizeAndroidXSmallLandscape,

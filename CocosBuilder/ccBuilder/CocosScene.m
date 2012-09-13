@@ -171,6 +171,16 @@ static CocosScene* sharedCocosScene;
             deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
             rotateDevice = YES;
         }
+        if (devType == kCCBCanvasSizeIPhone5Portrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone5.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeIPhone5Landscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone5.png"];
+            rotateDevice = YES;
+        }
         else if (devType == kCCBCanvasSizeIPadPortrait)
         {
             deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
