@@ -29,6 +29,51 @@
 
 @synthesize resolutions;
 
+- (void) awakeFromNib
+{
+    [super awakeFromNib];
+    
+    predefinedResolutions = [[NSMutableArray alloc] init];
+    
+    // iOS
+    [predefinedResolutions addObject:[ResolutionSetting settingIPhone]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPhoneLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPhonePortrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPhone5Landscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPhone5Portrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPad]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPadLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingIPadPortrait]];
+    
+    // Android
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXSmall]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXSmallLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXSmallPortrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidSmall]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidSmallLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidSmallPortrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidMedium]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidMediumLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidMediumPortrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidLarge]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidLargeLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidLargePortrait]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXLarge]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXLargeLandscape]];
+    [predefinedResolutions addObject:[ResolutionSetting settingAndroidXLargePortrait]];
+    
+    int i = 0;
+    for (ResolutionSetting* setting in predefinedResolutions)
+    {
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:setting.name action:@selector(addPredefined:) keyEquivalent:@""] autorelease];
+        item.target = self;
+        item.tag = i;
+        [addPredefinedPopup.menu addItem:item];
+        
+        i++;
+    }
+}
+
 - (void) copyResolutions:(NSMutableArray *)res
 {
     [resolutions release];
@@ -56,9 +101,16 @@
     }
 }
 
+- (void) addPredefined:(id)sender
+{
+    ResolutionSetting* setting = [predefinedResolutions objectAtIndex:[sender tag]];
+    [arrayController addObject:setting];
+}
+
 - (void) dealloc
 {
     [resolutions release];
+    [predefinedResolutions release];
     [super dealloc];
 }
 

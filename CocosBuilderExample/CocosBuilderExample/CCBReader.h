@@ -116,6 +116,7 @@ enum
     id owner;
     
     CCBAnimationManager* actionManager;
+    NSMutableDictionary* actionManagers;
     NSMutableSet* animatedProps;
 }
 
@@ -126,17 +127,12 @@ enum
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
-+ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner animationManager:(CCBAnimationManager **)animationManager;
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize animationManager:(CCBAnimationManager**)animationManager;
 
-+ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBAnimationManager**)actionManager;
 + (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize;
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner animationManager:(CCBAnimationManager**)animationManager;
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize animationManager:(CCBAnimationManager**)animationManager;
 
 + (void) setResolutionScale:(float)scale;
 

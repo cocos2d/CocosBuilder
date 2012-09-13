@@ -686,7 +686,7 @@
         CCBReader* reader = [[[CCBReader alloc] initWithData: d owner:owner] autorelease];
         reader.actionManager.rootContainerSize = parent.contentSize;
         
-        CCNode* ccbFile = [reader readFileWithCleanUp:NO];
+        CCNode* ccbFile = [reader readFileWithCleanUp:NO actionManagers:actionManagers];
         
         if (ccbFile && reader.actionManager.autoPlaySequenceId != -1)
         {
@@ -930,18 +930,7 @@
         [node addChild:child];
     }
     
-    // Call didLoadFromCCB
-    if ([node respondsToSelector:@selector(didLoadFromCCB)])
-    {
-        [node performSelector:@selector(didLoadFromCCB)];
-    }
-    
     return node;
-}
-
-- (CCNode*) readNodeGraph
-{
-    return [self readNodeGraphParent:NULL];
 }
 
 - (BOOL) readSequences
@@ -1010,13 +999,17 @@
     }
 }
 
-- (CCNode*) readFileWithCleanUp:(BOOL)cleanUp
+- (CCNode*) readFileWithCleanUp:(BOOL)cleanUp actionManagers:(NSMutableDictionary*)am
 {
     if (![self readHeader]) return NULL;
     if (![self readStringCache]) return NULL;
     if (![self readSequences]) return NULL;
     
-    CCNode* node = [self readNodeGraph];
+    actionManagers = am;
+    
+    CCNode* node = [self readNodeGraphParent:NULL];
+    
+    [actionManagers setObject:self.actionManager forKey:[NSValue valueWithPointer:node]];
     
     if (cleanUp)
     {
@@ -1026,17 +1019,32 @@
     return node;
 }
 
++ (void) callDidLoadFromCCBForNodeGraph:(CCNode*)nodeGraph
+{
+    if ([nodeGraph respondsToSelector:@selector(didLoadFromCCB)])
+    {
+        [nodeGraph performSelector:@selector(didLoadFromCCB)];
+    }
+    
+    CCNode* child = NULL;
+    CCARRAY_FOREACH(nodeGraph.children, child)
+    {
+        [CCBReader callDidLoadFromCCBForNodeGraph:child];
+    }
+}
+
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner
 {
     return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize]];
 }
 
-+ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBAnimationManager**)actionManager
++ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize
 {
     CCBReader* reader = [[[CCBReader alloc] initWithData: data owner:owner] autorelease];
     reader.actionManager.rootContainerSize = parentSize;
     
-    CCNode* nodeGraph = [reader readFileWithCleanUp:YES];
+    NSMutableDictionary* animationManagers = [NSMutableDictionary dictionary];
+    CCNode* nodeGraph = [reader readFileWithCleanUp:YES actionManagers:animationManagers];
     
     if (nodeGraph && reader.actionManager.autoPlaySequenceId != -1)
     {
@@ -1044,37 +1052,28 @@
         [reader.actionManager runAnimationsForSequenceId:reader.actionManager.autoPlaySequenceId tweenDuration:0];
     }
     
-    // Return action manager by reference
-    if (actionManager)
+    // Assign actionManagers to userObject
+    for (NSValue* pointerValue in animationManagers)
     {
-        *actionManager = reader.actionManager;
+        CCNode* node = [pointerValue pointerValue];
+        
+        CCBAnimationManager* manager = [animationManagers objectForKey:pointerValue];
+        node.userObject = manager;
     }
+    
+    // Call didLoadFromCCB
+    [CCBReader callDidLoadFromCCBForNodeGraph:nodeGraph];
     
     return nodeGraph;
 }
 
-+ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize
-{
-    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:NULL];
-}
-
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize animationManager:(CCBAnimationManager**)actionManager
++ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
 {
     // Load binary file
     NSString* path = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:file];
     NSData* data = [NSData dataWithContentsOfFile:path];
     
-    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize actionManager:actionManager];
-}
-
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize
-{
-    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize animationManager:NULL];
-}
-
-+ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner animationManager:(CCBAnimationManager **)actionManager
-{
-    return [CCBReader nodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] animationManager:actionManager];
+    return [CCBReader nodeGraphFromData:data owner:owner parentSize:parentSize];
 }
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file
@@ -1089,17 +1088,7 @@
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize
 {
-    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:parentSize animationManager:NULL];
-}
-
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner  animationManager:(CCBAnimationManager**)actionManager
-{
-    return [CCBReader sceneWithNodeGraphFromFile:file owner:owner parentSize:[[CCDirector sharedDirector] winSize] animationManager:actionManager];
-}
-
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize animationManager:(CCBAnimationManager**)actionManager
-{
-    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize animationManager:actionManager];
+    CCNode* node = [CCBReader nodeGraphFromFile:file owner:owner parentSize:parentSize];
     CCScene* scene = [CCScene node];
     [scene addChild:node];
     return scene;

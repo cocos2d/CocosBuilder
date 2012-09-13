@@ -50,7 +50,7 @@
     
     trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
     
-    [self registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
+    [self registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.texture", @"com.cocosbuilder.template", @"com.cocosbuilder.ccb", NULL]];
 }
 
 
@@ -72,6 +72,7 @@
 - (BOOL)performDragOperation:(id < NSDraggingInfo >)sender
 {
     NSPoint pt = [self convertPoint:[sender draggingLocation] fromView:NULL];
+    pt = ccp(roundf(pt.x),roundf(pt.y));
     
     NSPasteboard* pb = [sender draggingPasteboard];
     
@@ -80,6 +81,14 @@
     {
         NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
         [appDelegate dropAddSpriteNamed:[pdDict objectForKey:@"spriteFile"] inSpriteSheet:[pdDict objectForKey:@"spriteSheetFile"] at:ccp(pt.x,pt.y)];
+    }
+    
+    pdData = [pb dataForType:@"com.cocosbuilder.ccb"];
+    if (pdData)
+    {
+        NSLog(@"Handling ccb drop!");
+        NSDictionary* pdDict = [NSKeyedUnarchiver unarchiveObjectWithData:pdData];
+        [appDelegate dropAddCCBFileNamed:[pdDict objectForKey:@"ccbFile"] at:ccp(pt.x,pt.y) parent:NULL];
     }
 
     return YES;

@@ -84,6 +84,7 @@
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
 #import "HelpWindow.h"
+#import "NodeGraphPropertySetter.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -257,6 +258,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // iOS
     defaultCanvasSizes[kCCBCanvasSizeIPhoneLandscape] = CGSizeMake(480, 320);
     defaultCanvasSizes[kCCBCanvasSizeIPhonePortrait] = CGSizeMake(320, 480);
+    defaultCanvasSizes[kCCBCanvasSizeIPhone5Landscape] = CGSizeMake(568, 320);
+    defaultCanvasSizes[kCCBCanvasSizeIPhone5Portrait] = CGSizeMake(320, 568);
     defaultCanvasSizes[kCCBCanvasSizeIPadLandscape] = CGSizeMake(1024, 768);
     defaultCanvasSizes[kCCBCanvasSizeIPadPortrait] = CGSizeMake(768, 1024);
     
@@ -1696,6 +1699,10 @@ static BOOL hideAllToNextSeparator;
         // Create the node
         CCNode* node = [plugInManager createDefaultNodeOfType:class];
         
+        // Round position
+        pt.x = roundf(pt.x);
+        pt.y = roundf(pt.y);
+        
         // Set its position
         [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
@@ -1726,6 +1733,25 @@ static BOOL hideAllToNextSeparator;
     {
         [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[node convertToNodeSpace:pt] parent:node];
     }
+}
+
+- (void) dropAddCCBFileNamed:(NSString*)ccbFile at:(CGPoint)pt parent:(CCNode*)parent
+{
+    if (!parent)
+    {
+        if (self.selectedNode != [CocosScene cocosScene].rootNode)
+        {
+            parent = self.selectedNode.parent;
+        }
+        if (!parent) parent = [CocosScene cocosScene].rootNode;
+        
+        pt = [parent convertToNodeSpace:pt];
+    }
+    
+    CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
+    [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:pt type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
+    [self addCCObject:node toParent:parent];
 }
 
 

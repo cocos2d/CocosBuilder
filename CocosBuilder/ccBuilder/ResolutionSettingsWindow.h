@@ -27,6 +27,10 @@
 @interface ResolutionSettingsWindow : CCBModalSheetController
 {
     NSMutableArray* resolutions;
+    NSMutableArray* predefinedResolutions;
+    IBOutlet NSPopUpButton* addPredefinedPopup;
+    
+    IBOutlet NSArrayController* arrayController;
 }
 
 @property (nonatomic,retain) NSMutableArray* resolutions;
