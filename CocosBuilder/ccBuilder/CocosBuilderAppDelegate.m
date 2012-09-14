@@ -1355,6 +1355,9 @@ static BOOL hideAllToNextSeparator;
     // Remove selections
     [self setSelectedNodes:NULL];
     
+    // Make sure timeline is up to date
+    [sequenceHandler updatePropertiesToTimelinePosition];
+    
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
