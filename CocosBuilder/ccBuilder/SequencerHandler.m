@@ -466,11 +466,14 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     CCNode* node = item;
+    BOOL isRootNode = (node == [CocosScene cocosScene].rootNode);
+    BOOL isCCBFile = [NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"];
     
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
+        expCell.canExpand = (!isRootNode && !isCCBFile);
     }
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
@@ -504,6 +507,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) toggleSeqExpanderForRow:(int)row
 {
     CCNode* node = [outlineHierarchy itemAtRow:row];
+    
+    if (node == [CocosScene cocosScene].rootNode && !node.seqExpanded) return;
+    if ([NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"] && !node.seqExpanded) return;
     
     node.seqExpanded = !node.seqExpanded;
     

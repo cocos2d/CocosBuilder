@@ -717,16 +717,18 @@
 
 - (BOOL) shouldDisableProperty:(NSString*) prop
 {
-    if (self != [CocosScene cocosScene].rootNode) return NO;
+    if (self != [CocosScene cocosScene].rootNode
+        && ![NSStringFromClass(self.class) isEqualToString:@"CCBPCCBFile"]) return NO;
     
+    /*
     if ([prop isEqualToString:@"position"]) return YES;
     else if ([prop isEqualToString:@"scale"]) return YES;
     else if ([prop isEqualToString:@"rotation"]) return YES;
     else if ([prop isEqualToString:@"tag"]) return YES;
     else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return YES;
     else if ([prop isEqualToString:@"visible"]) return YES;
-    
-    return NO;
+    */
+    return YES;
 }
 
 - (CGPoint) transformStartPosition

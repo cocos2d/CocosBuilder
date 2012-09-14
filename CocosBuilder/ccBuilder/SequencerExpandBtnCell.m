@@ -26,6 +26,7 @@
 @implementation SequencerExpandBtnCell
 
 @synthesize isExpanded;
+@synthesize canExpand;
 
 - (void) loadImages
 {
@@ -102,13 +103,16 @@
     }
     */
     
-    if (isExpanded)
+    if (canExpand)
     {
-        [imgCollapse drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
-    }
-    else
-    {
-        [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+        if (isExpanded)
+        {
+            [imgCollapse drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+        }
+        else
+        {
+            [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+        }
     }
 }
 
