@@ -536,6 +536,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window disableUpdatesUntilFlush];
 }
 
+- (CGFloat) splitView:(NSSplitView *)sv constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    float max = sv.frame.size.height - 62;
+    if (proposedMaximumPosition > max) return max;
+    else return proposedMaximumPosition;
+}
+
 #pragma mark Populate Inspector
 
 - (void) refreshProperty:(NSString*) name
