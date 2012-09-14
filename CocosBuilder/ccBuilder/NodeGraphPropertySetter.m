@@ -29,13 +29,15 @@
 #import "CCBDocument.h"
 #import "CCBReaderInternal.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerSequence.h"
 
 @implementation NodeGraphPropertySetter
 
 + (void) setNodeGraphForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) ccbFileName parentSize:(CGSize)parentSize
 {
     CCNode* ccbFile = NULL;
-    int currentSequenceId = 0;
+    NSMutableArray* sequences = [NSMutableArray array];
+    int startSequence = -1;
     
     if (ccbFileName && ![ccbFileName isEqualToString:@""])
     {
@@ -52,7 +54,7 @@
     
             // Verify doc type and version
             if ([[doc objectForKey:@"fileType"] isEqualToString:@"CocosBuilder"]
-                && [[doc objectForKey:@"fileVersion"] intValue] == kCCBFileFormatVersion)
+                && [[doc objectForKey:@"fileVersion"] intValue] <= kCCBFileFormatVersion)
             {
     
                 // Parse the node graph
@@ -60,7 +62,16 @@
             }
             
             // Get first timeline
-            currentSequenceId = [[doc objectForKey:@"currentSequenceId"] intValue];
+            NSArray* sequenceDicts = [doc objectForKey:@"sequences"];
+            for (NSDictionary* seqDict in sequenceDicts)
+            {
+                SequencerSequence* seq = [[[SequencerSequence alloc] initWithSerialization:seqDict] autorelease];
+                [sequences addObject:seq];
+                
+                if (seq.autoPlay) startSequence = seq.sequenceId;
+            }
+            
+#warning TODO: Save sequence chain
         }
     }
     
@@ -70,7 +81,8 @@
     // Set extra prop
     if (!ccbFileName) ccbFileName = @"";
     [node setExtraProp:ccbFileName forKey:prop];
-    [ccbFile setExtraProp:[NSNumber numberWithInt:currentSequenceId] forKey:@"*sequenceId"];
+    [ccbFile setExtraProp:sequences forKey:@"*sequences"];
+    [ccbFile setExtraProp:[NSNumber numberWithInt: startSequence] forKey:@"*startSequence"];
 }
 
 + (NSString*) nodeGraphNameForNode:(CCNode*)node andProperty:(NSString*)prop
