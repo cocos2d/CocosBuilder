@@ -666,9 +666,11 @@
 {
     // Write class
     NSString* class = [node objectForKey:@"customClass"];
+    BOOL hasCustomClass = YES;
     if (!class || [class isEqualToString:@""])
     {
         class = [node objectForKey:@"baseClass"];
+        hasCustomClass = NO;
     }
     [self writeCachedString:class isPath:NO];
     
@@ -768,6 +770,9 @@
     // Write properties
     NSArray* props = [node objectForKey:@"properties"];
     NSArray* customProps = [node objectForKey:@"customProperties"];
+    
+    // Only write customProps if there is a custom class
+    if (!hasCustomClass) customProps = [NSArray array];
     
     [self writeInt:(int)[props count] withSign:NO];
     [self writeInt:(int)[customProps count] withSign:NO];
