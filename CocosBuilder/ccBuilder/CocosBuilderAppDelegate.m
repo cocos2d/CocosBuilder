@@ -2563,6 +2563,7 @@ static BOOL hideAllToNextSeparator;
     FNTConfigRemoveCache();  
   
     [self switchToDocument:currentDocument forceReload:YES];
+    [sequenceHandler updatePropertiesToTimelinePosition];
 }
 
 - (IBAction) menuAlignToPixels:(id)sender
