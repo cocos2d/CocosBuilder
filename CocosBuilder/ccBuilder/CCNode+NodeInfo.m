@@ -717,8 +717,8 @@
 
 - (BOOL) shouldDisableProperty:(NSString*) prop
 {
-    if (self != [CocosScene cocosScene].rootNode
-        && ![NSStringFromClass(self.class) isEqualToString:@"CCBPCCBFile"]) return NO;
+    if (self != [CocosScene cocosScene].rootNode /*
+        && ![NSStringFromClass(self.class) isEqualToString:@"CCBPCCBFile"]*/) return NO;
     
     /*
     if ([prop isEqualToString:@"position"]) return YES;
