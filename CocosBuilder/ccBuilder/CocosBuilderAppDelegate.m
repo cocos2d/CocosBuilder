@@ -1981,7 +1981,7 @@ static BOOL hideAllToNextSeparator;
     
     if (self.selectedNodes.count == 0) return;
     
-    CGPoint delta;
+    CGPoint delta = CGPointZero;
     if (dir == 0) delta = ccp(-1, 0);
     else if (dir == 1) delta = ccp(1, 0);
     else if (dir == 2) delta = ccp(0, 1);
@@ -1996,7 +1996,7 @@ static BOOL hideAllToNextSeparator;
     
     if (self.selectedNodes.count == 0) return;
     
-    CGPoint delta;
+    CGPoint delta = CGPointZero;
     if (dir == 0) delta = ccp(-10, 0);
     else if (dir == 1) delta = ccp(10, 0);
     else if (dir == 2) delta = ccp(0, 10);
@@ -2050,7 +2050,7 @@ static BOOL hideAllToNextSeparator;
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
-    // Setup publisher
+    // Setup publisher, publisher is released in publisher:finishedWithWarnings:
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     publisher.runAfterPublishing = run;
     
@@ -2662,7 +2662,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    int newIndex;
+    int newIndex = 0;
     
     // Bring forward / send backward
     if (type == kCCBArrangeSendToBack)
@@ -2861,10 +2861,10 @@ static BOOL hideAllToNextSeparator;
             double delayTime = requestedDelay - extraTime;
             playbackLastFrameTime = thisTime;
             
-            if (requestedDelay < 0)
+            if (delayTime < 0)
             {
                 // TODO: Handle frame skipping
-                requestedDelay = 0;
+                delayTime = 0;
             }
             
             // Call this method again in a little while
