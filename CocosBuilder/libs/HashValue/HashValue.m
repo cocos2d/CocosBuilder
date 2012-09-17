@@ -79,7 +79,7 @@
 
 - (NSString *)description
 {
-	NSInteger byteLength;
+	NSInteger byteLength = 0;
 	if (type == HASH_VALUE_MD5_TYPE)
 	{
 		byteLength = sizeof(HashValueMD5Hash);
