@@ -114,10 +114,9 @@ static NSInteger strSort(id num1, id num2, void *context)
     if (![imgRep isKindOfClass:[NSBitmapImageRep class]]) return NULL;
     NSBitmapImageRep* bitmapRep = (NSBitmapImageRep*) imgRep;
             
-    tex = [[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])];
+    tex = [[[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])] autorelease];
     [tex addRepresentation:bitmapRep];
     [tex setFlipped:YES];
-    [tex autorelease];
     
     NSDictionary* dictFrames = [dict objectForKey:@"frames"];
     NSDictionary* frameInfo = [dictFrames objectForKey:spriteFile];
