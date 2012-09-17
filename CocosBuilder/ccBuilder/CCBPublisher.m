@@ -290,7 +290,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
         
         // Zip it up!
-        NSTask* zipTask = [[NSTask alloc] init];
+        NSTask* zipTask = [[[NSTask alloc] init] autorelease];
         [zipTask setCurrentDirectoryPath:outputDir];
         [zipTask setLaunchPath:@"/usr/bin/zip"];
         NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", zipFile, @".", @"-i", @"*", nil];

@@ -216,7 +216,7 @@
     self.timelinePosition = newTime;
 }
 
-- (SequencerSequence*) duplicateWithNewId:(int)seqId
+- (SequencerSequence*) copyWithNewId:(int)seqId
 {
     SequencerSequence* copy = [self copy];
     copy.name = [copy.name stringByAppendingString:@" copy"];
@@ -224,7 +224,7 @@
     
     [[CocosScene cocosScene].rootNode duplicateKeyframesFromSequenceId:sequenceId toSequenceId:seqId];
     
-    return [copy autorelease];
+    return copy;
 }
 
 - (void) dealloc
