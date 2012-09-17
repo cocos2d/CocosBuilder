@@ -142,8 +142,6 @@
     // Clear the menu and add items to it!
     [menu removeAllItems];
     
-    //if (!file) file = @"";
-    
     ResourceManager* rm = [ResourceManager sharedManager];
     
     if ([rm.activeDirectories count] == 0)

@@ -466,11 +466,14 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     CCNode* node = item;
+    BOOL isRootNode = (node == [CocosScene cocosScene].rootNode);
+    //BOOL isCCBFile = [NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"];
     
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
+        expCell.canExpand = (!isRootNode /*&& !isCCBFile*/);
     }
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
@@ -504,6 +507,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) toggleSeqExpanderForRow:(int)row
 {
     CCNode* node = [outlineHierarchy itemAtRow:row];
+    
+    if (node == [CocosScene cocosScene].rootNode && !node.seqExpanded) return;
+    //if ([NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"] && !node.seqExpanded) return;
     
     node.seqExpanded = !node.seqExpanded;
     
@@ -611,9 +617,18 @@ static SequencerHandler* sharedSequencerHandler;
     return keyframes;
 }
 
-- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId
+- (SequencerSequence*) seqId:(int)seqId inArray:(NSArray*)array
 {
-    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:seqId];
+    for (SequencerSequence* seq in array)
+    {
+        if (seq.sequenceId == seqId) return seq;
+    }
+    return NULL;
+}
+
+- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId localTime:(float)time
+{
+    [node updatePropertiesTime:time sequenceId:seqId];
     
     // Also deselect keyframes of children
     CCArray* children = [node children];
@@ -621,18 +636,31 @@ static SequencerHandler* sharedSequencerHandler;
     CCARRAY_FOREACH(children, child)
     {
         int childSeqId = seqId;
+        float localTime = time;
         
         // Sub ccb files uses different sequence id:s
-        NSNumber* childSequence = [child extraPropForKey:@"*sequenceId"];
-        if (childSequence) childSeqId = [childSequence intValue];
+        NSArray* childSequences = [child extraPropForKey:@"*sequences"];
+        int childStartSequence = [[child extraPropForKey:@"*startSequence"] intValue];
         
-        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId];
+        if (childSequences && childStartSequence != -1)
+        {
+            childSeqId = childStartSequence;
+            SequencerSequence* seq = [self seqId:childSeqId inArray:childSequences];
+            
+            while (localTime > seq.timelineLength && seq.chainedSequenceId != -1)
+            {
+                localTime -= seq.timelineLength;
+                seq = [self seqId:seq.chainedSequenceId inArray:childSequences];
+            }
+        }
+        
+        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId localTime:localTime];
     }
 }
 
 - (void) updatePropertiesToTimelinePosition
 {
-    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId];
+    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId localTime:currentSequence.timelinePosition];
 }
 
 - (void) setCurrentSequence:(SequencerSequence *)seq

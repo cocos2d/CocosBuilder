@@ -85,6 +85,8 @@ enum {
 @class MainWindow;
 @class PlayerConsoleWindow;
 @class HelpWindow;
+@class MainToolbarDelegate;
+@class PlayerConnection;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -99,6 +101,7 @@ enum {
     NSMutableDictionary* currentInspectorValues;
     
     IBOutlet NSToolbar* toolbar;
+    MainToolbarDelegate* toolbarDelegate;
     
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
@@ -183,6 +186,7 @@ enum {
     TaskStatusWindow* modalTaskStatusWindow;
     
     // Player
+    PlayerConnection* connection;
     PlayerController* playerController;
     PlayerConsoleWindow* playerConsoleWindow;
     

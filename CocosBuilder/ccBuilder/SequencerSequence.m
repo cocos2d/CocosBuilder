@@ -224,7 +224,7 @@
     
     [[CocosScene cocosScene].rootNode duplicateKeyframesFromSequenceId:sequenceId toSequenceId:seqId];
     
-    return copy;
+    return [copy autorelease];
 }
 
 - (void) dealloc

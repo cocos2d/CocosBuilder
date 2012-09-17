@@ -195,7 +195,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupToolbar
 {
-    MainToolbarDelegate* toolbarDelegate = [[[MainToolbarDelegate alloc] init] autorelease];
+    toolbarDelegate = [[MainToolbarDelegate alloc] init];
     toolbar.delegate = toolbarDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
@@ -207,7 +207,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupPlayerConnection
 {
-    PlayerConnection* connection = [[[PlayerConnection alloc] init] autorelease];
+    connection = [[PlayerConnection alloc] init];
     [connection run];
 }
 
@@ -327,11 +327,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg
 {
-    NSAlert* alert = [[[NSAlert alloc] init] autorelease];
-    [alert setMessageText:title];
-    [alert setInformativeText:msg];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert addButtonWithTitle:@"OK"];
+    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:msg];
     [alert runModal];
 }
 
@@ -538,6 +534,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 -(void)splitViewWillResizeSubviews:(NSNotification *)notification
 {
     [window disableUpdatesUntilFlush];
+}
+
+- (CGFloat) splitView:(NSSplitView *)sv constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    float max = sv.frame.size.height - 62;
+    if (proposedMaximumPosition > max) return max;
+    else return proposedMaximumPosition;
 }
 
 #pragma mark Populate Inspector
@@ -1359,6 +1362,9 @@ static BOOL hideAllToNextSeparator;
     // Remove selections
     [self setSelectedNodes:NULL];
     
+    // Make sure timeline is up to date
+    [sequenceHandler updatePropertiesToTimelinePosition];
+    
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
@@ -1975,7 +1981,7 @@ static BOOL hideAllToNextSeparator;
     
     if (self.selectedNodes.count == 0) return;
     
-    CGPoint delta;
+    CGPoint delta = CGPointZero;
     if (dir == 0) delta = ccp(-1, 0);
     else if (dir == 1) delta = ccp(1, 0);
     else if (dir == 2) delta = ccp(0, 1);
@@ -1990,7 +1996,7 @@ static BOOL hideAllToNextSeparator;
     
     if (self.selectedNodes.count == 0) return;
     
-    CGPoint delta;
+    CGPoint delta = CGPointZero;
     if (dir == 0) delta = ccp(-10, 0);
     else if (dir == 1) delta = ccp(10, 0);
     else if (dir == 2) delta = ccp(0, 10);
@@ -2044,8 +2050,8 @@ static BOOL hideAllToNextSeparator;
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
-    // Setup publisher
-    CCBPublisher* publisher = [[[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings] autorelease];
+    // Setup publisher, publisher is released in publisher:finishedWithWarnings:
+    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     publisher.runAfterPublishing = run;
     
     // Open progress window and publish
@@ -2519,7 +2525,7 @@ static BOOL hideAllToNextSeparator;
     
     // Duplicate current timeline
     int newSeqId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
-    SequencerSequence* newSeq = [[sequenceHandler.currentSequence copyWithNewId:newSeqId] autorelease];
+    SequencerSequence* newSeq = [sequenceHandler.currentSequence duplicateWithNewId:newSeqId];
     
     // Add it to list
     [currentDocument.sequences addObject:newSeq];
@@ -2557,6 +2563,7 @@ static BOOL hideAllToNextSeparator;
     FNTConfigRemoveCache();  
   
     [self switchToDocument:currentDocument forceReload:YES];
+    [sequenceHandler updatePropertiesToTimelinePosition];
 }
 
 - (IBAction) menuAlignToPixels:(id)sender
@@ -2855,10 +2862,10 @@ static BOOL hideAllToNextSeparator;
             double delayTime = requestedDelay - extraTime;
             playbackLastFrameTime = thisTime;
             
-            if (requestedDelay < 0)
+            if (delayTime < 0)
             {
                 // TODO: Handle frame skipping
-                ;//requestedDelay = 0;
+                delayTime = 0;
             }
             
             // Call this method again in a little while
@@ -2983,6 +2990,13 @@ static BOOL hideAllToNextSeparator;
     NSLog(@"DEBUG");
     
     [resManager debugPrintDirectories];
+}
+
+- (void) dealloc
+{
+    [toolbarDelegate release];
+    
+    [super dealloc];
 }
 
 @end
