@@ -63,6 +63,34 @@
     [nodeSequences setObject:seq forKey:nodePtr];
 }
 
+- (void) moveAnimationsFromNode:(CCNode*)fromNode toNode:(CCNode*)toNode
+{
+    NSValue* fromNodePtr = [NSValue valueWithPointer:fromNode];
+    NSValue* toNodePtr = [NSValue valueWithPointer:toNode];
+    
+    // Move base values
+    id baseValue = [baseValues objectForKey:fromNodePtr];
+    if (baseValue)
+    {
+        [baseValues setObject:baseValue forKey:toNodePtr];
+        [baseValues removeObjectForKey:fromNodePtr];
+        
+        [fromNode release];
+        [toNode retain];
+    }
+    
+    // Move keyframes
+    NSDictionary* seqs = [nodeSequences objectForKey:fromNodePtr];
+    if (seqs)
+    {
+        [nodeSequences setObject:seqs forKey:toNodePtr];
+        [nodeSequences removeObjectForKey:fromNodePtr];
+        
+        [fromNode release];
+        [toNode retain];
+    }
+}
+
 - (void) setBaseValue:(id)value forNode:(CCNode*)node propertyName:(NSString*)propName
 {
     NSValue* nodePtr = [NSValue valueWithPointer:node];

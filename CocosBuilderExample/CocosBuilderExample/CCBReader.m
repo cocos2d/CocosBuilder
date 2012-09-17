@@ -885,6 +885,8 @@
         embeddedNode.visible = YES;
         embeddedNode.ignoreAnchorPointForPosition = ccbFileNode.ignoreAnchorPointForPosition;
         
+        [actionManager moveAnimationsFromNode:ccbFileNode toNode:embeddedNode];
+        
         ccbFileNode.ccbFile = NULL;
         
         node = embeddedNode;

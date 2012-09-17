@@ -60,6 +60,8 @@
 - (CGSize) containerSize:(CCNode*)node;
 
 - (void) addNode:(CCNode*)node andSequences:(NSDictionary*)seq;
+- (void) moveAnimationsFromNode:(CCNode*)fromNode toNode:(CCNode*)toNode;
+
 - (void) setBaseValue:(id)value forNode:(CCNode*)node propertyName:(NSString*)propName;
 
 - (void) runAnimationsForSequenceNamed:(NSString*)name tweenDuration:(float)tweenDuration;
