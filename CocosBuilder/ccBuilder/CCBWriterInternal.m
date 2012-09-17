@@ -226,7 +226,7 @@
         BOOL hasKeyframes = [node hasKeyframesForProperty:name];
         id defaultSerialization = [propInfo objectForKey:@"defaultSerialization"];
         BOOL usingDefaultValue = NO;
-        id serializedValue;
+        id serializedValue = NULL;
         
         // Check if this property should be excluded
         if (excludeProps && [excludeProps indexOfObject:name] != NSNotFound)

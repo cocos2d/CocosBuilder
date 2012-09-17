@@ -117,10 +117,14 @@ static NSInteger strSort(id num1, id num2, void *context)
     tex = [[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])];
     [tex addRepresentation:bitmapRep];
     [tex setFlipped:YES];
+    [tex autorelease];
     
     NSDictionary* dictFrames = [dict objectForKey:@"frames"];
     NSDictionary* frameInfo = [dictFrames objectForKey:spriteFile];
-    if (!frameInfo) return NULL;
+    if (!frameInfo)
+    {
+        return NULL;
+    }
     
     NSRect rect = NSRectFromString([frameInfo objectForKey:@"frame"]);
     BOOL rotated = [[frameInfo objectForKey:@"rotated"] boolValue];
@@ -155,6 +159,7 @@ static NSInteger strSort(id num1, id num2, void *context)
     }
     
     [imgFrame unlockFocus];
+    [imgFrame autorelease];
         
     return imgFrame;
 }

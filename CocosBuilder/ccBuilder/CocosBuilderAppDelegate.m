@@ -195,7 +195,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupToolbar
 {
-    MainToolbarDelegate* toolbarDelegate = [[MainToolbarDelegate alloc] init];
+    toolbarDelegate = [[MainToolbarDelegate alloc] init];
     toolbar.delegate = toolbarDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
@@ -207,7 +207,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupPlayerConnection
 {
-    PlayerConnection* connection = [[PlayerConnection alloc] init];
+    connection = [[PlayerConnection alloc] init];
     [connection run];
 }
 
@@ -2989,6 +2989,13 @@ static BOOL hideAllToNextSeparator;
     NSLog(@"DEBUG");
     
     [resManager debugPrintDirectories];
+}
+
+- (void) dealloc
+{
+    [toolbarDelegate release];
+    
+    [super dealloc];
 }
 
 @end

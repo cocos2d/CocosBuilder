@@ -107,7 +107,7 @@
             
             [bundle load];
             
-            PlugInNode* plugIn = [[PlugInNode alloc] initWithBundle:bundle];
+            PlugInNode* plugIn = [[[PlugInNode alloc] initWithBundle:bundle] autorelease];
             if (plugIn && !plugIn.isAbstract)
             {
                 [plugInsNode setObject:plugIn forKey:plugIn.nodeClassName];
@@ -141,7 +141,7 @@
             
             [bundle load];
             
-            PlugInExport* plugIn = [[PlugInExport alloc] initWithBundle:bundle];
+            PlugInExport* plugIn = [[[PlugInExport alloc] initWithBundle:bundle] autorelease];
             if (plugIn)
             {
                 NSString* plugInName = [[plugInPath lastPathComponent] stringByDeletingPathExtension];
