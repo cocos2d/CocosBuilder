@@ -720,6 +720,8 @@
     if (self != [CocosScene cocosScene].rootNode /*
         && ![NSStringFromClass(self.class) isEqualToString:@"CCBPCCBFile"]*/) return NO;
     
+    if ([prop isEqualToString:@"anchorPoint"]) return NO;
+    else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return NO;
     /*
     if ([prop isEqualToString:@"position"]) return YES;
     else if ([prop isEqualToString:@"scale"]) return YES;

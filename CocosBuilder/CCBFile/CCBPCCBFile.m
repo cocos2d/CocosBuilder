@@ -52,12 +52,14 @@
         [self addChild:cf];
         self.contentSize = ccbFile.contentSize;
         self.anchorPoint = ccbFile.anchorPoint;
+        self.ignoreAnchorPointForPosition = ccbFile.ignoreAnchorPointForPosition;
         cf.anchorPoint = ccp(0,0);
     }
     else
     {
         self.contentSize = CGSizeZero;
         self.anchorPoint = ccp(0,0);
+        self.ignoreAnchorPointForPosition = NO;
     }
 }
 

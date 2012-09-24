@@ -376,13 +376,19 @@ static CocosScene* sharedCocosScene;
     {
         for (CCNode* node in nodes)
         {
-            CCNode* parent = node.parent;
+            CGPoint localAnchor = ccp(node.anchorPoint.x * node.contentSize.width,
+                                      node.anchorPoint.y * node.contentSize.height);
             
-            // Add centerpoint
-            CGPoint center = [parent convertToWorldSpace: node.position];
-            CCSprite* selmarkCenter = [CCSprite spriteWithFile:@"select-pt.png"];
-            selmarkCenter.position = center;
-            [selectionLayer addChild:selmarkCenter z:1];
+            CGPoint anchorPointPos = [node convertToWorldSpace:localAnchor];
+            
+            CCSprite* anchorPointSprite = [CCSprite spriteWithFile:@"select-pt.png"];
+            anchorPointSprite.position = anchorPointPos;
+            [selectionLayer addChild:anchorPointSprite z:1];
+            
+            if (node.ignoreAnchorPointForPosition)
+            {
+                anchorPointSprite.opacity = 127;
+            }
             
             //CGPoint minCorner = center;
             
@@ -503,7 +509,10 @@ static CocosScene* sharedCocosScene;
     {
         transformScalingNode = node;
         
-        CGPoint center = [node.parent convertToWorldSpace: node.position];
+        CGPoint localAnchor = ccp(node.anchorPoint.x * node.contentSize.width,
+                                  node.anchorPoint.y * node.contentSize.height);
+        
+        CGPoint center = [node convertToWorldSpace:localAnchor];
         if (ccpDistance(pt, center) < kCCBAnchorPointRadius) return kCCBTransformHandleAnchorPoint;
         
         if (node.contentSize.width == 0 || node.contentSize.height == 0)
@@ -1197,12 +1206,6 @@ static CocosScene* sharedCocosScene;
         trackingArea = [[NSTrackingArea alloc] initWithRect:NSMakeRect(0, 0, winSize.width, winSize.height) options:NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingCursorUpdate | NSTrackingActiveInKeyWindow  owner:[appDelegate cocosView] userInfo:NULL];
         [[appDelegate cocosView] addTrackingArea:trackingArea];
     }
-    
-    // Hide the transparent gui window if it has no subviews
-    //if ([[appDelegate.guiView subviews] count] == 0)
-    //{
-    //    appDelegate.guiWindow.isVisible = NO;
-    //}
 }
 
 #pragma mark Init and dealloc

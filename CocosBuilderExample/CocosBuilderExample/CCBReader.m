@@ -883,7 +883,7 @@
         embeddedNode.scale = ccbFileNode.scale;
         embeddedNode.tag = ccbFileNode.tag;
         embeddedNode.visible = YES;
-        embeddedNode.ignoreAnchorPointForPosition = ccbFileNode.ignoreAnchorPointForPosition;
+        //embeddedNode.ignoreAnchorPointForPosition = ccbFileNode.ignoreAnchorPointForPosition;
         
         [actionManager moveAnimationsFromNode:ccbFileNode toNode:embeddedNode];
         
