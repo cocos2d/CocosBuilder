@@ -135,7 +135,8 @@
         ![node isKindOfClass:[CCMenuItemImage class]] &&
         ![node isKindOfClass:[CCLabelBMFont class]])
     {
-        node.contentSize = [CCBReaderInternalV1 sizeValFromDict:props forKey:@"contentSize"];
+        CGSize contentSize = [CCBReaderInternalV1 sizeValFromDict:props forKey:@"contentSize"];
+        [PositionPropertySetter setSize:contentSize type:0 forNode:node prop:@"contentSize"];
     }
     float scaleX = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleX"];
     float scaleY = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleY"];
