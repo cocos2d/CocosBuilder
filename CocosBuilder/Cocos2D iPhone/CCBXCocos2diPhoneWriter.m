@@ -467,6 +467,42 @@
         
         NSString* type = [prop objectForKey:@"type"];
         
+        id baseValue = [prop objectForKey:@"baseValue"];
+        
+        if (baseValue)
+        {
+            // We need to transform the base value to a normal value (base values override normal values)
+            if ([type isEqualToString:@"Position"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [value objectAtIndex:2],
+                         nil];
+            }
+            else if ([type isEqualToString:@"ScaleLock"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [NSNumber numberWithBool:NO],
+                         [value objectAtIndex:3],
+                         nil];
+            }
+            else if ([type isEqualToString:@"SpriteFrame"])
+            {
+                NSString* a = [baseValue objectAtIndex:0];
+                NSString* b = [baseValue objectAtIndex:1];
+                if ([b isEqualToString:@"Use regular file"]) b = @"";
+                value = [NSArray arrayWithObjects:b, a, nil];
+            }
+            else
+            {
+                // Value needs no transformation
+                value = baseValue;
+            }
+        }
+        
         if ([type isEqualToString:@"SpriteFrame"])
         {
             NSString* a = [value objectAtIndex:0];
