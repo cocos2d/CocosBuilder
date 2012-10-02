@@ -152,6 +152,11 @@
 {
     NSDictionary* propInfo = [nodePropertiesDict objectForKey:prop];
     BOOL dontSetInEditor = [[propInfo objectForKey:@"dontSetInEditor"] boolValue];
+    if ([[propInfo objectForKey:@"type"] isEqualToString:@"Separator"]
+        || [[propInfo objectForKey:@"type"] isEqualToString:@"SeparatorSub"])
+    {
+        dontSetInEditor = YES;
+    }
     
     return dontSetInEditor;
 }
