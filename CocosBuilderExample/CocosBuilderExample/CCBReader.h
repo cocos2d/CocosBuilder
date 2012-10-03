@@ -118,7 +118,13 @@ enum
     CCBAnimationManager* actionManager;
     NSMutableDictionary* actionManagers;
     NSMutableSet* animatedProps;
+    
+    NSMutableArray* ownerOutletNames;
+    NSMutableArray* ownerOutletNodes;
 }
+
+@property (nonatomic,readonly) NSMutableArray* ownerOutletNames;
+@property (nonatomic,readonly) NSMutableArray* ownerOutletNodes;
 
 @property (nonatomic,retain) CCBAnimationManager* actionManager;
 

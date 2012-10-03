@@ -51,6 +51,8 @@
 @implementation CCBReader
 
 @synthesize actionManager;
+@synthesize ownerOutletNames;
+@synthesize ownerOutletNodes;
 
 - (id) init
 {
@@ -76,6 +78,8 @@
     [data release];
     [stringCache release];
     [loadedSpriteSheets release];
+    [ownerOutletNodes release];
+    [ownerOutletNames release];
     self.actionManager = NULL;
     [super dealloc];
 }
@@ -686,6 +690,9 @@
         
         reader->owner = [owner retain];
         
+        reader->ownerOutletNames = [ownerOutletNames retain];
+        reader->ownerOutletNodes = [ownerOutletNodes retain];
+        
         CCNode* ccbFile = [reader readFileWithCleanUp:NO actionManagers:actionManagers];
         
         if (ccbFile && reader.actionManager.autoPlaySequenceId != -1)
@@ -921,6 +928,16 @@
     }
 #endif
     
+    // Assign to arrays
+    if (memberVarAssignmentType)
+    {
+        if (memberVarAssignmentType == kCCBTargetTypeOwner)
+        {
+            [ownerOutletNames addObject:memberVarAssignmentName];
+            [ownerOutletNodes addObject:node];
+        }
+    }
+    
     [animatedProps release];
     animatedProps = NULL;
     
@@ -1046,6 +1063,9 @@
     owner = [o retain];
     
     self.actionManager.rootContainerSize = parentSize;
+    
+    ownerOutletNames = [[NSMutableArray alloc] init];
+    ownerOutletNodes = [[NSMutableArray alloc] init];
     
     NSMutableDictionary* animationManagers = [NSMutableDictionary dictionary];
     CCNode* nodeGraph = [self readFileWithCleanUp:YES actionManagers:animationManagers];
