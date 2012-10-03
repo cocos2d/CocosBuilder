@@ -397,15 +397,6 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="146575532">
-									<reference key="NSMenu" ref="720053764"/>
-									<string key="NSTitle">Publish and Run</string>
-									<string key="NSKeyEquiv">r</string>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
 								<object class="NSMenuItem" id="669744098">
 									<reference key="NSMenu" ref="720053764"/>
 									<string key="NSTitle">Clean Cache</string>
@@ -4165,14 +4156,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">menuPublishProjectAndRun:</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="146575532"/>
-					</object>
-					<int key="connectionID">1517</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">menuUpdateCCBsInDirectory:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="548961486"/>
@@ -4824,60 +4807,6 @@
 					<int key="connectionID">1519</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: projectSettings</string>
-						<reference key="source" ref="146575532"/>
-						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector" id="938956389">
-							<reference key="NSSource" ref="146575532"/>
-							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">enabled: projectSettings</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">projectSettings</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSIsNotNil</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1521</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled2: projectSettings.javascriptBased</string>
-						<reference key="source" ref="146575532"/>
-						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="146575532"/>
-							<reference key="NSDestination" ref="976324537"/>
-							<string key="NSLabel">enabled2: projectSettings.javascriptBased</string>
-							<string key="NSBinding">enabled2</string>
-							<string key="NSKeyPath">projectSettings.javascriptBased</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-								</object>
-								<object class="NSArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="938956389"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">1529</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">checkForUpdates:</string>
 						<reference key="source" ref="193857469"/>
@@ -5158,7 +5087,6 @@
 							<reference ref="436427005"/>
 							<reference ref="938849734"/>
 							<reference ref="5976636"/>
-							<reference ref="146575532"/>
 							<reference ref="548961486"/>
 							<reference ref="962042828"/>
 							<reference ref="149260753"/>
@@ -6060,11 +5988,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1427</int>
 						<reference key="object" ref="5976636"/>
-						<reference key="parent" ref="720053764"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1428</int>
-						<reference key="object" ref="146575532"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -7309,7 +7232,6 @@
 					<string>1417.IBPluginDependency</string>
 					<string>1418.IBPluginDependency</string>
 					<string>1427.IBPluginDependency</string>
-					<string>1428.IBPluginDependency</string>
 					<string>143.IBPluginDependency</string>
 					<string>144.IBPluginDependency</string>
 					<string>1448.IBPluginDependency</string>
@@ -7671,7 +7593,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ResourceManagerOutlineView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7973,7 +7894,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">UIView</string>
+					<string key="superclassName">NSOpenGLView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
