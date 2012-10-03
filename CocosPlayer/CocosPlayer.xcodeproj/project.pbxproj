@@ -466,7 +466,7 @@
 		E35A133C15B0380200C9AA15 /* ThoMoNetworkStub.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A133215B0380200C9AA15 /* ThoMoNetworkStub.m */; };
 		E35A133D15B0380200C9AA15 /* ThoMoServerStub.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A133515B0380200C9AA15 /* ThoMoServerStub.m */; };
 		E35A133E15B0380200C9AA15 /* ThoMoTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A133915B0380200C9AA15 /* ThoMoTCPConnection.m */; };
-		E35A13C615B0536600C9AA15 /* CCBActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13BB15B0536600C9AA15 /* CCBActionManager.m */; };
+		E35A13C615B0536600C9AA15 /* CCBAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13BB15B0536600C9AA15 /* CCBAnimationManager.m */; };
 		E35A13C715B0536600C9AA15 /* CCBKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13BD15B0536600C9AA15 /* CCBKeyframe.m */; };
 		E35A13C815B0536600C9AA15 /* CCBReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13BF15B0536600C9AA15 /* CCBReader.m */; };
 		E35A13C915B0536600C9AA15 /* CCBSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A13C115B0536600C9AA15 /* CCBSequence.m */; };
@@ -1248,8 +1248,8 @@
 		E35A133815B0380200C9AA15 /* ThoMoTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoTCPConnection.h; sourceTree = "<group>"; };
 		E35A133915B0380200C9AA15 /* ThoMoTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThoMoTCPConnection.m; sourceTree = "<group>"; };
 		E35A133A15B0380200C9AA15 /* ThoMoTCPConnectionDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThoMoTCPConnectionDelegateProtocol.h; sourceTree = "<group>"; };
-		E35A13BA15B0536600C9AA15 /* CCBActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBActionManager.h; path = ../CocosBuilderExample/CocosBuilderExample/CCBActionManager.h; sourceTree = "<group>"; };
-		E35A13BB15B0536600C9AA15 /* CCBActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBActionManager.m; path = ../CocosBuilderExample/CocosBuilderExample/CCBActionManager.m; sourceTree = "<group>"; };
+		E35A13BA15B0536600C9AA15 /* CCBAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBAnimationManager.h; path = ../CocosBuilderExample/CocosBuilderExample/CCBAnimationManager.h; sourceTree = "<group>"; };
+		E35A13BB15B0536600C9AA15 /* CCBAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBAnimationManager.m; path = ../CocosBuilderExample/CocosBuilderExample/CCBAnimationManager.m; sourceTree = "<group>"; };
 		E35A13BC15B0536600C9AA15 /* CCBKeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBKeyframe.h; path = ../CocosBuilderExample/CocosBuilderExample/CCBKeyframe.h; sourceTree = "<group>"; };
 		E35A13BD15B0536600C9AA15 /* CCBKeyframe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBKeyframe.m; path = ../CocosBuilderExample/CocosBuilderExample/CCBKeyframe.m; sourceTree = "<group>"; };
 		E35A13BE15B0536600C9AA15 /* CCBReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBReader.h; path = ../CocosBuilderExample/CocosBuilderExample/CCBReader.h; sourceTree = "<group>"; };
@@ -2814,8 +2814,8 @@
 		E35A13B815B0533700C9AA15 /* CCBReader */ = {
 			isa = PBXGroup;
 			children = (
-				E35A13BA15B0536600C9AA15 /* CCBActionManager.h */,
-				E35A13BB15B0536600C9AA15 /* CCBActionManager.m */,
+				E35A13BA15B0536600C9AA15 /* CCBAnimationManager.h */,
+				E35A13BB15B0536600C9AA15 /* CCBAnimationManager.m */,
 				E35A13BC15B0536600C9AA15 /* CCBKeyframe.h */,
 				E35A13BD15B0536600C9AA15 /* CCBKeyframe.m */,
 				E35A13BE15B0536600C9AA15 /* CCBReader.h */,
@@ -3683,7 +3683,7 @@
 				E35A133C15B0380200C9AA15 /* ThoMoNetworkStub.m in Sources */,
 				E35A133D15B0380200C9AA15 /* ThoMoServerStub.m in Sources */,
 				E35A133E15B0380200C9AA15 /* ThoMoTCPConnection.m in Sources */,
-				E35A13C615B0536600C9AA15 /* CCBActionManager.m in Sources */,
+				E35A13C615B0536600C9AA15 /* CCBAnimationManager.m in Sources */,
 				E35A13C715B0536600C9AA15 /* CCBKeyframe.m in Sources */,
 				E35A13C815B0536600C9AA15 /* CCBReader.m in Sources */,
 				E35A13C915B0536600C9AA15 /* CCBSequence.m in Sources */,
