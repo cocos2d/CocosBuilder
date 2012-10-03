@@ -49,6 +49,11 @@
     
     NSObject<CCBAnimationManagerDelegate>* delegate;
     CCBSequence* runningSequence;
+    
+    // Used by javascript bindings
+    NSMutableArray* documentOutletNames;
+    NSMutableArray* documentOutletNodes;
+    NSString* documentControllerName;
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
@@ -56,6 +61,9 @@
 @property (nonatomic,assign) CGSize rootContainerSize;
 @property (nonatomic,retain) NSObject<CCBAnimationManagerDelegate>* delegate;
 @property (nonatomic,readonly) NSString* runningSequenceName;
+@property (nonatomic,readonly) NSMutableArray* documentOutletNames;
+@property (nonatomic,readonly) NSMutableArray* documentOutletNodes;
+@property (nonatomic,copy) NSString* documentControllerName;
 
 - (CGSize) containerSize:(CCNode*)node;
 

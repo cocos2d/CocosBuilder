@@ -27,7 +27,7 @@
 
 @class CCBAnimationManager;
 
-#define kCCBVersion 3
+#define kCCBVersion 4
 
 enum {
     kCCBPropTypePosition = 0,
@@ -105,6 +105,8 @@ enum
 
 @interface CCBReader : NSObject
 {
+    BOOL isJSFile;
+    
     NSData* data;
     unsigned char* bytes;
     int currentByte;

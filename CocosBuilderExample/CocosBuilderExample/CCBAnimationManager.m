@@ -36,6 +36,9 @@
 @synthesize rootNode;
 @synthesize rootContainerSize;
 @synthesize delegate;
+@synthesize documentOutletNames;
+@synthesize documentOutletNodes;
+@synthesize documentControllerName;
 
 - (id) init
 {
@@ -45,6 +48,9 @@
     sequences = [[NSMutableArray alloc] init];
     nodeSequences = [[NSMutableDictionary alloc] init];
     baseValues = [[NSMutableDictionary alloc] init];
+    
+    documentOutletNames = [[NSMutableArray alloc] init];
+    documentOutletNodes = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -478,6 +484,11 @@
     [nodeSequences release];
     self.rootNode = NULL;
     self.delegate = NULL;
+    self.documentControllerName = NULL;
+    
+    [documentOutletNames release];
+    [documentOutletNodes release];
+    
     [super dealloc];
 }
 

@@ -807,6 +807,12 @@
     // Read class
     NSString* className = [self readCachedString];
     
+    NSString* jsControllerName = NULL;
+    if (isJSFile)
+    {
+        jsControllerName = [self readCachedString];
+    }
+    
     // Read assignment type and name
     int memberVarAssignmentType = [self readIntWithSign:NO];
     NSString* memberVarAssignmentName = NULL;
@@ -825,6 +831,12 @@
     
     // Set root node
     if (!actionManager.rootNode) actionManager.rootNode = node;
+    
+    // Assign controller
+    if (isJSFile && actionManager.rootNode == node)
+    {
+        actionManager.documentControllerName = jsControllerName;
+    }
     
     // Read animated properties
     NSMutableDictionary* seqs = [NSMutableDictionary dictionary];
@@ -928,13 +940,18 @@
     }
 #endif
     
-    // Assign to arrays
+    // Assign to arrays used by javascript bindings
     if (memberVarAssignmentType)
     {
         if (memberVarAssignmentType == kCCBTargetTypeOwner)
         {
             [ownerOutletNames addObject:memberVarAssignmentName];
             [ownerOutletNodes addObject:node];
+        }
+        else
+        {
+            [actionManager.documentOutletNames addObject:memberVarAssignmentName];
+            [actionManager.documentOutletNodes addObject:node];
         }
     }
     
@@ -1003,6 +1020,9 @@
         NSLog(@"CCBReader: Incompatible ccbi file version (file: %d reader: %d)",version,kCCBVersion);
         return NO;
     }
+    
+    // Read JS check
+    isJSFile = [self readBool];
     
     return YES;
 }
