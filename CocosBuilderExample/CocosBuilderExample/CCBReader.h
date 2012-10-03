@@ -124,6 +124,14 @@ enum
 
 + (NSString*) ccbDirectoryPath;
 
++ (CCBReader*) reader;
+
+- (CCNode*) nodeGraphFromFile:(NSString*) file;
+- (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
+- (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
+
+- (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize;
+
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
