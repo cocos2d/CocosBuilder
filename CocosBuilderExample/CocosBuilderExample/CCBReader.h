@@ -105,7 +105,7 @@ enum
 
 @interface CCBReader : NSObject
 {
-    BOOL isJSFile;
+    BOOL jsControlled;
     
     NSData* data;
     unsigned char* bytes;

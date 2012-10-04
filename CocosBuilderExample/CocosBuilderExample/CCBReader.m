@@ -34,10 +34,6 @@
 #import "SSZipArchive.h"
 #endif
 
-#ifdef CCB_ENABLE_JAVASCRIPT
-//#import "JSCocoa.h"
-#endif
-
 
 @interface CCBFile : CCNode
 {
@@ -574,62 +570,43 @@
         
         if (setProp)
         {
-#ifdef CCB_ENABLE_JAVASCRIPT
-            /*
-            if (selectorTarget && selectorName && ![selectorName isEqualToString:@""])
+            if (!jsControlled)
             {
-                void (^block)(id sender);
-                block = ^(id sender) {
-                    [[JSCocoa sharedController] eval:[NSString stringWithFormat:@"%@();",selectorName]];
-                };
-                
-                NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
-                SEL setSelector = NSSelectorFromString(setSelectorName);
-                
-                if ([node respondsToSelector:setSelector])
+                if (selectorTarget)
                 {
-                    [node performSelector:setSelector withObject:block];
-                }
-                else
-                {
-                    NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
-                }
-            }*/
-#else
-            if (selectorTarget)
-            {
-                id target = NULL;
-                if (selectorTarget == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
-                else if (selectorTarget == kCCBTargetTypeOwner) target = owner;
-                
-                if (target)
-                {
-                    SEL selector = NSSelectorFromString(selectorName);
-                    __block id t = target;
+                    id target = NULL;
+                    if (selectorTarget == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
+                    else if (selectorTarget == kCCBTargetTypeOwner) target = owner;
                     
-                    void (^block)(id sender);
-                    block = ^(id sender) {
-                        [t performSelector:selector withObject:sender];
-                    };
-                    
-                    NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
-                    SEL setSelector = NSSelectorFromString(setSelectorName);
-                    
-                    if ([node respondsToSelector:setSelector])
+                    if (target)
                     {
-                        [node performSelector:setSelector withObject:block];
+                        SEL selector = NSSelectorFromString(selectorName);
+                        __block id t = target;
+                        
+                        void (^block)(id sender);
+                        block = ^(id sender) {
+                            [t performSelector:selector withObject:sender];
+                        };
+                        
+                        NSString* setSelectorName = [NSString stringWithFormat:@"set%@:",[name capitalizedString]];
+                        SEL setSelector = NSSelectorFromString(setSelectorName);
+                        
+                        if ([node respondsToSelector:setSelector])
+                        {
+                            [node performSelector:setSelector withObject:block];
+                        }
+                        else
+                        {
+                            NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
+                        }
                     }
                     else
                     {
-                        NSLog(@"CCBReader: Failed to set selector/target block for %@",selectorName);
+                        NSLog(@"CCBReader: Failed to find target for block");
                     }
                 }
-                else
-                {
-                    NSLog(@"CCBReader: Failed to find target for block");
-                }
             }
-#endif
+            // TODO: Handle JS callbacks
         }
     }
     else if (type == kCCBPropTypeBlockCCControl)
@@ -808,7 +785,7 @@
     NSString* className = [self readCachedString];
     
     NSString* jsControllerName = NULL;
-    if (isJSFile)
+    if (jsControlled)
     {
         jsControllerName = [self readCachedString];
     }
@@ -833,7 +810,7 @@
     if (!actionManager.rootNode) actionManager.rootNode = node;
     
     // Assign controller
-    if (isJSFile && actionManager.rootNode == node)
+    if (jsControlled && actionManager.rootNode == node)
     {
         actionManager.documentControllerName = jsControllerName;
     }
@@ -912,46 +889,43 @@
     }
     
     // Assign to variable (if applicable)
-#ifdef CCB_ENABLE_JAVASCRIPT
-    /*
-    if (memberVarAssignmentType && memberVarAssignmentName && ![memberVarAssignmentName isEqualToString:@""])
+    if (!jsControlled)
     {
-        [[JSCocoa sharedController] setObject:node withName:memberVarAssignmentName];
-    }*/
-#else
-    if (memberVarAssignmentType)
-    {
-        id target = NULL;
-        if (memberVarAssignmentType == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
-        else if (memberVarAssignmentType == kCCBTargetTypeOwner) target = owner;
-        
-        if (target)
+        if (memberVarAssignmentType)
         {
-            Ivar ivar = class_getInstanceVariable([target class],[memberVarAssignmentName UTF8String]);
-            if (ivar)
+            id target = NULL;
+            if (memberVarAssignmentType == kCCBTargetTypeDocumentRoot) target = actionManager.rootNode;
+            else if (memberVarAssignmentType == kCCBTargetTypeOwner) target = owner;
+            
+            if (target)
             {
-                object_setIvar(target,ivar,node);
-            }
-            else
-            {
-                NSLog(@"CCBReader: Couldn't find member variable: %@", memberVarAssignmentName);
+                Ivar ivar = class_getInstanceVariable([target class],[memberVarAssignmentName UTF8String]);
+                if (ivar)
+                {
+                    object_setIvar(target,ivar,node);
+                }
+                else
+                {
+                    NSLog(@"CCBReader: Couldn't find member variable: %@", memberVarAssignmentName);
+                }
             }
         }
     }
-#endif
-    
-    // Assign to arrays used by javascript bindings
-    if (memberVarAssignmentType)
+    else
     {
-        if (memberVarAssignmentType == kCCBTargetTypeOwner)
+        // Assign to arrays used by javascript bindings
+        if (memberVarAssignmentType)
         {
-            [ownerOutletNames addObject:memberVarAssignmentName];
-            [ownerOutletNodes addObject:node];
-        }
-        else
-        {
-            [actionManager.documentOutletNames addObject:memberVarAssignmentName];
-            [actionManager.documentOutletNodes addObject:node];
+            if (memberVarAssignmentType == kCCBTargetTypeOwner)
+            {
+                [ownerOutletNames addObject:memberVarAssignmentName];
+                [ownerOutletNodes addObject:node];
+            }
+            else
+            {
+                [actionManager.documentOutletNames addObject:memberVarAssignmentName];
+                [actionManager.documentOutletNodes addObject:node];
+            }
         }
     }
     
@@ -1022,7 +996,7 @@
     }
     
     // Read JS check
-    isJSFile = [self readBool];
+    jsControlled = [self readBool];
     
     return YES;
 }
