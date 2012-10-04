@@ -53,6 +53,8 @@
     // Used by javascript bindings
     NSMutableArray* documentOutletNames;
     NSMutableArray* documentOutletNodes;
+    NSMutableArray* documentCallbackNames;
+    NSMutableArray* documentCallbackNodes;
     NSString* documentControllerName;
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
@@ -63,6 +65,8 @@
 @property (nonatomic,readonly) NSString* runningSequenceName;
 @property (nonatomic,readonly) NSMutableArray* documentOutletNames;
 @property (nonatomic,readonly) NSMutableArray* documentOutletNodes;
+@property (nonatomic,readonly) NSMutableArray* documentCallbackNames;
+@property (nonatomic,readonly) NSMutableArray* documentCallbackNodes;
 @property (nonatomic,copy) NSString* documentControllerName;
 
 - (CGSize) containerSize:(CCNode*)node;

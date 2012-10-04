@@ -49,6 +49,8 @@
 @synthesize actionManager;
 @synthesize ownerOutletNames;
 @synthesize ownerOutletNodes;
+@synthesize ownerCallbackNames;
+@synthesize ownerCallbackNodes;
 
 - (id) init
 {
@@ -76,6 +78,8 @@
     [loadedSpriteSheets release];
     [ownerOutletNodes release];
     [ownerOutletNames release];
+    [ownerCallbackNodes release];
+    [ownerCallbackNames release];
     self.actionManager = NULL;
     [super dealloc];
 }
@@ -572,6 +576,7 @@
         {
             if (!jsControlled)
             {
+                // Objective C callbacks
                 if (selectorTarget)
                 {
                     id target = NULL;
@@ -606,7 +611,23 @@
                     }
                 }
             }
-            // TODO: Handle JS callbacks
+            else
+            {
+                // JS Callbacks
+                if (selectorTarget)
+                {
+                    if (selectorTarget == kCCBTargetTypeDocumentRoot)
+                    {
+                        [actionManager.documentCallbackNames addObject:selectorName];
+                        [actionManager.documentCallbackNodes addObject:node];
+                    }
+                    else if (selectorTarget == kCCBTargetTypeOwner)
+                    {
+                        [ownerCallbackNames addObject:selectorName];
+                        [ownerCallbackNodes addObject:node];
+                    }
+                }
+            }
         }
     }
     else if (type == kCCBPropTypeBlockCCControl)
@@ -669,6 +690,8 @@
         
         reader->ownerOutletNames = [ownerOutletNames retain];
         reader->ownerOutletNodes = [ownerOutletNodes retain];
+        reader->ownerCallbackNames = [ownerCallbackNames retain];
+        reader->ownerCallbackNodes = [ownerCallbackNodes retain];
         
         CCNode* ccbFile = [reader readFileWithCleanUp:NO actionManagers:actionManagers];
         
@@ -1060,6 +1083,8 @@
     
     ownerOutletNames = [[NSMutableArray alloc] init];
     ownerOutletNodes = [[NSMutableArray alloc] init];
+    ownerCallbackNames = [[NSMutableArray alloc] init];
+    ownerCallbackNodes = [[NSMutableArray alloc] init];
     
     NSMutableDictionary* animationManagers = [NSMutableDictionary dictionary];
     CCNode* nodeGraph = [self readFileWithCleanUp:YES actionManagers:animationManagers];

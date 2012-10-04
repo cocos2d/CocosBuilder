@@ -38,6 +38,8 @@
 @synthesize delegate;
 @synthesize documentOutletNames;
 @synthesize documentOutletNodes;
+@synthesize documentCallbackNames;
+@synthesize documentCallbackNodes;
 @synthesize documentControllerName;
 
 - (id) init
@@ -51,6 +53,8 @@
     
     documentOutletNames = [[NSMutableArray alloc] init];
     documentOutletNodes = [[NSMutableArray alloc] init];
+    documentCallbackNames = [[NSMutableArray alloc] init];
+    documentCallbackNodes = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -488,6 +492,8 @@
     
     [documentOutletNames release];
     [documentOutletNodes release];
+    [documentCallbackNames release];
+    [documentCallbackNodes release];
     
     [super dealloc];
 }
