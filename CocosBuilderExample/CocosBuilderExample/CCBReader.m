@@ -51,6 +51,7 @@
 @synthesize ownerOutletNodes;
 @synthesize ownerCallbackNames;
 @synthesize ownerCallbackNodes;
+@synthesize nodesWithAnimationManagers;
 
 - (id) init
 {
@@ -80,6 +81,7 @@
     [ownerOutletNames release];
     [ownerCallbackNodes release];
     [ownerCallbackNames release];
+    [nodesWithAnimationManagers release];
     self.actionManager = NULL;
     [super dealloc];
 }
@@ -1096,12 +1098,21 @@
     }
     
     // Assign actionManagers to userObject
+    if (jsControlled)
+    {
+        nodesWithAnimationManagers = [[NSMutableArray alloc] init];
+    }
     for (NSValue* pointerValue in animationManagers)
     {
         CCNode* node = [pointerValue pointerValue];
         
         CCBAnimationManager* manager = [animationManagers objectForKey:pointerValue];
         node.userObject = manager;
+        
+        if (jsControlled)
+        {
+            [nodesWithAnimationManagers addObject:node];
+        }
     }
     
     // Call didLoadFromCCB

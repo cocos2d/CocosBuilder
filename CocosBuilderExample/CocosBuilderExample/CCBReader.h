@@ -121,17 +121,21 @@ enum
     NSMutableDictionary* actionManagers;
     NSMutableSet* animatedProps;
     
+    // For JavaScript bindings
     NSMutableArray* ownerOutletNames;
     NSMutableArray* ownerOutletNodes;
     
     NSMutableArray* ownerCallbackNames;
     NSMutableArray* ownerCallbackNodes;
+    
+    NSMutableArray* nodesWithAnimationManagers;
 }
 
 @property (nonatomic,readonly) NSMutableArray* ownerOutletNames;
 @property (nonatomic,readonly) NSMutableArray* ownerOutletNodes;
 @property (nonatomic,readonly) NSMutableArray* ownerCallbackNames;
 @property (nonatomic,readonly) NSMutableArray* ownerCallbackNodes;
+@property (nonatomic,readonly) NSMutableArray* nodesWithAnimationManagers;
 
 @property (nonatomic,retain) CCBAnimationManager* actionManager;
 
