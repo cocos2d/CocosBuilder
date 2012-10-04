@@ -540,6 +540,13 @@
     [dict setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [dict setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
+    // JS code connections
+    NSString* jsController = [extraProps objectForKey:@"jsController"];
+    if (jsController && ![jsController isEqualToString:@""])
+    {
+        [dict setObject:jsController forKey:@"jsController"];
+    }
+    
     return dict;
 }
 

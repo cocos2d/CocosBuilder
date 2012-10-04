@@ -148,6 +148,8 @@ enum {
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
     
+    IBOutlet NSMenuItem* menuItemJSControlled;
+    
     // Resource manager
     ResourceManager* resManager;
     //ResourceManagerPanel* resManagerPanel;
@@ -196,6 +198,9 @@ enum {
     // Animation playback
     BOOL playingBack;
     double playbackLastFrameTime;
+    
+    // JavaScript bindings
+    BOOL jsControlled;
     
 @private
     MainWindow *window;

@@ -24,7 +24,7 @@
 
 #import "InspectorValue.h"
 
-@interface InspectorCodeConnections : InspectorValue
+@interface InspectorCodeConnectionsJS : InspectorValue
 
 @property (nonatomic,assign) NSString* customClass;
 @property (nonatomic,assign) NSString* memberVarAssignmentName;

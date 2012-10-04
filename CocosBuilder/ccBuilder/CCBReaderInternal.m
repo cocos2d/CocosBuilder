@@ -353,6 +353,13 @@
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
+    // JS code connections
+    NSString* jsController = [dict objectForKey:@"jsController"];
+    if (jsController)
+    {
+        [extraProps setObject:jsController forKey:@"jsController"];
+    }
+    
     NSString* displayName = [dict objectForKey:@"displayName"];
     if (displayName)
     {

@@ -22,13 +22,13 @@
  * THE SOFTWARE.
  */
 
-#import "InspectorCodeConnections.h"
+#import "InspectorCodeConnectionsJS.h"
 #import "CocosScene.h"
 #import "CCBGlobals.h"
 #import "CCNode+NodeInfo.h"
 #import "CocosBuilderAppDelegate.h"
 
-@implementation InspectorCodeConnections
+@implementation InspectorCodeConnectionsJS
 
 - (void) setCustomClass:(NSString *)customClass
 {

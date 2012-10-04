@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #define kCCBXTempBufferSize 8
-#define kCCBXVersion 3
+#define kCCBXVersion 4
 
 enum {
     kCCBXFloat0 = 0,
@@ -45,6 +45,7 @@ enum {
 @interface CCBXCocos2diPhoneWriter : NSObject
 {
     BOOL flattenPaths;
+    BOOL jsControlled;
     
     NSMutableData* data;
     

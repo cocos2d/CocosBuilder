@@ -285,6 +285,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     CocosScene* cs = [CocosScene cocosScene];
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
+    [self updateJSControlledMenu];
     
     // Load plug-ins
     plugInManager = [PlugInManager sharedManager];
@@ -670,7 +671,14 @@ static BOOL hideAllToNextSeparator;
     BOOL isCCBSubFile = [plugIn.nodeClassName isEqualToString:@"CCBFile"];
     
     // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    if (jsControlled)
+    {
+        paneOffset = [self addInspectorPropertyOfType:@"CodeConnectionsJS" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    }
+    else
+    {
+        paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    }
     
     // Add panes for each property
     
@@ -887,6 +895,8 @@ static BOOL hideAllToNextSeparator;
     [dict setObject:@"CocosBuilder" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBFileFormatVersion] forKey:@"fileVersion"];
     
+    [dict setObject:[NSNumber numberWithBool:jsControlled] forKey:@"jsControlled"];
+    
     [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
     [dict setObject:[NSNumber numberWithInt:[[CocosScene cocosScene] stageBorder]] forKey:@"stageBorder"];
@@ -948,6 +958,9 @@ static BOOL hideAllToNextSeparator;
     [loadedSelectedNodes removeAllObjects];
     
     BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
+    
+    // Check for jsControlled
+    jsControlled = [[doc objectForKey:@"jsControlled"] boolValue];
     
     // Setup stage & resolutions
     NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
@@ -1069,6 +1082,9 @@ static BOOL hideAllToNextSeparator;
     
     // Restore selections
     self.selectedNodes = loadedSelectedNodes;
+    
+    [self updateJSControlledMenu];
+    [self updateCanvasBorderMenu];
 }
 
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
@@ -2393,6 +2409,18 @@ static BOOL hideAllToNextSeparator;
     [CCBUtil setSelectedSubmenuItemForMenu:menuCanvasBorder tag:tag];
 }
 
+- (void) updateJSControlledMenu
+{
+    if (jsControlled)
+    {
+        [menuItemJSControlled setState:NSOnState];
+    }
+    else
+    {
+        [menuItemJSControlled setState:NSOffState];
+    }
+}
+
 - (IBAction) menuSetCanvasBorder:(id)sender
 {
     CocosScene* cs = [CocosScene cocosScene];
@@ -2783,6 +2811,14 @@ static BOOL hideAllToNextSeparator;
 {
     int tag = [sender tag];
     [sequenceHandler menuAddKeyframeNamed:[self keyframePropNameFromTag:tag]];
+}
+
+- (IBAction)menuJavaScriptControlled:(id)sender
+{
+    NSLog(@"Toggling JSControlled");
+    jsControlled = !jsControlled;
+    [self updateJSControlledMenu];
+    [self updateInspectorFromSelection];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
