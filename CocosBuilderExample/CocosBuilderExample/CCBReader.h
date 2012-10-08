@@ -129,6 +129,7 @@ enum
     NSMutableArray* ownerCallbackNodes;
     
     NSMutableArray* nodesWithAnimationManagers;
+    NSMutableArray* animationManagersForNodes;
 }
 
 @property (nonatomic,readonly) NSMutableArray* ownerOutletNames;
@@ -136,6 +137,7 @@ enum
 @property (nonatomic,readonly) NSMutableArray* ownerCallbackNames;
 @property (nonatomic,readonly) NSMutableArray* ownerCallbackNodes;
 @property (nonatomic,readonly) NSMutableArray* nodesWithAnimationManagers;
+@property (nonatomic,readonly) NSMutableArray* animationManagersForNodes;
 
 @property (nonatomic,retain) CCBAnimationManager* actionManager;
 

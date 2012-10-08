@@ -52,6 +52,7 @@
 @synthesize ownerCallbackNames;
 @synthesize ownerCallbackNodes;
 @synthesize nodesWithAnimationManagers;
+@synthesize animationManagersForNodes;
 
 - (id) init
 {
@@ -82,6 +83,7 @@
     [ownerCallbackNodes release];
     [ownerCallbackNames release];
     [nodesWithAnimationManagers release];
+    [animationManagersForNodes release];
     self.actionManager = NULL;
     [super dealloc];
 }
@@ -166,7 +168,7 @@
     }
     else
     {
-        num = current-1;
+        num = (int)(current-1);
     }
     
     [self alignBits];
@@ -1101,6 +1103,7 @@
     if (jsControlled)
     {
         nodesWithAnimationManagers = [[NSMutableArray alloc] init];
+        animationManagersForNodes = [[NSMutableArray alloc] init];
     }
     for (NSValue* pointerValue in animationManagers)
     {
@@ -1112,6 +1115,7 @@
         if (jsControlled)
         {
             [nodesWithAnimationManagers addObject:node];
+            [animationManagersForNodes addObject:manager];
         }
     }
     
