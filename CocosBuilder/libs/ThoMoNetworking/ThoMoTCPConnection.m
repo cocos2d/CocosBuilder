@@ -371,7 +371,10 @@
 		{
 			// be careful! the delegate might kill us for the bad news...
 			[delegate streamErrorEncountered:stream onConnection:self];
+            break;
 		}
+        default:
+            break;
 	}
 	
 	threadIsPresentInMethod = NO;
