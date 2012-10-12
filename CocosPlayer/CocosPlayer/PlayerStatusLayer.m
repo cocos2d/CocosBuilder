@@ -8,7 +8,7 @@
 
 #import "PlayerStatusLayer.h"
 #import "CCBReader.h"
-#import "AppController.h"
+#import "AppDelegate.h"
 #import "ServerController.h"
 
 static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
