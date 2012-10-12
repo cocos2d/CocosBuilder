@@ -25,5 +25,50 @@
 #import "InspectorSeparator.h"
 
 @implementation InspectorSeparator
+@synthesize disclosureButton;
+
+- (BOOL)isExpanded
+{
+    if (![self propertyForSelection]) {
+        return YES;
+    }
+    
+    return [[self propertyForSelection] intValue] == NSOnState;
+}
+
+- (void)setIsExpanded:(BOOL)isExpanded
+{
+    // Finish editing
+    if (![[view window] makeFirstResponder:[view window]])
+    {
+        return;
+    }
+    
+    if (isExpanded) {
+        [self.inspectorValueBelow showAllToNextSeparatorWithAbove:self];
+    }
+    else {
+        [self.inspectorValueBelow hideAllToNextSeparatorWithAboveSeparator:self];
+    }
+    
+    [self setSuperviewFrameHeight];
+    
+    [self setPropertyForSelection:[NSNumber numberWithInt:disclosureButton.state]];
+}
+
+- (void)showAllToNextSeparatorWithAbove:(InspectorValue*)above
+{
+    [self moveToMeetAbove:above];
+}
+
+- (void)hideAllToNextSeparatorWithAboveSeparator:(InspectorValue*)aboveSeparator
+{
+    [self moveToMeetAbove:aboveSeparator];
+}
+
+- (BOOL)isSeparator
+{
+    return YES;
+}
 
 @end

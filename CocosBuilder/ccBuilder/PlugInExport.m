@@ -40,7 +40,7 @@
     
     // Load plug-in properties
     Class exporterClass = [bundle principalClass];
-    CCBX* exporter = [[exporterClass alloc] init];
+    CCBX* exporter = [[[exporterClass alloc] init] autorelease];
     extension = [[exporter extension] retain];
     
     return self;
@@ -49,7 +49,7 @@
 - (NSData*) exportDocument:(NSDictionary*)doc
 {
     Class exporterClass = [bundle principalClass];
-    CCBX* exporter = [[exporterClass alloc] init];
+    CCBX* exporter = [[[exporterClass alloc] init] autorelease];
     return [exporter exportDocument:doc flattenPaths:flattenPaths];
 }
 

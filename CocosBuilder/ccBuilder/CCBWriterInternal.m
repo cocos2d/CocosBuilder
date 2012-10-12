@@ -29,6 +29,7 @@
 #import "TexturePropertySetter.h"
 #import "PositionPropertySetter.h"
 #import "CCNode+NodeInfo.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation CCBWriterInternal
 
@@ -225,7 +226,7 @@
         BOOL hasKeyframes = [node hasKeyframesForProperty:name];
         id defaultSerialization = [propInfo objectForKey:@"defaultSerialization"];
         BOOL usingDefaultValue = NO;
-        id serializedValue;
+        id serializedValue = NULL;
         
         // Check if this property should be excluded
         if (excludeProps && [excludeProps indexOfObject:name] != NSNotFound)
@@ -521,6 +522,13 @@
         [dict setObject:customProps forKey:@"customProperties"];
     }
     
+    // Selection
+    NSArray* selection = [CocosBuilderAppDelegate appDelegate].selectedNodes;
+    if (selection && [selection containsObject:node])
+    {
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"selected"];
+    }
+    
     // Add code connection props
     NSString* customClass = [extraProps objectForKey:@"customClass"];
     if (!customClass) customClass = @"";
@@ -531,6 +539,13 @@
     [dict setObject:customClass forKey:@"customClass"];
     [dict setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [dict setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
+    
+    // JS code connections
+    NSString* jsController = [extraProps objectForKey:@"jsController"];
+    if (jsController && ![jsController isEqualToString:@""])
+    {
+        [dict setObject:jsController forKey:@"jsController"];
+    }
     
     return dict;
 }

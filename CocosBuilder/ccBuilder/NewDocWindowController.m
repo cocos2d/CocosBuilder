@@ -42,6 +42,8 @@
     iPhoneLandscape.enabled = YES;
     [resolutionsController addObject:iPhoneLandscape];
     [resolutionsController addObject:[ResolutionSetting settingIPhonePortrait]];
+    [resolutionsController addObject:[ResolutionSetting settingIPhone5Landscape]];
+    [resolutionsController addObject:[ResolutionSetting settingIPhone5Portrait]];
     [resolutionsController addObject:[ResolutionSetting settingIPadLandscape]];
     [resolutionsController addObject:[ResolutionSetting settingIPadPortrait]];
     

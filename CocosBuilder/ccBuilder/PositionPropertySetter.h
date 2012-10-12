@@ -62,6 +62,7 @@ enum
 + (void) setPositionType:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
 + (CGPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop;
++ (void) addPositionKeyframeForNode:(CCNode*)node;
 
 // Positioning helpers
 + (NSPoint) calcAbsolutePositionFromRelative:(NSPoint)pos type:(int)type parentSize:(CGSize) parentSize;

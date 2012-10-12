@@ -31,6 +31,7 @@
 #import "PlugInNode.h"
 #import "PlugInManager.h"
 #import "CCNode+NodeInfo.h"
+#import "PositionPropertySetter.h"
 
 #import "TexturePropertySetter.h"
 
@@ -127,16 +128,21 @@
 
 + (void) setPropsForNode: (CCNode*) node props:(NSDictionary*)props
 {
-    node.position = [CCBReaderInternalV1 pointValFromDict:props forKey:@"position"];
+    CGPoint position = [CCBReaderInternalV1 pointValFromDict:props forKey:@"position"];
+    [PositionPropertySetter setPosition:NSPointFromCGPoint(position) type:0 forNode:node prop:@"position"];
     
     if (![node isKindOfClass:[CCSprite class]] &&
         ![node isKindOfClass:[CCMenuItemImage class]] &&
         ![node isKindOfClass:[CCLabelBMFont class]])
     {
-        node.contentSize = [CCBReaderInternalV1 sizeValFromDict:props forKey:@"contentSize"];
+        CGSize contentSize = [CCBReaderInternalV1 sizeValFromDict:props forKey:@"contentSize"];
+        [PositionPropertySetter setSize:contentSize type:0 forNode:node prop:@"contentSize"];
     }
-    node.scaleX = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleX"];
-    node.scaleY = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleY"];
+    float scaleX = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleX"];
+    float scaleY = [CCBReaderInternalV1 floatValFromDict:props forKey:@"scaleY"];
+    
+    [PositionPropertySetter setScaledX:scaleX Y:scaleY type:0 forNode:node prop:@"scale"];
+    
     node.anchorPoint = [CCBReaderInternalV1 pointValFromDict:props forKey:@"anchorPoint"];
     node.rotation = [CCBReaderInternalV1 floatValFromDict:props forKey:@"rotation"];
     node.ignoreAnchorPointForPosition = ![CCBReaderInternalV1 boolValFromDict:props forKey:@"isRelativeAnchorPoint"];

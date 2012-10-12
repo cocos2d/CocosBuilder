@@ -46,9 +46,11 @@ enum {
 
 enum {
     kCCBTransformHandleNone = 0,
+    kCCBTransformHandleDownInside,
     kCCBTransformHandleMove,
     kCCBTransformHandleScale,
-    kCCBTransformHandleRotate
+    kCCBTransformHandleRotate,
+    kCCBTransformHandleAnchorPoint,
 };
 
 enum {
@@ -67,16 +69,11 @@ enum {
     GuidesLayer* guideLayer;
     NotesLayer* notesLayer;
     CCNode* rootNode;
-    CCNode* selectedNode;
     CCRenderTexture* renderedScene;
     CocosBuilderAppDelegate* appDelegate;
     CGSize winSize;
     
     NSTrackingArea* trackingArea;
-    
-    CGRect rectBtnMove;
-    CGRect rectBtnScale;
-    CGRect rectBtnRotate;
     
     // Mouse handling
     BOOL mouseInside;
@@ -85,7 +82,8 @@ enum {
     float transformStartRotation;
     float transformStartScaleX;
     float transformStartScaleY;
-    CGPoint transformStartPosition;
+    CCNode* transformScalingNode;
+    //CGPoint transformStartPosition;
     int currentMouseTransform;
     BOOL isMouseTransforming;
     BOOL isPanning;
@@ -103,8 +101,6 @@ enum {
     CCLayerColor* borderTop;
     CCLayerColor* borderLeft;
     CCLayerColor* borderRight;
-    //CCSprite* borderDeviceIPhone;
-    //CCSprite* borderDeviceIPad;
     CCSprite* borderDevice;
     
     int stageBorderType;
@@ -144,7 +140,6 @@ enum {
 
 - (void) replaceRootNodeWith:(CCNode*)node;
 
-- (void) setSelectedNode:(CCNode*) node;
 - (void) updateSelection;
 - (void) selectBehind;
 

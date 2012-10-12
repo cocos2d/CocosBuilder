@@ -47,6 +47,12 @@
     [info.extraProps setObject:prop forKey:key];
 }
 
+- (void)removeExtraPropForKey:(NSString*)key
+{
+    NodeInfo* info = self.userObject;
+    [info.extraProps removeObjectForKey:key];
+}
+
 - (id) extraPropForKey:(NSString *)key
 {
     NodeInfo* info = self.userObject;
@@ -107,7 +113,7 @@
     
     id baseValue = [self valueForProperty:name atTime:0 sequenceId:seqId];
     
-    SequencerNodeProperty* seqNodeProp = [[SequencerNodeProperty alloc] initWithProperty:name node:self];
+    SequencerNodeProperty* seqNodeProp = [[[SequencerNodeProperty alloc] initWithProperty:name node:self] autorelease];
     if (![info.baseValues objectForKey:name])
     {
         NSLog(@"setting baseValue to %@ for %@", baseValue, name);
@@ -711,17 +717,42 @@
 
 - (BOOL) shouldDisableProperty:(NSString*) prop
 {
-    if (self != [CocosScene cocosScene].rootNode) return NO;
+    //if (self != [CocosScene cocosScene].rootNode /*
+    //    && ![NSStringFromClass(self.class) isEqualToString:@"CCBPCCBFile"]*/) return NO;
     
+    //if ([prop isEqualToString:@"anchorPoint"]) return NO;
+    //else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return NO;
+    /*
     if ([prop isEqualToString:@"position"]) return YES;
-    else if ([prop isEqualToString:@"anchorPoint"]) return YES;
     else if ([prop isEqualToString:@"scale"]) return YES;
     else if ([prop isEqualToString:@"rotation"]) return YES;
     else if ([prop isEqualToString:@"tag"]) return YES;
     else if ([prop isEqualToString:@"ignoreAnchorPointForPosition"]) return YES;
     else if ([prop isEqualToString:@"visible"]) return YES;
+    */
+    
+    if (self == [CocosScene cocosScene].rootNode)
+    {
+        if ([prop isEqualToString:@"position"]) return YES;
+        else if ([prop isEqualToString:@"scale"]) return YES;
+        else if ([prop isEqualToString:@"rotation"]) return YES;
+        else if ([prop isEqualToString:@"tag"]) return YES;
+        else if ([prop isEqualToString:@"visible"]) return YES;
+    }
     
     return NO;
+}
+
+- (CGPoint) transformStartPosition
+{
+    NodeInfo* info = self.userObject;
+    return info.transformStartPosition;
+}
+
+- (void) setTransformStartPosition:(CGPoint)transformStartPosition
+{
+    NodeInfo* info = self.userObject;
+    info.transformStartPosition= transformStartPosition;
 }
 
 @end

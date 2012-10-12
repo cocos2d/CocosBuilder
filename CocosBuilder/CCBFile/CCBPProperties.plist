@@ -11,6 +11,18 @@
 	<key>propertiesOverridden</key>
 	<array>
 		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>ignoreAnchorPointForPosition</string>
+			<key>displayName</key>
+			<string>Ignore anchor point</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
 			<key>defaultSerialization</key>
 			<array>
 				<integer>0</integer>
@@ -41,12 +53,17 @@
 		<dict>
 			<key>displayName</key>
 			<string>CCBFile</string>
+			<key>name</key>
+			<string>CCBFile</string>
 			<key>type</key>
 			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>affectsProperties</key>
 			<array>
+				<string>anchorPoint</string>
 				<string>contentSize</string>
 			</array>
 			<key>displayName</key>

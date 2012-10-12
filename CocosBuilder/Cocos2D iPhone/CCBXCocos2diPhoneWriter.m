@@ -425,9 +425,18 @@
 - (void) cacheStringsForNode:(NSDictionary*) node
 {
     // Basic data
+    [self addToStringCache:@"" isPath:NO];
     [self addToStringCache:[node objectForKey:@"baseClass"] isPath:NO];
     [self addToStringCache:[node objectForKey:@"customClass"] isPath:NO];
     [self addToStringCache:[node objectForKey:@"memberVarAssignmentName"] isPath:NO];
+    
+    // Add JS controller class
+    if (jsControlled)
+    {
+        NSString* jsController = [node objectForKey:@"jsController"];
+        if (!jsController) jsController = @"";
+        [self addToStringCache:jsController isPath:NO];
+    }
     
     // Animated properties
     NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
@@ -466,6 +475,42 @@
         id value = [prop objectForKey:@"value"];
         
         NSString* type = [prop objectForKey:@"type"];
+        
+        id baseValue = [prop objectForKey:@"baseValue"];
+        
+        if (baseValue)
+        {
+            // We need to transform the base value to a normal value (base values override normal values)
+            if ([type isEqualToString:@"Position"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [value objectAtIndex:2],
+                         nil];
+            }
+            else if ([type isEqualToString:@"ScaleLock"])
+            {
+                value = [NSArray arrayWithObjects:
+                         [baseValue objectAtIndex:0],
+                         [baseValue objectAtIndex:1],
+                         [NSNumber numberWithBool:NO],
+                         [value objectAtIndex:3],
+                         nil];
+            }
+            else if ([type isEqualToString:@"SpriteFrame"])
+            {
+                NSString* a = [baseValue objectAtIndex:0];
+                NSString* b = [baseValue objectAtIndex:1];
+                if ([b isEqualToString:@"Use regular file"]) b = @"";
+                value = [NSArray arrayWithObjects:b, a, nil];
+            }
+            else
+            {
+                // Value needs no transformation
+                value = baseValue;
+            }
+        }
         
         if ([type isEqualToString:@"SpriteFrame"])
         {
@@ -536,7 +581,7 @@
     NSArray* seqs = [doc objectForKey:@"sequences"];
     
     // Write number of sequences
-    [self writeInt:[seqs count] withSign:NO];
+    [self writeInt:(int)[seqs count] withSign:NO];
     
     int autoPlaySeqId = -1;
     
@@ -590,6 +635,9 @@
     
     // Version
     [self writeInt:kCCBXVersion withSign:NO];
+    
+    // JavaScript or not
+    [self writeBool:jsControlled];
 }
 
 - (void) writeStringCache
@@ -655,6 +703,7 @@
         NSString* b = [value objectAtIndex:0];
         
         if ([b isEqualToString:@"Use regular file"]) b = @"";
+        if ([a isEqualToString:@"Use regular file"]) a = @"";
         
         [self writeCachedString:a isPath:YES];
         [self writeCachedString:b isPath:[a isEqualToString:@""]];
@@ -665,11 +714,21 @@
 {
     // Write class
     NSString* class = [node objectForKey:@"customClass"];
+    BOOL hasCustomClass = YES;
     if (!class || [class isEqualToString:@""])
     {
         class = [node objectForKey:@"baseClass"];
+        hasCustomClass = NO;
     }
     [self writeCachedString:class isPath:NO];
+    
+    // Write controller
+    if (jsControlled)
+    {
+        NSString* jsController = [node objectForKey:@"jsController"];
+        if (!jsController) jsController = @"";
+        [self writeCachedString:jsController isPath:NO];
+    }
     
     // Write assignment type and name
     int memberVarAssignmentType = [[node objectForKey:@"memberVarAssignmentType"] intValue];
@@ -683,7 +742,7 @@
     NSDictionary* animatedProps = [node objectForKey:@"animatedProperties"];
     
     // Animated sequences count
-    [self writeInt:[animatedProps count] withSign:NO];
+    [self writeInt:(int)[animatedProps count] withSign:NO];
     
     
     for (NSString* seqIdStr in animatedProps)
@@ -696,7 +755,7 @@
         NSDictionary* props = [animatedProps objectForKey:seqIdStr];
         
         // Animated properties count
-        [self writeInt:[props count] withSign:NO];
+        [self writeInt:(int)[props count] withSign:NO];
         
         for (NSString* propName in props)
         {
@@ -729,13 +788,13 @@
                 NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];
                 if ([[keyframeFirst objectForKey:@"time"] floatValue] != 0)
                 {
-                    [self writeInt:[keyframes count]+1 withSign:NO];
+                    [self writeInt:(int)[keyframes count]+1 withSign:NO];
                     // Add a first keyframe
                     [self writeKeyframeValue:[NSNumber numberWithBool:NO] type:propType time:0 easingType:kCCBKeyframeEasingInstant easingOpt:0];
                 }
                 else
                 {
-                    [self writeInt:[keyframes count] withSign:NO];
+                    [self writeInt:(int)[keyframes count] withSign:NO];
                 }
                 for (NSDictionary* keyframe in keyframes)
                 {
@@ -747,7 +806,7 @@
             }
             else
             {
-                [self writeInt:[keyframes count] withSign:NO];
+                [self writeInt:(int)[keyframes count] withSign:NO];
                 
                 for (NSDictionary* keyframe in keyframes)
                 {
@@ -767,6 +826,9 @@
     // Write properties
     NSArray* props = [node objectForKey:@"properties"];
     NSArray* customProps = [node objectForKey:@"customProperties"];
+    
+    // Only write customProps if there is a custom class
+    if (!hasCustomClass) customProps = [NSArray array];
     
     [self writeInt:(int)[props count] withSign:NO];
     [self writeInt:(int)[customProps count] withSign:NO];
@@ -865,6 +927,7 @@
 - (void) writeDocument:(NSDictionary*)doc
 {
     NSDictionary* nodeGraph = [doc objectForKey:@"nodeGraph"];
+    jsControlled = [[doc objectForKey:@"jsControlled"] boolValue];
     
     [self cacheStringsForNode:nodeGraph];
     [self cacheStringsForSequences:doc];

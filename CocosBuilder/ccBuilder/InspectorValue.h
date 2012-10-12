@@ -46,6 +46,7 @@
 @property (nonatomic,readonly) NSString* extra;
 @property (nonatomic,assign) BOOL readOnly;
 @property (nonatomic,retain) NSArray* affectsProperties;
+@property (nonatomic,retain) InspectorValue* inspectorValueBelow;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 
@@ -70,5 +71,11 @@
 
 - (id) propertyForSelectionVar;
 - (void) setPropertyForSelectionVar:(id)value;
+
+- (void)hideAllToNextSeparatorWithAboveSeparator:(InspectorValue*)aboveSeparator;
+- (void)showAllToNextSeparatorWithAbove:(InspectorValue*)above;
+- (void)moveToMeetAbove:(InspectorValue*)above;
+- (BOOL)isSeparator;
+- (BOOL)setSuperviewFrameHeight;
 
 @end

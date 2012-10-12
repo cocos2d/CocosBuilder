@@ -35,7 +35,7 @@
 
 @implementation InspectorValue
 
-@synthesize displayName, view, extra, readOnly, affectsProperties;
+@synthesize displayName, view, extra, readOnly, affectsProperties, inspectorValueBelow;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e
 {
@@ -88,7 +88,8 @@
 {
     NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
-    if ([plugIn dontSetInEditorProperty:propertyName])
+    if ([plugIn dontSetInEditorProperty:propertyName] ||
+        [[selection extraPropForKey:@"customClass"] isEqualTo:propertyName])
     {
         return [nodeInfo.extraProps objectForKey:propertyName];
     }
@@ -133,7 +134,7 @@
     
     NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
-    if ([plugIn dontSetInEditorProperty:propertyName])
+    if ([plugIn dontSetInEditorProperty:propertyName] || [[selection extraPropForKey:@"customClass"] isEqualTo:propertyName])
     {
         // Set the property in the extra props dict
         [nodeInfo.extraProps setObject:value forKey:propertyName];
@@ -198,6 +199,55 @@
     [displayName release];
     
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Disclosure
+
+- (void)hideAllToNextSeparatorWithAboveSeparator:(InspectorValue*)aboveSeparator
+{
+    [self.view setHidden:YES];
+    return [inspectorValueBelow hideAllToNextSeparatorWithAboveSeparator:aboveSeparator];
+}
+
+- (void)showAllToNextSeparatorWithAbove:(InspectorValue*)above
+{
+    CGRect frame = self.view.frame;
+    frame.origin.y = above.view.frame.origin.y + above.view.frame.size.height;
+    self.view.frame = frame;
+    [self.view setHidden:NO];
+    [inspectorValueBelow showAllToNextSeparatorWithAbove:self];
+}
+
+- (void)moveToMeetAbove:(InspectorValue*)above
+{
+    if (!self.view.isHidden) {
+        CGRect frame = self.view.frame;
+        frame.origin.y = above.view.frame.origin.y + above.view.frame.size.height;
+        self.view.frame = frame;
+        [inspectorValueBelow moveToMeetAbove:self];
+    }
+    else {
+        [inspectorValueBelow moveToMeetAbove:above];
+    }
+}
+
+- (BOOL)isSeparator
+{
+    return NO;
+}
+
+- (BOOL)setSuperviewFrameHeight
+{
+    if (![inspectorValueBelow setSuperviewFrameHeight]) {
+        if (self.view.isHidden == NO) {
+            NSView* superView = self.view.superview;
+            [superView setFrameSize:NSMakeSize(superView.frame.size.width, self.view.frame.origin.y+self.view.frame.size.height)];
+            return YES;
+        }
+        return NO;
+    }
+    return YES;
 }
 
 @end

@@ -52,8 +52,12 @@
 		<dict>
 			<key>displayName</key>
 			<string>CCControlButton</string>
+			<key>name</key>
+			<string>CCControlButton</string>
 			<key>type</key>
 			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>default</key>
@@ -107,6 +111,12 @@
 			<string>Label anchor</string>
 		</dict>
 		<dict>
+			<key>default</key>
+			<array>
+				<integer>120</integer>
+				<integer>40</integer>
+				<integer>0</integer>
+			</array>
 			<key>affectsProperties</key>
 			<array>
 				<string>contentSize</string>
@@ -137,8 +147,8 @@
 		<dict>
 			<key>default</key>
 			<array>
-				<string></string>
-				<string></string>
+				<string>ccbResources/ccbDefaultImages.plist</string>
+				<string>ccbButton.png</string>
 			</array>
 			<key>affectsProperties</key>
 			<array>
@@ -168,8 +178,8 @@
 		<dict>
 			<key>default</key>
 			<array>
-				<string></string>
-				<string></string>
+				<string>ccbResources/ccbDefaultImages.plist</string>
+				<string>ccbButtonHilite.png</string>
 			</array>
 			<key>displayName</key>
 			<string>Sprite frame</string>
@@ -195,8 +205,8 @@
 		<dict>
 			<key>default</key>
 			<array>
-				<string></string>
-				<string></string>
+				<string>ccbResources/ccbDefaultImages.plist</string>
+				<string>ccbButtonDisabled.png</string>
 			</array>
 			<key>displayName</key>
 			<string>Sprite frame</string>

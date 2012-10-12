@@ -34,9 +34,11 @@
 @property (nonatomic,readonly) PlugInNode* plugIn;
 @property (nonatomic,copy) NSString* displayName;
 @property (nonatomic,retain) NSMutableArray* customProperties;
+@property (nonatomic,assign) CGPoint transformStartPosition;
 
 - (id) extraPropForKey:(NSString*)key;
 - (void) setExtraProp:(id)prop forKey:(NSString*)key;
+- (void)removeExtraPropForKey:(NSString*)key;
 
 - (id) baseValueForProperty:(NSString*)name;
 - (void) setBaseValue:(id)value forProperty:(NSString*)name;

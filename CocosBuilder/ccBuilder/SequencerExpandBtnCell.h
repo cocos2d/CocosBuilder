@@ -30,8 +30,10 @@
     NSImage* imgCollapse;
     
     BOOL isExpanded;
+    BOOL canExpand;
 }
 
 @property (nonatomic,assign) BOOL isExpanded;
+@property (nonatomic,assign) BOOL canExpand;
 
 @end

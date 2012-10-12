@@ -50,9 +50,17 @@
     if (cf)
     {
         [self addChild:cf];
+        self.contentSize = ccbFile.contentSize;
+        self.anchorPoint = ccbFile.anchorPoint;
+        self.ignoreAnchorPointForPosition = ccbFile.ignoreAnchorPointForPosition;
+        cf.anchorPoint = ccp(0,0);
     }
-    
-    self.contentSize = ccbFile.contentSize;
+    else
+    {
+        self.contentSize = CGSizeZero;
+        self.anchorPoint = ccp(0,0);
+        self.ignoreAnchorPointForPosition = NO;
+    }
 }
 
 - (id) extraPropForKey:(NSString *)key

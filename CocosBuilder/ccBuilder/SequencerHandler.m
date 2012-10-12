@@ -73,7 +73,7 @@ static SequencerHandler* sharedSequencerHandler;
     [outlineHierarchy setDelegate:self];
     [outlineHierarchy reloadData];
     
-    [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", NULL]];
+    [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", @"com.cocosbuilder.ccb", NULL]];
     
     [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
     
@@ -224,14 +224,15 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) updateOutlineViewSelection
 {
-    if (!appDelegate.selectedNode)
+    if (!appDelegate.selectedNodes.count)
     {
         [outlineHierarchy selectRowIndexes:[NSIndexSet indexSet] byExtendingSelection:NO];
         return;
     }
     CCBGlobals* g = [CCBGlobals globals];
     
-    CCNode* node = appDelegate.selectedNode;
+    // Expand parents of the selected node
+    CCNode* node = [appDelegate.selectedNodes objectAtIndex:0];
     NSMutableArray* nodesToExpand = [NSMutableArray array];
     while (node != g.rootNode && node != NULL)
     {
@@ -244,8 +245,15 @@ static SequencerHandler* sharedSequencerHandler;
         [outlineHierarchy expandItem:node.parent];
     }
     
-    int row = (int)[outlineHierarchy rowForItem:appDelegate.selectedNode];
-    [outlineHierarchy selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
+    // Update the selection
+    NSMutableIndexSet* indexes = [NSMutableIndexSet indexSet];
+    
+    for (CCNode* selectedNode in appDelegate.selectedNodes)
+    {
+        int row = (int)[outlineHierarchy rowForItem:selectedNode];
+        [indexes addIndex:row];
+    }
+    [outlineHierarchy selectRowIndexes:indexes byExtendingSelection:NO];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
@@ -288,10 +296,18 @@ static SequencerHandler* sharedSequencerHandler;
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
-{
-    appDelegate.selectedNode = [outlineHierarchy itemAtRow:[outlineHierarchy selectedRow]];
+{    
+    NSIndexSet* indexes = [outlineHierarchy selectedRowIndexes];
+    NSMutableArray* selectedNodes = [NSMutableArray array];
+    
+    [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
+        CCNode* node = [outlineHierarchy itemAtRow:idx];
+        [selectedNodes addObject:node];
+    }];
+    
+    appDelegate.selectedNodes = selectedNodes;
+    
     [appDelegate updateInspectorFromSelection];
-    [[CocosScene cocosScene] setSelectedNode:appDelegate.selectedNode];
 }
 
 - (void)outlineViewItemDidCollapse:(NSNotification *)notification
@@ -399,7 +415,7 @@ static SequencerHandler* sharedSequencerHandler;
         CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
         [appDelegate deleteNode:draggedNode];
         
-        [appDelegate setSelectedNode:clipNode];
+        [appDelegate setSelectedNodes:[NSArray arrayWithObject: clipNode]];
         
         [PositionPropertySetter refreshAllPositions];
         
@@ -413,6 +429,15 @@ static SequencerHandler* sharedSequencerHandler;
         [appDelegate dropAddSpriteNamed:[clipDict objectForKey:@"spriteFile"] inSpriteSheet:[clipDict objectForKey:@"spriteSheetFile"] at:ccp(0,0) parent:item];
         
         [PositionPropertySetter refreshAllPositions];
+        
+        return YES;
+    }
+    clipData = [pb dataForType:@"com.cocosbuilder.ccb"];
+    if (clipData)
+    {
+        NSDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
+        
+        [appDelegate dropAddCCBFileNamed:[clipDict objectForKey:@"ccbFile"] at:ccp(0, 0) parent:item];
         
         return YES;
     }
@@ -441,11 +466,14 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     CCNode* node = item;
+    BOOL isRootNode = (node == [CocosScene cocosScene].rootNode);
+    //BOOL isCCBFile = [NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"];
     
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
+        expCell.canExpand = (!isRootNode /*&& !isCCBFile*/);
     }
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
@@ -479,6 +507,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) toggleSeqExpanderForRow:(int)row
 {
     CCNode* node = [outlineHierarchy itemAtRow:row];
+    
+    if (node == [CocosScene cocosScene].rootNode && !node.seqExpanded) return;
+    //if ([NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"] && !node.seqExpanded) return;
     
     node.seqExpanded = !node.seqExpanded;
     
@@ -586,9 +617,18 @@ static SequencerHandler* sharedSequencerHandler;
     return keyframes;
 }
 
-- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId
+- (SequencerSequence*) seqId:(int)seqId inArray:(NSArray*)array
 {
-    [node updatePropertiesTime:currentSequence.timelinePosition sequenceId:seqId];
+    for (SequencerSequence* seq in array)
+    {
+        if (seq.sequenceId == seqId) return seq;
+    }
+    return NULL;
+}
+
+- (void) updatePropertiesToTimelinePositionForNode:(CCNode*)node sequenceId:(int)seqId localTime:(float)time
+{
+    [node updatePropertiesTime:time sequenceId:seqId];
     
     // Also deselect keyframes of children
     CCArray* children = [node children];
@@ -596,18 +636,31 @@ static SequencerHandler* sharedSequencerHandler;
     CCARRAY_FOREACH(children, child)
     {
         int childSeqId = seqId;
+        float localTime = time;
         
         // Sub ccb files uses different sequence id:s
-        NSNumber* childSequence = [child extraPropForKey:@"*sequenceId"];
-        if (childSequence) childSeqId = [childSequence intValue];
+        NSArray* childSequences = [child extraPropForKey:@"*sequences"];
+        int childStartSequence = [[child extraPropForKey:@"*startSequence"] intValue];
         
-        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId];
+        if (childSequences && childStartSequence != -1)
+        {
+            childSeqId = childStartSequence;
+            SequencerSequence* seq = [self seqId:childSeqId inArray:childSequences];
+            
+            while (localTime > seq.timelineLength && seq.chainedSequenceId != -1)
+            {
+                localTime -= seq.timelineLength;
+                seq = [self seqId:seq.chainedSequenceId inArray:childSequences];
+            }
+        }
+        
+        [self updatePropertiesToTimelinePositionForNode:child sequenceId:childSeqId localTime:localTime];
     }
 }
 
 - (void) updatePropertiesToTimelinePosition
 {
-    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId];
+    [self updatePropertiesToTimelinePositionForNode:[[CocosScene cocosScene] rootNode] sequenceId:currentSequence.sequenceId localTime:currentSequence.timelinePosition];
 }
 
 - (void) setCurrentSequence:(SequencerSequence *)seq

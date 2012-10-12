@@ -49,6 +49,7 @@
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
     self.publishDirectory = @".";
     self.onlyPublishCCBs = YES;
+    self.flattenPaths = YES;
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];

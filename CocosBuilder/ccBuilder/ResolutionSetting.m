@@ -141,6 +141,28 @@
     return setting;
 }
 
++ (ResolutionSetting*) settingIPhone5Landscape
+{
+    ResolutionSetting* setting = [self settingIPhone];
+    
+    setting.name = @"iPhone 5 Landscape";
+    setting.width = 568;
+    setting.height = 320;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingIPhone5Portrait
+{
+    ResolutionSetting* setting = [self settingIPhone];
+    
+    setting.name = @"iPhone 5 Portrait";
+    setting.width = 320;
+    setting.height = 568;
+    
+    return setting;
+}
+
 + (ResolutionSetting*) settingIPad
 {
     ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
@@ -354,7 +376,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), self, width, height];
+    return [NSString stringWithFormat:@"%@ <0x%x> (%d x %d)", NSStringFromClass([self class]), (unsigned int)self, width, height];
 }
 
 - (id) copyWithZone:(NSZone*)zone

@@ -27,12 +27,14 @@
 #import "cocos2d.h"
 #import "PSMTabBarControl.h"
 
-#define kCCBNumCanvasDevices 10
+#define kCCBNumCanvasDevices 12
 
 enum {
     kCCBCanvasSizeCustom = 0,
     kCCBCanvasSizeIPhoneLandscape,
     kCCBCanvasSizeIPhonePortrait,
+    kCCBCanvasSizeIPhone5Landscape,
+    kCCBCanvasSizeIPhone5Portrait,
     kCCBCanvasSizeIPadLandscape,
     kCCBCanvasSizeIPadPortrait,
     kCCBCanvasSizeAndroidXSmallLandscape,
@@ -48,6 +50,18 @@ enum {
     kCCBBorderTransparent,
     kCCBBorderOpaque,
     kCCBBorderNone
+};
+
+enum {
+    kCCBAlignHorizontalCenter,
+    kCCBAlignVerticalCenter,
+};
+
+enum {
+    kCCBArrangeBringToFront,
+    kCCBArrangeBringForward,
+    kCCBArrangeSendBackward,
+    kCCBArrangeSendToBack,
 };
 
 
@@ -70,6 +84,9 @@ enum {
 @class SequencerScrubberSelectionView;
 @class MainWindow;
 @class PlayerConsoleWindow;
+@class HelpWindow;
+@class MainToolbarDelegate;
+@class PlayerConnection;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -84,6 +101,7 @@ enum {
     NSMutableDictionary* currentInspectorValues;
     
     IBOutlet NSToolbar* toolbar;
+    MainToolbarDelegate* toolbarDelegate;
     
     // Tabs
     IBOutlet PSMTabBarControl* tabBar;
@@ -107,7 +125,8 @@ enum {
     IBOutlet NSScrollView* sequenceScrollView;
     
     // Selections
-    CCNode* selectedNode;
+    NSMutableArray* loadedSelectedNodes;
+    NSMutableArray* selectedNodes;
     
     // Menus
     IBOutlet NSMenu* menuCanvasSize;
@@ -129,9 +148,11 @@ enum {
     IBOutlet NSMenuItem* menuItemStageCentered;
     BOOL defaultCanvasSize;
     
+    IBOutlet NSMenuItem* menuItemJSControlled;
+    
     // Resource manager
     ResourceManager* resManager;
-    ResourceManagerPanel* resManagerPanel;
+    //ResourceManagerPanel* resManagerPanel;
     
     // Project
     ProjectSettings* projectSettings;
@@ -141,13 +162,12 @@ enum {
     ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
+    NSMutableArray* delayOpenFiles;
     CCBDocument* currentDocument;
     BOOL hasOpenedDocument;
     
     // PlugIns (nodes)
     PlugInManager* plugInManager;
-    IBOutlet NSMenu* menuAddObject;
-    IBOutlet NSMenu* menuAddObjectAsChild;
     
     // Guides
     BOOL showGuides;
@@ -162,17 +182,25 @@ enum {
     
     // Warnings
     WarningsWindow* publishWarningsWindow;
+    NSString* errorDescription;
     
     // Modal status window
     TaskStatusWindow* modalTaskStatusWindow;
     
     // Player
+    PlayerConnection* connection;
     PlayerController* playerController;
     PlayerConsoleWindow* playerConsoleWindow;
+    
+    // Help window
+    HelpWindow* helpWindow;
     
     // Animation playback
     BOOL playingBack;
     double playbackLastFrameTime;
+    
+    // JavaScript bindings
+    BOOL jsControlled;
     
 @private
     MainWindow *window;
@@ -180,8 +208,6 @@ enum {
 }
 
 @property (assign) IBOutlet MainWindow *window;
-
-//@property (nonatomic,retain) NSMutableArray* assetsFontListTTF;
 
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
@@ -192,7 +218,9 @@ enum {
 @property (nonatomic,assign) BOOL defaultCanvasSize;
 @property (nonatomic,assign) BOOL canEditCustomClass;
 
-@property (nonatomic,assign) CCNode* selectedNode;
+@property (nonatomic,readonly) CCNode* selectedNode;
+@property (nonatomic,retain) NSArray* selectedNodes;
+@property (nonatomic,readonly) NSMutableArray* loadedSelectedNodes;
 
 @property (nonatomic,assign) BOOL showGuides;
 @property (nonatomic,assign) BOOL snapToGuides;
@@ -210,6 +238,8 @@ enum {
 @property (nonatomic,retain) PlayerController* playerController;
 
 @property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
+
+@property (nonatomic,copy) NSString* errorDescription;
 
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
@@ -231,6 +261,7 @@ enum {
 // Menu options
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt;
+- (void) dropAddCCBFileNamed:(NSString*)ccbFile at:(CGPoint)pt parent:(CCNode*)parent;
 
 - (IBAction)menuTimelineSettings:(id)sender;
 
@@ -246,12 +277,12 @@ enum {
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent atIndex:(int)index;
 - (BOOL) addCCObject:(CCNode *)obj toParent:(CCNode*)parent;
 - (BOOL) addCCObject:(CCNode*)obj asChild:(BOOL)asChild;
+- (void) addPlugInNodeNamed:(NSString*)name asChild:(BOOL) asChild;
 - (void) deleteNode:(CCNode*)node;
 - (IBAction) pasteAsChild:(id)sender;
 - (IBAction) menuQuit:(id)sender;
 
 - (int) orientedDeviceTypeForSize:(CGSize)size;
-//- (IBAction) menuSetCanvasSize:(id)sender;
 - (IBAction)menuEditCustomPropSettings:(id)sender;
 - (void) updateStateOriginCenteredMenu;
 - (IBAction) menuSetStateOriginCentered:(id)sender;
@@ -265,7 +296,6 @@ enum {
 
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
-- (IBAction) menuAlignChildrenToPixels:(id)sender;
 - (IBAction)menuAddStickyNote:(id)sender;
 - (IBAction) menuCleanCacheDirectories:(id)sender;
 

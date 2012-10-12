@@ -31,6 +31,10 @@
 #import "ResolutionSetting.h"
 #import "NodeGraphPropertySetter.h"
 #import "CCNode+NodeInfo.h"
+#import "SequencerHandler.h"
+#import "SequencerSequence.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
 
 @implementation PositionPropertySetter
 
@@ -227,6 +231,42 @@
     // Set the extra properties
     [node setExtraProp:[NSValue valueWithPoint:pos] forKey:prop];
     [node setExtraProp:[NSNumber numberWithInt:type] forKey:[NSString stringWithFormat:@"%@Type", prop]];
+}
+
++ (void) addPositionKeyframeForNode:(CCNode*)node
+{
+    NSPoint newPos = [PositionPropertySetter positionForNode:node prop:@"position"];
+    
+    // Update animated value
+    NSArray* animValue = [NSArray arrayWithObjects:
+                          [NSNumber numberWithFloat:newPos.x],
+                          [NSNumber numberWithFloat:newPos.y],
+                          NULL];
+    
+    NodeInfo* nodeInfo = node.userObject;
+    PlugInNode* plugIn = nodeInfo.plugIn;
+    
+    if ([plugIn isAnimatableProperty:@"position"])
+    {
+        SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
+        int seqId = seq.sequenceId;
+        SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:@"position" sequenceId:seqId];
+        
+        if (seqNodeProp)
+        {
+            SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
+            if (keyframe)
+            {
+                keyframe.value = animValue;
+            }
+            
+            [[SequencerHandler sharedHandler] redrawTimeline];
+        }
+        else
+        {
+            [nodeInfo.baseValues setObject:animValue forKey:@"position"];
+        }
+    }
 }
 
 + (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop

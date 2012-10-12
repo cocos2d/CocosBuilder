@@ -29,5 +29,6 @@
 @property (nonatomic,assign) NSString* customClass;
 @property (nonatomic,assign) NSString* memberVarAssignmentName;
 @property (nonatomic,assign) int memberVarAssignmentType;
+@property (nonatomic,assign) NSString* jsController;
 
 @end

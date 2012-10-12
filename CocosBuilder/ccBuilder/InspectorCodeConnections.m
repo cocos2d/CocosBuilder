@@ -32,10 +32,24 @@
 
 - (void) setCustomClass:(NSString *)customClass
 {
+    NSString* previousCustomClass = [selection extraPropForKey:@"customClass"];
+    id disclosureForPreviousCustomClass = [selection extraPropForKey:previousCustomClass];
+    
+    if (disclosureForPreviousCustomClass) {
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:previousCustomClass];
+        [selection removeExtraPropForKey:previousCustomClass];
+    }
+    
+    if (customClass) {
+        [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:customClass];
+        [selection setExtraProp:[NSNumber numberWithInt:NSOnState] forKey:customClass];
+    }
+    
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"customClass"];
     
     if (!customClass) customClass = @"";
     [selection setExtraProp:customClass forKey:@"customClass"];
+    
     
     // Reload the inspector
     [[CocosBuilderAppDelegate appDelegate] performSelectorOnMainThread:@selector(updateInspectorFromSelection) withObject:NULL waitUntilDone:NO];
@@ -44,6 +58,21 @@
 - (NSString*) customClass
 {
     return [selection extraPropForKey:@"customClass"];
+}
+
+- (void) setJsController:(NSString *)jsController
+{
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"jsController"];
+    
+    if (!jsController) jsController = @"";
+    [selection setExtraProp:jsController forKey:@"jsController"];
+}
+
+- (NSString*) jsController
+{
+    NSString* jsc = [selection extraPropForKey:@"jsController"];
+    if (!jsc) jsc = @"";
+    return jsc;
 }
 
 - (void) setMemberVarAssignmentName:(NSString *)memberVarAssignmentName

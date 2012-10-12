@@ -11,9 +11,11 @@
 	<key>fileType</key>
 	<string>CocosBuilder</string>
 	<key>fileVersion</key>
-	<integer>3</integer>
+	<integer>4</integer>
 	<key>guides</key>
 	<array/>
+	<key>jsControlled</key>
+	<false/>
 	<key>nodeGraph</key>
 	<dict>
 		<key>baseClass</key>
@@ -27,24 +29,14 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCLayerGradient</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
 				<integer>0</integer>
 				<key>properties</key>
 				<array>
-					<dict>
-						<key>name</key>
-						<string>position</string>
-						<key>type</key>
-						<string>Position</string>
-						<key>value</key>
-						<array>
-							<real>0.0</real>
-							<real>0.0</real>
-							<integer>0</integer>
-						</array>
-					</dict>
 					<dict>
 						<key>name</key>
 						<string>contentSize</string>
@@ -83,31 +75,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>visible</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
@@ -167,14 +135,6 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>startOpacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>endColor</string>
 						<key>type</key>
 						<string>Color3</string>
@@ -191,7 +151,7 @@
 						<key>type</key>
 						<string>Byte</string>
 						<key>value</key>
-						<integer>255</integer>
+						<integer>127</integer>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -201,7 +161,7 @@
 						<key>value</key>
 						<array>
 							<integer>1</integer>
-							<integer>771</integer>
+							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -216,6 +176,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>baseClass</key>
@@ -224,6 +186,8 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCSprite</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -231,11 +195,6 @@
 				<key>properties</key>
 				<array>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>50</real>
-							<real>78.5</real>
-						</array>
 						<key>name</key>
 						<string>position</string>
 						<key>type</key>
@@ -245,18 +204,6 @@
 							<real>50</real>
 							<real>78.5</real>
 							<integer>4</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>123</real>
-							<real>128</real>
-							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -285,22 +232,6 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
 						<key>type</key>
 						<string>Check</string>
@@ -309,19 +240,6 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>visible</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>baseValue</key>
-						<array>
-							<string>ccb_logo.png</string>
-							<string>Use regular file</string>
-						</array>
-						<key>name</key>
 						<string>displayFrame</string>
 						<key>type</key>
 						<string>SpriteFrame</string>
@@ -329,48 +247,6 @@
 						<array>
 							<string></string>
 							<string>ccb_logo.png</string>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>opacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>color</string>
-						<key>type</key>
-						<string>Color3</string>
-						<key>value</key>
-						<array>
-							<integer>255</integer>
-							<integer>255</integer>
-							<integer>255</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>flip</string>
-						<key>type</key>
-						<string>Flip</string>
-						<key>value</key>
-						<array>
-							<false/>
-							<false/>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>blendFunc</string>
-						<key>type</key>
-						<string>Blendmode</string>
-						<key>value</key>
-						<array>
-							<integer>1</integer>
-							<integer>771</integer>
 						</array>
 					</dict>
 				</array>
@@ -387,6 +263,8 @@
 						<array/>
 						<key>customClass</key>
 						<string></string>
+						<key>displayName</key>
+						<string>CCMenuItemImage</string>
 						<key>memberVarAssignmentName</key>
 						<string>btnRun</string>
 						<key>memberVarAssignmentType</key>
@@ -394,11 +272,6 @@
 						<key>properties</key>
 						<array>
 							<dict>
-								<key>baseValue</key>
-								<array>
-									<real>50</real>
-									<real>16.700000762939453</real>
-								</array>
 								<key>name</key>
 								<string>position</string>
 								<key>type</key>
@@ -408,18 +281,6 @@
 									<real>50</real>
 									<real>16.700000762939453</real>
 									<integer>4</integer>
-								</array>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>contentSize</string>
-								<key>type</key>
-								<string>Size</string>
-								<key>value</key>
-								<array>
-									<real>110</real>
-									<real>132</real>
-									<integer>0</integer>
 								</array>
 							</dict>
 							<dict>
@@ -448,35 +309,11 @@
 							</dict>
 							<dict>
 								<key>name</key>
-								<string>rotation</string>
-								<key>type</key>
-								<string>Degrees</string>
-								<key>value</key>
-								<real>0.0</real>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>tag</string>
-								<key>type</key>
-								<string>Integer</string>
-								<key>value</key>
-								<integer>-1</integer>
-							</dict>
-							<dict>
-								<key>name</key>
 								<string>ignoreAnchorPointForPosition</string>
 								<key>type</key>
 								<string>Check</string>
 								<key>value</key>
 								<false/>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>visible</string>
-								<key>type</key>
-								<string>Check</string>
-								<key>value</key>
-								<true/>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -539,6 +376,8 @@
 						<array/>
 						<key>customClass</key>
 						<string></string>
+						<key>displayName</key>
+						<string>CCMenuItemImage</string>
 						<key>memberVarAssignmentName</key>
 						<string>btnPair</string>
 						<key>memberVarAssignmentType</key>
@@ -546,11 +385,6 @@
 						<key>properties</key>
 						<array>
 							<dict>
-								<key>baseValue</key>
-								<array>
-									<real>18.489583969116211</real>
-									<real>11.800000190734863</real>
-								</array>
 								<key>name</key>
 								<string>position</string>
 								<key>type</key>
@@ -560,18 +394,6 @@
 									<real>18.489583969116211</real>
 									<real>11.800000190734863</real>
 									<integer>4</integer>
-								</array>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>contentSize</string>
-								<key>type</key>
-								<string>Size</string>
-								<key>value</key>
-								<array>
-									<real>100</real>
-									<real>100</real>
-									<integer>0</integer>
 								</array>
 							</dict>
 							<dict>
@@ -600,35 +422,11 @@
 							</dict>
 							<dict>
 								<key>name</key>
-								<string>rotation</string>
-								<key>type</key>
-								<string>Degrees</string>
-								<key>value</key>
-								<real>0.0</real>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>tag</string>
-								<key>type</key>
-								<string>Integer</string>
-								<key>value</key>
-								<integer>-1</integer>
-							</dict>
-							<dict>
-								<key>name</key>
 								<string>ignoreAnchorPointForPosition</string>
 								<key>type</key>
 								<string>Check</string>
 								<key>value</key>
 								<false/>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>visible</string>
-								<key>type</key>
-								<string>Check</string>
-								<key>value</key>
-								<true/>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -691,6 +489,8 @@
 						<array/>
 						<key>customClass</key>
 						<string></string>
+						<key>displayName</key>
+						<string>CCMenuItemImage</string>
 						<key>memberVarAssignmentName</key>
 						<string>btnReset</string>
 						<key>memberVarAssignmentType</key>
@@ -698,11 +498,6 @@
 						<key>properties</key>
 						<array>
 							<dict>
-								<key>baseValue</key>
-								<array>
-									<real>81.5</real>
-									<real>11.800000190734863</real>
-								</array>
 								<key>name</key>
 								<string>position</string>
 								<key>type</key>
@@ -712,18 +507,6 @@
 									<real>81.5</real>
 									<real>11.800000190734863</real>
 									<integer>4</integer>
-								</array>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>contentSize</string>
-								<key>type</key>
-								<string>Size</string>
-								<key>value</key>
-								<array>
-									<real>100</real>
-									<real>100</real>
-									<integer>0</integer>
 								</array>
 							</dict>
 							<dict>
@@ -752,35 +535,11 @@
 							</dict>
 							<dict>
 								<key>name</key>
-								<string>rotation</string>
-								<key>type</key>
-								<string>Degrees</string>
-								<key>value</key>
-								<real>0.0</real>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>tag</string>
-								<key>type</key>
-								<string>Integer</string>
-								<key>value</key>
-								<integer>-1</integer>
-							</dict>
-							<dict>
-								<key>name</key>
 								<string>ignoreAnchorPointForPosition</string>
 								<key>type</key>
 								<string>Check</string>
 								<key>value</key>
 								<false/>
-							</dict>
-							<dict>
-								<key>name</key>
-								<string>visible</string>
-								<key>type</key>
-								<string>Check</string>
-								<key>value</key>
-								<true/>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -839,6 +598,8 @@
 				</array>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCMenu</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -895,31 +656,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>visible</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
@@ -974,6 +711,8 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCLabelTTF</string>
 				<key>memberVarAssignmentName</key>
 				<string>lblPair</string>
 				<key>memberVarAssignmentType</key>
@@ -981,11 +720,6 @@
 				<key>properties</key>
 				<array>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>18.5</real>
-							<real>14.300000190734863</real>
-						</array>
 						<key>name</key>
 						<string>position</string>
 						<key>type</key>
@@ -995,18 +729,6 @@
 							<real>18.5</real>
 							<real>14.300000190734863</real>
 							<integer>4</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>64</real>
-							<real>48</real>
-							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -1021,11 +743,6 @@
 						</array>
 					</dict>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>1</real>
-							<real>1</real>
-						</array>
 						<key>name</key>
 						<string>scale</string>
 						<key>type</key>
@@ -1040,35 +757,11 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
 						<false/>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>visible</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1087,26 +780,6 @@
 						<array>
 							<real>22</real>
 							<integer>1</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>opacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>color</string>
-						<key>type</key>
-						<string>Color3</string>
-						<key>value</key>
-						<array>
-							<integer>255</integer>
-							<integer>255</integer>
-							<integer>255</integer>
 						</array>
 					</dict>
 					<dict>
@@ -1154,6 +827,8 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCLabelTTF</string>
 				<key>memberVarAssignmentName</key>
 				<string>lblStatus</string>
 				<key>memberVarAssignmentType</key>
@@ -1161,11 +836,6 @@
 				<key>properties</key>
 				<array>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>50</real>
-							<real>59.599998474121094</real>
-						</array>
 						<key>name</key>
 						<string>position</string>
 						<key>type</key>
@@ -1175,18 +845,6 @@
 							<real>50</real>
 							<real>59.599998474121094</real>
 							<integer>4</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>288</real>
-							<real>24</real>
-							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -1215,35 +873,11 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
 						<false/>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>visible</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1265,20 +899,6 @@
 						</array>
 					</dict>
 					<dict>
-						<key>name</key>
-						<string>opacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>baseValue</key>
-						<array>
-							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
-						</array>
 						<key>name</key>
 						<string>color</string>
 						<key>type</key>
@@ -1335,6 +955,8 @@
 				<array/>
 				<key>customClass</key>
 				<string></string>
+				<key>displayName</key>
+				<string>CCLabelTTF</string>
 				<key>memberVarAssignmentName</key>
 				<string>lblInstructions</string>
 				<key>memberVarAssignmentType</key>
@@ -1342,11 +964,6 @@
 				<key>properties</key>
 				<array>
 					<dict>
-						<key>baseValue</key>
-						<array>
-							<real>50</real>
-							<real>43.799999237060547</real>
-						</array>
 						<key>name</key>
 						<string>position</string>
 						<key>type</key>
@@ -1356,18 +973,6 @@
 							<real>50</real>
 							<real>43.799999237060547</real>
 							<integer>4</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>contentSize</string>
-						<key>type</key>
-						<string>Size</string>
-						<key>value</key>
-						<array>
-							<real>256</real>
-							<real>120</real>
-							<integer>0</integer>
 						</array>
 					</dict>
 					<dict>
@@ -1396,35 +1001,11 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>rotation</string>
-						<key>type</key>
-						<string>Degrees</string>
-						<key>value</key>
-						<real>0.0</real>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>tag</string>
-						<key>type</key>
-						<string>Integer</string>
-						<key>value</key>
-						<integer>-1</integer>
-					</dict>
-					<dict>
-						<key>name</key>
 						<string>ignoreAnchorPointForPosition</string>
 						<key>type</key>
 						<string>Check</string>
 						<key>value</key>
 						<false/>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>visible</string>
-						<key>type</key>
-						<string>Check</string>
-						<key>value</key>
-						<true/>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1446,20 +1027,6 @@
 						</array>
 					</dict>
 					<dict>
-						<key>name</key>
-						<string>opacity</string>
-						<key>type</key>
-						<string>Byte</string>
-						<key>value</key>
-						<integer>255</integer>
-					</dict>
-					<dict>
-						<key>baseValue</key>
-						<array>
-							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
-						</array>
 						<key>name</key>
 						<string>color</string>
 						<key>type</key>
@@ -1513,24 +1080,14 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 		</array>
 		<key>customClass</key>
 		<string>PlayerStatusLayer</string>
+		<key>displayName</key>
+		<string>PlayerStatusLayer</string>
 		<key>memberVarAssignmentName</key>
 		<string></string>
 		<key>memberVarAssignmentType</key>
 		<integer>0</integer>
 		<key>properties</key>
 		<array>
-			<dict>
-				<key>name</key>
-				<string>position</string>
-				<key>type</key>
-				<string>Position</string>
-				<key>value</key>
-				<array>
-					<real>0.0</real>
-					<real>0.0</real>
-					<integer>0</integer>
-				</array>
-			</dict>
 			<dict>
 				<key>name</key>
 				<string>contentSize</string>
@@ -1569,31 +1126,7 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>rotation</string>
-				<key>type</key>
-				<string>Degrees</string>
-				<key>value</key>
-				<real>0.0</real>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>tag</string>
-				<key>type</key>
-				<string>Integer</string>
-				<key>value</key>
-				<integer>-1</integer>
-			</dict>
-			<dict>
-				<key>name</key>
 				<string>ignoreAnchorPointForPosition</string>
-				<key>type</key>
-				<string>Check</string>
-				<key>value</key>
-				<true/>
-			</dict>
-			<dict>
-				<key>name</key>
-				<string>visible</string>
 				<key>type</key>
 				<string>Check</string>
 				<key>value</key>
@@ -1697,5 +1230,7 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			<integer>0</integer>
 		</dict>
 	</array>
+	<key>stageBorder</key>
+	<integer>0</integer>
 </dict>
 </plist>

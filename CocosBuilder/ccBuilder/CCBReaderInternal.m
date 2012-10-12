@@ -353,6 +353,13 @@
     [extraProps setObject:memberVarName forKey:@"memberVarAssignmentName"];
     [extraProps setObject:[NSNumber numberWithInt:memberVarType] forKey:@"memberVarAssignmentType"];
     
+    // JS code connections
+    NSString* jsController = [dict objectForKey:@"jsController"];
+    if (jsController)
+    {
+        [extraProps setObject:jsController forKey:@"jsController"];
+    }
+    
     NSString* displayName = [dict objectForKey:@"displayName"];
     if (displayName)
     {
@@ -368,6 +375,12 @@
     {
         CCNode* child = [CCBReaderInternal nodeGraphFromDictionary:[children objectAtIndex:i] parentSize:contentSize];
         [node addChild:child z:i];
+    }
+    
+    // Selections
+    if ([[dict objectForKey:@"selected"] boolValue])
+    {
+        [[CocosBuilderAppDelegate appDelegate].loadedSelectedNodes addObject:node];
     }
     
     BOOL isCCBSubFile = [baseClass isEqualToString:@"CCBFile"];

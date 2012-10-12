@@ -8,11 +8,10 @@
 
 #import "ServerController.h"
 #import "PlayerStatusLayer.h"
-#import "AppController.h"
+#import "AppDelegate.h"
 
-#import "ScriptingCore.h"
+#import "js_bindings_core.h"
 #import "CCBReader.h"
-#import "js_manual_conversions.h"
 
 @implementation ServerController
 
@@ -79,10 +78,11 @@
 	[cocos2dThread performBlock:^(void) { 
 		NSString * string = @"None\n";
 		jsval out;
-		BOOL success = [[ScriptingCore sharedInstance] evalString:script outVal:&out];
+		BOOL success = [[JSBCore sharedInstance] evalString:script outVal:&out];
 		
 		if(success)
 		{
+            /*
 			if(JSVAL_IS_BOOLEAN(out))
 			{
 				string = [NSString stringWithFormat:@"Result(bool): %@.\n", (JSVAL_TO_BOOLEAN(out)) ? @"true" : @"false"];
@@ -104,6 +104,8 @@
 				string = @"Result(void):\n";
 			else if (JSVAL_IS_OBJECT(out) )
 				string = @"Result(object):\n";
+             */
+            string = @"Success\n";
 		}
 		else
 		{
@@ -138,6 +140,12 @@
     }
     
     NSLog(@"Resources unzipped!");
+    
+    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
+    for (NSString* file in files)
+    {
+        NSLog(@"File: %@", file);
+    }
 }
 
 - (void) stopMain
