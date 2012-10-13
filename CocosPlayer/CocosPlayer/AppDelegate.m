@@ -53,6 +53,7 @@
 		//[[JSBCore sharedInstance] runScript:@"main.js"];
         [[AppController appController] run];
         
+        NSLog(@"RESHAPE!");
 	}
 }
 @end
@@ -233,7 +234,7 @@ static AppController* appController = NULL;
 
 - (void) runJSApp
 {
-    [self stopJSApp];
+    //[self stopJSApp];
     
     statusLayer = NULL;
     
@@ -250,8 +251,41 @@ static AppController* appController = NULL;
 
 - (void) stopJSApp
 {
-    [[JSBCore sharedInstance] restartRuntime];
-    [[CCDirector sharedDirector] replaceScene:[self createStatusScene]];
+    NSLog(@"stopJSApp director: %@", director_);
+    UIView* mainView = [CCDirector sharedDirector].view.superview;
+    [[CCDirector sharedDirector].view removeFromSuperview];
+    [[CCDirector sharedDirector] end];
+    NSLog(@"ended director");
+    //[[JSBCore sharedInstance] restartRuntime];
+    NSLog(@"restarted JS runtime");
+    
+    director_ = (CCDirectorIOS*)[CCDirector sharedDirector];
+    CCGLView *glView = [CCGLView viewWithFrame:[window_ bounds]
+								   pixelFormat:kEAGLColorFormatRGB565	//kEAGLColorFormatRGBA8
+								   depthFormat:0	//GL_DEPTH_COMPONENT24_OES
+							preserveBackbuffer:NO
+									sharegroup:nil
+								 multiSampling:NO
+							   numberOfSamples:0];
+    [glView setMultipleTouchEnabled:YES];
+    
+    [director_ setView:glView];
+    NSLog(@"new director: %@", director_);
+    
+    [mainView addSubview:glView];
+    
+    // Create a Navigation Controller with the Director
+	navController_ = [[MyNavigationController alloc] initWithRootViewController:director_];
+	navController_.navigationBarHidden = YES;
+    
+	// for rotation and other messages
+	[director_ setDelegate:navController_];
+	
+	// set the Navigation Controller as the root view controller
+	[window_ setRootViewController:navController_];
+    
+    [director_ pushScene:[self createStatusScene]];
+    NSLog(@"runWithScene complete");
 }
 
 - (void) updatePairing
