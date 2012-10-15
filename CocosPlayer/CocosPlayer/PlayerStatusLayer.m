@@ -73,6 +73,11 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
 
 - (void) pressedReset:(id)sender
 {
+    // Remove the ccb directory
+    [[NSFileManager defaultManager] removeItemAtPath:[CCBReader ccbDirectoryPath] error:NULL];
+    
+    btnRun.isEnabled = NO;
+    btnReset.isEnabled = NO;
 }
 
 - (void) pressedPair:(id)sender
