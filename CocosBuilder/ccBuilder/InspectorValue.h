@@ -45,6 +45,7 @@
 @property (nonatomic,readonly) NSView* view;
 @property (nonatomic,readonly) NSString* extra;
 @property (nonatomic,assign) BOOL readOnly;
+@property (nonatomic,assign) BOOL rootNode;
 @property (nonatomic,retain) NSArray* affectsProperties;
 @property (nonatomic,retain) InspectorValue* inspectorValueBelow;
 

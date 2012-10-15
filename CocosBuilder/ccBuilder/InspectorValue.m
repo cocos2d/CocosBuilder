@@ -35,7 +35,7 @@
 
 @implementation InspectorValue
 
-@synthesize displayName, view, extra, readOnly, affectsProperties, inspectorValueBelow;
+@synthesize displayName, view, extra, readOnly, affectsProperties, inspectorValueBelow, rootNode;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e
 {
