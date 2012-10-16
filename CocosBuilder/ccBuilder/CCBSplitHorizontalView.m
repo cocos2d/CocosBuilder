@@ -85,7 +85,6 @@
 
 - (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
 {
-    CCLOG(@"divider");
     return YES;
 }
 
