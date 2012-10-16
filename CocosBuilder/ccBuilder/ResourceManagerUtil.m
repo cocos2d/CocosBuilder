@@ -72,7 +72,8 @@
             if (res.type == kCCBResTypeImage
                 || res.type == kCCBResTypeBMFont
                 || res.type == kCCBResTypeCCBFile
-                || res.type == kCCBResTypeTTF)
+                || res.type == kCCBResTypeTTF
+                || res.type == kCCBResTypeAudio)
             {
                 NSString* itemName = [res.filePath lastPathComponent];
                 NSMenuItem* menuItem = [[[NSMenuItem alloc] initWithTitle:itemName action:@selector(selectedResource:) keyEquivalent:@""] autorelease];
