@@ -90,6 +90,10 @@ enum {
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
+    
+    // Panel Views
+    IBOutlet NSView* leftPanel;
+    
     // Cocos2D view
     IBOutlet CCBGLView* cocosView;
     IBOutlet NSView* mainView;
@@ -209,6 +213,9 @@ enum {
 
 @property (assign) IBOutlet MainWindow *window;
 
+@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
+
+
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
@@ -236,8 +243,6 @@ enum {
 @property (nonatomic,retain) ProjectSettings* projectSettings;
 
 @property (nonatomic,retain) PlayerController* playerController;
-
-@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
 
 @property (nonatomic,copy) NSString* errorDescription;
 
@@ -293,6 +298,7 @@ enum {
 
 - (IBAction) pressedZoom:(id)sender;
 - (IBAction) pressedToolSelection:(id)sender;
+- (IBAction) pressedPanelVisibility:(id)sender;
 
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
