@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		581BCFE8162DADE7007DE600 /* CCBSplitHorizontalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */; };
+		58FA2034162D73F3006B8856 /* TB_bottomPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FA2031162D73F3006B8856 /* TB_bottomPanel.png */; };
+		58FA2035162D73F3006B8856 /* TB_leftPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FA2032162D73F3006B8856 /* TB_leftPanel.png */; };
+		58FA2036162D73F3006B8856 /* TB_rightPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FA2033162D73F3006B8856 /* TB_rightPanel.png */; };
 		77055FB513D0E5CA009DD63A /* logo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77055FB313D0E5CA009DD63A /* logo-icon.png */; };
 		77055FB613D0E5CA009DD63A /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 77055FB413D0E5CA009DD63A /* logo.png */; };
 		77156DB1137F0351005EF746 /* CCBSpriteSheetParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 77156DB0137F0351005EF746 /* CCBSpriteSheetParser.m */; };
@@ -742,6 +746,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		581BCFE6162DADE7007DE600 /* CCBSplitHorizontalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSplitHorizontalView.h; sourceTree = "<group>"; };
+		581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBSplitHorizontalView.m; sourceTree = "<group>"; };
+		58FA2031162D73F3006B8856 /* TB_bottomPanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_bottomPanel.png; sourceTree = "<group>"; };
+		58FA2032162D73F3006B8856 /* TB_leftPanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_leftPanel.png; sourceTree = "<group>"; };
+		58FA2033162D73F3006B8856 /* TB_rightPanel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_rightPanel.png; sourceTree = "<group>"; };
 		77055FB313D0E5CA009DD63A /* logo-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-icon.png"; sourceTree = "<group>"; };
 		77055FB413D0E5CA009DD63A /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		77156DAF137F0351005EF746 /* CCBSpriteSheetParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSpriteSheetParser.h; sourceTree = "<group>"; };
@@ -1852,6 +1861,9 @@
 		776041E51498F6BC0078095D /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
+				58FA2031162D73F3006B8856 /* TB_bottomPanel.png */,
+				58FA2032162D73F3006B8856 /* TB_leftPanel.png */,
+				58FA2033162D73F3006B8856 /* TB_rightPanel.png */,
 				E3B7BCBD15E505CC00CF95EF /* TB_plugins.png */,
 				776A37B7139BCE3600960E94 /* TB_imageAssets.png */,
 				776A3706139544A200960E94 /* TB_actualSize.png */,
@@ -1921,6 +1933,8 @@
 				E3850808150AA9AE007E162A /* ImageAndTextCell.m */,
 				E335CB041577995E00A612EE /* CCBSplitView.h */,
 				E335CB051577995F00A612EE /* CCBSplitView.m */,
+				581BCFE6162DADE7007DE600 /* CCBSplitHorizontalView.h */,
+				581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */,
 			);
 			name = "Styled Components";
 			sourceTree = "<group>";
@@ -4041,6 +4055,9 @@
 				E3AF6CE615F0F5760048DB2A /* help-logo.png in Resources */,
 				E3DFE831160226760068CB50 /* frame-iphone5.png in Resources */,
 				E3C9CCB8161D08B8008A3784 /* InspectorCodeConnectionsJS.xib in Resources */,
+				58FA2034162D73F3006B8856 /* TB_bottomPanel.png in Resources */,
+				58FA2035162D73F3006B8856 /* TB_leftPanel.png in Resources */,
+				58FA2036162D73F3006B8856 /* TB_rightPanel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4470,6 +4487,7 @@
 				E3AF6CE415F0DBA90048DB2A /* HelpPage.m in Sources */,
 				E3C9CCBB161D0BBF008A3784 /* InspectorCodeConnectionsJS.m in Sources */,
 				E34039BE1624BF610067C7B8 /* CCBDocumentController.m in Sources */,
+				581BCFE8162DADE7007DE600 /* CCBSplitHorizontalView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,13 +87,20 @@ enum {
 @class HelpWindow;
 @class MainToolbarDelegate;
 @class PlayerConnection;
+@class CCBSplitHorizontalView;
 
-@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
+@interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
+    
+    // Panel Views
+    IBOutlet NSView* leftPanel;
+    IBOutlet NSView* rightPanel;
+    IBOutlet NSSegmentedControl *panelVisibilityControl;
+    
     // Cocos2D view
     IBOutlet CCBGLView* cocosView;
     IBOutlet NSView* mainView;
-    IBOutlet NSSplitView* splitView;
+    IBOutlet CCBSplitHorizontalView* splitHorizontalView;
     
     // Inspector views
     IBOutlet NSScrollView* inspectorScroll;
@@ -209,6 +216,9 @@ enum {
 
 @property (assign) IBOutlet MainWindow *window;
 
+@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
+
+
 @property (nonatomic,readonly) ResourceManager* resManager;
 @property (nonatomic,retain) CCBDocument* currentDocument;
 @property (nonatomic,assign) BOOL hasOpenedDocument;
@@ -219,6 +229,7 @@ enum {
 @property (nonatomic,assign) BOOL canEditCustomClass;
 
 @property (nonatomic,readonly) CCNode* selectedNode;
+
 @property (nonatomic,retain) NSArray* selectedNodes;
 @property (nonatomic,readonly) NSMutableArray* loadedSelectedNodes;
 
@@ -232,12 +243,11 @@ enum {
 @property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframe;
 @property (nonatomic,readonly) IBOutlet NSMenu* menuContextKeyframeInterpol;
 @property (nonatomic,readonly) IBOutlet NSMenu* menuContextResManager;
+@property (nonatomic,readonly) NSSegmentedControl *panelVisibilityControl;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
 
 @property (nonatomic,retain) PlayerController* playerController;
-
-@property (nonatomic,readonly) IBOutlet NSOutlineView* outlineProject;
 
 @property (nonatomic,copy) NSString* errorDescription;
 
@@ -293,6 +303,7 @@ enum {
 
 - (IBAction) pressedZoom:(id)sender;
 - (IBAction) pressedToolSelection:(id)sender;
+- (IBAction) pressedPanelVisibility:(id)sender;
 
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
