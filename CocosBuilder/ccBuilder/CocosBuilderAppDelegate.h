@@ -94,6 +94,7 @@ enum {
     
     // Panel Views
     IBOutlet NSView* leftPanel;
+    IBOutlet NSView* rightPanel;
     IBOutlet NSSegmentedControl *panelVisibilityControl;
     
     // Cocos2D view

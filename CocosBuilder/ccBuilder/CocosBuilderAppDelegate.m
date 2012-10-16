@@ -2471,20 +2471,18 @@ static BOOL hideAllToNextSeparator;
         if ([leftPanel isHidden]) {
             // Show left panel & shrink splitHorizontalView
             NSRect origRect = leftPanel.frame;
-            NSRect transitionFrame = NSRectFromCGRect(
-                                                      CGRectMake(0,
-                                                                 origRect.origin.y,
-                                                                 origRect.size.width,
-                                                                 origRect.size.height)
-                                                      );
+            NSRect transitionFrame = NSMakeRect(0,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                     
             [leftPanel setFrame:transitionFrame];
             origRect = splitHorizontalView.frame;
-            transitionFrame = NSRectFromCGRect(
-                                               CGRectMake(leftPanel.frame.size.width,
-                                                          origRect.origin.y,
-                                                          origRect.size.width-leftPanel.frame.size.width,
-                                                          origRect.size.height)
-                                               );
+            transitionFrame = NSMakeRect(leftPanel.frame.size.width,
+                                         origRect.origin.y,
+                                         origRect.size.width-leftPanel.frame.size.width,
+                                         origRect.size.height);
+                                               
             [splitHorizontalView setFrame:transitionFrame];
             
             [leftPanel setHidden:NO];
@@ -2496,20 +2494,18 @@ static BOOL hideAllToNextSeparator;
         if (![leftPanel isHidden]) {
             // Hide left panel & expand splitView
             NSRect origRect = leftPanel.frame;
-            NSRect transitionFrame = NSRectFromCGRect(
-                                                      CGRectMake(-origRect.size.width,
-                                                                 origRect.origin.y,
-                                                                 origRect.size.width,
-                                                                 origRect.size.height)
-                                                      );
+            NSRect transitionFrame = NSMakeRect(-origRect.size.width,
+                                                 origRect.origin.y,
+                                                 origRect.size.width,
+                                                 origRect.size.height);
+                                                      
             [leftPanel setFrame:transitionFrame];
             origRect = splitHorizontalView.frame;
-            transitionFrame = NSRectFromCGRect(
-                                               CGRectMake(0,
-                                                          origRect.origin.y,
-                                                          origRect.size.width+leftPanel.frame.size.width,
-                                                          origRect.size.height)
-                                               );
+            transitionFrame = NSMakeRect(0,
+                                         origRect.origin.y,
+                                         origRect.size.width+leftPanel.frame.size.width,
+                                         origRect.size.height);
+                                         
             [splitHorizontalView setFrame:transitionFrame];
             
             [leftPanel setHidden:YES];
@@ -2522,50 +2518,46 @@ static BOOL hideAllToNextSeparator;
     // Right Panel (InspectorScroll)
     if ([sc isSelectedForSegment:2]) {
         
-        if ([inspectorScroll isHidden]) {
+        if ([rightPanel isHidden]) {
             // Show right panel & shrink splitView
-            [inspectorScroll setHidden:NO];
-            NSRect origRect = inspectorScroll.frame;
-            NSRect transitionFrame = NSRectFromCGRect(
-                                                      CGRectMake(origRect.origin.x-origRect.size.width,
-                                                                 origRect.origin.y,
-                                                                 origRect.size.width,
-                                                                 origRect.size.height)
-                                                      );
-            [inspectorScroll setFrame:transitionFrame];
+            [rightPanel setHidden:NO];
+            NSRect origRect = rightPanel.frame;
+            NSRect transitionFrame = NSMakeRect(origRect.origin.x-origRect.size.width,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                
+            [rightPanel setFrame:transitionFrame];
             origRect = splitHorizontalView.frame;
-            transitionFrame = NSRectFromCGRect(
-                                               CGRectMake(origRect.origin.x,
-                                                          origRect.origin.y,
-                                                          origRect.size.width-inspectorScroll.frame.size.width,
-                                                          origRect.size.height)
-                                               );
+            transitionFrame = NSMakeRect(origRect.origin.x,
+                                        origRect.origin.y,
+                                        origRect.size.width-rightPanel.frame.size.width,
+                                         origRect.size.height);
+                                        
             [splitHorizontalView setFrame:transitionFrame];
-            [inspectorScroll setNeedsDisplay:YES];
+            [rightPanel setNeedsDisplay:YES];
             [splitHorizontalView setNeedsDisplay:YES];
         }
     } else {
         
-        if (![inspectorScroll isHidden]) {
+        if (![rightPanel isHidden]) {
             // Hide right panel & expand splitView
-            NSRect origRect = inspectorScroll.frame;
-            NSRect transitionFrame = NSRectFromCGRect(
-                                                      CGRectMake(origRect.origin.x+origRect.size.width,
-                                                                 origRect.origin.y,
-                                                                 origRect.size.width,
-                                                                 origRect.size.height)
-                                                      );
-            [inspectorScroll setFrame:transitionFrame];
+            NSRect origRect = rightPanel.frame;
+            NSRect transitionFrame = NSMakeRect(origRect.origin.x+origRect.size.width,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                      
+            [rightPanel setFrame:transitionFrame];
             origRect = splitHorizontalView.frame;
-            transitionFrame = NSRectFromCGRect(
-                                               CGRectMake(origRect.origin.x,
-                                                          origRect.origin.y,
-                                                          origRect.size.width+inspectorScroll.frame.size.width,
-                                                          origRect.size.height)
-                                               );
+            transitionFrame = NSMakeRect(origRect.origin.x,
+                                         origRect.origin.y,
+                                         origRect.size.width+rightPanel.frame.size.width,
+                                         origRect.size.height);
+                                               
             [splitHorizontalView setFrame:transitionFrame];
-            [inspectorScroll setHidden:YES];
-            [inspectorScroll setNeedsDisplay:YES];
+            [rightPanel setHidden:YES];
+            [rightPanel setNeedsDisplay:YES];
             [splitHorizontalView setNeedsDisplay:YES];
         }
     }
