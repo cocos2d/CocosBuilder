@@ -85,6 +85,8 @@
 #import "InspectorSeparator.h"
 #import "HelpWindow.h"
 #import "NodeGraphPropertySetter.h"
+#import "CCBSplitHorizontalView.h"
+
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -113,6 +115,7 @@
 @synthesize errorDescription;
 @synthesize selectedNodes;
 @synthesize loadedSelectedNodes;
+@synthesize panelVisibilityControl;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -239,10 +242,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
-- (void) setupSplitView
-{
-    splitView.delegate = self;
-}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -277,7 +276,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupSequenceHandler];
-    [self setupSplitView];
     [self updateInspectorFromSelection];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -530,19 +528,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [sequenceHandler updateScroller];
 }
 
-#pragma mark Split View Delegate
 
--(void)splitViewWillResizeSubviews:(NSNotification *)notification
-{
-    [window disableUpdatesUntilFlush];
-}
 
-- (CGFloat) splitView:(NSSplitView *)sv constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
-{
-    float max = sv.frame.size.height - 62;
-    if (proposedMaximumPosition > max) return max;
-    else return proposedMaximumPosition;
-}
 
 #pragma mark Populate Inspector
 
@@ -2482,7 +2469,7 @@ static BOOL hideAllToNextSeparator;
     if ([sc isSelectedForSegment:0]) {
         
         if ([leftPanel isHidden]) {
-            // Show left panel & shrink splitView
+            // Show left panel & shrink splitHorizontalView
             NSRect origRect = leftPanel.frame;
             NSRect transitionFrame = NSRectFromCGRect(
                                                       CGRectMake(0,
@@ -2491,18 +2478,18 @@ static BOOL hideAllToNextSeparator;
                                                                  origRect.size.height)
                                                       );
             [leftPanel setFrame:transitionFrame];
-            origRect = splitView.frame;
+            origRect = splitHorizontalView.frame;
             transitionFrame = NSRectFromCGRect(
                                                CGRectMake(leftPanel.frame.size.width,
                                                           origRect.origin.y,
                                                           origRect.size.width-leftPanel.frame.size.width,
                                                           origRect.size.height)
                                                );
-            [splitView setFrame:transitionFrame];
+            [splitHorizontalView setFrame:transitionFrame];
             
             [leftPanel setHidden:NO];
             [leftPanel setNeedsDisplay:YES];
-            [splitView setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
         }
     } else {
         
@@ -2516,24 +2503,24 @@ static BOOL hideAllToNextSeparator;
                                                                  origRect.size.height)
                                                       );
             [leftPanel setFrame:transitionFrame];
-            origRect = splitView.frame;
+            origRect = splitHorizontalView.frame;
             transitionFrame = NSRectFromCGRect(
                                                CGRectMake(0,
                                                           origRect.origin.y,
                                                           origRect.size.width+leftPanel.frame.size.width,
                                                           origRect.size.height)
                                                );
-            [splitView setFrame:transitionFrame];
+            [splitHorizontalView setFrame:transitionFrame];
             
             [leftPanel setHidden:YES];
             [leftPanel setNeedsDisplay:YES];
-            [splitView setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
         }
     }
     
     
     // Right Panel (InspectorScroll)
-    if ([sc isSelectedForSegment:1]) {
+    if ([sc isSelectedForSegment:2]) {
         
         if ([inspectorScroll isHidden]) {
             // Show right panel & shrink splitView
@@ -2546,16 +2533,16 @@ static BOOL hideAllToNextSeparator;
                                                                  origRect.size.height)
                                                       );
             [inspectorScroll setFrame:transitionFrame];
-            origRect = splitView.frame;
+            origRect = splitHorizontalView.frame;
             transitionFrame = NSRectFromCGRect(
                                                CGRectMake(origRect.origin.x,
                                                           origRect.origin.y,
                                                           origRect.size.width-inspectorScroll.frame.size.width,
                                                           origRect.size.height)
                                                );
-            [splitView setFrame:transitionFrame];
+            [splitHorizontalView setFrame:transitionFrame];
             [inspectorScroll setNeedsDisplay:YES];
-            [splitView setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
         }
     } else {
         
@@ -2569,18 +2556,22 @@ static BOOL hideAllToNextSeparator;
                                                                  origRect.size.height)
                                                       );
             [inspectorScroll setFrame:transitionFrame];
-            origRect = splitView.frame;
+            origRect = splitHorizontalView.frame;
             transitionFrame = NSRectFromCGRect(
                                                CGRectMake(origRect.origin.x,
                                                           origRect.origin.y,
                                                           origRect.size.width+inspectorScroll.frame.size.width,
                                                           origRect.size.height)
                                                );
-            [splitView setFrame:transitionFrame];
+            [splitHorizontalView setFrame:transitionFrame];
             [inspectorScroll setHidden:YES];
             [inspectorScroll setNeedsDisplay:YES];
-            [splitView setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
         }
+    }
+    
+    if ([sc selectedSegment] == 1) {
+        [splitHorizontalView toggleBottomView:[sc isSelectedForSegment:1]];
     }
 }
 
@@ -3099,6 +3090,18 @@ static BOOL hideAllToNextSeparator;
 {
     [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
+}
+
+- (NSSize) windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+    static float minWidth = 1060.0f;
+    static float minHeight = 500.0f;
+    [splitHorizontalView setNeedsLayout:YES];
+    return NSSizeFromCGSize(
+                CGSizeMake(
+                        frameSize.width<minWidth ? minWidth:frameSize.width,
+                        frameSize.height<minHeight ? minHeight:frameSize.height)
+    );
 }
 
 - (IBAction) menuQuit:(id)sender

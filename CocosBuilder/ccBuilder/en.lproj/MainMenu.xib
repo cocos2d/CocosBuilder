@@ -1729,7 +1729,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {139, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSNextKeyView"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="98193384">
 										<int key="NSCellFlags">67239424</int>
@@ -1795,9 +1795,9 @@
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="475947388">
 									<reference key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
-									<string key="NSFrame">{{0, 14}, {90, 23}}</string>
+									<string key="NSFrame">{{0, 14}, {125, 23}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSNextKeyView"/>
+									<reference key="NSWindow"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -1827,15 +1827,24 @@
 											<object class="NSSegmentItem">
 												<object class="NSCustomResource" key="NSSegmentItemImage">
 													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">TB_rightPanel</string>
+													<string key="NSResourceName">TB_bottomPanel</string>
 												</object>
-												<string key="NSSegmentItemTooltip">Hide or Show the Inspector</string>
+												<string key="NSSegmentItemTooltip">Hide or Show the Timeline</string>
 												<int key="NSSegmentItemTag">1</int>
 												<bool key="NSSegmentItemSelected">YES</bool>
 												<int key="NSSegmentItemImageScaling">0</int>
 											</object>
+											<object class="NSSegmentItem">
+												<object class="NSCustomResource" key="NSSegmentItemImage">
+													<string key="NSClassName">NSImage</string>
+													<string key="NSResourceName">TB_rightPanel</string>
+												</object>
+												<string key="NSSegmentItemTooltip">Hide or Show the Inspector</string>
+												<bool key="NSSegmentItemSelected">YES</bool>
+												<int key="NSSegmentItemImageScaling">0</int>
+											</object>
 										</object>
-										<int key="NSSelectedSegment">-1</int>
+										<int key="NSSelectedSegment">2</int>
 										<int key="NSTrackingMode">1</int>
 										<int key="NSSegmentStyle">5</int>
 									</object>
@@ -1844,7 +1853,7 @@
 								<nil key="NSToolbarItemTarget"/>
 								<nil key="NSToolbarItemAction"/>
 								<string key="NSToolbarItemMinSize">{50, 23}</string>
-								<string key="NSToolbarItemMaxSize">{90, 25}</string>
+								<string key="NSToolbarItemMaxSize">{125, 25}</string>
 								<bool key="NSToolbarItemEnabled">YES</bool>
 								<bool key="NSToolbarItemAutovalidates">YES</bool>
 								<int key="NSToolbarItemTag">0</int>
@@ -1863,7 +1872,7 @@
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {93, 25}}</string>
 									<reference key="NSSuperview"/>
-									<reference key="NSNextKeyView"/>
+									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="869398447">
 										<int key="NSCellFlags">67239424</int>
@@ -1934,7 +1943,7 @@
 							</object>
 						</object>
 					</object>
-					<object class="NSMutableArray" key="NSToolbarIBAllowedItems">
+					<object class="NSArray" key="NSToolbarIBAllowedItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="451419006"/>
 						<reference ref="317932975"/>
@@ -3287,7 +3296,6 @@
 									<string key="NSFrame">{{284, 1}, {15, 678}}</string>
 									<reference key="NSSuperview" ref="949082143"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView"/>
 									<reference key="NSTarget" ref="949082143"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.95999999999999996</double>
@@ -4359,14 +4367,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">splitView</string>
-						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="937207363"/>
-					</object>
-					<int key="connectionID">1549</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">scrubberSelectionView</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="808054622"/>
@@ -4927,6 +4927,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">splitHorizontalView</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="937207363"/>
+					</object>
+					<int key="connectionID">1793</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">panelVisibilityControl</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="475947388"/>
+					</object>
+					<int key="connectionID">1794</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">appDelegate</string>
 						<reference key="source" ref="1039955690"/>
 						<reference key="destination" ref="976324537"/>
@@ -5166,6 +5182,22 @@
 						</object>
 					</object>
 					<int key="connectionID">1515</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">topView</string>
+						<reference key="source" ref="937207363"/>
+						<reference key="destination" ref="581098738"/>
+					</object>
+					<int key="connectionID">1791</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">bottomView</string>
+						<reference key="source" ref="937207363"/>
+						<reference key="destination" ref="1040455681"/>
+					</object>
+					<int key="connectionID">1792</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -7916,7 +7948,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>CCBSplitView</string>
+					<string>CCBSplitHorizontalView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8060,7 +8092,7 @@
 					<reference ref="41580922"/>
 					<real value="0.0"/>
 					<real value="0.0"/>
-					<integer value="1"/>
+					<integer value="2"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8166,7 +8198,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1790</int>
+			<int key="maxID">1794</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8207,11 +8239,43 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">CCBSplitView</string>
+					<string key="className">CCBSplitHorizontalView</string>
 					<string key="superclassName">NSSplitView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bottomView</string>
+							<string>topView</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSView</string>
+							<string>NSView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>bottomView</string>
+							<string>topView</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">bottomView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">topView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/CCBSplitView.h</string>
+						<string key="minorKey">./Classes/CCBSplitHorizontalView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -8224,7 +8288,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">UIView</string>
+					<string key="superclassName">NSOpenGLView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
@@ -8438,10 +8502,10 @@
 							<string>menuTimelinePopup</string>
 							<string>outlineHierarchy</string>
 							<string>outlineProject</string>
-							<string>rightPanel</string>
+							<string>panelVisibilityControl</string>
 							<string>scrubberSelectionView</string>
 							<string>sequenceScrollView</string>
-							<string>splitView</string>
+							<string>splitHorizontalView</string>
 							<string>tabBar</string>
 							<string>timeDisplay</string>
 							<string>timeScaleSlider</string>
@@ -8473,10 +8537,10 @@
 							<string>NSPopUpButton</string>
 							<string>NSOutlineView</string>
 							<string>NSOutlineView</string>
-							<string>NSView</string>
+							<string>NSSegmentedControl</string>
 							<string>SequencerScrubberSelectionView</string>
 							<string>NSScrollView</string>
-							<string>NSSplitView</string>
+							<string>CCBSplitHorizontalView</string>
 							<string>PSMTabBarControl</string>
 							<string>NSTextField</string>
 							<string>NSSlider</string>
@@ -8511,10 +8575,10 @@
 							<string>menuTimelinePopup</string>
 							<string>outlineHierarchy</string>
 							<string>outlineProject</string>
-							<string>rightPanel</string>
+							<string>panelVisibilityControl</string>
 							<string>scrubberSelectionView</string>
 							<string>sequenceScrollView</string>
-							<string>splitView</string>
+							<string>splitHorizontalView</string>
 							<string>tabBar</string>
 							<string>timeDisplay</string>
 							<string>timeScaleSlider</string>
@@ -8613,8 +8677,8 @@
 								<string key="candidateClassName">NSOutlineView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">rightPanel</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="name">panelVisibilityControl</string>
+								<string key="candidateClassName">NSSegmentedControl</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">scrubberSelectionView</string>
@@ -8625,8 +8689,8 @@
 								<string key="candidateClassName">NSScrollView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">splitView</string>
-								<string key="candidateClassName">NSSplitView</string>
+								<string key="name">splitHorizontalView</string>
+								<string key="candidateClassName">CCBSplitHorizontalView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tabBar</string>
@@ -8884,6 +8948,7 @@
 				<string>NSMenuCheckmark</string>
 				<string>NSMenuMixedState</string>
 				<string>TB_actualSize</string>
+				<string>TB_bottomPanel</string>
 				<string>TB_grab</string>
 				<string>TB_leftPanel</string>
 				<string>TB_rightPanel</string>
@@ -8908,6 +8973,7 @@
 				<string>{11, 11}</string>
 				<string>{10, 3}</string>
 				<string>{29, 14}</string>
+				<string>{25, 22}</string>
 				<string>{29, 16}</string>
 				<string>{25, 22}</string>
 				<string>{25, 22}</string>
