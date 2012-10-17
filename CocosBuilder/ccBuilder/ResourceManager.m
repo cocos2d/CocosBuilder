@@ -166,6 +166,7 @@
 @synthesize bmFonts;
 @synthesize ttfFonts;
 @synthesize ccbFiles;
+@synthesize audioFiles;
 
 - (id) init
 {
@@ -179,6 +180,7 @@
     bmFonts = [[NSMutableArray alloc] init];
     ttfFonts = [[NSMutableArray alloc] init];
     ccbFiles = [[NSMutableArray alloc] init];
+    audioFiles = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -191,6 +193,7 @@
     if (type == kCCBResTypeTTF) return ttfFonts;
     if (type == kCCBResTypeAnimation) return animations;
     if (type == kCCBResTypeCCBFile) return ccbFiles;
+    if (type == kCCBResTypeAudio) return audioFiles;
     return NULL;
 }
 
@@ -203,6 +206,7 @@
     [bmFonts release];
     [ttfFonts release];
     [ccbFiles release];
+    [audioFiles release];
     self.dirPath = NULL;
     [super dealloc];
 }
@@ -389,7 +393,13 @@
     {
         return kCCBResTypeJS;
     }
-    
+    else if ([ext isEqualToString:@"wav"]
+             || [ext isEqualToString:@"mp3"]
+             || [ext isEqualToString:@"m4a"]
+             || [ext isEqualToString:@"caf"])
+    {
+        return kCCBResTypeAudio;
+    }
     return kCCBResTypeNone;
 }
 
@@ -506,6 +516,7 @@
         [dir.bmFonts removeAllObjects];
         [dir.ttfFonts removeAllObjects];
         [dir.ccbFiles removeAllObjects];
+        [dir.audioFiles removeAllObjects];
         
         for (NSString* file in resources)
         {
@@ -537,6 +548,12 @@
                 [dir.ccbFiles addObject:res];
                 
             }
+            if (res.type == kCCBResTypeAudio
+                || res.type == kCCBResTypeDirectory)
+            {
+                [dir.audioFiles addObject:res];
+                
+            }
             if (res.type == kCCBResTypeImage
                 || res.type == kCCBResTypeSpriteSheet
                 || res.type == kCCBResTypeAnimation
@@ -544,7 +561,8 @@
                 || res.type == kCCBResTypeTTF
                 || res.type == kCCBResTypeCCBFile
                 || res.type == kCCBResTypeDirectory
-                || res.type == kCCBResTypeJS)
+                || res.type == kCCBResTypeJS
+                || res.type == kCCBResTypeAudio)
             {
                 [dir.any addObject:res];
             }
@@ -556,6 +574,7 @@
         [dir.bmFonts sortUsingSelector:@selector(compare:)];
         [dir.ttfFonts sortUsingSelector:@selector(compare:)];
         [dir.ccbFiles sortUsingSelector:@selector(compare:)];
+        [dir.audioFiles sortUsingSelector:@selector(compare:)];
     }
     
     if (resourcesChanged) [self notifyResourceObserversResourceListUpdated];
