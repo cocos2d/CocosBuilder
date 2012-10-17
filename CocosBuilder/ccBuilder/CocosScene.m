@@ -274,11 +274,13 @@ static CocosScene* sharedCocosScene;
 
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin
 {
+    
     stageBgLayer.contentSize = size;
     if (centeredOrigin) contentLayer.position = ccp(size.width/2, size.height/2);
     else contentLayer.position = ccp(0,0);
     
     [self setStageBorder:stageBorderType];
+    
     
     if (renderedScene)
     {
@@ -288,10 +290,18 @@ static CocosScene* sharedCocosScene;
     
     if (size.width > 0 && size.height > 0 && size.width <= 1024 && size.height <= 1024)
     {
+        // Use a new autorelease pool
+        // Otherwise, two successive calls to the running method (_cmd) cause a crash!
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
         renderedScene = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
         renderedScene.anchorPoint = ccp(0.5f,0.5f);
         [self addChild:renderedScene];
+
+        [pool drain];
     }
+    
+    
 }
 
 - (CGSize) stageSize
