@@ -265,6 +265,7 @@
     NSString* spriteFile = NULL;
     NSString* spriteSheetFile = NULL;
     NSString* ccbFile = NULL;
+    NSString* audioFile = NULL;
     
     for (id item in items)
     {
@@ -278,6 +279,10 @@
             else if (res.type == kCCBResTypeCCBFile)
             {
                 ccbFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
+            }
+            else if (res.type == kCCBResTypeAudio)
+            {
+                audioFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
             }
         }
         else if ([item isKindOfClass:[RMSpriteFrame class]])
@@ -313,6 +318,17 @@
         NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
         [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.ccb"] owner:NULL];
         [pasteboard setData:clipData forType:@"com.cocosbuilder.ccb"];
+        
+        return YES;
+    }
+    else if (audioFile)
+    {
+        NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
+        [clipDict setObject:audioFile forKey:@"audioFile"];
+        
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
+        [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.audio"] owner:NULL];
+        [pasteboard setData:clipData forType:@"com.cocosbuilder.audio"];
         
         return YES;
     }
