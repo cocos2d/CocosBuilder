@@ -38,12 +38,14 @@
     BOOL onlyPublishCCBs;
     NSString* exporter;
     NSMutableArray* availableExporters;
+    NSString* javascriptMainCCB;
 }
 
 @property (nonatomic, copy) NSString* projectPath;
 @property (nonatomic, readonly) NSString* projectPathHashed;
 @property (nonatomic, retain) NSMutableArray* resourcePaths;
 @property (nonatomic, copy) NSString* publishDirectory;
+@property (nonatomic, copy) NSString* javascriptMainCCB;
 @property (nonatomic, assign) BOOL flattenPaths;
 @property (nonatomic, assign) BOOL publishToZipFile;
 @property (nonatomic, assign) BOOL javascriptBased;

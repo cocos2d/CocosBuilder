@@ -36,6 +36,7 @@
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
 @synthesize javascriptBased;
+@synthesize javascriptMainCCB;
 @synthesize onlyPublishCCBs;
 @synthesize exporter;
 @synthesize availableExporters;
@@ -50,6 +51,7 @@
     self.publishDirectory = @".";
     self.onlyPublishCCBs = YES;
     self.flattenPaths = YES;
+    self.javascriptMainCCB = @"";
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];
@@ -81,6 +83,10 @@
     self.javascriptBased = [[dict objectForKey:@"javascriptBased"] boolValue];
     self.onlyPublishCCBs = [[dict objectForKey:@"onlyPublishCCBs"] boolValue];
     self.exporter = [dict objectForKey:@"exporter"];
+    
+    NSString* mainCCB = [dict objectForKey:@"javascriptMainCCB"];
+    if (!mainCCB) mainCCB = @"";
+    self.javascriptMainCCB = mainCCB;
     
     return self;
 }
@@ -114,6 +120,10 @@
     [dict setObject:[NSNumber numberWithBool:javascriptBased] forKey:@"javascriptBased"];
     [dict setObject:[NSNumber numberWithBool:onlyPublishCCBs] forKey:@"onlyPublishCCBs"];
     [dict setObject:self.exporter forKey:@"exporter"];
+    
+    if (!javascriptMainCCB) self.javascriptMainCCB = @"";
+    if (!javascriptBased) self.javascriptMainCCB = @"";
+    [dict setObject:javascriptMainCCB forKey:@"javascriptMainCCB"];
     
     return dict;
 }
