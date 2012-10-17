@@ -1725,10 +1725,9 @@
 								<string key="NSToolbarItemPaletteLabel">Zoom</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="508682600">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {139, 25}}</string>
-									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="98193384">
 										<int key="NSCellFlags">67239424</int>
@@ -1792,10 +1791,9 @@
 								<string key="NSToolbarItemPaletteLabel">View</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="475947388">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {125, 23}}</string>
-									<reference key="NSSuperview"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -1866,10 +1864,9 @@
 								<string key="NSToolbarItemPaletteLabel">Tools</string>
 								<nil key="NSToolbarItemToolTip"/>
 								<object class="NSSegmentedControl" key="NSToolbarItemView" id="617258274">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{0, 14}, {93, 25}}</string>
-									<reference key="NSSuperview"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSegmentedCell" key="NSCell" id="869398447">
 										<int key="NSCellFlags">67239424</int>
@@ -2434,23 +2431,23 @@
 										<object class="NSSlider" id="823357712">
 											<reference key="NSNextResponder" ref="1040455681"/>
 											<int key="NSvFlags">265</int>
-											<string key="NSFrame">{{456, 110}, {42, 12}}</string>
+											<string key="NSFrame">{{328, 105}, {166, 15}}</string>
 											<reference key="NSSuperview" ref="1040455681"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="866197916"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSliderCell" key="NSCell" id="978163075">
 												<int key="NSCellFlags">-2079981824</int>
-												<int key="NSCellFlags2">262144</int>
+												<int key="NSCellFlags2">131072</int>
 												<string key="NSContents"/>
 												<reference key="NSControlView" ref="823357712"/>
-												<double key="NSMaxValue">4</double>
-												<double key="NSMinValue">0.0</double>
-												<double key="NSValue">2</double>
+												<double key="NSMaxValue">512</double>
+												<double key="NSMinValue">32</double>
+												<double key="NSValue">128</double>
 												<double key="NSAltIncValue">0.0</double>
 												<int key="NSNumberOfTickMarks">0</int>
-												<int key="NSTickMarkPosition">1</int>
-												<bool key="NSAllowsTickMarkValuesOnly">YES</bool>
+												<int key="NSTickMarkPosition">0</int>
+												<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 												<bool key="NSVertical">NO</bool>
 											</object>
 										</object>
@@ -2469,7 +2466,7 @@
 													<string>NeXT TIFF v4.0 pasteboard type</string>
 												</object>
 											</object>
-											<string key="NSFrame">{{448, 100}, {58, 24}}</string>
+											<string key="NSFrame">{{312, 96}, {195, 31}}</string>
 											<reference key="NSSuperview" ref="1040455681"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="823357712"/>
@@ -5842,6 +5839,7 @@
 							<reference ref="826880190"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
+						<string key="objectName">Main View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">420</int>
@@ -6385,6 +6383,7 @@
 							<reference ref="1040455681"/>
 						</object>
 						<reference key="parent" ref="439893737"/>
+						<string key="objectName">Center HorSplit Panel</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1531</int>
@@ -6394,6 +6393,7 @@
 							<reference ref="1039955690"/>
 						</object>
 						<reference key="parent" ref="937207363"/>
+						<string key="objectName">Cocos container View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1532</int>
@@ -6414,8 +6414,6 @@
 							<reference ref="689649692"/>
 							<reference ref="866197916"/>
 							<reference ref="808054622"/>
-							<reference ref="823357712"/>
-							<reference ref="307606666"/>
 							<reference ref="308950031"/>
 							<reference ref="535044269"/>
 							<reference ref="481429480"/>
@@ -6424,9 +6422,11 @@
 							<reference ref="146236584"/>
 							<reference ref="915023943"/>
 							<reference ref="286030503"/>
+							<reference ref="307606666"/>
+							<reference ref="823357712"/>
 						</object>
 						<reference key="parent" ref="937207363"/>
-						<string key="objectName">TimelineView</string>
+						<string key="objectName">Timeline View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">603</int>
@@ -8319,7 +8319,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">NSOpenGLView</string>
+					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
@@ -8534,6 +8534,7 @@
 							<string>outlineHierarchy</string>
 							<string>outlineProject</string>
 							<string>panelVisibilityControl</string>
+							<string>rightPanel</string>
 							<string>scrubberSelectionView</string>
 							<string>sequenceScrollView</string>
 							<string>splitHorizontalView</string>
@@ -8569,6 +8570,7 @@
 							<string>NSOutlineView</string>
 							<string>NSOutlineView</string>
 							<string>NSSegmentedControl</string>
+							<string>NSView</string>
 							<string>SequencerScrubberSelectionView</string>
 							<string>NSScrollView</string>
 							<string>CCBSplitHorizontalView</string>
@@ -8607,6 +8609,7 @@
 							<string>outlineHierarchy</string>
 							<string>outlineProject</string>
 							<string>panelVisibilityControl</string>
+							<string>rightPanel</string>
 							<string>scrubberSelectionView</string>
 							<string>sequenceScrollView</string>
 							<string>splitHorizontalView</string>
@@ -8710,6 +8713,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">panelVisibilityControl</string>
 								<string key="candidateClassName">NSSegmentedControl</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">rightPanel</string>
+								<string key="candidateClassName">NSView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">scrubberSelectionView</string>
@@ -9021,7 +9028,7 @@
 				<string>{22, 16}</string>
 				<string>{32, 32}</string>
 				<string>{8, 9}</string>
-				<string>{58, 24}</string>
+				<string>{186, 24}</string>
 				<string>{84, 24}</string>
 			</object>
 		</object>

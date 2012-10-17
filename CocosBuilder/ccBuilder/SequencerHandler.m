@@ -77,13 +77,6 @@ static SequencerHandler* sharedSequencerHandler;
     
     [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
     
-    // Set default values for timeline scale & offset
-    timelineScales[0] = kCCBTimelineScale0;
-    timelineScales[1] = kCCBTimelineScale1;
-    timelineScales[2] = kCCBTimelineScale2;
-    timelineScales[3] = kCCBTimelineScale3;
-    timelineScales[4] = kCCBTimelineScale4;
-    
     return self;
 }
 
@@ -108,34 +101,22 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) timeScaleSliderUpdated:(id)sender
 {
-    int scale = roundf(timeScaleSlider.doubleValue);
-    timeScaleSlider.doubleValue = scale;
-    
-    currentSequence.timelineScale = timelineScales[scale];
+    currentSequence.timelineScale = timeScaleSlider.floatValue;
 }
 
 - (void) updateScaleSlider
 {
     if (!currentSequence)
     {
-        timeScaleSlider.doubleValue = 2;
+        timeScaleSlider.doubleValue = kCCBDefaultTimelineScale;
         [timeScaleSlider setEnabled:NO];
         return;
     }
     
     [timeScaleSlider setEnabled:YES];
     
-    int val = 0;
-    for (int i = 0; i < kCCBNumTimlineScales; i++)
-    {
-        if (currentSequence.timelineScale == timelineScales[i])
-        {
-            val = i;
-            break;
-        }
-    }
     
-    timeScaleSlider.doubleValue = val;
+    timeScaleSlider.floatValue = currentSequence.timelineScale;
 }
 
 #pragma mark Handle scroller
