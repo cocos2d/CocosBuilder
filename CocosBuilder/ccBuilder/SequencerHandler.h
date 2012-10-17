@@ -27,14 +27,7 @@
 
 #define kCCBSeqDefaultRowHeight 16
 #define kCCBDefaultTimelineScale 128
-
-#define kCCBNumTimlineScales 5
-
-#define kCCBTimelineScale0 32
-#define kCCBTimelineScale1 64
-#define kCCBTimelineScale2 128
-#define kCCBTimelineScale3 256
-#define kCCBTimelineScale4 512
+#define kCCBTimelineScaleLowBound 64
 
 @class CocosBuilderAppDelegate;
 @class SequencerSequence;
@@ -45,8 +38,6 @@
 {
     NSOutlineView* outlineHierarchy;
     BOOL dragAndDropEnabled;
-    
-    float timelineScales[kCCBNumTimlineScales];
     
     CocosBuilderAppDelegate* appDelegate;
     

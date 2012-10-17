@@ -2422,7 +2422,7 @@ static BOOL hideAllToNextSeparator;
     CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
-    zoom *= 2;
+    zoom *= 1.2;
     if (zoom > 8) zoom = 8;
     [cs setStageZoom:zoom];
 }
@@ -2432,7 +2432,7 @@ static BOOL hideAllToNextSeparator;
     CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
-    zoom *= 0.5f;
+    zoom *= 1/1.2f;
     if (zoom < 0.125) zoom = 0.125f;
     [cs setStageZoom:zoom];
 }
