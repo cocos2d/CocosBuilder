@@ -2308,12 +2308,15 @@ static BOOL hideAllToNextSeparator;
 
 - (void) setResolution:(int)r
 {
-    CocosScene* cs = [CocosScene cocosScene];
     
-    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
     currentDocument.currentResolution = r;
     
-    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
+    //
+    // No need to call setStageSize here, since it gets called from reloadResources
+    //
+    //CocosScene* cs = [CocosScene cocosScene];
+    //ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
+    //[cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
     
     [self updateResolutionMenu];
     [self reloadResources];
