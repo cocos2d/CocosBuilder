@@ -86,7 +86,7 @@
     if (tlScale == 0) tlScale = kCCBDefaultTimelineScale;
     
     int divisions = 6;
-    if (tlScale <= kCCBTimelineScale1) divisions = 2;
+    if (tlScale <= kCCBTimelineScaleLowBound) divisions = 2;
     
     int secondMarker = tlOffset;
     float xPos = -roundf((tlOffset - secondMarker)*tlScale);
