@@ -165,8 +165,9 @@
 
 - (void) dealloc
 {
-    self.easing = NULL;
-    self.parent = NULL;
+    [value release];
+    [name release];
+    [easing release];
     [super dealloc];
 }
 
