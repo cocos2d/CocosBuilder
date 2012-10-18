@@ -62,7 +62,7 @@
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
-@property (nonatomic,retain) CCNode* rootNode;
+@property (nonatomic,assign) CCNode* rootNode;
 @property (nonatomic,assign) CGSize rootContainerSize;
 @property (nonatomic,retain) NSObject<CCBAnimationManagerDelegate>* delegate;
 @property (nonatomic,readonly) NSString* runningSequenceName;
