@@ -2207,13 +2207,16 @@ static BOOL hideAllToNextSeparator;
 {
     // Accepted create document, prompt for place for file
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
-    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
-    saveDlg.message = @"Save your project file in the same directory as your projects resources.";
+    //[saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@""]];
+    //saveDlg.message = @"Save your project file in the same directory as your projects resources.";
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
             NSString* fileName = [[saveDlg URL] path];
+            [[NSFileManager defaultManager] createDirectoryAtPath:fileName withIntermediateDirectories:NO attributes:NULL error:NULL];
+            NSString* projectName = [fileName lastPathComponent];
+            fileName = [[fileName stringByAppendingPathComponent:projectName] stringByAppendingPathExtension:@"ccbproj"];
             if ([self createProject: fileName])
             {
                 [self openProject:fileName];

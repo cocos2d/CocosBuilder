@@ -49,9 +49,11 @@
     resourcePaths = [[NSMutableArray alloc] init];
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
     self.publishDirectory = @".";
-    self.onlyPublishCCBs = YES;
+    self.onlyPublishCCBs = NO;
     self.flattenPaths = YES;
-    self.javascriptMainCCB = @"";
+    self.javascriptBased = YES;
+    self.publishToZipFile = YES;
+    self.javascriptMainCCB = @"MainScene";
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];

@@ -309,6 +309,14 @@
 
 - (void) publishGeneratedFiles
 {
+    // Create the directory if it doesn't exist
+    BOOL createdDirs = [[NSFileManager defaultManager] createDirectoryAtPath:outputDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    if (!createdDirs)
+    {
+        [warnings addWarningWithDescription:@"Failed to create output directory %@" isFatal:YES];
+        return;
+    }
+    
     // Generate main.js file
     if (projectSettings.javascriptBased
         && projectSettings.javascriptMainCCB && ![projectSettings.javascriptMainCCB isEqualToString:@""]
