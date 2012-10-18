@@ -52,7 +52,7 @@
 }
 @property (nonatomic,readonly) NSMutableArray* sequences;
 @property (nonatomic,assign) int autoPlaySequenceId;
-@property (nonatomic,retain) CCNode* rootNode;
+@property (nonatomic,assign) CCNode* rootNode;
 @property (nonatomic,assign) CGSize rootContainerSize;
 @property (nonatomic,retain) NSObject<CCBAnimationManagerDelegate>* delegate;
 @property (nonatomic,readonly) NSString* runningSequenceName;
@@ -92,4 +92,11 @@
 }
 +(id) actionWithDuration:(ccTime)duration angle:(float)angle;
 -(id) initWithDuration:(ccTime)duration angle:(float)angle;
+@end
+
+//
+// EeseInstant
+//
+@interface CCEaseInstant : CCActionEase <NSCopying>
+{}
 @end

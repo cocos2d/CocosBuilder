@@ -281,10 +281,15 @@
 
 - (CCActionInterval*) easeAction:(CCActionInterval*) action easingType:(int)easingType easingOpt:(float) easingOpt
 {
-    if (easingType == kCCBKeyframeEasingLinear
-        || easingType == kCCBKeyframeEasingInstant)
+    if ([action isKindOfClass:[CCSequence class]]) return action;
+    
+    if (easingType == kCCBKeyframeEasingLinear)
     {
         return action;
+    }
+    else if (easingType == kCCBKeyframeEasingInstant)
+    {
+        return [CCEaseInstant actionWithAction:action];
     }
     else if (easingType == kCCBKeyframeEasingCubicIn)
     {
@@ -344,7 +349,7 @@
 - (void) runActionsForNode:(CCNode*)node sequenceProperty:(CCBSequenceProperty*)seqProp tweenDuration:(float)tweenDuration
 {
     NSArray* keyframes = [seqProp keyframes];
-    int numKeyframes = keyframes.count;
+    int numKeyframes = (int)keyframes.count;
     
     if (numKeyframes > 1)
     {
@@ -560,4 +565,19 @@
 	[target_ setRotation: startAngle_ + diffAngle_ * t];
 }
 
+@end
+
+@implementation CCEaseInstant
+
+-(void) update: (ccTime) t
+{
+    if (t < 0)
+    {
+        [other update:0];
+    }
+    else
+    {
+        [other update:1];
+    }
+}
 @end
