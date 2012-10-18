@@ -38,8 +38,8 @@
 
 - (void) dealloc
 {
-    self.spriteFrameName = NULL;
-    self.spriteSheetFile = NULL;
+    [spriteFrameName release];
+    [spriteSheetFile release];
     [super dealloc];
 }
 
@@ -144,9 +144,9 @@
 
 - (void) dealloc
 {
-    self.data = NULL;
-    self.modifiedTime = NULL;
-    self.filePath = NULL;
+    [data release];
+    [modifiedTime release];
+    [filePath release];
     [super dealloc];
 }
 
@@ -207,7 +207,7 @@
     [ttfFonts release];
     [ccbFiles release];
     [audioFiles release];
-    self.dirPath = NULL;
+    [dirPath release];
     [super dealloc];
 }
 
@@ -483,6 +483,7 @@
             [resources setObject:res forKey:file];
             
             if (res.type != kCCBResTypeNone) resourcesChanged = YES;
+            [res release];
         }
         res.touched = YES;
     }

@@ -1007,8 +1007,9 @@ static BOOL hideAllToNextSeparator;
         NSMutableArray* sequences = [NSMutableArray array];
         for (id serSeq in serializedSequences)
         {
-            SequencerSequence* seq = [[[SequencerSequence alloc] initWithSerialization:serSeq] autorelease];
+            SequencerSequence* seq = [[SequencerSequence alloc] initWithSerialization:serSeq];
             [sequences addObject:seq];
+            [seq release];
             
             if (seq.sequenceId == currentSequenceId)
             {
@@ -1024,11 +1025,12 @@ static BOOL hideAllToNextSeparator;
         // Setup a default timeline
         NSMutableArray* sequences = [NSMutableArray array];
     
-        SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+        SequencerSequence* seq = [[SequencerSequence alloc] init];
         seq.name = @"Default Timeline";
         seq.sequenceId = 0;
         seq.autoPlay = YES;
         [sequences addObject:seq];
+        [seq release];
     
         currentDocument.sequences = sequences;
         sequenceHandler.currentSequence = seq;
@@ -1110,8 +1112,6 @@ static BOOL hideAllToNextSeparator;
 {
     self.selectedNodes = NULL;
     [[CocosScene cocosScene] replaceRootNodeWith:NULL];
-    currentDocument.docData = NULL;
-    currentDocument.fileName = NULL;
     [[CocosScene cocosScene] setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
     [[CocosScene cocosScene].guideLayer removeAllGuides];
     [[CocosScene cocosScene].notesLayer removeAllNotes];
