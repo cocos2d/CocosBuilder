@@ -25,15 +25,21 @@
 #import <AppKit/AppKit.h>
 
 @interface SequencerExpandBtnCell : NSCell
+
 {
-    NSImage* imgExpand;
-    NSImage* imgCollapse;
+    NSImage* expandedImage;
+    NSImage* collapsedImage;
     
     BOOL isExpanded;
     BOOL canExpand;
 }
 
+
 @property (nonatomic,assign) BOOL isExpanded;
 @property (nonatomic,assign) BOOL canExpand;
+@property (nonatomic,retain) NSImage* expandedImage;
+@property (nonatomic,retain) NSImage* collapsedImage;
+
+
 
 @end
