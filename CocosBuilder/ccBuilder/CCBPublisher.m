@@ -50,7 +50,7 @@
     // Setup base output directory
     if (projectSettings.publishToZipFile)
     {
-        outputDir = projectSettings.publishCacheDirectory;
+        outputDir = [projectSettings.publishCacheDirectory retain];
     }
     else
     {
@@ -393,6 +393,7 @@
         [zipTask setArguments:args];
         [zipTask launch];
         [zipTask waitUntilExit];
+        [zipTask release];
         
         if (runAfterPublishing)
         {
@@ -431,6 +432,7 @@
 
 - (void) dealloc
 {
+    [copyExtensions release];
     [warnings release];
     [projectSettings release];
     [outputDir release];
