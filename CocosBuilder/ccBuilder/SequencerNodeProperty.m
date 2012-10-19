@@ -202,7 +202,7 @@
         return NULL;
     }
     
-    if (numKeyframes == 1 && type == kCCBKeyframeTypeVisible)
+    if (numKeyframes == 1 && type == kCCBKeyframeTypeToggle)
     {
         SequencerKeyframe* keyframe = [keyframes objectAtIndex:0];
         return [NSNumber numberWithBool: (time >= keyframe.time)];
@@ -217,7 +217,7 @@
     SequencerKeyframe* keyframeFirst = [keyframes objectAtIndex:0];
     SequencerKeyframe* keyframeLast = [keyframes objectAtIndex:numKeyframes-1];
     
-    if (type == kCCBKeyframeTypeVisible)
+    if (type == kCCBKeyframeTypeToggle)
     {
         if (time < keyframeFirst.time)
         {
@@ -270,8 +270,8 @@
     SequencerKeyframe* keyframeStart = [keyframes objectAtIndex:startFrameNum];
     SequencerKeyframe* keyframeEnd = [keyframes objectAtIndex:endFrameNum];
     
-    // Skip interpolations for visiblity (special case)
-    if (type == kCCBKeyframeTypeVisible)
+    // Skip interpolations for toggle frames (special case)
+    if (type == kCCBKeyframeTypeToggle)
     {
         BOOL val = (startFrameNum % 2 == 0);
         return [NSNumber numberWithBool:val];
