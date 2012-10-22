@@ -26,4 +26,6 @@
 
 @interface CCBPMenu : CCMenu
 
+@property (nonatomic,assign) BOOL isMouseEnabled;
+
 @end
