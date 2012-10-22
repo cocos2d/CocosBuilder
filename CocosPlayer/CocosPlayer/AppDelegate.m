@@ -52,8 +52,6 @@
 		// Run the JS
 		//[[JSBCore sharedInstance] runScript:@"main.js"];
         [[AppController appController] run];
-        
-        NSLog(@"RESHAPE!");
 	}
 }
 @end
