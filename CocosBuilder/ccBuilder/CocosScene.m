@@ -1234,7 +1234,7 @@ static CocosScene* sharedCocosScene;
         
         [self schedule:@selector(nextFrame:)];
         
-        self.isMouseEnabled = YES;
+        self.mouseEnabled = YES;
         
         stageZoom = 1;
         
