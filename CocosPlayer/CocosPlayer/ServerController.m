@@ -233,6 +233,11 @@
         NSData* zipData = [msg objectForKey:@"data"];
         [self extractZipData:zipData];
     }
+    else if ([cmd isEqualToString:@"orientation"])
+    {
+        int orientation = [[msg objectForKey:@"orientation"] intValue];
+        NSLog(@"set orientation: %d", orientation);
+    }
 }
 
 #pragma mark Sending messages
