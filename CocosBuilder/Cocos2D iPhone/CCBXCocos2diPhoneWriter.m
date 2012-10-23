@@ -80,6 +80,8 @@
 {
     [data release];
     [propTypes release];
+    [stringCacheLookup release];
+    [stringCache release];
     [super dealloc];
 }
 
