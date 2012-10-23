@@ -381,6 +381,17 @@
         
         if (setProp)
         {
+            if ([name isEqualToString:@"touchEnabled"] &&
+                [node respondsToSelector:@selector(setTouchEnabled:)])
+            {
+                name = @"isTouchEnabled";
+            }
+            if ([name isEqualToString:@"mouseEnabled"] &&
+                [node respondsToSelector:@selector(setTouchEnabled:)])
+            {
+                name = @"isMouseEnabled";
+            }
+            
             id value = [NSNumber numberWithBool:b];
             [node setValue:value forKey:name];
             
@@ -388,6 +399,7 @@
             {
                 [actionManager setBaseValue:value forNode:node propertyName:name];
             }
+            
         }
     }
     else if (type == kCCBPropTypeSpriteFrame)
