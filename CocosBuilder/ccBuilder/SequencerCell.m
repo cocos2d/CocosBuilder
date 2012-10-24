@@ -48,7 +48,7 @@
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
     // Draw background
-    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
+    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y-1+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
     if (row == 0)
     {
         [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
