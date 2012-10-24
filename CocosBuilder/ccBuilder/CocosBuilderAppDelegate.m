@@ -1714,7 +1714,7 @@ static BOOL hideAllToNextSeparator;
         pt.y = roundf(pt.y);
         
         // Set its position
-        [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
+        [PositionPropertySetter setPosition:NSPointFromCGPoint(pt) forNode:node prop:@"position"];
         
         [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node parentSize:CGSizeZero];
         
@@ -1760,7 +1760,7 @@ static BOOL hideAllToNextSeparator;
     
     CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
     [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
-    [PositionPropertySetter setPosition:pt type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:NSPointFromCGPoint(pt) type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
     [self addCCObject:node toParent:parent];
 }
 
@@ -1969,7 +1969,7 @@ static BOOL hideAllToNextSeparator;
         // Convert to relative position
         CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
         int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
-        NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+        NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(absPos) type:positionType parentSize:parentSize];
         
         // Update the selected node
         [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
@@ -2708,7 +2708,7 @@ static BOOL hideAllToNextSeparator;
         int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
         if (positionType != kCCBPositionTypePercent)
         {
-            CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
+            CGPoint pos = NSPointToCGPoint([PositionPropertySetter positionForNode:c prop:@"position"]);
             pos = ccp(roundf(pos.x), roundf(pos.y));
             [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
             [PositionPropertySetter addPositionKeyframeForNode:c];

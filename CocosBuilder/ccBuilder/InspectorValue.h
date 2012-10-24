@@ -39,6 +39,8 @@
     IBOutlet NSView* view;
     BOOL readOnly;
     NSArray* affectsProperties;
+    InspectorValue* inspectorValueBelow;
+    BOOL rootNode;
 }
 
 @property (nonatomic,readonly) NSString* displayName;

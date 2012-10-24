@@ -197,6 +197,7 @@
     [selection release];
     [propertyName release];
     [displayName release];
+    [inspectorValueBelow release];
     
     [super dealloc];
 }
@@ -212,7 +213,7 @@
 
 - (void)showAllToNextSeparatorWithAbove:(InspectorValue*)above
 {
-    CGRect frame = self.view.frame;
+    NSRect frame = self.view.frame;
     frame.origin.y = above.view.frame.origin.y + above.view.frame.size.height;
     self.view.frame = frame;
     [self.view setHidden:NO];
@@ -222,7 +223,7 @@
 - (void)moveToMeetAbove:(InspectorValue*)above
 {
     if (!self.view.isHidden) {
-        CGRect frame = self.view.frame;
+        NSRect frame = self.view.frame;
         frame.origin.y = above.view.frame.origin.y + above.view.frame.size.height;
         self.view.frame = frame;
         [inspectorValueBelow moveToMeetAbove:self];
