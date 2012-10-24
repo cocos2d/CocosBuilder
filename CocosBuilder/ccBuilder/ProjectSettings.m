@@ -40,6 +40,10 @@
 @synthesize onlyPublishCCBs;
 @synthesize exporter;
 @synthesize availableExporters;
+@synthesize deviceOrientationPortrait;
+@synthesize deviceOrientationUpsideDown;
+@synthesize deviceOrientationLandscapeLeft;
+@synthesize deviceOrientationLandscapeRight;
 
 - (id) init
 {
@@ -54,6 +58,7 @@
     self.javascriptBased = YES;
     self.publishToZipFile = YES;
     self.javascriptMainCCB = @"MainScene";
+    self.deviceOrientationPortrait = YES;
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];
@@ -85,6 +90,10 @@
     self.javascriptBased = [[dict objectForKey:@"javascriptBased"] boolValue];
     self.onlyPublishCCBs = [[dict objectForKey:@"onlyPublishCCBs"] boolValue];
     self.exporter = [dict objectForKey:@"exporter"];
+    self.deviceOrientationPortrait = [[dict objectForKey:@"deviceOrientationPortrait"] boolValue];
+    self.deviceOrientationUpsideDown = [[dict objectForKey:@"deviceOrientationUpsideDown"] boolValue];
+    self.deviceOrientationLandscapeLeft = [[dict objectForKey:@"deviceOrientationLandscapeLeft"] boolValue];
+    self.deviceOrientationLandscapeRight = [[dict objectForKey:@"deviceOrientationLandscapeRight"] boolValue];
     
     NSString* mainCCB = [dict objectForKey:@"javascriptMainCCB"];
     if (!mainCCB) mainCCB = @"";
@@ -122,6 +131,11 @@
     [dict setObject:[NSNumber numberWithBool:javascriptBased] forKey:@"javascriptBased"];
     [dict setObject:[NSNumber numberWithBool:onlyPublishCCBs] forKey:@"onlyPublishCCBs"];
     [dict setObject:self.exporter forKey:@"exporter"];
+    
+    [dict setObject:[NSNumber numberWithBool:deviceOrientationPortrait] forKey:@"deviceOrientationPortrait"];
+    [dict setObject:[NSNumber numberWithBool:deviceOrientationUpsideDown] forKey:@"deviceOrientationUpsideDown"];
+    [dict setObject:[NSNumber numberWithBool:deviceOrientationLandscapeLeft] forKey:@"deviceOrientationLandscapeLeft"];
+    [dict setObject:[NSNumber numberWithBool:deviceOrientationLandscapeRight] forKey:@"deviceOrientationLandscapeRight"];
     
     if (!javascriptMainCCB) self.javascriptMainCCB = @"";
     if (!javascriptBased) self.javascriptMainCCB = @"";

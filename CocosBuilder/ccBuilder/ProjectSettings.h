@@ -39,6 +39,10 @@
     NSString* exporter;
     NSMutableArray* availableExporters;
     NSString* javascriptMainCCB;
+    BOOL deviceOrientationPortrait;
+    BOOL deviceOrientationUpsideDown;
+    BOOL deviceOrientationLandscapeLeft;
+    BOOL deviceOrientationLandscapeRight;
 }
 
 @property (nonatomic, copy) NSString* projectPath;
@@ -54,6 +58,10 @@
 @property (nonatomic, copy) NSString* exporter;
 @property (nonatomic, retain) NSMutableArray* availableExporters;
 @property (nonatomic, readonly) NSString* publishCacheDirectory;
+@property (nonatomic, assign) BOOL deviceOrientationPortrait;
+@property (nonatomic, assign) BOOL deviceOrientationUpsideDown;
+@property (nonatomic, assign) BOOL deviceOrientationLandscapeLeft;
+@property (nonatomic, assign) BOOL deviceOrientationLandscapeRight;
 
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;
