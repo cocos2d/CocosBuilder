@@ -316,8 +316,8 @@
     NSArray* props = node.plugIn.animatableProperties;
     
     NSString* prop = NULL;
-    if (sub == 0) prop = @"visible";
-    else prop = [props objectAtIndex:sub-1];
+
+    prop = [props objectAtIndex:sub];
     
     return prop;
 }

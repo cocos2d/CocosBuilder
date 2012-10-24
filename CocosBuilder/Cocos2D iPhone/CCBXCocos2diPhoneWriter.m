@@ -769,7 +769,7 @@
             // Write property type
             int kfType = [[prop objectForKey:@"type"] intValue];
             NSString* propType = NULL;
-            if (kfType == kCCBKeyframeTypeVisible) propType = @"Check";
+            if (kfType == kCCBKeyframeTypeToggle) propType = @"Check";
             else if (kfType == kCCBKeyframeTypeByte) propType = @"Byte";
             else if (kfType == kCCBKeyframeTypeColor3) propType = @"Color3";
             else if (kfType == kCCBKeyframeTypeDegrees) propType = @"Degrees";
@@ -784,7 +784,7 @@
             // Write number of keyframes
             NSArray* keyframes = [prop objectForKey:@"keyframes"];
             
-            if (kfType == kCCBKeyframeTypeVisible && keyframes.count > 0)
+            if (kfType == kCCBKeyframeTypeToggle && keyframes.count > 0)
             {
                 BOOL visible = YES;
                 NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];

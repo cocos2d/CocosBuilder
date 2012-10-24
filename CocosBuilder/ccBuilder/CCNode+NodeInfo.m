@@ -168,8 +168,7 @@
     }
     
     // Ensure that the keyframe type is animated
-    if (![self.plugIn.animatableProperties containsObject:name]
-        && ![name isEqualToString:@"visible"])
+    if (![self.plugIn.animatableProperties containsObject:name])
     {
         return;
     }
@@ -188,9 +187,9 @@
         keyframe.easing.type = kCCBKeyframeEasingInstant;
     }
     
-    if (keyframeType == kCCBKeyframeTypeVisible)
+    if (keyframeType == kCCBKeyframeTypeToggle)
     {
-        // Values for visiblity keyframes are ignored (each keyframe toggles the state)
+        // Values for toggle keyframes are ignored (each keyframe toggles the state)
         keyframe.value = [NSNumber numberWithBool:YES];
     }
     else
@@ -278,9 +277,9 @@
                 [NSNumber numberWithFloat:y],
                 nil];
     }
-    else if (type == kCCBKeyframeTypeVisible)
+    else if (type == kCCBKeyframeTypeToggle)
     {
-        return [self valueForKey:@"visible"];
+        return [self valueForKey:name];
     }
     else if (type == kCCBKeyframeTypeColor3)
     {
@@ -329,7 +328,7 @@
         
         [PositionPropertySetter setScaledX:x Y:y type:type forNode:self prop:propName];
     }
-    else if (type == kCCBKeyframeTypeVisible)
+    else if (type == kCCBKeyframeTypeToggle)
     {
         [self setValue:value forKey:propName];
     }
@@ -355,7 +354,7 @@
 
 - (void) updatePropertiesTime:(float)time sequenceId:(int)seqId
 {
-    [self updateProperty:@"visible" time:time sequenceId:seqId];
+
     
     NSArray* animatableProps = [self.plugIn animatableProperties];
     for (NSString* propName in animatableProps)

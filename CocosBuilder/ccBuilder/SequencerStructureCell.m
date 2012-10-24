@@ -56,7 +56,7 @@
         NSMutableDictionary* attrib = [NSMutableDictionary dictionary];
         [attrib setObject:style forKey:NSParagraphStyleAttributeName];
         [attrib setObject:textColor forKey:NSForegroundColorAttributeName];
-        
+        /*
         // Draw property names
         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:@"visible" sequenceId:seq.sequenceId];
         
@@ -78,12 +78,12 @@
         }
         
         [@"Visible" drawInRect:propNameRect withAttributes:attrib];
-        
+        */
         NSArray* props = node.plugIn.animatableProperties;
-        
+        int i=0;
         for (NSString* prop in props)
         {
-            seqNodeProp = [node sequenceNodeProperty:prop sequenceId:seq.sequenceId];
+            SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:seq.sequenceId];
             BOOL hasKeyframes = ([seqNodeProp.keyframes count] > 0);
             
             if ([node shouldDisableProperty:prop])
@@ -106,8 +106,13 @@
             
             NSString* displayName = [[node.plugIn.nodePropertiesDict objectForKey:prop] objectForKey:@"displayName"];
             
-            propNameRect.origin.y += kCCBSeqDefaultRowHeight;
+            if (i>0)
+                propNameRect.origin.y += kCCBSeqDefaultRowHeight;
+            else
+                i++;
+            
             [displayName drawInRect:propNameRect withAttributes:attrib];
+            
         }
     
         // Leave space for property name when drawing name in super method
