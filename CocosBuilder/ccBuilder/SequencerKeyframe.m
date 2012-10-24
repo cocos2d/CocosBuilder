@@ -92,7 +92,7 @@
     }
     else if ([type isEqualToString:@"Check"])
     {
-        return kCCBKeyframeTypeVisible;
+        return kCCBKeyframeTypeToggle;
     }
     else if ([type isEqualToString:@"Byte"])
     {

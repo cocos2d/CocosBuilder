@@ -30,7 +30,7 @@
 enum
 {
     kCCBKeyframeTypeUndefined,
-    kCCBKeyframeTypeVisible,
+    kCCBKeyframeTypeToggle,
     kCCBKeyframeTypeDegrees,
     kCCBKeyframeTypePosition,
     kCCBKeyframeTypeScaleLock,
