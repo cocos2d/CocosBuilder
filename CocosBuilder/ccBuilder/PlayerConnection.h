@@ -26,6 +26,7 @@
 #import "ThoMoClientStub.h"
 
 @class PlayerConnection;
+@class ProjectSettings;
 
 @protocol PlayerConnectionDelegate <NSObject>
 
@@ -55,6 +56,7 @@
 - (void) updatePairing;
 
 - (void) sendResourceZip:(NSString*) zipPath;
+- (void) sendProjectSettings:(ProjectSettings*)settings;
 - (void) sendRunCommand;
 - (void) sendStopCommand;
 - (void) sendJavaScript:(NSString*)script;

@@ -233,10 +233,18 @@
         NSData* zipData = [msg objectForKey:@"data"];
         [self extractZipData:zipData];
     }
-    else if ([cmd isEqualToString:@"orientation"])
+    else if ([cmd isEqualToString:@"settings"])
     {
-        int orientation = [[msg objectForKey:@"orientation"] intValue];
-        NSLog(@"set orientation: %d", orientation);
+        NSArray* arr = [msg objectForKey:@"orientations"];
+        
+        NSUInteger orientations = 0;
+        
+        if ([[arr objectAtIndex:0] boolValue]) orientations |= UIInterfaceOrientationMaskPortrait;
+        if ([[arr objectAtIndex:1] boolValue]) orientations |= UIInterfaceOrientationMaskPortraitUpsideDown;
+        if ([[arr objectAtIndex:2] boolValue]) orientations |= UIInterfaceOrientationMaskLandscapeLeft;
+        if ([[arr objectAtIndex:3] boolValue]) orientations |= UIInterfaceOrientationMaskLandscapeRight;
+        
+        [AppController appController].deviceOrientations = orientations;
     }
 }
 

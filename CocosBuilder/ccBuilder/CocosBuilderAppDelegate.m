@@ -2101,6 +2101,7 @@ static BOOL hideAllToNextSeparator;
     
     if ([[PlayerConnection sharedPlayerConnection] connected])
     {
+        [[PlayerConnection sharedPlayerConnection] sendProjectSettings:projectSettings];
         [[PlayerConnection sharedPlayerConnection] sendRunCommand];
     }
     else

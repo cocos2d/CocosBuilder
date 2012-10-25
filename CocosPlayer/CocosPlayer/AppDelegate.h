@@ -26,11 +26,16 @@
     ServerController* server;
     NSString* serverStatus;
     PlayerStatusLayer* statusLayer;
+    
+    BOOL isJSRunning;
+    NSUInteger deviceOrientations;
 }
 
 @property (nonatomic, retain) UIWindow *window;
 @property (readonly) MyNavigationController *navController;
 @property (readonly) CCDirectorIOS *director;
+@property (nonatomic, readonly) BOOL isJSRunning;
+@property (nonatomic, assign) NSUInteger deviceOrientations;
 
 + (AppController*) appController;
 

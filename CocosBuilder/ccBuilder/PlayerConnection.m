@@ -23,6 +23,7 @@
  */
 
 #import "PlayerConnection.h"
+#import "ProjectSettings.h"
 
 static PlayerConnection* sharedPlayerConnection;
 
@@ -247,8 +248,24 @@ static PlayerConnection* sharedPlayerConnection;
     [self sendMessage:msg];
 }
 
+- (void) sendProjectSettings:(ProjectSettings*)settings
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"settings" forKey:@"cmd"];
+    
+    NSMutableArray* orientations = [NSMutableArray arrayWithCapacity:4];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationPortrait]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationUpsideDown]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationLandscapeLeft]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationLandscapeRight]];
+    [msg setObject:orientations forKey:@"orientations"];
+    
+    [self sendMessage:msg];
+}
+
 - (void) sendRunCommand
 {
+    // Send run command
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"run" forKey:@"cmd"];
     

@@ -20,27 +20,42 @@
 // The available orientations should be defined in the Info.plist file.
 // And in iOS 6+ only, you can override it in the Root View controller in the "supportedInterfaceOrientations" method.
 // Only valid for iOS 6+. NOT VALID for iOS 4 / 5.
--(NSUInteger)supportedInterfaceOrientations {
-	
-	// iPhone only
-	if( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
-		return UIInterfaceOrientationMaskPortrait;
-	
-	// iPad only
-	return UIInterfaceOrientationMaskPortrait;
+-(NSUInteger)supportedInterfaceOrientations
+{
+    if (![AppController appController].isJSRunning)
+    {
+        // iPhone only
+        if( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
+            return UIInterfaceOrientationMaskPortrait;
+        
+        // iPad only
+        return UIInterfaceOrientationMaskPortrait;
+    }
+    else
+    {
+        return [AppController appController].deviceOrientations;
+    }
 }
 
 // Supported orientations. Customize it for your own needs
 // Only valid on iOS 4 / 5. NOT VALID for iOS 6.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	// iPhone only
-	if( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
-		return UIInterfaceOrientationIsPortrait(interfaceOrientation);
-	
-	// iPad only
-	// iPhone only
-	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    if (![AppController appController].isJSRunning)
+    {
+        // iPhone only
+        if( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
+            return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+        
+        // iPad only
+        // iPhone only
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
+    else
+    {
+        if (interfaceOrientation & [AppController appController].deviceOrientations) return YES;
+        else return NO;
+    }
 }
 
 // This is needed for iOS4 and iOS5 in order to ensure
@@ -63,6 +78,8 @@ static AppController* appController = NULL;
 @implementation AppController
 
 @synthesize window=window_, navController=navController_, director=director_;
+@synthesize deviceOrientations;
+@synthesize isJSRunning;
 
 + (AppController*) appController
 {
@@ -228,34 +245,18 @@ static AppController* appController = NULL;
     serverStatus = [status copy];
     
     [statusLayer setStatus:status];
-}
-
-- (void) runJSApp
-{
-    //[self stopJSApp];
     
-    statusLayer = NULL;
-    
-    NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
-    if (fullScriptPath)
+    if (forceStop)
     {
-        [[JSBCore sharedInstance] runScript:@"main.js"];
-    }
-    else
-    {
-        NSLog(@"Failed to find main.js");
+        [self stopJSApp];
     }
 }
 
-- (void) stopJSApp
+- (void) restartCocos2d
 {
-    NSLog(@"stopJSApp director: %@", director_);
     UIView* mainView = [CCDirector sharedDirector].view.superview;
     [[CCDirector sharedDirector].view removeFromSuperview];
     [[CCDirector sharedDirector] end];
-    NSLog(@"ended director");
-    //[[JSBCore sharedInstance] restartRuntime];
-    NSLog(@"restarted JS runtime");
     
     director_ = (CCDirectorIOS*)[CCDirector sharedDirector];
     CCGLView *glView = [CCGLView viewWithFrame:[window_ bounds]
@@ -268,7 +269,6 @@ static AppController* appController = NULL;
     [glView setMultipleTouchEnabled:YES];
     
     [director_ setView:glView];
-    NSLog(@"new director: %@", director_);
     
     [mainView addSubview:glView];
     
@@ -277,13 +277,46 @@ static AppController* appController = NULL;
 	navController_.navigationBarHidden = YES;
     
 	// for rotation and other messages
+    
 	[director_ setDelegate:navController_];
 	
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
     
-    [director_ pushScene:[self createStatusScene]];
-    NSLog(@"runWithScene complete");
+    [director_ pushScene:[CCScene node]];
+}
+
+- (void) runJSApp_
+{
+    statusLayer = NULL;
+    
+    NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
+    if (fullScriptPath)
+    {
+        isJSRunning = YES;
+        
+        [self restartCocos2d];
+        
+        [[JSBCore sharedInstance] runScript:@"main.js"];
+        
+    }
+    else
+    {
+        NSLog(@"Failed to find main.js");
+    }
+}
+
+- (void) runJSApp
+{
+    [self performSelector:@selector(runJSApp_) withObject:NULL afterDelay:0];
+}
+
+- (void) stopJSApp
+{
+    isJSRunning = NO;
+    
+    [self restartCocos2d];
+    [director_ replaceScene:[self createStatusScene]];
 }
 
 - (void) updatePairing
