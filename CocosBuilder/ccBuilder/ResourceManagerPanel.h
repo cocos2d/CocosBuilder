@@ -32,6 +32,7 @@
     IBOutlet NSOutlineView* resourceList;
     IBOutlet NSImageView* imagePreview;
     IBOutlet NSTextField* lblNoPreview;
+    int resType;
     
     ResourceManagerOutlineHandler* outlineHandler;
     

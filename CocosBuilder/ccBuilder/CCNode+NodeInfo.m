@@ -262,7 +262,7 @@
     }
     else if (type == kCCBKeyframeTypePosition)
     {
-        CGPoint pos = [PositionPropertySetter positionForNode:self prop:name];
+        NSPoint pos = [PositionPropertySetter positionForNode:self prop:name];
         return [NSArray arrayWithObjects:
                 [NSNumber numberWithFloat:pos.x],
                 [NSNumber numberWithFloat:pos.y],

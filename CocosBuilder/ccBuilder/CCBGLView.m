@@ -72,7 +72,7 @@
 - (BOOL)performDragOperation:(id < NSDraggingInfo >)sender
 {
     NSPoint pt = [self convertPoint:[sender draggingLocation] fromView:NULL];
-    pt = ccp(roundf(pt.x),roundf(pt.y));
+    pt = NSMakePoint(roundf(pt.x),roundf(pt.y));
     
     NSPasteboard* pb = [sender draggingPasteboard];
     
