@@ -232,8 +232,11 @@ static AppController* appController = NULL;
 -(void) run
 {
 	// Init server
-	server = [[ServerController alloc] init];
-    [server start];
+    if (!server)
+    {
+        server = [[ServerController alloc] init];
+        [server start];
+    }
     
     // Run status scene
     [[CCDirector sharedDirector] runWithScene:[self createStatusScene]];
