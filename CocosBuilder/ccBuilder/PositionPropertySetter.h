@@ -60,7 +60,7 @@ enum
 + (void) setPosition:(NSPoint)pos type:(int)type forNode:(CCNode*) node prop:(NSString*)prop parentSize:(CGSize)parentSize;
 + (void) setPosition:(NSPoint)pos forNode:(CCNode *)node prop:(NSString *)prop;
 + (void) setPositionType:(int)type forNode:(CCNode*)node prop:(NSString*)prop;
-+ (CGPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
++ (NSPoint) positionForNode:(CCNode*)node prop:(NSString*)prop;
 + (int) positionTypeForNode:(CCNode*)node prop:(NSString*)prop;
 + (void) addPositionKeyframeForNode:(CCNode*)node;
 

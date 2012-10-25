@@ -58,8 +58,8 @@
     CGPoint pos = ccp(note.position.x, note.position.y - note.contentSize.height);
     
     [NSBundle loadNibNamed:@"StickyNoteEditView" owner:self];
-    [editView setFrameOrigin:pos];
-    [editView setFrameSize:size];
+    [editView setFrameOrigin:NSPointFromCGPoint(pos)];
+    [editView setFrameSize:NSSizeFromCGSize(size)];
     [ad.guiView addSubview:editView];
     
     [textView setFont:[NSFont fontWithName:@"MarkerFelt-Thin" size:14]];
@@ -260,7 +260,7 @@
         note.docPos = pos;
         
         // Load size
-        note.contentSize = NSMakeSize([[serNote objectForKey:@"width"] floatValue], [[serNote objectForKey:@"height"] floatValue]);
+        note.contentSize = CGSizeMake([[serNote objectForKey:@"width"] floatValue], [[serNote objectForKey:@"height"] floatValue]);
         
         [self addChild:note];
     }

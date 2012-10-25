@@ -1055,7 +1055,7 @@ static CocosScene* sharedCocosScene;
         }
         else if (currentMouseTransform == kCCBTransformHandleMove)
         {
-            CGPoint pt = [PositionPropertySetter positionForNode:selectedNode prop:@"position"];
+            CGPoint pt = NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:@"position"]);
             value = [NSArray arrayWithObjects:
                      [NSNumber numberWithFloat:pt.x],
                      [NSNumber numberWithFloat:pt.y],
