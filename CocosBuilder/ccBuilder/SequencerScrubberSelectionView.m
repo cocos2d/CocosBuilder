@@ -210,7 +210,11 @@
     [gc restoreGraphicsState];
     
     // Draw scrubber
-    float currentPos = [seq timeToPosition:seq.timelinePosition];
+    float currentPos = TIMELINE_PAD_PIXELS;
+    if (seq) {
+        currentPos = [seq timeToPosition:seq.timelinePosition];
+    }
+    
     float yPos = self.bounds.size.height - imgScrubHandle.size.height;
     
     // Handle
@@ -752,7 +756,7 @@
 {
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
-    seq.timelineOffset -= theEvent.deltaX/seq.timelineScale*2.0f;
+    seq.timelineOffset -= theEvent.deltaX/seq.timelineScale*4.0f;
     
     [super scrollWheel:theEvent];
 }
@@ -786,7 +790,7 @@
     
     // Check if an interpolation was clicked
     keyframe = [self keyframeForInterpolationInRow:row sub:subRow time:[seq positionToTime:mouseLocation.x]];
-    if (keyframe)
+    if (keyframe && [keyframe supportsFiniteTimeInterpolations])
     {
         [SequencerHandler sharedHandler].contextKeyframe = keyframe;
         

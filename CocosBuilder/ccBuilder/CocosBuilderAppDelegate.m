@@ -2974,8 +2974,9 @@ static BOOL hideAllToNextSeparator;
 
 #pragma mark Playback countrols
 
-- (void) playbackStep
+- (void) playbackStep:(id) sender
 {
+    int frames = [sender intValue];
     if (!currentDocument)
     {
         [self playbackStop:NULL];
@@ -2984,7 +2985,7 @@ static BOOL hideAllToNextSeparator;
     if (playingBack)
     {
         // Step forward
-        [sequenceHandler.currentSequence stepForward:1];
+        [sequenceHandler.currentSequence stepForward:frames];
         
         if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
         {
@@ -2998,15 +2999,16 @@ static BOOL hideAllToNextSeparator;
             
             double delayTime = requestedDelay - extraTime;
             playbackLastFrameTime = thisTime;
-            
-            if (delayTime < 0)
+            int nextStep = 1;
+            while (delayTime < 0)
             {
-                // TODO: Handle frame skipping
-                delayTime = 0;
+                delayTime += requestedDelay;
+                nextStep++;
+                
             }
             
             // Call this method again in a little while
-            [self performSelector:@selector(playbackStep) withObject:NULL afterDelay:delayTime];
+            [self performSelector:@selector(playbackStep:) withObject:[NSNumber numberWithInt:nextStep] afterDelay:delayTime];
         }
     }
 }
@@ -3028,7 +3030,7 @@ static BOOL hideAllToNextSeparator;
     // Start playback
     playbackLastFrameTime = [NSDate timeIntervalSinceReferenceDate];
     playingBack = YES;
-    [self playbackStep];
+    [self playbackStep:[NSNumber numberWithInt:1]];
 }
 
 - (IBAction)playbackStop:(id)sender
@@ -3041,6 +3043,7 @@ static BOOL hideAllToNextSeparator;
 {
     if (!self.hasOpenedDocument) return;
     sequenceHandler.currentSequence.timelinePosition = 0;
+    [[SequencerHandler sharedHandler] updateScrollerToShowCurrentTime];
 }
 
 - (IBAction)playbackStepBack:(id)sender
