@@ -23,6 +23,7 @@
  */
 
 #import "CCBPMenu.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation CCBPMenu
 
@@ -36,6 +37,7 @@
     return self;
 }
 
+/*
 - (void) setIsMouseEnabled:(BOOL)isMouseEnabled
 {
     self.mouseEnabled = isMouseEnabled;
@@ -44,6 +46,6 @@
 - (BOOL) isMouseEnabled
 {
     return self.mouseEnabled;
-}
+}*/
 
 @end
