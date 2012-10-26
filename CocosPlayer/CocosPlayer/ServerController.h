@@ -15,6 +15,8 @@
     ThoMoServerStub* server;
     
     NSMutableSet* connectedClients;
+    
+    NSFileHandle* pipeReadHandle;
 }
 
 @property (nonatomic,copy) NSString* serverStatus;
@@ -24,5 +26,6 @@
 
 - (void) sendDeviceName;
 - (void) sendResultString:(NSString*) str;
+- (void) sendLog:(NSString*)log;
 
 @end

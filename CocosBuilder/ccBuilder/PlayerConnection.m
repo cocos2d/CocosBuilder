@@ -208,6 +208,13 @@ static PlayerConnection* sharedPlayerConnection;
         NSString* result = [msg objectForKey:@"result"];
         [delegate playerConnection:self receivedResult:result];
     }
+    else if ([cmd isEqualToString:@"log"])
+    {
+        NSLog(@"CMD log: %@", [msg objectForKey:@"string"]);
+        
+        NSString* message = [msg objectForKey:@"string"];
+        [delegate playerConnection:self receivedResult:message];
+    }
 }
 
 - (BOOL) connected

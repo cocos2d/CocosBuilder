@@ -44,12 +44,41 @@
     return self;
 }
 
+#pragma mark Redirection of std out
+
+- (void) redirectStdErr
+{
+    NSPipe* pipe = [NSPipe pipe];
+    pipeReadHandle = [pipe fileHandleForReading];
+    
+    [pipeReadHandle readInBackgroundAndNotify];
+    
+    int err = dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
+    if (!err) NSLog(@"ConsoleWindow: Failed to redirect stderr");
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
+    
+    [pipeReadHandle retain];
+}
+
+- (void) readData:(NSNotification*)notification
+{
+    [pipeReadHandle readInBackgroundAndNotify] ;
+    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
+    [self sendLog:str];
+}
+
+#pragma mark Control methods
+
 - (void) start
 {
     if (server)
     {
         [server start];
-        NSLog(@"Server started");
+        NSLog(@"Server started, redirecting stderr");
+        
+        // Redirect std out
+        [self redirectStdErr];
     }
 }
 
@@ -112,7 +141,7 @@
 			string = [NSString stringWithFormat:@"Error evaluating script:\n#############################\n%@\n#############################\n", script];
 		}
 		
-		[self sendResultString:string];
+		//[self sendResultString:string];
 	}
 				  waitUntilDone:NO];
 }
@@ -213,7 +242,7 @@
     
     NSString* cmd = [msg objectForKey:@"cmd"];
     
-    NSLog(@"cmd: %@", cmd);
+    //NSLog(@"cmd: %@", cmd);
     
     if ([cmd isEqualToString:@"script"])
     {
@@ -272,6 +301,15 @@
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"result" forKey:@"cmd"];
     [msg setObject:str forKey:@"result"];
+    
+    [self sendMessage:msg];
+}
+
+- (void) sendLog:(NSString*)log
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"log" forKey:@"cmd"];
+    [msg setObject:log forKey:@"string"];
     
     [self sendMessage:msg];
 }
