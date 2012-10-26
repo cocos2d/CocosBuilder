@@ -1028,6 +1028,8 @@ void JSB_cpBase_createClass(JSContext *cx, JSObject* globalObj, const char* name
 	};
 	
 	JSB_cpBase_object = JS_InitClass(cx, globalObj, NULL, JSB_cpBase_class, JSB_cpBase_constructor,0,properties,funcs,NULL,st_funcs);
+	JSBool found;
+	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 }
 
 // Manual "methods"

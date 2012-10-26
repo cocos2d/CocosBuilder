@@ -177,6 +177,8 @@ void JSB_NSObject_createClass(JSContext* cx, JSObject* globalObj, const char *na
 	};
 	
 	JSB_NSObject_object = JS_InitClass(cx, globalObj, NULL, JSB_NSObject_class, JSB_NSObject_constructor,0,properties,funcs,NULL,st_funcs);
+	JSBool found;
+	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 }
 
 @implementation JSB_NSObject
@@ -369,6 +371,8 @@ void JSB_NSEvent_createClass(JSContext* cx, JSObject* globalObj, const char *nam
 	};
 	
 	JSB_NSEvent_object = JS_InitClass(cx, globalObj, JSB_NSObject_object, JSB_NSEvent_class, JSB_NSEvent_constructor,0,properties,funcs,NULL,st_funcs);
+	JSBool found;
+	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 }
 
 @implementation JSB_NSEvent
@@ -501,6 +505,8 @@ void JSB_UITouch_createClass(JSContext* cx, JSObject* globalObj, const char *nam
 	};
 	
 	JSB_UITouch_object = JS_InitClass(cx, globalObj, JSB_NSObject_object, JSB_UITouch_class, JSB_UITouch_constructor,0,properties,funcs,NULL,st_funcs);
+	JSBool found;
+	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 }
 
 @implementation JSB_UITouch
@@ -721,6 +727,8 @@ void JSB_UIAccelerometer_createClass(JSContext* cx, JSObject* globalObj, const c
 	};
 	
 	JSB_UIAccelerometer_object = JS_InitClass(cx, globalObj, JSB_NSObject_object, JSB_UIAccelerometer_class, JSB_UIAccelerometer_constructor,0,properties,funcs,NULL,st_funcs);
+	JSBool found;
+	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
 }
 
 @implementation JSB_UIAccelerometer

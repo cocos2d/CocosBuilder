@@ -48,6 +48,8 @@ static tHashJSObject *reverse_hash = NULL;
 // Globals
 char * JSB_association_proxy_key = NULL;
 
+const char * JSB_version = "0.3-beta";
+
 
 static void its_finalize(JSFreeOp *fop, JSObject *obj)
 {
@@ -81,7 +83,7 @@ JSBool JSBCore_log(JSContext *cx, uint32_t argc, jsval *vp)
 		JS_ConvertArguments(cx, argc, JS_ARGV(cx, vp), "S", &string);
 		if (string) {
 			char *cstr = JS_EncodeString(cx, string);
-			printf("%s\n", cstr);
+			fprintf(stderr, "%s\n", cstr);
 		}
 		
 		return JS_TRUE;
@@ -260,6 +262,14 @@ JSBool JSBCore_restartVM(JSContext *cx, uint32_t argc, jsval *vp)
 {
 	self = [super init];
 	if( self ) {
+		
+#if DEBUG
+		printf("JSB: JavaScript Bindings v%s\n", JSB_version);
+#endif
+		
+		// Must be called only once, and before creating a new runtime
+		JS_SetCStringsAreUTF8();
+		
 		[self createRuntime];
 	}
 	
@@ -275,11 +285,11 @@ JSBool JSBCore_restartVM(JSContext *cx, uint32_t argc, jsval *vp)
 	JS_SetOptions(_cx, JSOPTION_VAROBJFIX);
 	JS_SetVersion(_cx, JSVERSION_LATEST);
 	JS_SetErrorReporter(_cx, reportError);
-	_object = JS_NewCompartmentAndGlobalObject( _cx, &global_class, NULL);
+	_object = JS_NewGlobalObject( _cx, &global_class, NULL);
 	if (!JS_InitStandardClasses( _cx, _object)) {
 		CCLOGWARN(@"js error");
 	}
-	
+
 	
 	//
 	// globals
@@ -404,7 +414,7 @@ JSBool JSBCore_restartVM(JSContext *cx, uint32_t argc, jsval *vp)
 /*
  * Evaluates an script
  */
--(JSBool) runScript:(NSString*)filename
+-(JSBool) runScript_do_not_use:(NSString*)filename
 {
 	JSBool ok = JS_FALSE;
 
@@ -426,9 +436,9 @@ JSBool JSBCore_restartVM(JSContext *cx, uint32_t argc, jsval *vp)
 }
 
 /*
- * This function does not work OK with UTF8 scripts
+ * This function works OK if it JS_SetCStringsAreUTF8() is called.
  */
--(JSBool) runScript_do_not_use:(NSString*)filename
+-(JSBool) runScript:(NSString*)filename
 {
 	JSBool ok = JS_FALSE;
 

@@ -65,6 +65,7 @@ JSBool jsval_to_CGRect( JSContext *cx, jsval vp, CGRect *out );
 /** converts a jsval to a 'handle'. Typically the handle is pointer to a struct */
 JSBool jsval_to_opaque( JSContext *cx, jsval vp, void **out );
 JSBool jsval_to_int( JSContext *cx, jsval vp, int *out);
+JSBool jsval_to_uint( JSContext *cx, jsval vp, unsigned int *ret );
 JSBool jsval_to_long( JSContext *cx, jsval vp, long *out);
 JSBool jsval_to_longlong( JSContext *cx, jsval vp, long long *out);
 /** converts a jsval to a "handle" needed for Object Oriented C API */
@@ -80,6 +81,7 @@ jsval NSString_to_jsval( JSContext *cx, NSString *str);
 jsval NSArray_to_jsval( JSContext *cx, NSArray *array);
 jsval NSSet_to_jsval( JSContext *cx, NSSet *set);
 jsval int_to_jsval( JSContext *cx, int l);
+jsval uint_to_jsval( JSContext *cx, unsigned int number );
 jsval long_to_jsval( JSContext *cx, long l);
 jsval longlong_to_jsval( JSContext *cx, long long l);
 jsval CGPoint_to_jsval( JSContext *cx, CGPoint p );

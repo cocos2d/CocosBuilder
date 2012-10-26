@@ -1,13 +1,16 @@
 version 0.3 -
-- [NEW] jsb generator: generates Object Oriented JS code for C-like API
 - [NEW] Chipmunk bindings: Added Object Oriented JS API
 	- JSB Chipmunk API is compatible with Chipmunk-JS API
 	- Added missing functions to bindings:
 		- cpAreaForPoly, cpCentroidForPoly, cpMomentForPoly, cpPolysShapeNew
-- [NEW] Better macros to report errors: JSB_PRECONDITION2() & JSB_PRECONDITION3()
-- [NEW] Possibility to generate files compatible with cpp
 - [NEW] JSBCore: registration code for chipmunk/cocos2d moved to its own files
+		Better macros to report errors: JSB_PRECONDITION2() & JSB_PRECONDITION3()
+		Possibility to generate files compatible with cpp
+- [NEW] Script: jsb generates Object Oriented JS code for C-like API
+- [NEW] SpiderMonkey: Supports SpiderMonkey v16.0 API
+- [FIX] Callbacks: if callback returns value, it is returned to native, as long it is a BOOL.
 - [FIX] Conversions: longlong and 64-bit long are represented by strings (and not an array of two elements)
+- [FIX] Xcode: Fixed all compiler warnings
 
 version 0.2 - XX-Sept-2012 
 - [FIX] config file: only include cocos2d ios on iOS and cocos2d osx on OS X
