@@ -75,8 +75,10 @@
 - (void) updateExpandedForNode:(CCNode*)node;
 - (void) toggleSeqExpanderForRow:(int)row;
 
+- (void) redrawTimeline:(BOOL) reload;
 - (void) redrawTimeline;
 - (void) updateScroller;
+- (void) updateScrollerToShowCurrentTime;
 
 - (void) updateScaleSlider;
 

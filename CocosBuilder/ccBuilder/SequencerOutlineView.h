@@ -27,5 +27,6 @@
 @interface SequencerOutlineView : CCBOutlineView
 {
     NSImage* imgEndmarker;
+    NSImage* imgStartmarker;
 }
 @end

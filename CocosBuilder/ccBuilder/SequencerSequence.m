@@ -55,6 +55,7 @@
     self.name = @"Untitled Timeline";
     sequenceId = -1;
     chainedSequenceId = -1;
+    timelinePosition = 0;
     
     return self;
 }
@@ -109,7 +110,7 @@
         
         if (sh.currentSequence == self)
         {
-            [sh redrawTimeline];
+            [sh redrawTimeline:NO];     // No need to reload Sequencer Outline View (No node has changed)
             [sh updatePropertiesToTimelinePosition];
             [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
         }
@@ -141,7 +142,7 @@
     if (timelineOffset != to)
     {
         timelineOffset = to;
-        [[SequencerHandler sharedHandler] redrawTimeline];
+        [[SequencerHandler sharedHandler] redrawTimeline:NO];
     }
 }
 
@@ -159,12 +160,12 @@
 
 - (float) timeToPosition:(float)time
 {
-    return roundf((time - timelineOffset)*timelineScale);
+    return roundf((time - timelineOffset)*timelineScale)+TIMELINE_PAD_PIXELS;
 }
 
 - (float) positionToTime:(float)pos
 {
-    float rawTime = (pos/timelineScale)+timelineOffset;
+    float rawTime = ((pos-TIMELINE_PAD_PIXELS)/timelineScale)+timelineOffset;
     float capped = max(roundf(rawTime * timelineResolution)/timelineResolution, 0);
     return min(capped, timelineLength);
 }
@@ -206,14 +207,16 @@
 
 - (void) stepForward:(int)numSteps
 {
-    float newTime = [self alignTimeToResolution: timelinePosition + 1/timelineResolution*numSteps];
+    float newTime = [self alignTimeToResolution: timelinePosition + numSteps/timelineResolution];
     self.timelinePosition = newTime;
+    [[SequencerHandler sharedHandler] updateScrollerToShowCurrentTime];
 }
 
 - (void) stepBack:(int)numSteps
 {
-    float newTime = [self alignTimeToResolution: timelinePosition - 1/timelineResolution*numSteps];
+    float newTime = [self alignTimeToResolution: timelinePosition - numSteps/timelineResolution];
     self.timelinePosition = newTime;
+    [[SequencerHandler sharedHandler] updateScrollerToShowCurrentTime];
 }
 
 - (SequencerSequence*) duplicateWithNewId:(int)seqId

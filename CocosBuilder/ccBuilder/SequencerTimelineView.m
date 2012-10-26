@@ -47,6 +47,7 @@
     [imgMarkMinor setFlipped:YES];
     
     imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
+    imgStartmarker = [[NSImage imageNamed:@"seq-startmarker.png"] retain];
     
     // Numbers
     imgNumbers = [[NSImage imageNamed:@"ruler-numbers.png"] retain];
@@ -90,6 +91,7 @@
     
     int secondMarker = tlOffset;
     float xPos = -roundf((tlOffset - secondMarker)*tlScale);
+    xPos += TIMELINE_PAD_PIXELS;
     float width = [self bounds].size.width;
     float stepSize = tlScale/divisions;
     int step = 0;
@@ -120,12 +122,21 @@
     // Draw end marker
     xPos = roundf([seq timeToPosition: seq.timelineLength]);
     [imgEndmarker drawAtPoint:NSMakePoint(xPos, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+
+    // draw start marker
+    float xStartPos = [seq timeToPosition:0] - TIMELINE_PAD_PIXELS;
+    [[NSGraphicsContext currentContext] saveGraphicsState];
+    NSRectClip(NSMakeRect(0, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
+    [imgStartmarker drawInRect:NSMakeRect(xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
+
 }
 
 - (void) dealloc
 {
     [imgBg release];
     [imgEndmarker release];
+    [imgStartmarker release];
     [super dealloc];
 }
 

@@ -83,15 +83,21 @@
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     float xPos = [seq timeToPosition:seq.timelineLength];
-    
     if (!imgEndmarker) imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
-    
+    if (!imgStartmarker) imgStartmarker = [[NSImage imageNamed:@"seq-startmarker.png"] retain];
     [imgEndmarker drawInRect:NSMakeRect(xPos+250, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    
+    float xStartPos = [seq timeToPosition:0] -TIMELINE_PAD_PIXELS;
+    [[NSGraphicsContext currentContext] saveGraphicsState];
+    NSRectClip(NSMakeRect(250, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
+    [imgStartmarker drawInRect:NSMakeRect(250+xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
 - (void) dealloc
 {
     [imgEndmarker release];
+    [imgStartmarker release];
     [super dealloc];
 }
 
