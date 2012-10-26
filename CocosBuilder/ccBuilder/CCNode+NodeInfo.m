@@ -182,7 +182,7 @@
     keyframe.type = keyframeType;
     keyframe.name = name;
     
-    if (keyframeType == kCCBKeyframeTypeSpriteFrame)
+    if (![keyframe supportsFiniteTimeInterpolations])
     {
         keyframe.easing.type = kCCBKeyframeEasingInstant;
     }

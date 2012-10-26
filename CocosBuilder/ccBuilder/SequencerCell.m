@@ -30,6 +30,7 @@
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "SequencerTimelineDrawDelegate.h"
 
 @implementation SequencerCell
 
@@ -80,7 +81,7 @@
             {
                 keyframeNext = [keyframes objectAtIndex:i+1];
             }
-            
+            float interpolDuration;
             int xPos = [seq timeToPosition:keyframe.time];
             
             // Draw visibility
@@ -91,15 +92,31 @@
                 if (keyframeNext)
                 {
                     xPosNext = [seq timeToPosition:keyframeNext.time];
+                    interpolDuration = keyframeNext.time - keyframe.time;
                 }
                 else
                 {
                     xPosNext = [seq timeToPosition:seq.timelineLength];
+                    interpolDuration = seq.timelineLength-keyframe.time;
                 }
                 
                 NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+1, xPosNext-xPos, 13);
                 
-                [imgInterpolVis drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                BOOL didDrawInterpolation = NO;
+                
+                if ([node conformsToProtocol:@protocol(SequencerTimelineDrawDelegate)]) {
+                    CCNode<SequencerTimelineDrawDelegate> *delegate = (CCNode<SequencerTimelineDrawDelegate> *) node;
+                    if ([delegate canDrawInterpolationForProperty:nodeProp.propName]) {
+                        
+                        id endValue = (keyframeNext) ? keyframeNext.value : nil;
+                        [delegate drawInterpolationInRect:interpolRect forProperty:nodeProp.propName withStartValue:keyframe.value endValue:endValue andDuration:interpolDuration];
+                        didDrawInterpolation = YES;
+                    }
+                }
+                
+                if (!didDrawInterpolation) {
+                    [imgInterpolVis drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                }
             }
             
             // Draw keyframes
@@ -183,7 +200,21 @@
                 
                 NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+5, xPosNext-xPos, 7);
                 
-                [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                BOOL didDrawInterpolation = NO;
+                
+                if ([node conformsToProtocol:@protocol(SequencerTimelineDrawDelegate)]) {
+                    CCNode<SequencerTimelineDrawDelegate> *delegate = (CCNode<SequencerTimelineDrawDelegate> *) node;
+                    if ([delegate canDrawInterpolationForProperty:nodeProp.propName]) {
+                        
+                        id endValue = (keyframeNext) ? keyframeNext.value : nil;
+                        [delegate drawInterpolationInRect:interpolRect forProperty:nodeProp.propName withStartValue:keyframe.value endValue:endValue andDuration:(keyframeNext.time-keyframe.time)];
+                        didDrawInterpolation = YES;
+                    }
+                }
+                
+                if (!didDrawInterpolation) {
+                    [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                }
                 
                 BOOL easeIn = keyframe.easing.hasEaseIn;
                 BOOL easeOut = keyframe.easing.hasEaseOut;
@@ -260,6 +291,7 @@
     NSRect clipRect = cellFrame;
     clipRect.origin.y -= 1;
     clipRect.size.height += 1;
+    clipRect.size.width += TIMELINE_PAD_PIXELS;
     [NSBezierPath clipRect:clipRect];
     
     if (!imagesLoaded)

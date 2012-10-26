@@ -124,7 +124,7 @@ static SequencerHandler* sharedSequencerHandler;
 - (float) visibleTimeArea
 {
     NSTableColumn* column = [outlineHierarchy tableColumnWithIdentifier:@"sequencer"];
-    return column.width/currentSequence.timelineScale;
+    return (column.width-2*TIMELINE_PAD_PIXELS)/currentSequence.timelineScale;
 }
 
 - (float) maxTimelineOffset
@@ -150,6 +150,26 @@ static SequencerHandler* sharedSequencerHandler;
     else
     {
         [scroller setEnabled:NO];
+    }
+}
+
+- (void) updateScrollerToShowCurrentTime
+{
+    float visibleTime = [self visibleTimeArea];
+    float maxTimeScroll = [self maxTimelineOffset];
+    float timelinePosition = currentSequence.timelinePosition;
+    if (maxTimeScroll > 0)
+    {
+        float minVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime);
+        float maxVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime) + visibleTime;
+        
+        if (timelinePosition < minVisibleTime) {
+            scroller.doubleValue = timelinePosition/(currentSequence.timelineLength-visibleTime);
+            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+        } else if (timelinePosition > maxVisibleTime) {
+            scroller.doubleValue = (timelinePosition-visibleTime)/(currentSequence.timelineLength-visibleTime);
+            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+        }
     }
 }
 
@@ -501,14 +521,22 @@ static SequencerHandler* sharedSequencerHandler;
 
 #pragma mark Timeline
 
-- (void) redrawTimeline
+- (void) redrawTimeline:(BOOL) reload
 {
     [scrubberSelectionView setNeedsDisplay:YES];
     NSString* displayTime = [currentSequence currentDisplayTime];
     if (!displayTime) displayTime = @"00:00:00";
     [timeDisplay setStringValue:displayTime];
     [self updateScroller];
-    [outlineHierarchy reloadData];
+    if (reload) {
+        [outlineHierarchy reloadData];
+    }
+}
+
+- (void) redrawTimeline
+{
+    
+    [self redrawTimeline:YES];
 }
 
 #pragma mark Util

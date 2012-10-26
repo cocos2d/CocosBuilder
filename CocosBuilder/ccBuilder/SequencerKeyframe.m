@@ -59,6 +59,10 @@
     self.name = [ser valueForKey:@"name"];
     self.time = [[ser valueForKey:@"time"] floatValue];
     self.easing = [[[SequencerKeyframeEasing alloc] initWithSerialization:[ser objectForKey:@"easing"]] autorelease];
+    // fix possible broken easing/type combinations
+    if (![self supportsFiniteTimeInterpolations]) {
+        easing.type = kCCBKeyframeEasingInstant;
+    }
     
     return self;
 }
@@ -162,6 +166,12 @@
     }
     return NO;
 }
+
+- (BOOL) supportsFiniteTimeInterpolations
+{
+    return (type != kCCBKeyframeTypeToggle && type != kCCBKeyframeTypeUndefined && type != kCCBKeyframeTypeSpriteFrame);
+}
+
 
 - (void) dealloc
 {
