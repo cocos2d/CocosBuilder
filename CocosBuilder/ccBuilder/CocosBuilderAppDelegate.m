@@ -2097,6 +2097,7 @@ static BOOL hideAllToNextSeparator;
     {
         playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
     }
+    [playerConsoleWindow cleanConsole];
     [playerConsoleWindow.window makeKeyAndOrderFront:self];
     
     if ([[PlayerConnection sharedPlayerConnection] connected])

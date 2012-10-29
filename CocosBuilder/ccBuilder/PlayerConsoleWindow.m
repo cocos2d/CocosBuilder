@@ -150,7 +150,7 @@
 
 - (IBAction)pressedPlay:(id)sender
 {
-    [[CocosBuilderAppDelegate appDelegate] runProject:self];
+    [[CocosBuilderAppDelegate appDelegate] menuPublishProjectAndRun:self];
 }
 
 - (IBAction)pressedStop:(id)sender
@@ -247,6 +247,12 @@
     {
         [self scrollToBottom];
     }
+}
+
+- (void) cleanConsole
+{
+    [textView setString:@""];
+    [self scrollToBottom];
 }
 
 - (void) windowWillStartLiveResize:(NSNotification *)notification
