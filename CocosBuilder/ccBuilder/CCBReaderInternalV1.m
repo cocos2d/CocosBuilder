@@ -208,7 +208,7 @@
 
 + (void) setPropsForMenu: (CCMenu*) node props:(NSDictionary*)props
 {
-    node.isMouseEnabled = NO;
+    node.mouseEnabled = NO;
 }
 
 + (void) setPropsForMenuItem: (CCMenuItem*) node props:(NSDictionary*)props

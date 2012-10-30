@@ -57,8 +57,6 @@
     resType = rt;
     
     ImageAndTextCell* imageTextCell = [[[ImageAndTextCell alloc] init] autorelease];
-#warning Use to enable editing!
-    //[imageTextCell setEditable:YES];
     [[resourceList outlineTableColumn] setDataCell:imageTextCell];
     [[resourceList outlineTableColumn] setEditable:YES];
     
