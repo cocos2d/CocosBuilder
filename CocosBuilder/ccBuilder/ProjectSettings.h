@@ -43,6 +43,7 @@
     BOOL deviceOrientationUpsideDown;
     BOOL deviceOrientationLandscapeLeft;
     BOOL deviceOrientationLandscapeRight;
+    int resourceAutoScaleFactor;
 }
 
 @property (nonatomic, copy) NSString* projectPath;
@@ -62,6 +63,7 @@
 @property (nonatomic, assign) BOOL deviceOrientationUpsideDown;
 @property (nonatomic, assign) BOOL deviceOrientationLandscapeLeft;
 @property (nonatomic, assign) BOOL deviceOrientationLandscapeRight;
+@property (nonatomic, assign) int resourceAutoScaleFactor;
 
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;

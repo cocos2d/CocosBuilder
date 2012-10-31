@@ -732,9 +732,23 @@
     NSData* srcImageData = [NSData dataWithContentsOfFile:autoFile];
     NSImage* srcImage = [[NSImage alloc] initWithData:srcImageData];
     
+    float dstScale = 1;
+    if ([res isEqualToString:@"hd"]) dstScale = 2;
+    else if ([res isEqualToString:@"ipad"]) dstScale = 2;
+    else if ([res isEqualToString:@"ipadhd"]) dstScale = 4;
+    else if ([res isEqualToString:@"xsmall"]) dstScale = 0.5;
+    else if ([res isEqualToString:@"small"]) dstScale = 1;
+    else if ([res isEqualToString:@"medium"]) dstScale = 1.5;
+    else if ([res isEqualToString:@"large"]) dstScale = 2;
+    else if ([res isEqualToString:@"xlarge"]) dstScale = 4;
+    
     NSSize oldSize = [srcImage size];
     
-    float scaleFactor = 0.5;
+    float srcScale = [CocosBuilderAppDelegate appDelegate].projectSettings.resourceAutoScaleFactor;
+    
+    float scaleFactor = dstScale/srcScale;
+    
+    NSLog(@"scaleFactor: %f srcScale: %f dstScale: %f res: %@", scaleFactor, srcScale, dstScale, res);
     
     NSSize newSize;
     newSize.width = oldSize.width*scaleFactor;

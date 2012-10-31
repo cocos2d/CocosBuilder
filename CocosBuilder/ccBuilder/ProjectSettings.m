@@ -44,6 +44,7 @@
 @synthesize deviceOrientationUpsideDown;
 @synthesize deviceOrientationLandscapeLeft;
 @synthesize deviceOrientationLandscapeRight;
+@synthesize resourceAutoScaleFactor;
 
 - (id) init
 {
@@ -59,6 +60,7 @@
     self.publishToZipFile = YES;
     self.javascriptMainCCB = @"MainScene";
     self.deviceOrientationPortrait = YES;
+    self.resourceAutoScaleFactor = 4;
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];
@@ -94,6 +96,8 @@
     self.deviceOrientationUpsideDown = [[dict objectForKey:@"deviceOrientationUpsideDown"] boolValue];
     self.deviceOrientationLandscapeLeft = [[dict objectForKey:@"deviceOrientationLandscapeLeft"] boolValue];
     self.deviceOrientationLandscapeRight = [[dict objectForKey:@"deviceOrientationLandscapeRight"] boolValue];
+    self.resourceAutoScaleFactor = [[dict objectForKey:@"resourceAutoScaleFactor"]intValue];
+    if (resourceAutoScaleFactor == 0) self.resourceAutoScaleFactor = 4;
     
     NSString* mainCCB = [dict objectForKey:@"javascriptMainCCB"];
     if (!mainCCB) mainCCB = @"";
@@ -136,6 +140,7 @@
     [dict setObject:[NSNumber numberWithBool:deviceOrientationUpsideDown] forKey:@"deviceOrientationUpsideDown"];
     [dict setObject:[NSNumber numberWithBool:deviceOrientationLandscapeLeft] forKey:@"deviceOrientationLandscapeLeft"];
     [dict setObject:[NSNumber numberWithBool:deviceOrientationLandscapeRight] forKey:@"deviceOrientationLandscapeRight"];
+    [dict setObject:[NSNumber numberWithInt:resourceAutoScaleFactor] forKey:@"resourceAutoScaleFactor"];
     
     if (!javascriptMainCCB) self.javascriptMainCCB = @"";
     if (!javascriptBased) self.javascriptMainCCB = @"";

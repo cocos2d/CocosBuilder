@@ -2176,6 +2176,7 @@ static BOOL hideAllToNextSeparator;
     {
         [self.projectSettings store];
         [self updateResourcePathsFromProjectSettings];
+        [self menuCleanCacheDirectories:sender];
         [self reloadResources];
     }
 }
