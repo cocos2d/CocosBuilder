@@ -245,7 +245,15 @@
     if ([item isKindOfClass:[RMResource class]])
     {
         RMResource* res = item;
-        icon = [self smallIconForFile:res.filePath];
+#warning Do all images by type
+        if (res.type == kCCBResTypeImage)
+        {
+            icon = [self smallIconForFileType:@"png"];
+        }
+        else
+        {
+            icon = [self smallIconForFile:res.filePath];
+        }
     }
     else if ([item isKindOfClass:[RMSpriteFrame class]])
     {

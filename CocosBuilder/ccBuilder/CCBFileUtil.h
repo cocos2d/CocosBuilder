@@ -27,5 +27,6 @@
 @interface CCBFileUtil : NSObject
 
 + (NSString*) toResolutionIndependentFile:(NSString*)file;
-
++ (NSDate*) modificationDateForFile:(NSString*)file;
++ (void) setModificationDate:(NSDate*)date forFile:(NSString*)file;
 @end

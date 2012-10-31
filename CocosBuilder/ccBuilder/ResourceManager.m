@@ -29,6 +29,8 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBDocument.h"
 #import "ResolutionSetting.h"
+#import "ProjectSettings.h"
+#import "CCBFileUtil.h"
 
 #pragma mark RMSpriteFrame
 
@@ -326,13 +328,18 @@
     }
 }
 
+- (NSArray*) resIndependentExts
+{
+    return [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", @"-auto", nil];
+}
+
 - (BOOL) isResolutionDependentFile: (NSString*) file
 {
     if ([[file pathExtension] isEqualToString:@"ccb"]) return NO;
     
     NSString* fileNoExt = [file stringByDeletingPathExtension];
     
-    NSArray* resIndependentExts = [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", nil];
+    NSArray* resIndependentExts = [self resIndependentExts];
     
     for (NSString* ext in resIndependentExts)
     {
@@ -352,7 +359,15 @@
     
     if (isDirectory)
     {
-        return kCCBResTypeDirectory;
+        // Hide resolution directories
+        if ([[self resIndependentExts] containsObject:[file lastPathComponent]])
+        {
+            return kCCBResTypeNone;
+        }
+        else
+        {
+            return kCCBResTypeDirectory;
+        }
     }
     //else if ([[file stringByDeletingPathExtension] hasSuffix:@"-hd"]
     //         || [[file stringByDeletingPathExtension] hasSuffix:@"@2x"])
@@ -417,8 +432,28 @@
 {
     NSFileManager* fm = [NSFileManager defaultManager];
     RMDirectory* dir = [directories objectForKey:path];
-    NSArray* files = [fm contentsOfDirectoryAtPath:path error:NULL];
+    
+    NSArray* resolutionExts = [self resIndependentExts];
+    
+    // Get files from default directory
+    NSMutableSet* files = [NSMutableSet setWithArray:[fm contentsOfDirectoryAtPath:path error:NULL]];
+    
+    for (NSString* resolutionExt in resolutionExts)
+    {
+        NSString* resolutionDir = [path stringByAppendingPathComponent:resolutionExt];
+        BOOL isDir = NO;
+        if (![fm fileExistsAtPath:resolutionDir isDirectory:&isDir] && isDir) continue;
+        
+        [files addObjectsFromArray:[fm contentsOfDirectoryAtPath:resolutionDir error:NULL]];
+    }
+    
     NSMutableDictionary* resources = dir.resources;
+    
+    if (!resources)
+    {
+        [self updateResourcesForPath:[path stringByDeletingLastPathComponent]];
+        return;
+    }
     
     BOOL needsUpdate = NO; // Assets needs to be reloaded in editor
     BOOL resourcesChanged = NO;  // A resource file was modified, added or removed
@@ -485,6 +520,7 @@
             if (res.type != kCCBResTypeNone) resourcesChanged = YES;
             [res release];
         }
+        
         res.touched = YES;
     }
     
@@ -691,17 +727,168 @@
     return dir.dirPath;
 }
 
+- (void) createCachedImageFromAuto:(NSString*)autoFile saveAs:(NSString*)dstFile forResolution:(NSString*)res
+{
+    NSData* srcImageData = [NSData dataWithContentsOfFile:autoFile];
+    NSImage* srcImage = [[NSImage alloc] initWithData:srcImageData];
+    
+    NSSize oldSize = [srcImage size];
+    
+    float scaleFactor = 0.5;
+    
+    NSSize newSize;
+    newSize.width = oldSize.width*scaleFactor;
+    newSize.height = oldSize.height*scaleFactor;
+    
+    NSImage *resizedImage = [[NSImage alloc] initWithSize: newSize];
+    
+    [resizedImage lockFocus];
+    [srcImage drawInRect: NSMakeRect(0, 0, newSize.width, newSize.height) fromRect: NSMakeRect(0, 0, oldSize.width, oldSize.height) operation: NSCompositeSourceOver fraction: 1.0];
+    [resizedImage unlockFocus];
+    
+    NSData *tiffData = [resizedImage TIFFRepresentation];
+    NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData:tiffData];
+    NSData* dstImageData = [rep representationUsingType: NSPNGFileType
+                                             properties: nil];
+    
+    // Create directory and write file
+    [[NSFileManager defaultManager] createDirectoryAtPath:[dstFile stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:NULL error:NULL];
+    
+    [dstImageData writeToFile:dstFile atomically:YES];
+    
+    // Update modification time to match original file
+    NSDate* autoFileDate = [CCBFileUtil modificationDateForFile:autoFile];
+    [CCBFileUtil setModificationDate:autoFileDate forFile:dstFile];
+}
+
 - (NSString*) toAbsolutePath:(NSString*)path
 {
     if ([activeDirectories count] == 0) return NULL;
     NSFileManager* fm = [NSFileManager defaultManager];
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
-    for (RMDirectory* dir in activeDirectories)
+    if (!ad.currentDocument)
     {
-        NSString* p = [NSString stringWithFormat:@"%@/%@",dir.dirPath,path];
-        if ([fm fileExistsAtPath:p]) return p;
+        // No document is currently open, grab a reference to any of the resolution files
+        for (RMDirectory* dir in activeDirectories)
+        {
+            // First try the default
+            NSString* p = [NSString stringWithFormat:@"%@/%@",dir.dirPath,path];
+            if ([fm fileExistsAtPath:p]) return p;
+            
+            // Then try all resolution dependent directories
+            NSString* fileName = [p lastPathComponent];
+            NSString* dirName = [p stringByDeletingLastPathComponent];
+            
+            for (NSString* resExt in [self resIndependentExts])
+            {
+                NSString* p2 = [[dirName stringByAppendingPathComponent:resExt] stringByAppendingPathComponent:fileName];
+                if ([fm fileExistsAtPath:p2]) return p2;
+            }
+        }
+    }
+    else
+    {
+        // Select by resolution definied by open document
+        NSArray* resolutions = ad.currentDocument.resolutions;
+        if (!resolutions) return NULL;
+        
+        ResolutionSetting* res = [resolutions objectAtIndex:ad.currentDocument.currentResolution];
+        
+        for (RMDirectory* dir in activeDirectories)
+        {
+            // Get the name of the default file
+            NSString* defaultFile = [NSString stringWithFormat:@"%@/%@",dir.dirPath,path];
+            
+            NSString* defaultFileName = [defaultFile lastPathComponent];
+            NSString* defaultDirName = [defaultFile stringByDeletingLastPathComponent];
+            
+            // Select by resolution
+            for (NSString* ext in res.exts)
+            {
+                if ([ext isEqualToString:@""]) continue;
+                ext = [@"-" stringByAppendingString:ext];
+                
+                NSString* pathForRes = [[defaultDirName stringByAppendingPathComponent:ext] stringByAppendingPathComponent:defaultFileName];
+                
+                if ([fm fileExistsAtPath:pathForRes]) return pathForRes;
+            }
+            
+            // TODO: Auto convert!
+            NSString* autoFile = [[defaultDirName stringByAppendingPathComponent:@"-auto"] stringByAppendingPathComponent:defaultFileName];
+            if ([fm fileExistsAtPath:autoFile])
+            {
+                // Check if the file exists in cache
+                NSString* ext = @"";
+                if ([res.exts count] > 0) ext = [res.exts objectAtIndex:0];
+                
+                NSString* cachedFile = [ad.projectSettings.publishCacheDirectory stringByAppendingPathComponent:path];
+                if (![ext isEqualToString:@""])
+                {
+                    NSString* cachedFileName = [cachedFile lastPathComponent];
+                    NSString* cachedDirName = [cachedFile stringByDeletingLastPathComponent];
+                    cachedFile = [[cachedDirName stringByAppendingPathComponent:ext] stringByAppendingPathComponent:cachedFileName];
+                }
+                
+                BOOL cachedFileExists = [fm fileExistsAtPath:cachedFile];
+                BOOL datesMatch = NO;
+                
+                if (cachedFileExists)
+                {
+                    NSDate* autoFileDate = [CCBFileUtil modificationDateForFile:autoFile];
+                    NSDate* cachedFileDate = [CCBFileUtil modificationDateForFile:cachedFile];
+                    if ([autoFileDate isEqualToDate:cachedFileDate]) datesMatch = YES;
+                }
+                
+                if (!cachedFileExists || !datesMatch)
+                {
+                    // Not yet cached, create file
+                    [self createCachedImageFromAuto:autoFile saveAs:cachedFile forResolution:ext];
+                }
+                return cachedFile;
+            }
+            
+            // Fall back on default file
+            if ([fm fileExistsAtPath:defaultFile]) return defaultFile;
+        }
     }
     return NULL;
+}
+
++ (NSString*) toResolutionIndependentFile:(NSString*)file
+{
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    
+    if (!ad.currentDocument)
+    {
+        NSLog(@"No document!");
+        return file;
+    }
+    
+    NSArray* resolutions = ad.currentDocument.resolutions;
+    if (!resolutions)
+    {
+        NSLog(@"No resolutions!");
+        return file;
+    }
+    
+    NSString* fileType = [file pathExtension];
+    NSString* fileNoExt = [file stringByDeletingPathExtension];
+    
+    ResolutionSetting* res = [resolutions objectAtIndex:ad.currentDocument.currentResolution];
+    
+    for (NSString* ext in res.exts)
+    {
+        if ([ext isEqualToString:@""]) continue;
+        
+        NSString* resFile = [NSString stringWithFormat:@"%@-%@.%@",fileNoExt,ext,fileType];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:resFile])
+        {
+            return resFile;
+        }
+    }
+    return file;
 }
 
 - (void) debugPrintDirectories
