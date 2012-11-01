@@ -31,7 +31,29 @@
 {
     NSString* projectPath;
     NSMutableArray* resourcePaths;
+    
     NSString* publishDirectory;
+    NSString* publishDirectoryAndroid;
+    NSString* publishDirectoryHTML5;
+    
+    BOOL publishEnablediPhone;
+    BOOL publishEnabledAndroid;
+    BOOL publishEnabledHTML5;
+    
+    BOOL publishResolution_;
+    BOOL publishResolution_hd;
+    BOOL publishResolution_ipad;
+    BOOL publishResolution_ipadhd;
+    BOOL publishResolution_xsmall;
+    BOOL publishResolution_small;
+    BOOL publishResolution_medium;
+    BOOL publishResolution_large;
+    BOOL publishResolution_xlarge;
+    
+    int publishResolutionHTML5_width;
+    int publishResolutionHTML5_height;
+    int publishResolutionHTML5_scale;
+    
     BOOL flattenPaths;
     BOOL publishToZipFile;
     BOOL javascriptBased;
@@ -49,7 +71,29 @@
 @property (nonatomic, copy) NSString* projectPath;
 @property (nonatomic, readonly) NSString* projectPathHashed;
 @property (nonatomic, retain) NSMutableArray* resourcePaths;
+
+@property (nonatomic,assign) BOOL publishEnablediPhone;
+@property (nonatomic,assign) BOOL publishEnabledAndroid;
+@property (nonatomic,assign) BOOL publishEnabledHTML5;
+
 @property (nonatomic, copy) NSString* publishDirectory;
+@property (nonatomic, copy) NSString* publishDirectoryAndroid;
+@property (nonatomic, copy) NSString* publishDirectoryHTML5;
+
+@property (nonatomic,assign) BOOL publishResolution_;
+@property (nonatomic,assign) BOOL publishResolution_hd;
+@property (nonatomic,assign) BOOL publishResolution_ipad;
+@property (nonatomic,assign) BOOL publishResolution_ipadhd;
+@property (nonatomic,assign) BOOL publishResolution_xsmall;
+@property (nonatomic,assign) BOOL publishResolution_small;
+@property (nonatomic,assign) BOOL publishResolution_medium;
+@property (nonatomic,assign) BOOL publishResolution_large;
+@property (nonatomic,assign) BOOL publishResolution_xlarge;
+
+@property (nonatomic,assign) int publishResolutionHTML5_width;
+@property (nonatomic,assign) int publishResolutionHTML5_height;
+@property (nonatomic,assign) int publishResolutionHTML5_scale;
+
 @property (nonatomic, copy) NSString* javascriptMainCCB;
 @property (nonatomic, assign) BOOL flattenPaths;
 @property (nonatomic, assign) BOOL publishToZipFile;

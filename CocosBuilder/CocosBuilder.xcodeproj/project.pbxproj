@@ -341,6 +341,9 @@
 		E3799EA6155970F400196B4A /* ProjectSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */; };
 		E3799EAA1559771E00196B4A /* ProjectSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */; };
 		E3799EAD155979BF00196B4A /* ProjectSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E3799EAC155979BF00196B4A /* ProjectSettings.m */; };
+		E3808DB41641C45B00398456 /* PublishSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3808DB31641C45B00398456 /* PublishSettingsWindow.xib */; };
+		E3808DB71641CB6400398456 /* PublishSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3808DB61641CB6400398456 /* PublishSettingsWindow.m */; };
+		E3808DBA1641D4B800398456 /* CCBTextFieldLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3808DB91641D4B800398456 /* CCBTextFieldLabel.m */; };
 		E383BF6B152478940032F371 /* CCScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E383BF6A152478940032F371 /* CCScrollView.m */; };
 		E3850809150AA9AE007E162A /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3850808150AA9AE007E162A /* ImageAndTextCell.m */; };
 		E385080B150AB232007E162A /* segmctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E385080A150AB232007E162A /* segmctrl-bg.png */; };
@@ -1316,6 +1319,11 @@
 		E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingsWindow.m; sourceTree = "<group>"; };
 		E3799EAB155979BF00196B4A /* ProjectSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettings.h; sourceTree = "<group>"; };
 		E3799EAC155979BF00196B4A /* ProjectSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettings.m; sourceTree = "<group>"; };
+		E3808DB31641C45B00398456 /* PublishSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishSettingsWindow.xib; sourceTree = "<group>"; };
+		E3808DB51641CB6300398456 /* PublishSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishSettingsWindow.h; sourceTree = "<group>"; };
+		E3808DB61641CB6400398456 /* PublishSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishSettingsWindow.m; sourceTree = "<group>"; };
+		E3808DB81641D4B800398456 /* CCBTextFieldLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTextFieldLabel.h; sourceTree = "<group>"; };
+		E3808DB91641D4B800398456 /* CCBTextFieldLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTextFieldLabel.m; sourceTree = "<group>"; };
 		E383BF69152478940032F371 /* CCScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollView.h; sourceTree = "<group>"; };
 		E383BF6A152478940032F371 /* CCScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollView.m; sourceTree = "<group>"; };
 		E3850807150AA9AE007E162A /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
@@ -1808,6 +1816,9 @@
 				E3799EA5155970F400196B4A /* ProjectSettingsWindow.xib */,
 				E3799EA81559771D00196B4A /* ProjectSettingsWindow.h */,
 				E3799EA91559771D00196B4A /* ProjectSettingsWindow.m */,
+				E3808DB31641C45B00398456 /* PublishSettingsWindow.xib */,
+				E3808DB51641CB6300398456 /* PublishSettingsWindow.h */,
+				E3808DB61641CB6400398456 /* PublishSettingsWindow.m */,
 				E34039BC1624BF610067C7B8 /* CCBDocumentController.h */,
 				E34039BD1624BF610067C7B8 /* CCBDocumentController.m */,
 			);
@@ -1948,6 +1959,8 @@
 				E335CB051577995F00A612EE /* CCBSplitView.m */,
 				581BCFE6162DADE7007DE600 /* CCBSplitHorizontalView.h */,
 				581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */,
+				E3808DB81641D4B800398456 /* CCBTextFieldLabel.h */,
+				E3808DB91641D4B800398456 /* CCBTextFieldLabel.m */,
 			);
 			name = "Styled Components";
 			sourceTree = "<group>";
@@ -4084,6 +4097,7 @@
 				E367E32316384F0C00247F12 /* orientation-upsidedown.png in Resources */,
 				E367E32516384F3600247F12 /* orientation-portrait.png in Resources */,
 				581130601639C52500A86D70 /* seq-startmarker.png in Resources */,
+				E3808DB41641C45B00398456 /* PublishSettingsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4514,6 +4528,8 @@
 				E3C9CCBB161D0BBF008A3784 /* InspectorCodeConnectionsJS.m in Sources */,
 				E34039BE1624BF610067C7B8 /* CCBDocumentController.m in Sources */,
 				581BCFE8162DADE7007DE600 /* CCBSplitHorizontalView.m in Sources */,
+				E3808DB71641CB6400398456 /* PublishSettingsWindow.m in Sources */,
+				E3808DBA1641D4B800398456 /* CCBTextFieldLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

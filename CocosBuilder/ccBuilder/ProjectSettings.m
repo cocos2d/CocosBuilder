@@ -33,6 +33,23 @@
 @synthesize projectPath;
 @synthesize resourcePaths;
 @synthesize publishDirectory;
+@synthesize publishDirectoryAndroid;
+@synthesize publishDirectoryHTML5;
+@synthesize publishEnablediPhone;
+@synthesize publishEnabledAndroid;
+@synthesize publishEnabledHTML5;
+@synthesize publishResolution_;
+@synthesize publishResolution_hd;
+@synthesize publishResolution_ipad;
+@synthesize publishResolution_ipadhd;
+@synthesize publishResolution_xsmall;
+@synthesize publishResolution_small;
+@synthesize publishResolution_medium;
+@synthesize publishResolution_large;
+@synthesize publishResolution_xlarge;
+@synthesize publishResolutionHTML5_width;
+@synthesize publishResolutionHTML5_height;
+@synthesize publishResolutionHTML5_scale;
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
 @synthesize javascriptBased;
@@ -54,6 +71,8 @@
     resourcePaths = [[NSMutableArray alloc] init];
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
     self.publishDirectory = @".";
+    self.publishDirectoryAndroid = @".";
+    self.publishDirectoryHTML5 = @".";
     self.onlyPublishCCBs = NO;
     self.flattenPaths = YES;
     self.javascriptBased = YES;
@@ -61,6 +80,24 @@
     self.javascriptMainCCB = @"MainScene";
     self.deviceOrientationPortrait = YES;
     self.resourceAutoScaleFactor = 4;
+    
+    self.publishEnablediPhone = YES;
+    self.publishEnabledAndroid = YES;
+    self.publishEnabledHTML5 = YES;
+    
+    self.publishResolution_ = YES;
+    self.publishResolution_hd = YES;
+    self.publishResolution_ipad = YES;
+    self.publishResolution_ipadhd = YES;
+    self.publishResolution_xsmall = YES;
+    self.publishResolution_small = YES;
+    self.publishResolution_medium = YES;
+    self.publishResolution_large = YES;
+    self.publishResolution_xlarge = YES;
+    
+    self.publishResolutionHTML5_width = 960;
+    self.publishResolutionHTML5_height = 640;
+    self.publishResolutionHTML5_scale = 2;
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];
@@ -87,6 +124,34 @@
     // Read settings
     self.resourcePaths = [dict objectForKey:@"resourcePaths"];
     self.publishDirectory = [dict objectForKey:@"publishDirectory"];
+    self.publishDirectoryAndroid = [dict objectForKey:@"publishDirectoryAndroid"];
+    self.publishDirectoryHTML5 = [dict objectForKey:@"publishDirectoryHTML5"];
+    
+    if (!publishDirectory) self.publishDirectory = @"";
+    if (!publishDirectoryAndroid) self.publishDirectoryAndroid = @"";
+    if (!publishDirectoryHTML5) self.publishDirectoryHTML5 = @"";
+    
+    self.publishEnablediPhone = [[dict objectForKey:@"publishEnablediPhone"] boolValue];
+    self.publishEnabledAndroid = [[dict objectForKey:@"publishEnabledAndroid"] boolValue];
+    self.publishEnabledHTML5 = [[dict objectForKey:@"publishEnabledHTML5"] boolValue];
+    
+    self.publishResolution_ = [[dict objectForKey:@"publishResolution_"] boolValue];
+    self.publishResolution_hd = [[dict objectForKey:@"publishResolution_hd"] boolValue];
+    self.publishResolution_ipad = [[dict objectForKey:@"publishResolution_ipad"] boolValue];
+    self.publishResolution_ipadhd = [[dict objectForKey:@"publishResolution_ipadhd"] boolValue];
+    self.publishResolution_xsmall = [[dict objectForKey:@"publishResolution_xsmall"] boolValue];
+    self.publishResolution_small = [[dict objectForKey:@"publishResolution_small"] boolValue];
+    self.publishResolution_medium = [[dict objectForKey:@"publishResolution_medium"] boolValue];
+    self.publishResolution_large = [[dict objectForKey:@"publishResolution_large"] boolValue];
+    self.publishResolution_xlarge = [[dict objectForKey:@"publishResolution_xlarge"] boolValue];
+    
+    self.publishResolutionHTML5_width = [[dict objectForKey:@"publishResolutionHTML5_width"]intValue];
+    self.publishResolutionHTML5_height = [[dict objectForKey:@"publishResolutionHTML5_height"]intValue];
+    self.publishResolutionHTML5_scale = [[dict objectForKey:@"publishResolutionHTML5_scale"]intValue];
+    if (!publishResolutionHTML5_width) publishResolutionHTML5_width = 960;
+    if (!publishResolutionHTML5_height) publishResolutionHTML5_height = 640;
+    if (!publishResolutionHTML5_scale) publishResolutionHTML5_scale = 2;
+    
     self.flattenPaths = [[dict objectForKey:@"flattenPaths"] boolValue];
     self.publishToZipFile = [[dict objectForKey:@"publishToZipFile"] boolValue];
     self.javascriptBased = [[dict objectForKey:@"javascriptBased"] boolValue];
@@ -98,6 +163,7 @@
     self.deviceOrientationLandscapeRight = [[dict objectForKey:@"deviceOrientationLandscapeRight"] boolValue];
     self.resourceAutoScaleFactor = [[dict objectForKey:@"resourceAutoScaleFactor"]intValue];
     if (resourceAutoScaleFactor == 0) self.resourceAutoScaleFactor = 4;
+    
     
     NSString* mainCCB = [dict objectForKey:@"javascriptMainCCB"];
     if (!mainCCB) mainCCB = @"";
@@ -129,7 +195,30 @@
     [dict setObject:@"CocosBuilderProject" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBProjectSettingsVersion] forKey:@"fileVersion"];
     [dict setObject:resourcePaths forKey:@"resourcePaths"];
+    
     [dict setObject:publishDirectory forKey:@"publishDirectory"];
+    [dict setObject:publishDirectoryAndroid forKey:@"publishDirectoryAndroid"];
+    [dict setObject:publishDirectoryHTML5 forKey:@"publishDirectoryHTML5"];
+    
+    [dict setObject:[NSNumber numberWithBool:publishEnablediPhone] forKey:@"publishEnablediPhone"];
+    [dict setObject:[NSNumber numberWithBool:publishEnabledAndroid] forKey:@"publishEnabledAndroid"];
+    [dict setObject:[NSNumber numberWithBool:publishEnabledHTML5] forKey:@"publishEnabledHTML5"];
+    
+    
+    [dict setObject:[NSNumber numberWithBool:publishResolution_] forKey:@"publishResolution_"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_hd] forKey:@"publishResolution_hd"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_ipad] forKey:@"publishResolution_ipad"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_ipadhd] forKey:@"publishResolution_ipadhd"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_xsmall] forKey:@"publishResolution_xsmall"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_small] forKey:@"publishResolution_small"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_medium] forKey:@"publishResolution_medium"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_large] forKey:@"publishResolution_large"];
+    [dict setObject:[NSNumber numberWithBool:publishResolution_xlarge] forKey:@"publishResolution_xlarge"];
+    
+    [dict setObject:[NSNumber numberWithInt:publishResolutionHTML5_width] forKey:@"publishResolutionHTML5_width"];
+    [dict setObject:[NSNumber numberWithInt:publishResolutionHTML5_height] forKey:@"publishResolutionHTML5_height"];
+    [dict setObject:[NSNumber numberWithInt:publishResolutionHTML5_scale] forKey:@"publishResolutionHTML5_scale"];
+    
     [dict setObject:[NSNumber numberWithBool:flattenPaths] forKey:@"flattenPaths"];
     [dict setObject:[NSNumber numberWithBool:publishToZipFile] forKey:@"publishToZipFile"];
     [dict setObject:[NSNumber numberWithBool:javascriptBased] forKey:@"javascriptBased"];

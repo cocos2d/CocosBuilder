@@ -56,6 +56,7 @@
 #import "NotesLayer.h"
 #import "ResolutionSetting.h"
 #import "ProjectSettingsWindow.h"
+#import "PublishSettingsWindow.h"
 #import "ProjectSettings.h"
 #import "ResourceManagerOutlineHandler.h"
 #import "SavePanelLimiter.h"
@@ -2169,6 +2170,23 @@ static BOOL hideAllToNextSeparator;
     if (!projectSettings) return;
     
     ProjectSettingsWindow* wc = [[[ProjectSettingsWindow alloc] initWithWindowNibName:@"ProjectSettingsWindow"] autorelease];
+    wc.projectSettings = self.projectSettings;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [self.projectSettings store];
+        [self updateResourcePathsFromProjectSettings];
+        [self menuCleanCacheDirectories:sender];
+        [self reloadResources];
+    }
+}
+
+- (IBAction) menuPublishSettings:(id)sender
+{
+    if (!projectSettings) return;
+    
+    PublishSettingsWindow* wc = [[[PublishSettingsWindow alloc] initWithWindowNibName:@"PublishSettingsWindow"] autorelease];
     wc.projectSettings = self.projectSettings;
     
     int success = [wc runModalSheetForWindow:window];
