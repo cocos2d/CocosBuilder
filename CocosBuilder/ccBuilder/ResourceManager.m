@@ -836,7 +836,7 @@
                 NSString* ext = @"";
                 if ([res.exts count] > 0) ext = [res.exts objectAtIndex:0];
                 
-                NSString* cachedFile = [ad.projectSettings.publishCacheDirectory stringByAppendingPathComponent:path];
+                NSString* cachedFile = [ad.projectSettings.displayCacheDirectory stringByAppendingPathComponent:path];
                 if (![ext isEqualToString:@""])
                 {
                     NSString* cachedFileName = [cachedFile lastPathComponent];

@@ -27,6 +27,7 @@
 
 @class PlayerConnection;
 @class ProjectSettings;
+@class PlayerDeviceInfo;
 
 @protocol PlayerConnectionDelegate <NSObject>
 
@@ -49,6 +50,7 @@
 @property (nonatomic,readonly) NSDictionary* connectedServers;
 @property (nonatomic,copy) NSString* selectedServer;
 @property (nonatomic,readonly) BOOL connected;
+@property (nonatomic,readonly) PlayerDeviceInfo* selectedDeviceInfo;
 
 + (PlayerConnection*) sharedPlayerConnection;
 

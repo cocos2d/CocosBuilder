@@ -290,9 +290,11 @@
 - (void) sendDeviceName
 {
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
-    [msg setObject:@"devicename" forKey:@"cmd"];
+    [msg setObject:@"deviceinfo" forKey:@"cmd"];
     [msg setObject:[[UIDevice currentDevice] name] forKey:@"devicename"];
-
+    [msg setObject:[AppController appController].deviceType forKey:@"devicetype"];
+    [msg setObject:[NSNumber numberWithBool:[AppController appController].hasRetinaDisplay] forKey:@"retinadisplay"];
+    
     [self sendMessage:msg];
 }
 

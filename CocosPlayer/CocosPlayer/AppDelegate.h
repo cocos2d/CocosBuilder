@@ -29,6 +29,9 @@
     
     BOOL isJSRunning;
     NSUInteger deviceOrientations;
+    
+    BOOL hasRetinaDisplay;
+    NSString* deviceType;
 }
 
 @property (nonatomic, retain) UIWindow *window;
@@ -36,6 +39,8 @@
 @property (readonly) CCDirectorIOS *director;
 @property (nonatomic, readonly) BOOL isJSRunning;
 @property (nonatomic, assign) NSUInteger deviceOrientations;
+@property (nonatomic, assign) BOOL hasRetinaDisplay;
+@property (nonatomic, copy) NSString* deviceType;
 
 + (AppController*) appController;
 

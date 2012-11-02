@@ -24,6 +24,7 @@
 
 #import "PlayerConnection.h"
 #import "ProjectSettings.h"
+#import "PlayerDeviceInfo.h"
 
 static PlayerConnection* sharedPlayerConnection;
 
@@ -105,8 +106,8 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (void) setSelectedServer:(NSString *)server
 {
-    NSString* serverName = [connectedServers objectForKey:server];
-    if (serverName)
+    PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:server];
+    if (deviceInfo)
     {
         // Server exist
         if (server != selectedServer)
@@ -118,8 +119,8 @@ static PlayerConnection* sharedPlayerConnection;
     else
     {
         // Server doesn't exist, fall back on current selection
-        NSString* currentServerName = [connectedServers objectForKey:selectedServer];
-        if (!currentServerName)
+        PlayerDeviceInfo* currentDeviceInfo = [connectedServers objectForKey:selectedServer];
+        if (!currentDeviceInfo)
         {
             // Current server selection is invalid. Select another one
             if (connectedServers.count == 0)
@@ -142,7 +143,11 @@ static PlayerConnection* sharedPlayerConnection;
 {
     NSLog(@"Connected: %@", aServerIdString);
     
-    [connectedServers setObject:aServerIdString forKey:aServerIdString];
+    PlayerDeviceInfo* deviceInfo = [[[PlayerDeviceInfo alloc] init] autorelease];
+    deviceInfo.identifier = aServerIdString;
+    deviceInfo.deviceName = aServerIdString;
+    
+    [connectedServers setObject:deviceInfo forKey:aServerIdString];
     
     // Select the server if no other server is selected
     if (!selectedServer)
@@ -195,13 +200,16 @@ static PlayerConnection* sharedPlayerConnection;
     
     NSString* cmd = [msg objectForKey:@"cmd"];
     
-    if ([cmd isEqualToString:@"devicename"])
+    if ([cmd isEqualToString:@"deviceinfo"])
     {
-        NSString* serverName = [msg objectForKey:@"devicename"];
-        [connectedServers setObject:serverName forKey:aServerIdString];
-        [delegate playerConnection:self updatedPlayerList:connectedServers];
+        PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:aServerIdString];
         
-        NSLog(@"Got device name: %@", serverName);
+        deviceInfo.deviceName = [msg objectForKey:@"devicename"];
+        deviceInfo.deviceType = [msg objectForKey:@"devicetype"];
+        deviceInfo.hasRetinaDisplay = [[msg objectForKey:@"retinadisplay"] boolValue];
+        deviceInfo.populated = YES;
+        
+        [delegate playerConnection:self updatedPlayerList:connectedServers];
     }
     else if ([cmd isEqualToString:@"result"])
     {
@@ -219,9 +227,17 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (BOOL) connected
 {
-    if (!selectedServer) return NO;
-    if ([connectedServers objectForKey:selectedServer]) return YES;
+    if ([self selectedDeviceInfo]) return YES;
     return NO;
+}
+
+- (PlayerDeviceInfo*) selectedDeviceInfo
+{
+    if (!selectedServer) return NULL;
+    PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:selectedServer];
+    if (!deviceInfo) return NULL;
+    if (deviceInfo.populated) return deviceInfo;
+    return NULL;
 }
 
 #pragma mark Sending data

@@ -80,6 +80,8 @@ static AppController* appController = NULL;
 @synthesize window=window_, navController=navController_, director=director_;
 @synthesize deviceOrientations;
 @synthesize isJSRunning;
+@synthesize hasRetinaDisplay;
+@synthesize deviceType;
 
 + (AppController*) appController
 {
@@ -129,9 +131,17 @@ static AppController* appController = NULL;
 //	[director setProjection:kCCDirectorProjection3D];
 	
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
-	if( ! [director_ enableRetinaDisplay:YES] )
-		CCLOG(@"Retina Display Not supported");
-	
+    self.hasRetinaDisplay = [director_ enableRetinaDisplay:YES];
+    
+    if( [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone )
+    {
+        self.deviceType = @"iPhone";
+    }
+    else
+    {
+        self.deviceType = @"iPad";
+    }
+    
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
 	// It can be RGBA8888, RGBA4444, RGB5_A1, RGB565
 	// You can change anytime.

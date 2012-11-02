@@ -24,6 +24,7 @@
 
 #import "PlayerConsoleWindow.h"
 #import "PlayerConsolePairingWindow.h"
+#import "PlayerDeviceInfo.h"
 #import "MGSFragaria.h"
 #import "SMLTextView.h"
 #import "CocosBuilderAppDelegate.h"
@@ -63,7 +64,7 @@
         // Add list of available devices
         for (NSString* serverIdentifier in connectedServers)
         {
-            NSString* serverName = [connectedServers objectForKey:serverIdentifier];
+            NSString* serverName = [[connectedServers objectForKey:serverIdentifier] deviceName];
         
             NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:serverName action:@selector(selectedServer:) keyEquivalent:@""] autorelease];
             item.target = self;

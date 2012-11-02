@@ -48,6 +48,7 @@
     warnings = [w retain];
     
     // Setup base output directory
+    /*
     if (projectSettings.publishToZipFile)
     {
         outputDir = [projectSettings.publishCacheDirectory retain];
@@ -55,7 +56,7 @@
     else
     {
         outputDir = [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] retain];
-    }
+    }*/
     
     // Setup extensions to copy
     copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js",@"wav",@"mp3",@"m4a",@"caf", nil];
@@ -355,9 +356,9 @@
     }
 }
 
-- (BOOL) publish_
+- (BOOL) publishAllToDirectory:(NSString*)dir
 {
-    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    outputDir = dir;
     
     [self publishGeneratedFiles];
     for (NSString* dir in projectSettings.absoluteResourcePaths)
@@ -365,30 +366,32 @@
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
     
-    if (runAfterPublishing && !projectSettings.publishToZipFile)
+    return YES;
+}
+
+- (BOOL) publish_
+{
+    if (!runAfterPublishing)
     {
-        // We also need to publish to the temp directory
-        outputDir = projectSettings.publishCacheDirectory;
-        [self publishGeneratedFiles];
-        for (NSString* dir in projectSettings.absoluteResourcePaths)
+        // Normal publishing
+        
+        if (projectSettings.publishEnablediPhone)
         {
-            if (![self publishDirectory:dir subPath:NULL]) return NO;
+            NSString* publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+            if (![self publishAllToDirectory:publishDir]) return NO;
         }
     }
-    
-    if (projectSettings.publishToZipFile || runAfterPublishing)
+    else
     {
+        // Publish for running on device
+        
+        if (![self publishAllToDirectory:projectSettings.publishCacheDirectory]) return NO;
+        
+        // Zip up and push
+        CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
         [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
-        NSString* zipFile = NULL;
-        if (runAfterPublishing)
-        {
-            zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
-        }
-        else
-        {
-            zipFile = [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] stringByAppendingPathComponent:@"ccb.zip"];
-        }
+        NSString* zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
         
         // Remove the old file
         [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
@@ -403,14 +406,11 @@
         [zipTask waitUntilExit];
         [zipTask release];
         
-        if (runAfterPublishing)
-        {
-            [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];
-            
-            // Send to player
-            PlayerConnection* conn = [PlayerConnection sharedPlayerConnection];
-            [conn sendResourceZip:zipFile];
-        }
+        // Send to player
+        [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];
+        
+        PlayerConnection* conn = [PlayerConnection sharedPlayerConnection];
+        [conn sendResourceZip:zipFile];
     }
     
     return YES;
@@ -443,7 +443,6 @@
     [copyExtensions release];
     [warnings release];
     [projectSettings release];
-    [outputDir release];
     [super dealloc];
 }
 
