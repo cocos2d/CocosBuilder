@@ -35,6 +35,7 @@
     NSArray* copyExtensions;
     NSString* publishFormat;
     BOOL runAfterPublishing;
+    NSArray* publishForResolutions;
 }
 
 @property (nonatomic,copy) NSString* publishFormat;

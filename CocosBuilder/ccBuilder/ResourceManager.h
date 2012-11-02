@@ -149,6 +149,7 @@ enum
 - (void) removeResourceObserver:(id)observer;
 
 - (NSString*) toAbsolutePath:(NSString*)path;
+- (NSArray*) resIndependentExts;
 
 - (void) debugPrintDirectories;
 

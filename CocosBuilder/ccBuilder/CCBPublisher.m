@@ -32,6 +32,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "NSString+AppendToFile.h"
 #import "PlayerConnection.h"
+#import "ResourceManager.h"
 
 @implementation CCBPublisher
 
@@ -145,6 +146,8 @@
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    ResourceManager* resManager = [ResourceManager sharedManager];
+    NSArray* resIndependentExts = [resManager resIndependentExts];
     
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -167,7 +170,27 @@
         return NO;
     }
     
-    NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
+    // Add files from main directory
+    NSMutableSet* files = [NSMutableSet setWithArray:[fm contentsOfDirectoryAtPath:dir error:NULL]];
+    
+    // Add files from resolution depentant directories
+    for (NSString* publishExt in publishForResolutions)
+    {
+        NSString* resolutionDir = [dir stringByAppendingPathComponent:publishExt];
+        BOOL isDirectory;
+        if ([fm fileExistsAtPath:resolutionDir isDirectory:&isDirectory] && isDirectory)
+        {
+            [files addObjectsFromArray:[fm contentsOfDirectoryAtPath:resolutionDir error:NULL]];
+        }
+    }
+    
+    // Add files from the -auto directory
+    NSString* autoDir = [dir stringByAppendingPathComponent:@"-auto"];
+    BOOL isDirAuto;
+    if ([fm fileExistsAtPath:autoDir isDirectory:&isDirAuto] && isDirAuto)
+    {
+        [files addObjectsFromArray:[fm contentsOfDirectoryAtPath:autoDir error:NULL]];
+    }
     
     for (NSString* fileName in files)
     {
@@ -183,11 +206,16 @@
             if (subPath) childPath = [NSString stringWithFormat:@"%@/%@", subPath, fileName];
             else childPath = fileName;
             
+            // Skip resource independent directories
+            if ([resIndependentExts containsObject:fileName]) continue;
+            
             [self publishDirectory:filePath subPath:childPath];
         }
         else if (fileExists)
         {
             // Publish file
+            
+#warning TODO: Copy resolution dependant files
             
             // Copy files
             for (NSString* ext in copyExtensions)
