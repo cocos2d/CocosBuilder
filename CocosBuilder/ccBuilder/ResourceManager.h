@@ -151,6 +151,10 @@ enum
 - (NSString*) toAbsolutePath:(NSString*)path;
 - (NSArray*) resIndependentExts;
 
+- (void) createCachedImageFromAuto:(NSString*)autoFile saveAs:(NSString*)dstFile forResolution:(NSString*)res;
+
 - (void) debugPrintDirectories;
+
+
 
 @end

@@ -32,7 +32,9 @@
 #import "CocosBuilderAppDelegate.h"
 #import "NSString+AppendToFile.h"
 #import "PlayerConnection.h"
+#import "PlayerDeviceInfo.h"
 #import "ResourceManager.h"
+#import "CCBFileUtil.h"
 
 @implementation CCBPublisher
 
@@ -47,17 +49,6 @@
     // Save settings and warning log
     projectSettings = [settings retain];
     warnings = [w retain];
-    
-    // Setup base output directory
-    /*
-    if (projectSettings.publishToZipFile)
-    {
-        outputDir = [projectSettings.publishCacheDirectory retain];
-    }
-    else
-    {
-        outputDir = [[projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]] retain];
-    }*/
     
     // Setup extensions to copy
     copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js",@"wav",@"mp3",@"m4a",@"caf", nil];
@@ -125,22 +116,66 @@
     [@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 }
 
-- (void) writeToResourceLogSubPath: (NSString*) subpath file:(NSString*)file
+- (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution
 {
-    NSString* logPath = [[projectSettings.projectPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"ccbresourcelog"];
+    NSFileManager* fm = [NSFileManager defaultManager];
     
-    NSString* str = NULL;
-    if (subpath && !projectSettings.flattenPaths)
-    {
-        str = [subpath stringByAppendingPathComponent:file];
-    }
-    else
-    {
-        str = file;
-    }
-    str = [str stringByAppendingString:@"\n"];
+    NSString* srcAutoFile = NULL;
     
-    [str appendToFile:logPath usingEncoding:NSUTF8StringEncoding];
+    NSString* srcFileName = [srcFile lastPathComponent];
+    NSString* dstFileName = [dstFile lastPathComponent];
+    NSString* srcDir = [srcFile stringByDeletingLastPathComponent];
+    NSString* dstDir = [dstFile stringByDeletingLastPathComponent];
+    NSString* autoDir = [srcDir stringByAppendingPathComponent:@"-auto"];
+    srcAutoFile = [autoDir stringByAppendingPathComponent:srcFileName];
+    
+    [fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    
+    if (resolution && ![resolution isEqualToString:@""])
+    {
+        // Update path to reflect resolution
+        srcDir = [srcDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+        dstDir = [dstDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+        
+        srcFile = [srcDir stringByAppendingPathComponent:srcFileName];
+        dstFile = [dstDir stringByAppendingPathComponent:dstFileName];
+    }
+    
+    if ([dstFile isEqualToString:srcFile])
+    {
+        [warnings addWarningWithDescription:@"Publish will overwrite file in resource directory." isFatal:YES];
+        return NO;
+    }
+    
+    // Check that src file exist
+    if (![fm fileExistsAtPath:srcFile])
+    {
+        if ([fm fileExistsAtPath:srcAutoFile])
+        {
+            // Copy auto file and resize
+            [[ResourceManager sharedManager] createCachedImageFromAuto:srcAutoFile saveAs:dstFile forResolution:resolution];
+            return YES;
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    
+    // Check for equal file
+    if ([fm fileExistsAtPath:dstFile] && [[CCBFileUtil modificationDateForFile:srcFile] isEqualToDate:[CCBFileUtil modificationDateForFile:dstFile]]) return YES;
+    
+    // Remove old file
+    if ([fm fileExistsAtPath:dstFile])
+    {
+        [fm removeItemAtPath:dstFile error:NULL];
+    }
+    
+    // Just copy the file and update the modification date
+    [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
+    [CCBFileUtil setModificationDate:[CCBFileUtil modificationDateForFile:srcFile] forFile:dstFile];
+    
+    return YES;
 }
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
@@ -211,40 +246,25 @@
             
             [self publishDirectory:filePath subPath:childPath];
         }
-        else if (fileExists)
+        else
         {
             // Publish file
-            
-#warning TODO: Copy resolution dependant files
             
             // Copy files
             for (NSString* ext in copyExtensions)
             {
-                if ([[fileName lowercaseString] hasSuffix:ext])
+                if ([[fileName lowercaseString] hasSuffix:ext] && !projectSettings.onlyPublishCCBs)
                 {
                     // This file should be copied
                     NSString* dstFile = [outDir stringByAppendingPathComponent:fileName];
-                    [self writeToResourceLogSubPath:subPath file:fileName];
                     
-                    // Igore resource copies if setting is only publish ccb-files
-                    if (!projectSettings.onlyPublishCCBs)
+                    if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL]) return NO;
+                    
+                    if (publishForResolutions)
                     {
-                        if ([dstFile isEqualToString:filePath])
+                        for (NSString* res in publishForResolutions)
                         {
-                            [warnings addWarningWithDescription:@"Publish will overwrite file in resource directory." isFatal:YES];
-                            return NO;
-                        }
-                    
-                        if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
-                        {
-                            [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Copying %@...", fileName]];
-                        
-                            // Remove old file
-                            [fm removeItemAtPath:dstFile error:NULL];
-                        
-                            // Copy the file
-                            BOOL sucess = [fm copyItemAtPath:filePath toPath:dstFile error:NULL];
-                            if (!sucess) [warnings addWarningWithDescription:[NSString stringWithFormat:@"Failed to publish file: %@", fileName]];
+                            if (![self copyFileIfChanged:filePath to:dstFile forResolution:res]) return NO;
                         }
                     }
                 }
@@ -256,7 +276,6 @@
                 NSString* strippedFileName = [fileName stringByDeletingPathExtension];
                 
                 NSString* dstFile = [[outDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
-                [self writeToResourceLogSubPath:subPath file:[strippedFileName stringByAppendingPathExtension:publishFormat]];
                 
                 if ([dstFile isEqualToString:filePath])
                 {
@@ -375,8 +394,6 @@
         [main appendString:@"}\n\n"];
         [main appendString:@"main();\n"];
         
-        NSLog(@"main.js:\n%@", main);
-        
         NSData* mainData = [main dataUsingEncoding:NSUTF8StringEncoding];
         NSString* mainFile = [outputDir stringByAppendingPathComponent:@"main.js"];
         
@@ -403,15 +420,94 @@
     {
         // Normal publishing
         
+        // iPhone
         if (projectSettings.publishEnablediPhone)
         {
+            NSMutableArray* resolutions = [NSMutableArray array];
+            
+            // Add iPhone resolutions from publishing settings
+            if (projectSettings.publishResolution_hd)
+            {
+                [resolutions addObject:@"hd"];
+            }
+            if (projectSettings.publishResolution_ipad)
+            {
+                [resolutions addObject:@"ipad"];
+            }
+            if (projectSettings.publishResolution_ipadhd)
+            {
+                [resolutions addObject:@"ipadhd"];
+            }
+            publishForResolutions = resolutions;
+            
             NSString* publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
             if (![self publishAllToDirectory:publishDir]) return NO;
         }
+        
+        // Android
+        if (projectSettings.publishEnabledAndroid)
+        {
+            NSMutableArray* resolutions = [NSMutableArray array];
+            
+            if (projectSettings.publishResolution_xsmall)
+            {
+                [resolutions addObject:@"xsmall"];
+            }
+            if (projectSettings.publishResolution_xsmall)
+            {
+                [resolutions addObject:@"small"];
+            }
+            if (projectSettings.publishResolution_xsmall)
+            {
+                [resolutions addObject:@"medium"];
+            }
+            if (projectSettings.publishResolution_xsmall)
+            {
+                [resolutions addObject:@"large"];
+            }
+            if (projectSettings.publishResolution_xsmall)
+            {
+                [resolutions addObject:@"xlarge"];
+            }
+            publishForResolutions = resolutions;
+            
+            NSString* publishDir = [projectSettings.publishDirectoryAndroid absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+            if (![self publishAllToDirectory:publishDir]) return NO;
+        }
+        
+        // HTML 5
+#warning TODO: Fix HTML 5 export
     }
     else
     {
         // Publish for running on device
+        PlayerDeviceInfo* deviceInfo = [PlayerConnection sharedPlayerConnection].selectedDeviceInfo;
+        if ([deviceInfo.deviceType isEqualToString:@"iPad"])
+        {
+            // iPad
+            if (deviceInfo.hasRetinaDisplay)
+            {
+                // iPad retina
+                publishForResolutions = [NSArray arrayWithObjects:@"ipadhd", nil];
+            }
+            else
+            {
+                // iPad normal
+                publishForResolutions = [NSArray arrayWithObjects:@"ipad", "hd", nil];
+            }
+        }
+        else
+        {
+            // iPhone
+            if (deviceInfo.hasRetinaDisplay)
+            {
+                publishForResolutions = [NSArray arrayWithObjects:@"hd", nil];
+            }
+            else
+            {
+                publishForResolutions = NULL;
+            }
+        }
         
         if (![self publishAllToDirectory:projectSettings.publishCacheDirectory]) return NO;
         
