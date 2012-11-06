@@ -2,7 +2,7 @@
 
 h2. ABOUT:
 
-Chipmunk is a simple, lightweight, fast and portable 2D rigid body physics library written in C. It's licensed under the unrestrictive, OSI approved MIT license. My aim is to give 2D developers access the same quality of physics you find in newer 3D games. I hope you enjoy using Chipmunk, and please consider donating to help make it worth our time to continue to support Chipmunk with great new features.
+Chipmunk is a simple, lightweight, fast and portable 2D rigid body physics library written in C. It's licensed under the unrestrictive, OSI approved MIT license. My aim is to give 2D developers access to the same quality of physics you find in newer 3D games. I hope you enjoy using Chipmunk, and please consider donating to help make it worth our time to continue to support Chipmunk with great new features.
 
 
 h2. FEATURES:
@@ -16,15 +16,15 @@ h2. FEATURES:
 * Support for collision event callbacks based on user definable object types types.
 * Flexible collision filtering system with layers, exclusion groups and callbacks.
 ** Can be used to create all sorts of effects like one way platforms or buoyancy areas. (Examples included)
-* Supports point, segment (raycasting), shape and bounding box queries to the collision detection system.
-* Impulses amounts can be read out for gameplay effects.
+* Supports nearest point, segment (raycasting), shape and bounding box queries to the collision detection system.
+* Collision impulses amounts can be retrieved for gameplay effects, sound effects, etc.
 * Large variety of joints - easily make vehicles, ragdolls, and more.
 * Joint callbacks.
 ** Can be used to easily implement breakable or animated joints. (Examples included)
 * Maintains a contact graph of all colliding objects.
 * Lightweight C99 implementation with no external dependencies outside of the Std. C library.
-* Many language bindings available.
-* Simple, read the documentation and see!
+* "Many language bindings available":http://chipmunk-physics.net/bindingsAndPorts.php.
+* Simple, read the "documentation":http://chipmunk-physics.net/documentation.php and see!
 * Unrestrictive MIT license
 
 
@@ -35,18 +35,18 @@ Howling Moon Software (my company) is available for contracting if you want to m
 
 h2. CHIPMUNK PRO:
 
-We also make a bunch of extra for Chipmunk called "Chipmunk Pro":http://chipmunk-physics.net/chipmunkPro.php. Currently we have a nice Objective-C wrapper that should be of particular interest to Mac and iPhone developers. We are also working on auto-geometry features and multithreading/SIMD optimizations as well. Check out the link above for more information!
+We also make a bunch of extra for Chipmunk called "Chipmunk Pro":http://chipmunk-physics.net/chipmunkPro.php. Currently we have a nice Objective-C wrapper that should be of particular interest to Mac and iPhone developers. It also offers auto-geometry features and multithreading/SIMD optimizations as well. Check out the link above for more information!
 
 
 h2. BUILDING:
 
-Mac OS X: There is an included XCode project file for building the static library and demo application. Alternatively you could use the CMake files. A Mac OS X version of Objective-Chipmunk is available for free upon request. We don't do regular builds as few people seem interested in it.
+Mac OS X: There is an included XCode project file for building the static library and demo application. Alternatively you could use the CMake files or the macstatic.command script to build a static lib and package up the headers for you.
 
-iPhone: If you want a native Objective-C API, check out the Objective-Chipmunk directory for the Objective-C binding and some sample code from shipping iPhone Apps. It is inexpensive to license and should save you a lot of time. Otherwise, the XCode project can build a static library with all the proper compiler settings. Alternatively, you can just run iphonestatic.command in the macosx/ directory.  It will build you a fat library compiled as release for the device and debug for the simulator. After running it, you can simply drop the Chipmunk-iPhone directory into your iPhone project!
+iPhone: If you want a native Objective-C API, check out Chipmunk Pro on the Chipmunk website. It is inexpensive to license and will save you a lot of time. Otherwise, the XCode project can build a static library with all the proper compiler settings. Alternatively, you can just run iphonestatic.command in the macosx/ directory.  It will build you a fat library compiled as release for the device and debug for the simulator. After running it, you can simply drop the Chipmunk-iPhone directory into your iPhone project!
 
 UNIXes: A forum user was kind enough to make a set of CMake files for Chipmunk. This will require you to have CMake installed. To build run 'cmake .' then 'make'. This should build a dynamic library, a static library, and the demo application. A number of people have had build errors on Ubuntu due to not having GLUT or libxmu installed.
 
-Windows: Visual Studio projects are included in the msvc/ directory. I do not maintain these personally, but a number of forum members have assisted with them.
+Windows: Visual Studio projects are included in the msvc/ directory. While I try to make sure the MSVC 10 project is up to date, I don't have MSVC 9 to keep that project updated regularly. It may not work. I'd appreciate a hand fixing it if that's the case.
 
 
 h2. GETTING STARTED:
@@ -58,4 +58,4 @@ A good starting point is to take a look at the included Demo application. The de
 
 h2. SUPPORT:
 
-The best way to get support is to visit the "Chipmunk Forums":http://chipmunk-physics.net/forum/. There are plenty of people around using Chipmunk on the just about every platform I've ever heard of. If you are working on a commercial project, Howling Moon Software is also available for "contracting":http://howlingmoonsoftware.com/contracting.php.
+The best way to get support is to visit the "Chipmunk Forums":http://chipmunk-physics.net/forum/. There are plenty of people around using Chipmunk on the just about every platform I've ever heard of. If you are working on a commercial project and want some more direct help, Howling Moon Software is also available for "contracting":http://howlingmoonsoftware.com/contracting.php.

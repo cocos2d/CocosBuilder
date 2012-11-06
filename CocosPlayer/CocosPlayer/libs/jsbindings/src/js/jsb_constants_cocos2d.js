@@ -42,6 +42,15 @@ cc.PARTICLE_START_RADIUS_EQUAL_TO_END_RADIUS = -1;
 cc.TOUCH_ALL_AT_ONCE = 0;
 cc.TOUCH_ONE_BY_ONE = 1;
 
+cc.TMX_TILE_HORIZONTAL_FLAG = 0x80000000;
+cc.TMX_TILE_VERTICAL_FLAG = 0x40000000;
+cc.TMX_TILE_DIAGONAL_FLAG = 0x20000000;
+
+cc.TRANSITION_ORIENTATION_LEFT_OVER = 0;
+cc.TRANSITION_ORIENTATION_RIGHT_OVER = 1;
+cc.TRANSITION_ORIENTATION_UP_OVER = 0;
+cc.TRANSITION_ORIENTATION_DOWN_OVER = 1;
+
 cc.RED = {r:255, g:0, b:0};
 cc.GREEN = {r:0, g:255, b:0};
 cc.BLUE = {r:0, g:0, b:255};
@@ -277,16 +286,22 @@ cc.MenuItemToggle.create = function( /* var args */) {
 
     var n = arguments.length;
 
-    if (typeof arguments[n-1] === 'function') {
+    if (typeof arguments[n-2] === 'function' || typeof arguments[n-1] === 'function') {
         var args = Array.prototype.slice.call(arguments);
+        var obj = null;
+        if( typeof arguments[n-2] === 'function' )
+            obj = args.pop();
+
         var func = args.pop();
-        var obj = args.pop();
 
         // create it with arguments,
         var item = cc.MenuItemToggle._create.apply(this, args);
 
         // then set the callback
-        item.setCallback(obj, func);
+        if( obj !== null )
+            item.setCallback(func, obj);
+        else
+            item.setCallback(func);
         return item;
     } else {
         return cc.MenuItemToggle._create.apply(this, arguments);

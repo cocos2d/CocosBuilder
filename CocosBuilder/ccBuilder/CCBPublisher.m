@@ -110,12 +110,6 @@
     return YES;
 }
 
-- (void) clearResourceLog
-{
-    NSString* logPath = [[projectSettings.projectPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"ccbresourcelog"];
-    [@"" writeToFile:logPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-}
-
 - (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution
 {
     NSFileManager* fm = [NSFileManager defaultManager];
@@ -542,8 +536,6 @@
 
 - (void) publish
 {
-    [self clearResourceLog];
-    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         [self publish_];

@@ -118,6 +118,9 @@ class JSBGenerate(object):
         self.manual_methods = config.manual_methods
         self.class_prefix = config.class_prefix
 
+        # JS
+        self.js_new_methods = config.js_new_methods
+
     #
     # BEGIN Helper functions
     #
@@ -1305,10 +1308,13 @@ extern JSClass *%s_class;
 
         manual_methods = ''
         manual_callbacks = ''
+        method_sig = 'JSBool %s_%s%s(JSContext *cx, uint32_t argc, jsval *vp);\n'
+        callback_sig = '-(%s) %s;\n'
+
+        # 1)
+        # Add manual methods: manually defined, or callbacks
         if class_name in self.manual_methods:
             manual_methods += '// Manually generated methods\n'
-            method_sig = 'JSBool %s_%s%s(JSContext *cx, uint32_t argc, jsval *vp);\n'
-            callback_sig = '-(%s) %s;\n'
 
             for method_name in self.manual_methods[class_name]:
                 try:
@@ -1326,6 +1332,12 @@ extern JSClass *%s_class;
                         manual_methods += method_sig % (proxy_class_name, n, class_method)
                 except MethodNotFoundException, e:
                     sys.stderr.write('WARN: Ignoring regular expression rule. Method not found: %s\n' % str(e))
+
+        # 2)
+        # Add new methods that are not defined in the native header
+        if class_name in self.js_new_methods:
+            for k in self.js_new_methods[class_name]:
+                manual_methods += method_sig % (proxy_class_name, k, '')
 
         self.fd_h.write(header_template % (proxy_class_name,
                                                 manual_methods,
@@ -1568,6 +1580,9 @@ void %s_createClass(JSContext *cx, JSObject* globalObj, const char* name )
 
         instance_method_buffer = ''
         class_method_buffer = ''
+
+        # 1)
+        # Add "approved" native methods to JS
         for method in ok_methods:
 
             num_args = self.get_number_of_arguments(method)
@@ -1587,12 +1602,21 @@ void %s_createClass(JSContext *cx, JSObject* globalObj, const char* name )
             else:
                 instance_method_buffer += entry
 
-        # callback methods should be added as well, pointing to a void function.
-        # This will allow calling "this._super()" from JS
+        # 2)
+        # Add callback methods pointing to a void function.
+        # This allows calling "this._super()" from JS
         if class_name in self.callback_methods:
             for m in self.callback_methods[class_name]:
                 js_name = self.convert_selector_name_to_js(class_name, m)
                 instance_method_buffer += js_fn % (js_name, PROXY_PREFIX + 'do_nothing', 0, '| JSPROP_ENUMERATE')
+
+        # 3)
+        # Adds methods that does not exist in native, but should be added in JS
+        if class_name in self.js_new_methods:
+            m = self.js_new_methods[class_name]
+            for k in m.keys():
+                js_name = k
+                instance_method_buffer += js_fn % (js_name, PROXY_PREFIX + class_name + '_' + k, m[k], '| JSPROP_ENUMERATE')
 
         # instance methods entry point
         self.fd_mm.write(functions_template_start)
@@ -2370,6 +2394,7 @@ class JSBindings(object):
                              'objects_from_c_functions': [],
                              'import_files': [],
                              'compatible_with_cpp': False,
+                             'js_new_methods': []
                              }
 
         for s in cp.sections():
@@ -2460,6 +2485,11 @@ class JSBindings(object):
         # struct related
         #
         self.init_struct_properties(config['struct_properties'])
+
+        #
+        # JS methods related
+        #
+        self.init_js_new_methods(config['js_new_methods'])
 
     def init_complement_file(self):
         self.complement = {}
@@ -2656,6 +2686,29 @@ class JSBindings(object):
                     self.struct_manual.append(key)
             self.struct_properties[key] = opts
 
+    def init_js_new_methods(self, properties):
+        self.js_new_methods = {}
+        for prop in properties:
+            if not prop or len(prop) == 0:
+                continue
+            key, value = prop.split('=')
+
+            opts = {}
+            # From value get options
+            options = value.split(';')
+            for o in options:
+                # Options can have their own Key Value
+                if ':' in o:
+                    o_key, o_val = o.split(':')
+                    o_val = o_val.replace('"', '')    # remove possible "
+                    o_val = int(o_val)
+                else:
+                    o_key = o
+                    o_val = None
+                opts[o_key] = o_val
+
+            self.js_new_methods[key] = opts
+
     def init_functions_to_bind(self, functions):
         self._functions_to_bind = set(functions)
         ref_list = []
@@ -2766,6 +2819,8 @@ class JSBindings(object):
                     if o_key == 'manual':
                         # '*' is needed for opaque structs
                         self.supported_classes.add(key)
+                        self.class_manual.append(key)
+                    elif o_key == 'ignore':
                         self.class_manual.append(key)
 
                 self.class_properties[key] = opts

@@ -131,7 +131,7 @@
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufffer_);
 
 			// if depth format is the one with stencil part, bind same render buffer as stencil attachment
-			if (depthStencilFormat == CC_GL_DEPTH24_STENCIL8)
+			if (depthStencilFormat == GL_DEPTH24_STENCIL8)
 				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRenderBufffer_);
 		}
 
@@ -154,6 +154,9 @@
 		
 		// Diabled by default.
 		autoDraw_ = NO;
+		
+		// add sprite for backward compatibility
+		[self addChild:sprite_];
 	}
 	return self;
 }
@@ -317,6 +320,7 @@
 	}
 
 	[self transform];
+	[sprite_ visit];
 	[self draw];
 	
 	if (grid_ && grid_.active)
@@ -372,13 +376,14 @@
 		
 		CCNode *child;
 		CCARRAY_FOREACH(children_, child) {
-			[child visit];
+			if( child != sprite_)
+				[child visit];
 		}
 		[self end];
 
 	}
 
-	[sprite_ visit];
+//	[sprite_ visit];
 }
 
 #pragma mark RenderTexture - Save Image
@@ -440,8 +445,8 @@
 	CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, tx, ty), iref);
 	CGImageRef image = CGBitmapContextCreateImage(context);
 	
-	CGImageRelease(iref);
 	CGContextRelease(context);
+	CGImageRelease(iref);
 	CGColorSpaceRelease(colorSpaceRef);
 	CGDataProviderRelease(provider);
 	
@@ -472,7 +477,7 @@
 #if __CC_PLATFORM_IOS
 	
 	UIImage* image	= [[UIImage alloc] initWithCGImage:imageRef scale:CC_CONTENT_SCALE_FACTOR() orientation:UIImageOrientationUp];
-	NSData *imageData;
+	NSData *imageData = nil;
 
 	if( format == kCCImageFormatPNG )
 		imageData = UIImagePNGRepresentation( image );

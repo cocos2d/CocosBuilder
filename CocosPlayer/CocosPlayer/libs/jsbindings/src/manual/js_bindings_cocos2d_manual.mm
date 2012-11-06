@@ -337,26 +337,28 @@ JSBool jsval_to_array_of_CGPoint( JSContext *cx, jsval vp, CGPoint**points, int 
 #pragma mark - MenuItem 
 
 // "setCallback" in JS
+// item.setCallback( callback_fn, [this]);
 JSBool JSB_CCMenuItem_setBlock_( JSContext *cx, uint32_t argc, jsval *vp ) {
 	
 	JSObject* jsthis = (JSObject *)JS_THIS_OBJECT(cx, vp);
 	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
 	
 	JSB_PRECONDITION( proxy && [proxy realObj], "Invalid Proxy object");
-	JSB_PRECONDITION( argc == 2, "Invalid number of arguments. Expecting 2 args" );
+	JSB_PRECONDITION( argc==1 || argc==2, "Invalid number of arguments. Expecting 1 or 2 args" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	JSBool ok = JS_TRUE;
 
-	ok &= JS_ValueToObject(cx, *argvp, &js_this);
-	ok &= jsb_set_reserved_slot(jsthis, 0, *argvp++ );
+	if(argc==2) {
+		ok &= JS_ValueToObject(cx, argvp[1], &js_this);
+		ok &= jsb_set_reserved_slot(jsthis, 1, argvp[1] );
+	}
 
-	ok &= jsval_to_block_1( cx, *argvp, js_this, &js_func );
-	ok &= jsb_set_reserved_slot(jsthis, 1, *argvp++ );
-	
-	if( ! ok )
-		return JS_FALSE;
+	ok &= jsval_to_block_1( cx, argvp[0], js_this, &js_func );
+	ok &= jsb_set_reserved_slot(jsthis, 0, argvp[0] );
+
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
 	
 	CCMenuItem *real = (CCMenuItem*) [proxy realObj];
 
@@ -370,211 +372,231 @@ JSBool JSB_CCMenuItem_setBlock_( JSContext *cx, uint32_t argc, jsval *vp ) {
 #pragma mark - MenuItemFont
 
 // "create" in JS
+// cc.MenuItemFont.create( string, callback_fn, [this] );
 JSBool JSB_CCMenuItemFont_itemWithString_block__static(JSContext *cx, uint32_t argc, jsval *vp) {
-	JSB_PRECONDITION( argc ==1 || argc == 3, "Invalid number of arguments. Expecting 1 or 3 args" );
+	JSB_PRECONDITION( argc >=1 && argc <= 3, "Invalid number of arguments. Expecting 1, 2 or 3 args" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	NSString *normal;
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	
 	ok &= jsval_to_NSString( cx, argvp[0], &normal );
 		
-	if( argc ==3 ) {
-		// this
-		ok &= JS_ValueToObject(cx, argvp[1], &js_this);
+	if( argc >= 2 ) {
+		
+		if( argc == 3)
+			ok &= JS_ValueToObject(cx, argvp[2], &js_this);
 
 		// function
-		ok &= jsval_to_block_1( cx, argvp[2], js_this, &js_func );
+		ok &= jsval_to_block_1( cx, argvp[1], js_this, &js_func );
 	}
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
 	
 	CCMenuItemFont *ret_val;
 	
 	if( argc == 1 )
 		ret_val = [CCMenuItemFont itemWithString:normal];
-	else if (argc ==3 )
+	else
 		ret_val = [CCMenuItemFont itemWithString:normal block:(void(^)(id sender))js_func];
 	
 	JSObject *jsobj = get_or_create_jsobject_from_realobj( cx, ret_val );
 	
-	// "root" object and function
-	if( argc == 3 ) {
+	// "root" callback function
+	if( argc >= 2 )
 		jsb_set_reserved_slot(jsobj, 0, argvp[1] );
+	
+	// and also root 'jsthis'
+	if( argc == 3)
 		jsb_set_reserved_slot(jsobj, 1, argvp[2] );
-	}
+
 
 	JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsobj));
-
 
 	return JS_TRUE;
 }
 
 // "init" in JS
+// item.init( string, callback_fn, [this] );
 JSBool JSB_CCMenuItemFont_initWithString_block_(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSObject* jsthis = (JSObject *)JS_THIS_OBJECT(cx, vp);
 	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
 	
 	JSB_PRECONDITION( proxy && ![proxy realObj], "Invalid Proxy object");
-	JSB_PRECONDITION( argc ==1 || argc == 3, "Invalid number of arguments. Expecting 1 or 3 args" );
+	JSB_PRECONDITION( argc >= 1 && argc <= 3, "Invalid number of arguments. Expecting 1, 2 or 3 args" );
 	
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	NSString *normal;
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	
 	ok &= jsval_to_NSString( cx, argvp[0], &normal );
 	
-	if( argc ==3 ) {
-		// this
-		ok &= JS_ValueToObject(cx, argvp[1], &js_this);
+	if( argc >= 2 ) {
+		if( argc == 3) {
+			// this
+			ok &= JS_ValueToObject(cx, argvp[2], &js_this);
+			jsb_set_reserved_slot(jsthis, 1, argvp[2] );
+		}
 		
 		// function
-		ok &= jsval_to_block_1( cx, argvp[2], js_this, &js_func );
+		ok &= jsval_to_block_1( cx, argvp[1], js_this, &js_func );
+		jsb_set_reserved_slot(jsthis, 0, argvp[1] );
 	}
 	
-	CCMenuItemFont *real;
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+	
+	CCMenuItemFont *real = nil;
 	
 	if( argc == 1 )
 		real = [(CCMenuItemFont*)[proxy.klass alloc] initWithString:normal target:nil selector:nil];
-	else if (argc ==3 )
+	else if (argc >= 2 )
 		real = [(CCMenuItemFont*)[proxy.klass alloc] initWithString:normal block:(void(^)(id sender))js_func];
 
 	[proxy setRealObj: real];
 
 	JS_SET_RVAL(cx, vp, JSVAL_VOID);
-	
-	// "root" object and function
-	if( argc == 3 ) {
-		jsb_set_reserved_slot(jsthis, 0, argvp[1] );
-		jsb_set_reserved_slot(jsthis, 1, argvp[2] );
-	}
-		
+			
 	return JS_TRUE;
 }
 
 
 #pragma mark - MenuItemLabel
 
-// "create" in JS
+// "create" in JS:
+// cc.MenuItemLabel.create( label, callback_fn, [this] );
 JSBool JSB_CCMenuItemLabel_itemWithLabel_block__static(JSContext *cx, uint32_t argc, jsval *vp) {
-	JSB_PRECONDITION( argc ==1 || argc == 3, "Invalid number of arguments. Expecting 1 or 3 args" );
+	JSB_PRECONDITION( argc >=1 && argc <= 3, "Invalid number of arguments. Expecting 1, 2 or 3 args" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	CCNode<CCLabelProtocol, CCRGBAProtocol> *label;
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	
 	ok &= jsval_to_NSObject( cx, argvp[0], &label );
 	
-	if( argc ==3 ) {
-		// this
-		ok &= JS_ValueToObject(cx, argvp[1], &js_this);
+	if( argc >= 2 ) {
+		if( argc==3)
+			ok &= JS_ValueToObject(cx, argvp[2], &js_this);
 		
 		// function
-		ok &= jsval_to_block_1( cx, argvp[2], js_this, &js_func );
+		ok &= jsval_to_block_1( cx, argvp[1], js_this, &js_func );
 	}
 	
-	CCMenuItemLabel *ret_val;
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+
+	CCMenuItemLabel *ret_val = nil;
 	
 	if( argc == 1 )
 		ret_val = [CCMenuItemLabel itemWithLabel:label];
-	else if (argc ==3 )
+	else if (argc >= 2 )
 		ret_val = [CCMenuItemLabel itemWithLabel:label block:(void(^)(id sender))js_func];
 	
 	JSObject *jsobj = get_or_create_jsobject_from_realobj( cx, ret_val );
 	JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsobj));
 	
 	// "root" object and function
-	if( argc == 3 ) {
+	if( argc >=2  )
 		jsb_set_reserved_slot(jsobj, 0, argvp[1] );
+	
+	if( argc == 3)
 		jsb_set_reserved_slot(jsobj, 1, argvp[2] );
-	}
 	
 	return JS_TRUE;
 }
 
 // "init" in JS
+// item.init( label, callback_fn, [this] );
 JSBool JSB_CCMenuItemLabel_initWithLabel_block_(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSObject* jsthis = (JSObject *)JS_THIS_OBJECT(cx, vp);
 	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
 	
 	JSB_PRECONDITION( proxy && [proxy realObj], "Invalid Proxy object");
-	JSB_PRECONDITION( argc ==1 || argc == 3, "Invalid number of arguments. Expecting 1 or 3 args" );
+	JSB_PRECONDITION( argc >=1 && argc <= 3, "Invalid number of arguments. Expecting 1, 2 or 3 args" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	CCNode<CCLabelProtocol, CCRGBAProtocol> *label;
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	
 	ok &= jsval_to_NSObject( cx, argvp[0], &label );
 	
-	if( argc ==3 ) {
-		// this
-		ok &= JS_ValueToObject(cx, argvp[1], &js_this);
+	if( argc >= 2 ) {
+		if( argc == 3) {
+			ok &= JS_ValueToObject(cx, argvp[2], &js_this);
+			jsb_set_reserved_slot(jsthis, 1, argvp[2] );
+		}
 		
 		// function
-		ok &= jsval_to_block_1( cx, argvp[2], js_this, &js_func );
+		ok &= jsval_to_block_1( cx, argvp[1], js_this, &js_func );
+		jsb_set_reserved_slot(jsthis, 0, argvp[1] );
 	}
+	
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
 	
 	CCMenuItemLabel *real = nil;
 	if( argc == 1 )
 		real = [(CCMenuItemLabel*)[proxy.klass alloc] initWithLabel:label target:nil selector:NULL];
-	else if (argc ==3 )
+	else if (argc >= 2 )
 		real = [(CCMenuItemLabel*)[proxy.klass alloc] initWithLabel:label block:(void(^)(id sender))js_func];
 
 	[proxy setRealObj:real];
 	
 	JS_SET_RVAL(cx, vp, JSVAL_VOID);
-	
-	// "root" object and function
-	if( argc == 3 ) {
-		jsb_set_reserved_slot(jsthis, 0, argvp[1] );
-		jsb_set_reserved_slot(jsthis, 1, argvp[2] );
-	}
-	
+		
 	return JS_TRUE;
 }
 
 #pragma mark - MenuItemImage
 
 // "create" in JS
+// cc.MenuItemImage.create( normalImage, selectedImage, [disabledImage], callback_fn, [this] 
 JSBool JSB_CCMenuItemImage_itemWithNormalImage_selectedImage_disabledImage_block__static(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSB_PRECONDITION( argc >=2 && argc <= 5, "Invalid number of arguments. Expecting: 2 <= args <= 5" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	NSString *normal, *selected, *disabled;
 	js_block js_func;
-	JSObject *js_this;
 	jsval valthis, valfn;
+	JSObject *js_this = NULL;
+	JSBool lastArgIsCallback = JS_FALSE;
 	
+	// 1st: Check if "this" is present
+	JSObject *tmpobj;
+	ok &= JS_ValueToObject(cx, argvp[argc-1], &tmpobj);
+	if( JS_ObjectIsFunction(cx, tmpobj))
+		lastArgIsCallback = JS_TRUE;
+	else {
+		js_this = tmpobj;
+		valthis = argvp[argc-1];
+	}
+	
+	
+	// 1st and 2nd arguments must be a strings
 	ok &= jsval_to_NSString( cx, *argvp++, &normal );
-	
-	if( argc >= 2 )
-		ok &= jsval_to_NSString( cx, *argvp++, &selected );
+	ok &= jsval_to_NSString( cx, *argvp++, &selected );
 
-	if( argc == 3 || argc == 5)
+	if( (argc==3 && !lastArgIsCallback) || argc == 5 || (argc==4 && lastArgIsCallback))
 		ok &= jsval_to_NSString( cx, *argvp++, &disabled );
 
-
 	// cannot merge with previous if() since argvp needs to be incremented
-	if( argc >=4 ) {
-		// this
-		valthis = *argvp;
-		ok &= JS_ValueToObject(cx, *argvp++, &js_this);
-
+	if( argc >=4 || (argc==3 && lastArgIsCallback)  ) {
+		
 		// function
 		valfn = *argvp;
 		ok &= jsval_to_block_1( cx, *argvp++, js_this, &js_func );
 	}
 
-	CCMenuItemImage *ret_val;
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+
+	CCMenuItemImage *ret_val=nil;
 		
 	if( argc == 2 )
 		ret_val = [CCMenuItemImage itemWithNormalImage:normal selectedImage:selected];
-	else if (argc ==3 )
+	else if (argc ==3 && !lastArgIsCallback)
 		ret_val = [CCMenuItemImage itemWithNormalImage:normal selectedImage:selected disabledImage:disabled];
-	else if (argc == 4 )
+	else if (argc == 4 || (argc==3 && lastArgIsCallback))
 		ret_val = [CCMenuItemImage itemWithNormalImage:normal selectedImage:selected block:(void(^)(id sender))js_func];
 	else if (argc == 5 )
 		ret_val = [CCMenuItemImage itemWithNormalImage:normal selectedImage:selected disabledImage:disabled block:(void(^)(id sender))js_func];
@@ -583,15 +605,18 @@ JSBool JSB_CCMenuItemImage_itemWithNormalImage_selectedImage_disabledImage_block
 	JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsobj));
 	
 	// "root" object and function
-	if( argc >= 4 ) {
-		jsb_set_reserved_slot(jsobj, 0, valthis );
-		jsb_set_reserved_slot(jsobj, 1, valfn );
+	if( argc >= 4 || (argc >=3 && lastArgIsCallback) ) {
+		jsb_set_reserved_slot(jsobj, 0, valfn );
+		
+		if( !lastArgIsCallback )
+			jsb_set_reserved_slot(jsobj, 1, valthis );
 	}
 	
 	return JS_TRUE;
 }
 
 // "init" in JS
+// item.init( normalImage, selectedImage, [disabledImage], callback_fn, [this] 
 JSBool JSB_CCMenuItemImage_initWithNormalImage_selectedImage_disabledImage_block_(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSObject* jsthis = (JSObject *)JS_THIS_OBJECT(cx, vp);
 	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
@@ -601,37 +626,52 @@ JSBool JSB_CCMenuItemImage_initWithNormalImage_selectedImage_disabledImage_block
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	NSString *normal, *selected, *disabled;
-	js_block js_func;
-	JSObject *js_this;
 	jsval valthis, valfn;
+	js_block js_func;
+	JSObject *js_this = NULL;
+	JSBool lastArgIsCallback = JS_FALSE;
+
 	
+	// 1st: Check if "this" is present
+	JSObject *tmpobj;
+	ok &= JS_ValueToObject(cx, argvp[argc-1], &tmpobj);
+	if( JS_ObjectIsFunction(cx, tmpobj))
+		lastArgIsCallback = JS_TRUE;
+	else {
+		js_this = tmpobj;
+		valthis = argvp[argc-1];
+	}
+		
+	// 1st and 2nd arguments must be a strings
 	ok &= jsval_to_NSString( cx, *argvp++, &normal );
+	ok &= jsval_to_NSString( cx, *argvp++, &selected );
+
 	
-	if( argc >= 2 )
-		ok &= jsval_to_NSString( cx, *argvp++, &selected );
-	
-	if( argc == 3 || argc == 5)
+	if( (argc==3 && !lastArgIsCallback) || argc == 5 || (argc==4 && lastArgIsCallback))
 		ok &= jsval_to_NSString( cx, *argvp++, &disabled );
 	
-	
 	// cannot merge with previous if() since argvp needs to be incremented
-	if( argc >=4 ) {
-		// this
-		valthis = *argvp;
-		ok &= JS_ValueToObject(cx, *argvp++, &js_this);
+	if( argc >=4 || (argc==3 && lastArgIsCallback)  ) {
 		
 		// function
 		valfn = *argvp;
 		ok &= jsval_to_block_1( cx, *argvp++, js_this, &js_func );
+
+		// root-them
+		jsb_set_reserved_slot(jsthis, 0, valfn );
+		if( ! lastArgIsCallback )
+			jsb_set_reserved_slot(jsthis, 1, valthis );
 	}
+	
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
 	
 	CCMenuItemImage *real = nil;
 	
 	if( argc == 2 )
 		real = [(CCMenuItemImage*)[proxy.klass alloc] initWithNormalImage:normal selectedImage:selected disabledImage:nil target:nil selector:NULL];
-	else if (argc ==3 )
+	else if (argc ==3 && !lastArgIsCallback )
 		real = [(CCMenuItemImage*)[proxy.klass alloc] initWithNormalImage:normal selectedImage:selected disabledImage:disabled target:nil selector:NULL];
-	else if (argc == 4 )
+		else if (argc == 4 || (argc==3 && lastArgIsCallback))
 		real = [(CCMenuItemImage*)[proxy.klass alloc] initWithNormalImage:normal selectedImage:selected disabledImage:nil block:(void(^)(id sender))js_func];
 	else if (argc == 5 )
 		real = [(CCMenuItemImage*)[proxy.klass alloc] initWithNormalImage:normal selectedImage:selected disabledImage:disabled block:(void(^)(id sender))js_func];
@@ -639,13 +679,7 @@ JSBool JSB_CCMenuItemImage_initWithNormalImage_selectedImage_disabledImage_block
 	[proxy setRealObj:real];
 
 	JS_SET_RVAL(cx, vp, JSVAL_VOID);
-	
-	// "root" object and function
-	if( argc >= 4 ) {
-		jsb_set_reserved_slot(jsthis, 0, valthis );
-		jsb_set_reserved_slot(jsthis, 1, valfn );
-	}
-	
+		
 	return JS_TRUE;
 }
 
@@ -653,51 +687,66 @@ JSBool JSB_CCMenuItemImage_initWithNormalImage_selectedImage_disabledImage_block
 #pragma mark - MenuItemSprite
 
 // "create" in JS
+// cc.MenuItemSprite.create( normalSprite, selectedSprite, [disabledSprite], [callback_fn], [this]
 JSBool JSB_CCMenuItemSprite_itemWithNormalSprite_selectedSprite_disabledSprite_block__static(JSContext *cx, uint32_t argc, jsval *vp) {
-	JSB_PRECONDITION( argc >=2 && argc <= 5 && argc != 3, "Invalid number of arguments. 2 <= args <= 5 but not 3" );
+	
+	
+	JSB_PRECONDITION( argc >=2 && argc <= 5, "Invalid number of arguments. Expecting: 2 <= args <= 5" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	CCSprite *normal, *selected, *disabled;
 	js_block js_func;
-	JSObject *js_this;
 	jsval valthis, valfn;
+	JSObject *js_this = NULL;
+	JSBool lastArgIsCallback = JS_FALSE;
 	
+	// 1st: Check if "this" is present
+	if( argc >= 3) {
+		JSObject *tmpobj;
+		ok &= JS_ValueToObject(cx, argvp[argc-1], &tmpobj);
+		if( JS_ObjectIsFunction(cx, tmpobj))
+			lastArgIsCallback = JS_TRUE;
+		else {
+			js_this = tmpobj;
+			valthis = argvp[argc-1];
+		}
+	}
+	
+	
+	// 1st and 2nd to arguments must be sprites
 	ok &= jsval_to_NSObject( cx, *argvp++, &normal );
+	ok &= jsval_to_NSObject( cx, *argvp++, &selected );
 	
-	if( argc >= 2 )
-		ok &= jsval_to_NSObject( cx, *argvp++, &selected );
-	
-	if( argc == 5 )
+	if( argc == 5 || (argc==4 && lastArgIsCallback))
 		ok &= jsval_to_NSObject( cx, *argvp++, &disabled );
 	
-	
 	// cannot merge with previous if() since argvp needs to be incremented
-	if( argc >=4 ) {
-		// this
-		valthis = *argvp;
-		ok &= JS_ValueToObject(cx, *argvp++, &js_this);
-		
+	if( argc >=3 ) {
 		// function
 		valfn = *argvp;
 		ok &= jsval_to_block_1( cx, *argvp++, js_this, &js_func );
 	}
 	
-	CCMenuItemSprite *ret_val;
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+
+	CCMenuItemSprite *ret_val=nil;
 
 	if( argc == 2 )
 		ret_val = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected];
-	else if (argc == 4 )
+	else if ( (argc == 4 && !lastArgIsCallback) || (argc==3 && lastArgIsCallback))
 		ret_val = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected block:(void(^)(id sender))js_func];
-	else if (argc == 5 )
+	else if (argc == 5 || (argc==4 && lastArgIsCallback) )
 		ret_val = [CCMenuItemSprite itemWithNormalSprite:normal selectedSprite:selected disabledSprite:disabled block:(void(^)(id sender))js_func];
 	
 	JSObject *jsobj = get_or_create_jsobject_from_realobj( cx, ret_val );
 	JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsobj));
 	
 	// "root" object and function
-	if( argc >= 4 ) {
-		jsb_set_reserved_slot(jsobj, 0, valthis );
-		jsb_set_reserved_slot(jsobj, 1, valfn );
+	if( argc >= 3 ) {
+		jsb_set_reserved_slot(jsobj, 0, valfn );
+
+		if( !lastArgIsCallback )
+			jsb_set_reserved_slot(jsobj, 1, valthis );
 	}
 	
 	return JS_TRUE;
@@ -709,99 +758,109 @@ JSBool JSB_CCMenuItemSprite_initWithNormalSprite_selectedSprite_disabledSprite_b
 	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
 	
 	JSB_PRECONDITION( proxy && [proxy realObj], "Invalid Proxy object");
-	JSB_PRECONDITION( argc >=2 && argc <= 5 && argc != 3, "Invalid number of arguments. 2 <= args <= 5 but not 3" );
+	JSB_PRECONDITION( argc >=2 && argc <= 5, "Invalid number of arguments. 2 <= args <= 5" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	CCSprite *normal, *selected, *disabled;
 	js_block js_func;
-	JSObject *js_this;
 	jsval valthis, valfn;
+	JSObject *js_this = NULL;
+	JSBool lastArgIsCallback = JS_FALSE;
+	
+	// 1st: Check if "this" is present
+	if( argc >= 3) {
+		JSObject *tmpobj;
+		ok &= JS_ValueToObject(cx, argvp[argc-1], &tmpobj);
+		if( JS_ObjectIsFunction(cx, tmpobj))
+			lastArgIsCallback = JS_TRUE;
+		else {
+			js_this = tmpobj;
+			valthis = argvp[argc-1];
+		}
+	}
 	
 	ok &= jsval_to_NSObject( cx, *argvp++, &normal );
+	ok &= jsval_to_NSObject( cx, *argvp++, &selected );
 	
-	if( argc >= 2 )
-		ok &= jsval_to_NSObject( cx, *argvp++, &selected );
-	
-	if( argc == 5 )
+	if( argc == 5 || (argc==4 && lastArgIsCallback))
 		ok &= jsval_to_NSObject( cx, *argvp++, &disabled );
 	
 	
 	// cannot merge with previous if() since argvp needs to be incremented
-	if( argc >=4 ) {
-		// this
-		valthis = *argvp;
-		ok &= JS_ValueToObject(cx, *argvp++, &js_this);
-		
+	if( argc >=3 ) {
 		// function
 		valfn = *argvp;
 		ok &= jsval_to_block_1( cx, *argvp++, js_this, &js_func );
+		
+		// "root" object and function
+		jsb_set_reserved_slot(jsthis, 0, valfn );
+		if( !lastArgIsCallback )
+			jsb_set_reserved_slot(jsthis, 1, valthis );
 	}
 	
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+
 	CCMenuItemSprite *real = nil;
 	
 	if( argc == 2 )
 		real = [(CCMenuItemSprite*)[proxy.klass alloc] initWithNormalSprite:normal selectedSprite:selected disabledSprite:nil target:nil selector:NULL];
-	else if (argc == 4 )
+	else if ( (argc == 4 && !lastArgIsCallback) || (argc==3 && lastArgIsCallback))
 		real = [(CCMenuItemSprite*)[proxy.klass alloc] initWithNormalSprite:normal selectedSprite:selected disabledSprite:nil block:(void(^)(id sender))js_func];
-	else if (argc == 5 )
+	else if (argc == 5 || (argc==4 && lastArgIsCallback) )
 		real = [(CCMenuItemSprite*)[proxy.klass alloc] initWithNormalSprite:normal selectedSprite:selected disabledSprite:disabled block:(void(^)(id sender))js_func];
 	
 	[proxy setRealObj:real];
 	
 	JS_SET_RVAL(cx, vp, JSVAL_VOID);
 	
-	// "root" object and function
-	if( argc >= 4 ) {
-		jsb_set_reserved_slot(jsthis, 0, valthis );
-		jsb_set_reserved_slot(jsthis, 1, valfn );
-	}
-
 	return JS_TRUE;
 }
 
 #pragma mark - CallFunc
 
+// cc.CallFunc.create( func, this, [data])
+// cc.CallFunc.create( func )
 JSBool JSB_CCCallBlockN_actionWithBlock__static(JSContext *cx, uint32_t argc, jsval *vp)
 {
-	JSB_PRECONDITION( argc == 2 || argc == 3,  "Invalid number of arguments" );
+	JSB_PRECONDITION( argc >= 1 || argc <= 3,  "Invalid number of arguments" );
 	jsval *argvp = JS_ARGV(cx,vp);
 	JSBool ok = JS_TRUE;
 	js_block js_func;
-	JSObject *js_this;
+	JSObject *js_this = NULL;
 	jsval valthis, valfn;
 	
-	// this
-	valthis = *argvp;
-	ok &= JS_ValueToObject(cx, *argvp++, &js_this);
-	
 	NSObject *ret_val;
-	if( argc == 2 ) {
-		// function
-		valfn = *argvp;
-		ok &= jsval_to_block_1( cx, *argvp++, js_this, &js_func );
-		if( ! ok )
-			return JS_FALSE;
-	
-		ret_val = [CCCallBlockN actionWithBlock:js_func];
-	} else if( argc == 3 ) {
 
-		jsval func = *argvp++;
-		jsval arg = *argvp++;
-		ok &= jsval_to_block_2( cx, func, js_this, arg, &js_func );
-		if( ! ok )
-			return JS_FALSE;
+	// get callback fn
+	valfn = argvp[0];
 
-		ret_val = [CCCallBlockN actionWithBlock:js_func];
+	// get "this"
+	if( argc >= 2) {
+		valthis = argvp[1];
+		ok &= JS_ValueToObject(cx, valthis, &js_this);
 	}
 		
+	if( argc == 1 || argc==2 ) {
+		ok &= jsval_to_block_1( cx, valfn, js_this, &js_func );
+		ret_val = [CCCallBlockN actionWithBlock:js_func];
+		
+	} else if( argc == 3 ) {
+		jsval arg =  argvp[2];
+		ok &= jsval_to_block_2( cx, valfn, js_this, arg, &js_func );
+		ret_val = [CCCallBlockN actionWithBlock:js_func];
+	}
+
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error parsing arguments");
+
 	JSObject *jsobj = get_or_create_jsobject_from_realobj( cx, ret_val );
 	JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsobj));
 	
 	// "root" object and function
-	jsb_set_reserved_slot(jsobj, 0, valthis );
-	jsb_set_reserved_slot(jsobj, 1, valfn );
-	
-	return JS_TRUE;	
+	jsb_set_reserved_slot(jsobj, 0, valfn );
+	if( argc >= 2)
+		jsb_set_reserved_slot(jsobj, 1, valthis );
+
+	return JS_TRUE;
 }
 
 #pragma mark - Texture2D
@@ -1194,6 +1253,29 @@ JSBool JSB_CCScheduler_scheduleBlockForKey_target_interval_repeat_delay_paused_b
 	return JS_TRUE;
 }
 
+#pragma mark - CCTMXLayer
+JSBool JSB_CCTMXLayer_getTileFlagsAt(JSContext *cx, uint32_t argc, jsval *vp)
+{
+	JSObject* jsthis = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	JSB_NSObject *proxy = (JSB_NSObject*) jsb_get_proxy_for_jsobject(jsthis);
+	
+	JSB_PRECONDITION3( proxy && [proxy realObj], cx, JS_FALSE, "Invalid Proxy object");
+	JSB_PRECONDITION3( argc == 1, cx, JS_FALSE, "Invalid number of arguments" );
+	jsval *argvp = JS_ARGV(cx,vp);
+	JSBool ok = JS_TRUE;
+	CGPoint arg0;
+	
+	ok &= jsval_to_CGPoint( cx, *argvp++, (CGPoint*) &arg0 );
+	JSB_PRECONDITION3(ok, cx, JS_FALSE, "Error processing arguments");
+	
+	CCTMXLayer *real = (CCTMXLayer*) [proxy realObj];
+	ccTMXTileFlags flags;
+	[real tileGIDAt:(CGPoint)arg0  withFlags:&flags];
+	
+	JS_SET_RVAL(cx, vp, UINT_TO_JSVAL((uint32_t)flags));
+	return JS_TRUE;
+}
+
 #pragma mark - setBlendFunc friends
 
 // setBlendFunc
@@ -1258,7 +1340,7 @@ JSBool JSB_CCLayerColor_setBlendFunc_(JSContext *cx, uint32_t argc, jsval *vp)
 	return JSB_CCParticleSystem_setBlendFunc_(cx, argc, vp);
 }
 
-#pragma mark Effects
+#pragma mark - Effects
 
 JSBool JSB_CCLens3D_setPosition_(JSContext *cx, uint32_t argc, jsval *vp)
 {
@@ -1273,7 +1355,7 @@ JSBool JSB_CCTwirl_setPosition_(JSContext *cx, uint32_t argc, jsval *vp)
 	return JSB_CCNode_setPosition_(cx, argc, vp);
 }
 
-#pragma mark Actions
+#pragma mark - Actions
 
 JSBool JSB_CCBezierBy_actionWithDuration_bezier__static(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSB_PRECONDITION3( argc == 2, cx, JS_FALSE, "Invalid number of arguments" );

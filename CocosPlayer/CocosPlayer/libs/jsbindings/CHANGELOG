@@ -1,4 +1,4 @@
-version 0.3 -
+version 0.3 - xx-Nov-2012
 - [NEW] Chipmunk bindings: Added Object Oriented JS API
 	- JSB Chipmunk API is compatible with Chipmunk-JS API
 	- Added missing functions to bindings:
@@ -8,16 +8,17 @@ version 0.3 -
 		Possibility to generate files compatible with cpp
 - [NEW] Script: jsb generates Object Oriented JS code for C-like API
 - [NEW] SpiderMonkey: Supports SpiderMonkey v16.0 API
-- [FIX] Callbacks: if callback returns value, it is returned to native, as long it is a BOOL.
+- [FIX] Callbacks: (Native-to-JS) if callback returns value, it is returned to native, as long it is a BOOL.
+- [FIX] Callbacks: (JS-Native-JS): 'this' is an optional parameter, and comes after the callback function
 - [FIX] Conversions: longlong and 64-bit long are represented by strings (and not an array of two elements)
 - [FIX] Xcode: Fixed all compiler warnings
 
-version 0.2 - XX-Sept-2012 
+version 0.2 - XX-Sept-2012
 - [FIX] config file: only include cocos2d ios on iOS and cocos2d osx on OS X
 
-version 0.1 - 21-Ago-2012 
+version 0.1 - 21-Ago-2012
  - [NEW] Initial public release
- - [NEW] bindings: 
+ - [NEW] bindings:
  	- Added bindings for cocos2d-iphone v2.1
  	- Added bindings for Chipmunk v6.1.1
  	- Added bindings for CocosBuilder Reader

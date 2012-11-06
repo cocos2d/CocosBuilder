@@ -2,7 +2,7 @@
 //  main.m
 //  CocosPlayer
 //
-//  Created by Viktor Lidholt on 10/26/12.
+//  Created by Viktor Lidholt on 11/6/12.
 //  Copyright Zynga 2012. All rights reserved.
 //
 

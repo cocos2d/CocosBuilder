@@ -107,6 +107,7 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 #define GLProgram CCGLProgram
 
 // Extensions
+
 @interface CCScheduler (Deprecated)
 // new: [director scheduler]
 +(CCScheduler*) sharedScheduler DEPRECATED_ATTRIBUTE;
@@ -118,13 +119,6 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 -(void) unscheduleAllSelectors DEPRECATED_ATTRIBUTE;
 // new: unscheduleAllWithMinPriority:
 -(void) unscheduleAllSelectorsWithMinPriority:(NSInteger)minPriority DEPRECATED_ATTRIBUTE;
-
-/** Unschedules all selectors and blocks from all targets with a minimum priority.
- You should only call this with kCCPriorityNonSystemMin or higher.
- @since v2.0.0
- */
--(void) unscheduleAllSelectorsWithMinPriority:(NSInteger)minPriority;
-
 @end
 
 @interface CCActionManager (Deprecated)
@@ -145,6 +139,8 @@ DEPRECATED_ATTRIBUTE @interface MacView : CCGLView
 #endif // __CC_PLATFORM_MAC
 
 @interface CCDirector (Deprecated)
+// new: [director isPaused]
+-(BOOL) getIsPaused DEPRECATED_ATTRIBUTE;
 // new: setView:
 -(void) setOpenGLView:(CCGLView*)view DEPRECATED_ATTRIBUTE;
 // new: view

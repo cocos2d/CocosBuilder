@@ -462,6 +462,21 @@ JSBool JSB_UITouch_delta(JSContext *cx, uint32_t argc, jsval *vp) {
 	return JS_TRUE;
 }
 
+JSBool JSB_UITouch_id(JSContext *cx, uint32_t argc, jsval *vp) {
+	
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	JSB_NSObject *proxy = (JSB_NSObject*)jsb_get_proxy_for_jsobject(obj);
+	NSCAssert( proxy && [proxy realObj], @"Object already initialzied. error");
+	
+	JSB_PRECONDITION( argc == 0, "Invalid number of arguments" );
+	
+	UITouch* real = (UITouch*) [proxy realObj];
+	
+	JS_SET_RVAL(cx, vp, UINT_TO_JSVAL((uint32_t)real));
+	return JS_TRUE;
+}
+
+
 // Destructor
 void JSB_UITouch_finalize(JSFreeOp *fop, JSObject *obj)
 {
@@ -497,6 +512,7 @@ void JSB_UITouch_createClass(JSContext* cx, JSObject* globalObj, const char *nam
 	static JSFunctionSpec funcs[] = {
 		JS_FN("getLocation", JSB_UITouch_location, 0, JSPROP_PERMANENT | JSPROP_SHARED | JSPROP_ENUMERATE),
 		JS_FN("getDelta", JSB_UITouch_delta, 0, JSPROP_PERMANENT | JSPROP_SHARED | JSPROP_ENUMERATE),
+		JS_FN("getId", JSB_UITouch_id, 0, JSPROP_PERMANENT | JSPROP_SHARED | JSPROP_ENUMERATE),
 		JS_FS_END
 	};
 	

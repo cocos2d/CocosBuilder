@@ -334,7 +334,7 @@ JSB has been used successfully in the following open source projects:
 
 cocos2d-iphone v2.1 comes with 3 demo projects that uses it: 
 
-- [JS Tests](https://github.com/cocos2d/cocos2d-iphone/tree/develop-v2/tests/JSTests): cocos2d JS bindings tests
+- [JS Tests](https://github.com/cocos2d/cocos2d-html5-tests/): cocos2d JS tests
 - [JS Watermelon With Me](https://github.com/cocos2d/cocos2d-iphone/tree/develop-v2/tests/WatermelonWithMe): a simple physics game that uses JS bindings for cocos2d, Chipmunk, CocosDenshion and CocosBuilder Reader.
 - [JS MoonWarriors](https://github.com/ricardoquesada/MoonWarriors): A top-down shooter that uses JS bindings for cocos2d
 
@@ -354,7 +354,6 @@ As of this writing, these are the current bugs and/or limitations. For an update
 	- This logic is flawed since a JS object might point to an already released native object under certain not-so-common situations
 	- The proper solution is to control the life of native objects from JS objects. Fix in progress
 	- The workaround is to send the `retain` message to the object. eg: `sprite.retain();`
-- Callbacks don't support return values. Limited support for arguments
+- Callbacks support only `BOOL` or `void` return values.
 - BridgeSupport constants are not being parsed by the script.
 - The `gen_bridge_metadata` file that is bundled with OS X 10.6 (or older) should be avoided. It is recommended to generate the BridgeSupport files in OS X 10.8 (Mountain Lion).
-- It is not easy to start a new project from scratch. Xcode templates coming soon. In the meantime, the easier way to do it is by duplicating any of the JS "targets" bundled with cocos2d-iphone v2.1
