@@ -487,7 +487,7 @@
             else
             {
                 // iPad normal
-                publishForResolutions = [NSArray arrayWithObjects:@"ipad", "hd", nil];
+                publishForResolutions = [NSArray arrayWithObjects:@"ipad", @"hd", nil];
             }
         }
         else
