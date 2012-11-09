@@ -414,7 +414,7 @@
     {
         // Normal publishing
         
-        // iPhone
+        // iOS
         if (projectSettings.publishEnablediPhone)
         {
             NSMutableArray* resolutions = [NSMutableArray array];
@@ -423,14 +423,18 @@
             if (projectSettings.publishResolution_hd)
             {
                 [resolutions addObject:@"hd"];
+                [resolutions addObject:@"ipad"];
             }
             if (projectSettings.publishResolution_ipad)
             {
                 [resolutions addObject:@"ipad"];
+                [resolutions addObject:@"hd"];
             }
             if (projectSettings.publishResolution_ipadhd)
             {
                 [resolutions addObject:@"ipadhd"];
+                [resolutions addObject:@"ipad"];
+                [resolutions addObject:@"hd"];
             }
             publishForResolutions = resolutions;
             
