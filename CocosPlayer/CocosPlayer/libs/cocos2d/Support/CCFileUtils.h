@@ -37,6 +37,8 @@
 	NSMutableDictionary *removeSuffixCache_;
 	
 	BOOL	enableFallbackSuffixes_;
+    NSArray* resolutionDirectoryChain_;
+    NSArray* resourcePathChain_;
 	
 #ifdef __CC_PLATFORM_IOS	
 	NSString *iPhoneRetinaDisplaySuffix_;
@@ -70,6 +72,8 @@
  */
 @property (nonatomic, readwrite) BOOL enableFallbackSuffixes;
 
+@property (nonatomic, retain) NSArray* resolutionDirectoryChain;
+@property (nonatomic, retain) NSArray* resourcePathChain;
 
 #ifdef __CC_PLATFORM_IOS
 /** The iPhone RetinaDisplay suffixes to load resources.
@@ -125,6 +129,8 @@
  Will be called automatically by the Director when a memory warning is received
  */
 -(void) purgeCachedEntries;
+
+- (void) setupDefaultResolutionDirectoryChainWithFallbacks:(BOOL)useFallbacks;
 
 /** Returns the fullpath of an filename.
 

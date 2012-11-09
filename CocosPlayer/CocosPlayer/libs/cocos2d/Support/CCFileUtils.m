@@ -120,6 +120,8 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 @synthesize fileManager=fileManager_, bundle=bundle_;
 @synthesize enableFallbackSuffixes = enableFallbackSuffixes_;
+@synthesize resolutionDirectoryChain = resolutionDirectoryChain_;
+@synthesize resourcePathChain = resourcePathChain_;
 
 #ifdef __CC_PLATFORM_IOS
 @synthesize iPhoneRetinaDisplaySuffix = iPhoneRetinaDisplaySuffix_;
@@ -151,6 +153,8 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		bundle_ = [[NSBundle mainBundle] retain];
 
 		enableFallbackSuffixes_ = NO;
+        
+        self.resourcePathChain = [NSArray arrayWithObject:[bundle_ resourcePath]];
 
 #ifdef __CC_PLATFORM_IOS
 		iPhoneRetinaDisplaySuffix_ = @"-hd";
@@ -178,6 +182,8 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 	[bundle_ release];
 	[fullPathCache_ release];
 	[removeSuffixCache_ release];
+    [resolutionDirectoryChain_ release];
+    [resourcePathChain_ release];
 	
 #ifdef __CC_PLATFORM_IOS	
 	[iPhoneRetinaDisplaySuffix_ release];
@@ -193,8 +199,81 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
     [super dealloc];
 }
 
+- (void) setupDefaultResolutionDirectoryChainWithFallbacks:(BOOL)useFallbacks
+{
+    NSInteger device = [self runningDevice];
+    if (device == kCCiPadRetinaDisplay)
+    {
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipadhd", @"-ipad", @"-hd", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipadhd", nil];
+    }
+    else if (device == kCCiPad)
+    {
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"-ipad", @"-hd", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipad", nil];
+    }
+    else if (device == kCCiPhoneRetinaDisplay)
+    {
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"-hd", @"-ipad", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-hd", nil];
+    }
+    else if (device == kCCiPhone)
+    {
+        self.resolutionDirectoryChain = NULL;
+    }
+}
+
 -(NSString*) pathForResource:(NSString*)resource ofType:(NSString *)ext inDirectory:(NSString *)subpath
 {
+    // Create full file name with extension)
+    NSString* fileName = NULL;
+    if (ext && ![ext isEqualToString:@""])
+    {
+        fileName = [resource stringByAppendingPathExtension:ext];
+    }
+    else
+    {
+        fileName = resource;
+    }
+    
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    if (resourcePathChain_)
+    {
+        // Check all resource directories in chain
+        for (NSString* resDir in resourcePathChain_)
+        {
+            // Append sub path
+            if (subpath && ![subpath isEqualToString:@""])
+            {
+                resDir = [resDir stringByAppendingPathComponent:subpath];
+            }
+            
+            NSString* absFilePath = [resDir stringByAppendingPathComponent:fileName];
+            NSString* absFileName = [absFilePath lastPathComponent];
+            NSString* absFileDir = [absFilePath stringByDeletingLastPathComponent];
+            
+            if (resolutionDirectoryChain_)
+            {
+                // Check extensions for different resolutions
+                for (NSString* resolutionDir in resolutionDirectoryChain_)
+                {
+                    NSString* absResolutionFile = [[absFileDir stringByAppendingPathComponent:resolutionDir] stringByAppendingPathComponent:absFileName];
+                    if ([fm fileExistsAtPath:absResolutionFile])
+                    {
+                        return absResolutionFile;
+                    }
+                }
+            }
+            // Default to non resolution directory
+            if ([fm fileExistsAtPath:absFilePath])
+            {
+                return absFilePath;
+            }
+        }
+    }
+    
+    // Default to normal resource directory
     return [bundle_ pathForResource:resource
                              ofType:ext
                         inDirectory:subpath];
