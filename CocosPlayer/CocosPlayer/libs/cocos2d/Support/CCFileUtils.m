@@ -148,6 +148,7 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 		fileManager_ = [[NSFileManager alloc] init];
 
 		fullPathCache_ = [[NSMutableDictionary alloc] initWithCapacity:30];
+        fullPathCacheNoResolutions_ = [[NSMutableDictionary alloc] initWithCapacity:30];
 		removeSuffixCache_ = [[NSMutableDictionary alloc] initWithCapacity:30];
 		
 		bundle_ = [[NSBundle mainBundle] retain];
@@ -172,7 +173,8 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 
 -(void) purgeCachedEntries
 {
-	[fullPathCache_ removeAllObjects];	
+	[fullPathCache_ removeAllObjects];
+    [fullPathCacheNoResolutions_ removeAllObjects];
 	[removeSuffixCache_ removeAllObjects];
 }
 
@@ -181,6 +183,7 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
     [fileManager_ release];
 	[bundle_ release];
 	[fullPathCache_ release];
+    [fullPathCacheNoResolutions_ release];
 	[removeSuffixCache_ release];
     [resolutionDirectoryChain_ release];
     [resourcePathChain_ release];
@@ -331,10 +334,52 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
 	return ret;
 }
 
+-(NSString*) fullPathIgnoringResolutionsFromRelativePath:(NSString*)relPath resolutionType:(ccResolutionType*)resolutionType
+{
+    if ([relPath isAbsolutePath]) return relPath;
+    
+    NSString* path = [fullPathCacheNoResolutions_ objectForKey:relPath];
+    if (path) return path;
+    
+    if (resourcePathChain_)
+    {
+        for (NSString* resDir in resourcePathChain_)
+        {
+            path = [resDir stringByAppendingPathComponent:relPath];
+            if ([fileManager_ fileExistsAtPath:path])
+            {
+                // Save in cache
+                [fullPathCacheNoResolutions_ setObject:path forKey:relPath];
+                
+                return path;
+            }
+        }
+    }
+    
+    // Default to normal resource directory
+    path = [bundle_ pathForResource:[relPath lastPathComponent]
+                             ofType:nil
+                        inDirectory:[relPath stringByDeletingLastPathComponent]];
+    
+    // Save in cache
+    if (path)
+    {
+        [fullPathCacheNoResolutions_ setObject:path forKey:relPath];
+    }
+    return path;
+}
+
 -(NSString*) fullPathFromRelativePath:(NSString*)relPath resolutionType:(ccResolutionType*)resolutionType
+{
+    return [self fullPathFromRelativePath:relPath resolutionType:resolutionType ignoreResolutions:NO];
+}
+
+-(NSString*) fullPathFromRelativePath:(NSString*)relPath resolutionType:(ccResolutionType*)resolutionType ignoreResolutions:(BOOL)ignoreResolutions
 {
 	NSAssert(relPath != nil, @"CCFileUtils: Invalid path");
 
+    if (ignoreResolutions) return [self fullPathIgnoringResolutionsFromRelativePath:relPath resolutionType:resolutionType];
+    
 	CCCacheValue *value = [fullPathCache_ objectForKey:relPath];
 	if( value ) {
 		*resolutionType = value.resolutionType;
