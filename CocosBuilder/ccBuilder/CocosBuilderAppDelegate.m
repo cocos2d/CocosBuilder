@@ -246,6 +246,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"ApplePersistenceIgnoreState"];
     [self.window center];
     
     selectedNodes = [[NSMutableArray alloc] init];
