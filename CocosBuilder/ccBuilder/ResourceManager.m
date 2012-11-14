@@ -493,7 +493,16 @@
                 // Reload its data
                 [res loadData];
                 
-                needsUpdate = YES;
+                if (res.type == kCCBResTypeSpriteSheet
+                    || res.type == kCCBResTypeAnimation
+                    || res.type == kCCBResTypeImage
+                    || res.type == kCCBResTypeBMFont
+                    || res.type == kCCBResTypeTTF
+                    || res.type == kCCBResTypeCCBFile
+                    || res.type == kCCBResTypeAudio)
+                {
+                    needsUpdate = YES;
+                }
                 resourcesChanged = YES;
             }
         }
