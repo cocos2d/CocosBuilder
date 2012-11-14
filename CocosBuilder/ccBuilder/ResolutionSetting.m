@@ -373,6 +373,41 @@
     return setting;
 }
 
++ (ResolutionSetting*) settingHTML5
+{
+    ResolutionSetting* setting = [[[ResolutionSetting alloc] init] autorelease];
+    
+    setting.name = @"HTML 5";
+    setting.width = 0;
+    setting.height = 0;
+    setting.ext = @"html5";
+    setting.scale = 2;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingHTML5Landscape
+{
+    ResolutionSetting* setting = [self settingHTML5];
+    
+    setting.name = @"HTML 5 Landscape";
+    setting.width = 1024;
+    setting.height = 768;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingHTML5Portrait
+{
+    ResolutionSetting* setting = [self settingHTML5];
+    
+    setting.name = @"HTML 5 Portrait";
+    setting.width = 768;
+    setting.height = 1024;
+    
+    return setting;
+}
+
 
 - (NSString *) description
 {

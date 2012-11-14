@@ -129,7 +129,10 @@
     {
         // Update path to reflect resolution
         srcDir = [srcDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
-        dstDir = [dstDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+        if (!publishToSingleResolution)
+        {
+            dstDir = [dstDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+        }
         
         srcFile = [srcDir stringByAppendingPathComponent:srcFileName];
         dstFile = [dstDir stringByAppendingPathComponent:dstFileName];
@@ -157,7 +160,7 @@
     }
     
     // Check for equal file
-    if ([fm fileExistsAtPath:dstFile] && [[CCBFileUtil modificationDateForFile:srcFile] isEqualToDate:[CCBFileUtil modificationDateForFile:dstFile]]) return YES;
+    if (!publishToSingleResolution && [fm fileExistsAtPath:dstFile] && [[CCBFileUtil modificationDateForFile:srcFile] isEqualToDate:[CCBFileUtil modificationDateForFile:dstFile]]) return YES;
     
     // Remove old file
     if ([fm fileExistsAtPath:dstFile])
@@ -438,6 +441,8 @@
             }
             publishForResolutions = resolutions;
             
+            publishToSingleResolution = YES;
+            
             NSString* publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
             if (![self publishAllToDirectory:publishDir]) return NO;
         }
@@ -451,29 +456,43 @@
             {
                 [resolutions addObject:@"xsmall"];
             }
-            if (projectSettings.publishResolution_xsmall)
+            if (projectSettings.publishResolution_small)
             {
                 [resolutions addObject:@"small"];
             }
-            if (projectSettings.publishResolution_xsmall)
+            if (projectSettings.publishResolution_medium)
             {
                 [resolutions addObject:@"medium"];
             }
-            if (projectSettings.publishResolution_xsmall)
+            if (projectSettings.publishResolution_large)
             {
                 [resolutions addObject:@"large"];
             }
-            if (projectSettings.publishResolution_xsmall)
+            if (projectSettings.publishResolution_xlarge)
             {
                 [resolutions addObject:@"xlarge"];
             }
             publishForResolutions = resolutions;
+            
+            publishToSingleResolution = NO;
             
             NSString* publishDir = [projectSettings.publishDirectoryAndroid absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
             if (![self publishAllToDirectory:publishDir]) return NO;
         }
         
         // HTML 5
+        if (projectSettings.publishEnabledHTML5)
+        {
+            NSMutableArray* resolutions = [NSMutableArray array];
+            [resolutions addObject: @"html5"];
+            publishForResolutions = resolutions;
+            
+            publishToSingleResolution = YES;
+            
+            NSString* publishDir = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+            if (![self publishAllToDirectory:publishDir]) return NO;
+            
+        }
 #warning TODO: Fix HTML 5 export
     }
     else

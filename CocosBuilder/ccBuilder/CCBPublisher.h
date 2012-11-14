@@ -35,6 +35,7 @@
     NSArray* copyExtensions;
     NSString* publishFormat;
     BOOL runAfterPublishing;
+    BOOL publishToSingleResolution;
     NSArray* publishForResolutions;
 }
 

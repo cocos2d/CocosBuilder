@@ -330,7 +330,7 @@
 
 - (NSArray*) resIndependentExts
 {
-    return [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", @"-auto", nil];
+    return [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", @"-html5", @"-auto", nil];
 }
 
 - (BOOL) isResolutionDependentFile: (NSString*) file
@@ -750,6 +750,10 @@
     else if ([res isEqualToString:@"medium"]) dstScale = 1.5;
     else if ([res isEqualToString:@"large"]) dstScale = 2;
     else if ([res isEqualToString:@"xlarge"]) dstScale = 4;
+    else if ([res isEqualToString:@"html5"])
+    {
+        dstScale = [CocosBuilderAppDelegate appDelegate].projectSettings.publishResolutionHTML5_scale;
+    }
     
     NSSize oldSize = [srcImage size];
     
