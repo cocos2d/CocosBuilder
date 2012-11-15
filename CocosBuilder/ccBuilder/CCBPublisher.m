@@ -120,7 +120,7 @@
     NSString* dstFileName = [dstFile lastPathComponent];
     NSString* srcDir = [srcFile stringByDeletingLastPathComponent];
     NSString* dstDir = [dstFile stringByDeletingLastPathComponent];
-    NSString* autoDir = [srcDir stringByAppendingPathComponent:@"-auto"];
+    NSString* autoDir = [srcDir stringByAppendingPathComponent:@"resources-auto"];
     srcAutoFile = [autoDir stringByAppendingPathComponent:srcFileName];
     
     [fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:NULL error:NULL];
@@ -128,10 +128,10 @@
     if (resolution && ![resolution isEqualToString:@""])
     {
         // Update path to reflect resolution
-        srcDir = [srcDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+        srcDir = [srcDir stringByAppendingPathComponent:[@"resources-" stringByAppendingString:resolution]];
         if (!publishToSingleResolution)
         {
-            dstDir = [dstDir stringByAppendingPathComponent:[@"-" stringByAppendingString:resolution]];
+            dstDir = [dstDir stringByAppendingPathComponent:[@"resources-" stringByAppendingString:resolution]];
         }
         
         srcFile = [srcDir stringByAppendingPathComponent:srcFileName];
@@ -179,7 +179,7 @@
 {
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     ResourceManager* resManager = [ResourceManager sharedManager];
-    NSArray* resIndependentExts = [resManager resIndependentExts];
+    NSArray* resIndependentDirs = [resManager resIndependentDirs];
     
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -217,7 +217,7 @@
     }
     
     // Add files from the -auto directory
-    NSString* autoDir = [dir stringByAppendingPathComponent:@"-auto"];
+    NSString* autoDir = [dir stringByAppendingPathComponent:@"resources-auto"];
     BOOL isDirAuto;
     if ([fm fileExistsAtPath:autoDir isDirectory:&isDirAuto] && isDirAuto)
     {
@@ -239,7 +239,7 @@
             else childPath = fileName;
             
             // Skip resource independent directories
-            if ([resIndependentExts containsObject:fileName]) continue;
+            if ([resIndependentDirs containsObject:fileName]) continue;
             
             [self publishDirectory:filePath subPath:childPath];
         }
@@ -441,7 +441,7 @@
             }
             publishForResolutions = resolutions;
             
-            publishToSingleResolution = YES;
+            publishToSingleResolution = NO;
             
             NSString* publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
             if (![self publishAllToDirectory:publishDir]) return NO;

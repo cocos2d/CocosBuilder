@@ -1215,32 +1215,6 @@
 @end
 
 
-
 @implementation CCBFile
 @synthesize ccbFile;
-@end
-
-
-
-@implementation CCBFileUtils
-
-- (id) init
-{
-    self = [super init];
-    if (!self) return NULL;
-    
-    // Add the ccb directory to the resource path
-    self.resourcePathChain = [[NSArray arrayWithObject:[CCBReader ccbDirectoryPath]] arrayByAddingObjectsFromArray: self.resourcePathChain];
-    [self setupDefaultResolutionDirectoryChainWithFallbacks:YES];
-    
-    NSLog(@"ccbDirectoryPath: %@", [CCBReader ccbDirectoryPath]);
-    
-    return self;
-}
-
-- (void) dealloc
-{
-    //self.ccbDirectoryPath = NULL;
-    [super dealloc];
-}
 @end

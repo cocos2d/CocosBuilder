@@ -94,9 +94,6 @@ static AppController* appController = NULL;
     
     [self setStatus:kCCBStatusStringWaiting forceStop:NO];
     
-    // Initalize custom file utils
-    [CCBFileUtils sharedFileUtils];
-    
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
@@ -156,6 +153,10 @@ static AppController* appController = NULL;
 	[sharedFileUtils setiPhoneRetinaDisplaySuffix:@"-hd"];		// Default on iPhone RetinaDisplay is "-hd"
 	[sharedFileUtils setiPadSuffix:@"-ipad"];					// Default on iPad is "ipad"
 	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
+    
+    // Configure CCFileUtils for CocosBuilder
+    sharedFileUtils.resourcePathChain = [[NSArray arrayWithObject:[CCBReader ccbDirectoryPath]] arrayByAddingObjectsFromArray: sharedFileUtils.resourcePathChain];
+    [sharedFileUtils setupDefaultResolutionDirectoryChainWithFallbacks:YES];
 	
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];

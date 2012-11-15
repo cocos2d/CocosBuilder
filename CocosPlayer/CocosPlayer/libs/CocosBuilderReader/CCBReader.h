@@ -168,8 +168,3 @@ enum
 #endif
 
 @end
-
-@interface CCBFileUtils : CCFileUtils
-{
-}
-@end

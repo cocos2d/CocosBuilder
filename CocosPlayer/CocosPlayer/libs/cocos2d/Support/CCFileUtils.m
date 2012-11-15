@@ -207,22 +207,26 @@ NSInteger ccLoadFileIntoMemory(const char *filename, unsigned char **out)
     NSInteger device = [self runningDevice];
     if (device == kCCiPadRetinaDisplay)
     {
-        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipadhd", @"-ipad", @"-hd", nil];
-        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipadhd", nil];
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"resources-ipadhd", @"resources-ipad", @"resources-hd", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"resources-ipadhd", nil];
     }
     else if (device == kCCiPad)
     {
-        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"-ipad", @"-hd", nil];
-        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-ipad", nil];
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"resources-ipad", @"resources-hd", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"resources-ipad", nil];
     }
     else if (device == kCCiPhoneRetinaDisplay)
     {
-        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"-hd", @"-ipad", nil];
-        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"-hd", nil];
+        if (useFallbacks) self.resolutionDirectoryChain = [NSArray arrayWithObjects: @"resources-hd", @"resources-ipad", nil];
+        else self.resolutionDirectoryChain = [NSArray arrayWithObjects:@"resources-hd", nil];
     }
     else if (device == kCCiPhone)
     {
         self.resolutionDirectoryChain = NULL;
+    }
+    else
+    {
+        NSLog(@"UNKNOWN DEVICE!! device=%d",device);
     }
 }
 

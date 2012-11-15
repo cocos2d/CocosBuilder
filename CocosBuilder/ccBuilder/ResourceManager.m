@@ -333,6 +333,11 @@
     return [NSArray arrayWithObjects:@"@2x",@"-hd",@"-ipad",@"-ipadhd", @"-xsmall", @"-small", @"-medium", @"-large", @"-xlarge", @"-html5", @"-auto", nil];
 }
 
+- (NSArray*) resIndependentDirs
+{
+    return [NSArray arrayWithObjects:@"resources-hd",@"resources-ipad",@"resources-ipadhd", @"resources-xsmall", @"resources-small", @"resources-medium", @"resources-large", @"resources-xlarge", @"resources-html5", @"resources-auto", nil];
+}
+
 - (BOOL) isResolutionDependentFile: (NSString*) file
 {
     if ([[file pathExtension] isEqualToString:@"ccb"]) return NO;
@@ -360,7 +365,7 @@
     if (isDirectory)
     {
         // Hide resolution directories
-        if ([[self resIndependentExts] containsObject:[file lastPathComponent]])
+        if ([[self resIndependentDirs] containsObject:[file lastPathComponent]])
         {
             return kCCBResTypeNone;
         }
@@ -433,12 +438,12 @@
     NSFileManager* fm = [NSFileManager defaultManager];
     RMDirectory* dir = [directories objectForKey:path];
     
-    NSArray* resolutionExts = [self resIndependentExts];
+    NSArray* resolutionDirs = [self resIndependentDirs];
     
     // Get files from default directory
     NSMutableSet* files = [NSMutableSet setWithArray:[fm contentsOfDirectoryAtPath:path error:NULL]];
     
-    for (NSString* resolutionExt in resolutionExts)
+    for (NSString* resolutionExt in resolutionDirs)
     {
         NSString* resolutionDir = [path stringByAppendingPathComponent:resolutionExt];
         BOOL isDir = NO;
@@ -807,9 +812,9 @@
             NSString* fileName = [p lastPathComponent];
             NSString* dirName = [p stringByDeletingLastPathComponent];
             
-            for (NSString* resExt in [self resIndependentExts])
+            for (NSString* resDir in [self resIndependentDirs])
             {
-                NSString* p2 = [[dirName stringByAppendingPathComponent:resExt] stringByAppendingPathComponent:fileName];
+                NSString* p2 = [[dirName stringByAppendingPathComponent:resDir] stringByAppendingPathComponent:fileName];
                 if ([fm fileExistsAtPath:p2]) return p2;
             }
         }
@@ -834,7 +839,7 @@
             for (NSString* ext in res.exts)
             {
                 if ([ext isEqualToString:@""]) continue;
-                ext = [@"-" stringByAppendingString:ext];
+                ext = [@"resources-" stringByAppendingString:ext];
                 
                 NSString* pathForRes = [[defaultDirName stringByAppendingPathComponent:ext] stringByAppendingPathComponent:defaultFileName];
                 
@@ -842,7 +847,7 @@
             }
             
             // TODO: Auto convert!
-            NSString* autoFile = [[defaultDirName stringByAppendingPathComponent:@"-auto"] stringByAppendingPathComponent:defaultFileName];
+            NSString* autoFile = [[defaultDirName stringByAppendingPathComponent:@"resources-auto"] stringByAppendingPathComponent:defaultFileName];
             if ([fm fileExistsAtPath:autoFile])
             {
                 // Check if the file exists in cache

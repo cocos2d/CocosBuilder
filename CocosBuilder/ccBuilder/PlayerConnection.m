@@ -157,9 +157,12 @@ static PlayerConnection* sharedPlayerConnection;
     
     [delegate playerConnection:self updatedPlayerList:connectedServers];
     
-    // Update property
+    // Update properties
     [self willChangeValueForKey:@"connected"];
     [self didChangeValueForKey:@"connected"];
+    
+    [self willChangeValueForKey:@"selectedDeviceInfo"];
+    [self didChangeValueForKey:@"selectedDeviceInfo"];
 }
 
 
