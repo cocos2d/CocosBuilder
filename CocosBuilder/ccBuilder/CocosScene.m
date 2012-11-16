@@ -916,7 +916,12 @@ static CocosScene* sharedCocosScene;
             deltaRotation = -deltaRotation;
         }
         
-        float newRotation = fmodf(transformStartRotation + deltaRotation, 360);
+        while ( deltaRotation > 180.0f )
+            deltaRotation -= 360.0f;
+        while ( deltaRotation < -180.0f )
+            deltaRotation += 360.0f;
+        
+        float newRotation = (transformStartRotation + deltaRotation);
         
         // Handle shift key (fixed rotation angles)
         if ([event modifierFlags] & NSShiftKeyMask)
