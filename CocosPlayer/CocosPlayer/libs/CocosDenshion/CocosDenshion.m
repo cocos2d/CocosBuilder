@@ -89,7 +89,7 @@ float const kCD_GainDefault = 1.0f;
 +(NSString*) fullPathFromRelativePath:(NSString*) relPath
 {
 #ifdef CD_USE_COCOS2D_FILEUTILS
-    return [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:relPath resolutionType:NULL ignoreResolutions:YES];
+    return [[CCFileUtils sharedFileUtils] fullPathIgnoringResolutionsFromRelativePath:relPath];
 #else
 	// do not convert an absolute path (starting with '/')
 	if(([relPath length] > 0) && ([relPath characterAtIndex:0] == '/'))

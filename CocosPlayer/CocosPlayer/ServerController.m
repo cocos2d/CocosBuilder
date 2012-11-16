@@ -48,6 +48,8 @@
 
 - (void) redirectStdErr
 {
+    return;
+    
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     

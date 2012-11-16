@@ -19555,7 +19555,7 @@ JSBool JSB_CCFileUtils_enableFallbackSuffixes(JSContext *cx, uint32_t argc, jsva
 	BOOL ret_val;
 
 	CCFileUtils *real = (CCFileUtils*) [proxy realObj];
-	ret_val = [real enableFallbackSuffixes ];
+	//ret_val = [real enableFallbackSuffixes ];
 	JS_SET_RVAL(cx, vp, BOOLEAN_TO_JSVAL(ret_val));
 	return JS_TRUE;
 }

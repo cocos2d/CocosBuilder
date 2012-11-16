@@ -148,6 +148,8 @@ static AppController* appController = NULL;
 	// On iPad HD  : "-ipadhd", "-ipad",  "-hd"
 	// On iPad     : "-ipad", "-hd"
 	// On iPhone HD: "-hd"
+    NSLog(@"Configuring file utils");
+    
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
 	[sharedFileUtils setEnableFallbackSuffixes:YES];				// Default: NO. No fallback suffixes are going to be used
 	[sharedFileUtils setiPhoneRetinaDisplaySuffix:@"-hd"];		// Default on iPhone RetinaDisplay is "-hd"
@@ -155,8 +157,18 @@ static AppController* appController = NULL;
 	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
     
     // Configure CCFileUtils for CocosBuilder
-    sharedFileUtils.resourcePathChain = [[NSArray arrayWithObject:[CCBReader ccbDirectoryPath]] arrayByAddingObjectsFromArray: sharedFileUtils.resourcePathChain];
-    [sharedFileUtils setupDefaultResolutionDirectoryChainWithFallbacks:YES];
+    sharedFileUtils.searchPath =
+        [NSArray arrayWithObjects:
+         [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ResourcesCCB"],
+         [CCBReader ccbDirectoryPath],
+         [[NSBundle mainBundle] resourcePath],
+         nil];
+    sharedFileUtils.enableiPhoneResourcesOniPad = YES;
+    sharedFileUtils.searchMode = kCCFileUtilsSearchDirectory;
+    [sharedFileUtils buildSearchResolutionsOrder];
+    
+    NSLog(@"searchPath: %@", sharedFileUtils.searchPath);
+    NSLog(@"searchResolutionsOrder: %@", sharedFileUtils.searchResolutionsOrder);
 	
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
@@ -232,6 +244,9 @@ static AppController* appController = NULL;
 - (CCScene*) createStatusScene
 {
     statusLayer = (PlayerStatusLayer*)[CCBReader nodeGraphFromFile:@"StatusLayer.ccbi"];
+    
+    NSLog(@"statusLayer: %@", statusLayer);
+    
     CCScene* statusScene = [CCScene node];
     [statusScene addChild:statusLayer];
     
