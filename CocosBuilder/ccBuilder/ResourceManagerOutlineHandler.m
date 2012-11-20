@@ -252,7 +252,22 @@
         }
         else
         {
-            icon = [self smallIconForFile:res.filePath];
+            if (res.type == kCCBResTypeDirectory)
+            {
+                RMDirectory* dir = res.data;
+                if (dir.isDynamicSpriteSheet)
+                {
+                    icon = [NSImage imageNamed:@"reshandler-spritesheet-folder.png"];
+                }
+                else
+                {
+                    icon = [self smallIconForFile:res.filePath];
+                }
+            }
+            else
+            {
+                icon = [self smallIconForFile:res.filePath];
+            }
         }
     }
     else if ([item isKindOfClass:[RMSpriteFrame class]])

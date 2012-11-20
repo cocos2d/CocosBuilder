@@ -35,12 +35,18 @@ typedef struct _PVRTexHeader
     TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_;
+
++ (Tupac*) tupac
+{
+    return [[[Tupac alloc] init] autorelease];
+}
 
 - (id)init {
     if ((self = [super init])) {
         scale_ = 1.0;
         border_ = NO;
+        imageFormat_ = kTupacImageFormatPNG;
         
         tp = TEXTURE_PACKER::createTexturePacker();
     }
@@ -161,76 +167,87 @@ typedef struct _PVRTexHeader
         }
     }        
     [NSGraphicsContext restoreGraphicsState];
+    
+    NSString* textureFileName = NULL;
 
-    //
-    // PNG Export
-    //
-    
-//    NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
-//    [[outRep representationUsingType:NSPNGFileType properties:nil] writeToFile:pngFilename atomically:YES];
-
-    
-    //
-    // PVR Export
-    //
-    
-    pvrtc_info_output(stdout);
-
-    size_t pvrOutputSize    = pvrtc_size((int)outRep.pixelsWide,    // width
-                                         (int)outRep.pixelsHigh,    // height
-                                         0,                         // generate mipmaps
-                                         0);                        // use 2bpp compression
-    
-    NSMutableData *pvrData  = [[NSMutableData alloc] initWithLength:pvrOutputSize];
-    NSString      *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
-    
-    if (outW == outH) {
-        // if square, we use PVRC (compressed) format for our data
-
-        pvrtc_compress([outRep bitmapData],     // input data
-                       [pvrData mutableBytes],  // output data
-                       (int)outRep.pixelsWide,  // resize width
-                       (int)outRep.pixelsHigh,  // resize height
-                       0,                       // generate mipmaps
-                       1,                       // alpha on
-                       0,                       // texture wraps
-                       0);                      // use 2bpp compression
+    if (imageFormat_ == kTupacImageFormatPNG)
+    {
+        //
+        // PNG Export
+        //
+        
+        NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
+        [[outRep representationUsingType:NSPNGFileType properties:nil] writeToFile:pngFilename atomically:YES];
+        
+        textureFileName = pngFilename;
     }
-    else {
-        // if not square, we construct a file with a simple header followed by uncompressed data
+    else if (imageFormat_ == kTupacImageFormatPVR)
+    {
+        //
+        // PVR Export
+        //
+        
+        
+        pvrtc_info_output(stdout);
 
-        PVRTexHeader header;
+        size_t pvrOutputSize    = pvrtc_size((int)outRep.pixelsWide,    // width
+                                             (int)outRep.pixelsHigh,    // height
+                                             0,                         // generate mipmaps
+                                             0);                        // use 2bpp compression
         
-        header.headerLength = sizeof(PVRTexHeader);
+        NSMutableData *pvrData  = [[NSMutableData alloc] initWithLength:pvrOutputSize];
+        NSString      *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
+        
+        if (outW == outH) {
+            // if square, we use PVRC (compressed) format for our data
 
-        header.width = (uint32_t)outRep.pixelsWide;
-        header.height = (uint32_t)outRep.pixelsHigh;
-        
-        header.numMipmaps = 0;
-        
-        header.bpp = 32;
-        header.flags = 32786;
-        header.dataLength = (uint32_t)(outRep.pixelsWide * outRep.pixelsHigh * 4);
+            pvrtc_compress([outRep bitmapData],     // input data
+                           [pvrData mutableBytes],  // output data
+                           (int)outRep.pixelsWide,  // resize width
+                           (int)outRep.pixelsHigh,  // resize height
+                           0,                       // generate mipmaps
+                           1,                       // alpha on
+                           0,                       // texture wraps
+                           0);                      // use 2bpp compression
+        }
+        else {
+            // if not square, we construct a file with a simple header followed by uncompressed data
 
-        header.bitmaskRed   = 0xFF000000;
-        header.bitmaskBlue  = 0x0000FF00;
-        header.bitmaskGreen = 0x00FF0000;
-        header.bitmaskAlpha = 0x000000FF;
+            PVRTexHeader header;
+            
+            header.headerLength = sizeof(PVRTexHeader);
+
+            header.width = (uint32_t)outRep.pixelsWide;
+            header.height = (uint32_t)outRep.pixelsHigh;
+            
+            header.numMipmaps = 0;
+            
+            header.bpp = 32;
+            header.flags = 32786;
+            header.dataLength = (uint32_t)(outRep.pixelsWide * outRep.pixelsHigh * 4);
+
+            header.bitmaskRed   = 0xFF000000;
+            header.bitmaskBlue  = 0x0000FF00;
+            header.bitmaskGreen = 0x00FF0000;
+            header.bitmaskAlpha = 0x000000FF;
+            
+            header.pvrTag       = 559044176;
+            
+            header.numSurfs     = 1;
+            
+            [pvrData setLength:0];
+            [pvrData appendBytes:&header length:sizeof(PVRTexHeader)];
+            [pvrData appendBytes:[outRep bitmapData] length:outRep.pixelsWide * outRep.pixelsHigh * 4];
+        }
         
-        header.pvrTag       = 559044176;
+        [pvrData writeToFile:pvrFilename atomically:YES];
+        [pvrData release];
+
+        [outRep release];
         
-        header.numSurfs     = 1;
-        
-        [pvrData setLength:0];
-        [pvrData appendBytes:&header length:sizeof(PVRTexHeader)];
-        [pvrData appendBytes:[outRep bitmapData] length:outRep.pixelsWide * outRep.pixelsHigh * 4];
+        textureFileName = pvrFilename;
     }
-    
-    [pvrData writeToFile:pvrFilename atomically:YES];
-    [pvrData release];
-
-    [outRep release];
-    
+        
     // 
     // Metadata File Export
     //
@@ -259,8 +276,8 @@ typedef struct _PVRTexHeader
                        forKey:[filename lastPathComponent]];
         }
         
-        [metadata setObject:pvrFilename                                     forKey:@"realTextureFilename"];
-        [metadata setObject:pvrFilename                                     forKey:@"textureFilename"];
+        [metadata setObject:textureFileName                                     forKey:@"realTextureFilename"];
+        [metadata setObject:textureFileName                                     forKey:@"textureFilename"];
         [metadata setObject:[NSNumber numberWithInt:2]                      forKey:@"format"];
         [metadata setObject:NSStringFromSize(NSMakeSize(outW, outH))        forKey:@"size"];
         
@@ -271,6 +288,49 @@ typedef struct _PVRTexHeader
         fprintf(stderr, "[MO] output format %s not yet supported\n", [self.outputFormat UTF8String]);
         exit(EXIT_FAILURE);
     }
+}
+
+- (void) createTextureAtlasFromDirectoryPaths:(NSArray *)dirs
+{
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    // Build a list of all file names from all directories
+    NSMutableSet* allFiles = [NSMutableSet set];
+    
+    for (NSString* dir in dirs)
+    {
+        NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
+        
+        for (NSString* file in files)
+        {
+            if ([[[file pathExtension] lowercaseString] isEqualToString:@"png"])
+            {
+                [allFiles addObject:[file lastPathComponent]];
+            }
+        }
+    }
+    
+    // Add all the absolute file names to an array from the correct directories
+    NSMutableArray* absoluteFilepaths = [NSMutableArray array];
+    for (NSString* file in allFiles)
+    {
+        BOOL foundFile = NO;
+        for (NSString* dir in dirs)
+        {
+            NSString* absFilepath = [dir stringByAppendingPathComponent:file];
+            
+            if ([fm fileExistsAtPath:absFilepath])
+            {
+                [absoluteFilepaths addObject:absFilepath];
+                //foundFile = YES;
+                break;
+            }
+        }
+    }
+    
+    // Generate the sprite sheet
+    self.filenames = absoluteFilepaths;
+    [self createTextureAtlas];
 }
 @end
 

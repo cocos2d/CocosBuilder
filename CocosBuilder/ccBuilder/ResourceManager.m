@@ -159,6 +159,8 @@
 
 @implementation RMDirectory
 
+@synthesize isDynamicSpriteSheet;
+
 @synthesize count;
 @synthesize dirPath;
 @synthesize resources;
@@ -197,6 +199,35 @@
     if (type == kCCBResTypeCCBFile) return ccbFiles;
     if (type == kCCBResTypeAudio) return audioFiles;
     return NULL;
+}
+
+- (void) updateIsDynamicSpriteSheet
+{
+    if (dirPath)
+    {
+        NSLog(@"updateIsDynamicSpriteSheet dirPath: %@", dirPath);
+        
+        NSString* dirSettingsPath = [dirPath stringByAppendingPathExtension:@"ccbSpriteSheet"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:dirSettingsPath])
+        {
+            self.isDynamicSpriteSheet = YES;
+        }
+        else
+        {
+            self.isDynamicSpriteSheet = NO;
+        }
+    }
+}
+
+- (void) setDirPath:(NSString *)dp
+{
+    if (dp != dirPath)
+    {
+        [dirPath release];
+        dirPath = [dp retain];
+    }
+    
+    [self updateIsDynamicSpriteSheet];
 }
 
 - (void) dealloc
@@ -420,6 +451,10 @@
     {
         return kCCBResTypeAudio;
     }
+    else if ([ext isEqualToString:@"ccbspritesheet"])
+    {
+        return kCCBResTypeGeneratedSpriteSheetDef;
+    }
     return kCCBResTypeNone;
 }
 
@@ -477,6 +512,21 @@
         
         if (res)
         {
+            // Update generated sprite sheets
+            if (res.type == kCCBResTypeDirectory)
+            {
+                NSLog(@"CHECK DIR %@", res.filePath);
+                
+                RMDirectory* dir = res.data;
+                BOOL oldValue = dir.isDynamicSpriteSheet;
+                [dir updateIsDynamicSpriteSheet];
+                if (oldValue != dir.isDynamicSpriteSheet)
+                {
+                    resourcesChanged = YES;
+                    NSLog(@"RESOURCES CHANGED!");
+                }
+            }
+            
             if ([res.modifiedTime compare:modifiedTime] == NSOrderedSame)
             {
                 // Skip files that are not modified
@@ -504,7 +554,8 @@
                     || res.type == kCCBResTypeBMFont
                     || res.type == kCCBResTypeTTF
                     || res.type == kCCBResTypeCCBFile
-                    || res.type == kCCBResTypeAudio)
+                    || res.type == kCCBResTypeAudio
+                    || res.type == kCCBResTypeGeneratedSpriteSheetDef)
                 {
                     needsUpdate = YES;
                 }
@@ -745,6 +796,7 @@
 {
     NSData* srcImageData = [NSData dataWithContentsOfFile:autoFile];
     NSImage* srcImage = [[NSImage alloc] initWithData:srcImageData];
+    NSBitmapImageRep* srcImageRep = [[srcImage representations] objectAtIndex:0];
     
     float dstScale = 1;
     if ([res isEqualToString:@"hd"]) dstScale = 2;
@@ -760,17 +812,27 @@
         dstScale = [CocosBuilderAppDelegate appDelegate].projectSettings.publishResolutionHTML5_scale;
     }
     
-    NSSize oldSize = [srcImage size];
-    
     float srcScale = [CocosBuilderAppDelegate appDelegate].projectSettings.resourceAutoScaleFactor;
     
     float scaleFactor = dstScale/srcScale;
     
-    NSLog(@"scaleFactor: %f srcScale: %f dstScale: %f res: %@", scaleFactor, srcScale, dstScale, res);
+    NSSize oldSizePixels = NSMakeSize([srcImageRep pixelsWide],[srcImageRep pixelsHigh]);
+    NSSize oldSize = [srcImage size];
+    
     
     NSSize newSize;
-    newSize.width = oldSize.width*scaleFactor;
-    newSize.height = oldSize.height*scaleFactor;
+    newSize.width = oldSizePixels.width*scaleFactor;
+    newSize.height = oldSizePixels.height*scaleFactor;
+    
+    if ([[dstFile lastPathComponent] isEqualToString:@"coin01.png"])
+    {
+        NSLog(@"***** coin01.png *****");
+        
+        NSLog(@"res: %@ scaleFactor: %f",res, scaleFactor);
+        NSLog(@"old: %f x %f", oldSize.width, oldSize.height);
+        NSLog(@"new: %f x %f", newSize.width, newSize.height);
+        NSLog(@"representations: %@", [srcImage representations]);
+    }
     
     NSImage *resizedImage = [[NSImage alloc] initWithSize: newSize];
     

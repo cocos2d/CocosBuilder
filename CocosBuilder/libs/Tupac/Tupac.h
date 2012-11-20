@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+enum {
+    kTupacImageFormatPNG,
+    kTupacImageFormatPVR,
+};
+
 @interface Tupac : NSObject 
 
 @property(nonatomic) BOOL border;
@@ -15,7 +20,11 @@
 @property(nonatomic, copy) NSArray *filenames;
 @property(nonatomic, copy) NSString *outputName;
 @property(nonatomic, copy) NSString *outputFormat;
+@property(nonatomic,assign) int imageFormat;
 
++ (Tupac*) tupac;
+
+- (void) createTextureAtlasFromDirectoryPaths:(NSArray *)dirs;
 - (void)createTextureAtlas;
 
 @end

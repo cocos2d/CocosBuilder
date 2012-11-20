@@ -39,7 +39,8 @@ enum
     kCCBResTypeTTF,
     kCCBResTypeCCBFile,
     kCCBResTypeJS,
-    kCCBResTypeAudio    
+    kCCBResTypeAudio,
+    kCCBResTypeGeneratedSpriteSheetDef,
 };
 
 
@@ -88,6 +89,7 @@ enum
     int count;
     NSString* dirPath;
     NSMutableDictionary* resources;
+    BOOL isDynamicSpriteSheet;
     
     NSMutableArray* any;
     NSMutableArray* images;
@@ -101,6 +103,8 @@ enum
 @property (nonatomic,assign) int count;
 @property (nonatomic,retain) NSString* dirPath;
 @property (nonatomic,readonly) NSMutableDictionary* resources;
+@property (nonatomic,assign) BOOL isDynamicSpriteSheet;
+
 @property (nonatomic,readonly) NSMutableArray* any;
 @property (nonatomic,readonly) NSMutableArray* images;
 @property (nonatomic,readonly) NSMutableArray* animations;

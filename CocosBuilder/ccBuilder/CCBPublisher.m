@@ -35,6 +35,7 @@
 #import "PlayerDeviceInfo.h"
 #import "ResourceManager.h"
 #import "CCBFileUtil.h"
+#import "Tupac.h"
 
 @implementation CCBPublisher
 
@@ -177,6 +178,8 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
+    NSLog(@"publishDirectory: %@ subPath: %@", dir, subPath);
+    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     ResourceManager* resManager = [ResourceManager sharedManager];
     NSArray* resIndependentDirs = [resManager resIndependentDirs];
@@ -224,6 +227,18 @@
         [files addObjectsFromArray:[fm contentsOfDirectoryAtPath:autoDir error:NULL]];
     }
     
+    // Check for generated sprite sheets
+    BOOL isGeneratedSpriteSheet = NO;
+    NSString* spriteSheetDefFile = [dir stringByAppendingPathExtension:@"ccbSpriteSheet"];
+    if ([fm fileExistsAtPath:spriteSheetDefFile])
+    {
+        isGeneratedSpriteSheet = YES;
+        
+        // Clear temporary sprite sheet directory
+        [fm removeItemAtPath:[projectSettings tempSpriteSheetCacheDirectory] error:NULL];
+    }
+    
+    // Iterate through all files
     for (NSString* fileName in files)
     {
         if ([fileName hasPrefix:@"."]) continue;
@@ -241,6 +256,9 @@
             // Skip resource independent directories
             if ([resIndependentDirs containsObject:fileName]) continue;
             
+            // Skip generated sprite sheets
+            if (isGeneratedSpriteSheet) continue;
+            
             [self publishDirectory:filePath subPath:childPath];
         }
         else
@@ -250,10 +268,21 @@
             // Copy files
             for (NSString* ext in copyExtensions)
             {
+                // Skip non png files for generated sprite sheets
+                if (isGeneratedSpriteSheet && ![ext isEqualToString:@"png"]) continue;
+                
                 if ([[fileName lowercaseString] hasSuffix:ext] && !projectSettings.onlyPublishCCBs)
                 {
                     // This file should be copied
                     NSString* dstFile = [outDir stringByAppendingPathComponent:fileName];
+                    
+                    // Use temp cache directory for generated sprite sheets
+                    if (isGeneratedSpriteSheet)
+                    {
+                        dstFile = [[projectSettings tempSpriteSheetCacheDirectory] stringByAppendingPathComponent:fileName];
+                        
+                        NSLog(@"dstFile: %@", dstFile);
+                    }
                     
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL]) return NO;
                     
@@ -268,7 +297,7 @@
             }
             
             // Publish ccb files
-            if ([[fileName lowercaseString] hasSuffix:@"ccb"])
+            if ([[fileName lowercaseString] hasSuffix:@"ccb"] && !isGeneratedSpriteSheet)
             {
                 NSString* strippedFileName = [fileName stringByDeletingPathExtension];
                 
@@ -292,6 +321,31 @@
                     if (!sucess) return NO;
                 }
             }
+        }
+    }
+    
+    if (isGeneratedSpriteSheet)
+    {
+        // Sprite files should have been saved to the temp cache directory, now actually generate the sprite sheets
+        NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
+        NSString* spriteSheetName = [outDir lastPathComponent];
+        
+        for (NSString* res in publishForResolutions)
+        {
+            NSArray* srcDirs = [NSArray arrayWithObjects:
+                                [projectSettings.tempSpriteSheetCacheDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", res]],
+                                projectSettings.tempSpriteSheetCacheDirectory,
+                                nil];
+            
+            NSString* spriteSheetFile = NULL;
+            if (publishToSingleResolution) spriteSheetFile = outDir;
+            else spriteSheetFile = [[spriteSheetDir stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", res]] stringByAppendingPathComponent:spriteSheetName];
+            
+            NSLog(@"SPRITE SHEET src: %@ out: %@", srcDirs, spriteSheetFile);
+            Tupac* packer = [Tupac tupac];
+            packer.outputName = spriteSheetFile;
+            packer.outputFormat = TupacOutputFormatCocos2D;
+            [packer createTextureAtlasFromDirectoryPaths:srcDirs];
         }
     }
     

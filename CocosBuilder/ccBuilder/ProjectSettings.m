@@ -284,6 +284,12 @@
     return [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:self.projectPathHashed];
 }
 
+- (NSString*) tempSpriteSheetCacheDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    return [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"spritesheet"];
+}
+
 - (BOOL) store
 {
     return [[self serialize] writeToFile:self.projectPath atomically:YES];

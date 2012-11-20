@@ -104,6 +104,7 @@
 @property (nonatomic, retain) NSMutableArray* availableExporters;
 @property (nonatomic, readonly) NSString* displayCacheDirectory;
 @property (nonatomic, readonly) NSString* publishCacheDirectory;
+@property (nonatomic, readonly) NSString* tempSpriteSheetCacheDirectory;
 @property (nonatomic, assign) BOOL deviceOrientationPortrait;
 @property (nonatomic, assign) BOOL deviceOrientationUpsideDown;
 @property (nonatomic, assign) BOOL deviceOrientationLandscapeLeft;
