@@ -345,6 +345,7 @@
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
+            packer.directoryPrefix = subPath;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
         }
     }
@@ -479,19 +480,21 @@
             // Add iPhone resolutions from publishing settings
             if (projectSettings.publishResolution_hd)
             {
-                [resolutions addObject:@"hd"];
+                [resolutions addObject:@"iphonehd"];
                 [resolutions addObject:@"ipad"];
+                [resolutions addObject:@"iphone"];
             }
             if (projectSettings.publishResolution_ipad)
             {
                 [resolutions addObject:@"ipad"];
-                [resolutions addObject:@"hd"];
+                [resolutions addObject:@"iphonehd"];
+                [resolutions addObject:@"iphone"];
             }
             if (projectSettings.publishResolution_ipadhd)
             {
                 [resolutions addObject:@"ipadhd"];
                 [resolutions addObject:@"ipad"];
-                [resolutions addObject:@"hd"];
+                [resolutions addObject:@"iphonehd"];
             }
             publishForResolutions = resolutions;
             

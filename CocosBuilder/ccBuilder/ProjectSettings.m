@@ -69,14 +69,14 @@
     if (!self) return NULL;
     
     resourcePaths = [[NSMutableArray alloc] init];
-    [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"." forKey:@"path"]];
-    self.publishDirectory = @".";
-    self.publishDirectoryAndroid = @".";
-    self.publishDirectoryHTML5 = @".";
+    [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"Resources" forKey:@"path"]];
+    self.publishDirectory = @"Published-iOS";
+    self.publishDirectoryAndroid = @"Published-Android";
+    self.publishDirectoryHTML5 = @"Published-HTML5";
     self.onlyPublishCCBs = NO;
-    self.flattenPaths = YES;
+    self.flattenPaths = NO;
     self.javascriptBased = YES;
-    self.publishToZipFile = YES;
+    self.publishToZipFile = NO;
     self.javascriptMainCCB = @"MainScene";
     self.deviceOrientationPortrait = YES;
     self.resourceAutoScaleFactor = 4;

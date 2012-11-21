@@ -170,7 +170,7 @@
     setting.name = @"iPad";
     setting.width = 0;
     setting.height = 0;
-    setting.ext = @"ipad hd";
+    setting.ext = @"ipad iphonehd";
     setting.scale = 2;
     
     return setting;

@@ -366,7 +366,7 @@
 
 - (NSArray*) resIndependentDirs
 {
-    return [NSArray arrayWithObjects:@"resources-hd",@"resources-ipad",@"resources-ipadhd", @"resources-xsmall", @"resources-small", @"resources-medium", @"resources-large", @"resources-xlarge", @"resources-html5", @"resources-auto", nil];
+    return [NSArray arrayWithObjects:@"resources-iphone", @"resources-iphonehd", @"resources-iphone5", @"resources-iphone5hd", @"resources-ipad",@"resources-ipadhd", @"resources-xsmall", @"resources-small", @"resources-medium", @"resources-large", @"resources-xlarge", @"resources-html5", @"resources-auto", nil];
 }
 
 - (BOOL) isResolutionDependentFile: (NSString*) file
@@ -799,7 +799,8 @@
     NSBitmapImageRep* srcImageRep = [[srcImage representations] objectAtIndex:0];
     
     float dstScale = 1;
-    if ([res isEqualToString:@"hd"]) dstScale = 2;
+    if ([res isEqualToString:@"iphone"]) dstScale = 1;
+    if ([res isEqualToString:@"iphonehd"]) dstScale = 2;
     else if ([res isEqualToString:@"ipad"]) dstScale = 2;
     else if ([res isEqualToString:@"ipadhd"]) dstScale = 4;
     else if ([res isEqualToString:@"xsmall"]) dstScale = 0.5;
@@ -821,18 +822,8 @@
     
     
     NSSize newSize;
-    newSize.width = oldSizePixels.width*scaleFactor;
-    newSize.height = oldSizePixels.height*scaleFactor;
-    
-    if ([[dstFile lastPathComponent] isEqualToString:@"coin01.png"])
-    {
-        NSLog(@"***** coin01.png *****");
-        
-        NSLog(@"res: %@ scaleFactor: %f",res, scaleFactor);
-        NSLog(@"old: %f x %f", oldSize.width, oldSize.height);
-        NSLog(@"new: %f x %f", newSize.width, newSize.height);
-        NSLog(@"representations: %@", [srcImage representations]);
-    }
+    newSize.width = roundf(oldSizePixels.width*scaleFactor);
+    newSize.height = roundf(oldSizePixels.height*scaleFactor);
     
     NSImage *resizedImage = [[NSImage alloc] initWithSize: newSize];
     
