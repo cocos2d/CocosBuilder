@@ -25,8 +25,14 @@
 #import <Foundation/Foundation.h>
 
 @interface CCBX : NSObject
+{
+    NSArray* generatedSpriteSheetDirectories;
+}
+
+@property (nonatomic,retain) NSArray* generatedSpriteSheetDirectories;
 
 - (NSString*) extension;
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths;
+
 
 @end

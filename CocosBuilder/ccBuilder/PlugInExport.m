@@ -30,6 +30,7 @@
 @synthesize extension;
 @synthesize pluginName;
 @synthesize flattenPaths;
+@synthesize generatedSpriteSheetDirectories;
 
 - (id) initWithBundle:(NSBundle*) b
 {
@@ -50,6 +51,7 @@
 {
     Class exporterClass = [bundle principalClass];
     CCBX* exporter = [[[exporterClass alloc] init] autorelease];
+    exporter.generatedSpriteSheetDirectories = generatedSpriteSheetDirectories;
     return [exporter exportDocument:doc flattenPaths:flattenPaths];
 }
 
@@ -58,6 +60,7 @@
     self.pluginName = NULL;
     [bundle release];
     [extension release];
+    [generatedSpriteSheetDirectories release];
     [super dealloc];
 }
 

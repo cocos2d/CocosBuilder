@@ -29,7 +29,9 @@
 
 @implementation CCBXCocos2diPhoneWriter
 
-@synthesize data, flattenPaths;
+@synthesize data;
+@synthesize flattenPaths;
+@synthesize generatedSpriteSheetDirectories;
 
 - (void) setupPropTypes
 {
@@ -82,6 +84,7 @@
     [propTypes release];
     [stringCacheLookup release];
     [stringCache release];
+    [generatedSpriteSheetDirectories release];
     [super dealloc];
 }
 
@@ -928,6 +931,8 @@
 
 - (void) writeDocument:(NSDictionary*)doc
 {
+    NSLog(@"writeDocument generated..: %@", generatedSpriteSheetDirectories);
+    
     NSDictionary* nodeGraph = [doc objectForKey:@"nodeGraph"];
     jsControlled = [[doc objectForKey:@"jsControlled"] boolValue];
     

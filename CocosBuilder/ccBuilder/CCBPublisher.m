@@ -93,6 +93,7 @@
     
     // Export file
     plugIn.flattenPaths = projectSettings.flattenPaths;
+    plugIn.generatedSpriteSheetDirectories = generatedSpriteSheetDirs;
     NSData* data = [plugIn exportDocument:doc];
     if (!data)
     {
@@ -280,8 +281,6 @@
                     if (isGeneratedSpriteSheet)
                     {
                         dstFile = [[projectSettings tempSpriteSheetCacheDirectory] stringByAppendingPathComponent:fileName];
-                        
-                        NSLog(@"dstFile: %@", dstFile);
                     }
                     
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL]) return NO;
@@ -341,11 +340,11 @@
             if (publishToSingleResolution) spriteSheetFile = outDir;
             else spriteSheetFile = [[spriteSheetDir stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", res]] stringByAppendingPathComponent:spriteSheetName];
             
-            NSLog(@"SPRITE SHEET src: %@ out: %@", srcDirs, spriteSheetFile);
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
             packer.directoryPrefix = subPath;
+            packer.border = YES;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
         }
     }
@@ -453,16 +452,61 @@
     }
 }
 
+- (void) addGenereatedSpriteSheetDirsForDir:(NSString*)dir subPath:(NSString*)subPath toArray:(NSMutableArray*) array
+{
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
+    
+    for (NSString* file in files)
+    {
+        if ([file hasPrefix:@"."]) continue;
+        
+        BOOL isDir = NO;
+        if ([fm fileExistsAtPath:[dir stringByAppendingPathComponent:file] isDirectory:&isDir] && isDir)
+        {
+            // Is a directory
+            
+            NSString* spriteSheetDefFile = [[dir stringByAppendingPathComponent:file] stringByAppendingPathExtension:@"ccbSpriteSheet"];
+            if ([fm fileExistsAtPath:spriteSheetDefFile])
+            {
+                // Found a generated sprite sheet
+                NSString* spriteSheetDir = file;
+                if (subPath) spriteSheetDir = [subPath stringByAppendingPathComponent:file];
+                
+                [array addObject:spriteSheetDir];
+            }
+            else
+            {
+                // Search contents of directory
+                NSString* newSubPath = file;
+                if (subPath) newSubPath = [subPath stringByAppendingPathComponent:file];
+                [self addGenereatedSpriteSheetDirsForDir:[dir stringByAppendingPathComponent:file] subPath:newSubPath toArray:array];
+            }
+        }
+    }
+}
+
 - (BOOL) publishAllToDirectory:(NSString*)dir
 {
     outputDir = dir;
     
+    // Setup paths for automatically generated sprite sheets
+    generatedSpriteSheetDirs = [NSMutableArray array];
+    for (NSString* dir in projectSettings.absoluteResourcePaths)
+    {
+        [self addGenereatedSpriteSheetDirsForDir:dir subPath:NULL toArray:generatedSpriteSheetDirs];
+    }
+    
+    // Publish generated files
     [self publishGeneratedFiles];
+    
+    // Publish resources and ccb-files
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
     
+    // Yiee Haa!
     return YES;
 }
 
@@ -550,7 +594,6 @@
             if (![self publishAllToDirectory:publishDir]) return NO;
             
         }
-#warning TODO: Fix HTML 5 export
     }
     else
     {

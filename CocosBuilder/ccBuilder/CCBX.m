@@ -26,6 +26,8 @@
 
 @implementation CCBX
 
+@synthesize generatedSpriteSheetDirectories;
+
 - (NSString*) extension
 {
     return NULL;

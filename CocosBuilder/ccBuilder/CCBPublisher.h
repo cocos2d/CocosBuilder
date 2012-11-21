@@ -37,6 +37,7 @@
     BOOL runAfterPublishing;
     BOOL publishToSingleResolution;
     NSArray* publishForResolutions;
+    NSMutableArray* generatedSpriteSheetDirs;
 }
 
 @property (nonatomic,copy) NSString* publishFormat;

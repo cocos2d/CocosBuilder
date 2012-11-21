@@ -46,6 +46,7 @@ enum {
 {
     BOOL flattenPaths;
     BOOL jsControlled;
+    NSArray* generatedSpriteSheetDirectories;
     
     NSMutableData* data;
     
@@ -60,6 +61,7 @@ enum {
 
 @property (nonatomic,readonly) NSMutableData* data;
 @property (nonatomic,assign) BOOL flattenPaths;
+@property (nonatomic,retain) NSArray* generatedSpriteSheetDirectories;
 
 - (void) writeDocument:(NSDictionary*)doc;
 

@@ -41,4 +41,10 @@
     return [[writer.data copy] autorelease];
 }
 
+- (void) dealloc
+{
+    [generatedSpriteSheetDirectories release];
+    [super dealloc];
+}
+
 @end

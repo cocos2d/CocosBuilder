@@ -47,6 +47,7 @@ typedef struct _PVRTexHeader
         scale_ = 1.0;
         border_ = NO;
         imageFormat_ = kTupacImageFormatPNG;
+        self.outputFormat = TupacOutputFormatCocos2D;
         
         tp = TEXTURE_PACKER::createTexturePacker();
     }
@@ -132,7 +133,11 @@ typedef struct _PVRTexHeader
     }
 
     tp->setTextureCount((int)[images count]);
-    for (NSImage *image in images) tp->addTexture((int)image.size.width, (int)image.size.height);
+    for (NSImage *image in images)
+    {
+        //NSLog(@"addTexture: %d x %d", (int)image.size.width, (int)image.size.height);
+        tp->addTexture((int)image.size.width, (int)image.size.height);
+    }
 
     int outW, outH;
     if (tp->packTextures(outW, outH, true, self.border) == 0) {
