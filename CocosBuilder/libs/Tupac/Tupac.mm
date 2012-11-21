@@ -35,7 +35,7 @@ typedef struct _PVRTexHeader
     TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_;
 
 + (Tupac*) tupac
 {
@@ -97,7 +97,17 @@ typedef struct _PVRTexHeader
     return rotatedImage;
 }
 
-- (void)createTextureAtlas {
+- (void)createTextureAtlas
+{
+    // Create output directory if it doesn't exist
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSString* outputDir = [outputName_ stringByDeletingLastPathComponent];
+    if (![fm fileExistsAtPath:outputDir])
+    {
+        [fm createDirectoryAtPath:outputDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+    }
+    
+    // Create atlas
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:self.filenames.count];
     
     for (NSString *filename in self.filenames) {
@@ -187,7 +197,6 @@ typedef struct _PVRTexHeader
         // PVR Export
         //
         
-        
         pvrtc_info_output(stdout);
 
         size_t pvrOutputSize    = pvrtc_size((int)outRep.pixelsWide,    // width
@@ -263,6 +272,10 @@ typedef struct _PVRTexHeader
         
         int index = 0;
         for (NSString *filename in self.filenames) {
+            
+            NSString* exportFilename = [filename lastPathComponent];
+            if (directoryPrefix_) exportFilename = [directoryPrefix_ stringByAppendingPathComponent:exportFilename];
+            
             bool rot;
             int x, y, w, h;
             rot = tp->getTextureLocation(index++, x, y, w, h);
@@ -273,7 +286,7 @@ typedef struct _PVRTexHeader
                                NSStringFromRect(NSMakeRect(x, y, w, h)),    @"sourceColorRect",
                                NSStringFromSize(NSMakeSize(w, h)),          @"sourceSize",
                                nil]
-                       forKey:[filename lastPathComponent]];
+                       forKey:exportFilename];
         }
         
         [metadata setObject:textureFileName                                     forKey:@"realTextureFilename"];
@@ -314,7 +327,6 @@ typedef struct _PVRTexHeader
     NSMutableArray* absoluteFilepaths = [NSMutableArray array];
     for (NSString* file in allFiles)
     {
-        BOOL foundFile = NO;
         for (NSString* dir in dirs)
         {
             NSString* absFilepath = [dir stringByAppendingPathComponent:file];

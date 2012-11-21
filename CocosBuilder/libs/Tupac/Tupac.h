@@ -21,6 +21,7 @@ enum {
 @property(nonatomic, copy) NSString *outputName;
 @property(nonatomic, copy) NSString *outputFormat;
 @property(nonatomic,assign) int imageFormat;
+@property(nonatomic,copy) NSString* directoryPrefix;
 
 + (Tupac*) tupac;
 
