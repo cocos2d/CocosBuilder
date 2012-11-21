@@ -345,6 +345,7 @@ static AppController* appController = NULL;
     isJSRunning = NO;
     
     [self restartCocos2d];
+    [SimpleAudioEngine end];
     [director_ replaceScene:[self createStatusScene]];
 }
 
