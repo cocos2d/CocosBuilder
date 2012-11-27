@@ -26,10 +26,10 @@
 
 @interface CCBX : NSObject
 {
-    NSArray* generatedSpriteSheetDirectories;
+    NSDictionary* serializedProjectSettings;
 }
 
-@property (nonatomic,retain) NSArray* generatedSpriteSheetDirectories;
+@property (nonatomic,retain) NSDictionary* serializedProjectSettings;
 
 - (NSString*) extension;
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths;

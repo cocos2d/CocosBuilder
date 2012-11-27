@@ -36,6 +36,7 @@
 {
     CCBXCocos2diPhoneWriter* writer = [[[CCBXCocos2diPhoneWriter alloc] init] autorelease];
     writer.flattenPaths = flattenPaths;
+    writer.serializedProjectSettings = serializedProjectSettings;
     [writer writeDocument:doc];
     
     return [[writer.data copy] autorelease];
@@ -43,7 +44,6 @@
 
 - (void) dealloc
 {
-    [generatedSpriteSheetDirectories release];
     [super dealloc];
 }
 

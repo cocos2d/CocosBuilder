@@ -1913,7 +1913,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3266,7 +3266,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1150, 700}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -3558,6 +3557,24 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 					</object>
 					<object class="NSMenuItem" id="174813679">
+						<reference key="NSMenu" ref="189237950"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="35465992"/>
+						<reference key="NSMixedImage" ref="502551668"/>
+					</object>
+					<object class="NSMenuItem" id="913382758">
+						<reference key="NSMenu" ref="189237950"/>
+						<string key="NSTitle">Make Smart Sprite Sheet</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="35465992"/>
+						<reference key="NSMixedImage" ref="502551668"/>
+					</object>
+					<object class="NSMenuItem" id="688779444">
 						<reference key="NSMenu" ref="189237950"/>
 						<bool key="NSIsDisabled">YES</bool>
 						<bool key="NSIsSeparator">YES</bool>
@@ -4856,6 +4873,14 @@
 						<reference key="destination" ref="20672123"/>
 					</object>
 					<int key="connectionID">1800</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuCreateSmartSpriteSheet:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="913382758"/>
+					</object>
+					<int key="connectionID">1803</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -7000,6 +7025,8 @@
 							<reference ref="558496402"/>
 							<reference ref="174813679"/>
 							<reference ref="272796682"/>
+							<reference ref="913382758"/>
+							<reference ref="688779444"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -7406,6 +7433,16 @@
 						<reference key="object" ref="20672123"/>
 						<reference key="parent" ref="720053764"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1801</int>
+						<reference key="object" ref="913382758"/>
+						<reference key="parent" ref="189237950"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1802</int>
+						<reference key="object" ref="688779444"/>
+						<reference key="parent" ref="189237950"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -7663,6 +7700,8 @@
 					<string>1788.IBPluginDependency</string>
 					<string>1795.IBPluginDependency</string>
 					<string>1797.IBPluginDependency</string>
+					<string>1801.IBPluginDependency</string>
+					<string>1802.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>195.IBPluginDependency</string>
 					<string>196.IBPluginDependency</string>
@@ -8046,6 +8085,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8109,7 +8150,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1800</int>
+			<int key="maxID">1803</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8212,33 +8253,67 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cut:</string>
 							<string>debug:</string>
+							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
+							<string>menuAlignKeyframeToMarker:</string>
+							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
+							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
+							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
+							<string>menuPublishProject:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuQuit:</string>
+							<string>menuResetView:</string>
+							<string>menuResolution:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
+							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
+							<string>menuTimelineDuplicate:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
+							<string>playbackStepBack:</string>
 							<string>pressedPanelVisibility:</string>
+							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
+							<string>reportBug:</string>
 							<string>runProject:</string>
+							<string>saveDocument:</string>
+							<string>showHelp:</string>
 							<string>undo:</string>
+							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -8269,39 +8344,72 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>cut:</string>
 							<string>debug:</string>
+							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
+							<string>menuAlignKeyframeToMarker:</string>
+							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
+							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
+							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
+							<string>menuPublishProject:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuQuit:</string>
+							<string>menuResetView:</string>
+							<string>menuResolution:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
+							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
+							<string>menuTimelineDuplicate:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
+							<string>playbackStepBack:</string>
 							<string>pressedPanelVisibility:</string>
+							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
+							<string>reportBug:</string>
 							<string>runProject:</string>
+							<string>saveDocument:</string>
+							<string>showHelp:</string>
 							<string>undo:</string>
+							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">cut:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 							<object class="IBActionInfo">
 								<string key="name">debug:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">menuAddKeyframe:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">menuAddStickyNote:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuAlignKeyframeToMarker:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuArrange:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8317,7 +8425,15 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">menuJavaScriptControlled:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">menuMoveObject:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuNewProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8329,11 +8445,23 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">menuPublishProject:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">menuPublishProjectAndRun:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuQuit:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuResetView:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuResolution:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8345,7 +8473,15 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">menuSetEasing:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">menuSetStateOriginCentered:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">menuTimelineDuplicate:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8369,7 +8505,15 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">playbackStepBack:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">pressedPanelVisibility:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">pressedPlaybackControl:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8385,11 +8529,27 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">reportBug:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">runProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">saveDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showHelp:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">undo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">visitCommunity:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>

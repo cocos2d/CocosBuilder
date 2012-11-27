@@ -27,6 +27,28 @@
 #import "HashValue.h"
 #import "PlugInManager.h"
 #import "PlugInExport.h"
+#import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
+#import "CocosBuilderAppDelegate.h"
+
+@implementation ProjectSettingsGeneratedSpriteSheet
+
+- (id)initWithSerialization:(id)dict
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    return self;
+}
+
+- (id) serialize
+{
+    NSMutableDictionary* ser = [NSMutableDictionary dictionary];
+    
+    return ser;
+}
+
+@end
 
 @implementation ProjectSettings
 
@@ -62,6 +84,7 @@
 @synthesize deviceOrientationLandscapeLeft;
 @synthesize deviceOrientationLandscapeRight;
 @synthesize resourceAutoScaleFactor;
+@synthesize generatedSpriteSheets;
 
 - (id) init
 {
@@ -98,6 +121,8 @@
     self.publishResolutionHTML5_width = 960;
     self.publishResolutionHTML5_height = 640;
     self.publishResolutionHTML5_scale = 2;
+    
+    generatedSpriteSheets = [[NSMutableDictionary dictionary] retain];
     
     // Load available exporters
     self.availableExporters = [NSMutableArray array];
@@ -164,6 +189,19 @@
     self.resourceAutoScaleFactor = [[dict objectForKey:@"resourceAutoScaleFactor"]intValue];
     if (resourceAutoScaleFactor == 0) self.resourceAutoScaleFactor = 4;
     
+    // Load generated sprite sheet settings
+    NSDictionary* generatedSpriteSheetsDict = [dict objectForKey:@"generatedSpriteSheets"];
+    generatedSpriteSheets = [NSMutableDictionary dictionary];
+    if (generatedSpriteSheetsDict)
+    {
+        for (NSString* ssFile in generatedSpriteSheetsDict)
+        {
+            NSDictionary* ssDict = [generatedSpriteSheetsDict objectForKey:ssFile];
+            ProjectSettingsGeneratedSpriteSheet* ssInfo = [[[ProjectSettingsGeneratedSpriteSheet alloc] initWithSerialization:ssDict] autorelease];
+            [generatedSpriteSheets setObject:ssInfo forKey:ssFile];
+        }
+    }
+    [generatedSpriteSheets retain];
     
     NSString* mainCCB = [dict objectForKey:@"javascriptMainCCB"];
     if (!mainCCB) mainCCB = @"";
@@ -179,6 +217,7 @@
     self.publishDirectory = NULL;
     self.exporter = NULL;
     self.availableExporters = NULL;
+    [generatedSpriteSheets release];
     [super dealloc];
 }
 
@@ -234,6 +273,15 @@
     if (!javascriptMainCCB) self.javascriptMainCCB = @"";
     if (!javascriptBased) self.javascriptMainCCB = @"";
     [dict setObject:javascriptMainCCB forKey:@"javascriptMainCCB"];
+    
+    NSMutableDictionary* generatedSpriteSheetsDict = [NSMutableDictionary dictionary];
+    for (NSString* ssFile in generatedSpriteSheets)
+    {
+        ProjectSettingsGeneratedSpriteSheet* ssInfo = [generatedSpriteSheets objectForKey:ssFile];
+        id ssDict = [ssInfo serialize];
+        [generatedSpriteSheetsDict setObject:ssDict forKey:ssFile];
+    }
+    [dict setObject:generatedSpriteSheetsDict forKey:@"generatedSpriteSheets"];
     
     return dict;
 }
@@ -293,6 +341,30 @@
 - (BOOL) store
 {
     return [[self serialize] writeToFile:self.projectPath atomically:YES];
+}
+
+- (void) makeSmartSpriteSheet:(RMResource*) res
+{
+    NSAssert(res.type == kCCBResTypeDirectory, @"Resource must be directory");
+    
+    NSString* relPath = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+    
+    [generatedSpriteSheets setObject:[[[ProjectSettingsGeneratedSpriteSheet alloc] init] autorelease] forKey:relPath];
+    
+    [self store];
+    [[CocosBuilderAppDelegate appDelegate].resManager notifyResourceObserversResourceListUpdated];
+}
+
+- (void) removeSmartSpriteSheet:(RMResource*) res
+{
+    NSAssert(res.type == kCCBResTypeDirectory, @"Resource must be directory");
+    
+    NSString* relPath = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+    
+    [generatedSpriteSheets removeObjectForKey:relPath];
+    
+    [self store];
+    [[CocosBuilderAppDelegate appDelegate].resManager notifyResourceObserversResourceListUpdated];
 }
 
 @end

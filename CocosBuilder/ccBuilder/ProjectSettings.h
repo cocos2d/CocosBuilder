@@ -27,10 +27,20 @@
 #define kCCBProjectSettingsVersion 1
 #define kCCBDefaultExportPlugIn @"ccbi"
 
+@class RMResource;
+
+@interface ProjectSettingsGeneratedSpriteSheet : NSObject
+{
+}
+- (id)initWithSerialization:(id)dict;
+- (id)serialize;
+@end
+
 @interface ProjectSettings : NSObject
 {
     NSString* projectPath;
     NSMutableArray* resourcePaths;
+    NSMutableDictionary* generatedSpriteSheets;
     
     NSString* publishDirectory;
     NSString* publishDirectoryAndroid;
@@ -111,6 +121,12 @@
 @property (nonatomic, assign) BOOL deviceOrientationLandscapeRight;
 @property (nonatomic, assign) int resourceAutoScaleFactor;
 
+@property (nonatomic, readonly) NSDictionary* generatedSpriteSheets;
+
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;
+- (id) serialize;
+
+- (void) makeSmartSpriteSheet:(RMResource*) res;
+- (void) removeSmartSpriteSheet:(RMResource*) res;
 @end

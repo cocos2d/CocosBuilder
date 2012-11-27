@@ -2889,6 +2889,26 @@ static BOOL hideAllToNextSeparator;
     [SequencerUtil createFramesFromSelectedResources];
 }
 
+- (IBAction)menuCreateSmartSpriteSheet:(id)sender
+{
+    int selectedRow = [sender tag];
+    
+    if (selectedRow >= 0 && projectSettings)
+    {
+        RMResource* res = [outlineProject itemAtRow:selectedRow];
+        RMDirectory* dir = res.data;
+        
+        if (dir.isDynamicSpriteSheet)
+        {
+            [projectSettings removeSmartSpriteSheet:res];
+        }
+        else
+        {
+            [projectSettings makeSmartSpriteSheet:res];
+        }
+    }
+}
+
 - (IBAction)menuAlignKeyframeToMarker:(id)sender
 {
     [SequencerUtil alignKeyframesToMarker];

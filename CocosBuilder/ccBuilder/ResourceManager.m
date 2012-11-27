@@ -23,6 +23,7 @@
  */
 
 #import "ResourceManager.h"
+#import "ResourceManagerUtil.h"
 #import "CCBSpriteSheetParser.h"
 #import "CCBAnimationParser.h"
 #import "CCBGlobals.h"
@@ -159,7 +160,7 @@
 
 @implementation RMDirectory
 
-@synthesize isDynamicSpriteSheet;
+//@synthesize isDynamicSpriteSheet;
 
 @synthesize count;
 @synthesize dirPath;
@@ -201,6 +202,25 @@
     return NULL;
 }
 
+- (BOOL) isDynamicSpriteSheet
+{
+    if (dirPath)
+    {
+        NSString* relPath = [ResourceManagerUtil relativePathFromAbsolutePath:dirPath];
+        ProjectSettings* projectSettings = [CocosBuilderAppDelegate appDelegate].projectSettings;
+        if (projectSettings && relPath)
+        {
+            NSDictionary* spriteSheets = projectSettings.generatedSpriteSheets;
+            if ([spriteSheets objectForKey:relPath])
+            {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+/*
 - (void) updateIsDynamicSpriteSheet
 {
     if (dirPath)
@@ -217,7 +237,7 @@
             self.isDynamicSpriteSheet = NO;
         }
     }
-}
+}*/
 
 - (void) setDirPath:(NSString *)dp
 {
@@ -227,7 +247,7 @@
         dirPath = [dp retain];
     }
     
-    [self updateIsDynamicSpriteSheet];
+    //[self updateIsDynamicSpriteSheet];
 }
 
 - (void) dealloc
@@ -519,7 +539,7 @@
                 
                 RMDirectory* dir = res.data;
                 BOOL oldValue = dir.isDynamicSpriteSheet;
-                [dir updateIsDynamicSpriteSheet];
+                //[dir updateIsDynamicSpriteSheet];
                 if (oldValue != dir.isDynamicSpriteSheet)
                 {
                     resourcesChanged = YES;

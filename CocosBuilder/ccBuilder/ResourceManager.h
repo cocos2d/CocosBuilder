@@ -103,7 +103,7 @@ enum
 @property (nonatomic,assign) int count;
 @property (nonatomic,retain) NSString* dirPath;
 @property (nonatomic,readonly) NSMutableDictionary* resources;
-@property (nonatomic,assign) BOOL isDynamicSpriteSheet;
+@property (nonatomic,readonly) BOOL isDynamicSpriteSheet;
 
 @property (nonatomic,readonly) NSMutableArray* any;
 @property (nonatomic,readonly) NSMutableArray* images;
@@ -157,6 +157,8 @@ enum
 - (NSArray*) resIndependentDirs;
 
 - (void) createCachedImageFromAuto:(NSString*)autoFile saveAs:(NSString*)dstFile forResolution:(NSString*)res;
+
+- (void) notifyResourceObserversResourceListUpdated;
 
 - (void) debugPrintDirectories;
 

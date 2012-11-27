@@ -24,6 +24,7 @@
 
 #import "ResourceManagerOutlineView.h"
 #import "CocosBuilderAppDelegate.h"
+#import "ResourceManager.h"
 
 @implementation ResourceManagerOutlineView
 
@@ -32,9 +33,40 @@
     NSPoint pt = [self convertPoint:[evt locationInWindow] fromView:nil];
     int row=[self rowAtPoint:pt];
     
-    NSLog(@"menuForRow: %d", row);
+    RMResource* clickedResource = [self itemAtRow:row];
     
     NSMenu* menu = [CocosBuilderAppDelegate appDelegate].menuContextResManager;
+    menu.autoenablesItems = NO;
+    
+    NSArray* items = [menu itemArray];
+    for (NSMenuItem* item in items)
+    {
+        if (item.action == @selector(menuCreateSmartSpriteSheet:))
+        {
+            if (clickedResource.type == kCCBResTypeDirectory)
+            {
+                RMDirectory* dir = clickedResource.data;
+                
+                if (dir.isDynamicSpriteSheet)
+                {
+                    item.title = @"Remove Smart Sprite Sheet";
+                }
+                else
+                {
+                    item.title = @"Make Smart Sprite Sheet";
+                }
+                
+                [item setEnabled:YES];
+                 item.tag = row;
+            }
+            else
+            {
+                [item setEnabled:NO];
+            }
+            
+           
+        }
+    }
     
     // TODO: Update menu
     

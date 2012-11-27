@@ -93,7 +93,7 @@
     
     // Export file
     plugIn.flattenPaths = projectSettings.flattenPaths;
-    plugIn.generatedSpriteSheetDirectories = generatedSpriteSheetDirs;
+    plugIn.projectSettings = projectSettings;
     NSData* data = [plugIn exportDocument:doc];
     if (!data)
     {
@@ -452,49 +452,15 @@
     }
 }
 
-- (void) addGenereatedSpriteSheetDirsForDir:(NSString*)dir subPath:(NSString*)subPath toArray:(NSMutableArray*) array
-{
-    NSFileManager* fm = [NSFileManager defaultManager];
-    NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
-    
-    for (NSString* file in files)
-    {
-        if ([file hasPrefix:@"."]) continue;
-        
-        BOOL isDir = NO;
-        if ([fm fileExistsAtPath:[dir stringByAppendingPathComponent:file] isDirectory:&isDir] && isDir)
-        {
-            // Is a directory
-            
-            NSString* spriteSheetDefFile = [[dir stringByAppendingPathComponent:file] stringByAppendingPathExtension:@"ccbSpriteSheet"];
-            if ([fm fileExistsAtPath:spriteSheetDefFile])
-            {
-                // Found a generated sprite sheet
-                NSString* spriteSheetDir = file;
-                if (subPath) spriteSheetDir = [subPath stringByAppendingPathComponent:file];
-                
-                [array addObject:spriteSheetDir];
-            }
-            else
-            {
-                // Search contents of directory
-                NSString* newSubPath = file;
-                if (subPath) newSubPath = [subPath stringByAppendingPathComponent:file];
-                [self addGenereatedSpriteSheetDirsForDir:[dir stringByAppendingPathComponent:file] subPath:newSubPath toArray:array];
-            }
-        }
-    }
-}
-
 - (BOOL) publishAllToDirectory:(NSString*)dir
 {
     outputDir = dir;
     
     // Setup paths for automatically generated sprite sheets
     generatedSpriteSheetDirs = [NSMutableArray array];
-    for (NSString* dir in projectSettings.absoluteResourcePaths)
+    for (NSString* dir in projectSettings.generatedSpriteSheets)
     {
-        [self addGenereatedSpriteSheetDirsForDir:dir subPath:NULL toArray:generatedSpriteSheetDirs];
+        [generatedSpriteSheetDirs addObject:dir];
     }
     
     // Publish generated files

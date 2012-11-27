@@ -26,7 +26,7 @@
 
 @implementation CCBX
 
-@synthesize generatedSpriteSheetDirectories;
+@synthesize serializedProjectSettings;
 
 - (NSString*) extension
 {
@@ -36,6 +36,12 @@
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths
 {
     return NULL;
+}
+
+- (void) dealloc
+{
+    [serializedProjectSettings release];
+    [super dealloc];
 }
 
 @end
