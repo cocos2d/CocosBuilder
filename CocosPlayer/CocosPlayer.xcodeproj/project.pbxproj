@@ -610,16 +610,10 @@
 		E3F6A07816499A7600550B13 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		E3F6A07A16499A7600550B13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		E3F6A07B16499A7700550B13 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
-		E3F6A1A216499A7900550B13 /* LICENSE_cocos2d.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_cocos2d.txt; path = libs/LICENSE_cocos2d.txt; sourceTree = "<group>"; };
-		E3F6A1FE16499A7900550B13 /* LICENSE_Chipmunk.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_Chipmunk.txt; path = libs/LICENSE_Chipmunk.txt; sourceTree = "<group>"; };
-		E3F6A20D16499A7900550B13 /* LICENSE_CocosDenshion.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_CocosDenshion.txt; path = libs/LICENSE_CocosDenshion.txt; sourceTree = "<group>"; };
-		E3F6A23F16499A7A00550B13 /* LICENSE_Kazmath.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_Kazmath.txt; path = libs/LICENSE_Kazmath.txt; sourceTree = "<group>"; };
-		E3F6A30116499A7E00550B13 /* LICENSE_jsbindings.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_jsbindings.txt; path = libs/LICENSE_jsbindings.txt; sourceTree = "<group>"; };
 		E3F6A30316499A7E00550B13 /* JRSwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JRSwizzle.h; path = libs/JRSwizzle/JRSwizzle.h; sourceTree = "<group>"; };
 		E3F6A30416499A7E00550B13 /* JRSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JRSwizzle.m; path = libs/JRSwizzle/JRSwizzle.m; sourceTree = "<group>"; };
 		E3F6A30616499A7E00550B13 /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.markdown; path = libs/JRSwizzle/README.markdown; sourceTree = "<group>"; };
 		E3F6A30816499A7E00550B13 /* LICENSE_JRSwizzle.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_JRSwizzle.txt; path = libs/LICENSE_JRSwizzle.txt; sourceTree = "<group>"; };
-		E3F6A31C16499A7F00550B13 /* LICENSE_CCBReader.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_CCBReader.txt; path = libs/LICENSE_CCBReader.txt; sourceTree = "<group>"; };
 		E3F6A31E16499A7F00550B13 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		E3F6A31F16499A7F00550B13 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		E3F6A32116499A7F00550B13 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -877,13 +871,7 @@
 				E3893CD51666BF2100299482 /* CocosBuilderReader */,
 				E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */,
 				E3F6A37716499D8400550B13 /* ThoMoNetworking */,
-				E3F6A1A216499A7900550B13 /* LICENSE_cocos2d.txt */,
-				E3F6A1FE16499A7900550B13 /* LICENSE_Chipmunk.txt */,
-				E3F6A20D16499A7900550B13 /* LICENSE_CocosDenshion.txt */,
-				E3F6A23F16499A7A00550B13 /* LICENSE_Kazmath.txt */,
-				E3F6A30116499A7E00550B13 /* LICENSE_jsbindings.txt */,
 				E3F6A30816499A7E00550B13 /* LICENSE_JRSwizzle.txt */,
-				E3F6A31C16499A7F00550B13 /* LICENSE_CCBReader.txt */,
 				E3F6A30216499A7E00550B13 /* JRSwizzle */,
 			);
 			name = libs;
@@ -1618,7 +1606,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\"";
+				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\" \"../CocosBuilder/libs/cocos2d-iphone/external/SpiderMonkey/ios/include\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1649,7 +1637,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\"";
+				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\" \"../CocosBuilder/libs/cocos2d-iphone/external/SpiderMonkey/ios/include\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include\"/**";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
