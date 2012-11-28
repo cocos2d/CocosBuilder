@@ -244,6 +244,8 @@
 		E35DBC2814F4FF410070A6E4 /* InspectorTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */; };
 		E360789015EBA5420040A172 /* sel-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = E360788F15EBA5420040A172 /* sel-frame.png */; };
 		E36078BC15EE0B2C0040A172 /* sel-round.png in Resources */ = {isa = PBXBuildFile; fileRef = E36078BB15EE0B2C0040A172 /* sel-round.png */; };
+		E3618D5616655041009F5805 /* CCBPublisherTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3618D5516655041009F5805 /* CCBPublisherTemplate.m */; };
+		E3618D58166562DA009F5805 /* publishTemplates in Resources */ = {isa = PBXBuildFile; fileRef = E3618D57166562DA009F5805 /* publishTemplates */; };
 		E366127B1630A99C0065E1C5 /* MainScene.js in Resources */ = {isa = PBXBuildFile; fileRef = E366127A1630A99C0065E1C5 /* MainScene.js */; };
 		E367E32016384F0C00247F12 /* orientation-landscapeleft.png in Resources */ = {isa = PBXBuildFile; fileRef = E367E31C16384F0C00247F12 /* orientation-landscapeleft.png */; };
 		E367E32116384F0C00247F12 /* orientation-landscaperight.png in Resources */ = {isa = PBXBuildFile; fileRef = E367E31D16384F0C00247F12 /* orientation-landscaperight.png */; };
@@ -354,6 +356,11 @@
 		E385A41E14F6993E00DFB12D /* CCBPMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E385A41D14F6993E00DFB12D /* CCBPMenu.m */; };
 		E385A42014F69FF300DFB12D /* InspectorBlock.xib in Resources */ = {isa = PBXBuildFile; fileRef = E385A41F14F69FF300DFB12D /* InspectorBlock.xib */; };
 		E385A42314F6A01900DFB12D /* InspectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = E385A42214F6A01900DFB12D /* InspectorBlock.m */; };
+		E3893C971666B9F500299482 /* CCClippingNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C8C1666B9F500299482 /* CCClippingNode.m */; };
+		E3893C981666B9F500299482 /* CCDrawNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C8E1666B9F500299482 /* CCDrawNode.m */; };
+		E3893C991666B9F500299482 /* ccFPSImages.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C901666B9F500299482 /* ccFPSImages.m */; };
+		E3893C9A1666B9F500299482 /* CCPhysicsDebugNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C921666B9F500299482 /* CCPhysicsDebugNode.m */; };
+		E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3893C941666B9F500299482 /* CCPhysicsSprite.mm */; };
 		E38DAB22165AC18800EA24E4 /* reshandler-spritesheet-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */; };
 		E3926188159C69D20034FF1D /* SequencerKeyframeEasing.m in Sources */ = {isa = PBXBuildFile; fileRef = E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */; };
 		E392618F159CAAA10034FF1D /* seq-keyframe-interpol-vis.png in Resources */ = {isa = PBXBuildFile; fileRef = E392618A159CAAA10034FF1D /* seq-keyframe-interpol-vis.png */; };
@@ -1116,6 +1123,9 @@
 		E35DBC2714F4FF3F0070A6E4 /* InspectorTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorTexture.m; sourceTree = "<group>"; };
 		E360788F15EBA5420040A172 /* sel-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sel-frame.png"; sourceTree = "<group>"; };
 		E36078BB15EE0B2C0040A172 /* sel-round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sel-round.png"; sourceTree = "<group>"; };
+		E3618D5416655041009F5805 /* CCBPublisherTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPublisherTemplate.h; sourceTree = "<group>"; };
+		E3618D5516655041009F5805 /* CCBPublisherTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPublisherTemplate.m; sourceTree = "<group>"; };
+		E3618D57166562DA009F5805 /* publishTemplates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = publishTemplates; sourceTree = "<group>"; };
 		E366127A1630A99C0065E1C5 /* MainScene.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MainScene.js; sourceTree = "<group>"; };
 		E367E31C16384F0C00247F12 /* orientation-landscapeleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation-landscapeleft.png"; sourceTree = "<group>"; };
 		E367E31D16384F0C00247F12 /* orientation-landscaperight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation-landscaperight.png"; sourceTree = "<group>"; };
@@ -1347,6 +1357,18 @@
 		E385A41F14F69FF300DFB12D /* InspectorBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorBlock.xib; sourceTree = "<group>"; };
 		E385A42114F6A01900DFB12D /* InspectorBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorBlock.h; sourceTree = "<group>"; };
 		E385A42214F6A01900DFB12D /* InspectorBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorBlock.m; sourceTree = "<group>"; };
+		E3893C8B1666B9F500299482 /* CCClippingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCClippingNode.h; sourceTree = "<group>"; };
+		E3893C8C1666B9F500299482 /* CCClippingNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCClippingNode.m; sourceTree = "<group>"; };
+		E3893C8D1666B9F500299482 /* CCDrawNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDrawNode.h; sourceTree = "<group>"; };
+		E3893C8E1666B9F500299482 /* CCDrawNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCDrawNode.m; sourceTree = "<group>"; };
+		E3893C8F1666B9F500299482 /* ccFPSImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccFPSImages.h; sourceTree = "<group>"; };
+		E3893C901666B9F500299482 /* ccFPSImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccFPSImages.m; sourceTree = "<group>"; };
+		E3893C911666B9F500299482 /* CCPhysicsDebugNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsDebugNode.h; sourceTree = "<group>"; };
+		E3893C921666B9F500299482 /* CCPhysicsDebugNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCPhysicsDebugNode.m; sourceTree = "<group>"; };
+		E3893C931666B9F500299482 /* CCPhysicsSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsSprite.h; sourceTree = "<group>"; };
+		E3893C941666B9F500299482 /* CCPhysicsSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CCPhysicsSprite.mm; sourceTree = "<group>"; };
+		E3893C951666B9F500299482 /* ccShader_PositionColorLengthTexture_frag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_frag.h; sourceTree = "<group>"; };
+		E3893C961666B9F500299482 /* ccShader_PositionColorLengthTexture_vert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_vert.h; sourceTree = "<group>"; };
 		E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reshandler-spritesheet-folder.png"; sourceTree = "<group>"; };
 		E3926186159C69D20034FF1D /* SequencerKeyframeEasing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerKeyframeEasing.h; sourceTree = "<group>"; };
 		E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerKeyframeEasing.m; sourceTree = "<group>"; };
@@ -2250,6 +2272,7 @@
 		7789ACEB133AB6A700CEFCC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E3618D57166562DA009F5805 /* publishTemplates */,
 				E3AF6CE015F0CFAE0048DB2A /* Documentation */,
 				E3214CC415DA73BD002413A7 /* Templates */,
 				E35DBBDD14F3D1830070A6E4 /* Configurations */,
@@ -2528,6 +2551,8 @@
 			children = (
 				E346286E155D22290043EAB1 /* CCBPublisher.h */,
 				E346286F155D22290043EAB1 /* CCBPublisher.m */,
+				E3618D5416655041009F5805 /* CCBPublisherTemplate.h */,
+				E3618D5516655041009F5805 /* CCBPublisherTemplate.m */,
 			);
 			name = Publishing;
 			sourceTree = "<group>";
@@ -2838,6 +2863,18 @@
 		E36A270F152263B4004986A8 /* cocos2d */ = {
 			isa = PBXGroup;
 			children = (
+				E3893C8B1666B9F500299482 /* CCClippingNode.h */,
+				E3893C8C1666B9F500299482 /* CCClippingNode.m */,
+				E3893C8D1666B9F500299482 /* CCDrawNode.h */,
+				E3893C8E1666B9F500299482 /* CCDrawNode.m */,
+				E3893C8F1666B9F500299482 /* ccFPSImages.h */,
+				E3893C901666B9F500299482 /* ccFPSImages.m */,
+				E3893C911666B9F500299482 /* CCPhysicsDebugNode.h */,
+				E3893C921666B9F500299482 /* CCPhysicsDebugNode.m */,
+				E3893C931666B9F500299482 /* CCPhysicsSprite.h */,
+				E3893C941666B9F500299482 /* CCPhysicsSprite.mm */,
+				E3893C951666B9F500299482 /* ccShader_PositionColorLengthTexture_frag.h */,
+				E3893C961666B9F500299482 /* ccShader_PositionColorLengthTexture_vert.h */,
 				E3DFA79215AC9DE1005D3B6F /* CCNode+Debug.h */,
 				E3DFA79315AC9DE1005D3B6F /* CCNode+Debug.m */,
 				E3DFA78F15AC9DD3005D3B6F /* ccCArray.m */,
@@ -4131,6 +4168,7 @@
 				581130601639C52500A86D70 /* seq-startmarker.png in Resources */,
 				E3808DB41641C45B00398456 /* PublishSettingsWindow.xib in Resources */,
 				E38DAB22165AC18800EA24E4 /* reshandler-spritesheet-folder.png in Resources */,
+				E3618D58166562DA009F5805 /* publishTemplates in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4566,6 +4604,12 @@
 				E380B2521642FC3C0006D31C /* TexturePacker.cpp in Sources */,
 				E380B2531642FC3C0006D31C /* Tupac.mm in Sources */,
 				E380B25A164330360006D31C /* PlayerDeviceInfo.m in Sources */,
+				E3618D5616655041009F5805 /* CCBPublisherTemplate.m in Sources */,
+				E3893C971666B9F500299482 /* CCClippingNode.m in Sources */,
+				E3893C981666B9F500299482 /* CCDrawNode.m in Sources */,
+				E3893C991666B9F500299482 /* ccFPSImages.m in Sources */,
+				E3893C9A1666B9F500299482 /* CCPhysicsDebugNode.m in Sources */,
+				E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

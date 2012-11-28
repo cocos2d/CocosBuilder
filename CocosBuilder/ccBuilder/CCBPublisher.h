@@ -27,6 +27,11 @@
 @class ProjectSettings;
 @class CCBWarnings;
 
+enum {
+    kCCBPublisherTargetTypeHTML5,
+    kCCBPublisherTargetTypeJSB,
+};
+
 @interface CCBPublisher : NSObject
 {
     ProjectSettings* projectSettings;
@@ -38,6 +43,7 @@
     BOOL publishToSingleResolution;
     NSArray* publishForResolutions;
     NSMutableArray* generatedSpriteSheetDirs;
+    int targetType;
 }
 
 @property (nonatomic,copy) NSString* publishFormat;

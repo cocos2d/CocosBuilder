@@ -261,7 +261,6 @@
         NSString* proposedSheetName = [sprite stringByDeletingLastPathComponent];
         if ([[serializedProjectSettings objectForKey:@"generatedSpriteSheets"] objectForKey:proposedSheetName])
         {
-            NSLog(@"sprite: %@ in gen sheet: %@.plist", sprite, proposedSheetName);
             return YES;
         }
     }
@@ -979,8 +978,6 @@
 
 - (void) writeDocument:(NSDictionary*)doc
 {
-    NSLog(@"writeDocument projectSettings: %@", serializedProjectSettings);
-    
     NSDictionary* nodeGraph = [doc objectForKey:@"nodeGraph"];
     jsControlled = [[doc objectForKey:@"jsControlled"] boolValue];
     
