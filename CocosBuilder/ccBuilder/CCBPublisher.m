@@ -115,6 +115,10 @@
 
 - (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution
 {
+    // Add to list of copied files
+    NSString* localFileName =[dstFile relativePathFromBaseDirPath:outputDir];
+    [publishedResources addObject:localFileName];
+    
     NSFileManager* fm = [NSFileManager defaultManager];
     
     NSString* srcAutoFile = NULL;
@@ -303,6 +307,10 @@
                 
                 NSString* dstFile = [[outDir stringByAppendingPathComponent:strippedFileName] stringByAppendingPathExtension:publishFormat];
                 
+                // Add file to list of published files
+                NSString* localFileName = [dstFile relativePathFromBaseDirPath:outputDir];
+                [publishedResources addObject:localFileName];
+                
                 if ([dstFile isEqualToString:filePath])
                 {
                     [warnings addWarningWithDescription:@"Publish will overwrite files in resource directory." isFatal:YES];
@@ -475,12 +483,46 @@
         tmpl = [CCBPublisherTemplate templateWithFile:@"main-html5.txt"];
         [tmpl writeToFile:mainFile];
         
+        // Generate resources-html5.js file
+        
+        NSString* resourceListFile = [outputDir stringByAppendingPathComponent:@"resources-html5.js"];
+        
+        NSString* resourceListStr = @"var ccb_resources = [\n";
+        int resCount = 0;
+        for (NSString* res in publishedResources)
+        {
+            NSString* comma = @",";
+            if (resCount == [publishedResources count] -1) comma = @"";
+            
+            NSString* ext = [[res pathExtension] lowercaseString];
+            
+            NSString* type = NULL;
+            
+            if ([ext isEqualToString:@"plist"]) type = @"plist";
+            else if ([ext isEqualToString:@"png"]) type = @"image";
+            else if ([ext isEqualToString:@"jpg"]) type = @"image";
+            else if ([ext isEqualToString:@"jpeg"]) type = @"image";
+            else if ([ext isEqualToString:@"mp3"]) type = @"effect";
+            else if ([ext isEqualToString:@"ccbi"]) type = @"ccbi";
+            
+            if (type)
+            {
+                resourceListStr = [resourceListStr stringByAppendingFormat:@"    {type:'%@', src:\"%@\"}%@\n", type, res, comma];
+            }
+        }
+        
+        resourceListStr = [resourceListStr stringByAppendingString:@"];\n"];
+        
+        [resourceListStr writeToFile:resourceListFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     }
+    
 }
 
 - (BOOL) publishAllToDirectory:(NSString*)dir
 {
     outputDir = dir;
+    
+    publishedResources = [NSMutableSet set];
     
     // Setup paths for automatically generated sprite sheets
     generatedSpriteSheetDirs = [NSMutableArray array];
@@ -489,14 +531,16 @@
         [generatedSpriteSheetDirs addObject:dir];
     }
     
-    // Publish generated files
-    [self publishGeneratedFiles];
-    
     // Publish resources and ccb-files
     for (NSString* dir in projectSettings.absoluteResourcePaths)
     {
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
+    
+    NSLog(@"publishedResources: %@", publishedResources);
+    
+    // Publish generated files
+    [self publishGeneratedFiles];
     
     // Yiee Haa!
     return YES;

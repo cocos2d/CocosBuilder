@@ -43,6 +43,7 @@ enum {
     BOOL publishToSingleResolution;
     NSArray* publishForResolutions;
     NSMutableArray* generatedSpriteSheetDirs;
+    NSMutableSet* publishedResources;
     int targetType;
 }
 
