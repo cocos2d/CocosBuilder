@@ -101,7 +101,8 @@
     self.javascriptBased = YES;
     self.publishToZipFile = NO;
     self.javascriptMainCCB = @"MainScene";
-    self.deviceOrientationPortrait = YES;
+    self.deviceOrientationLandscapeLeft = YES;
+    self.deviceOrientationLandscapeRight = YES;
     self.resourceAutoScaleFactor = 4;
     
     self.publishEnablediPhone = YES;
