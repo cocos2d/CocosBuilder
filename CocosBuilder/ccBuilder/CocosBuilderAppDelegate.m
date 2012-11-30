@@ -1179,43 +1179,16 @@ static BOOL hideAllToNextSeparator;
 
 - (void) copyDefaultResourcesForProject:(ProjectSettings*) settings
 {
-    // Setup paths
-    NSString* fileListPath = [[NSBundle mainBundle] pathForResource:@"DefaultResourcesList" ofType:@"plist"];
-    NSDictionary* fileListDict = [NSDictionary dictionaryWithContentsOfFile:fileListPath];
-    NSArray* ccbResources = [fileListDict objectForKey:@"ccbResources"];
-    NSArray* rootResources = [fileListDict objectForKey:@"root"];
-    
-    // Copy resources (if they don't already exist) to ccbResources dir
     NSFileManager* fm = [NSFileManager defaultManager];
     
-    NSString* destDir = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"ccbResources"];
-    
-    [fm createDirectoryAtPath:destDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-    
-    for (NSString* resFile in ccbResources)
-    {
-        NSString* srcFile = [[NSBundle mainBundle] pathForResource:resFile ofType:@""];
-        NSString* dstFile = [destDir stringByAppendingPathComponent:resFile];
-        
-        if (![fm fileExistsAtPath:dstFile])
-        {
-            [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
-        }
-    }
-    
     // Copy resources to project dir (root directory)
-    destDir = [settings.absoluteResourcePaths objectAtIndex:0];
+    NSString* srcDir = [[NSBundle mainBundle] pathForResource:@"defaultProjectResources" ofType:@""];
+    NSString* dstDir = [settings.absoluteResourcePaths objectAtIndex:0];
     
-    for (NSString* resFile in rootResources)
-    {
-        NSString* srcFile = [[NSBundle mainBundle] pathForResource:resFile ofType:@""];
-        NSString* dstFile = [destDir stringByAppendingPathComponent:resFile];
-        
-        if (![fm fileExistsAtPath:dstFile])
-        {
-            [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
-        }
-    }
+    NSLog(@"Copy from: %@ to: %@",srcDir,dstDir);
+    
+    BOOL success = [fm copyItemAtPath:srcDir toPath:dstDir error:NULL];
+    NSLog(@"succes: %d",success);
 }
 
 - (BOOL) createProject:(NSString*) fileName
