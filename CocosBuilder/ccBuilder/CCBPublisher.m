@@ -115,9 +115,14 @@
 
 - (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution
 {
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    
     // Add to list of copied files
     NSString* localFileName =[dstFile relativePathFromBaseDirPath:outputDir];
     [publishedResources addObject:localFileName];
+    
+    // Update progress
+    [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", localFileName]];
     
     NSFileManager* fm = [NSFileManager defaultManager];
     
