@@ -64,7 +64,6 @@
 #import "CCBWarnings.h"
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
-#import "PlayerController.h"
 #import "SequencerHandler.h"
 #import "MainWindow.h"
 #import "CCNode+NodeInfo.h"
@@ -108,7 +107,6 @@
 @synthesize guiView;
 @synthesize guiWindow;
 @synthesize showStickyNotes;
-@synthesize playerController;
 @synthesize menuContextKeyframe;
 @synthesize menuContextKeyframeInterpol;
 @synthesize menuContextResManager;
@@ -204,11 +202,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
 
-- (void) setupPlayerController
-{
-    self.playerController = [[[PlayerController alloc] init] autorelease];
-}
-
 - (void) setupPlayerConnection
 {
     connection = [[PlayerConnection alloc] init];
@@ -297,7 +290,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupResourceManager];
     [self setupGUIWindow];
     
-    [self setupPlayerController];
     [self setupPlayerConnection];
     
     self.showGuides = YES;
@@ -2086,7 +2078,6 @@ static BOOL hideAllToNextSeparator;
     
     if (publisher.runAfterPublishing)
     {
-        //[playerController runPlayerForProject:projectSettings]
         [self runProject:self];
     }
     
@@ -3133,7 +3124,6 @@ static BOOL hideAllToNextSeparator;
 
 - (void) windowWillClose:(NSNotification *)notification
 {
-    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
 }
 
@@ -3153,7 +3143,6 @@ static BOOL hideAllToNextSeparator;
 {
     if ([self windowShouldClose:self])
     {
-        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
 }

@@ -79,7 +79,6 @@ enum {
 @class TaskStatusWindow;
 @class CCBPublisher;
 @class CCBWarnings;
-@class PlayerController;
 @class SequencerHandler;
 @class SequencerScrubberSelectionView;
 @class MainWindow;
@@ -196,7 +195,6 @@ enum {
     
     // Player
     PlayerConnection* connection;
-    PlayerController* playerController;
     PlayerConsoleWindow* playerConsoleWindow;
     
     // Help window
@@ -246,8 +244,6 @@ enum {
 @property (nonatomic,readonly) NSSegmentedControl *panelVisibilityControl;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
-
-@property (nonatomic,retain) PlayerController* playerController;
 
 @property (nonatomic,copy) NSString* errorDescription;
 
