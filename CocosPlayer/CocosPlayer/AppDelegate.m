@@ -100,7 +100,7 @@ static AppController* appController = NULL;
 	
 	// Create an CCGLView with a RGB565 color buffer, and a depth buffer of 0-bits
 	CCGLView *glView = [CCGLView viewWithFrame:[window_ bounds]
-								   pixelFormat:kEAGLColorFormatRGB565	//kEAGLColorFormatRGBA8
+								   pixelFormat:kEAGLColorFormatRGBA8
 								   depthFormat:0	//GL_DEPTH_COMPONENT24_OES
 							preserveBackbuffer:NO
 									sharegroup:nil
@@ -289,7 +289,7 @@ static AppController* appController = NULL;
     
     director_ = (CCDirectorIOS*)[CCDirector sharedDirector];
     CCGLView *glView = [CCGLView viewWithFrame:[window_ bounds]
-								   pixelFormat:kEAGLColorFormatRGB565	//kEAGLColorFormatRGBA8
+								   pixelFormat:kEAGLColorFormatRGBA8
 								   depthFormat:0	//GL_DEPTH_COMPONENT24_OES
 							preserveBackbuffer:NO
 									sharegroup:nil
