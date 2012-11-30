@@ -105,7 +105,7 @@
     self.resourceAutoScaleFactor = 4;
     
     self.publishEnablediPhone = YES;
-    self.publishEnabledAndroid = YES;
+    self.publishEnabledAndroid = NO;
     self.publishEnabledHTML5 = YES;
     
     self.publishResolution_ = YES;
@@ -118,9 +118,9 @@
     self.publishResolution_large = YES;
     self.publishResolution_xlarge = YES;
     
-    self.publishResolutionHTML5_width = 960;
-    self.publishResolutionHTML5_height = 640;
-    self.publishResolutionHTML5_scale = 2;
+    self.publishResolutionHTML5_width = 480;
+    self.publishResolutionHTML5_height = 320;
+    self.publishResolutionHTML5_scale = 1;
     
     generatedSpriteSheets = [[NSMutableDictionary dictionary] retain];
     
