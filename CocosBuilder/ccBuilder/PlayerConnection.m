@@ -89,6 +89,9 @@ static PlayerConnection* sharedPlayerConnection;
     
     [self willChangeValueForKey:@"connected"];
     [self didChangeValueForKey:@"connected"];
+    
+    [self willChangeValueForKey:@"selectedDeviceInfo"];
+    [self didChangeValueForKey:@"selectedDeviceInfo"];
 }
 
 - (void) dealloc
@@ -216,6 +219,13 @@ static PlayerConnection* sharedPlayerConnection;
         deviceInfo.populated = YES;
         
         [delegate playerConnection:self updatedPlayerList:connectedServers];
+        
+        // Update properties
+        [self willChangeValueForKey:@"connected"];
+        [self didChangeValueForKey:@"connected"];
+        
+        [self willChangeValueForKey:@"selectedDeviceInfo"];
+        [self didChangeValueForKey:@"selectedDeviceInfo"];
     }
     else if ([cmd isEqualToString:@"result"])
     {
@@ -233,6 +243,8 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (BOOL) connected
 {
+    NSLog(@"connected (selectedDeviceInfo: %@)",self.selectedDeviceInfo);
+    
     if ([self selectedDeviceInfo]) return YES;
     return NO;
 }
