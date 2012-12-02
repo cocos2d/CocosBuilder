@@ -672,7 +672,7 @@
             // iPhone
             if (deviceInfo.hasRetinaDisplay)
             {
-                publishForResolutions = [NSArray arrayWithObjects:@"hd", nil];
+                publishForResolutions = [NSArray arrayWithObjects:@"iphonehd", nil];
             }
             else
             {
