@@ -69,8 +69,25 @@
     }
     else
     {
-        if (interfaceOrientation & [AppController appController].deviceOrientations) return YES;
-        else return NO;
+		NSUInteger converted = 0;
+		switch (interfaceOrientation) {
+
+			case UIDeviceOrientationPortrait:
+				converted = UIInterfaceOrientationMaskPortrait;
+				break;
+			case UIDeviceOrientationPortraitUpsideDown:
+				converted = UIInterfaceOrientationMaskPortraitUpsideDown;
+				break;
+			case UIDeviceOrientationLandscapeRight:
+				converted = UIInterfaceOrientationMaskLandscapeRight;
+				break;
+			case UIDeviceOrientationLandscapeLeft:
+				converted = UIInterfaceOrientationMaskLandscapeLeft;
+				break;
+		}
+        if (converted & [AppController appController].deviceOrientations)
+			return YES;
+		return NO;
     }
 }
 

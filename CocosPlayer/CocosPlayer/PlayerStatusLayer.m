@@ -52,12 +52,17 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
     
     if (!pairing) pairing = @"Auto";
     lblPair.string = pairing;
+	
+	// disabled on iOS 4 because the pair code requires iOS 5
+	if( [[CCConfiguration sharedConfiguration] OSVersion] < kCCiOSVersion_5_0)
+		btnPair.isEnabled = NO;
 }
 
 - (void) didLoadFromCCB
 {
     [lblStatus setString:kCCBStatusStringWaiting];
     [self updatePairingLabel];
+	
 }
 
 - (void) setStatus:(NSString*)status
