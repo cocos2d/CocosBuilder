@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define TIMELINE_PAD_PIXELS 5.0f
+
 @class SequencerSettingsWindow;
 
 @interface SequencerSequence : NSObject

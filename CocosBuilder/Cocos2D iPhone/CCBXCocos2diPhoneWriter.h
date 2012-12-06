@@ -46,6 +46,7 @@ enum {
 {
     BOOL flattenPaths;
     BOOL jsControlled;
+    NSDictionary* serializedProjectSettings;
     
     NSMutableData* data;
     
@@ -60,6 +61,7 @@ enum {
 
 @property (nonatomic,readonly) NSMutableData* data;
 @property (nonatomic,assign) BOOL flattenPaths;
+@property (nonatomic,retain) NSDictionary* serializedProjectSettings;
 
 - (void) writeDocument:(NSDictionary*)doc;
 

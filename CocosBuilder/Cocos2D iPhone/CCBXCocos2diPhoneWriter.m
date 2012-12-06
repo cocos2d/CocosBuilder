@@ -29,7 +29,9 @@
 
 @implementation CCBXCocos2diPhoneWriter
 
-@synthesize data, flattenPaths;
+@synthesize data;
+@synthesize flattenPaths;
+@synthesize serializedProjectSettings;
 
 - (void) setupPropTypes
 {
@@ -80,6 +82,9 @@
 {
     [data release];
     [propTypes release];
+    [stringCacheLookup release];
+    [stringCache release];
+    [serializedProjectSettings release];
     [super dealloc];
 }
 
@@ -249,6 +254,19 @@
     [self writeInt:[num intValue] withSign:NO];
 }
 
+- (BOOL) isSprite:(NSString*) sprite inGeneratedSpriteSheet: (NSString*) sheet
+{
+    if (!sheet || [sheet isEqualToString:@""])
+    {
+        NSString* proposedSheetName = [sprite stringByDeletingLastPathComponent];
+        if ([[serializedProjectSettings objectForKey:@"generatedSpriteSheets"] objectForKey:proposedSheetName])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void) writeProperty:(id) prop type:(NSString*)type name:(NSString*)name platform:(NSString*)platform
 {
     int typeId = [self propTypeIdForName:type];
@@ -347,6 +365,12 @@
     {
         NSString* a = [prop objectAtIndex:0];
         NSString* b = [prop objectAtIndex:1];
+        
+        if ([self isSprite:b inGeneratedSpriteSheet:a])
+        {
+            a = [[b stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+        }
+        
         [self writeCachedString:a isPath:YES];
         [self writeCachedString:b isPath:[a isEqualToString:@""]];
     }
@@ -459,6 +483,11 @@
                     
                     if ([b isEqualToString:@"Use regular file"]) b = @"";
                     
+                    if ([self isSprite:a inGeneratedSpriteSheet:b])
+                    {
+                        b = [[a stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+                    }
+                    
                     [self addToStringCache:a isPath:YES];
                     [self addToStringCache:b isPath:[a isEqualToString:@""]];
                 }
@@ -503,6 +532,12 @@
                 NSString* a = [baseValue objectAtIndex:0];
                 NSString* b = [baseValue objectAtIndex:1];
                 if ([b isEqualToString:@"Use regular file"]) b = @"";
+                
+                if ([self isSprite:a inGeneratedSpriteSheet:b])
+                {
+                    b = [[a stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+                }
+                
                 value = [NSArray arrayWithObjects:b, a, nil];
             }
             else
@@ -516,6 +551,12 @@
         {
             NSString* a = [value objectAtIndex:0];
             NSString* b = [value objectAtIndex:1];
+            
+            if ([self isSprite:b inGeneratedSpriteSheet:a])
+            {
+                a = [[b stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+            }
+            
             [self addToStringCache: a isPath:YES];
             [self addToStringCache:b isPath:[a isEqualToString:@""]];
         }
@@ -705,6 +746,11 @@
         if ([b isEqualToString:@"Use regular file"]) b = @"";
         if ([a isEqualToString:@"Use regular file"]) a = @"";
         
+        if ([self isSprite:b inGeneratedSpriteSheet:a])
+        {
+            a = [[b stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+        }
+        
         [self writeCachedString:a isPath:YES];
         [self writeCachedString:b isPath:[a isEqualToString:@""]];
     }
@@ -767,7 +813,7 @@
             // Write property type
             int kfType = [[prop objectForKey:@"type"] intValue];
             NSString* propType = NULL;
-            if (kfType == kCCBKeyframeTypeVisible) propType = @"Check";
+            if (kfType == kCCBKeyframeTypeToggle) propType = @"Check";
             else if (kfType == kCCBKeyframeTypeByte) propType = @"Byte";
             else if (kfType == kCCBKeyframeTypeColor3) propType = @"Color3";
             else if (kfType == kCCBKeyframeTypeDegrees) propType = @"Degrees";
@@ -782,7 +828,7 @@
             // Write number of keyframes
             NSArray* keyframes = [prop objectForKey:@"keyframes"];
             
-            if (kfType == kCCBKeyframeTypeVisible && keyframes.count > 0)
+            if (kfType == kCCBKeyframeTypeToggle && keyframes.count > 0)
             {
                 BOOL visible = YES;
                 NSDictionary* keyframeFirst = [keyframes objectAtIndex:0];
@@ -867,6 +913,12 @@
                 NSString* a = [baseValue objectAtIndex:0];
                 NSString* b = [baseValue objectAtIndex:1];
                 if ([b isEqualToString:@"Use regular file"]) b = @"";
+                
+                if ([self isSprite:a inGeneratedSpriteSheet:b])
+                {
+                    b = [[a stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+                }
+                
                 value = [NSArray arrayWithObjects:b, a, nil];
             }
             else

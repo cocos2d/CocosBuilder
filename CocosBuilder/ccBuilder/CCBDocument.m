@@ -59,12 +59,15 @@
 
 - (void)dealloc
 {
-    self.exportPath = NULL;
-    self.exportPlugIn = NULL;
-    self.lastEditedProperty = NULL;
     [fileName release];
-    self.docData = NULL;
-    self.undoManager = NULL;
+    [exportPath release];
+    [exportPlugIn release];
+    [docData release];
+    [undoManager release];
+    [lastEditedProperty release];
+    [resolutions release];
+    [sequences release];
+    
     [super dealloc];
 }
 

@@ -274,11 +274,13 @@ static CocosScene* sharedCocosScene;
 
 - (void) setStageSize: (CGSize) size centeredOrigin:(BOOL)centeredOrigin
 {
+    
     stageBgLayer.contentSize = size;
     if (centeredOrigin) contentLayer.position = ccp(size.width/2, size.height/2);
     else contentLayer.position = ccp(0,0);
     
     [self setStageBorder:stageBorderType];
+    
     
     if (renderedScene)
     {
@@ -288,10 +290,18 @@ static CocosScene* sharedCocosScene;
     
     if (size.width > 0 && size.height > 0 && size.width <= 1024 && size.height <= 1024)
     {
+        // Use a new autorelease pool
+        // Otherwise, two successive calls to the running method (_cmd) cause a crash!
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
         renderedScene = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
         renderedScene.anchorPoint = ccp(0.5f,0.5f);
         [self addChild:renderedScene];
+
+        [pool drain];
     }
+    
+    
 }
 
 - (CGSize) stageSize
@@ -906,7 +916,12 @@ static CocosScene* sharedCocosScene;
             deltaRotation = -deltaRotation;
         }
         
-        float newRotation = fmodf(transformStartRotation + deltaRotation, 360);
+        while ( deltaRotation > 180.0f )
+            deltaRotation -= 360.0f;
+        while ( deltaRotation < -180.0f )
+            deltaRotation += 360.0f;
+        
+        float newRotation = (transformStartRotation + deltaRotation);
         
         // Handle shift key (fixed rotation angles)
         if ([event modifierFlags] & NSShiftKeyMask)
@@ -1045,7 +1060,7 @@ static CocosScene* sharedCocosScene;
         }
         else if (currentMouseTransform == kCCBTransformHandleMove)
         {
-            CGPoint pt = [PositionPropertySetter positionForNode:selectedNode prop:@"position"];
+            CGPoint pt = NSPointToCGPoint([PositionPropertySetter positionForNode:selectedNode prop:@"position"]);
             value = [NSArray arrayWithObjects:
                      [NSNumber numberWithFloat:pt.x],
                      [NSNumber numberWithFloat:pt.y],
@@ -1224,7 +1239,7 @@ static CocosScene* sharedCocosScene;
         
         [self schedule:@selector(nextFrame:)];
         
-        self.isMouseEnabled = YES;
+        self.mouseEnabled = YES;
         
         stageZoom = 1;
         

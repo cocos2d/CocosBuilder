@@ -77,13 +77,6 @@ static SequencerHandler* sharedSequencerHandler;
     
     [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
     
-    // Set default values for timeline scale & offset
-    timelineScales[0] = kCCBTimelineScale0;
-    timelineScales[1] = kCCBTimelineScale1;
-    timelineScales[2] = kCCBTimelineScale2;
-    timelineScales[3] = kCCBTimelineScale3;
-    timelineScales[4] = kCCBTimelineScale4;
-    
     return self;
 }
 
@@ -108,34 +101,22 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) timeScaleSliderUpdated:(id)sender
 {
-    int scale = roundf(timeScaleSlider.doubleValue);
-    timeScaleSlider.doubleValue = scale;
-    
-    currentSequence.timelineScale = timelineScales[scale];
+    currentSequence.timelineScale = timeScaleSlider.floatValue;
 }
 
 - (void) updateScaleSlider
 {
     if (!currentSequence)
     {
-        timeScaleSlider.doubleValue = 2;
+        timeScaleSlider.doubleValue = kCCBDefaultTimelineScale;
         [timeScaleSlider setEnabled:NO];
         return;
     }
     
     [timeScaleSlider setEnabled:YES];
     
-    int val = 0;
-    for (int i = 0; i < kCCBNumTimlineScales; i++)
-    {
-        if (currentSequence.timelineScale == timelineScales[i])
-        {
-            val = i;
-            break;
-        }
-    }
     
-    timeScaleSlider.doubleValue = val;
+    timeScaleSlider.floatValue = currentSequence.timelineScale;
 }
 
 #pragma mark Handle scroller
@@ -143,7 +124,7 @@ static SequencerHandler* sharedSequencerHandler;
 - (float) visibleTimeArea
 {
     NSTableColumn* column = [outlineHierarchy tableColumnWithIdentifier:@"sequencer"];
-    return column.width/currentSequence.timelineScale;
+    return (column.width-2*TIMELINE_PAD_PIXELS)/currentSequence.timelineScale;
 }
 
 - (float) maxTimelineOffset
@@ -169,6 +150,26 @@ static SequencerHandler* sharedSequencerHandler;
     else
     {
         [scroller setEnabled:NO];
+    }
+}
+
+- (void) updateScrollerToShowCurrentTime
+{
+    float visibleTime = [self visibleTimeArea];
+    float maxTimeScroll = [self maxTimelineOffset];
+    float timelinePosition = currentSequence.timelinePosition;
+    if (maxTimeScroll > 0)
+    {
+        float minVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime);
+        float maxVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime) + visibleTime;
+        
+        if (timelinePosition < minVisibleTime) {
+            scroller.doubleValue = timelinePosition/(currentSequence.timelineLength-visibleTime);
+            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+        } else if (timelinePosition > maxVisibleTime) {
+            scroller.doubleValue = (timelinePosition-visibleTime)/(currentSequence.timelineLength-visibleTime);
+            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+        }
     }
 }
 
@@ -450,7 +451,7 @@ static SequencerHandler* sharedSequencerHandler;
     CCNode* node = item;
     if (node.seqExpanded)
     {
-        return kCCBSeqDefaultRowHeight * ([node.plugIn.animatableProperties count] + 1);
+        return kCCBSeqDefaultRowHeight * ([node.plugIn.animatableProperties count]);
     }
     else
     {
@@ -520,14 +521,22 @@ static SequencerHandler* sharedSequencerHandler;
 
 #pragma mark Timeline
 
-- (void) redrawTimeline
+- (void) redrawTimeline:(BOOL) reload
 {
     [scrubberSelectionView setNeedsDisplay:YES];
     NSString* displayTime = [currentSequence currentDisplayTime];
     if (!displayTime) displayTime = @"00:00:00";
     [timeDisplay setStringValue:displayTime];
     [self updateScroller];
-    [outlineHierarchy reloadData];
+    if (reload) {
+        [outlineHierarchy reloadData];
+    }
+}
+
+- (void) redrawTimeline
+{
+    
+    [self redrawTimeline:YES];
 }
 
 #pragma mark Util
@@ -743,7 +752,7 @@ static SequencerHandler* sharedSequencerHandler;
     
     if ([node shouldDisableProperty:prop]) return NO;
     
-    if ([prop isEqualToString:@"visible"]) return YES;
+
     return [node.plugIn.animatableProperties containsObject:prop];
 }
 

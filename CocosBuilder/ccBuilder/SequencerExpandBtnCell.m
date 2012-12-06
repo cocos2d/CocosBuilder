@@ -23,20 +23,29 @@
  */
 #import "SequencerExpandBtnCell.h"
 
+@interface SequencerExpandBtnCell()
+
+- (void) loadImages;
+
+@end
+
+
 @implementation SequencerExpandBtnCell
 
 @synthesize isExpanded;
 @synthesize canExpand;
+@synthesize expandedImage;
+@synthesize collapsedImage;
 
 - (void) loadImages
 {
-    imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
-    [imgExpand setFlipped:YES];
-    [imgExpand retain];
+    if ( !expandedImage && !collapsedImage ) {
+        self.expandedImage = [NSImage imageNamed:@"seq-btn-expand.png"];
+        [expandedImage setFlipped:YES];
     
-    imgCollapse = [NSImage imageNamed:@"seq-btn-collapse.png"];
-    [imgCollapse setFlipped:YES];
-    [imgCollapse retain];
+        self.collapsedImage = [NSImage imageNamed:@"seq-btn-collapse.png"];
+        [collapsedImage setFlipped:YES];
+    }
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -62,6 +71,7 @@
 
 - (id) init
 {
+    NSLog(@"init cell");
     self = [super init];
     [self loadImages];
     return self;
@@ -88,39 +98,37 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    /*
-    if (!imgExpand)
-    {
-        imgExpand = [NSImage imageNamed:@"seq-btn-expand.png"];
-        [imgExpand setFlipped:YES];
-        [imgExpand retain];
-    }
-    if (!imgCollapse)
-    {
-        imgCollapse = [NSImage imageNamed:@"seq-btn-collapse.png"];
-        [imgCollapse setFlipped:YES];
-        [imgCollapse retain];
-    }
-    */
     
     if (canExpand)
     {
         if (isExpanded)
         {
-            [imgCollapse drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+            [collapsedImage drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
         }
         else
         {
-            [imgExpand drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
+            [expandedImage drawAtPoint:cellFrame.origin fromRect:NSMakeRect(0, 0, 16, 16) operation:NSCompositeSourceOver fraction:1];
         }
     }
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    SequencerExpandBtnCell *copy = [super copyWithZone:zone];
+    copy->collapsedImage = nil;
+    copy->expandedImage = nil;
+    copy.collapsedImage = [self.collapsedImage copyWithZone:zone];
+    copy.expandedImage = [self.expandedImage copyWithZone:zone];
+    [copy.collapsedImage release];
+    [copy.expandedImage release];
+    
+    return copy;
+}
+
 - (void) dealloc
 {
-#warning Why do I get the -[NSImage release]: message sent to deallocated instance ??
-    //[imgExpand release];
-    //[imgCollapse release];
+    [expandedImage release];
+    [collapsedImage release];
     [super dealloc];
 }
 

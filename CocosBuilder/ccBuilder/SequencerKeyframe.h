@@ -30,7 +30,7 @@
 enum
 {
     kCCBKeyframeTypeUndefined,
-    kCCBKeyframeTypeVisible,
+    kCCBKeyframeTypeToggle,
     kCCBKeyframeTypeDegrees,
     kCCBKeyframeTypePosition,
     kCCBKeyframeTypeScaleLock,
@@ -70,4 +70,6 @@ enum
 + (int) keyframeTypeFromPropertyType:(NSString*)type;
 
 - (BOOL) valueIsEqualTo:(SequencerKeyframe*)keyframe;
+- (BOOL) supportsFiniteTimeInterpolations;
+
 @end

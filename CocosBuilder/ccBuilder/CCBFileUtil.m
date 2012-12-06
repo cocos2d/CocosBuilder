@@ -66,4 +66,17 @@
     return file;
 }
 
++ (NSDate*) modificationDateForFile:(NSString*)file
+{
+    NSDictionary* attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:NULL];
+    return [attr objectForKey:NSFileModificationDate];
+}
+
++ (void) setModificationDate:(NSDate*)date forFile:(NSString*)file
+{
+    NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   date, NSFileModificationDate, NULL];
+    [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:file error:NULL];
+}
+
 @end

@@ -262,7 +262,7 @@
     for (SequencerKeyframe* kf in keyframes)
     {
         // Reset easing for the keyframe
-        if (kf.type == kCCBKeyframeTypeSpriteFrame)
+        if (![kf supportsFiniteTimeInterpolations])
         {
             kf.easing.type = kCCBKeyframeEasingInstant;
         }

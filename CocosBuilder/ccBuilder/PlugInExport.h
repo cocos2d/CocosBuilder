@@ -24,17 +24,21 @@
 
 #import <Foundation/Foundation.h>
 
+@class ProjectSettings;
+
 @interface PlugInExport : NSObject
 {
     NSBundle* bundle;
     NSString* extension;
     NSString* pluginName;
+    ProjectSettings* projectSettings;
     BOOL flattenPaths;
 }
 
 @property (nonatomic,readonly) NSString* extension;
 @property (nonatomic,retain) NSString* pluginName;
 @property (nonatomic,assign) BOOL flattenPaths;
+@property (nonatomic,retain) ProjectSettings* projectSettings;
 
 - (id) initWithBundle:(NSBundle*) bundle;
 - (NSData*) exportDocument:(NSDictionary*)doc;

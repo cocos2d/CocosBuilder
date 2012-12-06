@@ -1,10 +1,26 @@
-//
-//  ServerController.m
-//  CocosPlayer
-//
-//  Created by Viktor Lidholt on 7/13/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ * CocosBuilder: http://www.cocosbuilder.com
+ *
+ * Copyright (c) 2012 Zynga Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 #import "ServerController.h"
 #import "PlayerStatusLayer.h"
@@ -44,12 +60,41 @@
     return self;
 }
 
+#pragma mark Redirection of std out
+
+- (void) redirectStdErr
+{
+    NSPipe* pipe = [NSPipe pipe];
+    pipeReadHandle = [pipe fileHandleForReading];
+    
+    [pipeReadHandle readInBackgroundAndNotify];
+    
+    int err = dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
+    if (!err) NSLog(@"ConsoleWindow: Failed to redirect stderr");
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
+    
+    [pipeReadHandle retain];
+}
+
+- (void) readData:(NSNotification*)notification
+{
+    [pipeReadHandle readInBackgroundAndNotify] ;
+    NSString *str = [[NSString alloc] initWithData: [[notification userInfo] objectForKey: NSFileHandleNotificationDataItem] encoding: NSASCIIStringEncoding] ;
+    [self sendLog:str];
+}
+
+#pragma mark Control methods
+
 - (void) start
 {
     if (server)
     {
         [server start];
-        NSLog(@"Server started");
+        NSLog(@"Server started, redirecting stderr");
+        
+        // Redirect std out
+        [self redirectStdErr];
     }
 }
 
@@ -112,7 +157,7 @@
 			string = [NSString stringWithFormat:@"Error evaluating script:\n#############################\n%@\n#############################\n", script];
 		}
 		
-		[self sendResultString:string];
+		//[self sendResultString:string];
 	}
 				  waitUntilDone:NO];
 }
@@ -213,7 +258,7 @@
     
     NSString* cmd = [msg objectForKey:@"cmd"];
     
-    NSLog(@"cmd: %@", cmd);
+    //NSLog(@"cmd: %@", cmd);
     
     if ([cmd isEqualToString:@"script"])
     {
@@ -233,6 +278,19 @@
         NSData* zipData = [msg objectForKey:@"data"];
         [self extractZipData:zipData];
     }
+    else if ([cmd isEqualToString:@"settings"])
+    {
+        NSArray* arr = [msg objectForKey:@"orientations"];
+        
+        NSUInteger orientations = 0;
+        
+        if ([[arr objectAtIndex:0] boolValue]) orientations |= UIInterfaceOrientationMaskPortrait;
+        if ([[arr objectAtIndex:1] boolValue]) orientations |= UIInterfaceOrientationMaskPortraitUpsideDown;
+        if ([[arr objectAtIndex:2] boolValue]) orientations |= UIInterfaceOrientationMaskLandscapeLeft;
+        if ([[arr objectAtIndex:3] boolValue]) orientations |= UIInterfaceOrientationMaskLandscapeRight;
+        
+        [AppController appController].deviceOrientations = orientations;
+    }
 }
 
 #pragma mark Sending messages
@@ -248,9 +306,11 @@
 - (void) sendDeviceName
 {
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
-    [msg setObject:@"devicename" forKey:@"cmd"];
+    [msg setObject:@"deviceinfo" forKey:@"cmd"];
     [msg setObject:[[UIDevice currentDevice] name] forKey:@"devicename"];
-
+    [msg setObject:[AppController appController].deviceType forKey:@"devicetype"];
+    [msg setObject:[NSNumber numberWithBool:[AppController appController].hasRetinaDisplay] forKey:@"retinadisplay"];
+    
     [self sendMessage:msg];
 }
 
@@ -259,6 +319,15 @@
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"result" forKey:@"cmd"];
     [msg setObject:str forKey:@"result"];
+    
+    [self sendMessage:msg];
+}
+
+- (void) sendLog:(NSString*)log
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"log" forKey:@"cmd"];
+    [msg setObject:log forKey:@"string"];
     
     [self sendMessage:msg];
 }

@@ -59,6 +59,10 @@
     self.name = [ser valueForKey:@"name"];
     self.time = [[ser valueForKey:@"time"] floatValue];
     self.easing = [[[SequencerKeyframeEasing alloc] initWithSerialization:[ser objectForKey:@"easing"]] autorelease];
+    // fix possible broken easing/type combinations
+    if (![self supportsFiniteTimeInterpolations]) {
+        easing.type = kCCBKeyframeEasingInstant;
+    }
     
     return self;
 }
@@ -92,7 +96,7 @@
     }
     else if ([type isEqualToString:@"Check"])
     {
-        return kCCBKeyframeTypeVisible;
+        return kCCBKeyframeTypeToggle;
     }
     else if ([type isEqualToString:@"Byte"])
     {
@@ -163,10 +167,17 @@
     return NO;
 }
 
+- (BOOL) supportsFiniteTimeInterpolations
+{
+    return (type != kCCBKeyframeTypeToggle && type != kCCBKeyframeTypeUndefined && type != kCCBKeyframeTypeSpriteFrame);
+}
+
+
 - (void) dealloc
 {
-    self.easing = NULL;
-    self.parent = NULL;
+    [value release];
+    [name release];
+    [easing release];
     [super dealloc];
 }
 

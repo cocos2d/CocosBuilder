@@ -30,6 +30,7 @@
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "SequencerTimelineDrawDelegate.h"
 
 @implementation SequencerCell
 
@@ -43,15 +44,29 @@
     return self;
 }
 
-- (void) drawPropertyRowVisiblityWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
+- (void) drawPropertyRowToggle:(int) row property:(NSString*)propName withFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
     // Draw background
-    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y -1, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
-    [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y-1+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
+    if (row == 0)
+    {
+        [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    else if (row == 1)
+    {
+        [imgRowBg1 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    else
+    {
+        [imgRowBgN drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+                                
     
-    SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:@"visible" sequenceId:seq.sequenceId];
+    
+    
+    SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
     
     if (nodeProp)
     {        
@@ -66,7 +81,7 @@
             {
                 keyframeNext = [keyframes objectAtIndex:i+1];
             }
-            
+            float interpolDuration;
             int xPos = [seq timeToPosition:keyframe.time];
             
             // Draw visibility
@@ -77,15 +92,31 @@
                 if (keyframeNext)
                 {
                     xPosNext = [seq timeToPosition:keyframeNext.time];
+                    interpolDuration = keyframeNext.time - keyframe.time;
                 }
                 else
                 {
                     xPosNext = [seq timeToPosition:seq.timelineLength];
+                    interpolDuration = seq.timelineLength-keyframe.time;
                 }
                 
-                NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+1, xPosNext-xPos, 13);
+                NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+1, xPosNext-xPos, 13);
                 
-                [imgInterpolVis drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                BOOL didDrawInterpolation = NO;
+                
+                if ([node conformsToProtocol:@protocol(SequencerTimelineDrawDelegate)]) {
+                    CCNode<SequencerTimelineDrawDelegate> *delegate = (CCNode<SequencerTimelineDrawDelegate> *) node;
+                    if ([delegate canDrawInterpolationForProperty:nodeProp.propName]) {
+                        
+                        id endValue = (keyframeNext) ? keyframeNext.value : nil;
+                        [delegate drawInterpolationInRect:interpolRect forProperty:nodeProp.propName withStartValue:keyframe.value endValue:endValue andDuration:interpolDuration];
+                        didDrawInterpolation = YES;
+                    }
+                }
+                
+                if (!didDrawInterpolation) {
+                    [imgInterpolVis drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                }
             }
             
             // Draw keyframes
@@ -114,7 +145,7 @@
                 }
             }
             
-            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+1) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
         }
     }
 }
@@ -127,7 +158,11 @@
     
     // Draw background
     NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
-    if (row == 1)
+    if (row == 0)
+    {
+        [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    }
+    else if (row == 1)
     {
         [imgRowBg1 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
@@ -165,7 +200,21 @@
                 
                 NSRect interpolRect = NSMakeRect(cellFrame.origin.x + xPos, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+5, xPosNext-xPos, 7);
                 
-                [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                BOOL didDrawInterpolation = NO;
+                
+                if ([node conformsToProtocol:@protocol(SequencerTimelineDrawDelegate)]) {
+                    CCNode<SequencerTimelineDrawDelegate> *delegate = (CCNode<SequencerTimelineDrawDelegate> *) node;
+                    if ([delegate canDrawInterpolationForProperty:nodeProp.propName]) {
+                        
+                        id endValue = (keyframeNext) ? keyframeNext.value : nil;
+                        [delegate drawInterpolationInRect:interpolRect forProperty:nodeProp.propName withStartValue:keyframe.value endValue:endValue andDuration:(keyframeNext.time-keyframe.time)];
+                        didDrawInterpolation = YES;
+                    }
+                }
+                
+                if (!didDrawInterpolation) {
+                    [imgInterpol drawInRect:interpolRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:fraction];
+                }
                 
                 BOOL easeIn = keyframe.easing.hasEaseIn;
                 BOOL easeOut = keyframe.easing.hasEaseOut;
@@ -242,6 +291,7 @@
     NSRect clipRect = cellFrame;
     clipRect.origin.y -= 1;
     clipRect.size.height += 1;
+    clipRect.size.width += TIMELINE_PAD_PIXELS;
     [NSBezierPath clipRect:clipRect];
     
     if (!imagesLoaded)
@@ -289,18 +339,23 @@
         [imgKeyframeHint setFlipped:YES];
     }
     
-    [self drawPropertyRowVisiblityWithFrame:cellFrame inView:controlView];
     
     NSArray* props = node.plugIn.animatableProperties;
-    if (node.seqExpanded)
+    for (int i = 0; i < [props count]; i++)
     {
-        for (int i = 0; i < [props count]; i++)
-        {
-            [self drawPropertyRow:i+1 property:[props objectAtIndex:i] withFrame:cellFrame inView:controlView];
+        if (i==0 || (node.seqExpanded)) {
+            NSString *propName = [props objectAtIndex:i];
+            NSString *propType = [node.plugIn propertyTypeForProperty:propName];
+            if ([@"Check" isEqualToString:propType]) {
+                [self drawPropertyRowToggle:i property:[props objectAtIndex:i] withFrame:cellFrame inView:controlView];
+            } else {
+                [self drawPropertyRow:i property:[props objectAtIndex:i] withFrame:cellFrame inView:controlView];
+            }
         }
     }
-    
-    [self drawCollapsedProps:props withFrame:cellFrame inView:controlView];
+    // collapsed props are all animatable exept the first one!
+    NSArray *collapsedProps = [props subarrayWithRange:NSMakeRange(1, [props count]-1)];
+    [self drawCollapsedProps:collapsedProps withFrame:cellFrame inView:controlView];
     
     [gc restoreGraphicsState];
 }

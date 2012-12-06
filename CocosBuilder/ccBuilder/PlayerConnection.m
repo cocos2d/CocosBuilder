@@ -23,6 +23,8 @@
  */
 
 #import "PlayerConnection.h"
+#import "ProjectSettings.h"
+#import "PlayerDeviceInfo.h"
 
 static PlayerConnection* sharedPlayerConnection;
 
@@ -87,6 +89,9 @@ static PlayerConnection* sharedPlayerConnection;
     
     [self willChangeValueForKey:@"connected"];
     [self didChangeValueForKey:@"connected"];
+    
+    [self willChangeValueForKey:@"selectedDeviceInfo"];
+    [self didChangeValueForKey:@"selectedDeviceInfo"];
 }
 
 - (void) dealloc
@@ -104,8 +109,8 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (void) setSelectedServer:(NSString *)server
 {
-    NSString* serverName = [connectedServers objectForKey:server];
-    if (serverName)
+    PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:server];
+    if (deviceInfo)
     {
         // Server exist
         if (server != selectedServer)
@@ -117,8 +122,8 @@ static PlayerConnection* sharedPlayerConnection;
     else
     {
         // Server doesn't exist, fall back on current selection
-        NSString* currentServerName = [connectedServers objectForKey:selectedServer];
-        if (!currentServerName)
+        PlayerDeviceInfo* currentDeviceInfo = [connectedServers objectForKey:selectedServer];
+        if (!currentDeviceInfo)
         {
             // Current server selection is invalid. Select another one
             if (connectedServers.count == 0)
@@ -141,7 +146,11 @@ static PlayerConnection* sharedPlayerConnection;
 {
     NSLog(@"Connected: %@", aServerIdString);
     
-    [connectedServers setObject:aServerIdString forKey:aServerIdString];
+    PlayerDeviceInfo* deviceInfo = [[[PlayerDeviceInfo alloc] init] autorelease];
+    deviceInfo.identifier = aServerIdString;
+    deviceInfo.deviceName = aServerIdString;
+    
+    [connectedServers setObject:deviceInfo forKey:aServerIdString];
     
     // Select the server if no other server is selected
     if (!selectedServer)
@@ -151,9 +160,12 @@ static PlayerConnection* sharedPlayerConnection;
     
     [delegate playerConnection:self updatedPlayerList:connectedServers];
     
-    // Update property
+    // Update properties
     [self willChangeValueForKey:@"connected"];
     [self didChangeValueForKey:@"connected"];
+    
+    [self willChangeValueForKey:@"selectedDeviceInfo"];
+    [self didChangeValueForKey:@"selectedDeviceInfo"];
 }
 
 
@@ -171,9 +183,12 @@ static PlayerConnection* sharedPlayerConnection;
     
     [delegate playerConnection:self updatedPlayerList:connectedServers];
     
-    // Update property
+    // Update properties
     [self willChangeValueForKey:@"connected"];
     [self didChangeValueForKey:@"connected"];
+    
+    [self willChangeValueForKey:@"selectedDeviceInfo"];
+    [self didChangeValueForKey:@"selectedDeviceInfo"];
 }
 
 
@@ -194,26 +209,53 @@ static PlayerConnection* sharedPlayerConnection;
     
     NSString* cmd = [msg objectForKey:@"cmd"];
     
-    if ([cmd isEqualToString:@"devicename"])
+    if ([cmd isEqualToString:@"deviceinfo"])
     {
-        NSString* serverName = [msg objectForKey:@"devicename"];
-        [connectedServers setObject:serverName forKey:aServerIdString];
+        PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:aServerIdString];
+        
+        deviceInfo.deviceName = [msg objectForKey:@"devicename"];
+        deviceInfo.deviceType = [msg objectForKey:@"devicetype"];
+        deviceInfo.hasRetinaDisplay = [[msg objectForKey:@"retinadisplay"] boolValue];
+        deviceInfo.populated = YES;
+        
         [delegate playerConnection:self updatedPlayerList:connectedServers];
         
-        NSLog(@"Got device name: %@", serverName);
+        // Update properties
+        [self willChangeValueForKey:@"connected"];
+        [self didChangeValueForKey:@"connected"];
+        
+        [self willChangeValueForKey:@"selectedDeviceInfo"];
+        [self didChangeValueForKey:@"selectedDeviceInfo"];
     }
     else if ([cmd isEqualToString:@"result"])
     {
         NSString* result = [msg objectForKey:@"result"];
         [delegate playerConnection:self receivedResult:result];
     }
+    else if ([cmd isEqualToString:@"log"])
+    {
+        NSLog(@"CMD log: %@", [msg objectForKey:@"string"]);
+        
+        NSString* message = [msg objectForKey:@"string"];
+        [delegate playerConnection:self receivedResult:message];
+    }
 }
 
 - (BOOL) connected
 {
-    if (!selectedServer) return NO;
-    if ([connectedServers objectForKey:selectedServer]) return YES;
+    NSLog(@"connected (selectedDeviceInfo: %@)",self.selectedDeviceInfo);
+    
+    if ([self selectedDeviceInfo]) return YES;
     return NO;
+}
+
+- (PlayerDeviceInfo*) selectedDeviceInfo
+{
+    if (!selectedServer) return NULL;
+    PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:selectedServer];
+    if (!deviceInfo) return NULL;
+    if (deviceInfo.populated) return deviceInfo;
+    return NULL;
 }
 
 #pragma mark Sending data
@@ -247,8 +289,24 @@ static PlayerConnection* sharedPlayerConnection;
     [self sendMessage:msg];
 }
 
+- (void) sendProjectSettings:(ProjectSettings*)settings
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"settings" forKey:@"cmd"];
+    
+    NSMutableArray* orientations = [NSMutableArray arrayWithCapacity:4];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationPortrait]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationUpsideDown]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationLandscapeLeft]];
+    [orientations addObject:[NSNumber numberWithBool:settings.deviceOrientationLandscapeRight]];
+    [msg setObject:orientations forKey:@"orientations"];
+    
+    [self sendMessage:msg];
+}
+
 - (void) sendRunCommand
 {
+    // Send run command
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"run" forKey:@"cmd"];
     

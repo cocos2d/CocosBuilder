@@ -25,8 +25,14 @@
 #import <Foundation/Foundation.h>
 
 @interface CCBX : NSObject
+{
+    NSDictionary* serializedProjectSettings;
+}
+
+@property (nonatomic,retain) NSDictionary* serializedProjectSettings;
 
 - (NSString*) extension;
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths;
+
 
 @end

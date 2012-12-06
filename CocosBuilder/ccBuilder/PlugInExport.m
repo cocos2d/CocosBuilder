@@ -23,6 +23,7 @@
  */
 
 #import "PlugInExport.h"
+#import "ProjectSettings.h"
 #import "CCBX.h"
 
 @implementation PlugInExport
@@ -30,6 +31,7 @@
 @synthesize extension;
 @synthesize pluginName;
 @synthesize flattenPaths;
+@synthesize projectSettings;
 
 - (id) initWithBundle:(NSBundle*) b
 {
@@ -50,6 +52,10 @@
 {
     Class exporterClass = [bundle principalClass];
     CCBX* exporter = [[[exporterClass alloc] init] autorelease];
+    exporter.serializedProjectSettings = [projectSettings serialize];
+    
+    NSLog(@"exporter.serializedProjectSettings: %@", exporter.serializedProjectSettings);
+    
     return [exporter exportDocument:doc flattenPaths:flattenPaths];
 }
 
@@ -58,6 +64,7 @@
     self.pluginName = NULL;
     [bundle release];
     [extension release];
+    [projectSettings release];
     [super dealloc];
 }
 

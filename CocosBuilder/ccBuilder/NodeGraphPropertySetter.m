@@ -70,8 +70,6 @@
                 
                 if (seq.autoPlay) startSequence = seq.sequenceId;
             }
-            
-#warning TODO: Save sequence chain
         }
     }
     

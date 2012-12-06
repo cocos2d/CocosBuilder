@@ -56,6 +56,7 @@
 #import "NotesLayer.h"
 #import "ResolutionSetting.h"
 #import "ProjectSettingsWindow.h"
+#import "PublishSettingsWindow.h"
 #import "ProjectSettings.h"
 #import "ResourceManagerOutlineHandler.h"
 #import "SavePanelLimiter.h"
@@ -63,7 +64,6 @@
 #import "CCBWarnings.h"
 #import "WarningsWindow.h"
 #import "TaskStatusWindow.h"
-#import "PlayerController.h"
 #import "SequencerHandler.h"
 #import "MainWindow.h"
 #import "CCNode+NodeInfo.h"
@@ -85,6 +85,8 @@
 #import "InspectorSeparator.h"
 #import "HelpWindow.h"
 #import "NodeGraphPropertySetter.h"
+#import "CCBSplitHorizontalView.h"
+
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -105,7 +107,6 @@
 @synthesize guiView;
 @synthesize guiWindow;
 @synthesize showStickyNotes;
-@synthesize playerController;
 @synthesize menuContextKeyframe;
 @synthesize menuContextKeyframeInterpol;
 @synthesize menuContextResManager;
@@ -113,6 +114,7 @@
 @synthesize errorDescription;
 @synthesize selectedNodes;
 @synthesize loadedSelectedNodes;
+@synthesize panelVisibilityControl;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -200,11 +202,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [toolbarDelegate addPlugInItemsToToolbar:toolbar];
 }
 
-- (void) setupPlayerController
-{
-    self.playerController = [[[PlayerController alloc] init] autorelease];
-}
-
 - (void) setupPlayerConnection
 {
     connection = [[PlayerConnection alloc] init];
@@ -239,13 +236,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
-- (void) setupSplitView
-{
-    splitView.delegate = self;
-}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"ApplePersistenceIgnoreState"];
     [self.window center];
     
     selectedNodes = [[NSMutableArray alloc] init];
@@ -277,7 +271,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupInspectorPane];
     [self setupCocos2d];
     [self setupSequenceHandler];
-    [self setupSplitView];
     [self updateInspectorFromSelection];
     
     [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -297,7 +290,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupResourceManager];
     [self setupGUIWindow];
     
-    [self setupPlayerController];
     [self setupPlayerConnection];
     
     self.showGuides = YES;
@@ -530,19 +522,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [sequenceHandler updateScroller];
 }
 
-#pragma mark Split View Delegate
 
--(void)splitViewWillResizeSubviews:(NSNotification *)notification
-{
-    [window disableUpdatesUntilFlush];
-}
 
-- (CGFloat) splitView:(NSSplitView *)sv constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
-{
-    float max = sv.frame.size.height - 62;
-    if (proposedMaximumPosition > max) return max;
-    else return proposedMaximumPosition;
-}
 
 #pragma mark Populate Inspector
 
@@ -570,6 +551,7 @@ static BOOL hideAllToNextSeparator;
     lastInspectorValue.inspectorValueBelow = inspectorValue;
     lastInspectorValue = inspectorValue;
     inspectorValue.readOnly = readOnly;
+    inspectorValue.rootNode = (self.selectedNode == [CocosScene cocosScene].rootNode);
     
     // Save a reference in case it needs to be updated
     if (prop)
@@ -1019,8 +1001,9 @@ static BOOL hideAllToNextSeparator;
         NSMutableArray* sequences = [NSMutableArray array];
         for (id serSeq in serializedSequences)
         {
-            SequencerSequence* seq = [[[SequencerSequence alloc] initWithSerialization:serSeq] autorelease];
+            SequencerSequence* seq = [[SequencerSequence alloc] initWithSerialization:serSeq];
             [sequences addObject:seq];
+            [seq release];
             
             if (seq.sequenceId == currentSequenceId)
             {
@@ -1036,11 +1019,12 @@ static BOOL hideAllToNextSeparator;
         // Setup a default timeline
         NSMutableArray* sequences = [NSMutableArray array];
     
-        SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
+        SequencerSequence* seq = [[SequencerSequence alloc] init];
         seq.name = @"Default Timeline";
         seq.sequenceId = 0;
         seq.autoPlay = YES;
         [sequences addObject:seq];
+        [seq release];
     
         currentDocument.sequences = sequences;
         sequenceHandler.currentSequence = seq;
@@ -1122,8 +1106,6 @@ static BOOL hideAllToNextSeparator;
 {
     self.selectedNodes = NULL;
     [[CocosScene cocosScene] replaceRootNodeWith:NULL];
-    currentDocument.docData = NULL;
-    currentDocument.fileName = NULL;
     [[CocosScene cocosScene] setStageSize:CGSizeMake(0, 0) centeredOrigin:YES];
     [[CocosScene cocosScene].guideLayer removeAllGuides];
     [[CocosScene cocosScene].notesLayer removeAllNotes];
@@ -1197,43 +1179,16 @@ static BOOL hideAllToNextSeparator;
 
 - (void) copyDefaultResourcesForProject:(ProjectSettings*) settings
 {
-    // Setup paths
-    NSString* fileListPath = [[NSBundle mainBundle] pathForResource:@"DefaultResourcesList" ofType:@"plist"];
-    NSDictionary* fileListDict = [NSDictionary dictionaryWithContentsOfFile:fileListPath];
-    NSArray* ccbResources = [fileListDict objectForKey:@"ccbResources"];
-    NSArray* rootResources = [fileListDict objectForKey:@"root"];
-    
-    // Copy resources (if they don't already exist) to ccbResources dir
     NSFileManager* fm = [NSFileManager defaultManager];
     
-    NSString* destDir = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"ccbResources"];
-    
-    [fm createDirectoryAtPath:destDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-    
-    for (NSString* resFile in ccbResources)
-    {
-        NSString* srcFile = [[NSBundle mainBundle] pathForResource:resFile ofType:@""];
-        NSString* dstFile = [destDir stringByAppendingPathComponent:resFile];
-        
-        if (![fm fileExistsAtPath:dstFile])
-        {
-            [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
-        }
-    }
-    
     // Copy resources to project dir (root directory)
-    destDir = [settings.absoluteResourcePaths objectAtIndex:0];
+    NSString* srcDir = [[NSBundle mainBundle] pathForResource:@"defaultProjectResources" ofType:@""];
+    NSString* dstDir = [settings.absoluteResourcePaths objectAtIndex:0];
     
-    for (NSString* resFile in rootResources)
-    {
-        NSString* srcFile = [[NSBundle mainBundle] pathForResource:resFile ofType:@""];
-        NSString* dstFile = [destDir stringByAppendingPathComponent:resFile];
-        
-        if (![fm fileExistsAtPath:dstFile])
-        {
-            [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
-        }
-    }
+    NSLog(@"Copy from: %@ to: %@",srcDir,dstDir);
+    
+    BOOL success = [fm copyItemAtPath:srcDir toPath:dstDir error:NULL];
+    NSLog(@"succes: %d",success);
 }
 
 - (BOOL) createProject:(NSString*) fileName
@@ -1726,10 +1681,11 @@ static BOOL hideAllToNextSeparator;
         pt.y = roundf(pt.y);
         
         // Set its position
-        [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
+        [PositionPropertySetter setPosition:NSPointFromCGPoint(pt) forNode:node prop:@"position"];
         
         [CCBReaderInternal setProp:prop ofType:@"SpriteFrame" toValue:[NSArray arrayWithObjects:spriteSheetFile, spriteFile, nil] forNode:node parentSize:CGSizeZero];
-        
+        // Set it's displayName to the name of the spriteFile
+        node.displayName = [[spriteFile lastPathComponent] stringByDeletingPathExtension];
         [self addCCObject:node toParent:parent];
     }
 }
@@ -1772,7 +1728,7 @@ static BOOL hideAllToNextSeparator;
     
     CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
     [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
-    [PositionPropertySetter setPosition:pt type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:NSPointFromCGPoint(pt) type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
     [self addCCObject:node toParent:parent];
 }
 
@@ -1981,7 +1937,7 @@ static BOOL hideAllToNextSeparator;
         // Convert to relative position
         CGSize parentSize = [PositionPropertySetter getParentSize:selectedNode];
         int positionType = [PositionPropertySetter positionTypeForNode:selectedNode prop:@"position"];
-        NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:absPos type:positionType parentSize:parentSize];
+        NSPoint newPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(absPos) type:positionType parentSize:parentSize];
         
         // Update the selected node
         [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
@@ -2095,7 +2051,6 @@ static BOOL hideAllToNextSeparator;
     
     if (publisher.runAfterPublishing)
     {
-        //[playerController runPlayerForProject:projectSettings]
         [self runProject:self];
     }
     
@@ -2109,10 +2064,12 @@ static BOOL hideAllToNextSeparator;
     {
         playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
     }
+    [playerConsoleWindow cleanConsole];
     [playerConsoleWindow.window makeKeyAndOrderFront:self];
     
     if ([[PlayerConnection sharedPlayerConnection] connected])
     {
+        [[PlayerConnection sharedPlayerConnection] sendProjectSettings:projectSettings];
         [[PlayerConnection sharedPlayerConnection] sendRunCommand];
     }
     else
@@ -2185,6 +2142,24 @@ static BOOL hideAllToNextSeparator;
     {
         [self.projectSettings store];
         [self updateResourcePathsFromProjectSettings];
+        [self menuCleanCacheDirectories:sender];
+        [self reloadResources];
+    }
+}
+
+- (IBAction) menuPublishSettings:(id)sender
+{
+    if (!projectSettings) return;
+    
+    PublishSettingsWindow* wc = [[[PublishSettingsWindow alloc] initWithWindowNibName:@"PublishSettingsWindow"] autorelease];
+    wc.projectSettings = self.projectSettings;
+    
+    int success = [wc runModalSheetForWindow:window];
+    if (success)
+    {
+        [self.projectSettings store];
+        [self updateResourcePathsFromProjectSettings];
+        [self menuCleanCacheDirectories:sender];
         [self reloadResources];
     }
 }
@@ -2219,13 +2194,16 @@ static BOOL hideAllToNextSeparator;
 {
     // Accepted create document, prompt for place for file
     NSSavePanel* saveDlg = [NSSavePanel savePanel];
-    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"ccbproj"]];
-    saveDlg.message = @"Save your project file in the same directory as your projects resources.";
+    //[saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@""]];
+    //saveDlg.message = @"Save your project file in the same directory as your projects resources.";
     
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
             NSString* fileName = [[saveDlg URL] path];
+            [[NSFileManager defaultManager] createDirectoryAtPath:fileName withIntermediateDirectories:NO attributes:NULL error:NULL];
+            NSString* projectName = [fileName lastPathComponent];
+            fileName = [[fileName stringByAppendingPathComponent:projectName] stringByAppendingPathExtension:@"ccbproj"];
             if ([self createProject: fileName])
             {
                 [self openProject:fileName];
@@ -2320,12 +2298,15 @@ static BOOL hideAllToNextSeparator;
 
 - (void) setResolution:(int)r
 {
-    CocosScene* cs = [CocosScene cocosScene];
     
-    ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
     currentDocument.currentResolution = r;
     
-    [cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
+    //
+    // No need to call setStageSize here, since it gets called from reloadResources
+    //
+    //CocosScene* cs = [CocosScene cocosScene];
+    //ResolutionSetting* resolution = [currentDocument.resolutions objectAtIndex:r];
+    //[cs setStageSize:CGSizeMake(resolution.width, resolution.height) centeredOrigin:[cs centeredOrigin]];
     
     [self updateResolutionMenu];
     [self reloadResources];
@@ -2434,7 +2415,7 @@ static BOOL hideAllToNextSeparator;
     CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
-    zoom *= 2;
+    zoom *= 1.2;
     if (zoom > 8) zoom = 8;
     [cs setStageZoom:zoom];
 }
@@ -2444,7 +2425,7 @@ static BOOL hideAllToNextSeparator;
     CocosScene* cs = [CocosScene cocosScene];
     
     float zoom = [cs stageZoom];
-    zoom *= 0.5f;
+    zoom *= 1/1.2f;
     if (zoom < 0.125) zoom = 0.125f;
     [cs setStageZoom:zoom];
 }
@@ -2471,6 +2452,113 @@ static BOOL hideAllToNextSeparator;
     NSSegmentedControl* sc = sender;
     
     cs.currentTool = [sc selectedSegment];
+}
+
+- (IBAction) pressedPanelVisibility:(id)sender
+{
+    NSSegmentedControl* sc = sender;
+    [window disableUpdatesUntilFlush];
+    
+    // Left Panel
+    if ([sc isSelectedForSegment:0]) {
+        
+        if ([leftPanel isHidden]) {
+            // Show left panel & shrink splitHorizontalView
+            NSRect origRect = leftPanel.frame;
+            NSRect transitionFrame = NSMakeRect(0,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                     
+            [leftPanel setFrame:transitionFrame];
+            origRect = splitHorizontalView.frame;
+            transitionFrame = NSMakeRect(leftPanel.frame.size.width,
+                                         origRect.origin.y,
+                                         origRect.size.width-leftPanel.frame.size.width,
+                                         origRect.size.height);
+                                               
+            [splitHorizontalView setFrame:transitionFrame];
+            
+            [leftPanel setHidden:NO];
+            [leftPanel setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
+        }
+    } else {
+        
+        if (![leftPanel isHidden]) {
+            // Hide left panel & expand splitView
+            NSRect origRect = leftPanel.frame;
+            NSRect transitionFrame = NSMakeRect(-origRect.size.width,
+                                                 origRect.origin.y,
+                                                 origRect.size.width,
+                                                 origRect.size.height);
+                                                      
+            [leftPanel setFrame:transitionFrame];
+            origRect = splitHorizontalView.frame;
+            transitionFrame = NSMakeRect(0,
+                                         origRect.origin.y,
+                                         origRect.size.width+leftPanel.frame.size.width,
+                                         origRect.size.height);
+                                         
+            [splitHorizontalView setFrame:transitionFrame];
+            
+            [leftPanel setHidden:YES];
+            [leftPanel setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
+        }
+    }
+    
+    
+    // Right Panel (InspectorScroll)
+    if ([sc isSelectedForSegment:2]) {
+        
+        if ([rightPanel isHidden]) {
+            // Show right panel & shrink splitView
+            [rightPanel setHidden:NO];
+            NSRect origRect = rightPanel.frame;
+            NSRect transitionFrame = NSMakeRect(origRect.origin.x-origRect.size.width,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                
+            [rightPanel setFrame:transitionFrame];
+            origRect = splitHorizontalView.frame;
+            transitionFrame = NSMakeRect(origRect.origin.x,
+                                        origRect.origin.y,
+                                        origRect.size.width-rightPanel.frame.size.width,
+                                         origRect.size.height);
+                                        
+            [splitHorizontalView setFrame:transitionFrame];
+            [rightPanel setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
+        }
+    } else {
+        
+        if (![rightPanel isHidden]) {
+            // Hide right panel & expand splitView
+            NSRect origRect = rightPanel.frame;
+            NSRect transitionFrame = NSMakeRect(origRect.origin.x+origRect.size.width,
+                                                origRect.origin.y,
+                                                origRect.size.width,
+                                                origRect.size.height);
+                                                      
+            [rightPanel setFrame:transitionFrame];
+            origRect = splitHorizontalView.frame;
+            transitionFrame = NSMakeRect(origRect.origin.x,
+                                         origRect.origin.y,
+                                         origRect.size.width+rightPanel.frame.size.width,
+                                         origRect.size.height);
+                                               
+            [splitHorizontalView setFrame:transitionFrame];
+            [rightPanel setHidden:YES];
+            [rightPanel setNeedsDisplay:YES];
+            [splitHorizontalView setNeedsDisplay:YES];
+        }
+    }
+    
+    if ([sc selectedSegment] == 1) {
+        [splitHorizontalView toggleBottomView:[sc isSelectedForSegment:1]];
+    }
 }
 
 - (int) uniqueSequenceIdFromSequences:(NSArray*) seqs
@@ -2607,7 +2695,7 @@ static BOOL hideAllToNextSeparator;
         int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
         if (positionType != kCCBPositionTypePercent)
         {
-            CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
+            CGPoint pos = NSPointToCGPoint([PositionPropertySetter positionForNode:c prop:@"position"]);
             pos = ccp(roundf(pos.x), roundf(pos.y));
             [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
             [PositionPropertySetter addPositionKeyframeForNode:c];
@@ -2765,6 +2853,26 @@ static BOOL hideAllToNextSeparator;
     [SequencerUtil createFramesFromSelectedResources];
 }
 
+- (IBAction)menuCreateSmartSpriteSheet:(id)sender
+{
+    int selectedRow = [sender tag];
+    
+    if (selectedRow >= 0 && projectSettings)
+    {
+        RMResource* res = [outlineProject itemAtRow:selectedRow];
+        RMDirectory* dir = res.data;
+        
+        if (dir.isDynamicSpriteSheet)
+        {
+            [projectSettings removeSmartSpriteSheet:res];
+        }
+        else
+        {
+            [projectSettings makeSmartSpriteSheet:res];
+        }
+    }
+}
+
 - (IBAction)menuAlignKeyframeToMarker:(id)sender
 {
     [SequencerUtil alignKeyframesToMarker];
@@ -2873,8 +2981,9 @@ static BOOL hideAllToNextSeparator;
 
 #pragma mark Playback countrols
 
-- (void) playbackStep
+- (void) playbackStep:(id) sender
 {
+    int frames = [sender intValue];
     if (!currentDocument)
     {
         [self playbackStop:NULL];
@@ -2883,7 +2992,7 @@ static BOOL hideAllToNextSeparator;
     if (playingBack)
     {
         // Step forward
-        [sequenceHandler.currentSequence stepForward:1];
+        [sequenceHandler.currentSequence stepForward:frames];
         
         if (sequenceHandler.currentSequence.timelinePosition >= sequenceHandler.currentSequence.timelineLength)
         {
@@ -2897,15 +3006,16 @@ static BOOL hideAllToNextSeparator;
             
             double delayTime = requestedDelay - extraTime;
             playbackLastFrameTime = thisTime;
-            
-            if (delayTime < 0)
+            int nextStep = 1;
+            while (delayTime < 0)
             {
-                // TODO: Handle frame skipping
-                delayTime = 0;
+                delayTime += requestedDelay;
+                nextStep++;
+                
             }
             
             // Call this method again in a little while
-            [self performSelector:@selector(playbackStep) withObject:NULL afterDelay:delayTime];
+            [self performSelector:@selector(playbackStep:) withObject:[NSNumber numberWithInt:nextStep] afterDelay:delayTime];
         }
     }
 }
@@ -2927,7 +3037,7 @@ static BOOL hideAllToNextSeparator;
     // Start playback
     playbackLastFrameTime = [NSDate timeIntervalSinceReferenceDate];
     playingBack = YES;
-    [self playbackStep];
+    [self playbackStep:[NSNumber numberWithInt:1]];
 }
 
 - (IBAction)playbackStop:(id)sender
@@ -2940,6 +3050,7 @@ static BOOL hideAllToNextSeparator;
 {
     if (!self.hasOpenedDocument) return;
     sequenceHandler.currentSequence.timelinePosition = 0;
+    [[SequencerHandler sharedHandler] updateScrollerToShowCurrentTime];
 }
 
 - (IBAction)playbackStepBack:(id)sender
@@ -2986,15 +3097,25 @@ static BOOL hideAllToNextSeparator;
 
 - (void) windowWillClose:(NSNotification *)notification
 {
-    [playerController stopPlayer];
     [[NSApplication sharedApplication] terminate:self];
+}
+
+- (NSSize) windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+    static float minWidth = 1060.0f;
+    static float minHeight = 500.0f;
+    [splitHorizontalView setNeedsLayout:YES];
+    return NSSizeFromCGSize(
+                CGSizeMake(
+                        frameSize.width<minWidth ? minWidth:frameSize.width,
+                        frameSize.height<minHeight ? minHeight:frameSize.height)
+    );
 }
 
 - (IBAction) menuQuit:(id)sender
 {
     if ([self windowShouldClose:self])
     {
-        [playerController stopPlayer];
         [[NSApplication sharedApplication] terminate:self];
     }
 }

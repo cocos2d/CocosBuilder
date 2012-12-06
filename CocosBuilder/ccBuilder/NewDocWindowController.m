@@ -58,6 +58,10 @@
     [resolutionsController addObject:[ResolutionSetting settingAndroidLargePortrait]];
     [resolutionsController addObject:[ResolutionSetting settingAndroidXLargeLandscape]];
     [resolutionsController addObject:[ResolutionSetting settingAndroidXLargePortrait]];
+    
+    // HTML 5
+    [resolutionsController addObject:[ResolutionSetting settingHTML5Landscape]];
+    [resolutionsController addObject:[ResolutionSetting settingHTML5Portrait]];
 }
 
 - (void) addCustomSizeScreenResolutions
@@ -74,6 +78,9 @@
     [resolutionsController addObject:[ResolutionSetting settingAndroidMedium]];
     [resolutionsController addObject:[ResolutionSetting settingAndroidLarge]];
     [resolutionsController addObject:[ResolutionSetting settingAndroidXLarge]];
+    
+    // HTML 5
+    [resolutionsController addObject:[ResolutionSetting settingHTML5]];
 }
 
 - (id)initWithWindow:(NSWindow *)window

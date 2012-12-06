@@ -226,6 +226,7 @@
     [nodeProperties release];
     [nodePropertiesDict release];
     [nodeClassName release];
+    [nodeEditorClassName release];
     [bundle release];
     [super dealloc];
 }

@@ -35,6 +35,7 @@
     NSMutableDictionary* baseValues;
     NSMutableArray* customProperties;
     CGPoint transformStartPosition;
+    NSString* displayName;
 }
 
 @property (nonatomic,assign) PlugInNode* plugIn;

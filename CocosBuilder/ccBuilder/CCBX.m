@@ -26,6 +26,8 @@
 
 @implementation CCBX
 
+@synthesize serializedProjectSettings;
+
 - (NSString*) extension
 {
     return NULL;
@@ -34,6 +36,12 @@
 - (NSData*) exportDocument:(NSDictionary *)doc flattenPaths:(BOOL) flattenPaths
 {
     return NULL;
+}
+
+- (void) dealloc
+{
+    [serializedProjectSettings release];
+    [super dealloc];
 }
 
 @end

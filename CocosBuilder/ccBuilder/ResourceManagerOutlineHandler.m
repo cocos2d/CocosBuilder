@@ -57,8 +57,6 @@
     resType = rt;
     
     ImageAndTextCell* imageTextCell = [[[ImageAndTextCell alloc] init] autorelease];
-#warning Use to enable editing!
-    //[imageTextCell setEditable:YES];
     [[resourceList outlineTableColumn] setDataCell:imageTextCell];
     [[resourceList outlineTableColumn] setEditable:YES];
     
@@ -247,7 +245,30 @@
     if ([item isKindOfClass:[RMResource class]])
     {
         RMResource* res = item;
-        icon = [self smallIconForFile:res.filePath];
+#warning Do all images by type
+        if (res.type == kCCBResTypeImage)
+        {
+            icon = [self smallIconForFileType:@"png"];
+        }
+        else
+        {
+            if (res.type == kCCBResTypeDirectory)
+            {
+                RMDirectory* dir = res.data;
+                if (dir.isDynamicSpriteSheet)
+                {
+                    icon = [NSImage imageNamed:@"reshandler-spritesheet-folder.png"];
+                }
+                else
+                {
+                    icon = [self smallIconForFile:res.filePath];
+                }
+            }
+            else
+            {
+                icon = [self smallIconForFile:res.filePath];
+            }
+        }
     }
     else if ([item isKindOfClass:[RMSpriteFrame class]])
     {
@@ -265,6 +286,7 @@
     NSString* spriteFile = NULL;
     NSString* spriteSheetFile = NULL;
     NSString* ccbFile = NULL;
+    NSString* audioFile = NULL;
     
     for (id item in items)
     {
@@ -278,6 +300,10 @@
             else if (res.type == kCCBResTypeCCBFile)
             {
                 ccbFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
+            }
+            else if (res.type == kCCBResTypeAudio)
+            {
+                audioFile = [ResourceManagerUtil relativePathFromAbsolutePath: res.filePath];
             }
         }
         else if ([item isKindOfClass:[RMSpriteFrame class]])
@@ -313,6 +339,17 @@
         NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
         [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.ccb"] owner:NULL];
         [pasteboard setData:clipData forType:@"com.cocosbuilder.ccb"];
+        
+        return YES;
+    }
+    else if (audioFile)
+    {
+        NSMutableDictionary* clipDict = [NSMutableDictionary dictionary];
+        [clipDict setObject:audioFile forKey:@"audioFile"];
+        
+        NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:clipDict];
+        [pasteboard declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.audio"] owner:NULL];
+        [pasteboard setData:clipData forType:@"com.cocosbuilder.audio"];
         
         return YES;
     }
