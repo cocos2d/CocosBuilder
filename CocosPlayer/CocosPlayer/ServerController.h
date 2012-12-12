@@ -38,6 +38,8 @@
 @property (nonatomic,copy) NSString* serverStatus;
 
 - (void) start;
+- (void) stop;
+- (void) startIfNotStarted;
 - (void) updatePairing;
 
 - (void) sendDeviceName;

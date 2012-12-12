@@ -90,11 +90,40 @@
 {
     if (server)
     {
+        NSLog(@"start");
+        
         [server start];
         NSLog(@"Server started, redirecting stderr");
         
         // Redirect std out
         [self redirectStdErr];
+    }
+}
+
+- (void) startIfNotStarted
+{
+    if (!server)
+    {
+        NSLog(@"startIfNotStarted");
+        
+        server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
+        [server setDelegate:self];
+        [server start];
+        
+        [[PlayerStatusLayer sharedInstance] setStatus:kCCBStatusStringWaiting];
+    }
+}
+
+- (void) stop
+{
+    if (server)
+    {
+        NSLog(@"stop");
+        
+        [server stop];
+        [server release];
+        server = NULL;
+        [connectedClients removeAllObjects];
     }
 }
 
@@ -244,10 +273,21 @@
 
 - (void)serverDidShutDown:(ThoMoServerStub *)theServer
 {
+    NSLog(@"serverDidShutdown server: %@",server);
+    
+    [server release];
+    server = NULL;
+    [connectedClients removeAllObjects];
+    
+    [self startIfNotStarted];
 }
 
 - (void)netServiceProblemEncountered:(NSString *)errorMessage onServer:(ThoMoServerStub *)theServer
 {
+    [server stop];
+    [server release];
+    server = NULL;
+    [connectedClients removeAllObjects];
 }
 
 - (void) server:(ThoMoServerStub *)theServer didReceiveData:(id)theData fromClient:(NSString *)aClientIdString
