@@ -6,6 +6,7 @@ require("jsb_constants.js");
 
 function main()
 {
+    //cc.Texture2D.setDefaultAlphaPixelFormat(6);
 	var director = cc.Director.getInstance();
     var scene = cc.BuilderReader.loadAsScene("<#MAIN_SCENE#>");
     var runningScene = director.getRunningScene();

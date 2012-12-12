@@ -19,11 +19,11 @@
     
     NSString* absFile = [[NSBundle mainBundle] pathForResource:fileName ofType:@"" inDirectory:@"publishTemplates"];
     
-    NSLog(@"fileName: %@ absFile: %@", fileName, absFile);
+    //NSLog(@"fileName: %@ absFile: %@", fileName, absFile);
     
     self.contents = [NSString stringWithContentsOfFile:absFile encoding:NSUTF8StringEncoding error:NULL];
     
-    NSLog(@"initWithTemplateFile: %@ contents: %@", fileName, contents);
+    //NSLog(@"initWithTemplateFile: %@ contents: %@", fileName, contents);
     
     return self;
 }
@@ -54,7 +54,7 @@
 {
     [contents writeToFile:fileName atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     
-    NSLog(@"writeToFile: %@ contents: %@", fileName, contents);
+    //NSLog(@"writeToFile: %@ contents: %@", fileName, contents);
 }
 
 - (void) dealloc

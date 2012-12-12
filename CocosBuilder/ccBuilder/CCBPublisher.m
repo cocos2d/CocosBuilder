@@ -189,7 +189,7 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
-    NSLog(@"publishDirectory: %@ subPath: %@", dir, subPath);
+    //NSLog(@"publishDirectory: %@ subPath: %@", dir, subPath);
     
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     ResourceManager* resManager = [ResourceManager sharedManager];
@@ -509,6 +509,7 @@
             else if ([ext isEqualToString:@"jpeg"]) type = @"image";
             else if ([ext isEqualToString:@"mp3"]) type = @"effect";
             else if ([ext isEqualToString:@"ccbi"]) type = @"ccbi";
+            else if ([ext isEqualToString:@"fnt"]) type = @"fnt";
             
             if (type)
             {
@@ -547,7 +548,7 @@
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
     
-    NSLog(@"publishedResources: %@", publishedResources);
+    //NSLog(@"publishedResources: %@", publishedResources);
     
     // Publish generated files
     [self publishGeneratedFiles];
