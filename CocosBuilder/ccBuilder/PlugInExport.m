@@ -54,8 +54,6 @@
     CCBX* exporter = [[[exporterClass alloc] init] autorelease];
     exporter.serializedProjectSettings = [projectSettings serialize];
     
-    NSLog(@"exporter.serializedProjectSettings: %@", exporter.serializedProjectSettings);
-    
     return [exporter exportDocument:doc flattenPaths:flattenPaths];
 }
 

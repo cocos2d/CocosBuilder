@@ -7,12 +7,26 @@
 //
 
 #import "Tupac.h"
-#import "TexturePacker.h"
+//#import "TexturePacker.h"
+#import "MaxRectsBinPack.h"
+#import "vector"
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
 
 #import "pvrtc.h"
+
+unsigned long upper_power_of_two(unsigned long v)
+{
+    v--;
+    v |= v >> 1;
+    v |= v >> 2;
+    v |= v >> 4;
+    v |= v >> 8;
+    v |= v >> 16;
+    v++;
+    return v;
+}
 
 typedef struct _PVRTexHeader
 {
@@ -31,11 +45,12 @@ typedef struct _PVRTexHeader
     uint32_t numSurfs;
 } PVRTexHeader;
 
+
 @implementation Tupac {
-    TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
+    //TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_;
 
 + (Tupac*) tupac
 {
@@ -48,14 +63,15 @@ typedef struct _PVRTexHeader
         border_ = NO;
         imageFormat_ = kTupacImageFormatPNG;
         self.outputFormat = TupacOutputFormatCocos2D;
+        self.maxTextureSize = 2048;
         
-        tp = TEXTURE_PACKER::createTexturePacker();
+        //tp = TEXTURE_PACKER::createTexturePacker();
     }
     return self;
 }
 
 - (void)dealloc {
-    TEXTURE_PACKER::releaseTexturePacker(tp);
+    //TEXTURE_PACKER::releaseTexturePacker(tp);
     
     [filenames_ release];
     [outputName_ release];
@@ -132,19 +148,72 @@ typedef struct _PVRTexHeader
         exit(EXIT_FAILURE);
     }
 
+    /*
     tp->setTextureCount((int)[images count]);
     for (NSImage *image in images)
     {
         //NSLog(@"addTexture: %d x %d", (int)image.size.width, (int)image.size.height);
         tp->addTexture((int)image.size.width, (int)image.size.height);
-    }
-
-    int outW, outH;
-    if (tp->packTextures(outW, outH, true, self.border) == 0) {
-        fprintf(stderr, "unable to pack images\n");
-        exit(EXIT_FAILURE);
-    }
+    }*/
+    
+    int maxSideLen = 8;
+    for (NSImage* image in images)
+    {
+        int w = (int)image.size.width;
+        if (w > maxSideLen) maxSideLen = w;
         
+        int h = (int)image.size.height;
+        if (h > maxSideLen) maxSideLen = h;
+    }
+    
+    maxSideLen = upper_power_of_two(maxSideLen);
+    
+    // Create bin
+    int outW = maxSideLen;
+    int outH = 8;
+    
+    
+    std::vector<TPRect> outRects;
+    
+    BOOL allFitted = NO;
+    while (outW <= self.maxTextureSize && !allFitted)
+    {
+        NSLog(@"### Attempting bin size: %d x %d max: %d", outW, outH, self.maxTextureSize);
+        
+        MaxRectsBinPack bin(outW, outH);
+        
+        std::vector<TPRectSize> inRects;
+        
+        int numImages = 0;
+        for (NSImage *image in images)
+        {
+            inRects.push_back(TPRectSize());
+            inRects[numImages].width = (int)image.size.width;
+            inRects[numImages].height = (int)image.size.height;
+            inRects[numImages].idx = numImages;
+            
+            numImages++;
+        }
+       
+        bin.Insert(inRects, outRects, MaxRectsBinPack::RectBestShortSideFit);
+        
+        if (numImages == (int)outRects.size())
+        {
+            NSLog(@"All fitted! Rate %f:", bin.Occupancy());
+            allFitted = YES;
+        }
+        else
+        {
+            outH *= 2;
+            if (outH > self.maxTextureSize)
+            {
+                outH = 8;
+                outW *= 2;
+            }
+        }
+    }
+    
+    // Create the graphics
     NSBitmapImageRep *outRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL 
                                                                        pixelsWide:outW
                                                                        pixelsHigh:outH 
@@ -168,11 +237,22 @@ typedef struct _PVRTexHeader
     // draw our individual images
     {
         int index = 0;
-        for (NSImage *image in images) {
-            bool rot;
+        while (index < outRects.size()) {
+            
+            
+            bool rot = false;
             int  x, y, w, h;
             
-            rot = tp->getTextureLocation(index++, x, y, w, h);
+            NSImage* image = [images objectAtIndex:outRects[index].idx];
+            
+            //rot = tp->getTextureLocation(index++, x, y, w, h);
+            x = outRects[index].x;
+            y = outRects[index].y;
+            w = outRects[index].width;
+            h = outRects[index].height;
+            rot = outRects[index].rotated;
+            
+            index++;
             
             if (rot == true) image = [self rotateImage:image clockwise:YES]; 
             
@@ -276,14 +356,21 @@ typedef struct _PVRTexHeader
         [outDict setObject:metadata forKey:@"metadata"];
         
         int index = 0;
-        for (NSString *filename in self.filenames) {
+        while(index < outRects.size()) {
+            NSString* filename = [self.filenames objectAtIndex:outRects[index].idx];
             
             NSString* exportFilename = [filename lastPathComponent];
             if (directoryPrefix_) exportFilename = [directoryPrefix_ stringByAppendingPathComponent:exportFilename];
             
-            bool rot;
+            bool rot = false;
             int x, y, w, h;
-            rot = tp->getTextureLocation(index++, x, y, w, h);
+            x = outRects[index].x;
+            y = outRects[index].y;
+            w = outRects[index].width;
+            h = outRects[index].height;
+            rot = outRects[index].rotated;
+            index++;
+            //rot = tp->getTextureLocation(index++, x, y, w, h);
             [frames setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                NSStringFromRect(NSMakeRect(x, y, w, h)),    @"frame",
                                NSStringFromPoint(NSMakePoint(0, 0)),        @"offset",
@@ -344,6 +431,8 @@ typedef struct _PVRTexHeader
             }
         }
     }
+    
+    NSLog(@"Tupac filenames: %@", absoluteFilepaths);
     
     // Generate the sprite sheet
     self.filenames = absoluteFilepaths;

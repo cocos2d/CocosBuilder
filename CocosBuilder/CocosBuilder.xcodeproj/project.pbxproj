@@ -360,6 +360,8 @@
 		E3893C9A1666B9F500299482 /* CCPhysicsDebugNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C921666B9F500299482 /* CCPhysicsDebugNode.m */; };
 		E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3893C941666B9F500299482 /* CCPhysicsSprite.mm */; };
 		E38DAB22165AC18800EA24E4 /* reshandler-spritesheet-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */; };
+		E39108081679365600391C3B /* MaxRectsBinPack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E39108041679365600391C3B /* MaxRectsBinPack.cpp */; };
+		E39108091679365600391C3B /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E39108061679365600391C3B /* Rect.cpp */; };
 		E3926188159C69D20034FF1D /* SequencerKeyframeEasing.m in Sources */ = {isa = PBXBuildFile; fileRef = E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */; };
 		E392618F159CAAA10034FF1D /* seq-keyframe-interpol-vis.png in Resources */ = {isa = PBXBuildFile; fileRef = E392618A159CAAA10034FF1D /* seq-keyframe-interpol-vis.png */; };
 		E3926190159CAAA10034FF1D /* seq-keyframe-l-sel.png in Resources */ = {isa = PBXBuildFile; fileRef = E392618B159CAAA10034FF1D /* seq-keyframe-l-sel.png */; };
@@ -1356,6 +1358,10 @@
 		E3893C951666B9F500299482 /* ccShader_PositionColorLengthTexture_frag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_frag.h; sourceTree = "<group>"; };
 		E3893C961666B9F500299482 /* ccShader_PositionColorLengthTexture_vert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_vert.h; sourceTree = "<group>"; };
 		E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reshandler-spritesheet-folder.png"; sourceTree = "<group>"; };
+		E39108041679365600391C3B /* MaxRectsBinPack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaxRectsBinPack.cpp; sourceTree = "<group>"; };
+		E39108051679365600391C3B /* MaxRectsBinPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaxRectsBinPack.h; sourceTree = "<group>"; };
+		E39108061679365600391C3B /* Rect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rect.cpp; sourceTree = "<group>"; };
+		E39108071679365600391C3B /* Rect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect.h; sourceTree = "<group>"; };
 		E3926186159C69D20034FF1D /* SequencerKeyframeEasing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerKeyframeEasing.h; sourceTree = "<group>"; };
 		E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerKeyframeEasing.m; sourceTree = "<group>"; };
 		E392618A159CAAA10034FF1D /* seq-keyframe-interpol-vis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-keyframe-interpol-vis.png"; sourceTree = "<group>"; };
@@ -3075,6 +3081,10 @@
 				E380B24E1642FC3C0006D31C /* TexturePacker.h */,
 				E380B24F1642FC3C0006D31C /* Tupac.h */,
 				E380B2501642FC3C0006D31C /* Tupac.mm */,
+				E39108041679365600391C3B /* MaxRectsBinPack.cpp */,
+				E39108051679365600391C3B /* MaxRectsBinPack.h */,
+				E39108061679365600391C3B /* Rect.cpp */,
+				E39108071679365600391C3B /* Rect.h */,
 			);
 			name = Tupac;
 			sourceTree = "<group>";
@@ -4544,6 +4554,8 @@
 				E3893C991666B9F500299482 /* ccFPSImages.m in Sources */,
 				E3893C9A1666B9F500299482 /* CCPhysicsDebugNode.m in Sources */,
 				E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */,
+				E39108081679365600391C3B /* MaxRectsBinPack.cpp in Sources */,
+				E39108091679365600391C3B /* Rect.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

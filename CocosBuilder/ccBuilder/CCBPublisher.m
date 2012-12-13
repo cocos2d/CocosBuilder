@@ -208,12 +208,28 @@
         outDir = [outputDir stringByAppendingPathComponent:subPath];
     }
     
-    // Create the directory if it doesn't exist
-    BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-    if (!createdDirs)
+    // Check for generated sprite sheets
+    BOOL isGeneratedSpriteSheet = NO;
+    //NSString* spriteSheetDefFile = [dir stringByAppendingPathExtension:@"ccbSpriteSheet"];
+    
+    //NSLog(@"subPath: %@", subPath);
+    if ([projectSettings.generatedSpriteSheets objectForKey:subPath])
     {
-        [warnings addWarningWithDescription:@"Failed to create output directory %@" isFatal:YES];
-        return NO;
+        isGeneratedSpriteSheet = YES;
+        
+        // Clear temporary sprite sheet directory
+        [fm removeItemAtPath:[projectSettings tempSpriteSheetCacheDirectory] error:NULL];
+    }
+    
+    // Create the directory if it doesn't exist
+    if (!isGeneratedSpriteSheet)
+    {
+        BOOL createdDirs = [fm createDirectoryAtPath:outDir withIntermediateDirectories:YES attributes:NULL error:NULL];
+        if (!createdDirs)
+        {
+            [warnings addWarningWithDescription:@"Failed to create output directory %@" isFatal:YES];
+            return NO;
+        }
     }
     
     // Add files from main directory
@@ -236,17 +252,6 @@
     if ([fm fileExistsAtPath:autoDir isDirectory:&isDirAuto] && isDirAuto)
     {
         [files addObjectsFromArray:[fm contentsOfDirectoryAtPath:autoDir error:NULL]];
-    }
-    
-    // Check for generated sprite sheets
-    BOOL isGeneratedSpriteSheet = NO;
-    NSString* spriteSheetDefFile = [dir stringByAppendingPathExtension:@"ccbSpriteSheet"];
-    if ([fm fileExistsAtPath:spriteSheetDefFile])
-    {
-        isGeneratedSpriteSheet = YES;
-        
-        // Clear temporary sprite sheet directory
-        [fm removeItemAtPath:[projectSettings tempSpriteSheetCacheDirectory] error:NULL];
     }
     
     // Iterate through all files
