@@ -23,6 +23,7 @@ enum {
 @property(nonatomic,assign) int imageFormat;
 @property(nonatomic,copy) NSString* directoryPrefix;
 @property(nonatomic,assign) int maxTextureSize;
+@property(nonatomic,assign) int padding;
 
 + (Tupac*) tupac;
 

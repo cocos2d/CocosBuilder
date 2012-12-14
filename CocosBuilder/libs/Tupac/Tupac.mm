@@ -13,6 +13,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreGraphics/CGImage.h>
 
 #import "pvrtc.h"
 
@@ -50,7 +51,7 @@ typedef struct _PVRTexHeader
     //TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_;
 
 + (Tupac*) tupac
 {
@@ -64,6 +65,7 @@ typedef struct _PVRTexHeader
         imageFormat_ = kTupacImageFormatPNG;
         self.outputFormat = TupacOutputFormatCocos2D;
         self.maxTextureSize = 2048;
+        self.padding = 2;
         
         //tp = TEXTURE_PACKER::createTexturePacker();
     }
@@ -114,6 +116,89 @@ typedef struct _PVRTexHeader
     return rotatedImage;
 }
 
+- (NSRect) trimmedRectForImage:(CGImageRef)image
+{
+    int w = (int)CGImageGetWidth(image);
+    int h = (int)CGImageGetHeight(image);
+    
+    int bytesPerRow = (int)CGImageGetBytesPerRow(image);
+    int pixelsPerRow = bytesPerRow/4;
+    
+    CGImageGetDataProvider((CGImageRef)image);
+    CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(image));
+    const UInt32 *pixels = (const UInt32*)CFDataGetBytePtr(imageData);
+    
+    //NSLog(@"bitsperpixel: %d bytesPerRow: %d", (int)CGImageGetBitsPerPixel(image), (int)CGImageGetBytesPerRow(image));
+    
+    // Search from left
+    int x;
+    for (x = 0; x < w; x++)
+    {
+        BOOL emptyRow = YES;
+        for (int y = 0; y < h; y++)
+        {
+            if (pixels[y*pixelsPerRow+x] & 0xff000000)
+            {
+                emptyRow = NO;
+            }
+        }
+        if (!emptyRow) break;
+    }
+    
+    // Search from right
+    int xRight;
+    for (xRight = w-1; xRight >= 0; xRight--)
+    {
+        BOOL emptyRow = YES;
+        for (int y = 0; y < h; y++)
+        {
+            if (pixels[y*pixelsPerRow+xRight] & 0xff000000)
+            {
+                emptyRow = NO;
+            }
+        }
+        if (!emptyRow) break;
+    }
+    
+    // Search from bottom
+    int y;
+    for (y = 0; y < h; y++)
+    {
+        BOOL emptyRow = YES;
+        for (int x = 0; x < w; x++)
+        {
+            if (pixels[y*pixelsPerRow+x] & 0xff000000)
+            {
+                emptyRow = NO;
+            }
+        }
+        if (!emptyRow) break;
+    }
+    
+    // Search from top
+    int yTop;
+    for (yTop = h-1; yTop >=0; yTop--)
+    {
+        BOOL emptyRow = YES;
+        for (int x = 0; x < w; x++)
+        {
+            if (pixels[yTop*pixelsPerRow+x] & 0xff000000)
+            {
+                emptyRow = NO;
+            }
+        }
+        if (!emptyRow) break;
+    }
+    
+    int wTrimmed = xRight-x+1;
+    int hTrimmed = yTop-y+1;
+    //y = h - hTrimmed - y;
+    
+    NSLog(@"Trimmed x: %d y: %d w: %d h: %d", x, y, wTrimmed, hTrimmed);
+    
+    return NSMakeRect(x, y, wTrimmed, hTrimmed);
+}
+
 - (void)createTextureAtlas
 {
     // Create output directory if it doesn't exist
@@ -126,6 +211,7 @@ typedef struct _PVRTexHeader
     
     // Create atlas
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:self.filenames.count];
+    NSMutableArray *imageInfos = [NSMutableArray arrayWithCapacity:self.filenames.count];
     
     for (NSString *filename in self.filenames) {
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:filename];
@@ -133,9 +219,28 @@ typedef struct _PVRTexHeader
             fprintf(stderr, "unable to load image %s\n", [filename UTF8String]);
             exit(EXIT_FAILURE);
         }
+        //NSBitmapImageRep* imageRep = [[image representations] objectAtIndex:0];
+        
+        
+        // Load CGImage
+        CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([filename cStringUsingEncoding:NSUTF8StringEncoding]);
+        CGImageRef cgImage = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+        
+        int w = (int)CGImageGetWidth(cgImage);
+        int h = (int)CGImageGetHeight(cgImage);
+        
+        NSLog(@"cgImage w:%d, h:%d", (int)CGImageGetWidth(cgImage), (int)CGImageGetHeight(cgImage));
+        NSRect trimRect = [self trimmedRectForImage:cgImage];
+        
+        NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
+        [imageInfo setObject:[NSNumber numberWithInt:w] forKey:@"width"];
+        [imageInfo setObject:[NSNumber numberWithInt:h] forKey:@"height"];
+        [imageInfo setObject:[NSValue valueWithRect:trimRect] forKey:@"trimRect"];
+        
+        [imageInfos addObject:imageInfo];
         
         [image setFlipped:YES];
-        [image setSize:NSMakeSize(image.size.width * self.scale, image.size.height * self.scale)];
+        [image setSize:NSMakeSize(w * self.scale, h * self.scale)];
 
         [images addObject:image];
         
@@ -157,13 +262,15 @@ typedef struct _PVRTexHeader
     }*/
     
     int maxSideLen = 8;
-    for (NSImage* image in images)
+    for (NSDictionary* imageInfo in imageInfos)
     {
-        int w = (int)image.size.width;
-        if (w > maxSideLen) maxSideLen = w;
+        NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
         
-        int h = (int)image.size.height;
-        if (h > maxSideLen) maxSideLen = h;
+        int w = trimRect.size.width;
+        if (w > maxSideLen) maxSideLen = w + self.padding * 2;
+        
+        int h = trimRect.size.height;
+        if (h > maxSideLen) maxSideLen = h + self.padding * 2;
     }
     
     maxSideLen = upper_power_of_two(maxSideLen);
@@ -185,11 +292,13 @@ typedef struct _PVRTexHeader
         std::vector<TPRectSize> inRects;
         
         int numImages = 0;
-        for (NSImage *image in images)
+        for (NSDictionary* imageInfo in imageInfos)
         {
+            NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
+            
             inRects.push_back(TPRectSize());
-            inRects[numImages].width = (int)image.size.width;
-            inRects[numImages].height = (int)image.size.height;
+            inRects[numImages].width = trimRect.size.width + self.padding * 2;
+            inRects[numImages].height = trimRect.size.height + self.padding * 2;
             inRects[numImages].idx = numImages;
             
             numImages++;
@@ -244,21 +353,46 @@ typedef struct _PVRTexHeader
             int  x, y, w, h;
             
             NSImage* image = [images objectAtIndex:outRects[index].idx];
+            NSDictionary* imageInfo = [imageInfos objectAtIndex:outRects[index].idx];
             
             //rot = tp->getTextureLocation(index++, x, y, w, h);
             x = outRects[index].x;
             y = outRects[index].y;
-            w = outRects[index].width;
-            h = outRects[index].height;
+           
             rot = outRects[index].rotated;
             
-            index++;
+            x += self.padding;
+            y += self.padding;
+            
+            NSLog(@"x: %d y: %d w: %d h: %d rot: %d", x, y, w, h, rot);
+            
+            NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
+            if (rot)
+            {
+                h = [[imageInfo objectForKey:@"width"] intValue];
+                w = [[imageInfo objectForKey:@"height"] intValue];
+                
+                x -= trimRect.origin.y;
+                y -= (h - trimRect.origin.x - trimRect.size.width);
+                
+                
+            }
+            else
+            {
+                w = [[imageInfo objectForKey:@"width"] intValue];
+                h = [[imageInfo objectForKey:@"height"] intValue];
+                
+                x -= trimRect.origin.x;
+                y -= trimRect.origin.y;
+            }
             
             if (rot == true) image = [self rotateImage:image clockwise:YES]; 
             
             [image drawInRect:NSMakeRect(x, y, w, h) fromRect:NSZeroRect 
                     operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO 
                         hints:[NSDictionary dictionaryWithObjectsAndKeys:transform, NSImageHintCTM, nil]];
+            
+            index++;
         }
     }        
     [NSGraphicsContext restoreGraphicsState];
