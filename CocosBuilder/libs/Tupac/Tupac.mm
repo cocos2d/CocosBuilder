@@ -104,7 +104,7 @@ typedef struct _PVRTexHeader
         NSPoint centerPoint = NSMakePoint(rotatedSize.width / 2, rotatedSize.height / 2);
         
         [rotateTF translateXBy: centerPoint.x yBy: centerPoint.y];
-        [rotateTF rotateByDegrees: (clockwise) ? - 90 : 90];
+        [rotateTF rotateByDegrees: (clockwise) ? 90 : -90];
         [rotateTF translateXBy: -centerPoint.y yBy: -centerPoint.x];
         [rotateTF concat];
         
@@ -192,9 +192,8 @@ typedef struct _PVRTexHeader
     
     int wTrimmed = xRight-x+1;
     int hTrimmed = yTop-y+1;
-    //y = h - hTrimmed - y;
     
-    NSLog(@"Trimmed x: %d y: %d w: %d h: %d", x, y, wTrimmed, hTrimmed);
+    CFRelease(imageData);
     
     return NSMakeRect(x, y, wTrimmed, hTrimmed);
 }
@@ -229,7 +228,6 @@ typedef struct _PVRTexHeader
         int w = (int)CGImageGetWidth(cgImage);
         int h = (int)CGImageGetHeight(cgImage);
         
-        NSLog(@"cgImage w:%d, h:%d", (int)CGImageGetWidth(cgImage), (int)CGImageGetHeight(cgImage));
         NSRect trimRect = [self trimmedRectForImage:cgImage];
         
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
@@ -245,6 +243,9 @@ typedef struct _PVRTexHeader
         [images addObject:image];
         
         [image release];
+        
+        CGDataProviderRelease(dataProvider);
+        CGImageRelease(cgImage);
     }
     
     if (![self.outputFormat isEqualToString:TupacOutputFormatCocos2D]
@@ -285,8 +286,6 @@ typedef struct _PVRTexHeader
     BOOL allFitted = NO;
     while (outW <= self.maxTextureSize && !allFitted)
     {
-        NSLog(@"### Attempting bin size: %d x %d max: %d", outW, outH, self.maxTextureSize);
-        
         MaxRectsBinPack bin(outW, outH);
         
         std::vector<TPRectSize> inRects;
@@ -308,7 +307,6 @@ typedef struct _PVRTexHeader
         
         if (numImages == (int)outRects.size())
         {
-            NSLog(@"All fitted! Rate %f:", bin.Occupancy());
             allFitted = YES;
         }
         else
@@ -372,10 +370,8 @@ typedef struct _PVRTexHeader
                 h = [[imageInfo objectForKey:@"width"] intValue];
                 w = [[imageInfo objectForKey:@"height"] intValue];
                 
-                x -= trimRect.origin.y;
-                y -= (h - trimRect.origin.x - trimRect.size.width);
-                
-                
+                x -= (w - trimRect.origin.y - trimRect.size.height);
+                y -= trimRect.origin.x;
             }
             else
             {
@@ -386,7 +382,7 @@ typedef struct _PVRTexHeader
                 y -= trimRect.origin.y;
             }
             
-            if (rot == true) image = [self rotateImage:image clockwise:YES]; 
+            if (rot == true) image = [self rotateImage:image clockwise:YES];
             
             [image drawInRect:NSMakeRect(x, y, w, h) fromRect:NSZeroRect 
                     operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO 
@@ -490,27 +486,51 @@ typedef struct _PVRTexHeader
         [outDict setObject:metadata forKey:@"metadata"];
         
         int index = 0;
-        while(index < outRects.size()) {
+        while(index < outRects.size())
+        {
+            // Get info about the image
             NSString* filename = [self.filenames objectAtIndex:outRects[index].idx];
-            
             NSString* exportFilename = [filename lastPathComponent];
             if (directoryPrefix_) exportFilename = [directoryPrefix_ stringByAppendingPathComponent:exportFilename];
+            NSDictionary* imageInfo = [imageInfos objectAtIndex:outRects[index].idx];
             
             bool rot = false;
-            int x, y, w, h;
-            x = outRects[index].x;
-            y = outRects[index].y;
-            w = outRects[index].width;
-            h = outRects[index].height;
+            int x, y, w, h, wSrc, hSrc, xOffset, yOffset;
+            x = outRects[index].x + self.padding;
+            y = outRects[index].y + self.padding;
+            w = outRects[index].width - self.padding*2;
+            h = outRects[index].height - self.padding*2;
+            wSrc = [[imageInfo objectForKey:@"width"] intValue];
+            hSrc = [[imageInfo objectForKey:@"height"] intValue];
+            NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
+            
             rot = outRects[index].rotated;
+            
+            if (rot)
+            {
+                int wRot = h;
+                int hRot = w;
+                w = wRot;
+                h = hRot;
+                
+                xOffset = trimRect.origin.x/2;
+                yOffset = trimRect.origin.y/2;
+            }
+            else
+            {
+                xOffset = trimRect.origin.x/2;
+                yOffset = -trimRect.origin.y/2;
+            }
+            
+            
             index++;
             //rot = tp->getTextureLocation(index++, x, y, w, h);
             [frames setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                NSStringFromRect(NSMakeRect(x, y, w, h)),    @"frame",
-                               NSStringFromPoint(NSMakePoint(0, 0)),        @"offset",
+                               NSStringFromPoint(NSMakePoint(xOffset, yOffset)),        @"offset",
                                [NSNumber numberWithBool:rot],               @"rotated",
-                               NSStringFromRect(NSMakeRect(x, y, w, h)),    @"sourceColorRect",
-                               NSStringFromSize(NSMakeSize(w, h)),          @"sourceSize",
+                               NSStringFromRect(trimRect),                  @"sourceColorRect",
+                               NSStringFromSize(NSMakeSize(wSrc, hSrc)),    @"sourceSize",
                                nil]
                        forKey:exportFilename];
         }
