@@ -135,8 +135,6 @@
     NSString* autoDir = [srcDir stringByAppendingPathComponent:@"resources-auto"];
     srcAutoFile = [autoDir stringByAppendingPathComponent:srcFileName];
     
-    [fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:NULL error:NULL];
-    
     if (resolution && ![resolution isEqualToString:@""])
     {
         // Update path to reflect resolution
@@ -149,6 +147,8 @@
         srcFile = [srcDir stringByAppendingPathComponent:srcFileName];
         dstFile = [dstDir stringByAppendingPathComponent:dstFileName];
     }
+    
+    [fm createDirectoryAtPath:dstDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     
     if ([dstFile isEqualToString:srcFile])
     {
