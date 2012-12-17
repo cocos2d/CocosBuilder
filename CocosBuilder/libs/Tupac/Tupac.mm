@@ -512,16 +512,10 @@ typedef struct _PVRTexHeader
                 int hRot = w;
                 w = wRot;
                 h = hRot;
-                
-                xOffset = trimRect.origin.x/2;
-                yOffset = trimRect.origin.y/2;
-            }
-            else
-            {
-                xOffset = trimRect.origin.x/2;
-                yOffset = -trimRect.origin.y/2;
             }
             
+            xOffset = trimRect.origin.x + trimRect.size.width/2 - wSrc/2;
+            yOffset = -trimRect.origin.y - trimRect.size.height/2 + hSrc/2;
             
             index++;
             //rot = tp->getTextureLocation(index++, x, y, w, h);
