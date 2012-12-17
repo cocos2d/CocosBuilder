@@ -113,13 +113,17 @@
     return YES;
 }
 
-- (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution
+- (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution isSpriteSheet:(BOOL)isSpriteSheet
 {
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     // Add to list of copied files
     NSString* localFileName =[dstFile relativePathFromBaseDirPath:outputDir];
-    [publishedResources addObject:localFileName];
+    
+    if (!isSpriteSheet)
+    {
+        [publishedResources addObject:localFileName];
+    }
     
     // Update progress
     [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", localFileName]];
@@ -298,13 +302,13 @@
                         dstFile = [[projectSettings tempSpriteSheetCacheDirectory] stringByAppendingPathComponent:fileName];
                     }
                     
-                    if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL]) return NO;
+                    if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet]) return NO;
                     
                     if (publishForResolutions)
                     {
                         for (NSString* res in publishForResolutions)
                         {
-                            if (![self copyFileIfChanged:filePath to:dstFile forResolution:res]) return NO;
+                            if (![self copyFileIfChanged:filePath to:dstFile forResolution:res isSpriteSheet:isGeneratedSpriteSheet]) return NO;
                         }
                     }
                 }
@@ -366,6 +370,9 @@
             packer.border = YES;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
         }
+        
+        [publishedResources addObject:[subPath stringByAppendingPathExtension:@"plist"]];
+        [publishedResources addObject:[subPath stringByAppendingPathExtension:@"png"]];
     }
     
     return YES;
@@ -576,23 +583,21 @@
             NSMutableArray* resolutions = [NSMutableArray array];
             
             // Add iPhone resolutions from publishing settings
+            if (projectSettings.publishResolution_)
+            {
+                [resolutions addObject:@"iphone"];
+            }
             if (projectSettings.publishResolution_hd)
             {
                 [resolutions addObject:@"iphonehd"];
-                [resolutions addObject:@"ipad"];
-                [resolutions addObject:@"iphone"];
             }
             if (projectSettings.publishResolution_ipad)
             {
                 [resolutions addObject:@"ipad"];
-                [resolutions addObject:@"iphonehd"];
-                [resolutions addObject:@"iphone"];
             }
             if (projectSettings.publishResolution_ipadhd)
             {
                 [resolutions addObject:@"ipadhd"];
-                [resolutions addObject:@"ipad"];
-                [resolutions addObject:@"iphonehd"];
             }
             publishForResolutions = resolutions;
             
@@ -682,7 +687,7 @@
             }
             else
             {
-                publishForResolutions = NULL;
+                publishForResolutions = [NSArray arrayWithObjects:@"iphone", nil];
             }
         }
         
