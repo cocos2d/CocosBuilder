@@ -65,7 +65,7 @@ typedef struct _PVRTexHeader
         imageFormat_ = kTupacImageFormatPNG;
         self.outputFormat = TupacOutputFormatCocos2D;
         self.maxTextureSize = 2048;
-        self.padding = 2;
+        self.padding = 1;
         
         //tp = TEXTURE_PACKER::createTexturePacker();
     }
