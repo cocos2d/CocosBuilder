@@ -208,60 +208,46 @@ typedef struct _PVRTexHeader
         [fm createDirectoryAtPath:outputDir withIntermediateDirectories:YES attributes:NULL error:NULL];
     }
     
-    // Create atlas
+    // Load images and retrieve information about them
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:self.filenames.count];
     NSMutableArray *imageInfos = [NSMutableArray arrayWithCapacity:self.filenames.count];
     
-    for (NSString *filename in self.filenames) {
-        NSImage *image = [[NSImage alloc] initWithContentsOfFile:filename];
-        if (image == nil) {
-            fprintf(stderr, "unable to load image %s\n", [filename UTF8String]);
-            exit(EXIT_FAILURE);
-        }
-        //NSBitmapImageRep* imageRep = [[image representations] objectAtIndex:0];
-        
-        
+    CGColorSpaceRef colorSpace = NULL;
+    
+    for (NSString *filename in self.filenames)
+    {
         // Load CGImage
         CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([filename cStringUsingEncoding:NSUTF8StringEncoding]);
-        CGImageRef cgImage = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+        CGImageRef srcImage = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
         
-        int w = (int)CGImageGetWidth(cgImage);
-        int h = (int)CGImageGetHeight(cgImage);
+        // Get info
+        int w = (int)CGImageGetWidth(srcImage);
+        int h = (int)CGImageGetHeight(srcImage);
         
-        NSRect trimRect = [self trimmedRectForImage:cgImage];
+        NSRect trimRect = [self trimmedRectForImage:srcImage];
+        colorSpace = CGImageGetColorSpace(srcImage);
         
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
         [imageInfo setObject:[NSNumber numberWithInt:w] forKey:@"width"];
         [imageInfo setObject:[NSNumber numberWithInt:h] forKey:@"height"];
         [imageInfo setObject:[NSValue valueWithRect:trimRect] forKey:@"trimRect"];
         
+        // Store info info
         [imageInfos addObject:imageInfo];
+        [images addObject:[NSValue valueWithPointer:srcImage]];
         
-        [image setFlipped:YES];
-        [image setSize:NSMakeSize(w * self.scale, h * self.scale)];
-
-        [images addObject:image];
-        
-        [image release];
-        
+        // Relase objects (images released later)
         CGDataProviderRelease(dataProvider);
-        CGImageRelease(cgImage);
     }
     
+    // Check that the output format is valid
     if (![self.outputFormat isEqualToString:TupacOutputFormatCocos2D]
         && ![self.outputFormat isEqualToString:TupacOutputFormatAndEngine]) {
         fprintf(stderr, "unknown output format %s\n", [self.outputFormat UTF8String]);
         exit(EXIT_FAILURE);
     }
 
-    /*
-    tp->setTextureCount((int)[images count]);
-    for (NSImage *image in images)
-    {
-        //NSLog(@"addTexture: %d x %d", (int)image.size.width, (int)image.size.height);
-        tp->addTexture((int)image.size.width, (int)image.size.height);
-    }*/
-    
+    // Find the longest side
     int maxSideLen = 8;
     for (NSDictionary* imageInfo in imageInfos)
     {
@@ -273,13 +259,11 @@ typedef struct _PVRTexHeader
         int h = trimRect.size.height;
         if (h > maxSideLen) maxSideLen = h + self.padding * 2;
     }
-    
     maxSideLen = upper_power_of_two(maxSideLen);
     
-    // Create bin
+    // Pack using max rects
     int outW = maxSideLen;
     int outH = 8;
-    
     
     std::vector<TPRect> outRects;
     
@@ -320,7 +304,10 @@ typedef struct _PVRTexHeader
         }
     }
     
-    // Create the graphics
+    // Create the output graphics context
+    CGContextRef dstContext = CGBitmapContextCreate(NULL, outW, outH, 8, outW*32, colorSpace, kCGImageAlphaPremultipliedLast);
+    
+    /*
     NSBitmapImageRep *outRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL 
                                                                        pixelsWide:outW
                                                                        pixelsHigh:outH 
@@ -331,66 +318,90 @@ typedef struct _PVRTexHeader
                                                                    colorSpaceName:NSCalibratedRGBColorSpace 
                                                                      bitmapFormat:0 //NSAlphaFirstBitmapFormat
                                                                       bytesPerRow:(32 / 8) * outW
-                                                                     bitsPerPixel:32];
+                                                                     bitsPerPixel:32];*/
     
+    /*
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:outRep]];
     
     NSAffineTransform *transform = [NSAffineTransform transform];
     [transform scaleXBy:1.0 yBy:-1.0];
     [transform translateXBy:0.0 yBy:-outH];
-    [transform concat];
+    [transform concat];*/
     
     // draw our individual images
+    
+    int index = 0;
+    while (index < outRects.size())
     {
-        int index = 0;
-        while (index < outRects.size()) {
+        bool rot = false;
+        int  x, y, w, h;
+        
+        // Get the image and info
+        CGImageRef srcImage = (CGImageRef)[[images objectAtIndex:outRects[index].idx] pointerValue];
+        //NSImage* image = [images objectAtIndex:outRects[index].idx];
+        NSDictionary* imageInfo = [imageInfos objectAtIndex:outRects[index].idx];
+        
+        //rot = tp->getTextureLocation(index++, x, y, w, h);
+        x = outRects[index].x;
+        y = outRects[index].y;
+       
+        rot = outRects[index].rotated;
+        
+        x += self.padding;
+        y += self.padding;
+        
+        //NSLog(@"x: %d y: %d w: %d h: %d rot: %d", x, y, w, h, rot);
+        
+        NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
+        if (rot)
+        {
+            h = [[imageInfo objectForKey:@"width"] intValue];
+            w = [[imageInfo objectForKey:@"height"] intValue];
             
-            
-            bool rot = false;
-            int  x, y, w, h;
-            
-            NSImage* image = [images objectAtIndex:outRects[index].idx];
-            NSDictionary* imageInfo = [imageInfos objectAtIndex:outRects[index].idx];
-            
-            //rot = tp->getTextureLocation(index++, x, y, w, h);
-            x = outRects[index].x;
-            y = outRects[index].y;
-           
-            rot = outRects[index].rotated;
-            
-            x += self.padding;
-            y += self.padding;
-            
-            NSLog(@"x: %d y: %d w: %d h: %d rot: %d", x, y, w, h, rot);
-            
-            NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
-            if (rot)
-            {
-                h = [[imageInfo objectForKey:@"width"] intValue];
-                w = [[imageInfo objectForKey:@"height"] intValue];
-                
-                x -= (w - trimRect.origin.y - trimRect.size.height);
-                y -= trimRect.origin.x;
-            }
-            else
-            {
-                w = [[imageInfo objectForKey:@"width"] intValue];
-                h = [[imageInfo objectForKey:@"height"] intValue];
-                
-                x -= trimRect.origin.x;
-                y -= trimRect.origin.y;
-            }
-            
-            if (rot == true) image = [self rotateImage:image clockwise:YES];
-            
-            [image drawInRect:NSMakeRect(x, y, w, h) fromRect:NSZeroRect 
-                    operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO 
-                        hints:[NSDictionary dictionaryWithObjectsAndKeys:transform, NSImageHintCTM, nil]];
-            
-            index++;
+            x -= (w - trimRect.origin.y - trimRect.size.height);
+            y -= trimRect.origin.x;
         }
-    }        
+        else
+        {
+            w = [[imageInfo objectForKey:@"width"] intValue];
+            h = [[imageInfo objectForKey:@"height"] intValue];
+            
+            x -= trimRect.origin.x;
+            y -= trimRect.origin.y;
+        }
+        
+        //if (rot == true) image = [self rotateImage:image clockwise:YES];
+        
+        if (rot)
+        {
+            // Rotate image 90 degrees
+            CGContextRef rotContext = CGBitmapContextCreate(NULL, w, h, 8, 32*h, colorSpace, kCGImageAlphaPremultipliedLast);
+            CGContextSaveGState(rotContext);
+            CGContextRotateCTM(rotContext, -M_PI/2);
+            CGContextTranslateCTM(rotContext, -w, 0);
+            CGContextDrawImage(rotContext, CGRectMake(0, 0, h, w), srcImage);
+            
+            CGImageRelease(srcImage);
+            srcImage = CGBitmapContextCreateImage(rotContext);
+            CFRelease(rotContext);
+        }
+        
+        // Draw the image
+        CGContextDrawImage(dstContext, CGRectMake(x, outH-y-h, w, h), srcImage);
+        
+        /*
+        [image drawInRect:NSMakeRect(x, y, w, h) fromRect:NSZeroRect 
+                operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO 
+                    hints:[NSDictionary dictionaryWithObjectsAndKeys:transform, NSImageHintCTM, nil]];
+        */
+        
+        // Release the image
+        CGImageRelease(srcImage);
+        
+        index++;
+    }
+    
     [NSGraphicsContext restoreGraphicsState];
     
     NSString* textureFileName = NULL;
@@ -402,7 +413,16 @@ typedef struct _PVRTexHeader
         //
         
         NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
-        [[outRep representationUsingType:NSPNGFileType properties:nil] writeToFile:pngFilename atomically:YES];
+        //[[outRep representationUsingType:NSPNGFileType properties:nil] writeToFile:pngFilename atomically:YES];
+        
+        CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:pngFilename];
+        CGImageRef imageDst = CGBitmapContextCreateImage(dstContext);
+        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+        CGImageDestinationAddImage(destination, imageDst, nil);
+        
+        if (!CGImageDestinationFinalize(destination)) {
+            NSLog(@"Failed to write image to %@", pngFilename);
+        }
         
         textureFileName = pngFilename;
     }
@@ -411,7 +431,7 @@ typedef struct _PVRTexHeader
         //
         // PVR Export
         //
-        
+        /*
         pvrtc_info_output(stdout);
 
         size_t pvrOutputSize    = pvrtc_size((int)outRep.pixelsWide,    // width
@@ -470,6 +490,7 @@ typedef struct _PVRTexHeader
         [outRep release];
         
         textureFileName = pvrFilename;
+         */
     }
         
     // 
