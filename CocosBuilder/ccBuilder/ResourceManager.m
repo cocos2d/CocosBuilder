@@ -32,6 +32,7 @@
 #import "ResolutionSetting.h"
 #import "ProjectSettings.h"
 #import "CCBFileUtil.h"
+#import <CoreGraphics/CGImage.h>
 
 #pragma mark RMSpriteFrame
 
@@ -814,10 +815,7 @@
 
 - (void) createCachedImageFromAuto:(NSString*)autoFile saveAs:(NSString*)dstFile forResolution:(NSString*)res
 {
-    NSData* srcImageData = [NSData dataWithContentsOfFile:autoFile];
-    NSImage* srcImage = [[NSImage alloc] initWithData:srcImageData];
-    NSBitmapImageRep* srcImageRep = [[srcImage representations] objectAtIndex:0];
-    
+    // Calculate the scale factor
     float dstScale = 1;
     if ([res isEqualToString:@"iphone"]) dstScale = 1;
     if ([res isEqualToString:@"iphonehd"]) dstScale = 2;
@@ -837,33 +835,42 @@
     
     float scaleFactor = dstScale/srcScale;
     
-    NSSize oldSizePixels = NSMakeSize([srcImageRep pixelsWide],[srcImageRep pixelsHigh]);
-    NSSize oldSize = [srcImage size];
+    // Load src image
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([autoFile UTF8String]);
+    CGImageRef imageSrc = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
     
+    int wSrc = CGImageGetWidth(imageSrc);
+    int hSrc = CGImageGetHeight(imageSrc);
     
-    NSSize newSize;
-    newSize.width = roundf(oldSizePixels.width*scaleFactor);
-    newSize.height = roundf(oldSizePixels.height*scaleFactor);
+    int wDst = wSrc * scaleFactor;
+    int hDst = hSrc * scaleFactor;
     
-    NSImage *resizedImage = [[NSImage alloc] initWithSize: newSize];
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageSrc);
     
-    [resizedImage lockFocus];
-    [srcImage drawInRect: NSMakeRect(0, 0, newSize.width, newSize.height) fromRect: NSMakeRect(0, 0, oldSize.width, oldSize.height) operation: NSCompositeSourceOver fraction: 1.0];
-    [resizedImage unlockFocus];
+    // Create new, scaled image
+    CGContextRef newContext = CGBitmapContextCreate(NULL, wDst, hDst, 8, wDst*32, colorSpace, kCGImageAlphaPremultipliedLast);
     
-    NSData *tiffData = [resizedImage TIFFRepresentation];
-    NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData:tiffData];
-    NSData* dstImageData = [rep representationUsingType: NSPNGFileType
-                                             properties: nil];
+    CGContextDrawImage(newContext, CGContextGetClipBoundingBox(newContext), imageSrc);
     
-    // Create directory and write file
+    CGImageRef imageDst = CGBitmapContextCreateImage(newContext);
+    
+    // Create destination directory
     [[NSFileManager defaultManager] createDirectoryAtPath:[dstFile stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:NULL error:NULL];
     
-    [dstImageData writeToFile:dstFile atomically:YES];
+    // Save the image
+    CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:dstFile];
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    CGImageDestinationAddImage(destination, imageDst, nil);
     
-    // Update modification time to match original file
-    NSDate* autoFileDate = [CCBFileUtil modificationDateForFile:autoFile];
-    [CCBFileUtil setModificationDate:autoFileDate forFile:dstFile];
+    if (!CGImageDestinationFinalize(destination)) {
+        NSLog(@"Failed to write image to %@", dstFile);
+    }
+    
+    // Release created objects
+    CFRelease(destination);
+    CGImageRelease(imageSrc);
+    CFRelease(dataProvider);
+    CFRelease(newContext);
 }
 
 - (NSString*) toAbsolutePath:(NSString*)path
