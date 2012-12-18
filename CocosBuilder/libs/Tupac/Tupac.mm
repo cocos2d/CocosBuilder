@@ -7,7 +7,6 @@
 //
 
 #import "Tupac.h"
-//#import "TexturePacker.h"
 #import "MaxRectsBinPack.h"
 #import "vector"
 
@@ -48,7 +47,6 @@ typedef struct _PVRTexHeader
 
 
 @implementation Tupac {
-    //TEXTURE_PACKER::TexturePacker* tp; // we hide this ivar in the implementation - requires LLVM Compiler 2.x
 }
 
 @synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_;
@@ -58,62 +56,27 @@ typedef struct _PVRTexHeader
     return [[[Tupac alloc] init] autorelease];
 }
 
-- (id)init {
-    if ((self = [super init])) {
+- (id)init
+{
+    if ((self = [super init]))
+    {
         scale_ = 1.0;
         border_ = NO;
         imageFormat_ = kTupacImageFormatPNG;
         self.outputFormat = TupacOutputFormatCocos2D;
         self.maxTextureSize = 2048;
         self.padding = 1;
-        
-        //tp = TEXTURE_PACKER::createTexturePacker();
     }
     return self;
 }
 
-- (void)dealloc {
-    //TEXTURE_PACKER::releaseTexturePacker(tp);
-    
+- (void)dealloc
+{
     [filenames_ release];
     [outputName_ release];
     [outputFormat_ release];
     
     [super dealloc];
-}
-
-- (NSImage *)rotateImage:(NSImage *)image clockwise:(BOOL)clockwise {
-    NSImage *existingImage = image;
-    NSSize  existingSize = [existingImage size];
-    
-    NSSize  rotatedSize = NSMakeSize(existingSize.height, existingSize.width);
-    NSImage *rotatedImage = [[NSImage alloc] initWithSize:rotatedSize];
-    
-    [rotatedImage lockFocus];
-    {
-        /**
-         * Apply the following transformations:
-         *
-         * - bring the rotation point to the centre of the image instead of
-         *   the default lower, left corner (0,0).
-         * - rotate it by 90 degrees, either clock or counter clockwise.
-         * - re-translate the rotated image back down to the lower left corner
-         *   so that it appears in the right place.
-         */
-        NSAffineTransform *rotateTF = [NSAffineTransform transform];
-        NSPoint centerPoint = NSMakePoint(rotatedSize.width / 2, rotatedSize.height / 2);
-        
-        [rotateTF translateXBy: centerPoint.x yBy: centerPoint.y];
-        [rotateTF rotateByDegrees: (clockwise) ? 90 : -90];
-        [rotateTF translateXBy: -centerPoint.y yBy: -centerPoint.x];
-        [rotateTF concat];
-        
-        NSRect rotatedRect = NSMakeRect(0, 0, rotatedSize.height, rotatedSize.width);
-        [existingImage drawInRect:rotatedRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    }
-    [rotatedImage unlockFocus];
-    
-    return rotatedImage;
 }
 
 - (NSRect) trimmedRectForImage:(CGImageRef)image
@@ -127,8 +90,6 @@ typedef struct _PVRTexHeader
     CGImageGetDataProvider((CGImageRef)image);
     CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(image));
     const UInt32 *pixels = (const UInt32*)CFDataGetBytePtr(imageData);
-    
-    //NSLog(@"bitsperpixel: %d bytesPerRow: %d", (int)CGImageGetBitsPerPixel(image), (int)CGImageGetBytesPerRow(image));
     
     // Search from left
     int x;
@@ -307,30 +268,7 @@ typedef struct _PVRTexHeader
     // Create the output graphics context
     CGContextRef dstContext = CGBitmapContextCreate(NULL, outW, outH, 8, outW*32, colorSpace, kCGImageAlphaPremultipliedLast);
     
-    /*
-    NSBitmapImageRep *outRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL 
-                                                                       pixelsWide:outW
-                                                                       pixelsHigh:outH 
-                                                                    bitsPerSample:8 
-                                                                  samplesPerPixel:4 
-                                                                         hasAlpha:YES 
-                                                                         isPlanar:NO 
-                                                                   colorSpaceName:NSCalibratedRGBColorSpace 
-                                                                     bitmapFormat:0 //NSAlphaFirstBitmapFormat
-                                                                      bytesPerRow:(32 / 8) * outW
-                                                                     bitsPerPixel:32];*/
-    
-    /*
-    [NSGraphicsContext saveGraphicsState];
-    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:outRep]];
-    
-    NSAffineTransform *transform = [NSAffineTransform transform];
-    [transform scaleXBy:1.0 yBy:-1.0];
-    [transform translateXBy:0.0 yBy:-outH];
-    [transform concat];*/
-    
-    // draw our individual images
-    
+    // Draw all the individual images
     int index = 0;
     while (index < outRects.size())
     {
@@ -339,10 +277,8 @@ typedef struct _PVRTexHeader
         
         // Get the image and info
         CGImageRef srcImage = (CGImageRef)[[images objectAtIndex:outRects[index].idx] pointerValue];
-        //NSImage* image = [images objectAtIndex:outRects[index].idx];
         NSDictionary* imageInfo = [imageInfos objectAtIndex:outRects[index].idx];
         
-        //rot = tp->getTextureLocation(index++, x, y, w, h);
         x = outRects[index].x;
         y = outRects[index].y;
        
@@ -350,8 +286,6 @@ typedef struct _PVRTexHeader
         
         x += self.padding;
         y += self.padding;
-        
-        //NSLog(@"x: %d y: %d w: %d h: %d rot: %d", x, y, w, h, rot);
         
         NSRect trimRect = [[imageInfo objectForKey:@"trimRect"] rectValue];
         if (rot)
@@ -371,8 +305,6 @@ typedef struct _PVRTexHeader
             y -= trimRect.origin.y;
         }
         
-        //if (rot == true) image = [self rotateImage:image clockwise:YES];
-        
         if (rot)
         {
             // Rotate image 90 degrees
@@ -389,12 +321,6 @@ typedef struct _PVRTexHeader
         
         // Draw the image
         CGContextDrawImage(dstContext, CGRectMake(x, outH-y-h, w, h), srcImage);
-        
-        /*
-        [image drawInRect:NSMakeRect(x, y, w, h) fromRect:NSZeroRect 
-                operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO 
-                    hints:[NSDictionary dictionaryWithObjectsAndKeys:transform, NSImageHintCTM, nil]];
-        */
         
         // Release the image
         CGImageRelease(srcImage);
@@ -413,7 +339,6 @@ typedef struct _PVRTexHeader
         //
         
         NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
-        //[[outRep representationUsingType:NSPNGFileType properties:nil] writeToFile:pngFilename atomically:YES];
         
         CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:pngFilename];
         CGImageRef imageDst = CGBitmapContextCreateImage(dstContext);
@@ -539,7 +464,7 @@ typedef struct _PVRTexHeader
             yOffset = -trimRect.origin.y - trimRect.size.height/2 + hSrc/2;
             
             index++;
-            //rot = tp->getTextureLocation(index++, x, y, w, h);
+            
             [frames setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                NSStringFromRect(NSMakeRect(x, y, w, h)),    @"frame",
                                NSStringFromPoint(NSMakePoint(xOffset, yOffset)),        @"offset",
