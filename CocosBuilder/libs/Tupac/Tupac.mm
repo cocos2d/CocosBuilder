@@ -332,27 +332,27 @@ typedef struct _PVRTexHeader
     
     NSString* textureFileName = NULL;
 
-    if (imageFormat_ == kTupacImageFormatPNG)
-    {
-        //
-        // PNG Export
-        //
-        
-        NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
-        
-        CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:pngFilename];
-        CGImageRef imageDst = CGBitmapContextCreateImage(dstContext);
-        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
-        CGImageDestinationAddImage(destination, imageDst, nil);
-        
-        if (!CGImageDestinationFinalize(destination)) {
-            NSLog(@"Failed to write image to %@", pngFilename);
-        }
-        
-        textureFileName = pngFilename;
+    
+    
+    // Export PNG file
+    
+    NSString *pngFilename  = [self.outputName stringByAppendingPathExtension:@"png"];
+    
+    CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:pngFilename];
+    CGImageRef imageDst = CGBitmapContextCreateImage(dstContext);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    CGImageDestinationAddImage(destination, imageDst, nil);
+    
+    if (!CGImageDestinationFinalize(destination)) {
+        NSLog(@"Failed to write image to %@", pngFilename);
     }
-    else if (imageFormat_ == kTupacImageFormatPVR)
+    
+    textureFileName = pngFilename;
+    
+    if (imageFormat_ != kTupacImageFormatPNG)
     {
+        // Convert PNG to PVR(TC)
+        
         //
         // PVR Export
         //
