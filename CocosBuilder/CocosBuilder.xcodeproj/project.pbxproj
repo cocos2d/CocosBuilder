@@ -199,6 +199,8 @@
 		E35A2D981540198900F78B72 /* size-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D951540198900F78B72 /* size-1.png */; };
 		E35A2D991540198900F78B72 /* size-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E35A2D961540198900F78B72 /* size-2.png */; };
 		E35A2D9C1540207000F78B72 /* PositionPropertySetter.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */; };
+		E35D78D516826C0100A53BEF /* SpriteSheetSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E35D78D316826C0100A53BEF /* SpriteSheetSettingsWindow.m */; };
+		E35D78D616826C0100A53BEF /* SpriteSheetSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35D78D416826C0100A53BEF /* SpriteSheetSettingsWindow.xib */; };
 		E35DBB6914F21E7D0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBB6F14F21E7D0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBB6D14F21E7D0070A6E4 /* InfoPlist.strings */; };
 		E35DBB7414F21EEE0070A6E4 /* CCLayer.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */; };
@@ -1055,6 +1057,9 @@
 		E35A2D961540198900F78B72 /* size-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-2.png"; sourceTree = "<group>"; };
 		E35A2D9A1540207000F78B72 /* PositionPropertySetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositionPropertySetter.h; sourceTree = "<group>"; };
 		E35A2D9B1540207000F78B72 /* PositionPropertySetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositionPropertySetter.m; sourceTree = "<group>"; };
+		E35D78D216826C0100A53BEF /* SpriteSheetSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteSheetSettingsWindow.h; sourceTree = "<group>"; };
+		E35D78D316826C0100A53BEF /* SpriteSheetSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteSheetSettingsWindow.m; sourceTree = "<group>"; };
+		E35D78D416826C0100A53BEF /* SpriteSheetSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpriteSheetSettingsWindow.xib; sourceTree = "<group>"; };
 		E35DBB6814F21E7D0070A6E4 /* CCLayer.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCLayer.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35DBB6C14F21E7D0070A6E4 /* CCLayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLayer-Info.plist"; sourceTree = "<group>"; };
 		E35DBB6E14F21E7D0070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1956,6 +1961,9 @@
 				E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */,
 				E398C04114FBCA620078E771 /* PublishTypeAccessoryView.h */,
 				E398C04214FBCA620078E771 /* PublishTypeAccessoryView.m */,
+				E35D78D216826C0100A53BEF /* SpriteSheetSettingsWindow.h */,
+				E35D78D316826C0100A53BEF /* SpriteSheetSettingsWindow.m */,
+				E35D78D416826C0100A53BEF /* SpriteSheetSettingsWindow.xib */,
 			);
 			name = Dialogs;
 			sourceTree = "<group>";
@@ -4118,6 +4126,7 @@
 				E3618D58166562DA009F5805 /* publishTemplates in Resources */,
 				E3D71E4B1669410800D9E638 /* defaultProjectResources in Resources */,
 				E3366A39168159F30094BD94 /* PVRTexToolCL in Resources */,
+				E35D78D616826C0100A53BEF /* SpriteSheetSettingsWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4560,6 +4569,7 @@
 				E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */,
 				E39108081679365600391C3B /* MaxRectsBinPack.cpp in Sources */,
 				E39108091679365600391C3B /* Rect.cpp in Sources */,
+				E35D78D516826C0100A53BEF /* SpriteSheetSettingsWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

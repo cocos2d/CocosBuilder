@@ -86,6 +86,7 @@
 #import "HelpWindow.h"
 #import "NodeGraphPropertySetter.h"
 #import "CCBSplitHorizontalView.h"
+#import "SpriteSheetSettingsWindow.h"
 
 
 #import <ExceptionHandling/NSExceptionHandler.h>
@@ -2869,6 +2870,36 @@ static BOOL hideAllToNextSeparator;
         else
         {
             [projectSettings makeSmartSpriteSheet:res];
+        }
+    }
+}
+
+- (IBAction)menuEditSmartSpriteSheet:(id)sender
+{
+    int selectedRow = [sender tag];
+    
+    if (selectedRow >= 0 && projectSettings)
+    {
+        RMResource* res = [outlineProject itemAtRow:selectedRow];
+        
+        ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForRes:res];
+        if (!ssSettings) return;
+        
+        SpriteSheetSettingsWindow* wc = [[[SpriteSheetSettingsWindow alloc] initWithWindowNibName:@"SpriteSheetSettingsWindow"] autorelease];
+        
+        wc.compress = ssSettings.compress;
+        wc.dither = ssSettings.dither;
+        wc.textureFileFormat = ssSettings.textureFileFormat;
+        
+        int success = [wc runModalSheetForWindow:window];
+        
+        if (success)
+        {
+            ssSettings.compress = wc.compress;
+            ssSettings.dither = wc.dither;
+            ssSettings.textureFileFormat = wc.textureFileFormat;
+            
+            [projectSettings store];
         }
     }
 }

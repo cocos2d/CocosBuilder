@@ -33,10 +33,30 @@
 
 @implementation ProjectSettingsGeneratedSpriteSheet
 
+@synthesize textureFileFormat;
+@synthesize dither;
+@synthesize compress;
+
+- (id)init
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    self.textureFileFormat = 0; // PNG
+    self.dither = YES;
+    self.compress = YES;
+    
+    return self;
+}
+
 - (id)initWithSerialization:(id)dict
 {
     self = [super init];
     if (!self) return NULL;
+    
+    self.textureFileFormat = [[dict objectForKey:@"textureFileFormat"] intValue];
+    self.dither = [[dict objectForKey:@"dither"] boolValue];
+    self.compress = [[dict objectForKey:@"compress"] boolValue];
     
     return self;
 }
@@ -44,6 +64,10 @@
 - (id) serialize
 {
     NSMutableDictionary* ser = [NSMutableDictionary dictionary];
+    
+    [ser setObject:[NSNumber numberWithInt:self.textureFileFormat] forKey:@"textureFileFormat"];
+    [ser setObject:[NSNumber numberWithBool:self.dither] forKey:@"dither"];
+    [ser setObject:[NSNumber numberWithBool:self.compress] forKey:@"compress"];
     
     return ser;
 }
@@ -366,6 +390,20 @@
     
     [self store];
     [[CocosBuilderAppDelegate appDelegate].resManager notifyResourceObserversResourceListUpdated];
+}
+
+- (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForRes:(RMResource*) res
+{
+    NSAssert(res.type == kCCBResTypeDirectory, @"Resource must be directory");
+    
+    NSString* relPath = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
+    
+    return [generatedSpriteSheets objectForKey:relPath];
+}
+
+- (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForSubPath:(NSString*) relPath
+{
+    return [generatedSpriteSheets objectForKey:relPath];
 }
 
 @end

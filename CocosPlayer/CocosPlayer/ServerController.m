@@ -191,6 +191,21 @@
 				  waitUntilDone:NO];
 }
 
+- (void) listDirectory:(NSString*)dir prefix:(NSString*)prefix
+{
+    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:NULL];
+    for (NSString* file in files)
+    {
+        NSLog(@"%@%@", prefix, file);
+        
+        BOOL isDir = NO;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[dir stringByAppendingPathComponent:file] isDirectory:&isDir] && isDir)
+        {
+            [self listDirectory:[dir stringByAppendingPathComponent:file] prefix:[prefix stringByAppendingString:@"  "]];
+        }
+    }
+}
+
 - (void) extractZipData:(NSData*)data
 {
     NSString* dirPath = [CCBReader ccbDirectoryPath] ;
@@ -215,11 +230,14 @@
     
     NSLog(@"Resources unzipped!");
     
+    [self listDirectory:dirPath prefix:@""];
+    
+    /*
     NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
     for (NSString* file in files)
     {
         NSLog(@"File: %@", file);
-    }
+    }*/
 }
 
 - (void) stopMain

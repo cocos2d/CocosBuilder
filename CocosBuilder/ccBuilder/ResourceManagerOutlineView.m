@@ -63,8 +63,19 @@
             {
                 [item setEnabled:NO];
             }
-            
-           
+        }
+        else if (item.action == @selector(menuEditSmartSpriteSheet:))
+        {
+            [item setEnabled:NO];
+            if (clickedResource.type == kCCBResTypeDirectory)
+            {
+                RMDirectory* dir = clickedResource.data;
+                if (dir.isDynamicSpriteSheet)
+                {
+                    [item setEnabled:YES];
+                    item.tag = row;
+                }
+            }
         }
     }
     

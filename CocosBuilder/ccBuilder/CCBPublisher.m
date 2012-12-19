@@ -366,6 +366,22 @@
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
+            
+            if (targetType == kCCBPublisherTargetTypeHTML5)
+            {
+                // Only publish PNG files
+                packer.imageFormat = kTupacImageFormatPNG;
+            }
+            else
+            {
+                // Use settings
+                ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
+                
+                packer.imageFormat = ssSettings.textureFileFormat;
+                packer.compress = ssSettings.compress;
+                packer.dither = ssSettings.dither;
+            }
+            //packer.imageFormat = kTupacImageFormatPNG;
             packer.directoryPrefix = subPath;
             packer.border = YES;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];

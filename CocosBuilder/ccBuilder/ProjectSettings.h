@@ -31,7 +31,14 @@
 
 @interface ProjectSettingsGeneratedSpriteSheet : NSObject
 {
+    int textureFileFormat;
+    BOOL dither;
+    BOOL compress;
 }
+@property (nonatomic,assign) int textureFileFormat;
+@property (nonatomic,assign) BOOL dither;
+@property (nonatomic,assign) BOOL compress;
+
 - (id)initWithSerialization:(id)dict;
 - (id)serialize;
 @end
@@ -129,4 +136,6 @@
 
 - (void) makeSmartSpriteSheet:(RMResource*) res;
 - (void) removeSmartSpriteSheet:(RMResource*) res;
+- (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForRes:(RMResource*) res;
+- (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForSubPath:(NSString*) relPath;
 @end

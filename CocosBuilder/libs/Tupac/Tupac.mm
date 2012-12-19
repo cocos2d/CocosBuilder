@@ -49,7 +49,7 @@ typedef struct _PVRTexHeader
 @implementation Tupac {
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_, dither=dither_, compress=compress_;
 
 + (Tupac*) tupac
 {
@@ -228,6 +228,12 @@ typedef struct _PVRTexHeader
     
     std::vector<TPRect> outRects;
     
+    BOOL makeSquare = NO;
+    if (self.imageFormat == kTupacImageFormatPVRTC_2BPP || kTupacImageFormatPVRTC_4BPP)
+    {
+        makeSquare = YES;
+        outH = outW;
+    }
     BOOL allFitted = NO;
     while (outW <= self.maxTextureSize && !allFitted)
     {
@@ -257,10 +263,18 @@ typedef struct _PVRTexHeader
         else
         {
             outH *= 2;
-            if (outH > self.maxTextureSize)
+            
+            if (makeSquare)
             {
-                outH = 8;
-                outW *= 2;
+                outW = outH;
+            }
+            else
+            {
+                if (outH > self.maxTextureSize)
+                {
+                    outH = 8;
+                    outW *= 2;
+                }
             }
         }
     }
@@ -351,78 +365,58 @@ typedef struct _PVRTexHeader
     
     if (imageFormat_ != kTupacImageFormatPNG)
     {
+        NSString *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
+        
+        NSString* format = NULL;
+        if (self.imageFormat == kTupacImageFormatPVR_RGBA8888) format = @"r8g8b8a8,UBN,lRGB";
+        else if (self.imageFormat == kTupacImageFormatPVR_RGBA4444) format = @"r4g4b4a4,USN,lRGB";
+        else if (self.imageFormat == kTupacImageFormatPVR_RGB565) format = @"r5g6b5,USN,lRGB";
+        else if (self.imageFormat == kTupacImageFormatPVRTC_4BPP) format = @"PVRTC1_4,UBN,lRGB";
+        else if (self.imageFormat == kTupacImageFormatPVRTC_2BPP) format = @"PVRTC1_2,UBN,lRGB";
+        
         // Convert PNG to PVR(TC)
-        
-        //
-        // PVR Export
-        //
-        /*
-        pvrtc_info_output(stdout);
-
-        size_t pvrOutputSize    = pvrtc_size((int)outRep.pixelsWide,    // width
-                                             (int)outRep.pixelsHigh,    // height
-                                             0,                         // generate mipmaps
-                                             0);                        // use 2bpp compression
-        
-        NSMutableData *pvrData  = [[NSMutableData alloc] initWithLength:pvrOutputSize];
-        NSString      *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
-        
-        if (outW == outH) {
-            // if square, we use PVRC (compressed) format for our data
-
-            pvrtc_compress([outRep bitmapData],     // input data
-                           [pvrData mutableBytes],  // output data
-                           (int)outRep.pixelsWide,  // resize width
-                           (int)outRep.pixelsHigh,  // resize height
-                           0,                       // generate mipmaps
-                           1,                       // alpha on
-                           0,                       // texture wraps
-                           0);                      // use 2bpp compression
-        }
-        else {
-            // if not square, we construct a file with a simple header followed by uncompressed data
-
-            PVRTexHeader header;
-            
-            header.headerLength = sizeof(PVRTexHeader);
-
-            header.width = (uint32_t)outRep.pixelsWide;
-            header.height = (uint32_t)outRep.pixelsHigh;
-            
-            header.numMipmaps = 0;
-            
-            header.bpp = 32;
-            header.flags = 32786;
-            header.dataLength = (uint32_t)(outRep.pixelsWide * outRep.pixelsHigh * 4);
-
-            header.bitmaskRed   = 0xFF000000;
-            header.bitmaskBlue  = 0x0000FF00;
-            header.bitmaskGreen = 0x00FF0000;
-            header.bitmaskAlpha = 0x000000FF;
-            
-            header.pvrTag       = 559044176;
-            
-            header.numSurfs     = 1;
-            
-            [pvrData setLength:0];
-            [pvrData appendBytes:&header length:sizeof(PVRTexHeader)];
-            [pvrData appendBytes:[outRep bitmapData] length:outRep.pixelsWide * outRep.pixelsHigh * 4];
-        }
-        
-        [pvrData writeToFile:pvrFilename atomically:YES];
-        [pvrData release];
-
-        [outRep release];
+        NSTask* pvrTask = [[NSTask alloc] init];
+        [pvrTask setCurrentDirectoryPath:outputDir];
+        [pvrTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"PVRTexToolCL"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                         @"-i", pngFilename,
+                         @"-o", [self.outputName stringByAppendingPathExtension:@"pvr"],
+                         @"-p",
+                         @"-legacypvr",
+                         @"-f", format,
+                         @"-q", @"pvrtcbest",
+                         nil];
+        if (self.dither) [args addObject:@"-dither"];
+        [pvrTask setArguments:args];
+        [pvrTask launch];
+        [pvrTask waitUntilExit];
+        [pvrTask release];
         
         textureFileName = pvrFilename;
-         */
-    }
         
-    // 
-    // Metadata File Export
-    //
+        // Remove PNG file
+        [[NSFileManager defaultManager] removeItemAtPath:pngFilename error:NULL];
+        
+        if (self.compress)
+        {
+            NSTask* zipTask = [[NSTask alloc] init];
+            [zipTask setCurrentDirectoryPath:outputDir];
+            [zipTask setLaunchPath:@"/usr/bin/gzip"];
+            NSMutableArray* args = [NSMutableArray arrayWithObjects:@"-f", textureFileName, nil];
+            [zipTask setArguments:args];
+            [zipTask launch];
+            [zipTask waitUntilExit];
+            [zipTask release];
+            
+            textureFileName = [textureFileName stringByAppendingPathExtension:@"gz"];
+        }
+    }
     
-    if ([self.outputFormat isEqualToString:TupacOutputFormatCocos2D]) {
+    // Metadata File Export
+    textureFileName = [textureFileName lastPathComponent];
+    
+    if ([self.outputFormat isEqualToString:TupacOutputFormatCocos2D])
+    {
         NSMutableDictionary *outDict    = [[NSMutableDictionary alloc] initWithCapacity:2];
         
         NSMutableDictionary *frames     = [NSMutableDictionary dictionaryWithCapacity:self.filenames.count];
@@ -475,8 +469,8 @@ typedef struct _PVRTexHeader
                        forKey:exportFilename];
         }
         
-        [metadata setObject:textureFileName                                     forKey:@"realTextureFilename"];
-        [metadata setObject:textureFileName                                     forKey:@"textureFilename"];
+        //[metadata setObject:textureFileName                                     forKey:@"realTextureFilename"];
+        [metadata setObject:textureFileName                                     forKey:@"textureFileName"];
         [metadata setObject:[NSNumber numberWithInt:2]                      forKey:@"format"];
         [metadata setObject:NSStringFromSize(NSMakeSize(outW, outH))        forKey:@"size"];
         
