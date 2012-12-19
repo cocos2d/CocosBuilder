@@ -871,6 +871,10 @@
     CGImageRelease(imageSrc);
     CFRelease(dataProvider);
     CFRelease(newContext);
+    
+    // Update modification time to match original file
+    NSDate* autoFileDate = [CCBFileUtil modificationDateForFile:autoFile];
+    [CCBFileUtil setModificationDate:autoFileDate forFile:dstFile];
 }
 
 - (NSString*) toAbsolutePath:(NSString*)path
