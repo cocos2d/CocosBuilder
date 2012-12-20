@@ -535,7 +535,7 @@
             else if ([ext isEqualToString:@"png"]) type = @"image";
             else if ([ext isEqualToString:@"jpg"]) type = @"image";
             else if ([ext isEqualToString:@"jpeg"]) type = @"image";
-            else if ([ext isEqualToString:@"mp3"]) type = @"effect";
+            else if ([ext isEqualToString:@"mp3"]) type = @"sound";
             else if ([ext isEqualToString:@"ccbi"]) type = @"ccbi";
             else if ([ext isEqualToString:@"fnt"]) type = @"fnt";
             
