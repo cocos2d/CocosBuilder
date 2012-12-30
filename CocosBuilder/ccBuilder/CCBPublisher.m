@@ -585,6 +585,26 @@
     return YES;
 }
 
+- (NSString*) archiveToDirectory:(NSString*)dir
+{
+    NSString* zipFile = [dir stringByAppendingPathComponent:@"ccb.zip"];
+    
+    // Remove the old file
+    [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
+    
+    // Zip it up!
+    NSTask* zipTask = [[NSTask alloc] init];
+    [zipTask setCurrentDirectoryPath:outputDir];
+    [zipTask setLaunchPath:@"/usr/bin/zip"];
+    NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", zipFile, @".", @"-i", @"*", nil];
+    [zipTask setArguments:args];
+    [zipTask launch];
+    [zipTask waitUntilExit];
+    [zipTask release];
+    
+    return zipFile;
+}
+
 - (BOOL) publish_
 {
     if (!runAfterPublishing)
@@ -673,6 +693,18 @@
             if (![self publishAllToDirectory:publishDir]) return NO;
             
         }
+        
+        // Zip up
+        if (projectSettings.publishToZipFile) {
+            CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+            [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
+            
+            // Archive
+            [self archiveToDirectory:projectSettings.publishDirectory];
+            
+            // Send to player
+            [ad modalStatusWindowUpdateStatusText:@"Successfully archived..."];
+        }
     }
     else
     {
@@ -713,20 +745,8 @@
         CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
         [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
-        NSString* zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
-        
-        // Remove the old file
-        [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
-        
-        // Zip it up!
-        NSTask* zipTask = [[NSTask alloc] init];
-        [zipTask setCurrentDirectoryPath:outputDir];
-        [zipTask setLaunchPath:@"/usr/bin/zip"];
-        NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", zipFile, @".", @"-i", @"*", nil];
-        [zipTask setArguments:args];
-        [zipTask launch];
-        [zipTask waitUntilExit];
-        [zipTask release];
+        // Archive
+        NSString* zipFile = [self archiveToDirectory:projectSettings.publishCacheDirectory];
         
         // Send to player
         [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];
