@@ -585,24 +585,25 @@
     return YES;
 }
 
-- (NSString*) archiveToDirectory:(NSString*)dir
+- (BOOL) archiveToFile:(NSString*)file
 {
-    NSString* zipFile = [dir stringByAppendingPathComponent:@"ccb.zip"];
+    NSFileManager *manager = [NSFileManager defaultManager];
     
     // Remove the old file
-    [[NSFileManager defaultManager] removeItemAtPath:zipFile error:NULL];
+    [manager removeItemAtPath:file error:NULL];
     
     // Zip it up!
     NSTask* zipTask = [[NSTask alloc] init];
     [zipTask setCurrentDirectoryPath:outputDir];
+    
     [zipTask setLaunchPath:@"/usr/bin/zip"];
-    NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", zipFile, @".", @"-i", @"*", nil];
+    NSArray* args = [NSArray arrayWithObjects:@"-r", @"-q", file, @".", @"-i", @"*", nil];
     [zipTask setArguments:args];
     [zipTask launch];
     [zipTask waitUntilExit];
     [zipTask release];
     
-    return zipFile;
+    return [manager fileExistsAtPath:file];
 }
 
 - (BOOL) publish_
@@ -640,7 +641,18 @@
             publishToSingleResolution = NO;
             
             NSString* publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
-            if (![self publishAllToDirectory:publishDir]) return NO;
+            
+            if (projectSettings.publishToZipFile)
+            {
+                // Publish archive
+                NSString *zipFile = [publishDir stringByAppendingPathComponent:@"ccb.zip"];
+                
+                if (![self publishAllToDirectory:projectSettings.publishCacheDirectory] || ![self archiveToFile:zipFile]) return NO;
+            } else
+            {
+                // Publish files
+                if (![self publishAllToDirectory:publishDir]) return NO;
+            }
         }
         
         // Android
@@ -675,7 +687,18 @@
             publishToSingleResolution = NO;
             
             NSString* publishDir = [projectSettings.publishDirectoryAndroid absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
-            if (![self publishAllToDirectory:publishDir]) return NO;
+            
+            if (projectSettings.publishToZipFile)
+            {
+                // Publish archive
+                NSString *zipFile = [publishDir stringByAppendingPathComponent:@"ccb.zip"];
+                
+                if (![self publishAllToDirectory:projectSettings.publishCacheDirectory] || ![self archiveToFile:zipFile]) return NO;
+            } else
+            {
+                // Publish files
+                if (![self publishAllToDirectory:publishDir]) return NO;
+            }
         }
         
         // HTML 5
@@ -690,21 +713,20 @@
             publishToSingleResolution = YES;
             
             NSString* publishDir = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
-            if (![self publishAllToDirectory:publishDir]) return NO;
             
+            if (projectSettings.publishToZipFile)
+            {
+                // Publish archive
+                NSString *zipFile = [publishDir stringByAppendingPathComponent:@"ccb.zip"];
+                
+                if (![self publishAllToDirectory:projectSettings.publishCacheDirectory] || ![self archiveToFile:zipFile]) return NO;
+            } else
+            {
+                // Publish files
+                if (![self publishAllToDirectory:publishDir]) return NO;
+            }
         }
         
-        // Zip up
-        if (projectSettings.publishToZipFile) {
-            CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
-            [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
-            
-            // Archive
-            [self archiveToDirectory:projectSettings.publishDirectory];
-            
-            // Send to player
-            [ad modalStatusWindowUpdateStatusText:@"Successfully archived..."];
-        }
     }
     else
     {
@@ -746,7 +768,8 @@
         [ad modalStatusWindowUpdateStatusText:@"Zipping up project..."];
         
         // Archive
-        NSString* zipFile = [self archiveToDirectory:projectSettings.publishCacheDirectory];
+        NSString *zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
+        [self archiveToFile:zipFile];
         
         // Send to player
         [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];
