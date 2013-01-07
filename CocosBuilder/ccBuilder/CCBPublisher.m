@@ -184,8 +184,32 @@
         [fm removeItemAtPath:dstFile error:NULL];
     }
     
-    // Just copy the file and update the modification date
-    [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
+    // Check if file should be converted
+    NSString* srcExt = [[srcFile pathExtension] lowercaseString];
+    NSString* dstExt = [[dstFile pathExtension] lowercaseString];
+    if ([srcExt isEqualToString:dstExt])
+    {
+        // Just copy the file and update the modification date
+        [fm copyItemAtPath:srcFile toPath:dstFile error:NULL];
+    }
+    else if ([srcExt isEqualToString:@"wav"])
+    {
+        // TODO: Also convert to m4a/mp3 and possibly other formats, also make custom settings
+        if ([dstExt isEqualToString:@"caf"])
+        {
+            // Convert wav to caf
+            NSTask* convTask = [[NSTask alloc] init];
+            [convTask setCurrentDirectoryPath:[srcFile stringByDeletingLastPathComponent]];
+            
+            [convTask setLaunchPath:@"/usr/bin/afconvert"];
+            NSArray* args = [NSArray arrayWithObjects:@"-f", @"caff", @"-d", @"LEI16@44100", @"-c", @"1", srcFile, dstFile, nil];
+            [convTask setArguments:args];
+            [convTask launch];
+            [convTask waitUntilExit];
+            [convTask release];
+        }
+    }
+    
     [CCBFileUtil setModificationDate:[CCBFileUtil modificationDateForFile:srcFile] forFile:dstFile];
     
     return YES;
@@ -302,6 +326,18 @@
                         dstFile = [[projectSettings tempSpriteSheetCacheDirectory] stringByAppendingPathComponent:fileName];
                     }
                     
+                    // Make conversion rules for audio
+                    if ([ext isEqualToString:@"wav"])
+                    {
+                        if (targetType == kCCBPublisherTargetTypeIPhone)
+                        {
+                            dstFile = [[dstFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"caf"];
+                        }
+                        
+                        // Add to conversion table
+                    }
+                    
+                    // Copy file (and possibly convert)
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet]) return NO;
                     
                     if (publishForResolutions)
