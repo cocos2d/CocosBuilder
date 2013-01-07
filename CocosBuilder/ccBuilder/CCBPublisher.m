@@ -61,6 +61,20 @@
     return self;
 }
 
+- (void) addRenamingRuleFrom:(NSString*)src to: (NSString*)dst
+{
+    if (projectSettings.flattenPaths)
+    {
+        src = [src lastPathComponent];
+        dst = [dst lastPathComponent];
+    }
+    
+    if ([src isEqualToString:dst]) return;
+    
+    // Add the file to the dictionary
+    [renamedFiles setObject:dst forKey:src];
+}
+
 - (BOOL) srcFile:(NSString*)srcFile isNewerThanDstFile:(NSString*)dstFile
 {
     NSDictionary* srcAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:srcFile error:NULL];
@@ -329,12 +343,23 @@
                     // Make conversion rules for audio
                     if ([ext isEqualToString:@"wav"])
                     {
+                        NSString* newFormat = NULL;
                         if (targetType == kCCBPublisherTargetTypeIPhone)
                         {
-                            dstFile = [[dstFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"caf"];
+                            newFormat = @"caf";
                         }
                         
-                        // Add to conversion table
+                        if (newFormat)
+                        {
+                            // Set new name
+                            dstFile = [[dstFile stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat];
+                            
+                            // Add to conversion table
+                            NSString* localName = fileName;
+                            if (subPath) localName = [subPath stringByAppendingPathComponent:fileName];
+                        
+                            [self addRenamingRuleFrom:localName to:[[localName stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat]];
+                        }
                     }
                     
                     // Copy file (and possibly convert)
@@ -602,6 +627,7 @@
     outputDir = dir;
     
     publishedResources = [NSMutableSet set];
+    renamedFiles = [NSMutableDictionary dictionary];
     
     // Setup paths for automatically generated sprite sheets
     generatedSpriteSheetDirs = [NSMutableArray array];
@@ -620,6 +646,8 @@
     
     // Publish generated files
     [self publishGeneratedFiles];
+    
+    NSLog(@"Renamed files: %@", renamedFiles);
     
     // Yiee Haa!
     return YES;
