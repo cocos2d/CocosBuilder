@@ -126,7 +126,7 @@
     }
     
     // Update progress
-    [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", localFileName]];
+    [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", [dstFile lastPathComponent]]];
     
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -381,7 +381,11 @@
                 packer.compress = ssSettings.compress;
                 packer.dither = ssSettings.dither;
             }
-            //packer.imageFormat = kTupacImageFormatPNG;
+            
+            // Update progress
+            [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Generating sprite sheet %@...", [[subPath stringByAppendingPathExtension:@"plist"] lastPathComponent]]];
+            
+            // Pack texture
             packer.directoryPrefix = subPath;
             packer.border = YES;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
@@ -458,7 +462,7 @@
         return;
     }
     
-    if (targetType == kCCBPublisherTargetTypeJSB)
+    if (targetType == kCCBPublisherTargetTypeIPhone || targetType == kCCBPublisherTargetTypeAndroid)
     {
         // Generate main.js file
         
@@ -615,7 +619,7 @@
         // iOS
         if (projectSettings.publishEnablediPhone)
         {
-            targetType = kCCBPublisherTargetTypeJSB;
+            targetType = kCCBPublisherTargetTypeIPhone;
             
             NSMutableArray* resolutions = [NSMutableArray array];
             
@@ -658,7 +662,7 @@
         // Android
         if (projectSettings.publishEnabledAndroid)
         {
-            targetType = kCCBPublisherTargetTypeJSB;
+            targetType = kCCBPublisherTargetTypeAndroid;
             
             NSMutableArray* resolutions = [NSMutableArray array];
             
@@ -731,7 +735,7 @@
     else
     {
         // Publish for running on device
-        targetType = kCCBPublisherTargetTypeJSB;
+        targetType = kCCBPublisherTargetTypeIPhone;
         
         PlayerDeviceInfo* deviceInfo = [PlayerConnection sharedPlayerConnection].selectedDeviceInfo;
         if ([deviceInfo.deviceType isEqualToString:@"iPad"])

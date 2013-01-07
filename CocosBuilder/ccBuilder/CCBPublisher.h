@@ -29,7 +29,8 @@
 
 enum {
     kCCBPublisherTargetTypeHTML5,
-    kCCBPublisherTargetTypeJSB,
+    kCCBPublisherTargetTypeIPhone,
+    kCCBPublisherTargetTypeAndroid,
 };
 
 @interface CCBPublisher : NSObject
@@ -44,6 +45,7 @@ enum {
     NSArray* publishForResolutions;
     NSMutableArray* generatedSpriteSheetDirs;
     NSMutableSet* publishedResources;
+    NSMutableDictionary* renamedFiles;
     int targetType;
 }
 
