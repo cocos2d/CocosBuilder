@@ -487,6 +487,8 @@
 		E3DCFD9715627FCF00BD7D7F /* WarningsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9615627FCF00BD7D7F /* WarningsWindow.m */; };
 		E3DCFD9C15629FC700BD7D7F /* TaskStatusWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */; };
 		E3DCFD9F1562A3AD00BD7D7F /* TaskStatusWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */; };
+		E3DEF5B7169B359C00B9DCF4 /* lame in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5B6169B359C00B9DCF4 /* lame */; };
+		E3DEF5B9169B35DF00B9DCF4 /* lame-COPYING in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5B8169B35DF00B9DCF4 /* lame-COPYING */; };
 		E3DFA79115AC9DD3005D3B6F /* ccCArray.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA78F15AC9DD3005D3B6F /* ccCArray.m */; };
 		E3DFA7B115AC9DE1005D3B6F /* CCNode+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = E3DFA79315AC9DE1005D3B6F /* CCNode+Debug.m */; };
 		E3DFA7CD15ACA0CD005D3B6F /* frame-android-medium.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DFA7CA15ACA0CD005D3B6F /* frame-android-medium.png */; };
@@ -1551,6 +1553,8 @@
 		E3DCFD9B15629FC700BD7D7F /* TaskStatusWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskStatusWindow.xib; sourceTree = "<group>"; };
 		E3DCFD9D1562A3AD00BD7D7F /* TaskStatusWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskStatusWindow.h; sourceTree = "<group>"; };
 		E3DCFD9E1562A3AD00BD7D7F /* TaskStatusWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskStatusWindow.m; sourceTree = "<group>"; };
+		E3DEF5B6169B359C00B9DCF4 /* lame */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = lame; sourceTree = "<group>"; };
+		E3DEF5B8169B35DF00B9DCF4 /* lame-COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "lame-COPYING"; sourceTree = "<group>"; };
 		E3DFA78F15AC9DD3005D3B6F /* ccCArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ccCArray.m; path = Support/ccCArray.m; sourceTree = "<group>"; };
 		E3DFA79215AC9DE1005D3B6F /* CCNode+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Debug.h"; sourceTree = "<group>"; };
 		E3DFA79315AC9DE1005D3B6F /* CCNode+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Debug.m"; sourceTree = "<group>"; };
@@ -2242,6 +2246,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E3DEF5B5169B358500B9DCF4 /* Lame */,
 				E380B24A1642FC240006D31C /* Tupac */,
 				E35A134E15B038D700C9AA15 /* ThoMoNetworking */,
 				E3F541BA15AED66D00EAAFBD /* Fragaria */,
@@ -3454,6 +3459,15 @@
 			name = "Error handling & notifications";
 			sourceTree = "<group>";
 		};
+		E3DEF5B5169B358500B9DCF4 /* Lame */ = {
+			isa = PBXGroup;
+			children = (
+				E3DEF5B6169B359C00B9DCF4 /* lame */,
+				E3DEF5B8169B35DF00B9DCF4 /* lame-COPYING */,
+			);
+			name = Lame;
+			sourceTree = "<group>";
+		};
 		E3E087611566907F008F1FDB /* JSCocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -4127,6 +4141,8 @@
 				E3D71E4B1669410800D9E638 /* defaultProjectResources in Resources */,
 				E3366A39168159F30094BD94 /* PVRTexToolCL in Resources */,
 				E35D78D616826C0100A53BEF /* SpriteSheetSettingsWindow.xib in Resources */,
+				E3DEF5B7169B359C00B9DCF4 /* lame in Resources */,
+				E3DEF5B9169B35DF00B9DCF4 /* lame-COPYING in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

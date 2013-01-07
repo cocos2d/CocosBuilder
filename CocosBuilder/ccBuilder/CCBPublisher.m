@@ -222,6 +222,19 @@
             [convTask waitUntilExit];
             [convTask release];
         }
+        else if ([dstExt isEqualToString:@"mp3"])
+        {
+            NSTask* convTask = [[NSTask alloc] init];
+            [convTask setCurrentDirectoryPath:[srcFile stringByDeletingLastPathComponent]];
+            [convTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"lame"]];
+            NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                    @"-V2", srcFile, dstFile,
+                                    nil];
+            [convTask setArguments:args];
+            [convTask launch];
+            [convTask waitUntilExit];
+            [convTask release];
+        }
     }
     
     [CCBFileUtil setModificationDate:[CCBFileUtil modificationDateForFile:srcFile] forFile:dstFile];
@@ -347,6 +360,10 @@
                         if (targetType == kCCBPublisherTargetTypeIPhone)
                         {
                             newFormat = @"caf";
+                        }
+                        else if (targetType == kCCBPublisherTargetTypeHTML5)
+                        {
+                            newFormat = @"mp3";
                         }
                         
                         if (newFormat)
