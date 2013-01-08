@@ -637,6 +637,18 @@
         [[NSFileManager defaultManager] copyItemAtPath: cocos2dlibFileSrc toPath:cocos2dlibFile error:NULL];
     }
     
+    // Generate file lookup
+    NSMutableDictionary* fileLookup = [NSMutableDictionary dictionary];
+    
+    NSMutableDictionary* metadata = [NSMutableDictionary dictionary];
+    [metadata setObject:[NSNumber numberWithInt:1] forKey:@"version"];
+    
+    [fileLookup setObject:metadata forKey:@"metadata"];
+    [fileLookup setObject:renamedFiles forKey:@"filenames"];
+    
+    NSString* lookupFile = [outputDir stringByAppendingPathComponent:@"fileLookup.plist"];
+    
+    [fileLookup writeToFile:lookupFile atomically:YES];
 }
 
 - (BOOL) publishAllToDirectory:(NSString*)dir
