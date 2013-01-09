@@ -151,6 +151,9 @@
 		E3347416169C5402000737CC /* CCScale9Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = E3347406169C5402000737CC /* CCScale9Sprite.m */; };
 		E3347417169C5402000737CC /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E3347408169C5402000737CC /* Utils.m */; };
 		E3347418169C5402000737CC /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E334740A169C5402000737CC /* README.md */; };
+		E334741C169DC5A7000737CC /* APIDocsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E334741A169DC5A6000737CC /* APIDocsWindow.m */; };
+		E334741D169DC5A7000737CC /* APIDocsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E334741B169DC5A6000737CC /* APIDocsWindow.xib */; };
+		E334742F169DC9E0000737CC /* jsdoc in Resources */ = {isa = PBXBuildFile; fileRef = E334742E169DC9E0000737CC /* jsdoc */; };
 		E335CAEB15751C0D00A612EE /* seq-ctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */; };
 		E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF2157603C200A612EE /* SequencerHandler.m */; };
 		E335CAF6157649F900A612EE /* SequencerExpandBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF5157649F900A612EE /* SequencerExpandBtnCell.m */; };
@@ -989,6 +992,10 @@
 		E3347408169C5402000737CC /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		E3347409169C5402000737CC /* CCControlExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlExtension.h; sourceTree = "<group>"; };
 		E334740A169C5402000737CC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		E3347419169DC5A6000737CC /* APIDocsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIDocsWindow.h; sourceTree = "<group>"; };
+		E334741A169DC5A6000737CC /* APIDocsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIDocsWindow.m; sourceTree = "<group>"; };
+		E334741B169DC5A6000737CC /* APIDocsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APIDocsWindow.xib; sourceTree = "<group>"; };
+		E334742E169DC9E0000737CC /* jsdoc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = jsdoc; path = ../../jsdoc; sourceTree = "<group>"; };
 		E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-ctrl-bg.png"; sourceTree = "<group>"; };
 		E335CAF1157603C200A612EE /* SequencerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerHandler.h; sourceTree = "<group>"; };
 		E335CAF2157603C200A612EE /* SequencerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerHandler.m; sourceTree = "<group>"; };
@@ -2279,6 +2286,7 @@
 		7789ACEB133AB6A700CEFCC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E334742E169DC9E0000737CC /* jsdoc */,
 				E3D71E4A1669410700D9E638 /* defaultProjectResources */,
 				E3618D57166562DA009F5805 /* publishTemplates */,
 				E3AF6CE015F0CFAE0048DB2A /* Documentation */,
@@ -3181,6 +3189,9 @@
 				E3AF6CDA15F0A9BC0048DB2A /* HelpWindow.m */,
 				E3AF6CE215F0DBA90048DB2A /* HelpPage.h */,
 				E3AF6CE315F0DBA90048DB2A /* HelpPage.m */,
+				E3347419169DC5A6000737CC /* APIDocsWindow.h */,
+				E334741A169DC5A6000737CC /* APIDocsWindow.m */,
+				E334741B169DC5A6000737CC /* APIDocsWindow.xib */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -4171,6 +4182,8 @@
 				E3DEF5B7169B359C00B9DCF4 /* lame in Resources */,
 				E3DEF5B9169B35DF00B9DCF4 /* lame-COPYING in Resources */,
 				E3347418169C5402000737CC /* README.md in Resources */,
+				E334741D169DC5A7000737CC /* APIDocsWindow.xib in Resources */,
+				E334742F169DC9E0000737CC /* jsdoc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4618,6 +4631,7 @@
 				E3347415169C5402000737CC /* CCColourUtils.m in Sources */,
 				E3347416169C5402000737CC /* CCScale9Sprite.m in Sources */,
 				E3347417169C5402000737CC /* Utils.m in Sources */,
+				E334741C169DC5A7000737CC /* APIDocsWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
