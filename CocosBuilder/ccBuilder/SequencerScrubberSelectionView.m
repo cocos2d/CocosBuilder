@@ -96,9 +96,9 @@
     CCNode* node = [outlineView itemAtRow:row];
     if (node.seqExpanded)
     {
-        if (subRow > [[node plugIn].animatableProperties count])
+        if (subRow >= [[node plugIn].animatableProperties count])
         {
-            subRow = [[node plugIn].animatableProperties count];
+            subRow = [[node plugIn].animatableProperties count]-1;
         }
     }
     else
@@ -320,7 +320,6 @@
     NSArray* props = node.plugIn.animatableProperties;
     
     NSString* prop = NULL;
-
     prop = [props objectAtIndex:sub];
     
     return prop;
@@ -436,7 +435,7 @@
                 // This row is expanded
                 if (row == yMinRow)
                 {
-                    for (int subRow = yMinSubRow; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    for (int subRow = yMinSubRow; subRow < [node.plugIn.animatableProperties count]; subRow++)
                     {
                         NSString* propName  = [self propNameForNode:node subRow:subRow];
                         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
@@ -454,7 +453,7 @@
                 }
                 else
                 {
-                    for (int subRow = 0; subRow <= [node.plugIn.animatableProperties count]; subRow++)
+                    for (int subRow = 0; subRow < [node.plugIn.animatableProperties count]; subRow++)
                     {
                         NSString* propName  = [self propNameForNode:node subRow:subRow];
                         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];

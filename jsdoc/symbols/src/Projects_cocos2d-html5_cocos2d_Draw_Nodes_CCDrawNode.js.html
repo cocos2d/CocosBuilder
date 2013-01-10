@@ -1,0 +1,405 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/****************************************************************************
+<span class='line'>  2</span>  Copyright (c) 2010-2012 cocos2d-x.org
+<span class='line'>  3</span>  Copyright (c) 2008-2010 Ricardo Quesada
+<span class='line'>  4</span>  Copyright (c) 2011      Zynga Inc.
+<span class='line'>  5</span>  Copyright (c) 2012 Scott Lembcke and Howling Moon Software
+<span class='line'>  6</span> 
+<span class='line'>  7</span>  http://www.cocos2d-x.org
+<span class='line'>  8</span> 
+<span class='line'>  9</span>  Permission is hereby granted, free of charge, to any person obtaining a copy
+<span class='line'> 10</span>  of this software and associated documentation files (the "Software"), to deal
+<span class='line'> 11</span>  in the Software without restriction, including without limitation the rights
+<span class='line'> 12</span>  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+<span class='line'> 13</span>  copies of the Software, and to permit persons to whom the Software is
+<span class='line'> 14</span>  furnished to do so, subject to the following conditions:
+<span class='line'> 15</span> 
+<span class='line'> 16</span>  The above copyright notice and this permission notice shall be included in
+<span class='line'> 17</span>  all copies or substantial portions of the Software.
+<span class='line'> 18</span> 
+<span class='line'> 19</span>  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<span class='line'> 20</span>  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+<span class='line'> 21</span>  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+<span class='line'> 22</span>  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+<span class='line'> 23</span>  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+<span class='line'> 24</span>  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+<span class='line'> 25</span>  THE SOFTWARE.
+<span class='line'> 26</span>  ****************************************************************************/</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="COMM">/*
+<span class='line'> 29</span>  * Code copied & pasted from SpacePatrol game https://github.com/slembcke/SpacePatrol
+<span class='line'> 30</span>  *
+<span class='line'> 31</span>  * Renamed and added some changes for cocos2d
+<span class='line'> 32</span>  *
+<span class='line'> 33</span>  */</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="NAME">cc.v2f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.Vertex2F</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="NAME">cc.v2fadd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">v0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">v0.x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">v1.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v0.y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">v1.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="NAME">cc.v2fsub</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">v0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">v0.x</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">v1.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v0.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">v1.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="NAME">cc.v2fmult</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">v</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">v.x</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v.y</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">s</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="NAME">cc.v2fperp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">p0.y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">p0.x</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="NAME">cc.v2fneg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">p0.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">p0.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="NAME">cc.v2fdot</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">p1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT">  </span><span class="NAME">p0.x</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">p1.x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">p0.y</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">p1.y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="NAME">cc.v2fforangle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">_a_</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">_a_</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">_a_</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="NAME">cc.v2fnormalize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.pNormalize</span><span class="PUNC">(</span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NAME">p.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">p.y</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">r.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">r.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="NAME">cc.__v2f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">v</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.v2f</span><span class="PUNC">(</span><span class="NAME">v.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="NAME">cc.__t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">v</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.Tex2F</span><span class="PUNC">(</span><span class="NAME">v.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="COMM">/** CCDrawNode
+<span class='line'> 81</span>  Node that draws dots, segments and polygons.
+<span class='line'> 82</span>  Faster than the "drawing primitives" since they it draws everything in one single batch.
+<span class='line'> 83</span>  */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="NAME">cc.DrawNode</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.Node.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">    </span><span class="NAME">_vao</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="NAME">_vbo</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="NAME">_bufferCapacity</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="NAME">_bufferCount</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="NAME">_buffer</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="NAME">_blendFunc</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="WHIT">    </span><span class="NAME">_dirty</span><span class="PUNC">:</span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span> </span><span class="WHIT">    </span><span class="NAME">ctor</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="NAME">this._buffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="NAME">ensureCapacity</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">count</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="WHIT">    </span><span class="NAME">init</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">            </span><span class="NAME">this._blendFunc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.BlendFunc</span><span class="PUNC">(</span><span class="NAME">cc.BLEND_SRC</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cc.BLEND_DST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="COMM">//this.ensureCapacity(512);</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">            </span><span class="NAME">this._dirty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="WHIT">    </span><span class="NAME">render</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">        </span><span class="COMM">/*if( this._dirty ) {
+<span class='line'>115</span>          glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+<span class='line'>116</span>          glBufferData(GL_ARRAY_BUFFER, sizeof(ccV2F_C4B_T2F)*_bufferCapacity, _buffer, GL_STREAM_DRAW);
+<span class='line'>117</span>          glBindBuffer(GL_ARRAY_BUFFER, 0);
+<span class='line'>118</span>          this._dirty = false;
+<span class='line'>119</span>          }
+<span class='line'>120</span> 
+<span class='line'>121</span>          ccGLBindVAO(_vao);
+<span class='line'>122</span>          glDrawArrays(GL_TRIANGLES, 0, _bufferCount);
+<span class='line'>123</span> 
+<span class='line'>124</span>          CC_INCREMENT_GL_DRAWS(1);
+<span class='line'>125</span> 
+<span class='line'>126</span>          CHECK_GL_ERROR();*/</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">draw</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ctx</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">cc.renderContext</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">this._blendFunc</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._blendFunc.src</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">gl.SRC_ALPHA</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._blendFunc.dst</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">gl.ONE</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">            </span><span class="NAME">context.globalCompositeOperation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'lighter'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this._buffer.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._buffer</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">cc.DRAWNODE_TYPE_DOT</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">                </span><span class="NAME">context.fillStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"rgba("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.r</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.g</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.b</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">element.color.a</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">                </span><span class="NAME">cc.drawingUtil.drawPoint</span><span class="PUNC">(</span><span class="NAME">element.position</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element.radius</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>142</span> 
+<span class='line'>143</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">cc.DRAWNODE_TYPE_SEGMENT</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">                </span><span class="NAME">context.strokeStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"rgba("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.r</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.g</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.color.b</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">element.color.a</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">                </span><span class="NAME">context.lineWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">element.radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">                </span><span class="NAME">context.lineCap</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"round"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">                </span><span class="NAME">cc.drawingUtil.drawLine</span><span class="PUNC">(</span><span class="NAME">element.from</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element.to</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">cc.DRAWNODE_TYPE_POLY</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">                </span><span class="NAME">context.fillStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"rgba("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.fillColor.r</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.fillColor.g</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">                    </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.fillColor.b</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">element.fillColor.a</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">                </span><span class="NAME">cc.drawingUtil.drawPoly</span><span class="PUNC">(</span><span class="NAME">element.verts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element.count</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">                </span><span class="NAME">context.lineWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">element.borderWidth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">                </span><span class="NAME">context.lineCap</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"round"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">                </span><span class="NAME">context.strokeStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"rgba("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.borderColor.r</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.borderColor.g</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">                    </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">|</span><span class="PUNC">(</span><span class="NAME">element.borderColor.b</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">","</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">element.borderColor.a</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">")"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">                </span><span class="NAME">cc.drawingUtil.drawPoly</span><span class="PUNC">(</span><span class="NAME">element.verts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element.count</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">        </span><span class="COMM">//TODO WEBGL</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">        </span><span class="COMM">/*this.render();
+<span class='line'>164</span>          ccGLBlendFunc(_blendFunc.src, _blendFunc.dst);
+<span class='line'>165</span> 
+<span class='line'>166</span>          [shaderProgram_ use];
+<span class='line'>167</span>          [shaderProgram_ setUniformsForBuiltins];
+<span class='line'>168</span> 
+<span class='line'>169</span>          [self render];*/</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>171</span> 
+<span class='line'>172</span> </span><span class="WHIT">    </span><span class="NAME">getBlendFunc</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._blendFunc</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span> </span><span class="WHIT">    </span><span class="NAME">setBlendFunc</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">blendFunc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="NAME">this._blendFunc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">blendFunc</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> 
+<span class='line'>180</span> </span><span class="WHIT">    </span><span class="COMM">/** draw a dot at a position, with a given radius and color */</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">    </span><span class="NAME">drawDot</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pos</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc._DrawNodeElement</span><span class="PUNC">(</span><span class="NAME">cc.DRAWNODE_TYPE_DOT</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">        </span><span class="NAME">element.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pos</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">        </span><span class="NAME">element.radius</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">        </span><span class="NAME">element.color</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">        </span><span class="NAME">this._buffer.push</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> </span><span class="WHIT">        </span><span class="COMM">//TODO WEBGL</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">        </span><span class="COMM">/* var vertex_count = 2*3;
+<span class='line'>190</span>          this.ensureCapacity(vertex_count);
+<span class='line'>191</span> 
+<span class='line'>192</span>          ccV2F_C4B_T2F a = {{pos.x - radius, pos.y - radius}, ccc4BFromccc4F(color), {-1.0, -1.0} };
+<span class='line'>193</span>          ccV2F_C4B_T2F b = {{pos.x - radius, pos.y + radius}, ccc4BFromccc4F(color), {-1.0,  1.0} };
+<span class='line'>194</span>          ccV2F_C4B_T2F c = {{pos.x + radius, pos.y + radius}, ccc4BFromccc4F(color), { 1.0,  1.0} };
+<span class='line'>195</span>          ccV2F_C4B_T2F d = {{pos.x + radius, pos.y - radius}, ccc4BFromccc4F(color), { 1.0, -1.0} };
+<span class='line'>196</span> 
+<span class='line'>197</span>          ccV2F_C4B_T2F_Triangle *triangles = (ccV2F_C4B_T2F_Triangle *)(_buffer + _bufferCount);
+<span class='line'>198</span>          triangles[0] = (ccV2F_C4B_T2F_Triangle){a, b, c};
+<span class='line'>199</span>          triangles[1] = (ccV2F_C4B_T2F_Triangle){a, c, d};
+<span class='line'>200</span> 
+<span class='line'>201</span> 
+<span class='line'>202</span>          this._bufferCount += vertex_count;*/</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span> </span><span class="WHIT">    </span><span class="COMM">/** draw a segment with a radius and color */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">    </span><span class="NAME">drawSegment</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">b</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc._DrawNodeElement</span><span class="PUNC">(</span><span class="NAME">cc.DRAWNODE_TYPE_SEGMENT</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="NAME">element.from</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">        </span><span class="NAME">element.to</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">        </span><span class="NAME">element.radius</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">        </span><span class="NAME">element.color</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">        </span><span class="NAME">this._buffer.push</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span> </span><span class="WHIT">        </span><span class="COMM">//TODO WEBGL</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">        </span><span class="COMM">/*
+<span class='line'>216</span>          var vertex_count = 6*3;
+<span class='line'>217</span>          this.ensureCapacity(vertex_count);
+<span class='line'>218</span> 
+<span class='line'>219</span>          ccVertex2F a = __v2f(_a);
+<span class='line'>220</span>          ccVertex2F b = __v2f(_b);
+<span class='line'>221</span> 
+<span class='line'>222</span> 
+<span class='line'>223</span>          ccVertex2F n = v2fnormalize(v2fperp(v2fsub(b, a)));
+<span class='line'>224</span>          ccVertex2F t = v2fperp(n);
+<span class='line'>225</span> 
+<span class='line'>226</span>          ccVertex2F nw = v2fmult(n, radius);
+<span class='line'>227</span>          ccVertex2F tw = v2fmult(t, radius);
+<span class='line'>228</span>          ccVertex2F v0 = v2fsub(b, v2fadd(nw, tw));
+<span class='line'>229</span>          ccVertex2F v1 = v2fadd(b, v2fsub(nw, tw));
+<span class='line'>230</span>          ccVertex2F v2 = v2fsub(b, nw);
+<span class='line'>231</span>          ccVertex2F v3 = v2fadd(b, nw);
+<span class='line'>232</span>          ccVertex2F v4 = v2fsub(a, nw);
+<span class='line'>233</span>          ccVertex2F v5 = v2fadd(a, nw);
+<span class='line'>234</span>          ccVertex2F v6 = v2fsub(a, v2fsub(nw, tw));
+<span class='line'>235</span>          ccVertex2F v7 = v2fadd(a, v2fadd(nw, tw));
+<span class='line'>236</span> 
+<span class='line'>237</span> 
+<span class='line'>238</span>          ccV2F_C4B_T2F_Triangle *triangles = (ccV2F_C4B_T2F_Triangle *)(_buffer + _bufferCount);
+<span class='line'>239</span> 
+<span class='line'>240</span>          triangles[0] = (ccV2F_C4B_T2F_Triangle) {
+<span class='line'>241</span>          {v0, ccc4BFromccc4F(color), __t(v2fneg(v2fadd(n, t))) },
+<span class='line'>242</span>          {v1, ccc4BFromccc4F(color), __t(v2fsub(n, t)) },
+<span class='line'>243</span>          {v2, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>244</span>          };
+<span class='line'>245</span> 
+<span class='line'>246</span>          triangles[1] = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>247</span>          {v3, ccc4BFromccc4F(color), __t(n)},
+<span class='line'>248</span>          {v1, ccc4BFromccc4F(color), __t(v2fsub(n, t)) },
+<span class='line'>249</span>          {v2, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>250</span>          };
+<span class='line'>251</span> 
+<span class='line'>252</span>          triangles[2] = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>253</span>          {v3, ccc4BFromccc4F(color), __t(n)},
+<span class='line'>254</span>          {v4, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>255</span>          {v2, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>256</span>          };
+<span class='line'>257</span>          triangles[3] = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>258</span>          {v3, ccc4BFromccc4F(color), __t(n) },
+<span class='line'>259</span>          {v4, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>260</span>          {v5, ccc4BFromccc4F(color), __t(n) },
+<span class='line'>261</span>          };
+<span class='line'>262</span>          triangles[4] = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>263</span>          {v6, ccc4BFromccc4F(color), __t(v2fsub(t, n))},
+<span class='line'>264</span>          {v4, ccc4BFromccc4F(color), __t(v2fneg(n)) },
+<span class='line'>265</span>          {v5, ccc4BFromccc4F(color), __t(n)},
+<span class='line'>266</span>          };
+<span class='line'>267</span>          triangles[5] = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>268</span>          {v6, ccc4BFromccc4F(color), __t(v2fsub(t, n)) },
+<span class='line'>269</span>          {v7, ccc4BFromccc4F(color), __t(v2fadd(n, t)) },
+<span class='line'>270</span>          {v5, ccc4BFromccc4F(color), __t(n)},
+<span class='line'>271</span>          };
+<span class='line'>272</span> 
+<span class='line'>273</span>          this._bufferCount += vertex_count;
+<span class='line'>274</span>          this._dirty = true; */</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>276</span> 
+<span class='line'>277</span> </span><span class="WHIT">    </span><span class="COMM">/** draw a polygon with a fill color and line color */</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">    </span><span class="NAME">drawPoly</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">verts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fillColor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">borderColor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc._DrawNodeElement</span><span class="PUNC">(</span><span class="NAME">cc.DRAWNODE_TYPE_POLY</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">        </span><span class="NAME">element.verts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">verts</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">        </span><span class="NAME">element.count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">verts.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">        </span><span class="NAME">element.fillColor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fillColor</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">        </span><span class="NAME">element.borderWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">        </span><span class="NAME">element.borderColor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">borderColor</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">        </span><span class="NAME">this._buffer.push</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> 
+<span class='line'>287</span> </span><span class="WHIT">        </span><span class="COMM">//TODO WEBGL</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">        </span><span class="COMM">/* struct ExtrudeVerts {ccVertex2F offset, n;};
+<span class='line'>289</span>          struct ExtrudeVerts extrude[count];
+<span class='line'>290</span>          bzero(extrude, sizeof(extrude) );
+<span class='line'>291</span> 
+<span class='line'>292</span>          for(int i=0; i&lt;count; i++){
+<span class='line'>293</span>          ccVertex2F v0 = __v2f( verts[(i-1+count)%count] );
+<span class='line'>294</span>          ccVertex2F v1 = __v2f( verts[i] );
+<span class='line'>295</span>          ccVertex2F v2 = __v2f( verts[(i+1)%count] );
+<span class='line'>296</span> 
+<span class='line'>297</span>          ccVertex2F n1 = v2fnormalize(v2fperp(v2fsub(v1, v0)));
+<span class='line'>298</span>          ccVertex2F n2 = v2fnormalize(v2fperp(v2fsub(v2, v1)));
+<span class='line'>299</span> 
+<span class='line'>300</span>          ccVertex2F offset = v2fmult(v2fadd(n1, n2), 1.0/(v2fdot(n1, n2) + 1.0));
+<span class='line'>301</span>          extrude[i] = (struct ExtrudeVerts){offset, n2};
+<span class='line'>302</span>          }
+<span class='line'>303</span> 
+<span class='line'>304</span>          var outline = (line.a > 0.0 && width > 0.0);
+<span class='line'>305</span> 
+<span class='line'>306</span>          var triangle_count = 3*count - 2;
+<span class='line'>307</span>          var vertex_count = 3*triangle_count;
+<span class='line'>308</span> 
+<span class='line'>309</span>          this.ensureCapacity(vertex_count);
+<span class='line'>310</span> 
+<span class='line'>311</span>          ccV2F_C4B_T2F_Triangle *triangles = (ccV2F_C4B_T2F_Triangle *)(_buffer + _bufferCount);
+<span class='line'>312</span>          ccV2F_C4B_T2F_Triangle *cursor = triangles;
+<span class='line'>313</span> 
+<span class='line'>314</span>          var inset = (outline == 0.0 ? 0.5 : 0.0);
+<span class='line'>315</span>          for(int i=0; i&lt;count-2; i++){
+<span class='line'>316</span>          ccVertex2F v0 = v2fsub( __v2f(verts[0  ]), v2fmult(extrude[0  ].offset, inset));
+<span class='line'>317</span>          ccVertex2F v1 = v2fsub( __v2f(verts[i+1]), v2fmult(extrude[i+1].offset, inset));
+<span class='line'>318</span>          ccVertex2F v2 = v2fsub( __v2f(verts[i+2]), v2fmult(extrude[i+2].offset, inset));
+<span class='line'>319</span> 
+<span class='line'>320</span>          *cursor++ = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>321</span>          {v0, ccc4BFromccc4F(fill), __t(v2fzero) },
+<span class='line'>322</span>          {v1, ccc4BFromccc4F(fill), __t(v2fzero) },
+<span class='line'>323</span>          {v2, ccc4BFromccc4F(fill), __t(v2fzero) },
+<span class='line'>324</span>          };
+<span class='line'>325</span>          }
+<span class='line'>326</span> 
+<span class='line'>327</span>          for(int i=0; i&lt;count; i++){
+<span class='line'>328</span>          int j = (i+1)%count;
+<span class='line'>329</span>          ccVertex2F v0 = __v2f( verts[i] );
+<span class='line'>330</span>          ccVertex2F v1 = __v2f( verts[j] );
+<span class='line'>331</span> 
+<span class='line'>332</span>          ccVertex2F n0 = extrude[i].n;
+<span class='line'>333</span> 
+<span class='line'>334</span>          ccVertex2F offset0 = extrude[i].offset;
+<span class='line'>335</span>          ccVertex2F offset1 = extrude[j].offset;
+<span class='line'>336</span> 
+<span class='line'>337</span>          if(outline){
+<span class='line'>338</span>          ccVertex2F inner0 = v2fsub(v0, v2fmult(offset0, width));
+<span class='line'>339</span>          ccVertex2F inner1 = v2fsub(v1, v2fmult(offset1, width));
+<span class='line'>340</span>          ccVertex2F outer0 = v2fadd(v0, v2fmult(offset0, width));
+<span class='line'>341</span>          ccVertex2F outer1 = v2fadd(v1, v2fmult(offset1, width));
+<span class='line'>342</span> 
+<span class='line'>343</span>          *cursor++ = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>344</span>          {inner0, ccc4BFromccc4F(line), __t(v2fneg(n0))},
+<span class='line'>345</span>          {inner1, ccc4BFromccc4F(line), __t(v2fneg(n0))},
+<span class='line'>346</span>          {outer1, ccc4BFromccc4F(line), __t(n0)}
+<span class='line'>347</span>          };
+<span class='line'>348</span>          *cursor++ = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>349</span>          {inner0, ccc4BFromccc4F(line), __t(v2fneg(n0))},
+<span class='line'>350</span>          {outer0, ccc4BFromccc4F(line), __t(n0)},
+<span class='line'>351</span>          {outer1, ccc4BFromccc4F(line), __t(n0)}
+<span class='line'>352</span>          };
+<span class='line'>353</span>          } else {
+<span class='line'>354</span>          ccVertex2F inner0 = v2fsub(v0, v2fmult(offset0, 0.5));
+<span class='line'>355</span>          ccVertex2F inner1 = v2fsub(v1, v2fmult(offset1, 0.5));
+<span class='line'>356</span>          ccVertex2F outer0 = v2fadd(v0, v2fmult(offset0, 0.5));
+<span class='line'>357</span>          ccVertex2F outer1 = v2fadd(v1, v2fmult(offset1, 0.5));
+<span class='line'>358</span> 
+<span class='line'>359</span>          *cursor++ = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>360</span>          {inner0, ccc4BFromccc4F(fill), __t(v2fzero)},
+<span class='line'>361</span>          {inner1, ccc4BFromccc4F(fill), __t(v2fzero)},
+<span class='line'>362</span>          {outer1, ccc4BFromccc4F(fill), __t(n0)}
+<span class='line'>363</span>          };
+<span class='line'>364</span>          *cursor++ = (ccV2F_C4B_T2F_Triangle){
+<span class='line'>365</span>          {inner0, ccc4BFromccc4F(fill), __t(v2fzero)},
+<span class='line'>366</span>          {outer0, ccc4BFromccc4F(fill), __t(n0)},
+<span class='line'>367</span>          {outer1, ccc4BFromccc4F(fill), __t(n0)}
+<span class='line'>368</span>          };
+<span class='line'>369</span>          }
+<span class='line'>370</span>          }
+<span class='line'>371</span> 
+<span class='line'>372</span>          this._bufferCount += vertex_count;
+<span class='line'>373</span>          this._dirty = true; */</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>375</span> 
+<span class='line'>376</span> </span><span class="WHIT">    </span><span class="COMM">/** Clear the geometry in the node's buffer. */</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">    </span><span class="NAME">clear</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">        </span><span class="NAME">this._buffer.length</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">        </span><span class="NAME">this._bufferCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">        </span><span class="NAME">this._dirty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>383</span> 
+<span class='line'>384</span> </span><span class="NAME">cc.DrawNode.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">   </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.DrawNode</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ret.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> 
+<span class='line'>391</span> </span><span class="NAME">cc._DrawNodeElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">    </span><span class="NAME">this.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span> </span><span class="NAME">cc.DRAWNODE_TYPE_DOT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="NAME">cc.DRAWNODE_TYPE_SEGMENT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="NAME">cc.DRAWNODE_TYPE_POLY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span> </span></pre></body></html>

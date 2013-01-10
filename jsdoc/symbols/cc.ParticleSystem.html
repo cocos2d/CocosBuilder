@@ -1,0 +1,5805 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - cc.ParticleSystem</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/cc.%24.html">cc.$</a></li>
+	
+	<li><a href="../symbols/cc.Action.html">cc.Action</a></li>
+	
+	<li><a href="../symbols/cc.ActionEase.html">cc.ActionEase</a></li>
+	
+	<li><a href="../symbols/cc.ActionInstant.html">cc.ActionInstant</a></li>
+	
+	<li><a href="../symbols/cc.ActionInterval.html">cc.ActionInterval</a></li>
+	
+	<li><a href="../symbols/cc.ActionManager.html">cc.ActionManager</a></li>
+	
+	<li><a href="../symbols/cc.ActionTween.html">cc.ActionTween</a></li>
+	
+	<li><a href="../symbols/cc.ActionTweenDelegate.html">cc.ActionTweenDelegate</a></li>
+	
+	<li><a href="../symbols/cc.Animate.html">cc.Animate</a></li>
+	
+	<li><a href="../symbols/cc.Animation.html">cc.Animation</a></li>
+	
+	<li><a href="../symbols/cc.AnimationCache.html">cc.AnimationCache</a></li>
+	
+	<li><a href="../symbols/cc.AnimationFrame.html">cc.AnimationFrame</a></li>
+	
+	<li><a href="../symbols/cc.AppController.html">cc.AppController</a></li>
+	
+	<li><a href="../symbols/cc.Application.html">cc.Application</a></li>
+	
+	<li><a href="../symbols/cc.AtlasNode.html">cc.AtlasNode</a></li>
+	
+	<li><a href="../symbols/cc.BezierBy.html">cc.BezierBy</a></li>
+	
+	<li><a href="../symbols/cc.BezierTo.html">cc.BezierTo</a></li>
+	
+	<li><a href="../symbols/cc.BlendFunc.html">cc.BlendFunc</a></li>
+	
+	<li><a href="../symbols/cc.Blink.html">cc.Blink</a></li>
+	
+	<li><a href="../symbols/cc.BMFontConfiguration.html">cc.BMFontConfiguration</a></li>
+	
+	<li><a href="../symbols/cc.c4f.html">cc.c4f</a></li>
+	
+	<li><a href="../symbols/cc.CallFunc.html">cc.CallFunc</a></li>
+	
+	<li><a href="../symbols/cc.CardinalSplineBy.html">cc.CardinalSplineBy</a></li>
+	
+	<li><a href="../symbols/cc.CardinalSplineTo.html">cc.CardinalSplineTo</a></li>
+	
+	<li><a href="../symbols/cc.CatmullRomBy.html">cc.CatmullRomBy</a></li>
+	
+	<li><a href="../symbols/cc.CatmullRomTo.html">cc.CatmullRomTo</a></li>
+	
+	<li><a href="../symbols/cc.Class.html">cc.Class</a></li>
+	
+	<li><a href="../symbols/cc.Color3B.html">cc.Color3B</a></li>
+	
+	<li><a href="../symbols/cc.Color4B.html">cc.Color4B</a></li>
+	
+	<li><a href="../symbols/cc.Color4F.html">cc.Color4F</a></li>
+	
+	<li><a href="../symbols/cc.DelayTime.html">cc.DelayTime</a></li>
+	
+	<li><a href="../symbols/cc.DictMaker.html">cc.DictMaker</a></li>
+	
+	<li><a href="../symbols/cc.Director.html">cc.Director</a></li>
+	
+	<li><a href="../symbols/cc.DisplayLinkDirector.html">cc.DisplayLinkDirector</a></li>
+	
+	<li><a href="../symbols/cc.DOM.html">cc.DOM</a></li>
+	
+	<li><a href="../symbols/cc.DrawingPrimitive.html">cc.DrawingPrimitive</a></li>
+	
+	<li><a href="../symbols/cc.DrawingPrimitiveCanvas.html">cc.DrawingPrimitiveCanvas</a></li>
+	
+	<li><a href="../symbols/cc.EaseBackIn.html">cc.EaseBackIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseBackInOut.html">cc.EaseBackInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseBackOut.html">cc.EaseBackOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseBounce.html">cc.EaseBounce</a></li>
+	
+	<li><a href="../symbols/cc.EaseBounceIn.html">cc.EaseBounceIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseBounceInOut.html">cc.EaseBounceInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseBounceOut.html">cc.EaseBounceOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseElastic.html">cc.EaseElastic</a></li>
+	
+	<li><a href="../symbols/cc.EaseElasticIn.html">cc.EaseElasticIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseElasticInOut.html">cc.EaseElasticInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseElasticOut.html">cc.EaseElasticOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseExponentialIn.html">cc.EaseExponentialIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseExponentialInOut.html">cc.EaseExponentialInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseExponentialOut.html">cc.EaseExponentialOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseIn.html">cc.EaseIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseInOut.html">cc.EaseInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseOut.html">cc.EaseOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseRateAction.html">cc.EaseRateAction</a></li>
+	
+	<li><a href="../symbols/cc.EaseSineIn.html">cc.EaseSineIn</a></li>
+	
+	<li><a href="../symbols/cc.EaseSineInOut.html">cc.EaseSineInOut</a></li>
+	
+	<li><a href="../symbols/cc.EaseSineOut.html">cc.EaseSineOut</a></li>
+	
+	<li><a href="../symbols/cc.FadeIn.html">cc.FadeIn</a></li>
+	
+	<li><a href="../symbols/cc.FadeOut.html">cc.FadeOut</a></li>
+	
+	<li><a href="../symbols/cc.FadeTo.html">cc.FadeTo</a></li>
+	
+	<li><a href="../symbols/cc.FileUtils.html">cc.FileUtils</a></li>
+	
+	<li><a href="../symbols/cc.FiniteTimeAction.html">cc.FiniteTimeAction</a></li>
+	
+	<li><a href="../symbols/cc.FlipX.html">cc.FlipX</a></li>
+	
+	<li><a href="../symbols/cc.FlipY.html">cc.FlipY</a></li>
+	
+	<li><a href="../symbols/cc.Follow.html">cc.Follow</a></li>
+	
+	<li><a href="../symbols/cc.GridSize.html">cc.GridSize</a></li>
+	
+	<li><a href="../symbols/cc.HashElement.html">cc.HashElement</a></li>
+	
+	<li><a href="../symbols/cc.HashSelectorEntry.html">cc.HashSelectorEntry</a></li>
+	
+	<li><a href="../symbols/cc.HashUpdateEntry.html">cc.HashUpdateEntry</a></li>
+	
+	<li><a href="../symbols/cc.Hide.html">cc.Hide</a></li>
+	
+	<li><a href="../symbols/cc.Image.html">cc.Image</a></li>
+	
+	<li><a href="../symbols/cc.IMEDelegate.html">cc.IMEDelegate</a></li>
+	
+	<li><a href="../symbols/cc.IMEDispatcher.html">cc.IMEDispatcher</a></li>
+	
+	<li><a href="../symbols/cc.IMEDispatcher.Impl.html">cc.IMEDispatcher.Impl</a></li>
+	
+	<li><a href="../symbols/cc.inherits-tempCtor.html">cc.inherits-tempCtor</a></li>
+	
+	<li><a href="../symbols/cc.JumpBy.html">cc.JumpBy</a></li>
+	
+	<li><a href="../symbols/cc.JumpTo.html">cc.JumpTo</a></li>
+	
+	<li><a href="../symbols/cc.KeyboardDelegate.html">cc.KeyboardDelegate</a></li>
+	
+	<li><a href="../symbols/cc.KeyboardDispatcher.html">cc.KeyboardDispatcher</a></li>
+	
+	<li><a href="../symbols/cc.KeyboardHandler.html">cc.KeyboardHandler</a></li>
+	
+	<li><a href="../symbols/cc.LabelAtlas.html">cc.LabelAtlas</a></li>
+	
+	<li><a href="../symbols/cc.LabelBMFont.html">cc.LabelBMFont</a></li>
+	
+	<li><a href="../symbols/cc.LabelTTF.html">cc.LabelTTF</a></li>
+	
+	<li><a href="../symbols/cc.Layer.html">cc.Layer</a></li>
+	
+	<li><a href="../symbols/cc.LayerColor.html">cc.LayerColor</a></li>
+	
+	<li><a href="../symbols/cc.LayerGradient.html">cc.LayerGradient</a></li>
+	
+	<li><a href="../symbols/cc.LayerMultiplex.html">cc.LayerMultiplex</a></li>
+	
+	<li><a href="../symbols/cc.LazyLayer.html">cc.LazyLayer</a></li>
+	
+	<li><a href="../symbols/cc.ListEntry.html">cc.ListEntry</a></li>
+	
+	<li><a href="../symbols/cc.Loader.html">cc.Loader</a></li>
+	
+	<li><a href="../symbols/cc.LoaderScene.html">cc.LoaderScene</a></li>
+	
+	<li><a href="../symbols/cc.Menu.html">cc.Menu</a></li>
+	
+	<li><a href="../symbols/cc.MenuItem.html">cc.MenuItem</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemAtlasFont.html">cc.MenuItemAtlasFont</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemFont.html">cc.MenuItemFont</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemImage.html">cc.MenuItemImage</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemLabel.html">cc.MenuItemLabel</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemSprite.html">cc.MenuItemSprite</a></li>
+	
+	<li><a href="../symbols/cc.MenuItemToggle.html">cc.MenuItemToggle</a></li>
+	
+	<li><a href="../symbols/cc.MotionStreak.html">cc.MotionStreak</a></li>
+	
+	<li><a href="../symbols/cc.MouseHandler.html">cc.MouseHandler</a></li>
+	
+	<li><a href="../symbols/cc.MoveBy.html">cc.MoveBy</a></li>
+	
+	<li><a href="../symbols/cc.MoveTo.html">cc.MoveTo</a></li>
+	
+	<li><a href="../symbols/cc.Node.html">cc.Node</a></li>
+	
+	<li><a href="../symbols/cc.NSMutableSet.html">cc.NSMutableSet</a></li>
+	
+	<li><a href="../symbols/cc.ParallaxNode.html">cc.ParallaxNode</a></li>
+	
+	<li><a href="../symbols/cc.Particle.html">cc.Particle</a></li>
+	
+	<li><a href="../symbols/cc.Particle.ModeA.html">cc.Particle.ModeA</a></li>
+	
+	<li><a href="../symbols/cc.Particle.ModeB.html">cc.Particle.ModeB</a></li>
+	
+	<li><a href="../symbols/cc.ParticleBatchNode.html">cc.ParticleBatchNode</a></li>
+	
+	<li><a href="../symbols/cc.ParticleExplosion.html">cc.ParticleExplosion</a></li>
+	
+	<li><a href="../symbols/cc.ParticleFire.html">cc.ParticleFire</a></li>
+	
+	<li><a href="../symbols/cc.ParticleFireworks.html">cc.ParticleFireworks</a></li>
+	
+	<li><a href="../symbols/cc.ParticleFlower.html">cc.ParticleFlower</a></li>
+	
+	<li><a href="../symbols/cc.ParticleGalaxy.html">cc.ParticleGalaxy</a></li>
+	
+	<li><a href="../symbols/cc.ParticleMeteor.html">cc.ParticleMeteor</a></li>
+	
+	<li><a href="../symbols/cc.ParticleRain.html">cc.ParticleRain</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSmoke.html">cc.ParticleSmoke</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSnow.html">cc.ParticleSnow</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSpiral.html">cc.ParticleSpiral</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSun.html">cc.ParticleSun</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSystem.html">cc.ParticleSystem</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSystem.ModeA.html">cc.ParticleSystem.ModeA</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSystem.ModeB.html">cc.ParticleSystem.ModeB</a></li>
+	
+	<li><a href="../symbols/cc.ParticleSystemQuad.html">cc.ParticleSystemQuad</a></li>
+	
+	<li><a href="../symbols/cc.Place.html">cc.Place</a></li>
+	
+	<li><a href="../symbols/cc.Point.html">cc.Point</a></li>
+	
+	<li><a href="../symbols/cc.PointObject.html">cc.PointObject</a></li>
+	
+	<li><a href="../symbols/cc.PointSprite.html">cc.PointSprite</a></li>
+	
+	<li><a href="../symbols/cc.ProgressFromTo.html">cc.ProgressFromTo</a></li>
+	
+	<li><a href="../symbols/cc.ProgressTimer.html">cc.ProgressTimer</a></li>
+	
+	<li><a href="../symbols/cc.ProgressTo.html">cc.ProgressTo</a></li>
+	
+	<li><a href="../symbols/cc.Quad2.html">cc.Quad2</a></li>
+	
+	<li><a href="../symbols/cc.Quad3.html">cc.Quad3</a></li>
+	
+	<li><a href="../symbols/cc.Rect.html">cc.Rect</a></li>
+	
+	<li><a href="../symbols/cc.RenderTexture.html">cc.RenderTexture</a></li>
+	
+	<li><a href="../symbols/cc.Repeat.html">cc.Repeat</a></li>
+	
+	<li><a href="../symbols/cc.RepeatForever.html">cc.RepeatForever</a></li>
+	
+	<li><a href="../symbols/cc.ReverseTime.html">cc.ReverseTime</a></li>
+	
+	<li><a href="../symbols/cc.RotateBy.html">cc.RotateBy</a></li>
+	
+	<li><a href="../symbols/cc.RotateTo.html">cc.RotateTo</a></li>
+	
+	<li><a href="../symbols/cc.SAXParser.html">cc.SAXParser</a></li>
+	
+	<li><a href="../symbols/cc.ScaleBy.html">cc.ScaleBy</a></li>
+	
+	<li><a href="../symbols/cc.ScaleTo.html">cc.ScaleTo</a></li>
+	
+	<li><a href="../symbols/cc.Scene.html">cc.Scene</a></li>
+	
+	<li><a href="../symbols/cc.Scheduler.html">cc.Scheduler</a></li>
+	
+	<li><a href="../symbols/cc.Sequence.html">cc.Sequence</a></li>
+	
+	<li><a href="../symbols/cc.Set.html">cc.Set</a></li>
+	
+	<li><a href="../symbols/cc.Show.html">cc.Show</a></li>
+	
+	<li><a href="../symbols/cc.Size.html">cc.Size</a></li>
+	
+	<li><a href="../symbols/cc.SkewBy.html">cc.SkewBy</a></li>
+	
+	<li><a href="../symbols/cc.SkewTo.html">cc.SkewTo</a></li>
+	
+	<li><a href="../symbols/cc.Spawn.html">cc.Spawn</a></li>
+	
+	<li><a href="../symbols/cc.Speed.html">cc.Speed</a></li>
+	
+	<li><a href="../symbols/cc.Sprite.html">cc.Sprite</a></li>
+	
+	<li><a href="../symbols/cc.SpriteBatchNode.html">cc.SpriteBatchNode</a></li>
+	
+	<li><a href="../symbols/cc.SpriteFrame.html">cc.SpriteFrame</a></li>
+	
+	<li><a href="../symbols/cc.SpriteFrameCache.html">cc.SpriteFrameCache</a></li>
+	
+	<li><a href="../symbols/cc.StandardTouchDelegate.html">cc.StandardTouchDelegate</a></li>
+	
+	<li><a href="../symbols/cc.StandardTouchHandler.html">cc.StandardTouchHandler</a></li>
+	
+	<li><a href="../symbols/cc.TargetedAction.html">cc.TargetedAction</a></li>
+	
+	<li><a href="../symbols/cc.TargetedTouchDelegate.html">cc.TargetedTouchDelegate</a></li>
+	
+	<li><a href="../symbols/cc.TargetedTouchHandler.html">cc.TargetedTouchHandler</a></li>
+	
+	<li><a href="../symbols/cc.Tex2F.html">cc.Tex2F</a></li>
+	
+	<li><a href="../symbols/cc.TextFieldDelegate.html">cc.TextFieldDelegate</a></li>
+	
+	<li><a href="../symbols/cc.TextFieldTTF.html">cc.TextFieldTTF</a></li>
+	
+	<li><a href="../symbols/cc.TextureAtlas.html">cc.TextureAtlas</a></li>
+	
+	<li><a href="../symbols/cc.TextureCache.html">cc.TextureCache</a></li>
+	
+	<li><a href="../symbols/cc.TileMapAtlas.html">cc.TileMapAtlas</a></li>
+	
+	<li><a href="../symbols/cc.Time.html">cc.Time</a></li>
+	
+	<li><a href="../symbols/cc.Timer.html">cc.Timer</a></li>
+	
+	<li><a href="../symbols/cc.TintBy.html">cc.TintBy</a></li>
+	
+	<li><a href="../symbols/cc.TintTo.html">cc.TintTo</a></li>
+	
+	<li><a href="../symbols/cc.TMXLayer.html">cc.TMXLayer</a></li>
+	
+	<li><a href="../symbols/cc.TMXLayerInfo.html">cc.TMXLayerInfo</a></li>
+	
+	<li><a href="../symbols/cc.TMXMapInfo.html">cc.TMXMapInfo</a></li>
+	
+	<li><a href="../symbols/cc.TMXObjectGroup.html">cc.TMXObjectGroup</a></li>
+	
+	<li><a href="../symbols/cc.TMXTiledMap.html">cc.TMXTiledMap</a></li>
+	
+	<li><a href="../symbols/cc.TMXTilesetInfo.html">cc.TMXTilesetInfo</a></li>
+	
+	<li><a href="../symbols/cc.ToggleVisibility.html">cc.ToggleVisibility</a></li>
+	
+	<li><a href="../symbols/cc.Touch.html">cc.Touch</a></li>
+	
+	<li><a href="../symbols/cc.TouchDelegate.html">cc.TouchDelegate</a></li>
+	
+	<li><a href="../symbols/cc.TouchDispatcher.html">cc.TouchDispatcher</a></li>
+	
+	<li><a href="../symbols/cc.TouchHandler.html">cc.TouchHandler</a></li>
+	
+	<li><a href="../symbols/cc.TransformValues.html">cc.TransformValues</a></li>
+	
+	<li><a href="../symbols/cc.TransitionCrossFade.html">cc.TransitionCrossFade</a></li>
+	
+	<li><a href="../symbols/cc.TransitionEaseScene.html">cc.TransitionEaseScene</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFade.html">cc.TransitionFade</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFadeBL.html">cc.TransitionFadeBL</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFadeDown.html">cc.TransitionFadeDown</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFadeTR.html">cc.TransitionFadeTR</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFadeUp.html">cc.TransitionFadeUp</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFlipAngular.html">cc.TransitionFlipAngular</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFlipX.html">cc.TransitionFlipX</a></li>
+	
+	<li><a href="../symbols/cc.TransitionFlipY.html">cc.TransitionFlipY</a></li>
+	
+	<li><a href="../symbols/cc.TransitionJumpZoom.html">cc.TransitionJumpZoom</a></li>
+	
+	<li><a href="../symbols/cc.TransitionMoveInB.html">cc.TransitionMoveInB</a></li>
+	
+	<li><a href="../symbols/cc.TransitionMoveInL.html">cc.TransitionMoveInL</a></li>
+	
+	<li><a href="../symbols/cc.TransitionMoveInR.html">cc.TransitionMoveInR</a></li>
+	
+	<li><a href="../symbols/cc.TransitionMoveInT.html">cc.TransitionMoveInT</a></li>
+	
+	<li><a href="../symbols/cc.TransitionPageTurn.html">cc.TransitionPageTurn</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgress.html">cc.TransitionProgress</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressHorizontal.html">cc.TransitionProgressHorizontal</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressInOut.html">cc.TransitionProgressInOut</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressOutIn.html">cc.TransitionProgressOutIn</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressRadialCCW.html">cc.TransitionProgressRadialCCW</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressRadialCW.html">cc.TransitionProgressRadialCW</a></li>
+	
+	<li><a href="../symbols/cc.TransitionProgressVertical.html">cc.TransitionProgressVertical</a></li>
+	
+	<li><a href="../symbols/cc.TransitionRotoZoom.html">cc.TransitionRotoZoom</a></li>
+	
+	<li><a href="../symbols/cc.TransitionScene.html">cc.TransitionScene</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSceneOriented.html">cc.TransitionSceneOriented</a></li>
+	
+	<li><a href="../symbols/cc.TransitionShrinkGrow.html">cc.TransitionShrinkGrow</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSlideInB.html">cc.TransitionSlideInB</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSlideInL.html">cc.TransitionSlideInL</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSlideInR.html">cc.TransitionSlideInR</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSlideInT.html">cc.TransitionSlideInT</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSplitCols.html">cc.TransitionSplitCols</a></li>
+	
+	<li><a href="../symbols/cc.TransitionSplitRows.html">cc.TransitionSplitRows</a></li>
+	
+	<li><a href="../symbols/cc.TransitionTurnOffTiles.html">cc.TransitionTurnOffTiles</a></li>
+	
+	<li><a href="../symbols/cc.TransitionZoomFlipAngular.html">cc.TransitionZoomFlipAngular</a></li>
+	
+	<li><a href="../symbols/cc.TransitionZoomFlipX.html">cc.TransitionZoomFlipX</a></li>
+	
+	<li><a href="../symbols/cc.TransitionZoomFlipY.html">cc.TransitionZoomFlipY</a></li>
+	
+	<li><a href="../symbols/cc.TurnOffTiles.html">cc.TurnOffTiles</a></li>
+	
+	<li><a href="../symbols/cc.UserDefault.html">cc.UserDefault</a></li>
+	
+	<li><a href="../symbols/cc.V2F_C4B_T2F.html">cc.V2F_C4B_T2F</a></li>
+	
+	<li><a href="../symbols/cc.V2F_C4B_T2F_Quad.html">cc.V2F_C4B_T2F_Quad</a></li>
+	
+	<li><a href="../symbols/cc.V2F_C4F_T2F.html">cc.V2F_C4F_T2F</a></li>
+	
+	<li><a href="../symbols/cc.V2F_C4F_T2F_Quad.html">cc.V2F_C4F_T2F_Quad</a></li>
+	
+	<li><a href="../symbols/cc.V3F_C4B_T2F.html">cc.V3F_C4B_T2F</a></li>
+	
+	<li><a href="../symbols/cc.V3F_C4B_T2F_Quad.html">cc.V3F_C4B_T2F_Quad</a></li>
+	
+	<li><a href="../symbols/cc.Vertex2F.html">cc.Vertex2F</a></li>
+	
+	<li><a href="../symbols/cc.Vertex3F.html">cc.Vertex3F</a></li>
+	
+	<li><a href="../symbols/tImageSource.html">tImageSource</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class cc.ParticleSystem
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					<a href="../symbols/cc.Node.html">cc.Node</a>.<br />
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/Projects_cocos2d-html5_cocos2d_particle_nodes_CCParticleSystem.js.html">CCParticleSystem.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class cc.ParticleSystem.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/cc.ParticleSystem.html#constructor">cc.ParticleSystem</a></b>()
+							</div>
+							<div class="description"><p>
+    Particle System base class.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class cc.ParticleSystem.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#addParticle">addParticle</a></b>()
+								</div>
+								<div class="description">Add a particle to the emitter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">cc.ParticleSystem.<b><a href="../symbols/cc.ParticleSystem.html#.create">create</a></b>(plistFile)
+								</div>
+								<div class="description"><p> return the string found by key in dict.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">cc.ParticleSystem.<b><a href="../symbols/cc.ParticleSystem.html#.createWithTotalParticles">createWithTotalParticles</a></b>(number_of_particles)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#ctor">ctor</a></b>()
+								</div>
+								<div class="description">Constructor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#destroyParticleSystem">destroyParticleSystem</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getAngle">getAngle</a></b>()
+								</div>
+								<div class="description">Return angle of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getAngleVar">getAngleVar</a></b>()
+								</div>
+								<div class="description">Return angle variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getAtlasIndex">getAtlasIndex</a></b>()
+								</div>
+								<div class="description">return index of system in batch node array</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getBatchNode">getBatchNode</a></b>()
+								</div>
+								<div class="description">return weak reference to the cc.SpriteBatchNode that renders the cc.Sprite</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getBlendFunc">getBlendFunc</a></b>()
+								</div>
+								<div class="description">get BlendFunc of Particle System</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getBoundingBoxToWorld">getBoundingBoxToWorld</a></b>()
+								</div>
+								<div class="description">return bounding box of particle system in world space</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getDrawMode">getDrawMode</a></b>()
+								</div>
+								<div class="description">Return DrawMode of ParticleSystem</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getDuration">getDuration</a></b>()
+								</div>
+								<div class="description">How many seconds the emitter wil run.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEmissionRate">getEmissionRate</a></b>()
+								</div>
+								<div class="description">get emission rate of the particles</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEmitterMode">getEmitterMode</a></b>()
+								</div>
+								<div class="description">return kind of emitter modes</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndColor">getEndColor</a></b>()
+								</div>
+								<div class="description">get end color and end color variation of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndColorVar">getEndColorVar</a></b>()
+								</div>
+								<div class="description">get end color variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndRadius">getEndRadius</a></b>()
+								</div>
+								<div class="description">Return ending radius of the particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndRadiusVar">getEndRadiusVar</a></b>()
+								</div>
+								<div class="description">Return ending radius variance of the particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndSize">getEndSize</a></b>()
+								</div>
+								<div class="description">get end size in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndSizeVar">getEndSizeVar</a></b>()
+								</div>
+								<div class="description">get end size variance in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndSpin">getEndSpin</a></b>()
+								</div>
+								<div class="description">get end angle of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getEndSpinVar">getEndSpinVar</a></b>()
+								</div>
+								<div class="description">get end angle variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getGravity">getGravity</a></b>()
+								</div>
+								<div class="description">Return Gravity of emitter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getLife">getLife</a></b>()
+								</div>
+								<div class="description">Return life of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getLifeVar">getLifeVar</a></b>()
+								</div>
+								<div class="description">Return life variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getOpacityModifyRGB">getOpacityModifyRGB</a></b>()
+								</div>
+								<div class="description">does the alpha value modify color getter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getParticleCount">getParticleCount</a></b>()
+								</div>
+								<div class="description">Quantity of particles that are being simulated at the moment</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getPositionType">getPositionType</a></b>()
+								</div>
+								<div class="description">get particles movement type: Free or Grouped</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getPosVar">getPosVar</a></b>()
+								</div>
+								<div class="description">Return Position variance of the emitter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getRadialAccel">getRadialAccel</a></b>()
+								</div>
+								<div class="description">Return radial acceleration of each particle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getRadialAccelVar">getRadialAccelVar</a></b>()
+								</div>
+								<div class="description">Return radial acceleration variance of each particle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getRotatePerSecond">getRotatePerSecond</a></b>()
+								</div>
+								<div class="description">get Number of degress to rotate a particle around the source pos per second.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getRotatePerSecondVar">getRotatePerSecondVar</a></b>()
+								</div>
+								<div class="description">Return Variance in degrees for rotatePerSecond.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getShapeType">getShapeType</a></b>()
+								</div>
+								<div class="description">Return ShapeType of ParticleSystem</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getSourcePosition">getSourcePosition</a></b>()
+								</div>
+								<div class="description">Return sourcePosition of the emitter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getSpeed">getSpeed</a></b>()
+								</div>
+								<div class="description">Return Speed of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getSpeedVar">getSpeedVar</a></b>()
+								</div>
+								<div class="description">return speed variance of each particle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartColor">getStartColor</a></b>()
+								</div>
+								<div class="description">set start color of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartColorVar">getStartColorVar</a></b>()
+								</div>
+								<div class="description">get start color variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartRadius">getStartRadius</a></b>()
+								</div>
+								<div class="description">Return starting radius of the particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartRadiusVar">getStartRadiusVar</a></b>()
+								</div>
+								<div class="description">Return starting radius variance of the particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartSize">getStartSize</a></b>()
+								</div>
+								<div class="description">get start size in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartSizeVar">getStartSizeVar</a></b>()
+								</div>
+								<div class="description">get size variance in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartSpin">getStartSpin</a></b>()
+								</div>
+								<div class="description">get initial angle of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getStartSpinVar">getStartSpinVar</a></b>()
+								</div>
+								<div class="description">get initial angle variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getTangentialAccel">getTangentialAccel</a></b>()
+								</div>
+								<div class="description">Return tangential acceleration of each particle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getTangentialAccelVar">getTangentialAccelVar</a></b>()
+								</div>
+								<div class="description">Return tangential acceleration variance of each particle.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getTexture">getTexture</a></b>()
+								</div>
+								<div class="description">get Texture of Particle System</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#getTotalParticles">getTotalParticles</a></b>()
+								</div>
+								<div class="description">get maximum particles of the system</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#init">init</a></b>()
+								</div>
+								<div class="description">initializes a cc.ParticleSystem</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#initParticle">initParticle</a></b>(particle)
+								</div>
+								<div class="description">Initializes a particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#initWithDictionary">initWithDictionary</a></b>(dictionary)
+								</div>
+								<div class="description">initializes a CCQuadParticleSystem from a CCDictionary.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#initWithFile">initWithFile</a></b>(plistFile)
+								</div>
+								<div class="description"><p> initializes a CCParticleSystem from a plist file.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#initWithTotalParticles">initWithTotalParticles</a></b>(numberOfParticles)
+								</div>
+								<div class="description">Initializes a system with a fixed number of particles</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#isActive">isActive</a></b>()
+								</div>
+								<div class="description">Return ParticleSystem is active</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#isAutoRemoveOnFinish">isAutoRemoveOnFinish</a></b>()
+								</div>
+								<div class="description"><p> return whether or not the node will be auto-removed when it has no particles left.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#isBlendAdditive">isBlendAdditive</a></b>()
+								</div>
+								<div class="description"><p>whether or not the particles are using blend additive.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#isFull">isFull</a></b>()
+								</div>
+								<div class="description">whether or not the system is full</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#postStep">postStep</a></b>()
+								</div>
+								<div class="description">should be overriden by subclasses</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#resetSystem">resetSystem</a></b>()
+								</div>
+								<div class="description">Kill all living particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setAngle">setAngle</a></b>(angle)
+								</div>
+								<div class="description">angle of each particle setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setAngleVar">setAngleVar</a></b>(angleVar)
+								</div>
+								<div class="description">angle variance of each particle setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setAtlasIndex">setAtlasIndex</a></b>(atlasIndex)
+								</div>
+								<div class="description">set index of system in batch node array</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setAutoRemoveOnFinish">setAutoRemoveOnFinish</a></b>(isAutoRemoveOnFinish)
+								</div>
+								<div class="description"><p> set whether or not the node will be auto-removed when it has no particles left.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setBatchNode">setBatchNode</a></b>(batchNode)
+								</div>
+								<div class="description">set weak reference to the cc.SpriteBatchNode that renders the cc.Sprite</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setBlendAdditive">setBlendAdditive</a></b>(isBlendAdditive)
+								</div>
+								<div class="description"><p>whether or not the particles are using blend additive.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setBlendFunc">setBlendFunc</a></b>(src, dst)
+								</div>
+								<div class="description">set BlendFunc of Particle System</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setDrawMode">setDrawMode</a></b>(drawMode)
+								</div>
+								<div class="description">DrawMode of ParticleSystem setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setDuration">setDuration</a></b>(duration)
+								</div>
+								<div class="description">set run seconds of the emitter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEmissionRate">setEmissionRate</a></b>(emissionRate)
+								</div>
+								<div class="description">set emission rate of the particles</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEmitterMode">setEmitterMode</a></b>(emitterMode)
+								</div>
+								<div class="description"><p>Switch between different kind of emitter modes:<br/>
+ - CCPARTICLE_MODE_GRAVITY: uses gravity, speed, radial and tangential acceleration<br/>
+ - CCPARTICLE_MODE_RADIUS: uses radius movement + rotation <br/>
+ </p></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndColor">setEndColor</a></b>(endColor)
+								</div>
+								<div class="description">set end color and end color variation of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndColorVar">setEndColorVar</a></b>(endColorVar)
+								</div>
+								<div class="description">set end color variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndRadius">setEndRadius</a></b>(endRadius)
+								</div>
+								<div class="description">ending radius of the particles setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndRadiusVar">setEndRadiusVar</a></b>(endRadiusVar)
+								</div>
+								<div class="description">ending radius variance of the particles setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndSize">setEndSize</a></b>(endSize)
+								</div>
+								<div class="description">set end size in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndSizeVar">setEndSizeVar</a></b>(endSizeVar)
+								</div>
+								<div class="description">set end size variance in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndSpin">setEndSpin</a></b>(endSpin)
+								</div>
+								<div class="description">set end angle of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setEndSpinVar">setEndSpinVar</a></b>(endSpinVar)
+								</div>
+								<div class="description">set end angle variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setGravity">setGravity</a></b>(gravity)
+								</div>
+								<div class="description">Gravity of emitter setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setLife">setLife</a></b>(life)
+								</div>
+								<div class="description">life of each particle setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setLifeVar">setLifeVar</a></b>(lifeVar)
+								</div>
+								<div class="description">life variance of each particle setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setOpacityModifyRGB">setOpacityModifyRGB</a></b>(newValue)
+								</div>
+								<div class="description">does the alpha value modify color setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setParticleCount">setParticleCount</a></b>(particleCount)
+								</div>
+								<div class="description">Quantity of particles setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setPositionType">setPositionType</a></b>(positionType)
+								</div>
+								<div class="description">set particles movement type: Free or Grouped</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setPosVar">setPosVar</a></b>(posVar)
+								</div>
+								<div class="description">Position variance of the emitter setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setRadialAccel">setRadialAccel</a></b>(radialAccel)
+								</div>
+								<div class="description">radial acceleration of each particle setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setRadialAccelVar">setRadialAccelVar</a></b>(radialAccelVar)
+								</div>
+								<div class="description">radial acceleration variance of each particle setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setRotatePerSecond">setRotatePerSecond</a></b>(degrees)
+								</div>
+								<div class="description">set Number of degress to rotate a particle around the source pos per second.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setRotatePerSecondVar">setRotatePerSecondVar</a></b>(degrees)
+								</div>
+								<div class="description">Variance in degrees for rotatePerSecond setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setRotation">setRotation</a></b>(newRotation)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setScale">setScale</a></b>(scale, scaleY)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setScaleX">setScaleX</a></b>(newScaleX)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setScaleY">setScaleY</a></b>(newScaleY)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setShapeType">setShapeType</a></b>(shapeType)
+								</div>
+								<div class="description">ShapeType of ParticleSystem setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setSourcePosition">setSourcePosition</a></b>(sourcePosition)
+								</div>
+								<div class="description">sourcePosition of the emitter setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setSpeed">setSpeed</a></b>(speed)
+								</div>
+								<div class="description">Speed of each particle setter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setSpeedVar">setSpeedVar</a></b>(speedVar)
+								</div>
+								<div class="description">speed variance of each particle setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartColor">setStartColor</a></b>(startColor)
+								</div>
+								<div class="description">get start color of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartColorVar">setStartColorVar</a></b>(startColorVar)
+								</div>
+								<div class="description">set start color variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartRadius">setStartRadius</a></b>(startRadius)
+								</div>
+								<div class="description">starting radius of the particles setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartRadiusVar">setStartRadiusVar</a></b>(startRadiusVar)
+								</div>
+								<div class="description">starting radius variance of the particles setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartSize">setStartSize</a></b>(startSize)
+								</div>
+								<div class="description">set start size in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartSizeVar">setStartSizeVar</a></b>(startSizeVar)
+								</div>
+								<div class="description">set size variance in pixels of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartSpin">setStartSpin</a></b>(startSpin)
+								</div>
+								<div class="description">set initial angle of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setStartSpinVar">setStartSpinVar</a></b>(startSpinVar)
+								</div>
+								<div class="description">set initial angle variance of each particle</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setTangentialAccel">setTangentialAccel</a></b>(tangentialAccel)
+								</div>
+								<div class="description">Tangential acceleration of each particle setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setTangentialAccelVar">setTangentialAccelVar</a></b>(tangentialAccelVar)
+								</div>
+								<div class="description">tangential acceleration variance of each particle setter.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setTexture">setTexture</a></b>(texture)
+								</div>
+								<div class="description">set Texture of Particle System</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#setTotalParticles">setTotalParticles</a></b>(totalParticles)
+								</div>
+								<div class="description">set maximum particles of the system</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#stopSystem">stopSystem</a></b>()
+								</div>
+								<div class="description">stop emitting particles.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#update">update</a></b>(dt)
+								</div>
+								<div class="description">update emitter's status</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#updateQuadWithParticle">updateQuadWithParticle</a></b>(particle, newPosition)
+								</div>
+								<div class="description">should be overriden by subclasses</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/cc.ParticleSystem.html#updateWithNoTime">updateWithNoTime</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/cc.Node.html">cc.Node</a>: </dt><dd><a href="../symbols/cc.Node.html#addChild">addChild</a>, <a href="../symbols/cc.Node.html#cleanup">cleanup</a>, <a href="../symbols/cc.Node.html#convertToNodeSpace">convertToNodeSpace</a>, <a href="../symbols/cc.Node.html#convertToNodeSpaceAR">convertToNodeSpaceAR</a>, <a href="../symbols/cc.Node.html#convertTouchToNodeSpace">convertTouchToNodeSpace</a>, <a href="../symbols/cc.Node.html#convertTouchToNodeSpaceAR">convertTouchToNodeSpaceAR</a>, <a href="../symbols/cc.Node.html#convertToWorldSpace">convertToWorldSpace</a>, <a href="../symbols/cc.Node.html#convertToWorldSpaceAR">convertToWorldSpaceAR</a>, <a href="../symbols/cc.Node.html#description">description</a>, <a href="../symbols/cc.Node.html#draw">draw</a>, <a href="../symbols/cc.Node.html#getActionByTag">getActionByTag</a>, <a href="../symbols/cc.Node.html#getActionManager">getActionManager</a>, <a href="../symbols/cc.Node.html#getAnchorPoint">getAnchorPoint</a>, <a href="../symbols/cc.Node.html#getAnchorPointInPoints">getAnchorPointInPoints</a>, <a href="../symbols/cc.Node.html#getBoundingBox">getBoundingBox</a>, <a href="../symbols/cc.Node.html#getCamera">getCamera</a>, <a href="../symbols/cc.Node.html#getChildByTag">getChildByTag</a>, <a href="../symbols/cc.Node.html#getChildren">getChildren</a>, <a href="../symbols/cc.Node.html#getChildrenCount">getChildrenCount</a>, <a href="../symbols/cc.Node.html#getContentSize">getContentSize</a>, <a href="../symbols/cc.Node.html#getGLServerState">getGLServerState</a>, <a href="../symbols/cc.Node.html#getGrid">getGrid</a>, <a href="../symbols/cc.Node.html#getOrderOfArrival">getOrderOfArrival</a>, <a href="../symbols/cc.Node.html#getParent">getParent</a>, <a href="../symbols/cc.Node.html#getPosition">getPosition</a>, <a href="../symbols/cc.Node.html#getPositionX">getPositionX</a>, <a href="../symbols/cc.Node.html#getPositionY">getPositionY</a>, <a href="../symbols/cc.Node.html#getRotation">getRotation</a>, <a href="../symbols/cc.Node.html#getScale">getScale</a>, <a href="../symbols/cc.Node.html#getScaleX">getScaleX</a>, <a href="../symbols/cc.Node.html#getScaleY">getScaleY</a>, <a href="../symbols/cc.Node.html#getScheduler">getScheduler</a>, <a href="../symbols/cc.Node.html#getShaderProgram">getShaderProgram</a>, <a href="../symbols/cc.Node.html#getSkewX">getSkewX</a>, <a href="../symbols/cc.Node.html#getSkewY">getSkewY</a>, <a href="../symbols/cc.Node.html#getTag">getTag</a>, <a href="../symbols/cc.Node.html#getUserData">getUserData</a>, <a href="../symbols/cc.Node.html#getUserObject">getUserObject</a>, <a href="../symbols/cc.Node.html#getVertexZ">getVertexZ</a>, <a href="../symbols/cc.Node.html#getZOrder">getZOrder</a>, <a href="../symbols/cc.Node.html#ignoreAnchorPointForPosition">ignoreAnchorPointForPosition</a>, <a href="../symbols/cc.Node.html#isIgnoreAnchorPointForPosition">isIgnoreAnchorPointForPosition</a>, <a href="../symbols/cc.Node.html#isRunning">isRunning</a>, <a href="../symbols/cc.Node.html#isVisible">isVisible</a>, <a href="../symbols/cc.Node.html#nodeToParentTransform">nodeToParentTransform</a>, <a href="../symbols/cc.Node.html#nodeToWorldTransform">nodeToWorldTransform</a>, <a href="../symbols/cc.Node.html#numberOfRunningActions">numberOfRunningActions</a>, <a href="../symbols/cc.Node.html#onEnter">onEnter</a>, <a href="../symbols/cc.Node.html#onEnterTransitionDidFinish">onEnterTransitionDidFinish</a>, <a href="../symbols/cc.Node.html#onExit">onExit</a>, <a href="../symbols/cc.Node.html#onExitTransitionDidStart">onExitTransitionDidStart</a>, <a href="../symbols/cc.Node.html#parentToNodeTransform">parentToNodeTransform</a>, <a href="../symbols/cc.Node.html#pauseSchedulerAndActions">pauseSchedulerAndActions</a>, <a href="../symbols/cc.Node.html#release">release</a>, <a href="../symbols/cc.Node.html#removeAllChildren">removeAllChildren</a>, <a href="../symbols/cc.Node.html#removeAllChildrenWithCleanup">removeAllChildrenWithCleanup</a>, <a href="../symbols/cc.Node.html#removeChild">removeChild</a>, <a href="../symbols/cc.Node.html#removeChildByTag">removeChildByTag</a>, <a href="../symbols/cc.Node.html#removeFromParent">removeFromParent</a>, <a href="../symbols/cc.Node.html#removeFromParentAndCleanup">removeFromParentAndCleanup</a>, <a href="../symbols/cc.Node.html#reorderChild">reorderChild</a>, <a href="../symbols/cc.Node.html#resumeSchedulerAndActions">resumeSchedulerAndActions</a>, <a href="../symbols/cc.Node.html#retain">retain</a>, <a href="../symbols/cc.Node.html#runAction">runAction</a>, <a href="../symbols/cc.Node.html#schedule">schedule</a>, <a href="../symbols/cc.Node.html#scheduleOnce">scheduleOnce</a>, <a href="../symbols/cc.Node.html#scheduleUpdate">scheduleUpdate</a>, <a href="../symbols/cc.Node.html#scheduleUpdateWithPriority">scheduleUpdateWithPriority</a>, <a href="../symbols/cc.Node.html#setActionManager">setActionManager</a>, <a href="../symbols/cc.Node.html#setAnchorPoint">setAnchorPoint</a>, <a href="../symbols/cc.Node.html#setContentSize">setContentSize</a>, <a href="../symbols/cc.Node.html#setGLServerState">setGLServerState</a>, <a href="../symbols/cc.Node.html#setGrid">setGrid</a>, <a href="../symbols/cc.Node.html#setNodeDirty">setNodeDirty</a>, <a href="../symbols/cc.Node.html#setOrderOfArrival">setOrderOfArrival</a>, <a href="../symbols/cc.Node.html#setParent">setParent</a>, <a href="../symbols/cc.Node.html#setPosition">setPosition</a>, <a href="../symbols/cc.Node.html#setPositionX">setPositionX</a>, <a href="../symbols/cc.Node.html#setPositionY">setPositionY</a>, <a href="../symbols/cc.Node.html#setScheduler">setScheduler</a>, <a href="../symbols/cc.Node.html#setShaderProgram">setShaderProgram</a>, <a href="../symbols/cc.Node.html#setSkewX">setSkewX</a>, <a href="../symbols/cc.Node.html#setSkewY">setSkewY</a>, <a href="../symbols/cc.Node.html#setTag">setTag</a>, <a href="../symbols/cc.Node.html#setUserData">setUserData</a>, <a href="../symbols/cc.Node.html#setUserObject">setUserObject</a>, <a href="../symbols/cc.Node.html#setVertexZ">setVertexZ</a>, <a href="../symbols/cc.Node.html#setVisible">setVisible</a>, <a href="../symbols/cc.Node.html#setZOrder">setZOrder</a>, <a href="../symbols/cc.Node.html#sortAllChildren">sortAllChildren</a>, <a href="../symbols/cc.Node.html#stopAction">stopAction</a>, <a href="../symbols/cc.Node.html#stopActionByTag">stopActionByTag</a>, <a href="../symbols/cc.Node.html#stopAllActions">stopAllActions</a>, <a href="../symbols/cc.Node.html#transform">transform</a>, <a href="../symbols/cc.Node.html#transformAncestors">transformAncestors</a>, <a href="../symbols/cc.Node.html#unschedule">unschedule</a>, <a href="../symbols/cc.Node.html#unscheduleAllCallbacks">unscheduleAllCallbacks</a>, <a href="../symbols/cc.Node.html#unscheduleUpdate">unscheduleUpdate</a>, <a href="../symbols/cc.Node.html#updateTransform">updateTransform</a>, <a href="../symbols/cc.Node.html#visit">visit</a>, <a href="../symbols/cc.Node.html#worldToNodeTransform">worldToNodeTransform</a></dd>
+				</dl>
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>cc.ParticleSystem</b>()
+				</div>
+				
+				<div class="description">
+					<p>
+    Particle System base class. <br/>
+    Attributes of a Particle System:<br/>
+    - emmision rate of the particles<br/>
+    - Gravity Mode (Mode A): <br/>
+    - gravity <br/>
+    - direction <br/>
+    - speed +-  variance <br/>
+    - tangential acceleration +- variance<br/>
+    - radial acceleration +- variance<br/>
+    - Radius Mode (Mode B):      <br/>
+    - startRadius +- variance    <br/>
+    - endRadius +- variance      <br/>
+    - rotate +- variance         <br/>
+    - Properties common to all modes: <br/>
+    - life +- life variance      <br/>
+    - start spin +- variance     <br/>
+    - end spin +- variance       <br/>
+    - start size +- variance     <br/>
+    - end size +- variance       <br/>
+    - start color +- variance    <br/>
+    - end color +- variance      <br/>
+    - life +- variance           <br/>
+    - blending function          <br/>
+    - texture                    <br/>
+                                 <br/>
+    cocos2d also supports particles generated by Particle Designer (http://particledesigner.71squared.com/).<br/>
+    'Radius Mode' in Particle Designer uses a fixed emit rate of 30 hz. Since that can't be guarateed in cocos2d,  <br/>
+    cocos2d uses a another approach, but the results are almost identical.<br/>
+    cocos2d supports all the variables used by Particle Designer plus a bit more:  <br/>
+    - spinning particles (supported when using CCParticleSystemQuad)       <br/>
+    - tangential acceleration (Gravity mode)                               <br/>
+    - radial acceleration (Gravity mode)                                   <br/>
+    - radius direction (Radius mode) (Particle Designer supports outwards to inwards direction only) <br/>
+    It is possible to customize any of the above mentioned properties in runtime. Example:   <br/>
+</p>
+					
+				</div>
+				
+				
+				
+				<pre class="code"> emitter.radialAccel = 15;
+ emitter.startSpin = 0;</pre>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="addParticle"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>addParticle</b>()
+					
+					</div>
+					<div class="description">
+						Add a particle to the emitter
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".create"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/cc.ParticleSystem.html">cc.ParticleSystem</a>}</span>
+					<span class="light">cc.ParticleSystem.</span><b>create</b>(plistFile)
+					
+					</div>
+					<div class="description">
+						<p> return the string found by key in dict. <br/>
+   This plist files can be creted manually or with Particle Designer:<br/>
+   http://particledesigner.71squared.com/<br/>
+</p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>plistFile</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.ParticleSystem.html">cc.ParticleSystem</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".createWithTotalParticles"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">cc.ParticleSystem.</span><b>createWithTotalParticles</b>(number_of_particles)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>number_of_particles</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="ctor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>ctor</b>()
+					
+					</div>
+					<div class="description">
+						Constructor
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="destroyParticleSystem"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>destroyParticleSystem</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAngle"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getAngle</b>()
+					
+					</div>
+					<div class="description">
+						Return angle of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAngleVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getAngleVar</b>()
+					
+					</div>
+					<div class="description">
+						Return angle variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAtlasIndex"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getAtlasIndex</b>()
+					
+					</div>
+					<div class="description">
+						return index of system in batch node array
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBatchNode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.ParticleBatchNode.html">cc.ParticleBatchNode</a>}</span>
+					<b>getBatchNode</b>()
+					
+					</div>
+					<div class="description">
+						return weak reference to the cc.SpriteBatchNode that renders the cc.Sprite
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.ParticleBatchNode.html">cc.ParticleBatchNode</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBlendFunc"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.BlendFunc.html">cc.BlendFunc</a>}</span>
+					<b>getBlendFunc</b>()
+					
+					</div>
+					<div class="description">
+						get BlendFunc of Particle System
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.BlendFunc.html">cc.BlendFunc</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getBoundingBoxToWorld"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Rect.html">cc.Rect</a>}</span>
+					<b>getBoundingBoxToWorld</b>()
+					
+					</div>
+					<div class="description">
+						return bounding box of particle system in world space
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Rect.html">cc.Rect</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDrawMode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getDrawMode</b>()
+					
+					</div>
+					<div class="description">
+						Return DrawMode of ParticleSystem
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDuration"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getDuration</b>()
+					
+					</div>
+					<div class="description">
+						How many seconds the emitter wil run. -1 means 'forever'
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEmissionRate"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEmissionRate</b>()
+					
+					</div>
+					<div class="description">
+						get emission rate of the particles
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEmitterMode"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEmitterMode</b>()
+					
+					</div>
+					<div class="description">
+						return kind of emitter modes
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndColor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span>
+					<b>getEndColor</b>()
+					
+					</div>
+					<div class="description">
+						get end color and end color variation of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndColorVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span>
+					<b>getEndColorVar</b>()
+					
+					</div>
+					<div class="description">
+						get end color variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndRadius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndRadius</b>()
+					
+					</div>
+					<div class="description">
+						Return ending radius of the particles. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndRadiusVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndRadiusVar</b>()
+					
+					</div>
+					<div class="description">
+						Return ending radius variance of the particles. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndSize"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndSize</b>()
+					
+					</div>
+					<div class="description">
+						get end size in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndSizeVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndSizeVar</b>()
+					
+					</div>
+					<div class="description">
+						get end size variance in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndSpin"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndSpin</b>()
+					
+					</div>
+					<div class="description">
+						get end angle of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getEndSpinVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getEndSpinVar</b>()
+					
+					</div>
+					<div class="description">
+						get end angle variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getGravity"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span>
+					<b>getGravity</b>()
+					
+					</div>
+					<div class="description">
+						Return Gravity of emitter
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLife"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getLife</b>()
+					
+					</div>
+					<div class="description">
+						Return life of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getLifeVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getLifeVar</b>()
+					
+					</div>
+					<div class="description">
+						Return life variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getOpacityModifyRGB"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>getOpacityModifyRGB</b>()
+					
+					</div>
+					<div class="description">
+						does the alpha value modify color getter
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getParticleCount"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getParticleCount</b>()
+					
+					</div>
+					<div class="description">
+						Quantity of particles that are being simulated at the moment
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPositionType"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getPositionType</b>()
+					
+					</div>
+					<div class="description">
+						get particles movement type: Free or Grouped
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getPosVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span>
+					<b>getPosVar</b>()
+					
+					</div>
+					<div class="description">
+						Return Position variance of the emitter
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getRadialAccel"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getRadialAccel</b>()
+					
+					</div>
+					<div class="description">
+						Return radial acceleration of each particle. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getRadialAccelVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getRadialAccelVar</b>()
+					
+					</div>
+					<div class="description">
+						Return radial acceleration variance of each particle. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getRotatePerSecond"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getRotatePerSecond</b>()
+					
+					</div>
+					<div class="description">
+						get Number of degress to rotate a particle around the source pos per second. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getRotatePerSecondVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getRotatePerSecondVar</b>()
+					
+					</div>
+					<div class="description">
+						Return Variance in degrees for rotatePerSecond. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getShapeType"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getShapeType</b>()
+					
+					</div>
+					<div class="description">
+						Return ShapeType of ParticleSystem
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSourcePosition"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span>
+					<b>getSourcePosition</b>()
+					
+					</div>
+					<div class="description">
+						Return sourcePosition of the emitter
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSpeed"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getSpeed</b>()
+					
+					</div>
+					<div class="description">
+						Return Speed of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSpeedVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getSpeedVar</b>()
+					
+					</div>
+					<div class="description">
+						return speed variance of each particle. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartColor"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span>
+					<b>getStartColor</b>()
+					
+					</div>
+					<div class="description">
+						set start color of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartColorVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span>
+					<b>getStartColorVar</b>()
+					
+					</div>
+					<div class="description">
+						get start color variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartRadius"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartRadius</b>()
+					
+					</div>
+					<div class="description">
+						Return starting radius of the particles. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartRadiusVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartRadiusVar</b>()
+					
+					</div>
+					<div class="description">
+						Return starting radius variance of the particles. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartSize"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartSize</b>()
+					
+					</div>
+					<div class="description">
+						get start size in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartSizeVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartSizeVar</b>()
+					
+					</div>
+					<div class="description">
+						get size variance in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartSpin"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartSpin</b>()
+					
+					</div>
+					<div class="description">
+						get initial angle of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getStartSpinVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getStartSpinVar</b>()
+					
+					</div>
+					<div class="description">
+						get initial angle variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTangentialAccel"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getTangentialAccel</b>()
+					
+					</div>
+					<div class="description">
+						Return tangential acceleration of each particle. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTangentialAccelVar"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getTangentialAccelVar</b>()
+					
+					</div>
+					<div class="description">
+						Return tangential acceleration variance of each particle. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTexture"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.html#.Texture2D">cc.Texture2D</a>}</span>
+					<b>getTexture</b>()
+					
+					</div>
+					<div class="description">
+						get Texture of Particle System
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.html#.Texture2D">cc.Texture2D</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getTotalParticles"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>getTotalParticles</b>()
+					
+					</div>
+					<div class="description">
+						get maximum particles of the system
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="init"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>init</b>()
+					
+					</div>
+					<div class="description">
+						initializes a cc.ParticleSystem
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="initParticle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>initParticle</b>(particle)
+					
+					</div>
+					<div class="description">
+						Initializes a particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Particle.html">cc.Particle</a>}</span> <b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="initWithDictionary"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>initWithDictionary</b>(dictionary)
+					
+					</div>
+					<div class="description">
+						initializes a CCQuadParticleSystem from a CCDictionary.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{object}</span> <b>dictionary</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="initWithFile"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/cc.ParticleSystem.html">cc.ParticleSystem</a>}</span>
+					<b>initWithFile</b>(plistFile)
+					
+					</div>
+					<div class="description">
+						<p> initializes a CCParticleSystem from a plist file. <br/>
+     This plist files can be creted manually or with Particle Designer:<br/>
+     http://particledesigner.71squared.com/<br/></p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>plistFile</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/cc.ParticleSystem.html">cc.ParticleSystem</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="initWithTotalParticles"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>initWithTotalParticles</b>(numberOfParticles)
+					
+					</div>
+					<div class="description">
+						Initializes a system with a fixed number of particles
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>numberOfParticles</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isActive"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isActive</b>()
+					
+					</div>
+					<div class="description">
+						Return ParticleSystem is active
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isAutoRemoveOnFinish"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isAutoRemoveOnFinish</b>()
+					
+					</div>
+					<div class="description">
+						<p> return whether or not the node will be auto-removed when it has no particles left.<br/>
+     By default it is false.<br/>
+ </p>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isBlendAdditive"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isBlendAdditive</b>()
+					
+					</div>
+					<div class="description">
+						<p>whether or not the particles are using blend additive.<br/>
+    If enabled, the following blending function will be used.<br/>
+</p>
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">   source blend function = GL_SRC_ALPHA;
+   dest blend function = GL_ONE;</pre>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="isFull"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isFull</b>()
+					
+					</div>
+					<div class="description">
+						whether or not the system is full
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="postStep"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>postStep</b>()
+					
+					</div>
+					<div class="description">
+						should be overriden by subclasses
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="resetSystem"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>resetSystem</b>()
+					
+					</div>
+					<div class="description">
+						Kill all living particles.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setAngle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setAngle</b>(angle)
+					
+					</div>
+					<div class="description">
+						angle of each particle setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>angle</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setAngleVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setAngleVar</b>(angleVar)
+					
+					</div>
+					<div class="description">
+						angle variance of each particle setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>angleVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setAtlasIndex"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setAtlasIndex</b>(atlasIndex)
+					
+					</div>
+					<div class="description">
+						set index of system in batch node array
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>atlasIndex</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setAutoRemoveOnFinish"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setAutoRemoveOnFinish</b>(isAutoRemoveOnFinish)
+					
+					</div>
+					<div class="description">
+						<p> set whether or not the node will be auto-removed when it has no particles left.<br/>
+     By default it is false.<br/>
+ </p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>isAutoRemoveOnFinish</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setBatchNode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setBatchNode</b>(batchNode)
+					
+					</div>
+					<div class="description">
+						set weak reference to the cc.SpriteBatchNode that renders the cc.Sprite
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.ParticleBatchNode.html">cc.ParticleBatchNode</a>}</span> <b>batchNode</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setBlendAdditive"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setBlendAdditive</b>(isBlendAdditive)
+					
+					</div>
+					<div class="description">
+						<p>whether or not the particles are using blend additive.<br/>
+    If enabled, the following blending function will be used.<br/>
+</p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>isBlendAdditive</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setBlendFunc"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setBlendFunc</b>(src, dst)
+					
+					</div>
+					<div class="description">
+						set BlendFunc of Particle System
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>src</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>dst</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setDrawMode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setDrawMode</b>(drawMode)
+					
+					</div>
+					<div class="description">
+						DrawMode of ParticleSystem setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>drawMode</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setDuration"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setDuration</b>(duration)
+					
+					</div>
+					<div class="description">
+						set run seconds of the emitter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>duration</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEmissionRate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEmissionRate</b>(emissionRate)
+					
+					</div>
+					<div class="description">
+						set emission rate of the particles
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>emissionRate</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEmitterMode"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEmitterMode</b>(emitterMode)
+					
+					</div>
+					<div class="description">
+						<p>Switch between different kind of emitter modes:<br/>
+ - CCPARTICLE_MODE_GRAVITY: uses gravity, speed, radial and tangential acceleration<br/>
+ - CCPARTICLE_MODE_RADIUS: uses radius movement + rotation <br/>
+ </p>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>emitterMode</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndColor</b>(endColor)
+					
+					</div>
+					<div class="description">
+						set end color and end color variation of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> <b>endColor</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndColorVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndColorVar</b>(endColorVar)
+					
+					</div>
+					<div class="description">
+						set end color variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> <b>endColorVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndRadius"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndRadius</b>(endRadius)
+					
+					</div>
+					<div class="description">
+						ending radius of the particles setter. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>endRadius</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndRadiusVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndRadiusVar</b>(endRadiusVar)
+					
+					</div>
+					<div class="description">
+						ending radius variance of the particles setter. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>endRadiusVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndSize"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndSize</b>(endSize)
+					
+					</div>
+					<div class="description">
+						set end size in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>endSize</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndSizeVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndSizeVar</b>(endSizeVar)
+					
+					</div>
+					<div class="description">
+						set end size variance in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>endSizeVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndSpin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndSpin</b>(endSpin)
+					
+					</div>
+					<div class="description">
+						set end angle of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>endSpin</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setEndSpinVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setEndSpinVar</b>(endSpinVar)
+					
+					</div>
+					<div class="description">
+						set end angle variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>endSpinVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setGravity"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setGravity</b>(gravity)
+					
+					</div>
+					<div class="description">
+						Gravity of emitter setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> <b>gravity</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setLife"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setLife</b>(life)
+					
+					</div>
+					<div class="description">
+						life of each particle setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>life</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setLifeVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setLifeVar</b>(lifeVar)
+					
+					</div>
+					<div class="description">
+						life variance of each particle setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>lifeVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setOpacityModifyRGB"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setOpacityModifyRGB</b>(newValue)
+					
+					</div>
+					<div class="description">
+						does the alpha value modify color setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>newValue</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setParticleCount"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setParticleCount</b>(particleCount)
+					
+					</div>
+					<div class="description">
+						Quantity of particles setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>particleCount</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setPositionType"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setPositionType</b>(positionType)
+					
+					</div>
+					<div class="description">
+						set particles movement type: Free or Grouped
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>positionType</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setPosVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setPosVar</b>(posVar)
+					
+					</div>
+					<div class="description">
+						Position variance of the emitter setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> <b>posVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRadialAccel"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRadialAccel</b>(radialAccel)
+					
+					</div>
+					<div class="description">
+						radial acceleration of each particle setter. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>radialAccel</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRadialAccelVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRadialAccelVar</b>(radialAccelVar)
+					
+					</div>
+					<div class="description">
+						radial acceleration variance of each particle setter. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>radialAccelVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRotatePerSecond"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRotatePerSecond</b>(degrees)
+					
+					</div>
+					<div class="description">
+						set Number of degress to rotate a particle around the source pos per second. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>degrees</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRotatePerSecondVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRotatePerSecondVar</b>(degrees)
+					
+					</div>
+					<div class="description">
+						Variance in degrees for rotatePerSecond setter. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>degrees</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setRotation"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setRotation</b>(newRotation)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>newRotation</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setScale"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setScale</b>(scale, scaleY)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>scale</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>scaleY</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setScaleX"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setScaleX</b>(newScaleX)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>newScaleX</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setScaleY"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setScaleY</b>(newScaleY)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>newScaleY</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setShapeType"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setShapeType</b>(shapeType)
+					
+					</div>
+					<div class="description">
+						ShapeType of ParticleSystem setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>shapeType</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setSourcePosition"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setSourcePosition</b>(sourcePosition)
+					
+					</div>
+					<div class="description">
+						sourcePosition of the emitter setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>sourcePosition</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setSpeed"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setSpeed</b>(speed)
+					
+					</div>
+					<div class="description">
+						Speed of each particle setter
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>speed</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setSpeedVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setSpeedVar</b>(speedVar)
+					
+					</div>
+					<div class="description">
+						speed variance of each particle setter. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>speedVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartColor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartColor</b>(startColor)
+					
+					</div>
+					<div class="description">
+						get start color of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> <b>startColor</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartColorVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartColorVar</b>(startColorVar)
+					
+					</div>
+					<div class="description">
+						set start color variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Color4F.html">cc.Color4F</a>}</span> <b>startColorVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartRadius"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartRadius</b>(startRadius)
+					
+					</div>
+					<div class="description">
+						starting radius of the particles setter. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startRadius</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartRadiusVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartRadiusVar</b>(startRadiusVar)
+					
+					</div>
+					<div class="description">
+						starting radius variance of the particles setter. Only available in 'Radius' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startRadiusVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartSize"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartSize</b>(startSize)
+					
+					</div>
+					<div class="description">
+						set start size in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startSize</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartSizeVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartSizeVar</b>(startSizeVar)
+					
+					</div>
+					<div class="description">
+						set size variance in pixels of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startSizeVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartSpin"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartSpin</b>(startSpin)
+					
+					</div>
+					<div class="description">
+						set initial angle of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startSpin</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setStartSpinVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setStartSpinVar</b>(startSpinVar)
+					
+					</div>
+					<div class="description">
+						set initial angle variance of each particle
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>startSpinVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setTangentialAccel"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setTangentialAccel</b>(tangentialAccel)
+					
+					</div>
+					<div class="description">
+						Tangential acceleration of each particle setter. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>tangentialAccel</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setTangentialAccelVar"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setTangentialAccelVar</b>(tangentialAccelVar)
+					
+					</div>
+					<div class="description">
+						tangential acceleration variance of each particle setter. Only available in 'Gravity' mode.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>tangentialAccelVar</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setTexture"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setTexture</b>(texture)
+					
+					</div>
+					<div class="description">
+						set Texture of Particle System
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.html#.Texture2D">cc.Texture2D</a> | HTMLImageElement | HTMLCanvasElement}</span> <b>texture</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setTotalParticles"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setTotalParticles</b>(totalParticles)
+					
+					</div>
+					<div class="description">
+						set maximum particles of the system
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>totalParticles</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="stopSystem"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>stopSystem</b>()
+					
+					</div>
+					<div class="description">
+						stop emitting particles. Running particles will continue to run until they die
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="update"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>update</b>(dt)
+					
+					</div>
+					<div class="description">
+						update emitter's status
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>dt</b>
+									
+								</dt>
+								<dd>delta time</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateQuadWithParticle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateQuadWithParticle</b>(particle, newPosition)
+					
+					</div>
+					<div class="description">
+						should be overriden by subclasses
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Particle.html">cc.Particle</a>}</span> <b>particle</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/cc.Point.html">cc.Point</a>}</span> <b>newPosition</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="updateWithNoTime"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>updateWithNoTime</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 09 2013 07:51:53 GMT-0800 (PST)
+		</div>
+	</body>
+</html>

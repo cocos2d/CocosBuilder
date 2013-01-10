@@ -1,0 +1,90 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/****************************************************************************
+<span class='line'>  2</span>  Copyright (c) 2010-2012 cocos2d-x.org
+<span class='line'>  3</span>  Copyright (c) 2008-2010 Ricardo Quesada
+<span class='line'>  4</span>  Copyright (c) 2011      Zynga Inc.
+<span class='line'>  5</span> 
+<span class='line'>  6</span>  http://www.cocos2d-x.org
+<span class='line'>  7</span> 
+<span class='line'>  8</span>  Permission is hereby granted, free of charge, to any person obtaining a copy
+<span class='line'>  9</span>  of this software and associated documentation files (the "Software"), to deal
+<span class='line'> 10</span>  in the Software without restriction, including without limitation the rights
+<span class='line'> 11</span>  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+<span class='line'> 12</span>  copies of the Software, and to permit persons to whom the Software is
+<span class='line'> 13</span>  furnished to do so, subject to the following conditions:
+<span class='line'> 14</span> 
+<span class='line'> 15</span>  The above copyright notice and this permission notice shall be included in
+<span class='line'> 16</span>  all copies or substantial portions of the Software.
+<span class='line'> 17</span> 
+<span class='line'> 18</span>  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<span class='line'> 19</span>  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+<span class='line'> 20</span>  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+<span class='line'> 21</span>  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+<span class='line'> 22</span>  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+<span class='line'> 23</span>  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+<span class='line'> 24</span>  THE SOFTWARE.
+<span class='line'> 25</span>  ****************************************************************************/</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/** FBO class that grabs the the contents of the screen */</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="NAME">cc.Grabber</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.Class.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="NAME">_fbo</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">    </span><span class="NAME">_oldFBO</span><span class="PUNC">:</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="NAME">_glesVersion</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">ctor</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">        </span><span class="COMM">// generate FBO</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">        </span><span class="COMM">//todo gl</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">        </span><span class="COMM">//ccglGenFramebuffers(1, this._fbo);</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">grab</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">        </span><span class="COMM">//todo gl</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="COMM">/*glGetIntegerv(CC_GL_FRAMEBUFFER_BINDING, this._oldFBO);
+<span class='line'> 42</span> 
+<span class='line'> 43</span>          // bind
+<span class='line'> 44</span>          ccglBindFramebuffer(CC_GL_FRAMEBUFFER, this._fbo);
+<span class='line'> 45</span> 
+<span class='line'> 46</span>          // associate texture with FBO
+<span class='line'> 47</span>          ccglFramebufferTexture2D(CC_GL_FRAMEBUFFER, CC_GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
+<span class='line'> 48</span>          texture.getName(), 0);
+<span class='line'> 49</span> 
+<span class='line'> 50</span>          // check if it worked (probably worth doing :) )
+<span class='line'> 51</span>          var status = ccglCheckFramebufferStatus(CC_GL_FRAMEBUFFER);
+<span class='line'> 52</span>          if (status != CC_GL_FRAMEBUFFER_COMPLETE) {
+<span class='line'> 53</span>          cc.log("Frame Grabber: could not attach texture to frmaebuffer");
+<span class='line'> 54</span>          }
+<span class='line'> 55</span> 
+<span class='line'> 56</span>          ccglBindFramebuffer(CC_GL_FRAMEBUFFER, this._oldFBO);*/</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">    </span><span class="NAME">beforeRender</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">        </span><span class="COMM">//todo gl</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="COMM">/*glGetIntegerv(CC_GL_FRAMEBUFFER_BINDING, this._oldFBO);
+<span class='line'> 61</span>          ccglBindFramebuffer(CC_GL_FRAMEBUFFER, this._fbo);
+<span class='line'> 62</span> 
+<span class='line'> 63</span>          // BUG XXX: doesn't work with RGB565.
+<span class='line'> 64</span> 
+<span class='line'> 65</span>          */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">        </span><span class="COMM">/*glClearColor(0, 0, 0, 0);*/</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="COMM">/*
+<span class='line'> 68</span> 
+<span class='line'> 69</span>          // BUG #631: To fix #631, uncomment the lines with #631
+<span class='line'> 70</span>          // Warning: But it CCGrabber won't work with 2 effects at the same time
+<span class='line'> 71</span>          glClearColor(0.0, 0.0, 0.0, 1.0);	// #631
+<span class='line'> 72</span> 
+<span class='line'> 73</span>          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+<span class='line'> 74</span> 
+<span class='line'> 75</span>          glColorMask(true, true, true, false);	// #631*/</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="NAME">afterRender</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">        </span><span class="COMM">//todo gl</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">        </span><span class="COMM">/* ccglBindFramebuffer(CC_GL_FRAMEBUFFER, this._oldFBO);
+<span class='line'> 80</span>          glColorMask(true, true, true, true);	// #631*/</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span></pre></body></html>

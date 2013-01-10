@@ -359,6 +359,10 @@ static AppController* appController = NULL;
         
         [self restartCocos2d];
         
+        // Load fileLookup file
+        [[CCFileUtils sharedFileUtils] loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
+        
+        // Run script
         [[JSBCore sharedInstance] runScript:@"main.js"];
         
     }
