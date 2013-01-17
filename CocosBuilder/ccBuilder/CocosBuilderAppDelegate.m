@@ -84,6 +84,7 @@
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
 #import "HelpWindow.h"
+#import "APIDocsWindow.h"
 #import "NodeGraphPropertySetter.h"
 #import "CCBSplitHorizontalView.h"
 #import "SpriteSheetSettingsWindow.h"
@@ -2020,6 +2021,14 @@ static BOOL hideAllToNextSeparator;
 
 - (void) publishAndRun:(BOOL)run
 {
+    if (!projectSettings.publishEnabledAndroid
+        && !projectSettings.publishEnablediPhone
+        && !projectSettings.publishEnabledHTML5)
+    {
+        [self modalDialogTitle:@"Published Failed" message:@"There are no configured publish target platforms. Please check your Publish Settings."];
+        return;
+    }
+    
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
@@ -2954,7 +2963,8 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction)menuJavaScriptControlled:(id)sender
 {
-    NSLog(@"Toggling JSControlled");
+    [self saveUndoStateWillChangeProperty:@"*javascriptcontrolled"];
+    
     jsControlled = !jsControlled;
     [self updateJSControlledMenu];
     [self updateInspectorFromSelection];
@@ -3159,6 +3169,16 @@ static BOOL hideAllToNextSeparator;
     }
     
     [[helpWindow window] makeKeyAndOrderFront:self];
+}
+
+- (IBAction)showAPIDocs:(id)sender
+{
+    if(!apiDocsWindow)
+    {
+        apiDocsWindow = [[APIDocsWindow alloc] initWithWindowNibName:@"APIDocsWindow"];
+    }
+    
+    [[apiDocsWindow window] makeKeyAndOrderFront:self];
 }
 
 - (IBAction)reportBug:(id)sender

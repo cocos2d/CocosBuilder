@@ -478,14 +478,15 @@
                 {
                     // Write a keyframe
                     id value = [keyframe objectForKey:@"value"];
-                    NSString* a = [value objectAtIndex:0];
-                    NSString* b = [value objectAtIndex:1];
+                    NSString* a = [value objectAtIndex:1];
+                    NSString* b = [value objectAtIndex:0];
                     
                     if ([b isEqualToString:@"Use regular file"]) b = @"";
+                    if ([a isEqualToString:@"Use regular file"]) a = @"";
                     
-                    if ([self isSprite:a inGeneratedSpriteSheet:b])
+                    if ([self isSprite:b inGeneratedSpriteSheet:a])
                     {
-                        b = [[a stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
+                        a = [[b stringByDeletingLastPathComponent] stringByAppendingPathExtension:@"plist"];
                     }
                     
                     [self addToStringCache:a isPath:YES];

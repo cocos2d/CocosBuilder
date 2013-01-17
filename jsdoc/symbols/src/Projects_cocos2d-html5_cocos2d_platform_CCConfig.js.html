@@ -1,0 +1,298 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/****************************************************************************
+<span class='line'>  2</span>  Copyright (c) 2010-2012 cocos2d-x.org
+<span class='line'>  3</span>  Copyright (c) 2008-2010 Ricardo Quesada
+<span class='line'>  4</span>  Copyright (c) 2011      Zynga Inc.
+<span class='line'>  5</span> 
+<span class='line'>  6</span>  http://www.cocos2d-x.org
+<span class='line'>  7</span> 
+<span class='line'>  8</span>  Permission is hereby granted, free of charge, to any person obtaining a copy
+<span class='line'>  9</span>  of this software and associated documentation files (the "Software"), to deal
+<span class='line'> 10</span>  in the Software without restriction, including without limitation the rights
+<span class='line'> 11</span>  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+<span class='line'> 12</span>  copies of the Software, and to permit persons to whom the Software is
+<span class='line'> 13</span>  furnished to do so, subject to the following conditions:
+<span class='line'> 14</span> 
+<span class='line'> 15</span>  The above copyright notice and this permission notice shall be included in
+<span class='line'> 16</span>  all copies or substantial portions of the Software.
+<span class='line'> 17</span> 
+<span class='line'> 18</span>  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<span class='line'> 19</span>  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+<span class='line'> 20</span>  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+<span class='line'> 21</span>  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+<span class='line'> 22</span>  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+<span class='line'> 23</span>  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+<span class='line'> 24</span>  THE SOFTWARE.
+<span class='line'> 25</span>  ****************************************************************************/</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * &lt;p>
+<span class='line'> 29</span>  * The current version of Cocos2d-html5 being used.&lt;br/>
+<span class='line'> 30</span>  * Please DO NOT remove this String, it is an important flag for bug tracking.&lt;br/>
+<span class='line'> 31</span>  * If you post a bug to forum, please attach this flag.
+<span class='line'> 32</span>  * &lt;/p>
+<span class='line'> 33</span>  * @constant
+<span class='line'> 34</span>  * @type String
+<span class='line'> 35</span>  */</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="NAME">cc.ENGINE_VERSION</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Cocos2d-html5-v2.1.0"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="COMM">/**
+<span class='line'> 39</span>  * &lt;p>
+<span class='line'> 40</span>  *   If enabled, the texture coordinates will be calculated by using this formula: &lt;br/>
+<span class='line'> 41</span>  *      - texCoord.left = (rect.origin.x*2+1) / (texture.wide*2);                  &lt;br/>
+<span class='line'> 42</span>  *      - texCoord.right = texCoord.left + (rect.size.width*2-2)/(texture.wide*2); &lt;br/>
+<span class='line'> 43</span>  *                                                                                 &lt;br/>
+<span class='line'> 44</span>  *  The same for bottom and top.                                                   &lt;br/>
+<span class='line'> 45</span>  *                                                                                 &lt;br/>
+<span class='line'> 46</span>  *  This formula prevents artifacts by using 99% of the texture.                   &lt;br/>
+<span class='line'> 47</span>  *  The "correct" way to prevent artifacts is by using the spritesheet-artifact-fixer.py or a similar tool.&lt;br/>
+<span class='line'> 48</span>  *                                                                                  &lt;br/>
+<span class='line'> 49</span>  *  Affected nodes:                                                                 &lt;br/>
+<span class='line'> 50</span>  *      - cc.Sprite / cc.SpriteBatchNode and subclasses: cc.LabelBMFont, cc.TMXTiledMap &lt;br/>
+<span class='line'> 51</span>  *      - cc.LabelAtlas                                                              &lt;br/>
+<span class='line'> 52</span>  *      - cc.QuadParticleSystem                                                      &lt;br/>
+<span class='line'> 53</span>  *      - cc.TileMap                                                                 &lt;br/>
+<span class='line'> 54</span>  *                                                                                  &lt;br/>
+<span class='line'> 55</span>  *  To enabled set it to 1. Disabled by default.
+<span class='line'> 56</span>  * &lt;/p>
+<span class='line'> 57</span>  * @constant
+<span class='line'> 58</span>  * @type Number
+<span class='line'> 59</span>  */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">cc.FIX_ARTIFACTS_BY_STRECHING_TEXEL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="COMM">/**
+<span class='line'> 63</span>  * Position of the FPS (Default: 0,0 (bottom-left corner))
+<span class='line'> 64</span>  * @constant
+<span class='line'> 65</span>  * @type cc.Point
+<span class='line'> 66</span>  */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">cc.DIRECTOR_STATS_POSITION</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span>  * &lt;p>
+<span class='line'> 71</span>  *   Senconds between FPS updates.&lt;br/>
+<span class='line'> 72</span>  *   0.5 seconds, means that the FPS number will be updated every 0.5 seconds.&lt;br/>
+<span class='line'> 73</span>  *   Having a bigger number means a more reliable FPS&lt;br/>
+<span class='line'> 74</span>  *   &lt;br/>
+<span class='line'> 75</span>  *   Default value: 0.1f&lt;br/>
+<span class='line'> 76</span>  * &lt;/p>
+<span class='line'> 77</span>  * @constant
+<span class='line'> 78</span>  * @type Number
+<span class='line'> 79</span>  */</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="NAME">cc.DIRECTOR_FPS_INTERVAL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0.5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span> </span><span class="COMM">/**
+<span class='line'> 83</span>  * &lt;p>
+<span class='line'> 84</span>  *    If enabled, the cc.Node objects (cc.Sprite, cc.Label,etc) will be able to render in subpixels.&lt;br/>
+<span class='line'> 85</span>  *    If disabled, integer pixels will be used.&lt;br/>
+<span class='line'> 86</span>  *    &lt;br/>
+<span class='line'> 87</span>  *    To enable set it to 1. Enabled by default.
+<span class='line'> 88</span>  * &lt;/p>
+<span class='line'> 89</span>  * @constant
+<span class='line'> 90</span>  * @type Number
+<span class='line'> 91</span>  */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="NAME">cc.COCOSNODE_RENDER_SUBPIXEL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="COMM">/**
+<span class='line'> 95</span>  * &lt;p>
+<span class='line'> 96</span>  *   If enabled, the cc.Sprite objects rendered with cc.SpriteBatchNode will be able to render in subpixels.&lt;br/>
+<span class='line'> 97</span>  *   If disabled, integer pixels will be used.&lt;br/>
+<span class='line'> 98</span>  *   &lt;br/>
+<span class='line'> 99</span>  *   To enable set it to 1. Enabled by default.
+<span class='line'>100</span>  * &lt;/p>
+<span class='line'>101</span>  * @constant
+<span class='line'>102</span>  * @type Number
+<span class='line'>103</span>  */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="NAME">cc.SPRITEBATCHNODE_RENDER_SUBPIXEL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">/**
+<span class='line'>107</span>  * &lt;p>
+<span class='line'>108</span>  *   If enabled, cc.Node will transform the nodes using a cached Affine matrix.&lt;br/>
+<span class='line'>109</span>  *   If disabled, the node will be transformed using glTranslate,glRotate,glScale.&lt;br/>
+<span class='line'>110</span>  *   Using the affine matrix only requires 2 GL calls.&lt;br/>
+<span class='line'>111</span>  *   Using the translate/rotate/scale requires 5 GL calls.&lt;br/>
+<span class='line'>112</span>  *   But computing the Affine matrix is relative expensive.&lt;br/>
+<span class='line'>113</span>  *   But according to performance tests, Affine matrix performs better.&lt;br/>
+<span class='line'>114</span>  *   This parameter doesn't affect cc.SpriteBatchNode nodes.&lt;br/>
+<span class='line'>115</span>  *   &lt;br/>
+<span class='line'>116</span>  *   To enable set it to a value different than 0. Enabled by default.
+<span class='line'>117</span>  * &lt;/p>
+<span class='line'>118</span>  * @constant
+<span class='line'>119</span>  * @type Number
+<span class='line'>120</span>  */</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="NAME">cc.NODE_TRANSFORM_USING_AFFINE_MATRIX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="COMM">/**
+<span class='line'>124</span>  * &lt;p>
+<span class='line'>125</span>  *     If most of your imamges have pre-multiplied alpha, set it to 1 (if you are going to use .PNG/.JPG file images).&lt;br/>
+<span class='line'>126</span>  *     Only set to 0 if ALL your images by-pass Apple UIImage loading system (eg: if you use libpng or PVR images)&lt;br/>
+<span class='line'>127</span>  *     &lt;br/>
+<span class='line'>128</span>  *     To enable set it to a value different than 0. Enabled by default.
+<span class='line'>129</span>  * &lt;/p>
+<span class='line'>130</span>  * @constant
+<span class='line'>131</span>  * @type Number
+<span class='line'>132</span>  */</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="NAME">cc.OPTIMIZE_BLEND_FUNC_FOR_PREMULTIPLIED_ALPHA</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="COMM">/**
+<span class='line'>136</span>  * &lt;p>
+<span class='line'>137</span>  *   Use GL_TRIANGLE_STRIP instead of GL_TRIANGLES when rendering the texture atlas.&lt;br/>
+<span class='line'>138</span>  *   It seems it is the recommend way, but it is much slower, so, enable it at your own risk&lt;br/>
+<span class='line'>139</span>  *   &lt;br/>
+<span class='line'>140</span>  *   To enable set it to a value different than 0. Disabled by default.
+<span class='line'>141</span>  * &lt;/p>
+<span class='line'>142</span>  * @constant
+<span class='line'>143</span>  * @type Number
+<span class='line'>144</span>  */</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="NAME">cc.TEXTURE_ATLAS_USE_TRIANGLE_STRIP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="COMM">/**
+<span class='line'>148</span>  * &lt;p>
+<span class='line'>149</span>  *    By default, cc.TextureAtlas (used by many cocos2d classes) will use VAO (Vertex Array Objects).&lt;br/>
+<span class='line'>150</span>  *    Apple recommends its usage but they might consume a lot of memory, specially if you use many of them.&lt;br/>
+<span class='line'>151</span>  *    So for certain cases, where you might need hundreds of VAO objects, it might be a good idea to disable it.&lt;br/>
+<span class='line'>152</span>  *    &lt;br/>
+<span class='line'>153</span>  *    To disable it set it to 0. Enabled by default.&lt;br/>
+<span class='line'>154</span>  * &lt;/p>
+<span class='line'>155</span>  * @constant
+<span class='line'>156</span>  * @type Number
+<span class='line'>157</span>  */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="NAME">cc.TEXTURE_ATLAS_USE_VAO</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="COMM">/**
+<span class='line'>161</span>  * &lt;p>
+<span class='line'>162</span>  *  If enabled, NPOT textures will be used where available. Only 3rd gen (and newer) devices support NPOT textures.&lt;br/>
+<span class='line'>163</span>  *  NPOT textures have the following limitations:&lt;br/>
+<span class='line'>164</span>  *     - They can't have mipmaps&lt;br/>
+<span class='line'>165</span>  *     - They only accept GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}&lt;br/>
+<span class='line'>166</span>  *  &lt;br/>
+<span class='line'>167</span>  *  To enable set it to a value different than 0. Disabled by default. &lt;br/>
+<span class='line'>168</span>  *  &lt;br/>
+<span class='line'>169</span>  *  This value governs only the PNG, GIF, BMP, images.&lt;br/>
+<span class='line'>170</span>  *  This value DOES NOT govern the PVR (PVR.GZ, PVR.CCZ) files. If NPOT PVR is loaded, then it will create an NPOT texture ignoring this value.
+<span class='line'>171</span>  * &lt;/p>
+<span class='line'>172</span>  * @constant
+<span class='line'>173</span>  * @type Number
+<span class='line'>174</span>  * @deprecated This value will be removed in 1.1 and NPOT textures will be loaded by default if the device supports it.
+<span class='line'>175</span>  */</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="NAME">cc.TEXTURE_NPOT_SUPPORT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="COMM">/**
+<span class='line'>179</span>  * &lt;p>
+<span class='line'>180</span>  *    If enabled, cocos2d supports retina display.&lt;br/>
+<span class='line'>181</span>  *    For performance reasons, it's recommended disable it in games without retina display support, like iPad only games.&lt;br/>
+<span class='line'>182</span>  *    &lt;br/>
+<span class='line'>183</span>  *    To enable set it to 1. Use 0 to disable it. Enabled by default.&lt;br/>
+<span class='line'>184</span>  *    &lt;br/>
+<span class='line'>185</span>  *    This value governs only the PNG, GIF, BMP, images.&lt;br/>
+<span class='line'>186</span>  *    This value DOES NOT govern the PVR (PVR.GZ, PVR.CCZ) files. If NPOT PVR is loaded, then it will create an NPOT texture ignoring this value.
+<span class='line'>187</span>  * &lt;/p>
+<span class='line'>188</span>  * @constant
+<span class='line'>189</span>  * @type Number
+<span class='line'>190</span>  * @deprecated This value will be removed in 1.1 and NPOT textures will be loaded by default if the device supports it.
+<span class='line'>191</span>  */</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="NAME">cc.RETINA_DISPLAY_SUPPORT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="COMM">/**
+<span class='line'>195</span>  * &lt;p>
+<span class='line'>196</span>  *    It's the suffix that will be appended to the files in order to load "retina display" images.&lt;br/>
+<span class='line'>197</span>  *    &lt;br/>
+<span class='line'>198</span>  *    On an iPhone4 with Retina Display support enabled, the file @"sprite-hd.png" will be loaded instead of @"sprite.png".&lt;br/>
+<span class='line'>199</span>  *    If the file doesn't exist it will use the non-retina display image.&lt;br/>
+<span class='line'>200</span>  *    &lt;br/>
+<span class='line'>201</span>  *    Platforms: Only used on Retina Display devices like iPhone 4.
+<span class='line'>202</span>  * &lt;/p>
+<span class='line'>203</span>  * @constant
+<span class='line'>204</span>  * @type String
+<span class='line'>205</span>  */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="NAME">cc.RETINA_DISPLAY_FILENAME_SUFFIX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"-hd"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="COMM">/**
+<span class='line'>209</span>  * &lt;p>
+<span class='line'>210</span>  *   If enabled, all subclasses of cc.Sprite will draw a bounding box&lt;br/>
+<span class='line'>211</span>  *   Useful for debugging purposes only. It is recommened to leave it disabled.&lt;br/>
+<span class='line'>212</span>  *   &lt;br/>
+<span class='line'>213</span>  *   To enable set it to a value different than 0. Disabled by default:&lt;br/>
+<span class='line'>214</span>  *      0 -- disabled&lt;br/>
+<span class='line'>215</span>  *      1 -- draw bounding box&lt;br/>
+<span class='line'>216</span>  *      2 -- draw texture box
+<span class='line'>217</span>  * &lt;/p>
+<span class='line'>218</span>  * @constant
+<span class='line'>219</span>  * @type Number
+<span class='line'>220</span>  */</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="NAME">cc.SPRITE_DEBUG_DRAW</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="COMM">/**
+<span class='line'>224</span>  * &lt;p>
+<span class='line'>225</span>  *    If enabled, all subclasses of cc.Sprite that are rendered using an cc.SpriteBatchNode draw a bounding box.&lt;br/>
+<span class='line'>226</span>  *    Useful for debugging purposes only. It is recommened to leave it disabled.&lt;br/>
+<span class='line'>227</span>  *    &lt;br/>
+<span class='line'>228</span>  *    To enable set it to a value different than 0. Disabled by default.
+<span class='line'>229</span>  * &lt;/p>
+<span class='line'>230</span>  * @constant
+<span class='line'>231</span>  * @type Number
+<span class='line'>232</span>  */</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="NAME">cc.SPRITEBATCHNODE_DEBUG_DRAW</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="COMM">/**
+<span class='line'>236</span>  * &lt;p>
+<span class='line'>237</span>  *   If enabled, all subclasses of cc.LabelBMFont will draw a bounding box &lt;br/>
+<span class='line'>238</span>  *   Useful for debugging purposes only. It is recommened to leave it disabled.&lt;br/>
+<span class='line'>239</span>  *   &lt;br/>
+<span class='line'>240</span>  *   To enable set it to a value different than 0. Disabled by default.&lt;br/>
+<span class='line'>241</span>  * &lt;/p>
+<span class='line'>242</span>  * @constant
+<span class='line'>243</span>  * @type Number
+<span class='line'>244</span>  */</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="NAME">cc.LABELBMFONT_DEBUG_DRAW</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> 
+<span class='line'>247</span> </span><span class="COMM">/**
+<span class='line'>248</span>  * &lt;p>
+<span class='line'>249</span>  *    If enabled, all subclasses of cc.LabeltAtlas will draw a bounding box&lt;br/>
+<span class='line'>250</span>  *    Useful for debugging purposes only. It is recommened to leave it disabled.&lt;br/>
+<span class='line'>251</span>  *    &lt;br/>
+<span class='line'>252</span>  *    To enable set it to a value different than 0. Disabled by default.
+<span class='line'>253</span>  * &lt;/p>
+<span class='line'>254</span>  * @constant
+<span class='line'>255</span>  * @type Number
+<span class='line'>256</span>  */</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="NAME">cc.LABELATLAS_DEBUG_DRAW</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> 
+<span class='line'>259</span> </span><span class="COMM">/**
+<span class='line'>260</span>  * whether or not support retina display
+<span class='line'>261</span>  * @constant
+<span class='line'>262</span>  * @type Number
+<span class='line'>263</span>  */</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="NAME">cc.IS_RETINA_DISPLAY_SUPPORTED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="COMM">/**
+<span class='line'>267</span>  * default engine
+<span class='line'>268</span>  * @constant
+<span class='line'>269</span>  * @type String
+<span class='line'>270</span>  */</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="NAME">cc.DEFAULT_ENGINE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.ENGINE_VERSION</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-canvas"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> 
+<span class='line'>273</span> 
+<span class='line'>274</span> </span><span class="COMM">/**
+<span class='line'>275</span>   Runtime information.
+<span class='line'>276</span>   @deprecated Use "sys" instead.
+<span class='line'>277</span> */</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="NAME">cc.config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">    </span><span class="STRN">'platform'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">sys.platform</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span> </span><span class="COMM">/**
+<span class='line'>283</span>  * dump config info, but only in debug mode
+<span class='line'>284</span>  */</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="NAME">cc.dumpConfig</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">sys</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">        </span><span class="NAME">cc.log</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" = "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">sys</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span> 
+<span class='line'>291</span> </span></pre></body></html>

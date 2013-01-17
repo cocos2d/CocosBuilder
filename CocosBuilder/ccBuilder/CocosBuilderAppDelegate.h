@@ -84,6 +84,7 @@ enum {
 @class MainWindow;
 @class PlayerConsoleWindow;
 @class HelpWindow;
+@class APIDocsWindow;
 @class MainToolbarDelegate;
 @class PlayerConnection;
 @class CCBSplitHorizontalView;
@@ -199,6 +200,7 @@ enum {
     
     // Help window
     HelpWindow* helpWindow;
+    APIDocsWindow* apiDocsWindow;
     
     // Animation playback
     BOOL playingBack;

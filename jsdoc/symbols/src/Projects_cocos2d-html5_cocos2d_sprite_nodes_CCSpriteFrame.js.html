@@ -1,0 +1,368 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/****************************************************************************
+<span class='line'>  2</span>  Copyright (c) 2010-2012 cocos2d-x.org
+<span class='line'>  3</span>  Copyright (c) 2008-2010 Ricardo Quesada
+<span class='line'>  4</span>  Copyright (c) 2011      Zynga Inc.
+<span class='line'>  5</span> 
+<span class='line'>  6</span>  http://www.cocos2d-x.org
+<span class='line'>  7</span> 
+<span class='line'>  8</span>  Permission is hereby granted, free of charge, to any person obtaining a copy
+<span class='line'>  9</span>  of this software and associated documentation files (the "Software"), to deal
+<span class='line'> 10</span>  in the Software without restriction, including without limitation the rights
+<span class='line'> 11</span>  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+<span class='line'> 12</span>  copies of the Software, and to permit persons to whom the Software is
+<span class='line'> 13</span>  furnished to do so, subject to the following conditions:
+<span class='line'> 14</span> 
+<span class='line'> 15</span>  The above copyright notice and this permission notice shall be included in
+<span class='line'> 16</span>  all copies or substantial portions of the Software.
+<span class='line'> 17</span> 
+<span class='line'> 18</span>  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+<span class='line'> 19</span>  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+<span class='line'> 20</span>  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+<span class='line'> 21</span>  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+<span class='line'> 22</span>  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+<span class='line'> 23</span>  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+<span class='line'> 24</span>  THE SOFTWARE.
+<span class='line'> 25</span>  ****************************************************************************/</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="COMM">/**
+<span class='line'> 28</span>  * &lt;p>
+<span class='line'> 29</span>  *    A cc.SpriteFrame has:&lt;br/>
+<span class='line'> 30</span>  *      - texture: A cc.Texture2D that will be used by the cc.Sprite&lt;br/>
+<span class='line'> 31</span>  *      - rectangle: A rectangle of the texture&lt;br/>
+<span class='line'> 32</span>  *    &lt;br/>
+<span class='line'> 33</span>  *    You can modify the frame of a cc.Sprite by doing:&lt;br/>
+<span class='line'> 34</span>  * &lt;/p>
+<span class='line'> 35</span>  * @class
+<span class='line'> 36</span>  * @extends cc.Class
+<span class='line'> 37</span>  *
+<span class='line'> 38</span>  * @example
+<span class='line'> 39</span>  * var texture = cc.TextureCache.getInstance().addImage(s_dragon_animation);
+<span class='line'> 40</span>  * var frame0 = cc.SpriteFrame.createWithTexture(texture, cc.rect(132 * 0, 132 * 0, 132, 132));
+<span class='line'> 41</span>  */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="NAME">cc.SpriteFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.Class.extend</span><span class="PUNC">(</span><span class="COMM">/** @lends cc.SpriteFrame# */</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">    </span><span class="NAME">_offset</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">    </span><span class="NAME">_originalSize</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">    </span><span class="NAME">_rectInPixels</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">    </span><span class="NAME">_rotated</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">    </span><span class="NAME">_rect</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">    </span><span class="NAME">_offsetInPixels</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">_originalSizeInPixels</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">    </span><span class="NAME">_texture</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">    </span><span class="NAME">_textureFilename</span><span class="PUNC">:</span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">    </span><span class="NAME">ctor</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">        </span><span class="NAME">this._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">        </span><span class="NAME">this._offsetInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.size</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">        </span><span class="NAME">this._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.rect</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="NAME">this._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.rect</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSizeInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.size</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">        </span><span class="NAME">this._textureFilename</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="COMM">// attributes</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 65</span>      * @return {cc.Rect}
+<span class='line'> 66</span>      */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="NAME">getRectInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._rectInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 72</span>      * @param {cc.Rect} rectInPixels
+<span class='line'> 73</span>      */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="NAME">setRectInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rectInPixels</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">        </span><span class="NAME">this._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rectInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="NAME">this._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">rectInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 81</span>      * &lt;p>
+<span class='line'> 82</span>      *     return is rotated of SpriteFrame. &lt;br/>
+<span class='line'> 83</span>      * &lt;/p>
+<span class='line'> 84</span>      * @return {Boolean}
+<span class='line'> 85</span>      */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="NAME">isRotated</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._rotated</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 91</span>      * set SpriteFrame is rotated
+<span class='line'> 92</span>      * @param {Boolean} bRotated
+<span class='line'> 93</span>      */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">    </span><span class="NAME">setRotated</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bRotated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">        </span><span class="NAME">this._rotated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bRotated</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 99</span>      * get rect of the frame
+<span class='line'>100</span>      * @return {cc.Rect}
+<span class='line'>101</span>      */</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="NAME">getRect</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._rect</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>107</span>      * set rect of the frame
+<span class='line'>108</span>      * @param {cc.Rect} rect
+<span class='line'>109</span>      */</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="NAME">setRect</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rect</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="NAME">this._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">        </span><span class="NAME">this._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_POINTS_TO_PIXELS</span><span class="PUNC">(</span><span class="NAME">this._rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>116</span>      * get offset of the frame
+<span class='line'>117</span>      * @return {cc.Point}
+<span class='line'>118</span>      */</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">    </span><span class="NAME">getOffsetInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NAME">this._offsetInPixels.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._offsetInPixels.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>124</span>      * set offset of the frame
+<span class='line'>125</span>      * @param {cc.Point} offsetInPixels
+<span class='line'>126</span>      */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">    </span><span class="NAME">setOffsetInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offsetInPixels</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">        </span><span class="NAME">this._offsetInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offsetInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">        </span><span class="NAME">this._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.POINT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">this._offsetInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>133</span>      * get original size of the trimmed image
+<span class='line'>134</span>      * @return {cc.Size}
+<span class='line'>135</span>      */</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">    </span><span class="NAME">getOriginalSizeInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._originalSizeInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>139</span> 
+<span class='line'>140</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>141</span>      * set original size of the trimmed image
+<span class='line'>142</span>      * @param {cc.Size} sizeInPixels
+<span class='line'>143</span>      */</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">    </span><span class="NAME">setOriginalSizeInPixels</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sizeInPixels</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSizeInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sizeInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>147</span> 
+<span class='line'>148</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>149</span>      * get original size of the trimmed image
+<span class='line'>150</span>      * @return {cc.Size}
+<span class='line'>151</span>      */</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="NAME">getOriginalSize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.size</span><span class="PUNC">(</span><span class="NAME">this._originalSize.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._originalSize.height</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>157</span>      * set original size of the trimmed image
+<span class='line'>158</span>      * @param {cc.Size} sizeInPixels
+<span class='line'>159</span>      */</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">    </span><span class="NAME">setOriginalSize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sizeInPixels</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sizeInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>165</span>      * get texture of the frame
+<span class='line'>166</span>      * @return {cc.Texture2D|HTMLImageElement}
+<span class='line'>167</span>      */</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="NAME">getTexture</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._texture</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._textureFilename</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.TextureCache.getInstance</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addImage</span><span class="PUNC">(</span><span class="NAME">this._textureFilename</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>177</span>      * set texture of the frame, the texture is retained
+<span class='line'>178</span>      * @param {cc.Texture2D|HTMLImageElement} texture
+<span class='line'>179</span>      */</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">    </span><span class="NAME">setTexture</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._texture</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">            </span><span class="NAME">this._texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>185</span> 
+<span class='line'>186</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>187</span>      * Offset getter
+<span class='line'>188</span>      * @return {cc.Point}
+<span class='line'>189</span>      */</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">    </span><span class="NAME">getOffset</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">cc.p</span><span class="PUNC">(</span><span class="NAME">this._offset.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._offset.y</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>195</span>      * offset setter
+<span class='line'>196</span>      * @param {cc.Point} offsets
+<span class='line'>197</span>      */</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">    </span><span class="NAME">setOffset</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offsets</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">        </span><span class="NAME">this._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offsets</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>201</span> 
+<span class='line'>202</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>203</span>      * copy a new SpriteFrame
+<span class='line'>204</span>      * @return {cc.SpriteFrame}
+<span class='line'>205</span>      */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">    </span><span class="NAME">copyWithZone</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">copy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.SpriteFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="NAME">copy.initWithTextureFilename</span><span class="PUNC">(</span><span class="NAME">this._textureFilename</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._rectInPixels</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._offsetInPixels</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._originalSizeInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">        </span><span class="NAME">copy.setTexture</span><span class="PUNC">(</span><span class="NAME">this._texture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">copy</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>214</span>      * Initializes SpriteFrame with Texture, rect, rotated, offset and originalSize in pixels.
+<span class='line'>215</span>      * @param {cc.Texture2D|HTMLImageElement} texture
+<span class='line'>216</span>      * @param {cc.Rect} rect
+<span class='line'>217</span>      * @param {Boolean} rotated
+<span class='line'>218</span>      * @param {cc.Point} offset
+<span class='line'>219</span>      * @param {cc.Size} originalSize
+<span class='line'>220</span>      * @return {Boolean}
+<span class='line'>221</span>      */</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">    </span><span class="NAME">initWithTexture</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argnum</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">        </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">argnum</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">        </span><span class="COMM">/** Initializes a cc.SpriteFrame with a texture, rect in points.
+<span class='line'>226</span>          It is assumed that the frame was not trimmed.
+<span class='line'>227</span>          */</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_POINTS_TO_PIXELS</span><span class="PUNC">(</span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.initWithTexture</span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rectInPixels</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cc.PointZero</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rectInPixels.size</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">                </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> 
+<span class='line'>233</span> </span><span class="WHIT">        </span><span class="COMM">/** Initializes a cc.SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
+<span class='line'>234</span>          The originalSize is the size in points of the frame before being trimmed.
+<span class='line'>235</span>          */</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">                </span><span class="NAME">this._texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">                </span><span class="NAME">this._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">                </span><span class="NAME">this._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">                </span><span class="NAME">this._offsetInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">                </span><span class="NAME">this._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.POINT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">this._offsetInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">                </span><span class="NAME">this._originalSizeInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">                </span><span class="NAME">this._originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.SIZE_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">this._originalSizeInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">                </span><span class="NAME">this._rotated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">                </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">            </span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">                </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Argument must be non-nil "</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">                </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>252</span> 
+<span class='line'>253</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>254</span>      * &lt;p>
+<span class='line'>255</span>      *    Initializes a cc.SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.&lt;br/>
+<span class='line'>256</span>      *    The originalSize is the size in pixels of the frame before being trimmed.
+<span class='line'>257</span>      * &lt;/p>
+<span class='line'>258</span>      * @param {string} filename
+<span class='line'>259</span>      * @param {cc.Rect} rect
+<span class='line'>260</span>      * @param {Boolean} rotated
+<span class='line'>261</span>      * @param {cc.Point} offset
+<span class='line'>262</span>      * @param {cc.Size} originalSize
+<span class='line'>263</span>      */</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">    </span><span class="NAME">initWithTextureFilename</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">filename</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_POINTS_TO_PIXELS</span><span class="PUNC">(</span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">        </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">cc.size</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">        </span><span class="NAME">originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">rectInPixels.size</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> 
+<span class='line'>269</span> </span><span class="WHIT">        </span><span class="NAME">this._texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">        </span><span class="NAME">this._textureFilename</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">filename</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">        </span><span class="NAME">this._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rectInPixels</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">        </span><span class="NAME">this._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">rectInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">        </span><span class="NAME">this._rotated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">        </span><span class="NAME">this._offsetInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">        </span><span class="NAME">this._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.POINT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSizeInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">        </span><span class="NAME">this._originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.SIZE_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> 
+<span class='line'>279</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> 
+<span class='line'>283</span> </span><span class="COMM">/**
+<span class='line'>284</span>  * &lt;p>
+<span class='line'>285</span>  *    Create a cc.SpriteFrame with a texture filename, rect, rotated, offset and originalSize in pixels.&lt;br/>
+<span class='line'>286</span>  *    The originalSize is the size in pixels of the frame before being trimmed.
+<span class='line'>287</span>  * &lt;/p>
+<span class='line'>288</span>  * @param {string} filename
+<span class='line'>289</span>  * @param {cc.Rect} rect
+<span class='line'>290</span>  * @param {Boolean} rotated
+<span class='line'>291</span>  * @param {cc.Point} offset
+<span class='line'>292</span>  * @param {cc.Size} originalSize
+<span class='line'>293</span>  * @return {cc.SpriteFrame}
+<span class='line'>294</span>  */</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="NAME">cc.SpriteFrame.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">filename</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.SpriteFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">    </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">        </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">            </span><span class="NAME">spriteFrame.initWithTextureFilename</span><span class="PUNC">(</span><span class="NAME">filename</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">        </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">            </span><span class="NAME">spriteFrame.initWithTextureFilename</span><span class="PUNC">(</span><span class="NAME">filename</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">        </span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Argument must be non-nil "</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> 
+<span class='line'>311</span> </span><span class="COMM">/**
+<span class='line'>312</span>  * Create a cc.SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
+<span class='line'>313</span>  * @param {cc.Texture2D|HTMLImageElement} texture
+<span class='line'>314</span>  * @param {cc.Rect} rect
+<span class='line'>315</span>  * @param {Boolean} rotated
+<span class='line'>316</span>  * @param {cc.Point} offset
+<span class='line'>317</span>  * @param {cc.Size} originalSize
+<span class='line'>318</span>  * @return {cc.SpriteFrame}
+<span class='line'>319</span>  * @example
+<span class='line'>320</span>  * //Create a cc.SpriteFrame with a texture, rect in texture.
+<span class='line'>321</span>  * var frame1 = cc.SpriteFrame.createWithTexture("grossini_dance.png",cc.rect(0,0,90,128));
+<span class='line'>322</span>  *
+<span class='line'>323</span>  * //Create a cc.SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
+<span class='line'>324</span>  * var frame2 = cc.SpriteFrame.createWithTexture(texture, frameRect, rotated, offset, sourceSize);
+<span class='line'>325</span>  */</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="NAME">cc.SpriteFrame.createWithTexture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">argnum</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arguments.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.SpriteFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">    </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">argnum</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">    </span><span class="COMM">/** Create a cc.SpriteFrame with a texture, rect in points.
+<span class='line'>331</span>      It is assumed that the frame was not trimmed.
+<span class='line'>332</span>      */</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">        </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">            </span><span class="NAME">spriteFrame.initWithTexture</span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">    </span><span class="COMM">/** Create a cc.SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
+<span class='line'>337</span>      The originalSize is the size in points of the frame before being trimmed.
+<span class='line'>338</span>      */</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">        </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">            </span><span class="NAME">spriteFrame.initWithTexture</span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">        </span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"Argument must be non-nil "</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">            </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> 
+<span class='line'>349</span> </span><span class="NAME">cc.SpriteFrame._frameWithTextureForCanvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">texture</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">cc.SpriteFrame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._rectInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rect</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._rect</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.RECT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">rect</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._offsetInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.POINT_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">spriteFrame._offsetInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._originalSizeInPixels</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._originalSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cc.SIZE_PIXELS_TO_POINTS</span><span class="PUNC">(</span><span class="NAME">spriteFrame._originalSizeInPixels</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">    </span><span class="NAME">spriteFrame._rotated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rotated</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">spriteFrame</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>361</span> </span></pre></body></html>
