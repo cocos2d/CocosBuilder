@@ -2021,19 +2021,40 @@ static BOOL hideAllToNextSeparator;
 
 - (void) publishAndRun:(BOOL)run
 {
-    CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
-    warnings.warningsDescription = @"Publisher Warnings";
-    
-    // Setup publisher, publisher is released in publisher:finishedWithWarnings:
-    CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
-    publisher.runAfterPublishing = run;
-    
-    // Open progress window and publish
-    
-    [publisher publish];
-    
-    [self modalStatusWindowStartWithTitle:@"Publishing"];
-    [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+    if( projectSettings.publishEnabledAndroid || projectSettings.publishEnabledHTML5 || projectSettings.publishEnablediPhone )
+    {
+        CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
+        warnings.warningsDescription = @"Publisher Warnings";
+        
+        // Setup publisher, publisher is released in publisher:finishedWithWarnings:
+        CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
+        publisher.runAfterPublishing = run;
+        
+        // Open progress window and publish
+        
+        [publisher publish];
+        
+        [self modalStatusWindowStartWithTitle:@"Publishing"];
+        [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+    }
+    else
+    {
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Publish Error"
+                                         defaultButton:@"OK"
+                                       alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:@"There is no configured publish target platform. Check your Publish Settings."];
+        
+        [alert beginSheetModalForWindow:self.window
+                          modalDelegate:self
+                         didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+                            contextInfo:NULL];
+    }
+}
+
+- (void) alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [alert.window orderOut:self];
 }
 
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
