@@ -2021,6 +2021,14 @@ static BOOL hideAllToNextSeparator;
 
 - (void) publishAndRun:(BOOL)run
 {
+    if (!projectSettings.publishEnabledAndroid
+        && !projectSettings.publishEnablediPhone
+        && !projectSettings.publishEnabledHTML5)
+    {
+        [self modalDialogTitle:@"Published Failed" message:@"There are no configured publish target platforms. Please check your Publish Settings."];
+        return;
+    }
+    
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
