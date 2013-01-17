@@ -2955,7 +2955,8 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction)menuJavaScriptControlled:(id)sender
 {
-    NSLog(@"Toggling JSControlled");
+    [self saveUndoStateWillChangeProperty:@"*javascriptcontrolled"];
+    
     jsControlled = !jsControlled;
     [self updateJSControlledMenu];
     [self updateInspectorFromSelection];
