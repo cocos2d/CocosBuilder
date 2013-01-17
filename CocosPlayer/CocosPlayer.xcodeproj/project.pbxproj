@@ -142,40 +142,12 @@
 			remoteGlobalIDString = A04A1FEB13B826B300ABAFB7;
 			remoteInfo = kazmath;
 		};
-		E3893C701666A45000299482 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 50B2C4D00E100AEA00AE9530;
-			remoteInfo = Chipmunk;
-		};
-		E3893C721666A45000299482 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5018F24C0DFDEAC400C013A5;
-			remoteInfo = cocos2d;
-		};
-		E3893C741666A45000299482 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 50CB2FC91004C8B100B7A750;
-			remoteInfo = CocosDenshion;
-		};
 		E3893C761666A45000299482 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = A031B71F15D9BD0800E1986C;
 			remoteInfo = jsbindings;
-		};
-		E3893C781666A45000299482 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A04A1FEA13B826B300ABAFB7;
-			remoteInfo = kazmath;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -527,11 +499,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				E3893C711666A45000299482 /* PBXTargetDependency */,
-				E3893C731666A45000299482 /* PBXTargetDependency */,
-				E3893C751666A45000299482 /* PBXTargetDependency */,
 				E3893C771666A45000299482 /* PBXTargetDependency */,
-				E3893C791666A45000299482 /* PBXTargetDependency */,
 			);
 			name = CocosPlayer;
 			productName = CocosPlayer;
@@ -715,30 +683,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		E3893C711666A45000299482 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Chipmunk;
-			targetProxy = E3893C701666A45000299482 /* PBXContainerItemProxy */;
-		};
-		E3893C731666A45000299482 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = cocos2d;
-			targetProxy = E3893C721666A45000299482 /* PBXContainerItemProxy */;
-		};
-		E3893C751666A45000299482 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CocosDenshion;
-			targetProxy = E3893C741666A45000299482 /* PBXContainerItemProxy */;
-		};
 		E3893C771666A45000299482 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = jsbindings;
 			targetProxy = E3893C761666A45000299482 /* PBXContainerItemProxy */;
-		};
-		E3893C791666A45000299482 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = kazmath;
-			targetProxy = E3893C781666A45000299482 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -800,19 +748,15 @@
 					"CCB_ENABLE_UNZIP=1",
 					"CD_USE_COCOS2D_FILEUTILS=1",
 				);
-				HEADER_SEARCH_PATHS = "\"../CocosBuilder/libs/cocos2d-iphone/external/kazmath/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = CocosPlayer/Resources/Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/CocosPlayer/libs/JavaScript/SpiderMonkey/ios/lib\"",
-				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\" \"../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/SpiderMonkey/ios/include\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include\"/**";
+				USER_HEADER_SEARCH_PATHS = "../CocosBuilder/libs/cocos2d-iphone/cocos2d ../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/** ../CocosBuilder/libs/cocos2d-iphone/external/kazmath/include ../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include/chipmunk ../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/SpiderMonkey/ios/include ../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader ../CocosBuilder/libs/cocos2d-iphone/CocosDenshion";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -832,19 +776,15 @@
 					"CCB_ENABLE_UNZIP=1",
 					"CD_USE_COCOS2D_FILEUTILS=1",
 				);
-				HEADER_SEARCH_PATHS = "\"../CocosBuilder/libs/cocos2d-iphone/external/kazmath/include\"/**";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = CocosPlayer/Resources/Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/CocosPlayer/libs/JavaScript/SpiderMonkey/ios/lib\"",
-				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "\"CocosPlayer/libs/Chipmunk/include/chipmunk\" \"CocosPlayer/libs/SpiderMonkey/ios/include\" \"CocosPlayer/libs/kazmath/include\" \"../CocosBuilder/libs/cocos2d-iphone/cocos2d\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src\"/** \"../CocosBuilder/libs/cocos2d-iphone/CocosDenshion/CocosDenshion\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader\" \"../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/SpiderMonkey/ios/include\"/** \"../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include\"/**";
+				USER_HEADER_SEARCH_PATHS = "../CocosBuilder/libs/cocos2d-iphone/cocos2d ../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/** ../CocosBuilder/libs/cocos2d-iphone/external/kazmath/include ../CocosBuilder/libs/cocos2d-iphone/external/Chipmunk/include/chipmunk ../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/SpiderMonkey/ios/include ../CocosBuilder/libs/cocos2d-iphone/external/CocosBuilderReader ../CocosBuilder/libs/cocos2d-iphone/CocosDenshion";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

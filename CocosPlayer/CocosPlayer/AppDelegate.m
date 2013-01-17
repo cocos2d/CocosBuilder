@@ -197,7 +197,7 @@ static AppController* appController = NULL;
          [[NSBundle mainBundle] resourcePath],
          nil];
     sharedFileUtils.enableiPhoneResourcesOniPad = YES;
-    sharedFileUtils.searchMode = kCCFileUtilsSearchDirectory;
+    sharedFileUtils.searchMode = kCCFileUtilsSearchDirectoryMode;
     [sharedFileUtils buildSearchResolutionsOrder];
     
     NSLog(@"searchPath: %@", sharedFileUtils.searchPath);
@@ -360,7 +360,7 @@ static AppController* appController = NULL;
         [self restartCocos2d];
         
         // Load fileLookup file
-        [[CCFileUtils sharedFileUtils] loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
+        //[[CCFileUtils sharedFileUtils] loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
         
         // Run script
         [[JSBCore sharedInstance] runScript:@"main.js"];
