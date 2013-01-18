@@ -215,6 +215,7 @@ static PlayerConnection* sharedPlayerConnection;
         
         deviceInfo.deviceName = [msg objectForKey:@"devicename"];
         deviceInfo.deviceType = [msg objectForKey:@"devicetype"];
+        deviceInfo.preferredResourceType = [msg objectForKey:@"preferredresourcetype"];
         deviceInfo.hasRetinaDisplay = [[msg objectForKey:@"retinadisplay"] boolValue];
         deviceInfo.populated = YES;
         

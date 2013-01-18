@@ -15,12 +15,14 @@
 @synthesize deviceType;
 @synthesize hasRetinaDisplay;
 @synthesize populated;
+@synthesize preferredResourceType;
 
 - (void) dealloc
 {
     [identifier release];
     [deviceName release];
     [deviceType release];
+    [preferredResourceType release];
     
     [super dealloc];
 }

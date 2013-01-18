@@ -845,7 +845,7 @@
                 publishForResolutions = [NSArray arrayWithObjects:@"ipad", @"hd", nil];
             }
         }
-        else
+        else if ([deviceInfo.deviceType isEqualToString:@"iPhone"])
         {
             // iPhone
             if (deviceInfo.hasRetinaDisplay)
@@ -856,6 +856,10 @@
             {
                 publishForResolutions = [NSArray arrayWithObjects:@"iphone", nil];
             }
+        }
+        else if ([deviceInfo.deviceType isEqualToString:@"Android"])
+        {
+            publishForResolutions = [NSArray arrayWithObjects:deviceInfo.preferredResourceType, nil];
         }
         
         if (![self publishAllToDirectory:projectSettings.publishCacheDirectory]) return NO;
