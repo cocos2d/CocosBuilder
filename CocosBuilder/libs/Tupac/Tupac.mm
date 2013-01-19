@@ -325,7 +325,7 @@ typedef struct _PVRTexHeader
             CGContextRef rotContext = CGBitmapContextCreate(NULL, w, h, 8, 32*h, colorSpace, kCGImageAlphaPremultipliedLast);
             CGContextSaveGState(rotContext);
             CGContextRotateCTM(rotContext, -M_PI/2);
-            CGContextTranslateCTM(rotContext, -w, 0);
+            CGContextTranslateCTM(rotContext, -h, 0);
             CGContextDrawImage(rotContext, CGRectMake(0, 0, h, w), srcImage);
             
             CGImageRelease(srcImage);
