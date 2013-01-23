@@ -29,6 +29,9 @@
 #import "CCNode+NodeInfo.h"
 #import "SequencerKeyframe.h"
 
+#define kTagXCoordinate 1
+#define kTagYCoordinate 2
+
 @implementation InspectorPosition
 
 - (void) setPosX:(float)posX
@@ -114,6 +117,49 @@
     [self refresh];
     
     [self updateAffectedProperties];
+}
+
+- (float)getValueForTag:(NSInteger)tag
+{
+    NSTextField* field = [self.view viewWithTag:tag];
+    
+    return [field floatValue];
+}
+
+- (void)setValue:(float)value ForTag:(NSInteger)tag
+{
+    if( tag == kTagXCoordinate )
+    {
+        [self setPosX:value];
+    }
+    else if( tag == kTagYCoordinate )
+    {
+        [self setPosY:value];
+    }
+}
+
+- (void)incrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    float value = [self getValueForTag:sender.tag];
+    
+    if( modifier )
+        value += 5.0;
+    else
+        value += 1.0;
+    
+    [self setValue:value ForTag:sender.tag];
+}
+
+- (void)decrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    float value = [self getValueForTag:sender.tag];
+    
+    if( modifier )
+        value -= 5.0;
+    else
+        value -= 1.0;
+    
+    [self setValue:value ForTag:sender.tag];
 }
 
 - (int) positionType

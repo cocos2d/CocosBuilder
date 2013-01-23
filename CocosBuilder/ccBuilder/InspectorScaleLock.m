@@ -28,6 +28,9 @@
 #import "PositionPropertySetter.h"
 #import "CCNode+NodeInfo.h"
 
+#define kTagXScale 1
+#define kTagYScale 2
+
 @implementation InspectorScaleLock
 
 - (void) updateAnimateableX:(float)x Y:(float)y
@@ -112,6 +115,57 @@
     }
     
     [self updateAffectedProperties];
+}
+
+- (float)getValueForTag:(NSInteger)tag
+{
+    NSTextField* field = [self.view viewWithTag:tag];
+    
+    return [field floatValue];
+}
+
+- (void)setValue:(float)value ForTag:(NSInteger)tag
+{
+    if( tag == kTagXScale )
+    {
+        [self setScaleX:value];
+    }
+    else if( tag == kTagYScale )
+    {
+        [self setScaleY:value];
+    }
+}
+
+- (void)incrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    float value = [self getValueForTag:sender.tag];
+    
+    if( modifier )
+    {
+        value += 0.05;
+    }
+    else
+    {
+        value += 0.01;
+    }
+    
+    [self setValue:value ForTag:sender.tag];
+}
+
+- (void)decrementValueWithSender:(NSControl*)sender modifier:(BOOL)modifier
+{
+    float value = [self getValueForTag:sender.tag];
+    
+    if( modifier )
+    {
+        value -= 0.05;
+    }
+    else
+    {
+        value -= 0.01;
+    }
+    
+    [self setValue:value ForTag:sender.tag];
 }
 
 - (int) type
