@@ -159,6 +159,8 @@
 			NSAssert(dataBufferCursor == &(dataBuffer[HEADERSIZE]), @"Header expected but wrong number of bytes read into buffer!");
 			// ok, because HEADERSIZE == sizeof(bytesMissingForNextSubpacket)
 			memcpy(&bytesMissingForNextSubpacket, dataBuffer, HEADERSIZE);
+			uint32_t tmp = ntohl(bytesMissingForNextSubpacket);
+			bytesMissingForNextSubpacket = tmp;
 			
 			//if this is just a keepalive packet it only contains of a header and we can expect another header
 			if (bytesMissingForNextSubpacket == 0) {
@@ -216,7 +218,8 @@
 		sendBuffer = (uint8_t *)malloc(packetSize);
 		
 		// fill it
-		memcpy(sendBuffer, &objectSize, HEADERSIZE);
+		uint32_t objectSize_n = htonl(objectSize);
+		memcpy(sendBuffer, &objectSize_n, HEADERSIZE);
 		memcpy(sendBuffer + HEADERSIZE, [currentSendObject bytes], objectSize);
 		
 		// update the cursor and byte counter
