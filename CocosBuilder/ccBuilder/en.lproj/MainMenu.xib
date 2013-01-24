@@ -3528,53 +3528,6 @@
 				<string key="NSTitle">ResourceManager</string>
 				<object class="NSMutableArray" key="NSMenuItems">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="202399754">
-						<reference key="NSMenu" ref="189237950"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<string key="NSTitle">New File...</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="231297946">
-						<reference key="NSMenu" ref="189237950"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<string key="NSTitle">New Folder</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="558496402">
-						<reference key="NSMenu" ref="189237950"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string key="NSTitle"/>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="325279673">
-						<reference key="NSMenu" ref="189237950"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<string key="NSTitle">Delete</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
-					<object class="NSMenuItem" id="174813679">
-						<reference key="NSMenu" ref="189237950"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string key="NSTitle"/>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-					</object>
 					<object class="NSMenuItem" id="913382758">
 						<reference key="NSMenu" ref="189237950"/>
 						<string key="NSTitle">Make Smart Sprite Sheet</string>
@@ -7053,42 +7006,12 @@
 						<reference key="object" ref="189237950"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="202399754"/>
-							<reference ref="325279673"/>
-							<reference ref="231297946"/>
-							<reference ref="558496402"/>
-							<reference ref="174813679"/>
 							<reference ref="272796682"/>
 							<reference ref="913382758"/>
 							<reference ref="688779444"/>
 							<reference ref="917439699"/>
 						</object>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1697</int>
-						<reference key="object" ref="202399754"/>
-						<reference key="parent" ref="189237950"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1698</int>
-						<reference key="object" ref="231297946"/>
-						<reference key="parent" ref="189237950"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1699</int>
-						<reference key="object" ref="325279673"/>
-						<reference key="parent" ref="189237950"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1700</int>
-						<reference key="object" ref="558496402"/>
-						<reference key="parent" ref="189237950"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1701</int>
-						<reference key="object" ref="174813679"/>
-						<reference key="parent" ref="189237950"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1702</int>
@@ -7683,11 +7606,6 @@
 					<string>1675.IBPluginDependency</string>
 					<string>1678.IBPluginDependency</string>
 					<string>1696.IBPluginDependency</string>
-					<string>1697.IBPluginDependency</string>
-					<string>1698.IBPluginDependency</string>
-					<string>1699.IBPluginDependency</string>
-					<string>1700.IBPluginDependency</string>
-					<string>1701.IBPluginDependency</string>
 					<string>1702.IBPluginDependency</string>
 					<string>1705.IBPluginDependency</string>
 					<string>1706.IBPluginDependency</string>
@@ -8078,11 +7996,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<real value="0.0"/>
 					<reference ref="41580922"/>
 					<real value="0.0"/>
@@ -8289,7 +8202,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">NSOpenGLView</string>
+					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
