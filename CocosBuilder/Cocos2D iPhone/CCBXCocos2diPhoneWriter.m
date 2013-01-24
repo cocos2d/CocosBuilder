@@ -761,6 +761,8 @@
 {
     // Write class
     NSString* class = [node objectForKey:@"customClass"];
+    if (jsControlled) class = @"";
+    
     BOOL hasCustomClass = YES;
     if (!class || [class isEqualToString:@""])
     {
