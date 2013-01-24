@@ -859,6 +859,8 @@
         }
         else if ([deviceInfo.deviceType isEqualToString:@"Android"])
         {
+            targetType = kCCBPublisherTargetTypeAndroid;
+            
             publishForResolutions = [NSArray arrayWithObjects:deviceInfo.preferredResourceType, nil];
         }
         
