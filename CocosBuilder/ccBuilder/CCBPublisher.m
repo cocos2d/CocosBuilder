@@ -369,9 +369,10 @@
                     }
                     
                     // Make conversion rules for audio
+                    NSString* newFormat = NULL;
+                    
                     if ([ext isEqualToString:@"wav"])
                     {
-                        NSString* newFormat = NULL;
                         if (targetType == kCCBPublisherTargetTypeIPhone)
                         {
                             newFormat = @"caf";
@@ -384,20 +385,29 @@
                         {
                             newFormat = @"ogg";
                         }
-                        
-                        if (newFormat)
+                    }
+                    /*
+                    else if ([ext isEqualToString:@"mp3"])
+                    {
+                        if (targetType == kCCBPublisherTargetTypeAndroid)
                         {
-                            // Set new name
-                            dstFile = [[dstFile stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat];
-                            
-                            // Add to conversion table
-                            NSString* localName = fileName;
-                            if (subPath) localName = [subPath stringByAppendingPathComponent:fileName];
-                        
-                            [self addRenamingRuleFrom:localName to:[[localName stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat]];
+                            newFormat = @"ogg";
                         }
                     }
-                    
+                     */
+                
+                    if (newFormat)
+                    {
+                        // Set new name
+                        dstFile = [[dstFile stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat];
+                        
+                        // Add to conversion table
+                        NSString* localName = fileName;
+                        if (subPath) localName = [subPath stringByAppendingPathComponent:fileName];
+                        
+                        [self addRenamingRuleFrom:localName to:[[localName stringByDeletingPathExtension] stringByAppendingPathExtension:newFormat]];
+                    }
+                
                     // Copy file (and possibly convert)
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet]) return NO;
                     
