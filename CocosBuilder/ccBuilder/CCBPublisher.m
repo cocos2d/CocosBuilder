@@ -224,11 +224,26 @@
         }
         else if ([dstExt isEqualToString:@"mp3"])
         {
+            // Convert to mp3
             NSTask* convTask = [[NSTask alloc] init];
             [convTask setCurrentDirectoryPath:[srcFile stringByDeletingLastPathComponent]];
             [convTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"lame"]];
             NSMutableArray* args = [NSMutableArray arrayWithObjects:
                                     @"-V2", srcFile, dstFile,
+                                    nil];
+            [convTask setArguments:args];
+            [convTask launch];
+            [convTask waitUntilExit];
+            [convTask release];
+        }
+        else if ([dstExt isEqualToString:@"ogg"])
+        {
+            // Convert to ogg
+            NSTask* convTask = [[NSTask alloc] init];
+            [convTask setCurrentDirectoryPath:[srcFile stringByDeletingLastPathComponent]];
+            [convTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"oggenc"]];
+            NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                    @"-q3", @"-o", dstFile, srcFile,
                                     nil];
             [convTask setArguments:args];
             [convTask launch];
@@ -364,6 +379,10 @@
                         else if (targetType == kCCBPublisherTargetTypeHTML5)
                         {
                             newFormat = @"mp3";
+                        }
+                        else if (targetType == kCCBPublisherTargetTypeAndroid)
+                        {
+                            newFormat = @"ogg";
                         }
                         
                         if (newFormat)

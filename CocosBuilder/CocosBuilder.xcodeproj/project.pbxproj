@@ -531,6 +531,7 @@
 		E3E8B4A5157CD5DB00373983 /* seq-scrub-line.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B4A3157CD5DB00373983 /* seq-scrub-line.png */; };
 		E3E8B4A8157CD67000373983 /* SequencerSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E8B4A7157CD67000373983 /* SequencerSequence.m */; };
 		E3E8B4AA157D127300373983 /* seq-scaleslide-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E3E8B4A9157D127300373983 /* seq-scaleslide-bg.png */; };
+		E3E8D64616B3129E00742107 /* oggenc in Resources */ = {isa = PBXBuildFile; fileRef = E3E8D64416B3129700742107 /* oggenc */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
 		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
@@ -1617,6 +1618,7 @@
 		E3E8B4A6157CD67000373983 /* SequencerSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerSequence.h; sourceTree = "<group>"; };
 		E3E8B4A7157CD67000373983 /* SequencerSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerSequence.m; sourceTree = "<group>"; };
 		E3E8B4A9157D127300373983 /* seq-scaleslide-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-scaleslide-bg.png"; sourceTree = "<group>"; };
+		E3E8D64416B3129700742107 /* oggenc */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = oggenc; sourceTree = "<group>"; };
 		E3EDBC0E1546D23000EEF1F3 /* ResolutionSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSetting.h; sourceTree = "<group>"; };
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
@@ -2270,6 +2272,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E3E8D64316B3128600742107 /* Ogg compression */,
 				E3F4087216A9EEAE009A0253 /* CCZ compression */,
 				E33473EC169C5402000737CC /* CCControlExtension */,
 				E3DEF5B5169B358500B9DCF4 /* Lame */,
@@ -3521,6 +3524,14 @@
 			path = "cocos2d-iphone/external/JSCocoa";
 			sourceTree = "<group>";
 		};
+		E3E8D64316B3128600742107 /* Ogg compression */ = {
+			isa = PBXGroup;
+			children = (
+				E3E8D64416B3129700742107 /* oggenc */,
+			);
+			name = "Ogg compression";
+			sourceTree = "<group>";
+		};
 		E3F4087216A9EEAE009A0253 /* CCZ compression */ = {
 			isa = PBXGroup;
 			children = (
@@ -4200,6 +4211,7 @@
 				E334742F169DC9E0000737CC /* jsdoc in Resources */,
 				E3F4087416A9EEC5009A0253 /* ccz in Resources */,
 				E312EDC616AF71FE000778C8 /* CCBReaderInternalRenamedProps.plist in Resources */,
+				E3E8D64616B3129E00742107 /* oggenc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
