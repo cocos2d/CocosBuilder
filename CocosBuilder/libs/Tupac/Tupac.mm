@@ -399,16 +399,21 @@ typedef struct _PVRTexHeader
         
         if (self.compress)
         {
+            // Create compressed file (ccz)
             NSTask* zipTask = [[NSTask alloc] init];
             [zipTask setCurrentDirectoryPath:outputDir];
-            [zipTask setLaunchPath:@"/usr/bin/gzip"];
-            NSMutableArray* args = [NSMutableArray arrayWithObjects:@"-f", textureFileName, nil];
+            [zipTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ccz"]];
+            NSMutableArray* args = [NSMutableArray arrayWithObjects:textureFileName, nil];
             [zipTask setArguments:args];
             [zipTask launch];
             [zipTask waitUntilExit];
             [zipTask release];
             
-            textureFileName = [textureFileName stringByAppendingPathExtension:@"gz"];
+            // Remove uncompressed file
+            [[NSFileManager defaultManager] removeItemAtPath:textureFileName error:NULL];
+            
+            // Update name of texture file
+            textureFileName = [textureFileName stringByAppendingPathExtension:@"ccz"];
         }
     }
     

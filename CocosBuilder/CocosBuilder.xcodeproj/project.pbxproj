@@ -541,6 +541,7 @@
 		E3F3F847153D9126005443EE /* StickyNoteEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F846153D9126005443EE /* StickyNoteEditView.xib */; };
 		E3F3F849153DB893005443EE /* notes-close.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F848153DB893005443EE /* notes-close.png */; };
 		E3F3F84B153DBA43005443EE /* notes-close-down.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F3F84A153DBA43005443EE /* notes-close-down.png */; };
+		E3F4087416A9EEC5009A0253 /* ccz in Resources */ = {isa = PBXBuildFile; fileRef = E3F4087316A9EEC5009A0253 /* ccz */; };
 		E3F541CF15AED86800EAAFBD /* MGSFragaria.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F541CC15AED68500EAAFBD /* MGSFragaria.framework */; };
 		E3F541D415AF04E600EAAFBD /* JavaScriptDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F541D215AF04E600EAAFBD /* JavaScriptDocument.m */; };
 		E3F541D515AF04E600EAAFBD /* JavaScriptDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F541D315AF04E600EAAFBD /* JavaScriptDocument.xib */; };
@@ -1631,6 +1632,7 @@
 		E3F3F846153D9126005443EE /* StickyNoteEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickyNoteEditView.xib; sourceTree = "<group>"; };
 		E3F3F848153DB893005443EE /* notes-close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close.png"; sourceTree = "<group>"; };
 		E3F3F84A153DBA43005443EE /* notes-close-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notes-close-down.png"; sourceTree = "<group>"; };
+		E3F4087316A9EEC5009A0253 /* ccz */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ccz; sourceTree = "<group>"; };
 		E3F541BC15AED68500EAAFBD /* Fragaria.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Fragaria.xcodeproj; path = Fragaria/Fragaria.xcodeproj; sourceTree = "<group>"; };
 		E3F541D115AF04E600EAAFBD /* JavaScriptDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JavaScriptDocument.h; sourceTree = "<group>"; };
 		E3F541D215AF04E600EAAFBD /* JavaScriptDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JavaScriptDocument.m; sourceTree = "<group>"; };
@@ -2265,6 +2267,7 @@
 		7789ABEF133AB17100CEFCC7 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E3F4087216A9EEAE009A0253 /* CCZ compression */,
 				E33473EC169C5402000737CC /* CCControlExtension */,
 				E3DEF5B5169B358500B9DCF4 /* Lame */,
 				E380B24A1642FC240006D31C /* Tupac */,
@@ -3515,6 +3518,14 @@
 			path = "cocos2d-iphone/external/JSCocoa";
 			sourceTree = "<group>";
 		};
+		E3F4087216A9EEAE009A0253 /* CCZ compression */ = {
+			isa = PBXGroup;
+			children = (
+				E3F4087316A9EEC5009A0253 /* ccz */,
+			);
+			name = "CCZ compression";
+			sourceTree = "<group>";
+		};
 		E3F541BA15AED66D00EAAFBD /* Fragaria */ = {
 			isa = PBXGroup;
 			children = (
@@ -4184,6 +4195,7 @@
 				E3347418169C5402000737CC /* README.md in Resources */,
 				E334741D169DC5A7000737CC /* APIDocsWindow.xib in Resources */,
 				E334742F169DC9E0000737CC /* jsdoc in Resources */,
+				E3F4087416A9EEC5009A0253 /* ccz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
