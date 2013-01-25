@@ -344,12 +344,15 @@ static AppController* appController = NULL;
 	
 	// set the Navigation Controller as the root view controller
 	[window_ setRootViewController:navController_];
-    
-    [director_ pushScene:[CCScene node]];
+
+    // XXX: There is no need to run a scene now. It will be run later
+//    [director_ runWithScene:[CCScene node]];
 }
 
 - (void) runJSApp_
 {
+	NSLog(@"CocosPlayer: starting new game");
+
     statusLayer = NULL;
     
     NSString* fullScriptPath = [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"main.js"];
@@ -368,7 +371,7 @@ static AppController* appController = NULL;
     }
     else
     {
-        NSLog(@"Failed to find main.js");
+        NSLog(@"CocosPlayer: Failed to find main.js");
     }
 }
 
@@ -379,11 +382,15 @@ static AppController* appController = NULL;
 
 - (void) stopJSApp
 {
-    isJSRunning = NO;
-    
-    [self restartCocos2d];
-    [SimpleAudioEngine end];
-    [director_ replaceScene:[self createStatusScene]];
+	if( isJSRunning ) {
+		NSLog(@"CocosPlayer: stopping game");
+		
+		isJSRunning = NO;
+		
+		[self restartCocos2d];
+		[SimpleAudioEngine end];
+		[director_ runWithScene:[self createStatusScene]];
+	}
 }
 
 - (void) updatePairing
