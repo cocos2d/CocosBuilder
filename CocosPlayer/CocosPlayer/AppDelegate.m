@@ -389,7 +389,10 @@ static AppController* appController = NULL;
 		
 		[self restartCocos2d];
 		[SimpleAudioEngine end];
-		[director_ runWithScene:[self createStatusScene]];
+		if( [director_ runningScene] )
+			[director_ replaceScene:[self createStatusScene]];
+		else
+			[director_ runWithScene:[self createStatusScene]];
 	}
 }
 
