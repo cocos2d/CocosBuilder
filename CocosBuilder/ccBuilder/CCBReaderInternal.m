@@ -37,6 +37,8 @@
 #import "PositionPropertySetter.h"
 #import "CCNode+NodeInfo.h"
 
+NSDictionary* renamedProperties = NULL;
+
 @implementation CCBReaderInternal
 
 + (NSPoint) deserializePoint:(id) val
@@ -303,6 +305,14 @@
 
 + (CCNode*) nodeGraphFromDictionary:(NSDictionary*) dict parentSize:(CGSize)parentSize
 {
+    if (!renamedProperties)
+    {
+        renamedProperties = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CCBReaderInternalRenamedProps" ofType:@"plist"]];
+        
+        NSAssert(renamedProperties, @"Failed to load renamed properties dict");
+        [renamedProperties retain];
+    }
+    
     NSArray* props = [dict objectForKey:@"properties"];
     NSString* baseClass = [dict objectForKey:@"baseClass"];
     NSArray* children = [dict objectForKey:@"children"];
@@ -329,6 +339,13 @@
         NSString* type = [propInfo objectForKey:@"type"];
         NSString* name = [propInfo objectForKey:@"name"];
         id serializedValue = [propInfo objectForKey:@"value"];
+        
+        // Check for renamings
+        NSDictionary* renameRule = [renamedProperties objectForKey:name];
+        if (renameRule)
+        {
+            name = [renameRule objectForKey:@"newName"];
+        }
         
         if ([plugIn dontSetInEditorProperty:name])
         {
