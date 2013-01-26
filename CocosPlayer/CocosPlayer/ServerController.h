@@ -76,6 +76,8 @@ extern NSString *kCCBPlayerStatusStringScript;
 /** State of the player: playing, unzipping, stopping, etc.  */
 @property (nonatomic, readwrite) CCBPlayerStatus playerStatus;
 
+@property (nonatomic, readwrite) BOOL playerWindowDisplayed;
+
 @property (nonatomic,copy) NSString* serverStatus;
 
 - (void) start;
