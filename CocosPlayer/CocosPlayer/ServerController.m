@@ -29,7 +29,23 @@
 #import "js_bindings_core.h"
 #import "CCBReader.h"
 
+// Predefined messages
+NSString *kCCBNetworkStatusStringWaiting = @"Waiting for connections";
+NSString *kCCBNetworkStatusStringTooMany = @"Too many connections";
+NSString *kCCBNetworkStatusStringConnected = @"Connected";
+NSString *kCCBNetworkStatusStringShutDown = @"Server shut down";
+
+NSString *kCCBPlayerStatusStringNotConnected = @"Connect by running CocosBuilder on the same local wireless network as CocosPlayer.\nIf multiple instances of CocosBuilder is run on the same network, use a unique pairing code.";
+NSString *kCCBPlayerStatusStringIdle = @"Idle";
+NSString *kCCBPlayerStatusStringUnzip = @"Action: Unzip game";
+NSString *kCCBPlayerStatusStringStop = @"Action: Stop";
+NSString *kCCBPlayerStatusStringPlay = @"Action: Run";
+NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
+
+
 @implementation ServerController
+
+@synthesize networkStatus, playerStatus, playerWindowDisplayed;
 
 #pragma mark Initializers and setup
 
@@ -57,6 +73,10 @@
     server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
     [server setDelegate:self];
     
+	networkStatus = -1;
+	playerStatus = -1;
+	playerWindowDisplayed = YES;
+	
     return self;
 }
 
@@ -110,7 +130,7 @@
         [server setDelegate:self];
         [server start];
         
-        [[PlayerStatusLayer sharedInstance] setStatus:kCCBStatusStringWaiting];
+		self.networkStatus = kCCBNetworkStatusWaiting;
     }
 }
 
@@ -118,6 +138,9 @@
 {
     if (server)
     {
+		self.networkStatus = kCCBPlayerStatusStop;
+		[[[PlayerStatusLayer sharedInstance] lblInstructions] setString:kCCBPlayerStatusStringStop];
+
         NSLog(@"stop");
         
         [server stop];
@@ -140,13 +163,15 @@
     [server setDelegate:self];
     [server start];
     
-    [[PlayerStatusLayer sharedInstance] setStatus:kCCBStatusStringWaiting];
+	self.networkStatus = kCCBNetworkStatusWaiting;
 }
 
 #pragma mark Helper methods
 
 - (void) executeJavaScript:(NSString*)script
 {
+	self.playerStatus = kCCBPlayerStatusExecuteScript;
+		
     NSThread *cocos2dThread = [[CCDirector sharedDirector] runningThread];
 	
 	[cocos2dThread performBlock:^(void) { 
@@ -208,46 +233,88 @@
 
 - (void) extractZipData:(NSData*)data
 {
-    NSString* dirPath = [CCBReader ccbDirectoryPath] ;
-    NSString* zipPath = [dirPath stringByAppendingPathComponent:@"ccb.zip"];
+	self.playerStatus = kCCBPlayerStatusUnzip;
 
-    BOOL isDirectory = NO;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDirectory])
-    {
-        [[NSFileManager defaultManager] createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:NULL error:NULL];
-    }
-    
-    if(![data writeToFile:zipPath atomically:YES])
-    {
-        NSLog(@"Failed to write zip file");
-        return;
-    }
-    
-    if (![CCBReader unzipResources:zipPath])
-    {
-        NSLog(@"Failed to unzip resources");
-    }
-    
-    NSLog(@"Resources unzipped!");
-    
-    [self listDirectory:dirPath prefix:@""];
-    
-    /*
-    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-    for (NSString* file in files)
-    {
-        NSLog(@"File: %@", file);
-    }*/
+	id runBlock = ^(void) {
+		
+		NSString* dirPath = [CCBReader ccbDirectoryPath] ;
+		NSString* zipPath = [dirPath stringByAppendingPathComponent:@"ccb.zip"];
+
+		BOOL isDirectory = NO;
+		if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath isDirectory:&isDirectory])
+		{
+			[[NSFileManager defaultManager] createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:NULL error:NULL];
+		}
+		
+		if(![data writeToFile:zipPath atomically:YES])
+		{
+			NSLog(@"Failed to write zip file");
+			return;
+		}
+		
+		if (![CCBReader unzipResources:zipPath])
+		{
+			NSLog(@"Failed to unzip resources");
+		}
+		
+		NSLog(@"Resources unzipped!");
+		
+		[self listDirectory:dirPath prefix:@""];
+		
+		/*
+		 NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
+		 for (NSString* file in files)
+		 {
+		 NSLog(@"File: %@", file);
+		 }*/
+	};
+
+	double delayInSeconds = 0.01;
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), runBlock);
+}
+
+-(void) stopJSApp
+{
+	if( ! playerWindowDisplayed ) {
+		[[AppController appController] stopJSApp];
+		playerWindowDisplayed = YES;
+	}
+}
+
+-(void) runJSApp
+{
+	[[AppController appController] runJSApp];
+	playerWindowDisplayed = NO;	
 }
 
 - (void) stopMain
 {
-    [[AppController appController] stopJSApp];
+	if( ! playerWindowDisplayed ) {
+		self.playerStatus = kCCBPlayerStatusStop;
+		
+		NSThread *cocos2dThread = [[CCDirector sharedDirector] runningThread];
+		
+		[cocos2dThread performBlock:^(void) {
+			[self stopJSApp];
+		} waitUntilDone:YES];
+		
+		// Force update network status
+		CCBNetworkStatus tmp = networkStatus;
+		networkStatus = -1;
+		self.networkStatus = tmp;
+	}
 }
 
 - (void) runMain
 {
-    [[AppController appController] runJSApp];
+	double delayInSeconds = 0.05;
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		self.playerStatus = kCCBPlayerStatusPlay;
+		[self runJSApp];
+	});
+
 }
 
 #pragma mark Server callbacks
@@ -261,12 +328,12 @@
     
     if (connectedClients.count == 1)
     {
-        [[AppController appController] setStatus:kCCBStatusStringConnected forceStop:NO];
+		self.networkStatus = kCCBNetworkStatusConnected;
         [self sendDeviceName];
     }
     else
     {
-        [[AppController appController] setStatus: kCCBStatusStringTooMany forceStop:YES];
+		self.networkStatus = kCCBNetworkStatusTooMany;
     }
 }
 
@@ -277,15 +344,15 @@
     
     if (connectedClients.count == 0)
     {
-        [[AppController appController] setStatus:kCCBStatusStringWaiting forceStop:YES];
+		self.networkStatus =  kCCBNetworkStatusWaiting;
     }
     else if (connectedClients.count == 1)
     {
-        [[AppController appController] setStatus:kCCBStatusStringConnected forceStop:NO];
+		self.networkStatus = kCCBNetworkStatusConnected;
     }
     else
     {
-        [[AppController appController] setStatus: kCCBStatusStringTooMany forceStop:YES];
+		self.networkStatus = kCCBNetworkStatusTooMany;
     }
 }
 
@@ -293,19 +360,23 @@
 {
     NSLog(@"serverDidShutdown server: %@",server);
     
-    [server release];
-    server = NULL;
-    [connectedClients removeAllObjects];
-    
-    [self startIfNotStarted];
+	if( server == theServer ) {
+		[server release];
+		server = NULL;
+		[connectedClients removeAllObjects];
+		
+		[self startIfNotStarted];
+	}
 }
 
 - (void)netServiceProblemEncountered:(NSString *)errorMessage onServer:(ThoMoServerStub *)theServer
 {
-    [server stop];
-    [server release];
-    server = NULL;
-    [connectedClients removeAllObjects];
+	if( server == theServer ) {
+		[server stop];
+		[server release];
+		server = NULL;
+		[connectedClients removeAllObjects];
+	}
 }
 
 - (void) server:(ThoMoServerStub *)theServer didReceiveData:(id)theData fromClient:(NSString *)aClientIdString
@@ -349,6 +420,84 @@
         
         [AppController appController].deviceOrientations = orientations;
     }
+}
+
+#pragma mark Server/Player status
+
+-(void) setNetworkStatus:(CCBNetworkStatus)aNetworkStatus
+{
+	if( networkStatus != aNetworkStatus ) {
+		networkStatus = aNetworkStatus;
+		
+		PlayerStatusLayer *statusLayer = [PlayerStatusLayer sharedInstance];
+		switch (networkStatus) {
+			case kCCBNetworkStatusConnected:
+				if( playerWindowDisplayed)
+					[[statusLayer lblStatus] setString:kCCBNetworkStatusStringConnected];
+				self.playerStatus = kCCBPlayerStatusIdle;
+				break;
+			case kCCBNetworkStatusShutDown:
+				if( playerWindowDisplayed)
+					[[statusLayer lblStatus] setString:kCCBNetworkStatusStringShutDown];
+				self.playerStatus = kCCBPlayerStatusNotConnected;
+				break;
+			case kCCBNetworkStatusTooMany:
+				if( playerWindowDisplayed)
+					[[statusLayer lblStatus] setString:kCCBNetworkStatusStringTooMany];
+				[self stopJSApp];
+				self.playerStatus = kCCBPlayerStatusNotConnected;
+				break;
+			case kCCBNetworkStatusWaiting:
+				if( playerWindowDisplayed)
+					[[statusLayer lblStatus] setString:kCCBNetworkStatusStringWaiting];
+				self.playerStatus = kCCBPlayerStatusNotConnected;				
+				[self stopJSApp];
+				break;
+				
+			default:
+				break;
+		}
+	}
+}
+
+-(void) setPlayerStatus:(CCBPlayerStatus)aPlayerStatus
+{
+	if( playerStatus != aPlayerStatus) {
+		playerStatus = aPlayerStatus;
+		
+		PlayerStatusLayer *statusLayer = [PlayerStatusLayer sharedInstance];
+
+		switch (playerStatus) {
+			case kCCBPlayerStatusExecuteScript:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringScript];
+				break;
+			case kCCBPlayerStatusPlay:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringPlay];
+				break;
+			case kCCBPlayerStatusStop:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringStop];
+				break;
+			case kCCBPlayerStatusUnzip:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringUnzip];
+				break;
+			case kCCBPlayerStatusIdle:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringIdle];
+				break;
+			case kCCBPlayerStatusNotConnected:
+				if( playerWindowDisplayed)
+					[[statusLayer lblInstructions] setString:kCCBPlayerStatusStringNotConnected];
+				break;
+				
+			default:
+				break;
+		}
+	}
+	
 }
 
 #pragma mark Sending messages
