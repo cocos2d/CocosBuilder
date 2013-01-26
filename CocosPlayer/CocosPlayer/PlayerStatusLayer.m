@@ -31,6 +31,8 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
 
 @implementation PlayerStatusLayer
 
+@synthesize lblInstructions, lblStatus, lblPair;
+
 + (PlayerStatusLayer*) sharedInstance
 {
     return sharedPlayerStatusLayer;
@@ -60,19 +62,10 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
 
 - (void) didLoadFromCCB
 {
-    [lblStatus setString:kCCBStatusStringWaiting];
+    [lblStatus setString:kCCBNetworkStatusStringWaiting];
     [self updatePairingLabel];
 	
 }
-
-- (void) setStatus:(NSString*)status
-{
-    [lblStatus setString:status];
-    
-    // Hide instructions if connected
-    lblInstructions.visible = ![status isEqualToString:kCCBStatusStringConnected];
-}
-
 
 - (void) onEnter
 {

@@ -31,6 +31,8 @@
 #import "PlayerStatusLayer.h"
 #import "CCBReader.h"
 
+static BOOL firstTime = YES;
+
 @implementation MyNavigationController
 
 // The available orientations should be defined in the Info.plist file.
@@ -99,7 +101,12 @@
 	if(director.runningScene == nil) {
 		// Run the JS
 		//[[JSBCore sharedInstance] runScript:@"main.js"];
-        [[AppController appController] run];
+		
+		// Run it only if it is not already running
+		if( firstTime ) {
+			[[AppController appController] run];
+			firstTime = NO;
+		}
 	}
 }
 @end
@@ -124,8 +131,6 @@ static AppController* appController = NULL;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     appController = self;
-    
-    [self setStatus:kCCBStatusStringWaiting forceStop:NO];
     
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -282,8 +287,8 @@ static AppController* appController = NULL;
     
     CCScene* statusScene = [CCScene node];
     [statusScene addChild:statusLayer];
-    
-    [statusLayer setStatus:serverStatus];
+
+//    [[statusLayer lblStatus] setString:serverStatus];
     
     return statusScene;
 }
@@ -295,23 +300,12 @@ static AppController* appController = NULL;
     {
         server = [[ServerController alloc] init];
         [server start];
+		
+		[server setNetworkStatus:kCCBNetworkStatusWaiting];
     }
-    
+
     // Run status scene
     [[CCDirector sharedDirector] runWithScene:[self createStatusScene]];
-}
-
-- (void) setStatus:(NSString*)status forceStop:(BOOL)forceStop
-{
-    [serverStatus release];
-    serverStatus = [status copy];
-    
-    [statusLayer setStatus:status];
-    
-    if (forceStop)
-    {
-        [self stopJSApp];
-    }
 }
 
 - (void) restartCocos2d
@@ -378,6 +372,7 @@ static AppController* appController = NULL;
 - (void) runJSApp
 {
     [self performSelector:@selector(runJSApp_) withObject:NULL afterDelay:0];
+	server.playerWindowDisplayed = NO;
 }
 
 - (void) stopJSApp

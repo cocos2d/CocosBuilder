@@ -25,10 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-#define kCCBStatusStringWaiting @"Waiting for connections"
-#define kCCBStatusStringTooMany @"Too many connections"
-#define kCCBStatusStringConnected @"Connected"
-#define kCCBStatusStringShutDown @"Server shut down"
 
 @interface PlayerStatusLayer : CCLayer<UITextFieldDelegate>
 {
@@ -38,11 +34,13 @@
     
     CCLabelTTF* lblStatus;
     CCLabelTTF* lblInstructions;
-    CCLabelTTF* lblPair;
+    CCLabelTTF* lblPair;	
 }
 
-+ (PlayerStatusLayer*) sharedInstance;
+@property (readonly, nonatomic) CCLabelTTF *lblStatus;
+@property (readonly, nonatomic) CCLabelTTF *lblInstructions;
+@property (readonly, nonatomic) CCLabelTTF *lblPair;
 
-- (void) setStatus:(NSString*)status;
++ (PlayerStatusLayer*) sharedInstance;
 
 @end
