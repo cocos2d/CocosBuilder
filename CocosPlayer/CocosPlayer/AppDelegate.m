@@ -372,6 +372,7 @@ static AppController* appController = NULL;
 - (void) runJSApp
 {
     [self performSelector:@selector(runJSApp_) withObject:NULL afterDelay:0];
+	server.playerWindowDisplayed = NO;
 }
 
 - (void) stopJSApp

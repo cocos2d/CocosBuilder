@@ -45,7 +45,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 @implementation ServerController
 
-@synthesize networkStatus, playerStatus;
+@synthesize networkStatus, playerStatus, playerWindowDisplayed;
 
 #pragma mark Initializers and setup
 
@@ -130,9 +130,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
         [server setDelegate:self];
         [server start];
         
-        [[[PlayerStatusLayer sharedInstance] lblStatus] setString:kCCBNetworkStatusStringWaiting];
-		
-		
+		self.networkStatus = kCCBNetworkStatusWaiting;
     }
 }
 
@@ -165,7 +163,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     [server setDelegate:self];
     [server start];
     
-    [[[PlayerStatusLayer sharedInstance] lblStatus] setString:kCCBNetworkStatusStringWaiting];
+	self.networkStatus = kCCBNetworkStatusWaiting;
 }
 
 #pragma mark Helper methods
@@ -278,8 +276,10 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 -(void) stopJSApp
 {
-	[[AppController appController] stopJSApp];
-	playerWindowDisplayed = YES;
+	if( ! playerWindowDisplayed ) {
+		[[AppController appController] stopJSApp];
+		playerWindowDisplayed = YES;
+	}
 }
 
 -(void) runJSApp
@@ -290,7 +290,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) stopMain
 {
-	if( playerStatus == kCCBPlayerStatusPlay ) {
+	if( ! playerWindowDisplayed ) {
 		self.playerStatus = kCCBPlayerStatusStop;
 		
 		NSThread *cocos2dThread = [[CCDirector sharedDirector] runningThread];
@@ -360,19 +360,23 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 {
     NSLog(@"serverDidShutdown server: %@",server);
     
-    [server release];
-    server = NULL;
-    [connectedClients removeAllObjects];
-    
-    [self startIfNotStarted];
+	if( server == theServer ) {
+		[server release];
+		server = NULL;
+		[connectedClients removeAllObjects];
+		
+		[self startIfNotStarted];
+	}
 }
 
 - (void)netServiceProblemEncountered:(NSString *)errorMessage onServer:(ThoMoServerStub *)theServer
 {
-    [server stop];
-    [server release];
-    server = NULL;
-    [connectedClients removeAllObjects];
+	if( server == theServer ) {
+		[server stop];
+		[server release];
+		server = NULL;
+		[connectedClients removeAllObjects];
+	}
 }
 
 - (void) server:(ThoMoServerStub *)theServer didReceiveData:(id)theData fromClient:(NSString *)aClientIdString
@@ -446,6 +450,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 			case kCCBNetworkStatusWaiting:
 				if( playerWindowDisplayed)
 					[[statusLayer lblStatus] setString:kCCBNetworkStatusStringWaiting];
+				self.playerStatus = kCCBPlayerStatusNotConnected;				
 				[self stopJSApp];
 				break;
 				
