@@ -61,6 +61,39 @@
     return self;
 }
 
+- (NSDate*) latestModifiedDateForDirectory:(NSString*) dir
+{
+    NSDate* latestDate = [CCBFileUtil modificationDateForFile:dir];
+    
+    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:NULL];
+    for (NSString* file in files)
+    {
+        NSString* absFile = [dir stringByAppendingPathComponent:file];
+        
+        BOOL isDir = NO;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:absFile isDirectory:&isDir])
+        {
+            NSDate* fileDate = NULL;
+            
+            if (isDir)
+            {
+                fileDate = [self latestModifiedDateForDirectory:absFile];
+            }
+            else
+            {
+                fileDate = [CCBFileUtil modificationDateForFile:absFile];
+            }
+            
+            if ([fileDate compare:latestDate] == NSOrderedDescending)
+            {
+                latestDate = fileDate;
+            }
+        }
+    }
+    
+    return latestDate;
+}
+
 - (void) addRenamingRuleFrom:(NSString*)src to: (NSString*)dst
 {
     if (projectSettings.flattenPaths)
@@ -280,12 +313,14 @@
     
     // Check for generated sprite sheets
     BOOL isGeneratedSpriteSheet = NO;
-    //NSString* spriteSheetDefFile = [dir stringByAppendingPathExtension:@"ccbSpriteSheet"];
+    NSDate* srcSpriteSheetDate = NULL;
     
-    //NSLog(@"subPath: %@", subPath);
     if ([projectSettings.generatedSpriteSheets objectForKey:subPath])
     {
         isGeneratedSpriteSheet = YES;
+        srcSpriteSheetDate = [self latestModifiedDateForDirectory:dir];
+        
+        NSLog(@"spriteSheetDir: %@ srcSpriteSheetDate: %@",dir, srcSpriteSheetDate);
         
         // Clear temporary sprite sheet directory
         [fm removeItemAtPath:[projectSettings tempSpriteSheetCacheDirectory] error:NULL];
@@ -459,6 +494,10 @@
         NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
         NSString* spriteSheetName = [outDir lastPathComponent];
         
+        // Check if sprite sheet needs to be re-published
+        
+        NSLog(@"spriteSheetDir: %@ srcDate: %@", spriteSheetDir, srcSpriteSheetDate);
+        
         for (NSString* res in publishForResolutions)
         {
             NSArray* srcDirs = [NSArray arrayWithObjects:
@@ -469,6 +508,13 @@
             NSString* spriteSheetFile = NULL;
             if (publishToSingleResolution) spriteSheetFile = outDir;
             else spriteSheetFile = [[spriteSheetDir stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", res]] stringByAppendingPathComponent:spriteSheetName];
+            
+            // Skip publish if sprite sheet exists and is up to date
+            NSDate* dstDate = [CCBFileUtil modificationDateForFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
+            if (dstDate && [dstDate isEqualToDate:srcSpriteSheetDate])
+            {
+                continue;
+            }
             
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
@@ -496,6 +542,9 @@
             packer.directoryPrefix = subPath;
             packer.border = YES;
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
+            
+            // Set correct modification date
+            [CCBFileUtil setModificationDate:srcSpriteSheetDate forFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
         }
         
         [publishedResources addObject:[subPath stringByAppendingPathExtension:@"plist"]];
