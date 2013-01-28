@@ -114,6 +114,28 @@
     [node setValue:texture forKey:prop];
 }
 
++ (void) setTextureAtlasForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) atlasFile
+{
+    CCTextureAtlas* textureAtlas = NULL;
+    
+    if (atlasFile && ![atlasFile isEqualToString:@""])
+    {
+        @try
+        {
+            NSString* fileName = [[ResourceManager sharedManager] toAbsolutePath:atlasFile];
+            CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:fileName];
+            textureAtlas = [[[CCTextureAtlas alloc] initWithTexture:texture capacity:29] autorelease];
+        }
+        @catch (NSException *exception)
+        {
+            textureAtlas = NULL;
+        }
+    }
+    
+    if (textureAtlas)
+        [node setValue:textureAtlas forKey:prop];
+}
+
 + (void) setFontForNode:(CCNode*)node andProperty:(NSString*) prop withFile:(NSString*) fontFile
 {
     NSString* absPath = NULL;

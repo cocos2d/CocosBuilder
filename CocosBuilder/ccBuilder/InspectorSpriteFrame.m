@@ -35,6 +35,7 @@
 #import "CCNode+NodeInfo.h"
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
+#import "CCNode+Batching.h"
 
 @implementation InspectorSpriteFrame
 
@@ -68,6 +69,11 @@
         
         if (res.type == kCCBResTypeImage)
         {
+            // Children of batch nodes
+            // should only be set with sprite frames.
+            if ([selection isChildOfSpriteBatchNode])
+                return;
+            
             sf = [ResourceManagerUtil relativePathFromAbsolutePath:res.filePath];
             ssf = kCCBUseRegularFile;
             [ResourceManagerUtil setTitle:sf forPopup:popup];
@@ -78,6 +84,13 @@
         RMSpriteFrame* frame = item;
         sf = frame.spriteFrameName;
         ssf = [ResourceManagerUtil relativePathFromAbsolutePath:frame.spriteSheetFile];
+        
+        // Children of batch nodes should only 
+        // change their sprite frame to one belonging
+        // to the plist that corresponds to their texture atlas.
+        if ([selection isChildOfSpriteBatchNode] && ![ssf isEqualToString:[selection extraPropForKey:[NSString stringWithFormat:@"%@Sheet", propertyName]]])
+            return;
+        
         [ResourceManagerUtil setTitle:[NSString stringWithFormat:@"%@/%@",ssf,sf] forPopup:popup];
     }
     

@@ -10,4 +10,6 @@
 
 @interface CCNode (Batching)
 
+- (BOOL)isChildOfSpriteBatchNode;
+
 @end
