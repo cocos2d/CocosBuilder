@@ -167,8 +167,23 @@
     // Add to list of copied files
     NSString* localFileName =[dstFile relativePathFromBaseDirPath:outputDir];
     
-    if (!isSpriteSheet)
+    if (isSpriteSheet)
     {
+        /*
+        NSString* outDir = [srcFile stringByDeletingLastPathComponent];
+        NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
+        NSString* spriteSheetName = [outDir lastPathComponent];
+
+        NSString* spriteSheetFile = NULL;
+        if (publishToSingleResolution) spriteSheetFile = outDir;
+        else spriteSheetFile = [[spriteSheetDir stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", resolution]] stringByAppendingPathComponent:spriteSheetName];
+        
+        NSLog(@"copyFileIfChanged spriteSheetFile: %@", spriteSheetFile);
+         */
+    }
+    else
+    {
+        // Add the file name to published resource list
         [publishedResources addObject:localFileName];
     }
     
