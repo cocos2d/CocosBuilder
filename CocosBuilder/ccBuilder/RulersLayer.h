@@ -23,7 +23,7 @@
  */
 
 #import "cocos2d.h"
-#import "CCScale9Sprite.h"
+#import "CCControlExtension.h"
 
 @interface RulersLayer : CCLayer
 {
