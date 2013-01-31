@@ -869,8 +869,9 @@ static BOOL hideAllToNextSeparator;
 {
     CCBGlobals* g= [CCBGlobals globals];
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+
     CCBDocument* doc = [self currentDocument];
-    
+
     // Add node graph
     NSMutableDictionary* nodeGraph = [CCBWriterInternal dictionaryFromCCObject:g.rootNode];
     [dict setObject:nodeGraph forKey:@"nodeGraph"];
@@ -2019,6 +2020,19 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
+- (IBAction) saveAllDocuments:(id)sender
+{
+    CCBDocument* oldCurDoc = currentDocument;
+    NSArray* docs = [tabView tabViewItems];
+    for (int i = 0; i < [docs count]; i++)
+    {
+        CCBDocument* doc = [(NSTabViewItem*)[docs objectAtIndex:i] identifier];
+        [self switchToDocument:doc forceReload:NO];
+        [self saveDocument:sender];
+    }
+    [self switchToDocument:oldCurDoc forceReload:NO];
+}
+
 - (void) publishAndRun:(BOOL)run
 {
     if (!projectSettings.publishEnabledAndroid
@@ -2974,6 +2988,7 @@ static BOOL hideAllToNextSeparator;
 {
     if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(saveAllDocuments:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(menuCreateKeyframesFromSelection:))
     {
