@@ -108,6 +108,7 @@
     [renamedFiles setObject:dst forKey:src];
 }
 
+/*
 - (BOOL) srcFile:(NSString*)srcFile isNewerThanDstFile:(NSString*)dstFile
 {
     NSDictionary* srcAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:srcFile error:NULL];
@@ -120,7 +121,7 @@
     if ([srcDate compare:dstDate] == NSOrderedDescending) return YES;
     
     return NO;
-}
+}*/
 
 - (BOOL) publishCCBFile:(NSString*)srcFile to:(NSString*)dstFile
 {
@@ -160,8 +161,10 @@
     return YES;
 }
 
-- (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution isSpriteSheet:(BOOL)isSpriteSheet
+- (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution isSpriteSheet:(BOOL)isSpriteSheet outDir: (NSString*)outDir srcDate: (NSDate*) srcDate
 {
+    //NSLog(@"copyFileIfChanged: %@ to: %@ forResolution: %@", srcFile, dstFile, resolution);
+    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     // Add to list of copied files
@@ -169,8 +172,7 @@
     
     if (isSpriteSheet)
     {
-        /*
-        NSString* outDir = [srcFile stringByDeletingLastPathComponent];
+        //NSString* outDir = [srcFile stringByDeletingLastPathComponent];
         NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
         NSString* spriteSheetName = [outDir lastPathComponent];
 
@@ -178,8 +180,11 @@
         if (publishToSingleResolution) spriteSheetFile = outDir;
         else spriteSheetFile = [[spriteSheetDir stringByAppendingPathComponent:[NSString stringWithFormat:@"resources-%@", resolution]] stringByAppendingPathComponent:spriteSheetName];
         
-        NSLog(@"copyFileIfChanged spriteSheetFile: %@", spriteSheetFile);
-         */
+        NSDate* dstDate = [CCBFileUtil modificationDateForFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
+        if (dstDate && [dstDate isEqualToDate:srcDate])
+        {
+            return YES;
+        }
     }
     else
     {
@@ -222,11 +227,16 @@
         return NO;
     }
     
-    // Check that src file exist
+    // Copy auto-sized images
     if (![fm fileExistsAtPath:srcFile])
     {
-        if ([fm fileExistsAtPath:srcAutoFile])
+        if ([fm fileExistsAtPath:srcAutoFile] && resolution != NULL)
         {
+            // Check if resized image already exists
+            NSDate* srcDate = [CCBFileUtil modificationDateForFile:srcAutoFile];
+            NSDate* dstDate = [CCBFileUtil modificationDateForFile:dstFile];
+            if ([srcDate isEqualToDate:dstDate]) return YES;
+            
             // Copy auto file and resize
             [[ResourceManager sharedManager] createCachedImageFromAuto:srcAutoFile saveAs:dstFile forResolution:resolution];
             return YES;
@@ -238,7 +248,7 @@
     }
     
     // Check for equal file
-    if (!publishToSingleResolution && [fm fileExistsAtPath:dstFile] && [[CCBFileUtil modificationDateForFile:srcFile] isEqualToDate:[CCBFileUtil modificationDateForFile:dstFile]]) return YES;
+    if (/*!publishToSingleResolution && */[fm fileExistsAtPath:dstFile] && [[CCBFileUtil modificationDateForFile:srcFile] isEqualToDate:[CCBFileUtil modificationDateForFile:dstFile]]) return YES;
     
     // Remove old file
     if ([fm fileExistsAtPath:dstFile])
@@ -280,6 +290,8 @@
                                     @"-V2", srcFile, dstFile,
                                     nil];
             [convTask setArguments:args];
+            [convTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+            [convTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
             [convTask launch];
             [convTask waitUntilExit];
             [convTask release];
@@ -307,8 +319,6 @@
 
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
-    //NSLog(@"publishDirectory: %@ subPath: %@", dir, subPath);
-    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     ResourceManager* resManager = [ResourceManager sharedManager];
     NSArray* resIndependentDirs = [resManager resIndependentDirs];
@@ -334,8 +344,6 @@
     {
         isGeneratedSpriteSheet = YES;
         srcSpriteSheetDate = [self latestModifiedDateForDirectory:dir];
-        
-        NSLog(@"spriteSheetDir: %@ srcSpriteSheetDate: %@",dir, srcSpriteSheetDate);
         
         // Clear temporary sprite sheet directory
         [fm removeItemAtPath:[projectSettings tempSpriteSheetCacheDirectory] error:NULL];
@@ -459,13 +467,13 @@
                     }
                 
                     // Copy file (and possibly convert)
-                    if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet]) return NO;
+                    if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet outDir:outDir srcDate: srcSpriteSheetDate]) return NO;
                     
                     if (publishForResolutions)
                     {
                         for (NSString* res in publishForResolutions)
                         {
-                            if (![self copyFileIfChanged:filePath to:dstFile forResolution:res isSpriteSheet:isGeneratedSpriteSheet]) return NO;
+                            if (![self copyFileIfChanged:filePath to:dstFile forResolution:res isSpriteSheet:isGeneratedSpriteSheet outDir:outDir srcDate: srcSpriteSheetDate]) return NO;
                         }
                     }
                 }
@@ -488,7 +496,11 @@
                     return NO;
                 }
                 
-                if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
+                NSDate* srcDate = [CCBFileUtil modificationDateForFile:filePath];
+                NSDate* dstDate = [CCBFileUtil modificationDateForFile:dstFile];
+                
+                //if (![fm fileExistsAtPath:dstFile] || [self srcFile:filePath isNewerThanDstFile:dstFile])
+                if (![srcDate isEqualToDate:dstDate])
                 {
                     [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", fileName]];
                     
@@ -498,6 +510,8 @@
                     // Copy the file
                     BOOL sucess = [self publishCCBFile:filePath to:dstFile];
                     if (!sucess) return NO;
+                    
+                    [CCBFileUtil setModificationDate:srcDate forFile:dstFile];
                 }
             }
         }
@@ -510,9 +524,6 @@
         NSString* spriteSheetName = [outDir lastPathComponent];
         
         // Check if sprite sheet needs to be re-published
-        
-        NSLog(@"spriteSheetDir: %@ srcDate: %@", spriteSheetDir, srcSpriteSheetDate);
-        
         for (NSString* res in publishForResolutions)
         {
             NSArray* srcDirs = [NSArray arrayWithObjects:
@@ -769,7 +780,7 @@
     // Publish generated files
     [self publishGeneratedFiles];
     
-    NSLog(@"Renamed files: %@", renamedFiles);
+    //NSLog(@"Renamed files: %@", renamedFiles);
     
     // Yiee Haa!
     return YES;
