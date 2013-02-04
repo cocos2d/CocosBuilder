@@ -163,8 +163,6 @@
 
 - (BOOL) copyFileIfChanged:(NSString*)srcFile to:(NSString*)dstFile forResolution:(NSString*)resolution isSpriteSheet:(BOOL)isSpriteSheet outDir: (NSString*)outDir srcDate: (NSDate*) srcDate
 {
-    //NSLog(@"copyFileIfChanged: %@ to: %@ forResolution: %@", srcFile, dstFile, resolution);
-    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     // Add to list of copied files
@@ -172,7 +170,7 @@
     
     if (isSpriteSheet)
     {
-        //NSString* outDir = [srcFile stringByDeletingLastPathComponent];
+        // Skip sprite sheets that are already published
         NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
         NSString* spriteSheetName = [outDir lastPathComponent];
 
@@ -195,6 +193,7 @@
     // Update progress
     [ad modalStatusWindowUpdateStatusText:[NSString stringWithFormat:@"Publishing %@...", [dstFile lastPathComponent]]];
     
+    // Find out which file to copy for the current resolution
     NSFileManager* fm = [NSFileManager defaultManager];
     
     NSString* srcAutoFile = NULL;
