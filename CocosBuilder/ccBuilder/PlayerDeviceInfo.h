@@ -14,6 +14,7 @@
     NSString* deviceName;
     NSString* deviceType;
     NSString* preferredResourceType;
+    NSString* uuid;
     BOOL hasRetinaDisplay;
     BOOL populated;
 }
@@ -22,6 +23,7 @@
 @property (nonatomic,copy) NSString* deviceName;
 @property (nonatomic,copy) NSString* deviceType;
 @property (nonatomic,copy) NSString* preferredResourceType;
+@property (nonatomic,copy) NSString* uuid;
 @property (nonatomic,assign) BOOL hasRetinaDisplay;
 @property (nonatomic,assign) BOOL populated;
 

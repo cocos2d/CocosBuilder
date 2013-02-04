@@ -510,6 +510,23 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     }
 }
 
+- (NSString*) getUUID
+{
+    // Check user defaults
+    NSString* uuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uuid"];
+    if (uuid) return uuid;
+    
+    // Generate UUID
+    CFUUIDRef uuidObject = CFUUIDCreate(kCFAllocatorDefault);
+    uuid = (NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuidObject);
+    CFRelease(uuidObject);
+    
+    // Store generated id
+    [[NSUserDefaults standardUserDefaults] setObject:uuid forKey:@"uuid"];
+    
+    return uuid;
+}
+
 - (void) sendDeviceName
 {
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
@@ -517,6 +534,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     [msg setObject:[[UIDevice currentDevice] name] forKey:@"devicename"];
     [msg setObject:[AppController appController].deviceType forKey:@"devicetype"];
     [msg setObject:[NSNumber numberWithBool:[AppController appController].hasRetinaDisplay] forKey:@"retinadisplay"];
+    [msg setObject:[self getUUID] forKey:@"uuid"];
     
     [self sendMessage:msg];
 }

@@ -217,7 +217,10 @@ static PlayerConnection* sharedPlayerConnection;
         deviceInfo.deviceType = [msg objectForKey:@"devicetype"];
         deviceInfo.preferredResourceType = [msg objectForKey:@"preferredresourcetype"];
         deviceInfo.hasRetinaDisplay = [[msg objectForKey:@"retinadisplay"] boolValue];
+        deviceInfo.uuid = [msg objectForKey:@"uuid"];
         deviceInfo.populated = YES;
+        
+        NSLog(@"Connected device with UUID: %@", deviceInfo.uuid);
         
         [delegate playerConnection:self updatedPlayerList:connectedServers];
         
