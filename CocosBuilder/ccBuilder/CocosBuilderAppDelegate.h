@@ -246,6 +246,7 @@ enum {
 @property (nonatomic,readonly) NSSegmentedControl *panelVisibilityControl;
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;
+@property (nonatomic,readonly) PlayerConnection* connection;
 
 @property (nonatomic,copy) NSString* errorDescription;
 

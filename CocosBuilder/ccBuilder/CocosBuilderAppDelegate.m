@@ -117,6 +117,7 @@
 @synthesize selectedNodes;
 @synthesize loadedSelectedNodes;
 @synthesize panelVisibilityControl;
+@synthesize connection;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -2067,15 +2068,21 @@ static BOOL hideAllToNextSeparator;
     [publisher release];
 }
 
-- (IBAction)runProject:(id)sender
+- (IBAction)openCocosPlayerConsole:(id)sender
 {
-    // Open CocosPlayer console
     if (!playerConsoleWindow)
     {
         playerConsoleWindow = [[PlayerConsoleWindow alloc] initWithWindowNibName:@"PlayerConsoleWindow"];
     }
-    [playerConsoleWindow cleanConsole];
     [playerConsoleWindow.window makeKeyAndOrderFront:self];
+}
+
+- (IBAction)runProject:(id)sender
+{
+    // Open CocosPlayer console
+    [self openCocosPlayerConsole:sender];
+    
+    [playerConsoleWindow cleanConsole];
     
     if ([[PlayerConnection sharedPlayerConnection] connected])
     {
