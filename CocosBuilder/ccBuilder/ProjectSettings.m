@@ -30,6 +30,8 @@
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
 #import "CocosBuilderAppDelegate.h"
+#import "PlayerConnection.h"
+#import "PlayerDeviceInfo.h"
 
 @implementation ProjectSettingsGeneratedSpriteSheet
 
@@ -353,8 +355,11 @@
 
 - (NSString*) publishCacheDirectory
 {
+    NSString* uuid = [PlayerConnection sharedPlayerConnection].selectedDeviceInfo.uuid;
+    NSAssert(uuid, @"No uuid for selected device");
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    return [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:self.projectPathHashed];
+    return [[[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"com.cocosbuilder.CocosBuilder"] stringByAppendingPathComponent:@"publish"]stringByAppendingPathComponent:self.projectPathHashed] stringByAppendingPathComponent:uuid];
 }
 
 - (NSString*) tempSpriteSheetCacheDirectory
