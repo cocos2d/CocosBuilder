@@ -37,6 +37,7 @@
 #import "CCBFileUtil.h"
 #import "Tupac.h"
 #import "CCBPublisherTemplate.h"
+#import "CCBDirectoryComparer.h"
 
 @implementation CCBPublisher
 
@@ -806,6 +807,42 @@
     return [manager fileExistsAtPath:file];
 }
 
+- (BOOL) archiveToFile:(NSString*)file diffFrom:(NSDictionary*) diffFiles
+{
+    if (!diffFiles) diffFiles = [NSDictionary dictionary];
+    
+    NSFileManager *manager = [NSFileManager defaultManager];
+    
+    // Remove the old file
+    [manager removeItemAtPath:file error:NULL];
+    
+    // Create diff
+    CCBDirectoryComparer* dc = [[[CCBDirectoryComparer alloc] init] autorelease];
+    [dc loadDirectory:outputDir];
+    NSArray* fileList = [dc diffWithFiles:diffFiles];
+    
+    NSLog(@"fileList: %@", fileList);
+    
+    // Zip it up!
+    NSTask* zipTask = [[NSTask alloc] init];
+    [zipTask setCurrentDirectoryPath:outputDir];
+    
+    [zipTask setLaunchPath:@"/usr/bin/zip"];
+    NSMutableArray* args = [NSMutableArray arrayWithObjects:@"-r", @"-q", file, @".", @"-i", nil];
+    
+    for (NSString* f in fileList)
+    {
+        [args addObject:f];
+    }
+    
+    [zipTask setArguments:args];
+    [zipTask launch];
+    [zipTask waitUntilExit];
+    [zipTask release];
+    
+    return [manager fileExistsAtPath:file];
+}
+
 - (BOOL) publish_
 {
     if (!runAfterPublishing)
@@ -975,7 +1012,8 @@
         
         // Archive
         NSString *zipFile = [projectSettings.publishCacheDirectory stringByAppendingPathComponent:@"ccb.zip"];
-        [self archiveToFile:zipFile];
+        [self archiveToFile:zipFile diffFrom:deviceInfo.fileList];
+        // TODO: Fix diffFrom
         
         // Send to player
         [ad modalStatusWindowUpdateStatusText:@"Sending to player..."];

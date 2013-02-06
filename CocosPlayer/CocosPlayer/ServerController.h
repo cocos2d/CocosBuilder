@@ -88,5 +88,6 @@ extern NSString *kCCBPlayerStatusStringScript;
 - (void) sendDeviceName;
 - (void) sendResultString:(NSString*) str;
 - (void) sendLog:(NSString*)log;
+- (void) sendFileList;
 
 @end

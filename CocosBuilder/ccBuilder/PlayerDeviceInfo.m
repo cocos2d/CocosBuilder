@@ -17,6 +17,7 @@
 @synthesize populated;
 @synthesize preferredResourceType;
 @synthesize uuid;
+@synthesize fileList;
 
 - (void) dealloc
 {
@@ -25,6 +26,7 @@
     [deviceType release];
     [preferredResourceType release];
     [uuid release];
+    [fileList release];
     
     [super dealloc];
 }

@@ -238,10 +238,15 @@ static PlayerConnection* sharedPlayerConnection;
     }
     else if ([cmd isEqualToString:@"log"])
     {
-        NSLog(@"CMD log: %@", [msg objectForKey:@"string"]);
-        
         NSString* message = [msg objectForKey:@"string"];
         [delegate playerConnection:self receivedResult:message];
+    }
+    else if ([cmd isEqualToString:@"filelist"])
+    {
+        PlayerDeviceInfo* deviceInfo = [connectedServers objectForKey:aServerIdString];
+        deviceInfo.fileList = [msg objectForKey:@"filelist"];
+        
+        NSLog(@"Received filelist: %@", deviceInfo.fileList);
     }
 }
 

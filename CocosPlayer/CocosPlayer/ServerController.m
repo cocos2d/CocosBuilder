@@ -28,6 +28,7 @@
 
 #import "js_bindings_core.h"
 #import "CCBReader.h"
+#import "CCBDirectoryComparer.h"
 
 // Predefined messages
 NSString *kCCBNetworkStatusStringWaiting = @"Waiting for connections";
@@ -84,6 +85,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) redirectStdErr
 {
+    return;
+    
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
@@ -260,6 +263,10 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 		NSLog(@"Resources unzipped!");
 		
 		[self listDirectory:dirPath prefix:@""];
+        
+        
+        // Send updated list of files on device
+        [self sendFileList];
 		
 		/*
 		 NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
@@ -330,6 +337,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     {
 		self.networkStatus = kCCBNetworkStatusConnected;
         [self sendDeviceName];
+        [self sendFileList];
     }
     else
     {
@@ -405,6 +413,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     else if ([cmd isEqualToString:@"zip"])
     {
         NSData* zipData = [msg objectForKey:@"data"];
+        
+        // Extract zip file received from CocosBuilder
         [self extractZipData:zipData];
     }
     else if ([cmd isEqualToString:@"settings"])
@@ -553,6 +563,21 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"log" forKey:@"cmd"];
     [msg setObject:log forKey:@"string"];
+    
+    [self sendMessage:msg];
+}
+
+- (void) sendFileList
+{
+    // Get the contents of the CCB working directory, with files
+    CCBDirectoryComparer* dc = [[[CCBDirectoryComparer alloc] init] autorelease];
+    [dc loadDirectory:[CCBReader ccbDirectoryPath]];
+    NSDictionary* dirFiles = dc.files;
+    
+    // Send message
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"filelist" forKey:@"cmd"];
+    [msg setObject:dirFiles forKey:@"filelist"];
     
     [self sendMessage:msg];
 }

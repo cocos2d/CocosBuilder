@@ -113,6 +113,7 @@
 		A09AB6BC14E9935F009C8B91 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AD14E9935F009C8B91 /* vec3.c */; };
 		A09AB6BD14E9935F009C8B91 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AE14E9935F009C8B91 /* vec4.c */; };
 		A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6F614E993AA009C8B91 /* fps_images.png */; };
+		E3127AA516C1D8E600D09AA4 /* CCBDirectoryComparer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3127AA416C1D8E600D09AA4 /* CCBDirectoryComparer.m */; };
 		E312EDC616AF71FE000778C8 /* CCBReaderInternalRenamedProps.plist in Resources */ = {isa = PBXBuildFile; fileRef = E312EDC516AF71FE000778C8 /* CCBReaderInternalRenamedProps.plist */; };
 		E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */; };
 		E3214C4415D3C29D002413A7 /* CustomPropSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */; };
@@ -932,6 +933,8 @@
 		A09AB6AD14E9935F009C8B91 /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3.c; sourceTree = "<group>"; };
 		A09AB6AE14E9935F009C8B91 /* vec4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec4.c; sourceTree = "<group>"; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
+		E3127AA316C1D8E600D09AA4 /* CCBDirectoryComparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBDirectoryComparer.h; sourceTree = "<group>"; };
+		E3127AA416C1D8E600D09AA4 /* CCBDirectoryComparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBDirectoryComparer.m; sourceTree = "<group>"; };
 		E312EDC516AF71FE000778C8 /* CCBReaderInternalRenamedProps.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBReaderInternalRenamedProps.plist; sourceTree = "<group>"; };
 		E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPropSettingsWindow.xib; sourceTree = "<group>"; };
 		E3214C4215D3C29D002413A7 /* CustomPropSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPropSettingsWindow.h; sourceTree = "<group>"; };
@@ -2617,6 +2620,8 @@
 				E346286F155D22290043EAB1 /* CCBPublisher.m */,
 				E3618D5416655041009F5805 /* CCBPublisherTemplate.h */,
 				E3618D5516655041009F5805 /* CCBPublisherTemplate.m */,
+				E3127AA316C1D8E600D09AA4 /* CCBDirectoryComparer.h */,
+				E3127AA416C1D8E600D09AA4 /* CCBDirectoryComparer.m */,
 			);
 			name = Publishing;
 			sourceTree = "<group>";
@@ -4660,6 +4665,7 @@
 				E3347416169C5402000737CC /* CCScale9Sprite.m in Sources */,
 				E3347417169C5402000737CC /* Utils.m in Sources */,
 				E334741C169DC5A7000737CC /* APIDocsWindow.m in Sources */,
+				E3127AA516C1D8E600D09AA4 /* CCBDirectoryComparer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

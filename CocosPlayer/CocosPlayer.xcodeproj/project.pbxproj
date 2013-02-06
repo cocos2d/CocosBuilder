@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E3127AAA16C1E6A500D09AA4 /* CCBDirectoryComparer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3127AA916C1E6A500D09AA4 /* CCBDirectoryComparer.m */; };
 		E32F24511656C27A00ADC120 /* ResourcesCCB in Resources */ = {isa = PBXBuildFile; fileRef = E32F24501656C27A00ADC120 /* ResourcesCCB */; };
 		E358953A16A72069002AF275 /* CCBAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E358952F16A72069002AF275 /* CCBAnimationManager.m */; };
 		E358953B16A72069002AF275 /* CCBKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E358953116A72069002AF275 /* CCBKeyframe.m */; };
@@ -152,6 +153,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E3127AA816C1E6A500D09AA4 /* CCBDirectoryComparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBDirectoryComparer.h; path = ../../CocosBuilder/ccBuilder/CCBDirectoryComparer.h; sourceTree = "<group>"; };
+		E3127AA916C1E6A500D09AA4 /* CCBDirectoryComparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBDirectoryComparer.m; path = ../../CocosBuilder/ccBuilder/CCBDirectoryComparer.m; sourceTree = "<group>"; };
 		E32F24501656C27A00ADC120 /* ResourcesCCB */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResourcesCCB; sourceTree = "<group>"; };
 		E358952E16A72069002AF275 /* CCBAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBAnimationManager.h; sourceTree = "<group>"; };
 		E358952F16A72069002AF275 /* CCBAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBAnimationManager.m; sourceTree = "<group>"; };
@@ -261,6 +264,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3127AB516C1E6BA00D09AA4 /* CCBDirectoryComparer */ = {
+			isa = PBXGroup;
+			children = (
+				E3127AA816C1E6A500D09AA4 /* CCBDirectoryComparer.h */,
+				E3127AA916C1E6A500D09AA4 /* CCBDirectoryComparer.m */,
+			);
+			name = CCBDirectoryComparer;
+			sourceTree = "<group>";
+		};
 		E358952D16A72069002AF275 /* CCBReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,6 +430,7 @@
 		E3F6A07D16499A7700550B13 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				E3127AB516C1E6BA00D09AA4 /* CCBDirectoryComparer */,
 				E358952D16A72069002AF275 /* CCBReader */,
 				E3893CF91666C1DE00299482 /* SSZipArchive */,
 				E3893B6E1666A12100299482 /* cocos2d-ios.xcodeproj */,
@@ -677,6 +690,7 @@
 				E358953D16A72069002AF275 /* CCBsequence.m in Sources */,
 				E358953E16A72069002AF275 /* CCBSequenceProperty.m in Sources */,
 				E358953F16A72069002AF275 /* CCNode+CCBRelativePositioning.m in Sources */,
+				E3127AAA16C1E6A500D09AA4 /* CCBDirectoryComparer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
