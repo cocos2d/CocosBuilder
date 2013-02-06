@@ -224,6 +224,9 @@ static AppController* appController = NULL;
 	// make main window visible
 	[window_ makeKeyAndVisible];
 	
+    // Disable automatic sleep mode
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
 	return YES;
 }
 
