@@ -85,8 +85,6 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) redirectStdErr
 {
-    return;
-    
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
@@ -113,10 +111,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 {
     if (server)
     {
-        NSLog(@"start");
-        
         [server start];
-        NSLog(@"Server started, redirecting stderr");
         
         // Redirect std out
         [self redirectStdErr];
@@ -127,8 +122,6 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 {
     if (!server)
     {
-        NSLog(@"startIfNotStarted");
-        
         server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
         [server setDelegate:self];
         [server start];
@@ -143,8 +136,6 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     {
 		self.networkStatus = kCCBPlayerStatusStop;
 		[[[PlayerStatusLayer sharedInstance] lblInstructions] setString:kCCBPlayerStatusStringStop];
-
-        NSLog(@"stop");
         
         [server stop];
         [server release];
@@ -251,29 +242,19 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 		
 		if(![data writeToFile:zipPath atomically:YES])
 		{
-			NSLog(@"Failed to write zip file");
+			NSLog(@"CocosPlayer: Failed to write zip file");
 			return;
 		}
 		
 		if (![CCBReader unzipResources:zipPath])
 		{
-			NSLog(@"Failed to unzip resources");
+			NSLog(@"CocosPlayer: Failed to unzip resources");
 		}
 		
-		NSLog(@"Resources unzipped!");
-		
-		[self listDirectory:dirPath prefix:@""];
-        
+		//[self listDirectory:dirPath prefix:@""];
         
         // Send updated list of files on device
         [self sendFileList];
-		
-		/*
-		 NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirPath error:NULL];
-		 for (NSString* file in files)
-		 {
-		 NSLog(@"File: %@", file);
-		 }*/
 	};
 
 	double delayInSeconds = 0.01;
@@ -328,10 +309,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) server:(ThoMoServerStub *)theServer acceptedConnectionFromClient:(NSString *)aClientIdString
 {
-    NSLog(@"New Client: %@", aClientIdString);
     [connectedClients addObject:aClientIdString];
-    
-    NSLog(@"Num connected clients: %d", connectedClients.count);
     
     if (connectedClients.count == 1)
     {
@@ -347,7 +325,6 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void)server:(ThoMoServerStub *)theServer lostConnectionToClient:(NSString *)aClientIdString errorMessage:(NSString *)errorMessage
 {
-    NSLog(@"Lost Client: %@", aClientIdString);
     [connectedClients removeObject:aClientIdString];
     
     if (connectedClients.count == 0)
@@ -366,9 +343,9 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void)serverDidShutDown:(ThoMoServerStub *)theServer
 {
-    NSLog(@"serverDidShutdown server: %@",server);
+    self.networkStatus = kCCBNetworkStatusWaiting;
     
-	if( server == theServer ) {
+	if( server == theServer || !server) {
 		[server release];
 		server = NULL;
 		[connectedClients removeAllObjects];
@@ -394,8 +371,6 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     NSDictionary* msg = theData;
     
     NSString* cmd = [msg objectForKey:@"cmd"];
-    
-    //NSLog(@"cmd: %@", cmd);
     
     if ([cmd isEqualToString:@"script"])
     {

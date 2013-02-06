@@ -186,7 +186,6 @@ static AppController* appController = NULL;
 	// On iPad HD  : "-ipadhd", "-ipad",  "-hd"
 	// On iPad     : "-ipad", "-hd"
 	// On iPhone HD: "-hd"
-    NSLog(@"Configuring file utils");
     
 	CCFileUtils *sharedFileUtils = [CCFileUtils sharedFileUtils];
 	[sharedFileUtils setEnableFallbackSuffixes:YES];				// Default: NO. No fallback suffixes are going to be used
@@ -204,9 +203,6 @@ static AppController* appController = NULL;
     sharedFileUtils.enableiPhoneResourcesOniPad = YES;
     sharedFileUtils.searchMode = kCCFileUtilsSearchDirectoryMode;
     [sharedFileUtils buildSearchResolutionsOrder];
-    
-    NSLog(@"searchPath: %@", sharedFileUtils.searchPath);
-    NSLog(@"searchResolutionsOrder: %@", sharedFileUtils.searchResolutionsOrder);
 	
 	// Assume that PVR images have premultiplied alpha
 	[CCTexture2D PVRImagesHavePremultipliedAlpha:YES];
@@ -286,12 +282,8 @@ static AppController* appController = NULL;
 {
     statusLayer = (PlayerStatusLayer*)[CCBReader nodeGraphFromFile:@"StatusLayer.ccbi"];
     
-    NSLog(@"statusLayer: %@", statusLayer);
-    
     CCScene* statusScene = [CCScene node];
     [statusScene addChild:statusLayer];
-
-//    [[statusLayer lblStatus] setString:serverStatus];
     
     return statusScene;
 }
