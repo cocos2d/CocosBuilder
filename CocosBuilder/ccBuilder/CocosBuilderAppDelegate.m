@@ -2030,7 +2030,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    if (![[PlayerConnection sharedPlayerConnection] connected])
+    if (run && ![[PlayerConnection sharedPlayerConnection] connected])
     {
         [self modalDialogTitle:@"No Player Connected" message:@"There is no CocosPlayer connected to CocosBuilder. Make sure that a player is running and that it has the same pairing number as CocosBuilder."];
         return;
