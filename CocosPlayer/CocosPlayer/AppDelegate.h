@@ -57,6 +57,7 @@
 @property (nonatomic, assign) NSUInteger deviceOrientations;
 @property (nonatomic, assign) BOOL hasRetinaDisplay;
 @property (nonatomic, copy) NSString* deviceType;
+@property (nonatomic, readonly) ServerController* server;
 
 + (AppController*) appController;
 

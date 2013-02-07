@@ -92,6 +92,8 @@ static PlayerStatusLayer* sharedPlayerStatusLayer = NULL;
     
     btnRun.isEnabled = NO;
     btnReset.isEnabled = NO;
+    
+    [[AppController appController].server sendFileList];
 }
 
 - (void) pressedPair:(id)sender

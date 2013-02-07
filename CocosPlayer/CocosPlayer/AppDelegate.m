@@ -122,6 +122,7 @@ static AppController* appController = NULL;
 @synthesize isJSRunning;
 @synthesize hasRetinaDisplay;
 @synthesize deviceType;
+@synthesize server;
 
 + (AppController*) appController
 {
