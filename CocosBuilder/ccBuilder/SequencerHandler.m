@@ -41,6 +41,8 @@
 #import "CCNode+NodeInfo.h"
 #import "CCBDocument.h"
 #import "CCBPCCBFile.h"
+#import "SequencerCallbackChannel.h"
+#import "SequencerSoundChannel.h"
 #import <objc/runtime.h>
 
 static SequencerHandler* sharedSequencerHandler;
@@ -260,7 +262,7 @@ static SequencerHandler* sharedSequencerHandler;
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     
     if ([[CCBGlobals globals] rootNode] == NULL) return 0;
-    if (item == nil) return 1;
+    if (item == nil) return 3;
     
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
@@ -272,6 +274,12 @@ static SequencerHandler* sharedSequencerHandler;
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
     if (item == nil) return YES;
+    
+    // Channels are not expandable
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        return NO;
+    }
     
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
@@ -289,7 +297,24 @@ static SequencerHandler* sharedSequencerHandler;
 {
     CCBGlobals* g= [CCBGlobals globals];
     
-    if (item == nil) return g.rootNode;
+    if (item == NULL)
+    {
+        if (index == 0)
+        {
+            // Callback channel
+            return [[SequencerCallbackChannel alloc] init];
+        }
+        else if (index == 1)
+        {
+            // Sound channel
+            return [[SequencerSoundChannel alloc] init];
+        }
+        else
+        {
+            // Nodes
+            return g.rootNode;
+        }
+    }
     
     CCNode* node = (CCNode*)item;
     CCArray* arr = [node children];
@@ -302,8 +327,17 @@ static SequencerHandler* sharedSequencerHandler;
     NSMutableArray* selectedNodes = [NSMutableArray array];
     
     [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop){
-        CCNode* node = [outlineHierarchy itemAtRow:idx];
-        [selectedNodes addObject:node];
+        id item = [outlineHierarchy itemAtRow:idx];
+        
+        if ([item isKindOfClass:[SequencerChannel class]])
+        {
+            //
+        }
+        else
+        {
+            CCNode* node = item;
+            [selectedNodes addObject:node];
+        }
     }];
     
     appDelegate.selectedNodes = selectedNodes;
@@ -326,6 +360,12 @@ static SequencerHandler* sharedSequencerHandler;
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 {
     if (item == nil) return @"Root";
+    
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        SequencerChannel* channel = item;
+        return channel.displayName;
+    }
     
     if ([tableColumn.identifier isEqualToString:@"sequencer"])
     {
@@ -448,6 +488,11 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (CGFloat) outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        return kCCBSeqDefaultRowHeight;
+    }
+    
     CCNode* node = item;
     if (node.seqExpanded)
     {
@@ -466,15 +511,35 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        if ([tableColumn.identifier isEqualToString:@"expander"])
+        {
+            SequencerExpandBtnCell* expCell = cell;
+            expCell.isExpanded = NO;
+            expCell.canExpand = NO;
+        }
+        else if ([tableColumn.identifier isEqualToString:@"structure"])
+        {
+            SequencerStructureCell* strCell = cell;
+            strCell.node = NULL;
+        }
+        else if ([tableColumn.identifier isEqualToString:@"sequencer"])
+        {
+            SequencerCell* seqCell = cell;
+            seqCell.node = NULL;
+        }
+        return;
+    }
+    
     CCNode* node = item;
     BOOL isRootNode = (node == [CocosScene cocosScene].rootNode);
-    //BOOL isCCBFile = [NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"];
     
     if ([tableColumn.identifier isEqualToString:@"expander"])
     {
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
-        expCell.canExpand = (!isRootNode /*&& !isCCBFile*/);
+        expCell.canExpand = (!isRootNode);
     }
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
@@ -507,7 +572,14 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) toggleSeqExpanderForRow:(int)row
 {
-    CCNode* node = [outlineHierarchy itemAtRow:row];
+    id item = [outlineHierarchy itemAtRow:row];
+    
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        return;
+    }
+    
+    CCNode* node = item;
     
     if (node == [CocosScene cocosScene].rootNode && !node.seqExpanded) return;
     //if ([NSStringFromClass(node.class) isEqualToString:@"CCBPCCBFile"] && !node.seqExpanded) return;

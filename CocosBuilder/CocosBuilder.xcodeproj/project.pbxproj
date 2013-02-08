@@ -490,6 +490,9 @@
 		E3D59133150F85D8004180CA /* InspectorCCBFile.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D59132150F85D8004180CA /* InspectorCCBFile.xib */; };
 		E3D59136150F861E004180CA /* InspectorCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59135150F861E004180CA /* InspectorCCBFile.m */; };
 		E3D59139150F8C5A004180CA /* CCBPCCBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D59138150F8C5A004180CA /* CCBPCCBFile.m */; };
+		E3D6BA1E16C46E11006AFE0A /* SequencerSoundChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D6BA1D16C46E11006AFE0A /* SequencerSoundChannel.m */; };
+		E3D6BA2316C46E41006AFE0A /* SequencerCallbackChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D6BA2216C46E41006AFE0A /* SequencerCallbackChannel.m */; };
+		E3D6BA2616C46E91006AFE0A /* SequencerChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D6BA2516C46E91006AFE0A /* SequencerChannel.m */; };
 		E3D71E4B1669410800D9E638 /* defaultProjectResources in Resources */ = {isa = PBXBuildFile; fileRef = E3D71E4A1669410700D9E638 /* defaultProjectResources */; };
 		E3DC1B8C154F18660087724C /* size-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8A154F18660087724C /* size-3.png */; };
 		E3DC1B8D154F18660087724C /* size-4.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC1B8B154F18660087724C /* size-4.png */; };
@@ -1570,6 +1573,12 @@
 		E3D59135150F861E004180CA /* InspectorCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorCCBFile.m; sourceTree = "<group>"; };
 		E3D59137150F8C5A004180CA /* CCBPCCBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPCCBFile.h; sourceTree = "<group>"; };
 		E3D59138150F8C5A004180CA /* CCBPCCBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPCCBFile.m; sourceTree = "<group>"; };
+		E3D6BA1C16C46E11006AFE0A /* SequencerSoundChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerSoundChannel.h; sourceTree = "<group>"; };
+		E3D6BA1D16C46E11006AFE0A /* SequencerSoundChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerSoundChannel.m; sourceTree = "<group>"; };
+		E3D6BA2116C46E41006AFE0A /* SequencerCallbackChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerCallbackChannel.h; sourceTree = "<group>"; };
+		E3D6BA2216C46E41006AFE0A /* SequencerCallbackChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerCallbackChannel.m; sourceTree = "<group>"; };
+		E3D6BA2416C46E91006AFE0A /* SequencerChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerChannel.h; sourceTree = "<group>"; };
+		E3D6BA2516C46E91006AFE0A /* SequencerChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerChannel.m; sourceTree = "<group>"; };
 		E3D71E4A1669410700D9E638 /* defaultProjectResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = defaultProjectResources; sourceTree = "<group>"; };
 		E3DC1B8A154F18660087724C /* size-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-3.png"; sourceTree = "<group>"; };
 		E3DC1B8B154F18660087724C /* size-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "size-4.png"; sourceTree = "<group>"; };
@@ -2582,6 +2591,12 @@
 				E33C2AB715CAE3960043EF9B /* SequencerStretchWindow.m */,
 				E33C2AAD15C9A0D40043EF9B /* SequencerUtil.h */,
 				E33C2AAE15C9A0D40043EF9B /* SequencerUtil.m */,
+				E3D6BA1C16C46E11006AFE0A /* SequencerSoundChannel.h */,
+				E3D6BA1D16C46E11006AFE0A /* SequencerSoundChannel.m */,
+				E3D6BA2116C46E41006AFE0A /* SequencerCallbackChannel.h */,
+				E3D6BA2216C46E41006AFE0A /* SequencerCallbackChannel.m */,
+				E3D6BA2416C46E91006AFE0A /* SequencerChannel.h */,
+				E3D6BA2516C46E91006AFE0A /* SequencerChannel.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -4666,6 +4681,9 @@
 				E3347417169C5402000737CC /* Utils.m in Sources */,
 				E334741C169DC5A7000737CC /* APIDocsWindow.m in Sources */,
 				E3127AA516C1D8E600D09AA4 /* CCBDirectoryComparer.m in Sources */,
+				E3D6BA1E16C46E11006AFE0A /* SequencerSoundChannel.m in Sources */,
+				E3D6BA2316C46E41006AFE0A /* SequencerCallbackChannel.m in Sources */,
+				E3D6BA2616C46E91006AFE0A /* SequencerChannel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

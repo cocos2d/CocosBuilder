@@ -35,6 +35,12 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    if (!node)
+    {
+        [super drawWithFrame:cellFrame inView:controlView];
+        return;
+    }
+    
     // Only draw property names if cell is expanded
     if ([node seqExpanded])
     {

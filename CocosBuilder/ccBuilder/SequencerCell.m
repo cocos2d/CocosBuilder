@@ -62,9 +62,7 @@
     {
         [imgRowBgN drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
-                                
-    
-    
+
     
     SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
     
@@ -285,6 +283,13 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    if (!node)
+    {
+        //[super drawWithFrame:cellFrame inView:controlView];
+        NSLog(@"Skip drawing of cell");
+        return;
+    }
+    
     NSGraphicsContext* gc = [NSGraphicsContext currentContext];
     [gc saveGraphicsState];
     

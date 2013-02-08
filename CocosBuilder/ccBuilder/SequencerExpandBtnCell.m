@@ -71,7 +71,6 @@
 
 - (id) init
 {
-    NSLog(@"init cell");
     self = [super init];
     [self loadImages];
     return self;
@@ -89,7 +88,6 @@
     
     // Deal with the click however you need to here, for example in a slider cell you can use the mouse x
     // coordinate to set the floatValue.
-    NSLog(@"mouseCoords: (%f,%f)", mouseCoords.x, mouseCoords.y);
     
     // Dragging won't work unless you still make the call to the super class...
     return [super trackMouse: theEvent inRect: cellFrame ofView:
