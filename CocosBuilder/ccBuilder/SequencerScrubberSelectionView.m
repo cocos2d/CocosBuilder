@@ -31,6 +31,7 @@
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
 #import "CocosBuilderAppDelegate.h"
+#import "SequencerChannel.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -93,7 +94,14 @@
     int subRow = yInCell/kCCBSeqDefaultRowHeight;
     
     // Check bounds
-    CCNode* node = [outlineView itemAtRow:row];
+    id item = [outlineView itemAtRow:row];
+    
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        return 0;
+    }
+    CCNode* node = item;
+    
     if (node.seqExpanded)
     {
         if (subRow >= [[node plugIn].animatableProperties count])
@@ -339,7 +347,16 @@
 - (SequencerKeyframe*) keyframeForRow:(int)row sub:(int)sub minTime:(float)minTime maxTime:(float)maxTime
 {
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
-    CCNode* node = [outlineView itemAtRow:row];
+    
+    id item = [outlineView itemAtRow:row];
+    
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        // TODO: Handle audio & callbacks
+        return NULL;
+    }
+    
+    CCNode* node = item;
     NSString* prop = [self propNameForNode:node subRow:sub];
     
     SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:prop sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];
@@ -415,12 +432,21 @@
             yMaxSubRow = yStartSelectSubRow;
         }
         
-        CCNode* node = [outlineView itemAtRow:yMinRow];
-        for (int subRow = yMinSubRow; subRow <= yMaxSubRow; subRow++)
+        id item = [outlineView itemAtRow:yMinRow];
+        
+        if ([item isKindOfClass:[SequencerChannel class]])
         {
-            NSString* propName = [self propNameForNode:node subRow:subRow];
-            SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
-            [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+            // TODO: Handle audio & callbacks
+        }
+        else
+        {
+            CCNode* node = [outlineView itemAtRow:yMinRow];
+            for (int subRow = yMinSubRow; subRow <= yMaxSubRow; subRow++)
+            {
+                NSString* propName = [self propNameForNode:node subRow:subRow];
+                SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
+                [selectedKeyframes addObjectsFromArray:[seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+            }
         }
     }
     else
@@ -428,7 +454,13 @@
         // Selection spanning multiple rows
         for (int row = yMinRow; row <= yMaxRow; row++)
         {
-            CCNode* node = [outlineView itemAtRow:row];
+            id item = [outlineView itemAtRow:row];
+            CCNode* node = NULL;
+            
+            if (![item isKindOfClass:[SequencerChannel class]])
+            {
+                node = item;
+            }
             
             if (node.seqExpanded)
             {

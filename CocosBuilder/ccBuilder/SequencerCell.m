@@ -285,8 +285,7 @@
 {
     if (!node)
     {
-        //[super drawWithFrame:cellFrame inView:controlView];
-        NSLog(@"Skip drawing of cell");
+        // TODO: Draw keyframes for sound & callbacks
         return;
     }
     
