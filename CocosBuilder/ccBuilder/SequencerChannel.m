@@ -7,6 +7,10 @@
 //
 
 #import "SequencerChannel.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
+#import "SequencerCallbackChannel.h"
+#import "SequencerSoundChannel.h"
 
 @implementation SequencerChannel
 
@@ -17,12 +21,57 @@
     
     self.displayName = @"Channel";
     
+    self.seqNodeProp = [[[SequencerNodeProperty alloc] initWithChannel:self] autorelease];
+    
+    
     return self;
+}
+
+- (id) initWithSerialization:(id)ser
+{
+    self = [self init];
+    if (!self) return NULL;
+    
+    if (!ser) return self;
+    
+    self.seqNodeProp = [[[SequencerNodeProperty alloc] initWithSerialization:ser] autorelease];
+    
+    return self;
+}
+
+- (id) serialize
+{
+    return [self.seqNodeProp serialization];
+}
+
+- (int) keyframeType
+{
+    if ([self isKindOfClass:[SequencerCallbackChannel class]]) return kCCBKeyframeTypeCallbacks;
+    if ([self isKindOfClass:[SequencerSoundChannel class]]) return kCCBKeyframeTypeSoundEffects;
+    
+    NSAssert(NO, @"Unknown channel type");
+    return -1;
+}
+
+- (SequencerKeyframe*) defaultKeyframe
+{
+    // Abstract method
+    return NULL;
+}
+
+- (void) addDefaultKeyframeAtTime:(float)t
+{
+    SequencerKeyframe* kf = [self defaultKeyframe];
+    
+    [self.seqNodeProp setKeyframe:kf];
+    
+    kf.time = t;
 }
 
 - (void) dealloc
 {
     self.displayName = NULL;
+    self.seqNodeProp = NULL;
     [super dealloc];
 }
 

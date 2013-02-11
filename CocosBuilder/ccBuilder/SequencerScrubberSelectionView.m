@@ -338,7 +338,17 @@
     NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
     
     // Get the double clicked node
-    CCNode* node = [outlineView itemAtRow:row];
+    id item = [outlineView itemAtRow:row];
+    
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        SequencerChannel* channel = item;
+        [channel addDefaultKeyframeAtTime:time];
+        
+        return;
+    }
+    
+    CCNode* node = item;
     NSString* prop = [self propNameForNode:node subRow:sub];
     
     [node addDefaultKeyframeForProperty:prop atTime:time sequenceId:[SequencerHandler sharedHandler].currentSequence.sequenceId];

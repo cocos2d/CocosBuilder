@@ -25,6 +25,7 @@
 #import "cocos2d.h"
 
 @class SequencerKeyframe;
+@class SequencerChannel;
 
 @interface SequencerNodeProperty : NSObject
 {
@@ -38,6 +39,7 @@
 @property (nonatomic,readonly) NSString* propName;
 
 - (id) initWithProperty:(NSString*) name node:(CCNode*)n;
+- (id) initWithChannel:(SequencerChannel*)c;
 - (id) initWithSerialization: (id) ser;
 
 - (id) serialization;

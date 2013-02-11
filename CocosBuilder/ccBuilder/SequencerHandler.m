@@ -302,12 +302,12 @@ static SequencerHandler* sharedSequencerHandler;
         if (index == 0)
         {
             // Callback channel
-            return [[SequencerCallbackChannel alloc] init];
+            return currentSequence.callbackChannel;
         }
         else if (index == 1)
         {
             // Sound channel
-            return [[SequencerSoundChannel alloc] init];
+            return currentSequence.soundChannel;
         }
         else
         {
@@ -528,6 +528,15 @@ static SequencerHandler* sharedSequencerHandler;
         {
             SequencerCell* seqCell = cell;
             seqCell.node = NULL;
+            
+            if ([item isKindOfClass:[SequencerCallbackChannel class]])
+            {
+                seqCell.channel = (SequencerCallbackChannel*) item;
+            }
+            else if ([item isKindOfClass:[SequencerSoundChannel class]])
+            {
+                seqCell.channel = (SequencerSoundChannel*) item;
+            }
         }
         return;
     }

@@ -7,6 +7,8 @@
 //
 
 #import "SequencerSoundChannel.h"
+#import "SequencerKeyframe.h"
+#import "SequencerKeyframeEasing.h"
 
 @implementation SequencerSoundChannel
 
@@ -18,6 +20,19 @@
     self.displayName = @"Sounds";
     
     return self;
+}
+
+- (SequencerKeyframe*) defaultKeyframe
+{
+    SequencerKeyframe* kf = [[[SequencerKeyframe alloc] init] autorelease];
+    
+    kf.value = [NSDictionary dictionary];
+    kf.type = kCCBKeyframeTypeCallbacks;
+    kf.name = NULL;
+    kf.easing = [[[SequencerKeyframeEasing alloc] init] autorelease];
+    kf.easing.type = kCCBKeyframeEasingInstant;
+    
+    return kf;
 }
 
 @end

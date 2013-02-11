@@ -26,6 +26,7 @@
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "SequencerChannel.h"
 #import "CCNode+NodeInfo.h"
 #import "PlugInNode.h"
 
@@ -48,6 +49,18 @@
     type = [SequencerKeyframe keyframeTypeFromPropertyType:propType];
     
     NSAssert(type, @"Failed to find valid type for SequencerNodeProperty");
+    
+    return self;
+}
+
+- (id) initWithChannel:(SequencerChannel*)c
+{
+    self = [super init];
+    if (!self) return NULL;
+    
+    propName = NULL;
+    keyframes = [[NSMutableArray alloc] init];
+    type = c.keyframeType;
     
     return self;
 }
@@ -76,7 +89,10 @@
 {
     NSMutableDictionary* ser = [NSMutableDictionary dictionaryWithCapacity:3];
     
-    [ser setObject:propName forKey:@"name"];
+    if (propName)
+    {
+        [ser setObject:propName forKey:@"name"];
+    }
     [ser setObject:[NSNumber numberWithInt:type] forKey:@"type"];
     
     NSMutableArray* serKeyframes = [NSMutableArray arrayWithCapacity:keyframes.count];

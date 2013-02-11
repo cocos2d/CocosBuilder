@@ -27,6 +27,8 @@
 #define TIMELINE_PAD_PIXELS 5.0f
 
 @class SequencerSettingsWindow;
+@class SequencerCallbackChannel;
+@class SequencerSoundChannel;
 
 @interface SequencerSequence : NSObject
 {
@@ -39,6 +41,9 @@
     NSString* name;
     int sequenceId;
     int chainedSequenceId;
+    
+    SequencerCallbackChannel* callbackChannel;
+    SequencerSoundChannel* soundChannel;
     
     BOOL autoPlay;
     
@@ -53,6 +58,9 @@
 @property (nonatomic,copy) NSString* name;
 @property (nonatomic,assign) int sequenceId;
 @property (nonatomic,assign) int chainedSequenceId;
+@property (nonatomic,readonly) SequencerCallbackChannel* callbackChannel;
+@property (nonatomic,readonly) SequencerSoundChannel* soundChannel;
+
 
 @property (nonatomic,readonly) NSString* currentDisplayTime;
 @property (nonatomic,readonly) NSString* lengthDisplayTime;

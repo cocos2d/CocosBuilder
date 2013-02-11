@@ -29,6 +29,8 @@
 #import "CocosScene.h"
 #import "CCNode+NodeInfo.h"
 #import "SequencerSettingsWindow.h"
+#import "SequencerCallbackChannel.h"
+#import "SequencerSoundChannel.h"
 
 @implementation SequencerSequence
 
@@ -42,6 +44,8 @@
 @synthesize chainedSequenceId;
 @synthesize autoPlay;
 @synthesize settingsWindow;
+@synthesize soundChannel;
+@synthesize callbackChannel;
 
 - (id) init
 {
@@ -56,6 +60,9 @@
     sequenceId = -1;
     chainedSequenceId = -1;
     timelinePosition = 0;
+    
+    callbackChannel = [[SequencerCallbackChannel alloc] init];
+    soundChannel = [[SequencerSoundChannel alloc] init];
     
     return self;
 }
@@ -77,6 +84,11 @@
     else chainedSequenceId = -1;
     autoPlay = [[ser objectForKey:@"autoPlay"] boolValue];
     
+    id serCallbacks = [ser objectForKey:@"callbackChannel"];
+    callbackChannel = [[SequencerCallbackChannel alloc] initWithSerialization: serCallbacks];
+    id serSounds = [ser objectForKey:@"soundChannel"];
+    soundChannel = [[SequencerSoundChannel alloc] initWithSerialization: serSounds];
+    
     return self;
 }
 
@@ -93,6 +105,11 @@
     [ser setObject:[NSNumber numberWithInt:sequenceId] forKey:@"sequenceId"];
     [ser setObject:[NSNumber numberWithInt:chainedSequenceId] forKey:@"chainedSequenceId"];
     [ser setObject:[NSNumber numberWithBool:autoPlay] forKey:@"autoPlay"];
+    
+    id serCallbacks = [callbackChannel serialize];
+    [ser setObject:serCallbacks forKey:@"callbackChannel"];
+    id serSounds = [callbackChannel serialize];
+    [ser setObject:serSounds forKey:@"soundChannel"];
     
     return ser;
 }
@@ -233,6 +250,8 @@
 - (void) dealloc
 {
     self.name = NULL;
+    [callbackChannel release];
+    [soundChannel release];
     [super dealloc];
 }
 
