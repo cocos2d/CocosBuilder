@@ -375,10 +375,7 @@
         SequencerNodeProperty* prop;
         while ((prop = [seqEnum nextObject]))
         {
-            for (SequencerKeyframe* keyframe in prop.keyframes)
-            {
-                keyframe.selected = NO;
-            }
+            [prop deselectKeyframes];
         }
     }
 }

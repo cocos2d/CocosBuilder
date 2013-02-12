@@ -169,11 +169,6 @@
     
     if (nodeProp)
     {
-        if (nodeProp.type == kCCBKeyframeTypeCallbacks)
-        {
-            NSLog(@"Draw callbacks");
-        }
-        
         // Draw keyframes & interpolation lines
         NSArray* keyframes = nodeProp.keyframes;
         for (int i = 0; i < [keyframes count]; i++)

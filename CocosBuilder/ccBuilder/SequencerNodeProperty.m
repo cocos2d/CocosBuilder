@@ -398,6 +398,14 @@
     return NULL;
 }
 
+- (void) deselectKeyframes
+{
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        keyframe.selected = NO;
+    }
+}
+
 - (SequencerNodeProperty*) duplicate
 {
     id serialization = [self serialization];

@@ -38,6 +38,7 @@
 #import "SequencerScrubberSelectionView.h"
 #import "SequencerKeyframe.h"
 #import "SequencerKeyframeEasing.h"
+#import "SequencerNodeProperty.h"
 #import "CCNode+NodeInfo.h"
 #import "CCBDocument.h"
 #import "CCBPCCBFile.h"
@@ -655,6 +656,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) deselectAllKeyframes
 {
     [self deselectKeyframesForNode:[[CocosScene cocosScene] rootNode]];
+    [currentSequence.soundChannel.seqNodeProp deselectKeyframes];
+    [currentSequence.callbackChannel.seqNodeProp deselectKeyframes];
+    
     [outlineHierarchy reloadData];
 }
 

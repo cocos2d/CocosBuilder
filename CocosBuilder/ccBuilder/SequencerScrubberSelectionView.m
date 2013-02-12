@@ -362,8 +362,9 @@
     
     if ([item isKindOfClass:[SequencerChannel class]])
     {
-        // TODO: Handle audio & callbacks
-        return NULL;
+        // Handle audio & callbacks
+        SequencerChannel* channel = item;
+        return [channel.seqNodeProp keyframeBetweenMinTime:minTime maxTime:maxTime];
     }
     
     CCNode* node = item;
@@ -446,11 +447,13 @@
         
         if ([item isKindOfClass:[SequencerChannel class]])
         {
-            // TODO: Handle audio & callbacks
+            // Handle audio & callbacks
+            SequencerChannel* channel = item;
+            [selectedKeyframes addObjectsFromArray:[channel.seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
         }
         else
         {
-            CCNode* node = [outlineView itemAtRow:yMinRow];
+            CCNode* node = item;
             for (int subRow = yMinSubRow; subRow <= yMaxSubRow; subRow++)
             {
                 NSString* propName = [self propNameForNode:node subRow:subRow];

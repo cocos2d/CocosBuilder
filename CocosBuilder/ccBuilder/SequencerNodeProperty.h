@@ -54,5 +54,6 @@
 - (SequencerKeyframe*) keyframeAtTime:(float)time;
 - (BOOL) deleteDuplicateKeyframes;
 - (void) deleteKeyframesAfterTime:(float)time;
+- (void) deselectKeyframes;
 - (SequencerNodeProperty*) duplicate;
 @end
