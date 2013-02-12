@@ -17,7 +17,7 @@
     self = [super init];
     if (!self) return NULL;
     
-    self.displayName = @"Sounds";
+    self.displayName = @"Sound effects";
     
     return self;
 }
@@ -27,7 +27,7 @@
     SequencerKeyframe* kf = [[[SequencerKeyframe alloc] init] autorelease];
     
     kf.value = [NSDictionary dictionary];
-    kf.type = kCCBKeyframeTypeCallbacks;
+    kf.type = kCCBKeyframeTypeSoundEffects;
     kf.name = NULL;
     kf.easing = [[[SequencerKeyframeEasing alloc] init] autorelease];
     kf.easing.type = kCCBKeyframeEasingInstant;

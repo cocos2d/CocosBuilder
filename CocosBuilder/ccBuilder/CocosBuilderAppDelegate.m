@@ -79,6 +79,8 @@
 #import "PlayerConsoleWindow.h"
 #import "SequencerUtil.h"
 #import "SequencerStretchWindow.h"
+#import "SequencerSoundChannel.h"
+#import "SequencerCallbackChannel.h"
 #import "CustomPropSettingsWindow.h"
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
@@ -1746,6 +1748,8 @@ static BOOL hideAllToNextSeparator;
         NSMutableSet* propsSet = [NSMutableSet set];
         NSMutableSet* seqsSet = [NSMutableSet set];
         BOOL duplicatedProps = NO;
+        BOOL hasNodeKeyframes = NO;
+        BOOL hasChannelKeyframes = NO;
         
         for (int i = 0; i < keyframes.count; i++)
         {
@@ -1755,13 +1759,23 @@ static BOOL hideAllToNextSeparator;
             if (![seqsSet containsObject:seqVal])
             {
                 NSString* propName = keyframe.name;
-                if ([propsSet containsObject:propName])
+                
+                if (propName)
                 {
-                    duplicatedProps = YES;
-                    break;
+                    if ([propsSet containsObject:propName])
+                    {
+                        duplicatedProps = YES;
+                        break;
+                    }
+                    [propsSet addObject:propName];
+                    [seqsSet addObject:seqVal];
+                    
+                    hasNodeKeyframes = YES;
                 }
-                [propsSet addObject:propName];
-                [seqsSet addObject:seqVal];
+                else
+                {
+                    hasChannelKeyframes = YES;
+                }
             }
         }
         
@@ -1769,6 +1783,18 @@ static BOOL hideAllToNextSeparator;
         {
             [self modalDialogTitle:@"Failed to Copy" message:@"You can only copy keyframes from one node."];
             return;
+        }
+        
+        if (hasChannelKeyframes && hasNodeKeyframes)
+        {
+            [self modalDialogTitle:@"Failed to Copy" message:@"You cannot copy sound/callback keyframes and node keyframes at once."];
+            return;
+        }
+        
+        NSString* clipType = @"com.cocosbuilder.keyframes";
+        if (hasChannelKeyframes)
+        {
+            clipType = @"com.cocosbuilder.channelkeyframes";
         }
         
         // Serialize keyframe
@@ -1779,8 +1805,8 @@ static BOOL hideAllToNextSeparator;
         }
         NSData* clipData = [NSKeyedArchiver archivedDataWithRootObject:serKeyframes];
         NSPasteboard* cb = [NSPasteboard generalPasteboard];
-        [cb declareTypes:[NSArray arrayWithObject:@"com.cocosbuilder.keyframes"] owner:self];
-        [cb setData:clipData forType:@"com.cocosbuilder.keyframes"];
+        [cb declareTypes:[NSArray arrayWithObject:clipType] owner:self];
+        [cb setData:clipData forType:clipType];
         
         return;
     }
@@ -1822,11 +1848,11 @@ static BOOL hideAllToNextSeparator;
     
     // Paste keyframes
     NSPasteboard* cb = [NSPasteboard generalPasteboard];
-    NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.keyframes", nil]];
+    NSString* type = [cb availableTypeFromArray:[NSArray arrayWithObjects:@"com.cocosbuilder.keyframes", @"com.cocosbuilder.channelkeyframes", nil]];
     
     if (type)
     {
-        if (!self.selectedNode)
+        if (!self.selectedNode && [type isEqualToString:@"com.cocosbuilder.keyframes"])
         {
             [self modalDialogTitle:@"Paste Failed" message:@"You need to select a node to paste keyframes"];
             return;
@@ -1852,13 +1878,30 @@ static BOOL hideAllToNextSeparator;
         // Adjust times and add keyframes
         SequencerSequence* seq = sequenceHandler.currentSequence;
         
+        NSLog(@"keyframes: %@", keyframes);
+        
         for (SequencerKeyframe* keyframe in keyframes)
         {
             // Adjust time
             keyframe.time = [seq alignTimeToResolution:keyframe.time - firstTime + seq.timelinePosition];
             
             // Add the keyframe
-            [self.selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
+            if ([type isEqualToString:@"com.cocosbuilder.keyframes"])
+            {
+                [self.selectedNode addKeyframe:keyframe forProperty:keyframe.name atTime:keyframe.time sequenceId:seq.sequenceId];
+            }
+            else if ([type isEqualToString:@"com.cocosbuilder.channelkeyframes"])
+            {
+                if (keyframe.type == kCCBKeyframeTypeCallbacks)
+                {
+                    [seq.callbackChannel.seqNodeProp setKeyframe:keyframe];
+                }
+                else if (keyframe.type == kCCBKeyframeTypeSoundEffects)
+                {
+                    [seq.soundChannel.seqNodeProp setKeyframe:keyframe];
+                }
+                [[SequencerHandler sharedHandler] redrawTimeline];
+            }
         }
         
     }
