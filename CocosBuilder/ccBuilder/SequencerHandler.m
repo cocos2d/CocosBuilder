@@ -691,6 +691,17 @@ static SequencerHandler* sharedSequencerHandler;
     [[CocosScene cocosScene].rootNode deleteKeyframesAfterTime:time sequenceId:currentSequence.sequenceId];
 }
 
+- (void) addSelectedKeyframesForChannel:(SequencerChannel*) channel ToArray:(NSMutableArray*)keyframes
+{
+    for (SequencerKeyframe* keyframe in channel.seqNodeProp.keyframes)
+    {
+        if (keyframe.selected)
+        {
+            [keyframes addObject:keyframe];
+        }
+    }
+}
+
 - (void) addSelectedKeyframesForNode:(CCNode*)node toArray:(NSMutableArray*)keyframes
 {
     [node addSelectedKeyframesToArray:keyframes];
@@ -708,6 +719,8 @@ static SequencerHandler* sharedSequencerHandler;
 {
     NSMutableArray* keyframes = [NSMutableArray array];
     [self addSelectedKeyframesForNode:[[CocosScene cocosScene] rootNode] toArray:keyframes];
+    [self addSelectedKeyframesForChannel:currentSequence.callbackChannel ToArray:keyframes];
+    [self addSelectedKeyframesForChannel:currentSequence.soundChannel ToArray:keyframes];
     return keyframes;
 }
 

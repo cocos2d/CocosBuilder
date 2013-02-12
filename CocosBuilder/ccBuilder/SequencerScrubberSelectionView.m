@@ -470,7 +470,12 @@
             id item = [outlineView itemAtRow:row];
             CCNode* node = NULL;
             
-            if (![item isKindOfClass:[SequencerChannel class]])
+            if ([item isKindOfClass:[SequencerChannel class]])
+            {
+                SequencerChannel* channel = item;
+                [selectedKeyframes addObjectsFromArray: [channel.seqNodeProp keyframesBetweenMinTime:xMinTime maxTime:xMaxTime]];
+            }
+            else
             {
                 node = item;
             }
@@ -549,7 +554,12 @@
     CCNode* node = NULL;
     if (row >= 0)
     {
-        node = [outlineView itemAtRow:row];
+        id item = [outlineView itemAtRow:row];
+        
+        if ([item isKindOfClass:[CCNode class]])
+        {
+            node = item;
+        }
     }
     
     didAutoScroll = NO;
@@ -584,7 +594,10 @@
                 if (theEvent.clickCount == 2)
                 {
                     seq.timelinePosition = mouseDownKeyframe.time;
-                    [CocosBuilderAppDelegate appDelegate].selectedNodes = [NSArray arrayWithObject: node];
+                    if (node)
+                    {
+                        [CocosBuilderAppDelegate appDelegate].selectedNodes = [NSArray arrayWithObject: node];
+                    }
                 }
                 
                 // Start dragging keyframe(s)
@@ -830,6 +843,14 @@
     {
         [SequencerHandler sharedHandler].contextKeyframe = keyframe;
         return [CocosBuilderAppDelegate appDelegate].menuContextKeyframe;
+    }
+    
+    NSOutlineView* outlineView = [SequencerHandler sharedHandler].outlineHierarchy;
+    
+    id item = [outlineView itemAtRow:row];
+    if ([item isKindOfClass:[SequencerChannel class]])
+    {
+        return NULL;
     }
     
     // Check if an interpolation was clicked
