@@ -209,6 +209,22 @@
     }
 }
 
+- (BOOL) deleteSelectedKeyframes
+{
+    BOOL deleted = NO;
+    for (int i = keyframes.count-1; i >= 0; i--)
+    {
+        SequencerKeyframe* keyframe = [keyframes objectAtIndex:i];
+        if (keyframe.selected)
+        {
+            [keyframes removeObjectAtIndex:i];
+            deleted = YES;
+        }
+    }
+    
+    return deleted;
+}
+
 - (id) valueAtTime:(float)time
 {
     int numKeyframes = [keyframes count];

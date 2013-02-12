@@ -401,7 +401,11 @@ static SequencerHandler* sharedSequencerHandler;
     
     CCBGlobals* g = [CCBGlobals globals];
     
-    CCNode* draggedNode = [items objectAtIndex:0];
+    id item = [items objectAtIndex:0];
+    
+    if (![item isKindOfClass:[CCNode class]]) return NO;
+    
+    CCNode* draggedNode = item;
     if (draggedNode == g.rootNode) return NO;
     
     NSMutableDictionary* clipDict = [CCBWriterInternal dictionaryFromCCObject:draggedNode];
@@ -417,6 +421,8 @@ static SequencerHandler* sharedSequencerHandler;
 - (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id < NSDraggingInfo >)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     if (item == NULL) return NSDragOperationNone;
+    
+    if (![item isKindOfClass:[CCNode class]]) return NSDragOperationNone;
     
     CCBGlobals* g = [CCBGlobals globals];
     NSPasteboard* pb = [info draggingPasteboard];
@@ -485,6 +491,13 @@ static SequencerHandler* sharedSequencerHandler;
     }
     
     return NO;
+}
+
+- (BOOL) outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+    if (![item isKindOfClass:[CCNode class]]) return NO;
+    
+    return YES;
 }
 
 - (CGFloat) outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
@@ -665,6 +678,10 @@ static SequencerHandler* sharedSequencerHandler;
 - (BOOL) deleteSelectedKeyframesForCurrentSequence
 {
     BOOL didDelete = [[CocosScene cocosScene].rootNode deleteSelectedKeyframesForSequenceId:currentSequence.sequenceId];
+    
+    didDelete |= [currentSequence.callbackChannel.seqNodeProp deleteSelectedKeyframes];
+    didDelete |= [currentSequence.soundChannel.seqNodeProp deleteSelectedKeyframes];
+    
     if (didDelete)
     {
         [self redrawTimeline];
