@@ -429,8 +429,6 @@
         yMaxSubRow = yStartSelectSubRow;
     }
     
-    NSLog(@"keyframesInSelectionArea yMin: %d yMax: %d", yMinRow, yMaxRow);
-    
     if (yMinRow == yMaxRow)
     {
         // Only selection within a row
@@ -725,8 +723,6 @@
         [self autoScrollVerticalDirection:scrollDir];
         
         yEndSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
-        
-        NSLog(@"yStartSelectRow: %d yEndSelectRow: %d yStartSelectSubRow: %d yEndSelectSubRow: %d", yStartSelectRow, yEndSelectRow, yStartSelectSubRow, yEndSelectSubRow);
         
         [self setNeedsDisplay:YES];
     }
