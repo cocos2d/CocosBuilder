@@ -32,6 +32,7 @@
 #import "SequencerKeyframeEasing.h"
 #import "CocosBuilderAppDelegate.h"
 #import "SequencerChannel.h"
+#import "SequencerPopoverHandler.h"
 
 @implementation SequencerScrubberSelectionView
 
@@ -79,7 +80,7 @@
         CCNode* lastNode = [outlineView itemAtRow:[outlineView numberOfRows]-1];
         if (lastNode.seqExpanded)
         {
-            return [[lastNode plugIn].animatableProperties count];
+            return [[lastNode plugIn].animatableProperties count]-1;
         }
         else
         {
@@ -428,6 +429,8 @@
         yMaxSubRow = yStartSelectSubRow;
     }
     
+    NSLog(@"keyframesInSelectionArea yMin: %d yMax: %d", yMinRow, yMaxRow);
+    
     if (yMinRow == yMaxRow)
     {
         // Only selection within a row
@@ -597,6 +600,12 @@
                     if (node)
                     {
                         [CocosBuilderAppDelegate appDelegate].selectedNodes = [NSArray arrayWithObject: node];
+                        
+                        float xPos = [seq timeToPosition:mouseDownKeyframe.time];
+                        
+                        NSRect kfBounds = NSMakeRect(xPos-3, mouseLocation.y, 7, 10);
+                        
+                        [SequencerPopoverHandler popoverNode:node property:NULL overView:self kfBounds:kfBounds];
                     }
                 }
                 
@@ -716,6 +725,8 @@
         [self autoScrollVerticalDirection:scrollDir];
         
         yEndSelectSubRow = [self yMousePosToSubRow:mouseLocation.y];
+        
+        NSLog(@"yStartSelectRow: %d yEndSelectRow: %d yStartSelectSubRow: %d yEndSelectSubRow: %d", yStartSelectRow, yEndSelectRow, yStartSelectSubRow, yEndSelectSubRow);
         
         [self setNeedsDisplay:YES];
     }
