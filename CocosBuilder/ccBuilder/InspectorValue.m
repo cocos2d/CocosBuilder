@@ -35,7 +35,14 @@
 
 @implementation InspectorValue
 
-@synthesize displayName, view, extra, readOnly, affectsProperties, inspectorValueBelow, rootNode;
+@synthesize displayName;
+@synthesize view;
+@synthesize extra;
+@synthesize readOnly;
+@synthesize affectsProperties;
+@synthesize inspectorValueBelow;
+@synthesize rootNode;
+@synthesize inPopoverWindow;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e
 {
@@ -81,6 +88,11 @@
             CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
             [ad refreshProperty:propName];
         }
+    }
+    
+    if (inPopoverWindow)
+    {
+        [[CocosBuilderAppDelegate appDelegate] updateInspectorFromSelection];
     }
 }
 

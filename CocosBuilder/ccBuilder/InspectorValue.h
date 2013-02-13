@@ -41,6 +41,7 @@
     NSArray* affectsProperties;
     InspectorValue* inspectorValueBelow;
     BOOL rootNode;
+    BOOL inPopoverWindow;
 }
 
 @property (nonatomic,readonly) NSString* displayName;
@@ -50,6 +51,7 @@
 @property (nonatomic,assign) BOOL rootNode;
 @property (nonatomic,retain) NSArray* affectsProperties;
 @property (nonatomic,retain) InspectorValue* inspectorValueBelow;
+@property (nonatomic,assign) BOOL inPopoverWindow;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e;
 

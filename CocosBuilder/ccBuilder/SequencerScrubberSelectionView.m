@@ -597,13 +597,18 @@
                     seq.timelinePosition = mouseDownKeyframe.time;
                     if (node)
                     {
+                        // Center
                         [CocosBuilderAppDelegate appDelegate].selectedNodes = [NSArray arrayWithObject: node];
                         
-                        float xPos = [seq timeToPosition:mouseDownKeyframe.time];
-                        
-                        NSRect kfBounds = NSMakeRect(xPos-3, mouseLocation.y, 7, 10);
-                        
-                        [SequencerPopoverHandler popoverNode:node property:NULL overView:self kfBounds:kfBounds];
+                        if (subRow != 0)
+                        {
+                            // Calc bounds of keyframe
+                            float xPos = [seq timeToPosition:mouseDownKeyframe.time];
+                            NSRect kfBounds = NSMakeRect(xPos-3, mouseLocation.y, 7, 10);
+                            
+                            // Popover
+                            [SequencerPopoverHandler popoverNode:node property:[self propNameForNode:node subRow:subRow] overView:self kfBounds:kfBounds];
+                        }
                     }
                 }
                 
