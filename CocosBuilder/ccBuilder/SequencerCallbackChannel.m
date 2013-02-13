@@ -26,7 +26,7 @@
 {
     SequencerKeyframe* kf = [[[SequencerKeyframe alloc] init] autorelease];
     
-    kf.value = [NSDictionary dictionary];
+    kf.value = [NSArray arrayWithObjects:@"", [NSNumber numberWithInt:0], nil];
     kf.type = kCCBKeyframeTypeCallbacks;
     kf.name = NULL;
     kf.easing = [[[SequencerKeyframeEasing alloc] init] autorelease];

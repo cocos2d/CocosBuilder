@@ -32,6 +32,8 @@
 #import "SequencerKeyframeEasing.h"
 #import "CocosBuilderAppDelegate.h"
 #import "SequencerChannel.h"
+#import "SequencerCallbackChannel.h"
+#import "SequencerSoundChannel.h"
 #import "SequencerPopoverHandler.h"
 
 @implementation SequencerScrubberSelectionView
@@ -609,6 +611,29 @@
                             // Popover
                             [SequencerPopoverHandler popoverNode:node property:[self propNameForNode:node subRow:subRow] overView:self kfBounds:kfBounds];
                         }
+                    }
+                    else
+                    {
+                        // This is a channel keyframe
+                        float time = mouseDownKeyframe.time;
+                        SequencerChannel* channel = NULL;
+                        if (mouseDownKeyframe.type == kCCBKeyframeTypeCallbacks)
+                        {
+                            channel = seq.callbackChannel;
+                        }
+                        else if (mouseDownKeyframe.type == kCCBKeyframeTypeSoundEffects)
+                        {
+                            channel = seq.soundChannel;
+                        }
+                        
+                        NSAssert(channel, @"Keyframe doesn't have valid channel");
+                        
+                        // Calc bounds of keyframe
+                        float xPos = [seq timeToPosition:mouseDownKeyframe.time];
+                        NSRect kfBounds = NSMakeRect(xPos-3, mouseLocation.y, 7, 10);
+                        
+                        // Popover
+                        [SequencerPopoverHandler popoverChannelKeyframes:[channel keyframesAtTime:time] kfBounds:kfBounds overView:self];
                     }
                 }
                 

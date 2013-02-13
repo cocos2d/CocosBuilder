@@ -68,6 +68,19 @@
     kf.time = t;
 }
 
+- (NSArray*) keyframesAtTime:(float)t
+{
+    NSMutableArray* kfs = [NSMutableArray array];
+    for (SequencerKeyframe* kf in self.seqNodeProp.keyframes)
+    {
+        if (kf.time == t)
+        {
+            [kfs addObject:kf];
+        }
+    }
+    return kfs;
+}
+
 - (void) dealloc
 {
     self.displayName = NULL;

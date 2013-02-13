@@ -22,5 +22,6 @@
 
 - (SequencerKeyframe*) defaultKeyframe;
 - (void) addDefaultKeyframeAtTime:(float)t;
+- (NSArray*) keyframesAtTime:(float)t;
 
 @end
