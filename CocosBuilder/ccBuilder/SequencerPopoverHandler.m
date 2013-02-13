@@ -51,6 +51,8 @@
     [vc.view setFrameSize:view.bounds.size];
     [vc.view addSubview:view];
     
+    [inspectorValue willBeAdded];
+    
     NSPopover* popover = [[[NSPopover alloc] init] autorelease];
     //popover.appearance = NSPopoverAppearanceHUD;
     popover.behavior = NSPopoverBehaviorTransient;
