@@ -12,6 +12,7 @@
 #import "NodeInfo.h"
 #import "SequencerKeyframe.h"
 #import "SequencerPopoverBlock.h"
+#import "SequencerPopoverSound.h"
 
 @implementation SequencerPopoverHandler
 
@@ -83,6 +84,24 @@
             NSView* view = owner.view;
             
             [vc.view setFrameSize:NSMakeSize(view.bounds.size.width, view.bounds.size.height*kfs.count)];
+            
+            [vc.view addSubview:view];
+            
+            [view setFrameOrigin:NSMakePoint(0, h)];
+            
+            w = view.bounds.size.width;
+            h += view.bounds.size.height;
+        }
+        else if (kf.type == kCCBKeyframeTypeSoundEffects)
+        {
+            SequencerPopoverSound* owner = [[[SequencerPopoverSound alloc] init] autorelease];
+            owner.keyframe = kf;
+            [NSBundle loadNibNamed:@"SequencerPopoverSound" owner:owner];
+            NSView* view = owner.view;
+            
+            [vc.view setFrameSize:NSMakeSize(view.bounds.size.width, view.bounds.size.height*kfs.count)];
+            
+            [owner willBeAdded];
             
             [vc.view addSubview:view];
             

@@ -26,7 +26,12 @@
 {
     SequencerKeyframe* kf = [[[SequencerKeyframe alloc] init] autorelease];
     
-    kf.value = [NSDictionary dictionary];
+    kf.value = [NSArray arrayWithObjects:
+                @"",
+                [NSNumber numberWithFloat:1],
+                [NSNumber numberWithFloat:0],
+                [NSNumber numberWithFloat:1],
+                nil];
     kf.type = kCCBKeyframeTypeSoundEffects;
     kf.name = NULL;
     kf.easing = [[[SequencerKeyframeEasing alloc] init] autorelease];
