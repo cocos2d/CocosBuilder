@@ -10,6 +10,7 @@
 #import "SequencerKeyframe.h"
 #import "ResourceManager.h"
 #import "ResourceManagerUtil.h"
+#import "CocosBuilderAppDelegate.h"
 
 @implementation SequencerPopoverSound
 
@@ -32,7 +33,7 @@
 
 - (void) selectedResource:(id)sender
 {
-    NSLog(@"Selected resource");
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
     
     id item = [sender representedObject];
     
@@ -62,6 +63,8 @@
 
 - (void) setPitch:(float)pitch
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
+    
     _keyframe.value = [self replaceObjectAtIndex:1 inArray:_keyframe.value withObject:[NSNumber numberWithFloat:pitch]];
 }
 
@@ -72,6 +75,8 @@
 
 - (void) setPan:(float)pan
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
+    
     _keyframe.value = [self replaceObjectAtIndex:2 inArray:_keyframe.value withObject:[NSNumber numberWithFloat:pan]];
 }
 
@@ -82,6 +87,8 @@
 
 - (void) setGain:(float)gain
 {
+    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
+    
     _keyframe.value = [self replaceObjectAtIndex:3 inArray:_keyframe.value withObject:[NSNumber numberWithFloat:gain]];
 }
 
