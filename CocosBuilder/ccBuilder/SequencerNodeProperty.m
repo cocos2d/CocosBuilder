@@ -414,6 +414,18 @@
     return NULL;
 }
 
+- (NSArray*) keyframesAtTime:(float)time
+{
+    NSMutableArray* kfs = [NSMutableArray array];
+    
+    for (SequencerKeyframe* keyframe in keyframes)
+    {
+        if (keyframe.time == time) [kfs addObject:keyframe];
+    }
+    
+    return kfs;
+}
+
 - (void) deselectKeyframes
 {
     for (SequencerKeyframe* keyframe in keyframes)

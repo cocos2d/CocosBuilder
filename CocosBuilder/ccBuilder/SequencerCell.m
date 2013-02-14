@@ -150,6 +150,25 @@
     }
 }
 
+- (BOOL) shouldDrawSelectedKeyframe:(SequencerKeyframe*)kf forNodeProp:(SequencerNodeProperty*)nodeProp
+{
+    if (kf.type == kCCBKeyframeTypeCallbacks
+        || kf.type == kCCBKeyframeTypeSoundEffects)
+    {
+        NSArray* kfsAtTime = [nodeProp keyframesAtTime:kf.time];
+        for (SequencerKeyframe* kfAtTime in kfsAtTime)
+        {
+            if (kfAtTime.selected) return YES;
+        }
+        
+        return NO;
+    }
+    else
+    {
+        return kf.selected;
+    }
+}
+
 - (void) drawPropertyRowForSeq:(SequencerSequence*) seq nodeProp:(SequencerNodeProperty*)nodeProp row:(int)row withFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
     // Draw background
@@ -238,7 +257,7 @@
             
             // Draw keyframe
             NSImage* img = NULL;
-            if (keyframe.selected)
+            if ([self shouldDrawSelectedKeyframe:keyframe forNodeProp:nodeProp])
             {
                 img = imgKeyframeSel;
             }
