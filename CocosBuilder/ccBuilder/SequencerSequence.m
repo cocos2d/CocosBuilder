@@ -108,7 +108,7 @@
     
     id serCallbacks = [callbackChannel serialize];
     [ser setObject:serCallbacks forKey:@"callbackChannel"];
-    id serSounds = [callbackChannel serialize];
+    id serSounds = [soundChannel serialize];
     [ser setObject:serSounds forKey:@"soundChannel"];
     
     return ser;
