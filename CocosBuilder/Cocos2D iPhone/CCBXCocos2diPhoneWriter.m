@@ -615,6 +615,53 @@
     for (NSDictionary* seq in seqs)
     {
         [self addToStringCache:[seq objectForKey:@"name"] isPath:NO];
+        
+        // Write callback channel
+        NSArray* callbackKeyframes = [[seq objectForKey:@"callbackChannel"] objectForKey:@"keyframes"];
+        for (NSDictionary* kf in callbackKeyframes)
+        {
+            NSArray* value = [kf objectForKey:@"value"];
+            NSString* callbackName = [value objectAtIndex:0];
+            [self addToStringCache:callbackName isPath:NO];
+        }
+        
+        NSArray* soundKeyframes = [[seq objectForKey:@"soundChannel"] objectForKey:@"keyframes"];
+        for (NSDictionary* kf in soundKeyframes)
+        {
+            NSArray* value = [kf objectForKey:@"value"];
+            NSString* soundName = [value objectAtIndex:0];
+            [self addToStringCache:soundName isPath:YES];
+        }
+    }
+}
+
+- (void) writeChannelKeyframe:(NSDictionary*) kf
+{
+    NSArray* value = [kf objectForKey:@"value"];
+    int type = [[kf objectForKey:@"type"] intValue];
+    float time = [[kf objectForKey:@"time"] floatValue];
+    
+    [self writeFloat:time];
+    
+    if (type == kCCBKeyframeTypeCallbacks)
+    {
+        NSString* selector = [value objectAtIndex:0];
+        int target = [[value objectAtIndex:1] intValue];
+        
+        [self writeCachedString:selector isPath:NO];
+        [self writeInt:target withSign:NO];
+    }
+    else if (type == kCCBKeyframeTypeSoundEffects)
+    {
+        NSString* sound = [value objectAtIndex:0];
+        float pitch = [[value objectAtIndex:1] floatValue];
+        float pan = [[value objectAtIndex:2] floatValue];
+        float gain = [[value objectAtIndex:3] floatValue];
+        
+        [self writeCachedString:sound isPath:YES];
+        [self writeFloat:pitch];
+        [self writeFloat:pan];
+        [self writeFloat:gain];
     }
 }
 
@@ -639,6 +686,24 @@
         if ([[seq objectForKey:@"autoPlay"] boolValue])
         {
             autoPlaySeqId = [[seq objectForKey:@"sequenceId"] intValue];
+        }
+        
+        // Write callback channel
+        NSArray* callbackKeyframes = [[seq objectForKey:@"callbackChannel"] objectForKey:@"keyframes"];
+        
+        [self writeInt: (int)callbackKeyframes.count withSign:NO];
+        for (NSDictionary* keyframe in callbackKeyframes)
+        {
+            [self writeChannelKeyframe:keyframe];
+        }
+        
+        // Write and sound channel
+        NSArray* soundKeyframes = [[seq objectForKey:@"soundChannel"] objectForKey:@"keyframes"];
+        
+        [self writeInt: (int)soundKeyframes.count withSign:NO];
+        for (NSDictionary* keyframe in soundKeyframes)
+        {
+            [self writeChannelKeyframe:keyframe];
         }
     }
     
