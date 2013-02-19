@@ -31,6 +31,10 @@
 #import "SequencerSettingsWindow.h"
 #import "SequencerCallbackChannel.h"
 #import "SequencerSoundChannel.h"
+#import "SequencerNodeProperty.h"
+#import "SequencerKeyframe.h"
+#import "SimpleAudioEngine.h"
+#import "ResourceManager.h"
 
 @implementation SequencerSequence
 
@@ -224,7 +228,27 @@
 
 - (void) stepForward:(int)numSteps
 {
+    // Calculate new time
     float newTime = [self alignTimeToResolution: timelinePosition + numSteps/timelineResolution];
+    
+    // Handle audio
+    NSArray* soundKeyframes = [soundChannel.seqNodeProp keyframesBetweenMinTime:timelinePosition maxTime:newTime - 1.0f/timelineResolution];
+    
+    for (SequencerKeyframe* keyframe in soundKeyframes)
+    {
+        NSString* soundFile = [keyframe.value objectAtIndex:0];
+        float pitch = [[keyframe.value objectAtIndex:1] floatValue];
+        float pan = [[keyframe.value objectAtIndex:2] floatValue];
+        float gain = [[keyframe.value objectAtIndex:3] floatValue];
+        
+        NSString* absFile = [[CocosBuilderAppDelegate appDelegate].resManager toAbsolutePath:soundFile];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:absFile])
+        {
+            [[SimpleAudioEngine sharedEngine] playEffect:absFile pitch:pitch pan:pan gain:gain];
+        }
+    }
+    
+    // Update timeline
     self.timelinePosition = newTime;
     [[SequencerHandler sharedHandler] updateScrollerToShowCurrentTime];
 }
