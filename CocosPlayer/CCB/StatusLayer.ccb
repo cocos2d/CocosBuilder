@@ -83,7 +83,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isTouchEnabled</string>
+						<string>touchEnabled</string>
 						<key>platform</key>
 						<string>iOS</string>
 						<key>type</key>
@@ -93,7 +93,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isAccelerometerEnabled</string>
+						<string>accelerometerEnabled</string>
 						<key>platform</key>
 						<string>iOS</string>
 						<key>type</key>
@@ -113,7 +113,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isKeyboardEnabled</string>
+						<string>keyboardEnabled</string>
 						<key>platform</key>
 						<string>Mac</string>
 						<key>type</key>
@@ -277,7 +277,7 @@
 								<key>value</key>
 								<array>
 									<real>50</real>
-									<real>16.700000762939453</real>
+									<real>16.666666030883789</real>
 									<integer>4</integer>
 								</array>
 							</dict>
@@ -366,6 +366,8 @@
 								</array>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>baseClass</key>
@@ -662,7 +664,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isTouchEnabled</string>
+						<string>touchEnabled</string>
 						<key>platform</key>
 						<string>iOS</string>
 						<key>type</key>
@@ -672,7 +674,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isAccelerometerEnabled</string>
+						<string>accelerometerEnabled</string>
 						<key>platform</key>
 						<string>iOS</string>
 						<key>type</key>
@@ -692,7 +694,7 @@
 					</dict>
 					<dict>
 						<key>name</key>
-						<string>isKeyboardEnabled</string>
+						<string>keyboardEnabled</string>
 						<key>platform</key>
 						<string>Mac</string>
 						<key>type</key>
@@ -1132,7 +1134,7 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>isTouchEnabled</string>
+				<string>touchEnabled</string>
 				<key>platform</key>
 				<string>iOS</string>
 				<key>type</key>
@@ -1142,7 +1144,7 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>isAccelerometerEnabled</string>
+				<string>accelerometerEnabled</string>
 				<key>platform</key>
 				<string>iOS</string>
 				<key>type</key>
@@ -1162,7 +1164,7 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			</dict>
 			<dict>
 				<key>name</key>
-				<string>isKeyboardEnabled</string>
+				<string>keyboardEnabled</string>
 				<key>platform</key>
 				<string>Mac</string>
 				<key>type</key>
@@ -1210,6 +1212,13 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 		<dict>
 			<key>autoPlay</key>
 			<true/>
+			<key>callbackChannel</key>
+			<dict>
+				<key>keyframes</key>
+				<array/>
+				<key>type</key>
+				<integer>9</integer>
+			</dict>
 			<key>chainedSequenceId</key>
 			<integer>-1</integer>
 			<key>length</key>
@@ -1226,6 +1235,13 @@ If multiple instances of CocosBuilder is run on the same network, use a unique p
 			<real>128</real>
 			<key>sequenceId</key>
 			<integer>0</integer>
+			<key>soundChannel</key>
+			<dict>
+				<key>keyframes</key>
+				<array/>
+				<key>type</key>
+				<integer>8</integer>
+			</dict>
 		</dict>
 	</array>
 	<key>stageBorder</key>
