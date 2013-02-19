@@ -601,8 +601,6 @@ static BOOL hideAllToNextSeparator;
     [inspectorDocumentView addSubview:view];
     [view setAutoresizingMask:NSViewWidthSizable];
     
-
-    
     return offset;
 }
 
