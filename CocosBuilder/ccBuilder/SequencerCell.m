@@ -169,11 +169,15 @@
     }
 }
 
-- (void) drawPropertyRowForSeq:(SequencerSequence*) seq nodeProp:(SequencerNodeProperty*)nodeProp row:(int)row withFrame:(NSRect)cellFrame inView:(NSView*)controlView
+- (void) drawPropertyRowForSeq:(SequencerSequence*) seq nodeProp:(SequencerNodeProperty*)nodeProp row:(int)row withFrame:(NSRect)cellFrame inView:(NSView*)controlView isChannel:(BOOL) isChannel
 {
     // Draw background
     NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
-    if (row == 0)
+    if (isChannel)
+    {
+        [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    } 
+    else if (row == 0)
     {
         [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     }
@@ -266,7 +270,14 @@
                 img = imgKeyframe;
             }
             
-            [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            if (isChannel)
+            {
+                [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            }
+            else
+            {
+                [img drawAtPoint:NSMakePoint(cellFrame.origin.x + xPos-3, cellFrame.origin.y+kCCBSeqDefaultRowHeight*row+2) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+            }
         }
     }
 }
@@ -276,7 +287,7 @@
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
     
-    [self drawPropertyRowForSeq:seq nodeProp:nodeProp row:row withFrame:cellFrame inView:controlView];
+    [self drawPropertyRowForSeq:seq nodeProp:nodeProp row:row withFrame:cellFrame inView:controlView isChannel:NO];
 }
 
 - (void) drawCollapsedProps:(NSArray*)props withFrame:(NSRect)cellFrame inView:(NSView*)controlView
@@ -334,6 +345,9 @@
         imgRowBgN = [[NSImage imageNamed:@"seq-row-n-bg.png"] retain];
         [imgRowBgN setFlipped:YES];
         
+        imgRowBgChannel = [[NSImage imageNamed:@"seq-row-channel-bg.png"] retain];
+        [imgRowBgN setFlipped:YES];
+        
         imgInterpol = [[NSImage imageNamed:@"seq-keyframe-interpol.png"] retain];
         [imgInterpol setFlipped:YES];
         
@@ -383,7 +397,7 @@
     }
     else if (channel)
     {
-        [self drawPropertyRowForSeq:[SequencerHandler sharedHandler].currentSequence nodeProp:channel.seqNodeProp row:0 withFrame:cellFrame inView:controlView];
+        [self drawPropertyRowForSeq:[SequencerHandler sharedHandler].currentSequence nodeProp:channel.seqNodeProp row:0 withFrame:cellFrame inView:controlView isChannel:YES];
     }
     else
     {

@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 #import "SequencerExpandBtnCell.h"
+#import "SequencerHandler.h"
 
 @interface SequencerExpandBtnCell()
 
@@ -36,6 +37,7 @@
 @synthesize canExpand;
 @synthesize expandedImage;
 @synthesize collapsedImage;
+@synthesize node;
 
 - (void) loadImages
 {
@@ -81,10 +83,12 @@
              ofView:(NSView *)controlView
        untilMouseUp:(BOOL)untilMouseUp
 {
-    NSPoint tempCoords = [controlView convertPoint: [theEvent locationInWindow] fromView: [[controlView window] contentView]];
+    //NSPoint tempCoords = [controlView convertPoint: [theEvent locationInWindow] fromView: [[controlView window] contentView]];
     
+    /*
     NSPoint mouseCoords = NSMakePoint(tempCoords.x - cellFrame.origin.x,
                                       tempCoords.y  - cellFrame.origin.y);
+     */
     
     // Deal with the click however you need to here, for example in a slider cell you can use the mouse x
     // coordinate to set the floatValue.
@@ -96,6 +100,20 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
+    if (!imagesLoaded)
+    {
+        imgRowBgChannel = [[NSImage imageNamed:@"seq-row-channel-bg.png"] retain];
+        imagesLoaded = YES;
+    }
+    
+    if (!node)
+    {
+        NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, kCCBSeqDefaultRowHeight);
+        [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+        //[super drawWithFrame:cellFrame inView:controlView];
+        return;
+    }
+    
     
     if (canExpand)
     {

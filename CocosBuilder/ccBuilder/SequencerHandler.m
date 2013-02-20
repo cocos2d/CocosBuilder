@@ -502,9 +502,13 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (CGFloat) outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
-    if ([item isKindOfClass:[SequencerChannel class]])
+    if ([item isKindOfClass:[SequencerCallbackChannel class]])
     {
         return kCCBSeqDefaultRowHeight;
+    }
+    else if ([item isKindOfClass:[SequencerSoundChannel class]])
+    {
+        return kCCBSeqDefaultRowHeight;//+1;
     }
     
     CCNode* node = item;
@@ -532,6 +536,7 @@ static SequencerHandler* sharedSequencerHandler;
             SequencerExpandBtnCell* expCell = cell;
             expCell.isExpanded = NO;
             expCell.canExpand = NO;
+            expCell.node = NULL;
         }
         else if ([tableColumn.identifier isEqualToString:@"structure"])
         {
@@ -563,6 +568,7 @@ static SequencerHandler* sharedSequencerHandler;
         SequencerExpandBtnCell* expCell = cell;
         expCell.isExpanded = node.seqExpanded;
         expCell.canExpand = (!isRootNode);
+        expCell.node = node;
     }
     else if ([tableColumn.identifier isEqualToString:@"structure"])
     {
