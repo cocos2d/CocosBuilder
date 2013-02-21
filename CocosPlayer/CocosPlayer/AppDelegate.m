@@ -25,7 +25,7 @@
 #import "cocos2d.h"
 
 #import "AppDelegate.h"
-#import "js_bindings_core.h"
+#import "jsb_core.h"
 
 #import "ServerController.h"
 #import "PlayerStatusLayer.h"
@@ -194,12 +194,14 @@ static AppController* appController = NULL;
 	[sharedFileUtils setiPadSuffix:@"-ipad"];					// Default on iPad is "ipad"
 	[sharedFileUtils setiPadRetinaDisplaySuffix:@"-ipadhd"];	// Default on iPad RetinaDisplay is "-ipadhd"
     
+    
     // Configure CCFileUtils for CocosBuilder
     sharedFileUtils.searchPath =
         [NSArray arrayWithObjects:
          [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ResourcesCCB"],
          [CCBReader ccbDirectoryPath],
          [[NSBundle mainBundle] resourcePath],
+         @"js",
          nil];
     sharedFileUtils.enableiPhoneResourcesOniPad = YES;
     sharedFileUtils.searchMode = kCCFileUtilsSearchDirectoryMode;
@@ -353,7 +355,9 @@ static AppController* appController = NULL;
         [self restartCocos2d];
         
         // Load fileLookup file
-        //[[CCFileUtils sharedFileUtils] loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
+        [[CCFileUtils sharedFileUtils] loadFilenameLookupDictionaryFromFile:@"fileLookup.plist"];
+        
+        NSLog(@"fileLookup.plist: %@", [[CCFileUtils sharedFileUtils] fullPathFromRelativePath:@"fileLookup.plist"]);
         
         // Run script
         [[JSBCore sharedInstance] runScript:@"main.js"];

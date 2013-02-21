@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E3127AAA16C1E6A500D09AA4 /* CCBDirectoryComparer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3127AA916C1E6A500D09AA4 /* CCBDirectoryComparer.m */; };
 		E32F24511656C27A00ADC120 /* ResourcesCCB in Resources */ = {isa = PBXBuildFile; fileRef = E32F24501656C27A00ADC120 /* ResourcesCCB */; };
+		E32FA30616D592F000254653 /* js in Resources */ = {isa = PBXBuildFile; fileRef = E32FA30516D592F000254653 /* js */; };
 		E358953A16A72069002AF275 /* CCBAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E358952F16A72069002AF275 /* CCBAnimationManager.m */; };
 		E358953B16A72069002AF275 /* CCBKeyframe.m in Sources */ = {isa = PBXBuildFile; fileRef = E358953116A72069002AF275 /* CCBKeyframe.m */; };
 		E358953C16A72069002AF275 /* CCBReader.m in Sources */ = {isa = PBXBuildFile; fileRef = E358953316A72069002AF275 /* CCBReader.m */; };
@@ -22,13 +23,6 @@
 		E3893CF61666BF8100299482 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = E3893CEE1666BF8100299482 /* unzip.c */; };
 		E3893CF71666BF8100299482 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E3893CF01666BF8100299482 /* zip.c */; };
 		E3893CF81666BF8100299482 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893CF31666BF8100299482 /* SSZipArchive.m */; };
-		E3DEF5FA169C28E900B9DCF4 /* jsb_chipmunk.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F3169C28E900B9DCF4 /* jsb_chipmunk.js */; };
-		E3DEF5FB169C28E900B9DCF4 /* jsb_cocos2d.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F4169C28E900B9DCF4 /* jsb_cocos2d.js */; };
-		E3DEF5FC169C28E900B9DCF4 /* jsb_cocosbuilder.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F5169C28E900B9DCF4 /* jsb_cocosbuilder.js */; };
-		E3DEF5FD169C28E900B9DCF4 /* jsb_debugger.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F6169C28E900B9DCF4 /* jsb_debugger.js */; };
-		E3DEF5FE169C28E900B9DCF4 /* jsb_opengl.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F7169C28E900B9DCF4 /* jsb_opengl.js */; };
-		E3DEF5FF169C28E900B9DCF4 /* jsb_sys.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F8169C28E900B9DCF4 /* jsb_sys.js */; };
-		E3DEF600169C28E900B9DCF4 /* jsb.js in Resources */ = {isa = PBXBuildFile; fileRef = E3DEF5F9169C28E900B9DCF4 /* jsb.js */; };
 		E3F6A04D16499A7600550B13 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A04C16499A7600550B13 /* QuartzCore.framework */; };
 		E3F6A04F16499A7600550B13 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A04E16499A7600550B13 /* OpenGLES.framework */; };
 		E3F6A05116499A7600550B13 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A05016499A7600550B13 /* OpenAL.framework */; };
@@ -156,6 +150,7 @@
 		E3127AA816C1E6A500D09AA4 /* CCBDirectoryComparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCBDirectoryComparer.h; path = ../../CocosBuilder/ccBuilder/CCBDirectoryComparer.h; sourceTree = "<group>"; };
 		E3127AA916C1E6A500D09AA4 /* CCBDirectoryComparer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCBDirectoryComparer.m; path = ../../CocosBuilder/ccBuilder/CCBDirectoryComparer.m; sourceTree = "<group>"; };
 		E32F24501656C27A00ADC120 /* ResourcesCCB */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ResourcesCCB; sourceTree = "<group>"; };
+		E32FA30516D592F000254653 /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js"; sourceTree = "<group>"; };
 		E358952E16A72069002AF275 /* CCBAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBAnimationManager.h; sourceTree = "<group>"; };
 		E358952F16A72069002AF275 /* CCBAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBAnimationManager.m; sourceTree = "<group>"; };
 		E358953016A72069002AF275 /* CCBKeyframe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBKeyframe.h; sourceTree = "<group>"; };
@@ -181,13 +176,6 @@
 		E3893CF11666BF8100299482 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		E3893CF21666BF8100299482 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = ../../CocosBuilder/libs/ssziparchive/SSZipArchive.h; sourceTree = "<group>"; };
 		E3893CF31666BF8100299482 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../CocosBuilder/libs/ssziparchive/SSZipArchive.m; sourceTree = "<group>"; };
-		E3DEF5F3169C28E900B9DCF4 /* jsb_chipmunk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_chipmunk.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_chipmunk.js"; sourceTree = "<group>"; };
-		E3DEF5F4169C28E900B9DCF4 /* jsb_cocos2d.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_cocos2d.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_cocos2d.js"; sourceTree = "<group>"; };
-		E3DEF5F5169C28E900B9DCF4 /* jsb_cocosbuilder.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_cocosbuilder.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_cocosbuilder.js"; sourceTree = "<group>"; };
-		E3DEF5F6169C28E900B9DCF4 /* jsb_debugger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_debugger.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_debugger.js"; sourceTree = "<group>"; };
-		E3DEF5F7169C28E900B9DCF4 /* jsb_opengl.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_opengl.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_opengl.js"; sourceTree = "<group>"; };
-		E3DEF5F8169C28E900B9DCF4 /* jsb_sys.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb_sys.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb_sys.js"; sourceTree = "<group>"; };
-		E3DEF5F9169C28E900B9DCF4 /* jsb.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jsb.js; path = "../../CocosBuilder/libs/cocos2d-iphone/external/JavaScript/jsbindings/src/js/jsb.js"; sourceTree = "<group>"; };
 		E3F6A04816499A7600550B13 /* CocosPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocosPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F6A04C16499A7600550B13 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3F6A04E16499A7600550B13 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -338,20 +326,6 @@
 			name = SSZipArchive;
 			sourceTree = "<group>";
 		};
-		E3893CFA1666C77F00299482 /* Required JS Files */ = {
-			isa = PBXGroup;
-			children = (
-				E3DEF5F3169C28E900B9DCF4 /* jsb_chipmunk.js */,
-				E3DEF5F4169C28E900B9DCF4 /* jsb_cocos2d.js */,
-				E3DEF5F5169C28E900B9DCF4 /* jsb_cocosbuilder.js */,
-				E3DEF5F6169C28E900B9DCF4 /* jsb_debugger.js */,
-				E3DEF5F7169C28E900B9DCF4 /* jsb_opengl.js */,
-				E3DEF5F8169C28E900B9DCF4 /* jsb_sys.js */,
-				E3DEF5F9169C28E900B9DCF4 /* jsb.js */,
-			);
-			name = "Required JS Files";
-			sourceTree = "<group>";
-		};
 		E3F6A03D16499A7600550B13 = {
 			isa = PBXGroup;
 			children = (
@@ -395,7 +369,6 @@
 				E3F6A33016499C3A00550B13 /* ServerController.m */,
 				E3F6A32116499A7F00550B13 /* AppDelegate.h */,
 				E3F6A32216499A7F00550B13 /* AppDelegate.m */,
-				E3893CFA1666C77F00299482 /* Required JS Files */,
 				E3F6A05F16499A7600550B13 /* Resources */,
 				E32F24501656C27A00ADC120 /* ResourcesCCB */,
 				E3F6A07D16499A7700550B13 /* libs */,
@@ -407,6 +380,7 @@
 		E3F6A05F16499A7600550B13 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E32FA30516D592F000254653 /* js */,
 				E3F6A06016499A7600550B13 /* Default.png */,
 				E3F6A06216499A7600550B13 /* Default@2x.png */,
 				E3F6A06416499A7600550B13 /* Default-568h@2x.png */,
@@ -636,13 +610,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3DEF5FA169C28E900B9DCF4 /* jsb_chipmunk.js in Resources */,
-				E3DEF5FB169C28E900B9DCF4 /* jsb_cocos2d.js in Resources */,
-				E3DEF5FC169C28E900B9DCF4 /* jsb_cocosbuilder.js in Resources */,
-				E3DEF5FD169C28E900B9DCF4 /* jsb_debugger.js in Resources */,
-				E3DEF5FE169C28E900B9DCF4 /* jsb_opengl.js in Resources */,
-				E3DEF5FF169C28E900B9DCF4 /* jsb_sys.js in Resources */,
-				E3DEF600169C28E900B9DCF4 /* jsb.js in Resources */,
 				E3F6A06116499A7600550B13 /* Default.png in Resources */,
 				E3F6A06316499A7600550B13 /* Default@2x.png in Resources */,
 				E3F6A06516499A7600550B13 /* Default-568h@2x.png in Resources */,
@@ -660,6 +627,7 @@
 				E3F6A30716499A7E00550B13 /* README.markdown in Resources */,
 				E3F6A32516499A7F00550B13 /* grossini_dance_atlas.png in Resources */,
 				E32F24511656C27A00ADC120 /* ResourcesCCB in Resources */,
+				E32FA30616D592F000254653 /* js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

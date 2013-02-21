@@ -26,7 +26,7 @@
 #import "PlayerStatusLayer.h"
 #import "AppDelegate.h"
 
-#import "js_bindings_core.h"
+#import "jsb_core.h"
 #import "CCBReader.h"
 #import "CCBDirectoryComparer.h"
 
