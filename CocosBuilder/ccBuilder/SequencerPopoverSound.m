@@ -63,6 +63,8 @@
 
 - (void) setPitch:(float)pitch
 {
+    if (pitch <= 0) return;
+    
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
     
     _keyframe.value = [self replaceObjectAtIndex:1 inArray:_keyframe.value withObject:[NSNumber numberWithFloat:pitch]];
@@ -90,6 +92,33 @@
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoversound"];
     
     _keyframe.value = [self replaceObjectAtIndex:3 inArray:_keyframe.value withObject:[NSNumber numberWithFloat:gain]];
+}
+
+- (void) dealloc
+{
+    self.textFieldOriginalValue = NULL;
+    [super dealloc];
+}
+
+#pragma mark Error handling for validation of text fields
+
+- (BOOL) control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor
+{
+    NSTextField* tf = (NSTextField*)control;
+    
+    self.textFieldOriginalValue = [tf stringValue];
+    
+    return YES;
+}
+
+- (BOOL) control:(NSControl *)control didFailToFormatString:(NSString *)string errorDescription:(NSString *)error
+{
+    NSBeep();
+    
+    NSTextField* tf = (NSTextField*)control;
+    [tf setStringValue:self.textFieldOriginalValue];
+    
+    return YES;
 }
 
 @end

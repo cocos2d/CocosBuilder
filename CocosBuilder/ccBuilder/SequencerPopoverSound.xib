@@ -53,7 +53,6 @@
 						<string key="NSFrame">{{86, 11}, {68, 19}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="292923157">
 							<int key="NSCellFlags">-1804468671</int>
@@ -72,6 +71,7 @@
 										<string>formatterBehavior</string>
 										<string>lenient</string>
 										<string>maximumFractionDigits</string>
+										<string>minimum</string>
 										<string>minimumFractionDigits</string>
 										<string>negativeInfinitySymbol</string>
 										<string>nilSymbol</string>
@@ -85,6 +85,7 @@
 										<integer value="1040"/>
 										<boolean value="NO"/>
 										<integer value="3"/>
+										<real value="0.0"/>
 										<integer value="2"/>
 										<string>-∞</string>
 										<string>L!nDy</string>
@@ -112,7 +113,8 @@
 									<string key="NSString">NaN</string>
 									<reference key="NSAttributes" ref="671461650"/>
 								</object>
-								<object class="NSDecimalNumberPlaceholder" key="NS.min" id="101830759">
+								<real value="0.0" key="NS.min"/>
+								<object class="NSDecimalNumberPlaceholder" key="NS.max" id="666198902">
 									<int key="NS.exponent">0</int>
 									<int key="NS.length">0</int>
 									<bool key="NS.negative">YES</bool>
@@ -120,7 +122,6 @@
 									<int key="NS.mantissa.bo">1</int>
 									<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
 								</object>
-								<reference key="NS.max" ref="101830759"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -175,7 +176,9 @@
 										<string>allowsFloats</string>
 										<string>formatterBehavior</string>
 										<string>lenient</string>
+										<string>maximum</string>
 										<string>maximumFractionDigits</string>
+										<string>minimum</string>
 										<string>minimumFractionDigits</string>
 										<string>negativeInfinitySymbol</string>
 										<string>nilSymbol</string>
@@ -188,7 +191,9 @@
 										<boolean value="YES"/>
 										<integer value="1040"/>
 										<boolean value="NO"/>
+										<real value="1"/>
 										<integer value="3"/>
+										<real value="-1"/>
 										<integer value="2"/>
 										<string>-∞</string>
 										<string>L!nDy</string>
@@ -210,8 +215,8 @@
 									<string key="NSString">NaN</string>
 									<reference key="NSAttributes" ref="671461650"/>
 								</object>
-								<reference key="NS.min" ref="101830759"/>
-								<reference key="NS.max" ref="101830759"/>
+								<real value="-1" key="NS.min"/>
+								<real value="1" key="NS.max"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -251,6 +256,7 @@
 										<string>formatterBehavior</string>
 										<string>lenient</string>
 										<string>maximumFractionDigits</string>
+										<string>minimum</string>
 										<string>minimumFractionDigits</string>
 										<string>negativeInfinitySymbol</string>
 										<string>nilSymbol</string>
@@ -264,6 +270,7 @@
 										<integer value="1040"/>
 										<boolean value="NO"/>
 										<integer value="3"/>
+										<real value="0.0"/>
 										<integer value="2"/>
 										<string>-∞</string>
 										<string>L!nDy</string>
@@ -285,8 +292,8 @@
 									<string key="NSString">NaN</string>
 									<reference key="NSAttributes" ref="671461650"/>
 								</object>
-								<reference key="NS.min" ref="101830759"/>
-								<reference key="NS.max" ref="101830759"/>
+								<real value="0.0" key="NS.min"/>
+								<reference key="NS.max" ref="666198902"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -501,6 +508,14 @@
 					<int key="connectionID">104</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="351632324"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">111</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: pan</string>
 						<reference key="source" ref="138737422"/>
@@ -517,6 +532,14 @@
 					<int key="connectionID">107</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="138737422"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">value: gain</string>
 						<reference key="source" ref="285722279"/>
@@ -531,6 +554,14 @@
 						</object>
 					</object>
 					<int key="connectionID">110</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="285722279"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">113</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -822,7 +853,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">110</int>
+			<int key="maxID">113</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

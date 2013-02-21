@@ -10,7 +10,7 @@
 
 @class SequencerKeyframe;
 
-@interface SequencerPopoverSound : NSObject
+@interface SequencerPopoverSound : NSObject <NSControlTextEditingDelegate>
 {
     IBOutlet NSView* view;
     
@@ -19,6 +19,7 @@
 
 @property (nonatomic,readonly) IBOutlet NSView* view;
 @property (nonatomic,assign) SequencerKeyframe* keyframe;
+@property (nonatomic,retain) NSString* textFieldOriginalValue;
 
 @property (nonatomic,assign) float pitch;
 @property (nonatomic,assign) float pan;
