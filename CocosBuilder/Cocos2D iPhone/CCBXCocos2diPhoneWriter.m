@@ -64,6 +64,7 @@
     [propTypes addObject:@"String"];
     [propTypes addObject:@"BlockCCControl"];
     [propTypes addObject:@"FloatScale"];
+    [propTypes addObject:@"FloatXY"];
 }
 
 - (id) init
@@ -313,7 +314,8 @@
     }
     else if ([type isEqualToString:@"Point"]
             || [type isEqualToString:@"PointLock"]
-            || [type isEqualToString:@"FloatVar"])
+             || [type isEqualToString:@"FloatVar"]
+             || [type isEqualToString:@"FloatXY"])
     {
         float a = [[prop objectAtIndex:0] floatValue];
         float b = [[prop objectAtIndex:1] floatValue];

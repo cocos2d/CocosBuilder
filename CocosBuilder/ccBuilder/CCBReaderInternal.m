@@ -153,6 +153,13 @@ NSDictionary* renamedProperties = NULL;
         }
         [PositionPropertySetter setScaledX:x Y:y type:scaleType forNode:node prop:name];
     }
+    else if ([type isEqualToString:@"FloatXY"])
+    {
+        float x = [[serializedValue objectAtIndex:0] floatValue];
+        float y = [[serializedValue objectAtIndex:1] floatValue];
+        [node setValue:[NSNumber numberWithFloat:x] forKey:[name stringByAppendingString:@"X"]];
+        [node setValue:[NSNumber numberWithFloat:y] forKey:[name stringByAppendingString:@"Y"]];
+    }
     else if ([type isEqualToString:@"Float"]
              || [type isEqualToString:@"Degrees"])
     {

@@ -438,6 +438,8 @@
 		E3B4223214E5CF97004547D6 /* NodeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4223114E5CF97004547D6 /* NodeInfo.m */; };
 		E3B4223414E5E68B004547D6 /* InspectorSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */; };
 		E3B4223714E5E6AD004547D6 /* InspectorSeparator.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */; };
+		E3B5EE8916D6E0AA00C07990 /* InspectorFloatXY.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5EE8716D6E0A900C07990 /* InspectorFloatXY.m */; };
+		E3B5EE8A16D6E0AA00C07990 /* InspectorFloatXY.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B5EE8816D6E0AA00C07990 /* InspectorFloatXY.xib */; };
 		E3B7AEC614E3193500DFD402 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3B7AECC14E3193500DFD402 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3B7AECA14E3193500DFD402 /* InfoPlist.strings */; };
 		E3B7AED514E31E6C00DFD402 /* CCNode.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */; };
@@ -1519,6 +1521,9 @@
 		E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorSeparator.xib; sourceTree = "<group>"; };
 		E3B4223514E5E6AC004547D6 /* InspectorSeparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorSeparator.h; sourceTree = "<group>"; };
 		E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorSeparator.m; sourceTree = "<group>"; };
+		E3B5EE8616D6E0A900C07990 /* InspectorFloatXY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloatXY.h; sourceTree = "<group>"; };
+		E3B5EE8716D6E0A900C07990 /* InspectorFloatXY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloatXY.m; sourceTree = "<group>"; };
+		E3B5EE8816D6E0AA00C07990 /* InspectorFloatXY.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorFloatXY.xib; sourceTree = "<group>"; };
 		E3B7AEC514E3193500DFD402 /* CCNode.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCNode.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B7AEC914E3193500DFD402 /* CCNode-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCNode-Info.plist"; sourceTree = "<group>"; };
 		E3B7AECB14E3193500DFD402 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -3425,6 +3430,9 @@
 				E35DBBFA14F3EE210070A6E4 /* InspectorFloat.xib */,
 				E35DBBFC14F3EE400070A6E4 /* InspectorFloat.h */,
 				E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */,
+				E3B5EE8616D6E0A900C07990 /* InspectorFloatXY.h */,
+				E3B5EE8716D6E0A900C07990 /* InspectorFloatXY.m */,
+				E3B5EE8816D6E0AA00C07990 /* InspectorFloatXY.xib */,
 				E334069615517225000FBD0B /* InspectorFloatScale.xib */,
 				E33406991551725F000FBD0B /* InspectorFloatScale.h */,
 				E334069A1551725F000FBD0B /* InspectorFloatScale.m */,
@@ -4346,6 +4354,7 @@
 				E312973516CC677400A09155 /* SequencerPopoverSound.xib in Resources */,
 				E3A4747116D4389D00DB0D61 /* README.md in Resources */,
 				E32FA2F816D5781600254653 /* seq-row-channel-bg.png in Resources */,
+				E3B5EE8A16D6E0AA00C07990 /* InspectorFloatXY.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4807,6 +4816,7 @@
 				E3A4746F16D4389D00DB0D61 /* CDXPropertyModifierAction.m in Sources */,
 				E3A4747016D4389D00DB0D61 /* CocosDenshion.m in Sources */,
 				E3A4747216D4389D00DB0D61 /* SimpleAudioEngine.m in Sources */,
+				E3B5EE8916D6E0AA00C07990 /* InspectorFloatXY.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
