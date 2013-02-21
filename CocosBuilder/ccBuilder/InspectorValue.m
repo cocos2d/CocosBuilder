@@ -43,6 +43,7 @@
 @synthesize inspectorValueBelow;
 @synthesize rootNode;
 @synthesize inPopoverWindow;
+@synthesize textFieldOriginalValue;
 
 + (id) inspectorOfType:(NSString*) t withSelection:(CCNode*)s andPropertyName:(NSString*)pn andDisplayName:(NSString*) dn andExtra:(NSString*)e
 {
@@ -206,6 +207,7 @@
 - (void)dealloc
 {
     self.affectsProperties = NULL;
+    self.textFieldOriginalValue = NULL;
     [selection release];
     [propertyName release];
     [displayName release];
@@ -260,6 +262,27 @@
         }
         return NO;
     }
+    return YES;
+}
+
+#pragma mark Error handling for validation of text fields
+
+- (BOOL) control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor
+{
+    NSTextField* tf = (NSTextField*)control;
+    
+    self.textFieldOriginalValue = [tf stringValue];
+    
+    return YES;
+}
+
+- (BOOL) control:(NSControl *)control didFailToFormatString:(NSString *)string errorDescription:(NSString *)error
+{
+    NSBeep();
+    
+    NSTextField* tf = (NSTextField*)control;
+    [tf setStringValue:self.textFieldOriginalValue];
+    
     return YES;
 }
 
