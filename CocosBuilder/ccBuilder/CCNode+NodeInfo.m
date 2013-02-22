@@ -116,7 +116,6 @@
     SequencerNodeProperty* seqNodeProp = [[[SequencerNodeProperty alloc] initWithProperty:name node:self] autorelease];
     if (![info.baseValues objectForKey:name])
     {
-        NSLog(@"setting baseValue to %@ for %@", baseValue, name);
         [info.baseValues setObject:baseValue forKey:name];
     }
     
@@ -296,6 +295,15 @@
         
         return [NSArray arrayWithObjects:sprite, sheet, nil];
     }
+    else if (type == kCCBKeyframeTypeFloatXY)
+    {
+        float x = [[self valueForKey:[name stringByAppendingString:@"X"]] floatValue];
+        float y = [[self valueForKey:[name stringByAppendingString:@"Y"]] floatValue];
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithFloat:x],
+                [NSNumber numberWithFloat:y],
+                nil];
+    }
     
     return NULL;
 }
@@ -349,6 +357,14 @@
     else if (type == kCCBKeyframeTypeByte)
     {
         [self setValue:value forKey:propName];
+    }
+    else if (type == kCCBKeyframeTypeFloatXY)
+    {
+        float x = [[value objectAtIndex:0] floatValue];
+        float y = [[value objectAtIndex:1] floatValue];
+        
+        [self setValue:[NSNumber numberWithFloat:x] forKey:[propName stringByAppendingString:@"X"]];
+        [self setValue:[NSNumber numberWithFloat:y] forKey:[propName stringByAppendingString:@"Y"]];
     }
 }
 
@@ -734,6 +750,7 @@
         else if ([prop isEqualToString:@"rotation"]) return YES;
         else if ([prop isEqualToString:@"tag"]) return YES;
         else if ([prop isEqualToString:@"visible"]) return YES;
+        else if ([prop isEqualToString:@"skew"]) return YES;
     }
     
     return NO;

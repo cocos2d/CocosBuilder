@@ -285,8 +285,6 @@
             float y = [[node valueForKey:[NSString stringWithFormat:@"%@Y",name]] floatValue];
             serializedValue = [CCBWriterInternal serializePoint:ccp(x,y)];
             
-            NSLog(@"serialized: %@ default: %@", serializedValue, defaultSerialization);
-            
             usingDefaultValue = [CCBWriterInternal isEqualNumberArray:serializedValue comparison:defaultSerialization];
         }
         else if ([type isEqualToString:@"ScaleLock"])

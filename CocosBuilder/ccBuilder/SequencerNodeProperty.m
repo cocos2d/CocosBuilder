@@ -390,6 +390,25 @@
                 [NSNumber numberWithInt:b],
                 nil];
     }
+    else if (type == kCCBKeyframeTypeFloatXY)
+    {
+        float xStart = [[keyframeStart.value objectAtIndex:0] floatValue];
+        float yStart = [[keyframeStart.value objectAtIndex:1] floatValue];
+        
+        float xEnd = [[keyframeEnd.value objectAtIndex:0] floatValue];
+        float yEnd = [[keyframeEnd.value objectAtIndex:1] floatValue];
+        
+        float xSpan = xEnd - xStart;
+        float ySpan = yEnd - yStart;
+        
+        float xVal = xStart+xSpan*interpolVal;
+        float yVal = yStart+ySpan*interpolVal;
+        
+        return [NSArray arrayWithObjects:
+                [NSNumber numberWithFloat:xVal],
+                [NSNumber numberWithFloat:yVal],
+                nil];
+    }
     
     
     // Unsupported value type

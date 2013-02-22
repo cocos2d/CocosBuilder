@@ -313,7 +313,7 @@
         [self writeInt:sizeType withSign:NO];
     }
     else if ([type isEqualToString:@"Point"]
-            || [type isEqualToString:@"PointLock"]
+             || [type isEqualToString:@"PointLock"]
              || [type isEqualToString:@"FloatVar"]
              || [type isEqualToString:@"FloatXY"])
     {
