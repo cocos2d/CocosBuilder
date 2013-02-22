@@ -42,6 +42,7 @@
 - (void) setScaleX:(float)x
 {
     [self setPropertyForSelectionX:[NSNumber numberWithFloat:x]];
+    [self updateAnimateableX:x Y:self.scaleY];
 }
 
 - (float) scaleX
@@ -52,6 +53,7 @@
 - (void) setScaleY:(float)y
 {
     [self setPropertyForSelectionY:[NSNumber numberWithFloat:y]];
+    [self updateAnimateableX:self.scaleX Y:y];
 }
 
 - (float) scaleY
