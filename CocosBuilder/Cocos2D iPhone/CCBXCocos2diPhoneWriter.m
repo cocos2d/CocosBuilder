@@ -799,7 +799,8 @@
         [self writeFloat:[value floatValue]];
     }
     else if ([type isEqualToString:@"ScaleLock"]
-             || [type isEqualToString:@"Position"])
+             || [type isEqualToString:@"Position"]
+             || [type isEqualToString:@"FloatXY"])
     {
         float a = [[value objectAtIndex:0] floatValue];
         float b = [[value objectAtIndex:1] floatValue];
@@ -890,6 +891,7 @@
             else if (kfType == kCCBKeyframeTypeScaleLock) propType = @"ScaleLock";
             else if (kfType == kCCBKeyframeTypeSpriteFrame) propType = @"SpriteFrame";
             else if (kfType == kCCBKeyframeTypePosition) propType = @"Position";
+            else if (kfType == kCCBKeyframeTypeFloatXY) propType = @"FloatXY";
             
             NSAssert(propType, @"Unknown animated property type");
             
