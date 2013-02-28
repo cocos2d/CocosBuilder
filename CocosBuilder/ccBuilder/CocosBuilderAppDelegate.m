@@ -2922,6 +2922,20 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
+- (IBAction)menuOpenDir:(id)sender
+{
+    int selectedRow = [sender tag];
+    
+    if (selectedRow >= 0)
+    {
+        RMResource* res = [outlineProject itemAtRow:selectedRow];
+        
+        NSURL* url = [NSURL fileURLWithPath:res.filePath isDirectory:NO];
+        NSArray *fileURLs = [NSArray arrayWithObjects:url, /* ... */ nil];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+    }
+}
+
 - (IBAction)menuAlignKeyframeToMarker:(id)sender
 {
     [SequencerUtil alignKeyframesToMarker];

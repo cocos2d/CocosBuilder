@@ -77,6 +77,13 @@
                 }
             }
         }
+        else if (item.action == @selector(menuOpenDir:))
+        {
+            [item setEnabled:YES];
+            RMDirectory* dir = clickedResource.data;
+            
+            item.tag = row;
+        }
     }
     
     // TODO: Update menu
