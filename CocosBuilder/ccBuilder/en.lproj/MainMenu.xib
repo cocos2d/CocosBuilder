@@ -5424,6 +5424,14 @@
 					</object>
 					<int key="connectionID">1834</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleBreakpointAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="936331298"/>
+					</object>
+					<int key="connectionID">1835</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -8466,7 +8474,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1834</int>
+			<int key="maxID">1835</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -9043,9 +9051,11 @@
 							<string>shiftRightAction:</string>
 							<string>toLowercaseAction:</string>
 							<string>toUppercaseAction:</string>
+							<string>toggleBreakpointAction:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -9086,6 +9096,7 @@
 							<string>shiftRightAction:</string>
 							<string>toLowercaseAction:</string>
 							<string>toUppercaseAction:</string>
+							<string>toggleBreakpointAction:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -9155,6 +9166,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">toUppercaseAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleBreakpointAction:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
