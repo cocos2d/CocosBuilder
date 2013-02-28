@@ -908,8 +908,8 @@
 											<object class="NSMenuItem" id="390916412">
 												<reference key="NSMenu" ref="915135864"/>
 												<string key="NSTitle">Bring to Front</string>
-												<string key="NSKeyEquiv">]</string>
-												<int key="NSKeyEquivModMask">1179648</int>
+												<string key="NSKeyEquiv">&gt;</string>
+												<int key="NSKeyEquivModMask">1572864</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
@@ -917,7 +917,7 @@
 											<object class="NSMenuItem" id="349895981">
 												<reference key="NSMenu" ref="915135864"/>
 												<string key="NSTitle">Bring Forward</string>
-												<string key="NSKeyEquiv">]</string>
+												<string key="NSKeyEquiv">&gt;</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -927,7 +927,7 @@
 											<object class="NSMenuItem" id="1030292961">
 												<reference key="NSMenu" ref="915135864"/>
 												<string key="NSTitle">Send Backward</string>
-												<string key="NSKeyEquiv">[</string>
+												<string key="NSKeyEquiv">&lt;</string>
 												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -937,8 +937,8 @@
 											<object class="NSMenuItem" id="634165759">
 												<reference key="NSMenu" ref="915135864"/>
 												<string key="NSTitle">Send to Back</string>
-												<string key="NSKeyEquiv">[</string>
-												<int key="NSKeyEquivModMask">1179648</int>
+												<string key="NSKeyEquiv">&lt;</string>
+												<int key="NSKeyEquivModMask">1572864</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
@@ -1621,18 +1621,18 @@
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="198654580">
+								<object class="NSMenuItem" id="671610507">
 									<reference key="NSMenu" ref="478197820"/>
-									<string key="NSTitle">Shift Right</string>
+									<string key="NSTitle">Shift Left</string>
 									<string key="NSKeyEquiv">[</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 								</object>
-								<object class="NSMenuItem" id="671610507">
+								<object class="NSMenuItem" id="198654580">
 									<reference key="NSMenu" ref="478197820"/>
-									<string key="NSTitle">Shift Left</string>
+									<string key="NSTitle">Shift Right</string>
 									<string key="NSKeyEquiv">]</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -2057,7 +2057,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3410,6 +3410,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1150, 700}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -7659,7 +7660,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="52840933"/>
-							<reference ref="198654580"/>
 							<reference ref="671610507"/>
 							<reference ref="336671826"/>
 							<reference ref="36279291"/>
@@ -7668,6 +7668,7 @@
 							<reference ref="556410165"/>
 							<reference ref="913068339"/>
 							<reference ref="936331298"/>
+							<reference ref="198654580"/>
 							<reference ref="101155754"/>
 						</object>
 						<reference key="parent" ref="1013219391"/>
