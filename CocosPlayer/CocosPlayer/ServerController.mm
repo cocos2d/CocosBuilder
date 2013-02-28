@@ -74,8 +74,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     server = [[ThoMoServerStub alloc] initWithProtocolIdentifier:[self protocolIdentifier]];
     [server setDelegate:self];
     
-	networkStatus = -1;
-	playerStatus = -1;
+	networkStatus = kCCBNetworkUninitialized;
+	playerStatus = kCCBPlayerStatuskUninitialized;
 	playerWindowDisplayed = YES;
 	
     return self;
@@ -134,7 +134,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 {
     if (server)
     {
-		self.networkStatus = kCCBPlayerStatusStop;
+		self.networkStatus = kCCBNetworkStatusShutDown;
 		[[[PlayerStatusLayer sharedInstance] lblInstructions] setString:kCCBPlayerStatusStringStop];
         
         [server stop];
@@ -289,7 +289,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 		
 		// Force update network status
 		CCBNetworkStatus tmp = networkStatus;
-		networkStatus = -1;
+		networkStatus = kCCBNetworkUninitialized;
 		self.networkStatus = tmp;
 	}
 }
