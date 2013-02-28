@@ -1590,6 +1590,123 @@
 							</object>
 						</object>
 					</object>
+					<object class="NSMenuItem" id="1013219391">
+						<reference key="NSMenu" ref="649796088"/>
+						<string key="NSTitle">Code</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="35465992"/>
+						<reference key="NSMixedImage" ref="502551668"/>
+						<string key="NSAction">submenuAction:</string>
+						<object class="NSMenu" key="NSSubmenu" id="478197820">
+							<string key="NSTitle">Code</string>
+							<object class="NSMutableArray" key="NSMenuItems">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSMenuItem" id="52840933">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Show Completions</string>
+									<string type="base64-UTF8" key="NSKeyEquiv">IA</string>
+									<int key="NSKeyEquivModMask">262144</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="134381670">
+									<reference key="NSMenu" ref="478197820"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="198654580">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Shift Right</string>
+									<string key="NSKeyEquiv">[</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="671610507">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Shift Left</string>
+									<string key="NSKeyEquiv">]</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="556410165">
+									<reference key="NSMenu" ref="478197820"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="336671826">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Comment or Uncomment</string>
+									<string key="NSKeyEquiv">/</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="36279291">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Remove Needless Whitespace</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="913068339">
+									<reference key="NSMenu" ref="478197820"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="936331298">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Toggle Breakpoint at Current Line</string>
+									<string key="NSKeyEquiv">\</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="101155754">
+									<reference key="NSMenu" ref="478197820"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="150568135">
+									<reference key="NSMenu" ref="478197820"/>
+									<string key="NSTitle">Jump to Line</string>
+									<string key="NSKeyEquiv">l</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+							</object>
+						</object>
+					</object>
 					<object class="NSMenuItem" id="713487014">
 						<reference key="NSMenu" ref="649796088"/>
 						<string key="NSTitle">Window</string>
@@ -3586,6 +3703,9 @@
 			<object class="NSCustomObject" id="1043228576">
 				<string key="NSClassName">CCBDocumentController</string>
 			</object>
+			<object class="NSCustomObject" id="68506511">
+				<string key="NSClassName">MGSTextMenuController</string>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -5263,6 +5383,46 @@
 					</object>
 					<int key="connectionID">1799</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">shiftLeftAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="671610507"/>
+					</object>
+					<int key="connectionID">1830</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">shiftRightAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="198654580"/>
+					</object>
+					<int key="connectionID">1831</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">commentOrUncommentAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="336671826"/>
+					</object>
+					<int key="connectionID">1832</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeNeedlessWhitespaceAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="36279291"/>
+					</object>
+					<int key="connectionID">1833</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">goToLineAction:</string>
+						<reference key="source" ref="68506511"/>
+						<reference key="destination" ref="150568135"/>
+					</object>
+					<int key="connectionID">1834</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -5304,6 +5464,7 @@
 							<reference ref="448692316"/>
 							<reference ref="330765285"/>
 							<reference ref="229521550"/>
+							<reference ref="1013219391"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -7483,6 +7644,94 @@
 						<reference key="object" ref="761373979"/>
 						<reference key="parent" ref="835318025"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1814</int>
+						<reference key="object" ref="1013219391"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="478197820"/>
+						</object>
+						<reference key="parent" ref="649796088"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1815</int>
+						<reference key="object" ref="478197820"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="52840933"/>
+							<reference ref="198654580"/>
+							<reference ref="671610507"/>
+							<reference ref="336671826"/>
+							<reference ref="36279291"/>
+							<reference ref="150568135"/>
+							<reference ref="134381670"/>
+							<reference ref="556410165"/>
+							<reference ref="913068339"/>
+							<reference ref="936331298"/>
+							<reference ref="101155754"/>
+						</object>
+						<reference key="parent" ref="1013219391"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1816</int>
+						<reference key="object" ref="52840933"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1817</int>
+						<reference key="object" ref="198654580"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1818</int>
+						<reference key="object" ref="671610507"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1819</int>
+						<reference key="object" ref="336671826"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1820</int>
+						<reference key="object" ref="36279291"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1821</int>
+						<reference key="object" ref="150568135"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1822</int>
+						<reference key="object" ref="134381670"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1823</int>
+						<reference key="object" ref="556410165"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1824</int>
+						<reference key="object" ref="913068339"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1825</int>
+						<reference key="object" ref="936331298"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1826</int>
+						<reference key="object" ref="101155754"/>
+						<reference key="parent" ref="478197820"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1828</int>
+						<reference key="object" ref="68506511"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -7741,6 +7990,20 @@
 					<string>1807.IBPluginDependency</string>
 					<string>1811.IBPluginDependency</string>
 					<string>1812.IBPluginDependency</string>
+					<string>1814.IBPluginDependency</string>
+					<string>1815.IBPluginDependency</string>
+					<string>1816.IBPluginDependency</string>
+					<string>1817.IBPluginDependency</string>
+					<string>1818.IBPluginDependency</string>
+					<string>1819.IBPluginDependency</string>
+					<string>1820.IBPluginDependency</string>
+					<string>1821.IBPluginDependency</string>
+					<string>1822.IBPluginDependency</string>
+					<string>1823.IBPluginDependency</string>
+					<string>1824.IBPluginDependency</string>
+					<string>1825.IBPluginDependency</string>
+					<string>1826.IBPluginDependency</string>
+					<string>1828.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>195.IBPluginDependency</string>
 					<string>196.IBPluginDependency</string>
@@ -8125,6 +8388,20 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8188,7 +8465,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1813</int>
+			<int key="maxID">1834</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8278,7 +8555,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">NSOpenGLView</string>
+					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
@@ -8292,84 +8569,34 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>debug:</string>
-							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignKeyframeToMarker:</string>
-							<string>menuAlignObjects:</string>
-							<string>menuAlignToPixels:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
-							<string>menuCloseProject:</string>
-							<string>menuCreateKeyframesFromSelection:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
-							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
-							<string>menuProjectSettings:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuQuit:</string>
-							<string>menuResetView:</string>
-							<string>menuResolution:</string>
-							<string>menuReverseSelectedKeyframes:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
-							<string>menuStretchSelectedKeyframes:</string>
-							<string>menuTimelineDuration:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>openCocosPlayerConsole:</string>
-							<string>openDocument:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackJumpToStart:</string>
-							<string>playbackStepBack:</string>
-							<string>playbackStop:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
-							<string>reportBug:</string>
 							<string>runProject:</string>
-							<string>saveDocumentAs:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -8403,56 +8630,31 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>debug:</string>
-							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignKeyframeToMarker:</string>
-							<string>menuAlignObjects:</string>
-							<string>menuAlignToPixels:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
-							<string>menuCloseProject:</string>
-							<string>menuCreateKeyframesFromSelection:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
-							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
-							<string>menuProjectSettings:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuQuit:</string>
-							<string>menuResetView:</string>
-							<string>menuResolution:</string>
-							<string>menuReverseSelectedKeyframes:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
-							<string>menuStretchSelectedKeyframes:</string>
-							<string>menuTimelineDuration:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>openCocosPlayerConsole:</string>
-							<string>openDocument:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackJumpToStart:</string>
-							<string>playbackStepBack:</string>
-							<string>playbackStop:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
-							<string>reportBug:</string>
 							<string>runProject:</string>
-							<string>saveDocumentAs:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -8461,39 +8663,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuAddKeyframe:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuAddStickyNote:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuAlignKeyframeToMarker:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuAlignObjects:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuAlignToPixels:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuArrange:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuCleanCacheDirectories:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuCloseProject:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuCreateKeyframesFromSelection:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8513,15 +8687,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuJavaScriptControlled:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuMoveObject:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuNewProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8533,27 +8699,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuProjectSettings:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuPublishProjectAndRun:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuQuit:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuResetView:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuResolution:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuReverseSelectedKeyframes:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8565,19 +8715,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuSetEasing:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuSetStateOriginCentered:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuStretchSelectedKeyframes:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuTimelineDuration:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8593,14 +8731,6 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">openCocosPlayerConsole:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pasteAsChild:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -8609,23 +8739,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">playbackJumpToStart:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackStepBack:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackStop:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pressedPanelVisibility:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pressedPlaybackControl:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -8641,23 +8755,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">reportBug:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">runProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">saveDocumentAs:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">undo:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">visitCommunity:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -8914,6 +9016,190 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CocosBuilderAppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MGSTextMenuController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>capitaliseAction:</string>
+							<string>changeLineEndingsAction:</string>
+							<string>changeSyntaxDefinitionAction:</string>
+							<string>closeTagAction:</string>
+							<string>commentOrUncommentAction:</string>
+							<string>detabAction:</string>
+							<string>emptyDummyAction:</string>
+							<string>entabAction:</string>
+							<string>goToLineAction:</string>
+							<string>interchangeAdjacentCharactersAction:</string>
+							<string>prepareForXMLAction:</string>
+							<string>removeLineEndingsAction:</string>
+							<string>removeNeedlessWhitespaceAction:</string>
+							<string>shiftLeftAction:</string>
+							<string>shiftRightAction:</string>
+							<string>toLowercaseAction:</string>
+							<string>toUppercaseAction:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>capitaliseAction:</string>
+							<string>changeLineEndingsAction:</string>
+							<string>changeSyntaxDefinitionAction:</string>
+							<string>closeTagAction:</string>
+							<string>commentOrUncommentAction:</string>
+							<string>detabAction:</string>
+							<string>emptyDummyAction:</string>
+							<string>entabAction:</string>
+							<string>goToLineAction:</string>
+							<string>interchangeAdjacentCharactersAction:</string>
+							<string>prepareForXMLAction:</string>
+							<string>removeLineEndingsAction:</string>
+							<string>removeNeedlessWhitespaceAction:</string>
+							<string>shiftLeftAction:</string>
+							<string>shiftRightAction:</string>
+							<string>toLowercaseAction:</string>
+							<string>toUppercaseAction:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">capitaliseAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">changeLineEndingsAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">changeSyntaxDefinitionAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">closeTagAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">commentOrUncommentAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">detabAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">emptyDummyAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">entabAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goToLineAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">interchangeAdjacentCharactersAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">prepareForXMLAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">removeLineEndingsAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">removeNeedlessWhitespaceAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">shiftLeftAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">shiftRightAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toLowercaseAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toUppercaseAction:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>reloadTextWithEncodingMenu</string>
+							<string>syntaxDefinitionMenu</string>
+							<string>textEncodingMenu</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>reloadTextWithEncodingMenu</string>
+							<string>syntaxDefinitionMenu</string>
+							<string>textEncodingMenu</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">reloadTextWithEncodingMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">syntaxDefinitionMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">textEncodingMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MGSTextMenuController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
