@@ -2036,6 +2036,22 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
+    while ([tabView numberOfTabViewItems] > 0)
+    {
+        NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
+        if (!item) return;
+        
+        if ([self tabView:tabView shouldCloseTabViewItem:item])
+        {
+            [tabView removeTabViewItem:item];
+        }
+        else
+        {
+            // Aborted publishing project
+            return;
+        }
+    }
+
     CCBWarnings* warnings = [[[CCBWarnings alloc] init] autorelease];
     warnings.warningsDescription = @"Publisher Warnings";
     
@@ -2919,6 +2935,20 @@ static BOOL hideAllToNextSeparator;
             
             [projectSettings store];
         }
+    }
+}
+
+- (IBAction)menuOpenDir:(id)sender
+{
+    int selectedRow = [sender tag];
+    
+    if (selectedRow >= 0)
+    {
+        RMResource* res = [outlineProject itemAtRow:selectedRow];
+        
+        NSURL* url = [NSURL fileURLWithPath:res.filePath isDirectory:NO];
+        NSArray *fileURLs = [NSArray arrayWithObjects:url, /* ... */ nil];
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
     }
 }
 
