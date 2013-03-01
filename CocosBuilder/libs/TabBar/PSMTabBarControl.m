@@ -157,10 +157,7 @@
 		if(newButtonImage) {
 			[_addTabButton setAlternateImage:newButtonImage];
 		}
-		newButtonImage = [style addTabButtonRolloverImage];
-		if(newButtonImage) {
-			[_addTabButton setRolloverImage:newButtonImage];
-		}
+
 		[_addTabButton setTitle:@""];
 		[_addTabButton setImagePosition:NSImageOnly];
 		[_addTabButton setButtonType:NSMomentaryChangeButton];
