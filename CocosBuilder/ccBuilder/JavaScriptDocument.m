@@ -25,6 +25,11 @@
 #import "JavaScriptDocument.h"
 #import "MGSFragaria.h"
 #import "SMLTextView.h"
+#import "ResourceManagerUtil.h"
+#import "SMLGutterTextView.h"
+#import "CocosBuilderAppDelegate.h"
+#import "ProjectSettings.h"
+#import "SMLLineNumbers.h"
 
 @implementation JavaScriptDocument
 
@@ -57,6 +62,9 @@
     [fragaria setObject:[NSNumber numberWithBool:YES] forKey:MGSFOShowLineNumberGutter];
     
     [fragaria setObject:self forKey:MGSFODelegate];
+    [fragaria setObject:[CocosBuilderAppDelegate appDelegate].projectSettings forKey:MGSFOBreakpointDelegate];
+    
+    NSLog(@"breakpoint delegate: %@ ps: %@", [fragaria objectForKey:MGSFOBreakpointDelegate], [CocosBuilderAppDelegate appDelegate].projectSettings);
     
     // define our syntax definition
     [fragaria setObject:@"JavaScript" forKey:MGSFOSyntaxDefinitionName];
@@ -71,8 +79,14 @@
         [docStr release];
         docStr = NULL;
     }
+
+    NSString* absFileName = [[self fileURL] path];
+    NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:absFileName];
+
+    SMLGutterTextView* gutterView = [[fragaria objectForKey:ro_MGSFOGutterScrollView] documentView];
+    gutterView.fileName = fileName;
     
-    //[self setUndoManager:[fragariaTextView undoManager]];
+    [[fragaria objectForKey:ro_MGSFOLineNumbers] updateLineNumbersCheckWidth:NO recolour:NO];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError

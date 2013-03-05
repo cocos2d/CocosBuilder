@@ -48,6 +48,7 @@
     NSString* projectPath;
     NSMutableArray* resourcePaths;
     NSMutableDictionary* generatedSpriteSheets;
+    NSMutableDictionary* breakpoints;
     
     NSString* publishDirectory;
     NSString* publishDirectoryAndroid;
@@ -138,4 +139,7 @@
 - (void) removeSmartSpriteSheet:(RMResource*) res;
 - (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForRes:(RMResource*) res;
 - (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForSubPath:(NSString*) relPath;
+
+- (void) toggleBreakpointForFile:(NSString*)file onLine:(int)line;
+- (NSSet*) breakpointsForFile:(NSString*)file;
 @end

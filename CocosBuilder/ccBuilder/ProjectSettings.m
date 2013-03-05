@@ -149,6 +149,8 @@
     self.publishResolutionHTML5_height = 320;
     self.publishResolutionHTML5_scale = 1;
     
+    breakpoints = [[NSMutableDictionary dictionary] retain];
+    
     generatedSpriteSheets = [[NSMutableDictionary dictionary] retain];
     
     // Load available exporters
@@ -245,6 +247,7 @@
     self.exporter = NULL;
     self.availableExporters = NULL;
     [generatedSpriteSheets release];
+    [breakpoints release];
     [super dealloc];
 }
 
@@ -409,6 +412,35 @@
 - (ProjectSettingsGeneratedSpriteSheet*) smartSpriteSheetForSubPath:(NSString*) relPath
 {
     return [generatedSpriteSheets objectForKey:relPath];
+}
+
+- (void) toggleBreakpointForFile:(NSString*)file onLine:(int)line
+{
+    // Get breakpoints for file
+    NSMutableSet* bps = [breakpoints objectForKey:file];
+    if (!bps)
+    {
+        bps = [NSMutableSet set];
+        [breakpoints setObject:bps forKey:file];
+    }
+    
+    NSNumber* num = [NSNumber numberWithInt:line];
+    if ([bps containsObject:num])
+    {
+        [bps removeObject:num];
+    }
+    else
+    {
+        [bps addObject:num];
+    }
+}
+
+- (NSSet*) breakpointsForFile:(NSString*)file
+{
+    NSSet* bps = [breakpoints objectForKey:file];
+    if (!bps) bps = [NSSet set];
+    
+    return bps;
 }
 
 @end
