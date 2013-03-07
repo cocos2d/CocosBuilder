@@ -586,6 +586,11 @@
         
         for (NSString* propName in properties)
         {
+            BOOL useFlashSkews = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+            if (useFlashSkews && [propName isEqualToString:@"rotation"]) continue;
+            if (!useFlashSkews && [propName isEqualToString:@"rotationX"]) continue;
+            if (!useFlashSkews && [propName isEqualToString:@"rotationY"]) continue;
+            
             SequencerNodeProperty* seqNodeProp = [properties objectForKey:propName];
             [serProperties setObject:[seqNodeProp serialization] forKey:propName];
         }
