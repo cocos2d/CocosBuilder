@@ -47,6 +47,7 @@
     NSArray* requireChildClass;
     
     NSArray* cachedAnimatableProperties;
+    NSArray* cachedAnimatablePropertiesFlashSkew;
 }
 
 @property (nonatomic,readonly) NSString* nodeClassName;

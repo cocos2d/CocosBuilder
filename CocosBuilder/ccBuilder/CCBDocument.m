@@ -42,6 +42,7 @@
 @synthesize currentResolution;
 @synthesize sequences;
 @synthesize currentSequenceId;
+@synthesize useFlashSkews;
 
 - (id)init
 {

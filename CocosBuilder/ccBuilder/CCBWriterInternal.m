@@ -228,6 +228,11 @@
         BOOL usingDefaultValue = NO;
         id serializedValue = NULL;
         
+        BOOL useFlashSkews = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+        if (useFlashSkews && [name isEqualToString:@"rotation"]) continue;
+        if (!useFlashSkews && [name isEqualToString:@"rotationX"]) continue;
+        if (!useFlashSkews && [name isEqualToString:@"rotationY"]) continue;
+        
         // Check if this property should be excluded
         if (excludeProps && [excludeProps indexOfObject:name] != NSNotFound)
         {
