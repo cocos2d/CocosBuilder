@@ -655,7 +655,8 @@ static CocosScene* sharedCocosScene;
     }
     if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
     {
-        if ([event modifierFlags] & NSAlternateKeyMask)
+        if (([event modifierFlags] & NSAlternateKeyMask) &&
+            ![appDelegate currentDocumentUsesFlashSkew])
         {
             // Start rotation transform (instead of scale)
             currentMouseTransform = kCCBTransformHandleRotate;
