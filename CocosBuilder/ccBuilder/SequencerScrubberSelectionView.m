@@ -82,7 +82,7 @@
         CCNode* lastNode = [outlineView itemAtRow:[outlineView numberOfRows]-1];
         if (lastNode.seqExpanded)
         {
-            return [[lastNode plugIn].animatableProperties count]-1;
+            return [[[lastNode plugIn] animatablePropertiesForNode:lastNode] count]-1;
         }
         else
         {
@@ -107,9 +107,9 @@
     
     if (node.seqExpanded)
     {
-        if (subRow >= [[node plugIn].animatableProperties count])
+        if (subRow >= [[[node plugIn] animatablePropertiesForNode:node] count])
         {
-            subRow = [[node plugIn].animatableProperties count]-1;
+            subRow = [[[node plugIn] animatablePropertiesForNode:node] count]-1;
         }
     }
     else
@@ -328,7 +328,7 @@
 
 - (NSString*) propNameForNode:(CCNode*) node subRow:(int)sub
 {
-    NSArray* props = node.plugIn.animatableProperties;
+    NSArray* props = [node.plugIn animatablePropertiesForNode:node];
     
     NSString* prop = NULL;
     prop = [props objectAtIndex:sub];
@@ -488,7 +488,7 @@
                 // This row is expanded
                 if (row == yMinRow)
                 {
-                    for (int subRow = yMinSubRow; subRow < [node.plugIn.animatableProperties count]; subRow++)
+                    for (int subRow = yMinSubRow; subRow < [[node.plugIn animatablePropertiesForNode:node] count]; subRow++)
                     {
                         NSString* propName  = [self propNameForNode:node subRow:subRow];
                         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
@@ -506,7 +506,7 @@
                 }
                 else
                 {
-                    for (int subRow = 0; subRow < [node.plugIn.animatableProperties count]; subRow++)
+                    for (int subRow = 0; subRow < [[node.plugIn animatablePropertiesForNode:node] count]; subRow++)
                     {
                         NSString* propName  = [self propNameForNode:node subRow:subRow];
                         SequencerNodeProperty* seqNodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];

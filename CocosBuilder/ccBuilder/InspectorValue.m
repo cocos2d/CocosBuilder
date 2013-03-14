@@ -118,7 +118,7 @@
     NodeInfo* nodeInfo = selection.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     
-    if ([plugIn isAnimatableProperty:propertyName])
+    if ([plugIn isAnimatableProperty:propertyName node:selection])
     {
         SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
         int seqId = seq.sequenceId;

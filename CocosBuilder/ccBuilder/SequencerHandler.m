@@ -514,7 +514,7 @@ static SequencerHandler* sharedSequencerHandler;
     CCNode* node = item;
     if (node.seqExpanded)
     {
-        return kCCBSeqDefaultRowHeight * ([node.plugIn.animatableProperties count]);
+        return kCCBSeqDefaultRowHeight * ([[node.plugIn animatablePropertiesForNode:node] count]);
     }
     else
     {
@@ -874,7 +874,7 @@ static SequencerHandler* sharedSequencerHandler;
     if ([node shouldDisableProperty:prop]) return NO;
     
 
-    return [node.plugIn.animatableProperties containsObject:prop];
+    return [[node.plugIn animatablePropertiesForNode:node] containsObject:prop];
 }
 
 #pragma mark Destructor

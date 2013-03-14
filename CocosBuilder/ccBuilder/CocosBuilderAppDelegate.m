@@ -684,7 +684,7 @@ static BOOL hideAllToNextSeparator;
             if ([self.selectedNode shouldDisableProperty:name]) readOnly = YES;
             
             // Handle Flash skews
-            BOOL usesFlashSkew = [self currentDocumentUsesFlashSkew];
+            BOOL usesFlashSkew = [self.selectedNode usesFlashSkew];
             if (usesFlashSkew && [name isEqualToString:@"rotation"]) continue;
             if (!usesFlashSkew && [name isEqualToString:@"rotationX"]) continue;
             if (!usesFlashSkew && [name isEqualToString:@"rotationY"]) continue;
@@ -888,8 +888,6 @@ static BOOL hideAllToNextSeparator;
     
     [dict setObject:[NSNumber numberWithBool:jsControlled] forKey:@"jsControlled"];
     
-    [dict setObject:[NSNumber numberWithBool:doc.useFlashSkews] forKey:@"useFlashSkews"];
-    
     [dict setObject:[NSNumber numberWithBool:[[CocosScene cocosScene] centeredOrigin]] forKey:@"centeredOrigin"];
     
     [dict setObject:[NSNumber numberWithInt:[[CocosScene cocosScene] stageBorder]] forKey:@"stageBorder"];
@@ -954,7 +952,6 @@ static BOOL hideAllToNextSeparator;
     
     // Check for jsControlled
     jsControlled = [[doc objectForKey:@"jsControlled"] boolValue];
-    currentDocument.useFlashSkews = [[doc objectForKey:@"useFlashSkews"] boolValue];
     
     // Setup stage & resolutions
     NSMutableArray* serializedResolutions = [doc objectForKey:@"resolutions"];
@@ -3248,12 +3245,6 @@ static BOOL hideAllToNextSeparator;
 - (IBAction)visitCommunity:(id)sender
 {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.cocos2d-iphone.org/forum/forum/16"]];
-}
-
-#pragma mark Flash skew support (hackish)
-- (BOOL) currentDocumentUsesFlashSkew
-{
-    return currentDocument.useFlashSkews;
 }
 
 #pragma mark Debug

@@ -167,7 +167,7 @@
     }
     
     // Ensure that the keyframe type is animated
-    if (![self.plugIn.animatableProperties containsObject:name])
+    if (![[self.plugIn animatablePropertiesForNode:self] containsObject:name])
     {
         return;
     }
@@ -370,9 +370,7 @@
 
 - (void) updatePropertiesTime:(float)time sequenceId:(int)seqId
 {
-
-    
-    NSArray* animatableProps = [self.plugIn animatableProperties];
+    NSArray* animatableProps = [self.plugIn animatablePropertiesForNode:self];
     for (NSString* propName in animatableProps)
     {
         [self updateProperty:propName time:time sequenceId:seqId];
@@ -586,7 +584,7 @@
         
         for (NSString* propName in properties)
         {
-            BOOL useFlashSkews = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+            BOOL useFlashSkews = [self usesFlashSkew];
             if (useFlashSkews && [propName isEqualToString:@"rotation"]) continue;
             if (!useFlashSkews && [propName isEqualToString:@"rotationX"]) continue;
             if (!useFlashSkews && [propName isEqualToString:@"rotationY"]) continue;
@@ -771,6 +769,16 @@
 {
     NodeInfo* info = self.userObject;
     info.transformStartPosition= transformStartPosition;
+}
+
+- (void) setUsesFlashSkew:(BOOL)seqExpanded
+{
+    [self setExtraProp:[NSNumber numberWithBool:seqExpanded] forKey:@"usesFlashSkew"];
+}
+
+- (BOOL) usesFlashSkew
+{
+    return [[self extraPropForKey:@"usesFlashSkew"] boolValue];
 }
 
 @end

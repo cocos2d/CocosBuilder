@@ -93,7 +93,7 @@
         
         [@"Visible" drawInRect:propNameRect withAttributes:attrib];
         */
-        NSArray* props = node.plugIn.animatableProperties;
+        NSArray* props = [node.plugIn animatablePropertiesForNode:node];
         int i=0;
         for (NSString* prop in props)
         {

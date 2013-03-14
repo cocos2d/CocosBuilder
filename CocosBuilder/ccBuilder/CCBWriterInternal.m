@@ -228,7 +228,7 @@
         BOOL usingDefaultValue = NO;
         id serializedValue = NULL;
         
-        BOOL useFlashSkews = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+        BOOL useFlashSkews = [node usesFlashSkew];
         if (useFlashSkews && [name isEqualToString:@"rotation"]) continue;
         if (!useFlashSkews && [name isEqualToString:@"rotationX"]) continue;
         if (!useFlashSkews && [name isEqualToString:@"rotationY"]) continue;
@@ -469,6 +469,7 @@
         }
         
         NSMutableDictionary* prop = [NSMutableDictionary dictionary];
+        
         [prop setValue:type forKey:@"type"];
         [prop setValue:name forKey:@"name"];
         [prop setValue:serializedValue forKey:@"value"];
@@ -525,6 +526,12 @@
     if (customProps)
     {
         [dict setObject:customProps forKey:@"customProperties"];
+    }
+    
+    // Support for Flash skews
+    if (node.usesFlashSkew)
+    {
+        [dict setValue:[NSNumber numberWithBool:YES] forKey:@"usesFlashSkew"];
     }
     
     // Selection

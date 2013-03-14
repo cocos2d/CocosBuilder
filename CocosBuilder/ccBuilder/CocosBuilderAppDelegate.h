@@ -335,7 +335,4 @@ enum {
 - (void) modalStatusWindowFinish;
 - (void) modalStatusWindowUpdateStatusText:(NSString*) text;
 
-// Flash skew support
-- (BOOL) currentDocumentUsesFlashSkew;
-
 @end

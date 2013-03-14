@@ -378,7 +378,7 @@
     
     if (node)
     {
-        NSArray* props = node.plugIn.animatableProperties;
+        NSArray* props = [node.plugIn animatablePropertiesForNode:node];
         for (int i = 0; i < [props count]; i++)
         {
             if (i==0 || (node.seqExpanded)) {

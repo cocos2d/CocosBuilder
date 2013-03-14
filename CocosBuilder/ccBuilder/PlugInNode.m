@@ -24,6 +24,7 @@
 
 #import "PlugInNode.h"
 #import "CocosBuilderAppDelegate.h"
+#import "CCNode+NodeInfo.h"
 
 @implementation PlugInNode
 
@@ -168,9 +169,9 @@
     return @"position";
 }
 
-- (NSArray*) readablePropertiesForType:(NSString*)type
+- (NSArray*) readablePropertiesForType:(NSString*)type node:(CCNode*)node
 {
-    BOOL useFlashSkew = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+    BOOL useFlashSkew = [node usesFlashSkew];
     
     NSMutableArray* props = [NSMutableArray array];
     for (NSDictionary* propInfo in nodeProperties)
@@ -187,9 +188,9 @@
     return props;
 }
 
-- (NSArray*) animatableProperties
+- (NSArray*) animatablePropertiesForNode:(CCNode*)node
 {
-    BOOL useFlashSkew = [[CocosBuilderAppDelegate appDelegate] currentDocumentUsesFlashSkew];
+    BOOL useFlashSkew = [node usesFlashSkew];
     
     if (!useFlashSkew && cachedAnimatableProperties) return cachedAnimatableProperties;
     if (useFlashSkew && cachedAnimatablePropertiesFlashSkew) return cachedAnimatablePropertiesFlashSkew;
@@ -214,9 +215,9 @@
     return props;
 }
 
-- (BOOL) isAnimatableProperty:(NSString*)prop
+- (BOOL) isAnimatableProperty:(NSString*)prop node:(CCNode*)node
 {
-    for (NSString* animProp in [self animatableProperties])
+    for (NSString* animProp in [self animatablePropertiesForNode:node])
     {
         if ([animProp isEqualToString:prop])
         {

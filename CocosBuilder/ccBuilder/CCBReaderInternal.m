@@ -338,6 +338,12 @@ NSDictionary* renamedProperties = NULL;
     NSMutableDictionary* extraProps = nodeInfo.extraProps;
     PlugInNode* plugIn = nodeInfo.plugIn;
     
+    // Flash skew compatibility
+    if ([[dict objectForKey:@"usesFlashSkew"] boolValue])
+    {
+        [node setUsesFlashSkew:YES];
+    }
+    
     // Set properties for the node
     int numProps = [props count];
     for (int i = 0; i < numProps; i++)

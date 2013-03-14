@@ -75,21 +75,21 @@
         NodeInfo* info = child.userObject;
         PlugInNode* plugIn = info.plugIn;
         
-        NSArray* positionProps = [plugIn readablePropertiesForType:@"Position"];
+        NSArray* positionProps = [plugIn readablePropertiesForType:@"Position" node:node];
         for (NSString* prop in positionProps)
         {
             NSPoint oldPos = [PositionPropertySetter positionForNode:child prop:prop];
             [PositionPropertySetter setPosition:oldPos forNode:child prop:prop];
         }
         
-        NSArray* sizeProps = [plugIn readablePropertiesForType:@"Size"];
+        NSArray* sizeProps = [plugIn readablePropertiesForType:@"Size" node:node];
         for (NSString* prop in sizeProps)
         {
             NSSize oldSize = [PositionPropertySetter sizeForNode:child prop:prop];
             [PositionPropertySetter setSize:oldSize forNode:child prop:prop];
         }
         
-        NSArray* ccbFileProps = [plugIn readablePropertiesForType:@"CCBFile"];
+        NSArray* ccbFileProps = [plugIn readablePropertiesForType:@"CCBFile" node:node];
         for (NSString* prop in ccbFileProps)
         {
             // Reload ccbFiles
@@ -246,7 +246,7 @@
     NodeInfo* nodeInfo = node.userObject;
     PlugInNode* plugIn = nodeInfo.plugIn;
     
-    if ([plugIn isAnimatableProperty:@"position"])
+    if ([plugIn isAnimatableProperty:@"position" node:node])
     {
         SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
         int seqId = seq.sequenceId;

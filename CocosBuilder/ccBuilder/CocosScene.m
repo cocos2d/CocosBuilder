@@ -656,7 +656,7 @@ static CocosScene* sharedCocosScene;
     if (th == kCCBTransformHandleScale && appDelegate.selectedNode != rootNode)
     {
         if (([event modifierFlags] & NSAlternateKeyMask) &&
-            ![appDelegate currentDocumentUsesFlashSkew])
+            ![appDelegate.selectedNode usesFlashSkew])
         {
             // Start rotation transform (instead of scale)
             currentMouseTransform = kCCBTransformHandleRotate;
@@ -964,7 +964,7 @@ static CocosScene* sharedCocosScene;
     PlugInNode* plugIn = nodeInfo.plugIn;
     SequencerHandler* sh = [SequencerHandler sharedHandler];
     
-    if ([plugIn isAnimatableProperty:propertyName])
+    if ([plugIn isAnimatableProperty:propertyName node:selectedNode])
     {
         SequencerSequence* seq = sh.currentSequence;
         int seqId = seq.sequenceId;

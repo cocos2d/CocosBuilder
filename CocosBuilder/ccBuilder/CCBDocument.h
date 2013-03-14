@@ -43,8 +43,6 @@
     
     NSMutableArray* sequences;
     int currentSequenceId;
-    
-    BOOL useFlashSkews;
 }
 
 @property (nonatomic,retain) NSString* fileName;
@@ -63,5 +61,4 @@
 @property (nonatomic,assign) int currentResolution;
 @property (nonatomic,retain) NSMutableArray* sequences;
 @property (nonatomic,assign) int currentSequenceId;
-@property (nonatomic,assign) BOOL useFlashSkews;
 @end

@@ -76,4 +76,8 @@
 - (void) loadCustomPropertiesFromSerialization:(id)ser;
 - (void) loadCustomPropertyValuesFromSerialization:(id)ser;
 - (BOOL) shouldDisableProperty:(NSString*) prop;
+
+- (void) setUsesFlashSkew:(BOOL)seqExpanded;
+- (BOOL) usesFlashSkew;
+
 @end
