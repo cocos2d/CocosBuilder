@@ -22,36 +22,12 @@
  * THE SOFTWARE.
  */
 
-#import "InspectorBlock.h"
-#import "CCBGlobals.h"
-#import "CCNode+NodeInfo.h"
-#import "CocosBuilderAppDelegate.h"
+#import "InspectorValue.h"
 
-@implementation InspectorBlock
-
-- (void) setSelector:(NSString *)selector
+@interface InspectorTextureAtlas : InspectorValue
 {
-    [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"selector"];
-    
-    if (!selector) selector = @"";
-    [selection setExtraProp:selector forKey:propertyName];
-}
-
-- (NSString*) selector
-{
-    NSString* sel = [selection extraPropForKey:propertyName];
-    if (!sel) sel = @"";
-    return sel;
-}
-
-- (void) setTarget:(int)target
-{
-    [selection setExtraProp:[NSNumber numberWithInt:target] forKey:[NSString stringWithFormat:@"%@Target", propertyName]];
-}
-
-- (int) target
-{
-    return [[selection extraPropForKey:[NSString stringWithFormat:@"%@Target", propertyName]] intValue];
+    IBOutlet NSPopUpButton* popup;
+    IBOutlet NSMenu* menu;
 }
 
 @end

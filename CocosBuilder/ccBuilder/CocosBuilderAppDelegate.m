@@ -90,6 +90,7 @@
 #import "NodeGraphPropertySetter.h"
 #import "CCBSplitHorizontalView.h"
 #import "SpriteSheetSettingsWindow.h"
+#import "CCNode+Batching.h"
 
 
 #import <ExceptionHandling/NSExceptionHandler.h>
@@ -1599,6 +1600,18 @@ static BOOL hideAllToNextSeparator;
         //[self modalDialogTitle:@"Failed to add item" message:[NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName]];
         self.errorDescription = [NSString stringWithFormat: @"You cannot add a %@ to a %@",nodeInfo.plugIn.nodeClassName, nodeInfoParent.plugIn.nodeClassName];
         return NO;
+    }
+    
+    if ([parent isKindOfClass:[CCSpriteBatchNode class]] || [parent isChildOfSpriteBatchNode])
+    {
+        CCSpriteBatchNode *batchNode = (CCSpriteBatchNode *)parent;
+        CCSprite *child = (CCSprite *)obj;
+        
+        if (child.texture.name != batchNode.textureAtlas.texture.name)
+        {
+            self.errorDescription = [NSString stringWithFormat: @"A batch node sprite must have the same texture as the batch node's texture atlas"];
+            return NO;
+        }
     }
     
     [self saveUndoState];

@@ -370,6 +370,13 @@
             
             serializedValue = spriteFile;
         }
+        else if ([type isEqualToString:@"TextureAtlas"])
+        {
+            NSString* textureAtlasFile = [extraProps objectForKey:name];
+            if (!textureAtlasFile) textureAtlasFile = @"";
+            
+            serializedValue = textureAtlasFile;
+        }
         else if ([type isEqualToString:@"Color3"])
         {
             NSValue* colorValue = [node valueForKey:name];
