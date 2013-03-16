@@ -113,7 +113,7 @@
     setting.name = @"iPhone";
     setting.width = 0;
     setting.height = 0;
-    setting.ext = @" ";
+    setting.ext = @"iphone";
     setting.scale = 1;
     
     return setting;
