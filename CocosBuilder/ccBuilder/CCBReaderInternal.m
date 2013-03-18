@@ -235,6 +235,13 @@ NSDictionary* renamedProperties = NULL;
         [TexturePropertySetter setTextureForNode:node andProperty:name withFile:spriteFile];
         [extraProps setObject:spriteFile forKey:name];
     }
+    else if ([type isEqualToString:@"TextureAtlas"])
+    {
+        NSString* textureAtlasFile = serializedValue;
+        if (!textureAtlasFile) textureAtlasFile = @"";
+        [TexturePropertySetter setTextureAtlasForNode:node andProperty:name withFile:textureAtlasFile];
+        [extraProps setObject:textureAtlasFile forKey:name];
+    }
     else if ([type isEqualToString:@"Color3"])
     {
         ccColor3B c = [CCBReaderInternal deserializeColor3:serializedValue];

@@ -65,6 +65,7 @@
     [propTypes addObject:@"BlockCCControl"];
     [propTypes addObject:@"FloatScale"];
     [propTypes addObject:@"FloatXY"];
+    [propTypes addObject:@"TextureAtlas"];
 }
 
 - (id) init
@@ -401,7 +402,8 @@
     }
     else if ([type isEqualToString:@"Texture"]
              || [type isEqualToString:@"FntFile"]
-             || [type isEqualToString:@"CCBFile"])
+             || [type isEqualToString:@"CCBFile"]
+             || [type isEqualToString:@"TextureAtlas"])
     {
         [self writeCachedString:prop isPath: YES];
     }
@@ -578,7 +580,8 @@
         }
         else if ([type isEqualToString:@"FntFile"]
                  || [type isEqualToString:@"Texture"]
-                 || [type isEqualToString:@"CCBFile"])
+                 || [type isEqualToString:@"CCBFile"]
+                 || [type isEqualToString:@"TextureAtlas"])
         {
             [self addToStringCache:value isPath:YES];
         }
