@@ -261,19 +261,9 @@
         {
             SequencerKeyframe* kf = [keyframes objectAtIndex:i];
             
-            if (visible)
+            if (time < kf.time)
             {
-                if (time <= kf.time)
-                {
-                    return [NSNumber numberWithBool:visible];
-                }
-            }
-            else
-            {
-                if (time < kf.time)
-                {
-                    return [NSNumber numberWithBool:visible];
-                }
+                return [NSNumber numberWithBool:visible];
             }
             
             visible = !visible;
