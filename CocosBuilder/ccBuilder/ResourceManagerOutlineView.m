@@ -77,6 +77,25 @@
                 }
             }
         }
+        else if (item.action == @selector(menuOpenExternal:))
+        {
+            item.title = @"Open With External Editor";
+            
+            if (clickedResource.type == kCCBResTypeCCBFile)
+            {
+                [item setEnabled:NO];
+            }
+            else if (clickedResource.type == kCCBResTypeDirectory)
+            {
+                [item setEnabled:YES];
+                item.title = @"Open Folder in Finder";
+            }
+            else
+            {
+                [item setEnabled:YES];
+            }
+            item.tag = row;
+        }
     }
     
     // TODO: Update menu

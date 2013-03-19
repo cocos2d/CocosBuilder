@@ -2922,25 +2922,21 @@ static BOOL hideAllToNextSeparator;
 - (IBAction)menuOpenExternal:(id)sender
 {
     NSOutlineView* outlineView = [CocosBuilderAppDelegate appDelegate].outlineProject;
-    NSIndexSet* idxSet = [outlineView selectedRowIndexes];
     
-    NSUInteger idx = [idxSet firstIndex];
-    while (idx != NSNotFound)
+    NSUInteger idx = [sender tag];
+    
+    NSString* filename = [[outlineView itemAtRow:idx] filePath];
+    if (![[NSWorkspace sharedWorkspace] openFile:filename])
     {
-        NSString* filename = [[outlineView itemAtRow:idx] filePath];
-        if ([[NSWorkspace sharedWorkspace] openFile:filename] == false)
+        NSRange slash = [filename rangeOfString:@"/" options:NSBackwardsSearch];
+        
+        if (slash.location != NSNotFound)
         {
-            NSRange slash = [filename rangeOfString:@"/" options:NSBackwardsSearch];
-            
-            if (slash.location != NSNotFound)
-            {
-                filename = [filename stringByReplacingCharactersInRange:slash withString: @"/resources-auto/"];
-                // Try again
-                [[NSWorkspace sharedWorkspace] openFile:filename];
-            }
+            filename = [filename stringByReplacingCharactersInRange:slash withString: @"/resources-auto/"];
+            // Try again
+            [[NSWorkspace sharedWorkspace] openFile:filename];
         }
-        idx = [idxSet indexGreaterThanIndex:idx];
-    }    
+    }
 }
 
 - (IBAction)menuCreateSmartSpriteSheet:(id)sender
