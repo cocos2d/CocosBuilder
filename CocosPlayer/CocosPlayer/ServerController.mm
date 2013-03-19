@@ -85,6 +85,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) redirectStdErr
 {
+    return;
+    
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
