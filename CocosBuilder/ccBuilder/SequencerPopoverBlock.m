@@ -16,6 +16,8 @@
 
 - (void) setSelector:(NSString *)selector
 {
+    if (!selector) selector = @"";
+    
     [[CocosBuilderAppDelegate appDelegate] saveUndoStateWillChangeProperty:@"*popoverblock"];
     
     NSNumber* t = [_keyframe.value objectAtIndex:1];
@@ -25,7 +27,9 @@
 
 - (NSString*) selector
 {
-    return [_keyframe.value objectAtIndex:0];
+    NSString* s = [_keyframe.value objectAtIndex:0];
+    if (!s) s = @"";
+    return s;
 }
 
 - (void) setTarget:(int)t
