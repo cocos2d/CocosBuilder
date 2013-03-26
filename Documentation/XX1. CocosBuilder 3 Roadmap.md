@@ -35,6 +35,11 @@ This depends on [Cocos2d-x plist-file for initial configuration](https://github.
 
 [Github Issue](https://github.com/cocos2d/cocos2d-js/issues/28)
 
+### Include Chipmunk libs in HTML5 publish
+CocosBuilder should include Chipmunk as part of publishing for HTML5. This should be optional and set with a checkbox in the project settings.
+
+[Github Issue](https://github.com/cocos2d/cocos2d-js/issues/39)
+
 ### Run in browser
 Add a menu option to run a project directly in the web browser.
 
