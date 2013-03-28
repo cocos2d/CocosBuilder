@@ -403,6 +403,12 @@
             // Skip generated sprite sheets
             if (isGeneratedSpriteSheet) continue;
             
+            // Skip the empty folder
+            if ([[fm contentsOfDirectoryAtPath:filePath error:NULL] count] == 0)  continue;
+            
+            // Skip the fold no .ccb files when onlyPublishCCBs is true
+            if(projectSettings.onlyPublishCCBs && ![self containsCCBFile:filePath]) continue;
+            
             [self publishDirectory:filePath subPath:childPath];
         }
         else
@@ -578,6 +584,35 @@
     }
     
     return YES;
+}
+
+- (BOOL) containsCCBFile:(NSString*) dir
+{
+    NSFileManager* fm = [NSFileManager defaultManager];
+    ResourceManager* resManager = [ResourceManager sharedManager];
+    NSArray* files = [fm contentsOfDirectoryAtPath:dir error:NULL];
+    NSArray* resIndependentDirs = [resManager resIndependentDirs];
+    
+    for (NSString* file in files) {
+        BOOL isDirectory;
+        NSString* filePath = [dir stringByAppendingPathComponent:file];
+        
+        if([fm fileExistsAtPath:filePath isDirectory:&isDirectory]){
+            if(isDirectory){
+                // Skip resource independent directories
+                if ([resIndependentDirs containsObject:file]) {
+                    continue;
+                }else if([self containsCCBFile:filePath]){
+                    return YES;
+                }
+            }else{
+                if([[file lowercaseString] hasSuffix:@"ccb"]){
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
 }
 
 // Currently only checks top level of resource directories
