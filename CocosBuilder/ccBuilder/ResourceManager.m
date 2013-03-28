@@ -837,7 +837,14 @@
     
     // Load src image
     CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([autoFile UTF8String]);
-    CGImageRef imageSrc = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    
+    CGImageRef imageSrc;
+    //If it'a png file, use png dataprovider, or use jpg dataprovider
+    if ([[autoFile lowercaseString] hasSuffix:@"png"]) {
+        imageSrc= CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    }else{
+        imageSrc = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    }
     
     int wSrc = CGImageGetWidth(imageSrc);
     int hSrc = CGImageGetHeight(imageSrc);
