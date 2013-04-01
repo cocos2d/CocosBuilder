@@ -857,6 +857,10 @@
     // Create new, scaled image
     CGContextRef newContext = CGBitmapContextCreate(NULL, wDst, hDst, 8, wDst*32, colorSpace, kCGImageAlphaPremultipliedLast);
     
+    //Enable anti-aliasing
+    CGContextSetInterpolationQuality(newContext, kCGInterpolationHigh);
+    CGContextSetShouldAntialias(newContext, TRUE);
+    
     CGContextDrawImage(newContext, CGContextGetClipBoundingBox(newContext), imageSrc);
     
     CGImageRef imageDst = CGBitmapContextCreateImage(newContext);
