@@ -379,6 +379,10 @@
 		E3893C9A1666B9F500299482 /* CCPhysicsDebugNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893C921666B9F500299482 /* CCPhysicsDebugNode.m */; };
 		E3893C9B1666B9F500299482 /* CCPhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = E3893C941666B9F500299482 /* CCPhysicsSprite.mm */; };
 		E38DAB22165AC18800EA24E4 /* reshandler-spritesheet-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */; };
+		E390C777170A294E003E9E92 /* DebuggerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E390C776170A294E003E9E92 /* DebuggerConnection.m */; };
+		E390C77E170A2C9B003E9E92 /* AboutWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E390C77C170A2C9B003E9E92 /* AboutWindow.m */; };
+		E390C77F170A2C9B003E9E92 /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E390C77D170A2C9B003E9E92 /* AboutWindow.xib */; };
+		E390C781170A371E003E9E92 /* version in Resources */ = {isa = PBXBuildFile; fileRef = E390C780170A371E003E9E92 /* version */; };
 		E39108081679365600391C3B /* MaxRectsBinPack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E39108041679365600391C3B /* MaxRectsBinPack.cpp */; };
 		E39108091679365600391C3B /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E39108061679365600391C3B /* Rect.cpp */; };
 		E3926188159C69D20034FF1D /* SequencerKeyframeEasing.m in Sources */ = {isa = PBXBuildFile; fileRef = E3926187159C69D20034FF1D /* SequencerKeyframeEasing.m */; };
@@ -1430,6 +1434,12 @@
 		E3893C951666B9F500299482 /* ccShader_PositionColorLengthTexture_frag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_frag.h; sourceTree = "<group>"; };
 		E3893C961666B9F500299482 /* ccShader_PositionColorLengthTexture_vert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccShader_PositionColorLengthTexture_vert.h; sourceTree = "<group>"; };
 		E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reshandler-spritesheet-folder.png"; sourceTree = "<group>"; };
+		E390C775170A294E003E9E92 /* DebuggerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebuggerConnection.h; sourceTree = "<group>"; };
+		E390C776170A294E003E9E92 /* DebuggerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebuggerConnection.m; sourceTree = "<group>"; };
+		E390C77B170A2C9B003E9E92 /* AboutWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutWindow.h; sourceTree = "<group>"; };
+		E390C77C170A2C9B003E9E92 /* AboutWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutWindow.m; sourceTree = "<group>"; };
+		E390C77D170A2C9B003E9E92 /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
+		E390C780170A371E003E9E92 /* version */ = {isa = PBXFileReference; lastKnownFileType = folder; name = version; path = ../../version; sourceTree = "<group>"; };
 		E39108041679365600391C3B /* MaxRectsBinPack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaxRectsBinPack.cpp; sourceTree = "<group>"; };
 		E39108051679365600391C3B /* MaxRectsBinPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaxRectsBinPack.h; sourceTree = "<group>"; };
 		E39108061679365600391C3B /* Rect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rect.cpp; sourceTree = "<group>"; };
@@ -2328,6 +2338,7 @@
 				776041EA1498FB600078095D /* Dialogs */,
 				E3B7BC9D15E3B97900CF95EF /* Toolbar */,
 				E3AF6CD615F0A77F0048DB2A /* Help */,
+				E390C77A170A2C20003E9E92 /* About Box */,
 				E3F541D015AF040A00EAAFBD /* JavaScript Editor */,
 				E35A136315B0392800C9AA15 /* Player Connection */,
 				E3B7AEE614E33E5700DFD402 /* Inspector Properties */,
@@ -2380,6 +2391,7 @@
 		7789ACEB133AB6A700CEFCC7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E390C780170A371E003E9E92 /* version */,
 				E334742E169DC9E0000737CC /* jsdoc */,
 				E3D71E4A1669410700D9E638 /* defaultProjectResources */,
 				E3618D57166562DA009F5805 /* publishTemplates */,
@@ -2822,6 +2834,8 @@
 				E3F59CD015B5B9330015523B /* PlayerConsolePairingWindow.m */,
 				E380B258164330360006D31C /* PlayerDeviceInfo.h */,
 				E380B259164330360006D31C /* PlayerDeviceInfo.m */,
+				E390C775170A294E003E9E92 /* DebuggerConnection.h */,
+				E390C776170A294E003E9E92 /* DebuggerConnection.m */,
 			);
 			name = "Player Connection";
 			sourceTree = "<group>";
@@ -3258,6 +3272,16 @@
 				E383BF6A152478940032F371 /* CCScrollView.m */,
 			);
 			path = CCScrollView;
+			sourceTree = "<group>";
+		};
+		E390C77A170A2C20003E9E92 /* About Box */ = {
+			isa = PBXGroup;
+			children = (
+				E390C77B170A2C9B003E9E92 /* AboutWindow.h */,
+				E390C77C170A2C9B003E9E92 /* AboutWindow.m */,
+				E390C77D170A2C9B003E9E92 /* AboutWindow.xib */,
+			);
+			name = "About Box";
 			sourceTree = "<group>";
 		};
 		E398C01D14FB813C0078E771 /* PlugIns (Exporters) */ = {
@@ -4359,6 +4383,8 @@
 				E32FA2F816D5781600254653 /* seq-row-channel-bg.png in Resources */,
 				E3B5EE8A16D6E0AA00C07990 /* InspectorFloatXY.xib in Resources */,
 				E318CB3916D83F3B00348E0D /* InspectorPopoverFloatXY.xib in Resources */,
+				E390C77F170A2C9B003E9E92 /* AboutWindow.xib in Resources */,
+				E390C781170A371E003E9E92 /* version in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4821,6 +4847,8 @@
 				E3A4747016D4389D00DB0D61 /* CocosDenshion.m in Sources */,
 				E3A4747216D4389D00DB0D61 /* SimpleAudioEngine.m in Sources */,
 				E3B5EE8916D6E0AA00C07990 /* InspectorFloatXY.m in Sources */,
+				E390C777170A294E003E9E92 /* DebuggerConnection.m in Sources */,
+				E390C77E170A2C9B003E9E92 /* AboutWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

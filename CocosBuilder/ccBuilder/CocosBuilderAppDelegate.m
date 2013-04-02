@@ -90,6 +90,7 @@
 #import "NodeGraphPropertySetter.h"
 #import "CCBSplitHorizontalView.h"
 #import "SpriteSheetSettingsWindow.h"
+#import "AboutWindow.h"
 
 
 #import <ExceptionHandling/NSExceptionHandler.h>
@@ -3089,6 +3090,17 @@ static BOOL hideAllToNextSeparator;
     }
     
     return YES;
+}
+
+- (IBAction)menuAbout:(id)sender
+{
+    NSLog(@"menuAbout");
+    if(!aboutWindow)
+    {
+        aboutWindow = [[AboutWindow alloc] initWithWindowNibName:@"AboutWindow"];
+    }
+    
+    [[aboutWindow window] makeKeyAndOrderFront:self];
 }
 
 - (NSUndoManager*) windowWillReturnUndoManager:(NSWindow *)window

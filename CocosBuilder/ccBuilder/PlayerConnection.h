@@ -28,6 +28,7 @@
 @class PlayerConnection;
 @class ProjectSettings;
 @class PlayerDeviceInfo;
+@class DebuggerConnection;
 
 @protocol PlayerConnectionDelegate <NSObject>
 
@@ -44,6 +45,8 @@
     NSString* selectedServer;
     
     NSObject<PlayerConnectionDelegate>* delegate;
+    
+    DebuggerConnection* dbgConnection;
 }
 
 @property (nonatomic,retain) NSObject<PlayerConnectionDelegate>* delegate;
@@ -51,6 +54,7 @@
 @property (nonatomic,copy) NSString* selectedServer;
 @property (nonatomic,readonly) BOOL connected;
 @property (nonatomic,readonly) PlayerDeviceInfo* selectedDeviceInfo;
+@property (nonatomic,retain) DebuggerConnection* dbgConnection;
 
 + (PlayerConnection*) sharedPlayerConnection;
 
