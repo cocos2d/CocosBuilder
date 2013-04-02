@@ -25,6 +25,7 @@
 #import "PlayerConnection.h"
 #import "ProjectSettings.h"
 #import "PlayerDeviceInfo.h"
+#import "DebuggerConnection.h"
 
 static PlayerConnection* sharedPlayerConnection;
 
@@ -32,10 +33,28 @@ static PlayerConnection* sharedPlayerConnection;
 
 @synthesize delegate;
 @synthesize selectedServer;
+@synthesize dbgConnection;
 
 + (PlayerConnection*) sharedPlayerConnection
 {
     return  sharedPlayerConnection;
+}
+
+- (void) updateDebugConnectionForServer:(NSString*) server
+{
+    NSLog(@"updatedDebugConnectionForServer: %@", server);
+    
+    if (dbgConnection)
+    {
+        // Shut down old connection
+        self.dbgConnection = NULL;
+    }
+    
+    // Start a new dbg connection
+    NSString* deviceIP = [[server componentsSeparatedByString:@":"] objectAtIndex:0];
+    
+    self.dbgConnection = [[DebuggerConnection alloc] initWithPlayerConnection:self deviceIP:deviceIP];
+    [self.dbgConnection connect];
 }
 
 - (NSString*) protocolIdentifier
@@ -96,6 +115,7 @@ static PlayerConnection* sharedPlayerConnection;
 
 - (void) dealloc
 {
+    [dbgConnection release];
     [connectedServers release];
     [selectedServer release];
     [client release];
@@ -140,6 +160,8 @@ static PlayerConnection* sharedPlayerConnection;
             }
         }
     }
+    
+    [self updateDebugConnectionForServer:selectedServer];
 }
 
 - (void)client:(ThoMoClientStub *)theClient didConnectToServer:(NSString *)aServerIdString

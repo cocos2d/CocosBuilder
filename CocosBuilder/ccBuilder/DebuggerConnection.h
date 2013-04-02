@@ -6,8 +6,22 @@
 //
 //
 
+#define kCCBPlayerDbgPort 1337
+
 #import <Foundation/Foundation.h>
 
-@interface DebuggerConnection : NSObject
+@class PlayerConnection;
+
+@interface DebuggerConnection : NSObject <NSStreamDelegate>
+{
+    NSString* deviceIP;
+    PlayerConnection* delegate;
+    
+    NSInputStream *inputStream;
+    NSOutputStream *outputStream;
+}
+
+- (id) initWithPlayerConnection:(PlayerConnection*)pc deviceIP:(NSString*) ip;
+- (void) connect;
 
 @end
