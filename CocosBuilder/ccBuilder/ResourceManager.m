@@ -839,8 +839,9 @@
     CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([autoFile UTF8String]);
     
     CGImageRef imageSrc;
+    BOOL isPng = [[autoFile lowercaseString] hasSuffix:@"png"];
     //If it'a png file, use png dataprovider, or use jpg dataprovider
-    if ([[autoFile lowercaseString] hasSuffix:@"png"]) {
+    if (isPng) {
         imageSrc= CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
     }else{
         imageSrc = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
@@ -870,7 +871,7 @@
     
     // Save the image
     CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:dstFile];
-    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, isPng ? kUTTypePNG : kUTTypeJPEG, 1, NULL);
     CGImageDestinationAddImage(destination, imageDst, nil);
     
     if (!CGImageDestinationFinalize(destination)) {
