@@ -837,7 +837,15 @@
     
     // Load src image
     CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([autoFile UTF8String]);
-    CGImageRef imageSrc = CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    
+    CGImageRef imageSrc;
+    BOOL isPng = [[autoFile lowercaseString] hasSuffix:@"png"];
+    //If it'a png file, use png dataprovider, or use jpg dataprovider
+    if (isPng) {
+        imageSrc= CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    }else{
+        imageSrc = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
+    }
     
     int wSrc = CGImageGetWidth(imageSrc);
     int hSrc = CGImageGetHeight(imageSrc);
@@ -850,6 +858,10 @@
     // Create new, scaled image
     CGContextRef newContext = CGBitmapContextCreate(NULL, wDst, hDst, 8, wDst*32, colorSpace, kCGImageAlphaPremultipliedLast);
     
+    //Enable anti-aliasing
+    CGContextSetInterpolationQuality(newContext, kCGInterpolationHigh);
+    CGContextSetShouldAntialias(newContext, TRUE);
+    
     CGContextDrawImage(newContext, CGContextGetClipBoundingBox(newContext), imageSrc);
     
     CGImageRef imageDst = CGBitmapContextCreateImage(newContext);
@@ -859,7 +871,7 @@
     
     // Save the image
     CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:dstFile];
-    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, isPng ? kUTTypePNG : kUTTypeJPEG, 1, NULL);
     CGImageDestinationAddImage(destination, imageDst, nil);
     
     if (!CGImageDestinationFinalize(destination)) {

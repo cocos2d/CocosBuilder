@@ -88,6 +88,7 @@ enum {
 @class MainToolbarDelegate;
 @class PlayerConnection;
 @class CCBSplitHorizontalView;
+@class AboutWindow;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
@@ -202,6 +203,9 @@ enum {
     HelpWindow* helpWindow;
     APIDocsWindow* apiDocsWindow;
     
+    // About window
+    AboutWindow* aboutWindow;
+    
     // Animation playback
     BOOL playingBack;
     double playbackLastFrameTime;
@@ -311,6 +315,7 @@ enum {
 - (void) reloadResources;
 - (IBAction)menuAddStickyNote:(id)sender;
 - (IBAction) menuCleanCacheDirectories:(id)sender;
+- (IBAction)menuAbout:(id)sender;
 
 // Undo / Redo
 - (void) updateDirtyMark;
