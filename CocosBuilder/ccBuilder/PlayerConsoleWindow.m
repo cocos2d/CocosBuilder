@@ -144,6 +144,7 @@
 - (IBAction)pressedSendJSCode:(id)sender
 {
     NSString* script = [textInput stringValue];
+    [textInput setStringValue:@""];
     
     [playerConnection sendJavaScript:script];
 }
