@@ -10,6 +10,10 @@
 
 @interface DebuggerTextField : CCBTextField
 {
+    int historyPosition;
     NSMutableArray* history;
 }
+
+- (void) addToHistory:(NSString*)script;
+
 @end

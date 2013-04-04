@@ -25,6 +25,8 @@
 #import <Cocoa/Cocoa.h>
 #import "PlayerConnection.h"
 
+@class DebuggerTextField;
+
 @interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate,NSWindowDelegate>
 {
     PlayerConnection* playerConnection;
@@ -36,7 +38,7 @@
     IBOutlet NSTextView* textView;
     BOOL scrolledToBottomWhenResizing;
     
-    IBOutlet NSTextField* textInput;
+    IBOutlet DebuggerTextField* textInput;
 }
 
 @property (nonatomic,readonly) PlayerConnection* playerConnection;

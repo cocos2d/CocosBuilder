@@ -28,6 +28,7 @@
 #import "MGSFragaria.h"
 #import "SMLTextView.h"
 #import "CocosBuilderAppDelegate.h"
+#import "DebuggerTextField.h"
 
 @interface PlayerConsoleWindow ()
 
@@ -145,6 +146,7 @@
 {
     NSString* script = [textInput stringValue];
     [textInput setStringValue:@""];
+    [textInput addToHistory:script];
     
     [playerConnection sendJavaScript:script];
 }
