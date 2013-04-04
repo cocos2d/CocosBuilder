@@ -25,9 +25,6 @@
 #import <Cocoa/Cocoa.h>
 #import "PlayerConnection.h"
 
-@class MGSFragaria;
-@class SMLTextView;
-
 @interface PlayerConsoleWindow : NSWindowController <PlayerConnectionDelegate,NSWindowDelegate>
 {
     PlayerConnection* playerConnection;
@@ -39,11 +36,7 @@
     IBOutlet NSTextView* textView;
     BOOL scrolledToBottomWhenResizing;
     
-    // Javascript editor
-    IBOutlet NSView* jsView;
-    
-    MGSFragaria* fragaria;
-    SMLTextView* fragariaTextView;
+    IBOutlet NSTextField* textInput;
 }
 
 @property (nonatomic,readonly) PlayerConnection* playerConnection;

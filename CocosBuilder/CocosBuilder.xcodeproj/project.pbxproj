@@ -162,6 +162,10 @@
 		E334741C169DC5A7000737CC /* APIDocsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E334741A169DC5A6000737CC /* APIDocsWindow.m */; };
 		E334741D169DC5A7000737CC /* APIDocsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E334741B169DC5A6000737CC /* APIDocsWindow.xib */; };
 		E334742F169DC9E0000737CC /* jsdoc in Resources */ = {isa = PBXBuildFile; fileRef = E334742E169DC9E0000737CC /* jsdoc */; };
+		E334A4DE170CF475001604F7 /* seq-btn-end.png in Resources */ = {isa = PBXBuildFile; fileRef = E334A4DC170CF475001604F7 /* seq-btn-end.png */; };
+		E334A4DF170CF475001604F7 /* toolbar-bottom-noborder.png in Resources */ = {isa = PBXBuildFile; fileRef = E334A4DD170CF475001604F7 /* toolbar-bottom-noborder.png */; };
+		E334A4E4170CFDE3001604F7 /* CCBTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E334A4E3170CFDE3001604F7 /* CCBTextField.m */; };
+		E334A4E6170D0020001604F7 /* debugger-bug.png in Resources */ = {isa = PBXBuildFile; fileRef = E334A4E5170D0020001604F7 /* debugger-bug.png */; };
 		E335CAEB15751C0D00A612EE /* seq-ctrl-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */; };
 		E335CAF3157603C200A612EE /* SequencerHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF2157603C200A612EE /* SequencerHandler.m */; };
 		E335CAF6157649F900A612EE /* SequencerExpandBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E335CAF5157649F900A612EE /* SequencerExpandBtnCell.m */; };
@@ -1044,6 +1048,11 @@
 		E334741A169DC5A6000737CC /* APIDocsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIDocsWindow.m; sourceTree = "<group>"; };
 		E334741B169DC5A6000737CC /* APIDocsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APIDocsWindow.xib; sourceTree = "<group>"; };
 		E334742E169DC9E0000737CC /* jsdoc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = jsdoc; path = ../../jsdoc; sourceTree = "<group>"; };
+		E334A4DC170CF475001604F7 /* seq-btn-end.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-btn-end.png"; sourceTree = "<group>"; };
+		E334A4DD170CF475001604F7 /* toolbar-bottom-noborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-bottom-noborder.png"; sourceTree = "<group>"; };
+		E334A4E2170CFDE3001604F7 /* CCBTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTextField.h; sourceTree = "<group>"; };
+		E334A4E3170CFDE3001604F7 /* CCBTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTextField.m; sourceTree = "<group>"; };
+		E334A4E5170D0020001604F7 /* debugger-bug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "debugger-bug.png"; sourceTree = "<group>"; };
 		E335CAEA15751C0D00A612EE /* seq-ctrl-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-ctrl-bg.png"; sourceTree = "<group>"; };
 		E335CAF1157603C200A612EE /* SequencerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerHandler.h; sourceTree = "<group>"; };
 		E335CAF2157603C200A612EE /* SequencerHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SequencerHandler.m; sourceTree = "<group>"; };
@@ -2108,6 +2117,8 @@
 				581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */,
 				E3808DB81641D4B800398456 /* CCBTextFieldLabel.h */,
 				E3808DB91641D4B800398456 /* CCBTextFieldLabel.m */,
+				E334A4E2170CFDE3001604F7 /* CCBTextField.h */,
+				E334A4E3170CFDE3001604F7 /* CCBTextField.m */,
 			);
 			name = "Styled Components";
 			sourceTree = "<group>";
@@ -2166,6 +2177,9 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E334A4E5170D0020001604F7 /* debugger-bug.png */,
+				E334A4DC170CF475001604F7 /* seq-btn-end.png */,
+				E334A4DD170CF475001604F7 /* toolbar-bottom-noborder.png */,
 				E38DAB21165AC18800EA24E4 /* reshandler-spritesheet-folder.png */,
 				5811305F1639C52000A86D70 /* seq-startmarker.png */,
 				E367E32416384F3600247F12 /* orientation-portrait.png */,
@@ -4385,6 +4399,9 @@
 				E318CB3916D83F3B00348E0D /* InspectorPopoverFloatXY.xib in Resources */,
 				E390C77F170A2C9B003E9E92 /* AboutWindow.xib in Resources */,
 				E390C781170A371E003E9E92 /* version in Resources */,
+				E334A4DE170CF475001604F7 /* seq-btn-end.png in Resources */,
+				E334A4DF170CF475001604F7 /* toolbar-bottom-noborder.png in Resources */,
+				E334A4E6170D0020001604F7 /* debugger-bug.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4849,6 +4866,7 @@
 				E3B5EE8916D6E0AA00C07990 /* InspectorFloatXY.m in Sources */,
 				E390C777170A294E003E9E92 /* DebuggerConnection.m in Sources */,
 				E390C77E170A2C9B003E9E92 /* AboutWindow.m in Sources */,
+				E334A4E4170CFDE3001604F7 /* CCBTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
