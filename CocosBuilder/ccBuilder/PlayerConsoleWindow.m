@@ -29,6 +29,7 @@
 #import "SMLTextView.h"
 #import "CocosBuilderAppDelegate.h"
 #import "DebuggerTextField.h"
+#import "DebuggerConnection.h"
 
 @interface PlayerConsoleWindow ()
 
@@ -149,6 +150,16 @@
     [textInput addToHistory:script];
     
     [playerConnection sendJavaScript:script];
+}
+
+- (IBAction)pressedContinue:(id)sender
+{
+    [playerConnection.dbgConnection sendMessage:@"continue"];
+}
+
+- (IBAction)pressedStep:(id)sender
+{
+    [playerConnection.dbgConnection sendMessage:@"step"];
 }
 
 - (IBAction)pressedPairing:(id)sender

@@ -87,11 +87,16 @@
     
     NSLog(@"stream: %@ handleEvent: %@(%d)", stream, descr, (int)evt);
     
-    if (stream == outputStream && NSStreamEventOpenCompleted)
+    if (stream == outputStream &&  (evt & NSStreamEventHasSpaceAvailable))
     {
-        [self willChangeValueForKey:@"connected"];
-        connected = YES;
-        [self didChangeValueForKey:@"connected"];
+        if (!connected)
+        {
+            [self willChangeValueForKey:@"connected"];
+            connected = YES;
+            [self didChangeValueForKey:@"connected"];
+        
+            [delegate debugConnectionStarted];
+        }
     }
     
     if (evt & NSStreamEventErrorOccurred)
@@ -101,7 +106,7 @@
     }
     else if (evt & NSStreamEventEndEncountered)
     {
-        [self handleLostConnection];
+        //[self handleLostConnection];
     }
 }
 
@@ -121,11 +126,31 @@
 {
     if (!connected) return;
     
-    if ([outputStream hasSpaceAvailable])
-    {
+    NSLog(@"sendMessage: %@", str);
+    
+    //if ([outputStream hasSpaceAvailable])
+    //{
         const uint8_t * rawstring =
         (const uint8_t *)[str UTF8String];
         [outputStream write:rawstring maxLength:strlen((const char*)rawstring)];
+    //}
+}
+
+- (void) sendBreakpoints:(NSDictionary*)files
+{
+    // TODO: Clear breakpoints
+    
+    // Send new set of breakpoints
+    for (NSString* file in files)
+    {
+        NSSet* bps = [files objectForKey:file];
+        for (NSNumber* bp in bps)
+        {
+            int line = [bp intValue];
+            
+            NSString* cmd = [NSString stringWithFormat:@"break %@:%d", file, line];
+            [self sendMessage:cmd];
+        }
     }
 }
 

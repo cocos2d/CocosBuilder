@@ -307,7 +307,7 @@
 										<object class="NSTextView" id="1068293">
 											<reference key="NSNextResponder" ref="969187197"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{515, 14}</string>
+											<string key="NSFrameSize">{500, 14}</string>
 											<reference key="NSSuperview" ref="969187197"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="334005274"/>
@@ -326,7 +326,7 @@
 													<nil key="NSDelegate"/>
 												</object>
 												<reference key="NSTextView" ref="1068293"/>
-												<double key="NSWidth">515</double>
+												<double key="NSWidth">500</double>
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
@@ -379,7 +379,7 @@
 											<nil key="NSDelegate"/>
 										</object>
 									</array>
-									<string key="NSFrameSize">{515, 356}</string>
+									<string key="NSFrameSize">{500, 356}</string>
 									<reference key="NSSuperview" ref="774307970"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1068293"/>
@@ -577,7 +577,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrame">{{485, -1}, {31, 25}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="263045721">
@@ -694,6 +693,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="107785073"/>
 					</object>
 					<int key="connectionID">527</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pressedContinue:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="118242992"/>
+					</object>
+					<int key="connectionID">528</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pressedStep:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="428091870"/>
+					</object>
+					<int key="connectionID">529</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1591,7 +1606,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">527</int>
+			<int key="maxID">529</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1623,12 +1638,18 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="className">PlayerConsoleWindow</string>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="pressedContinue:">id</string>
 						<string key="pressedPairing:">id</string>
 						<string key="pressedPlay:">id</string>
 						<string key="pressedSendJSCode:">id</string>
+						<string key="pressedStep:">id</string>
 						<string key="pressedStop:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="pressedContinue:">
+							<string key="name">pressedContinue:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="pressedPairing:">
 							<string key="name">pressedPairing:</string>
 							<string key="candidateClassName">id</string>
@@ -1641,6 +1662,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="name">pressedSendJSCode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="pressedStep:">
+							<string key="name">pressedStep:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="pressedStop:">
 							<string key="name">pressedStop:</string>
 							<string key="candidateClassName">id</string>
@@ -1650,7 +1675,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<string key="btnPairing">NSButton</string>
 						<string key="deviceMenu">NSMenu</string>
 						<string key="devicePopup">NSPopUpButton</string>
-						<string key="textInput">NSTextField</string>
+						<string key="textInput">DebuggerTextField</string>
 						<string key="textView">NSTextView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1668,7 +1693,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="IBToOneOutletInfo" key="textInput">
 							<string key="name">textInput</string>
-							<string key="candidateClassName">NSTextField</string>
+							<string key="candidateClassName">DebuggerTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="textView">
 							<string key="name">textView</string>

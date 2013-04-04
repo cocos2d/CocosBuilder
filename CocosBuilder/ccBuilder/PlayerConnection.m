@@ -26,6 +26,7 @@
 #import "ProjectSettings.h"
 #import "PlayerDeviceInfo.h"
 #import "DebuggerConnection.h"
+#import "CocosBuilderAppDelegate.h"
 
 static PlayerConnection* sharedPlayerConnection;
 
@@ -57,6 +58,12 @@ static PlayerConnection* sharedPlayerConnection;
     
     self.dbgConnection = [[DebuggerConnection alloc] initWithPlayerConnection:self deviceIP:deviceIP];
     [self.dbgConnection connect];
+}
+
+- (void) debugConnectionStarted
+{
+    // Send list of breakpoints
+    [dbgConnection sendBreakpoints: [CocosBuilderAppDelegate appDelegate].projectSettings.breakpoints];
 }
 
 - (void) debugConnectionLost
@@ -281,7 +288,7 @@ static PlayerConnection* sharedPlayerConnection;
     else if ([cmd isEqualToString:@"running"])
     {
         // Player is now running program, connect debugger
-        [self setupDebugConnection];
+        [self performSelector:@selector(setupDebugConnection) withObject:NULL afterDelay:1.0];
     }
 }
 

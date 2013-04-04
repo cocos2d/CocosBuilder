@@ -50,5 +50,7 @@
 - (IBAction)pressedStop:(id)sender;
 - (IBAction)pressedSendJSCode:(id)sender;
 - (IBAction)pressedPairing:(id)sender;
+- (IBAction)pressedContinue:(id)sender;
+- (IBAction)pressedStep:(id)sender;
 
 @end
