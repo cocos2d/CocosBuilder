@@ -853,7 +853,7 @@
     int wDst = wSrc * scaleFactor;
     int hDst = hSrc * scaleFactor;
     
-    CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageSrc);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();//CGImageGetColorSpace(imageSrc);
     
     // Create new, scaled image
     CGContextRef newContext = CGBitmapContextCreate(NULL, wDst, hDst, 8, wDst*32, colorSpace, kCGImageAlphaPremultipliedLast);
