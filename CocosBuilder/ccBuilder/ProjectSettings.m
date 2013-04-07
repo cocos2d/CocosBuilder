@@ -111,6 +111,7 @@
 @synthesize deviceOrientationLandscapeRight;
 @synthesize resourceAutoScaleFactor;
 @synthesize generatedSpriteSheets;
+@synthesize breakpoints;
 
 - (id) init
 {

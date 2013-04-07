@@ -839,8 +839,9 @@
     CGDataProviderRef dataProvider = CGDataProviderCreateWithFilename([autoFile UTF8String]);
     
     CGImageRef imageSrc;
+    BOOL isPng = [[autoFile lowercaseString] hasSuffix:@"png"];
     //If it'a png file, use png dataprovider, or use jpg dataprovider
-    if ([[autoFile lowercaseString] hasSuffix:@"png"]) {
+    if (isPng) {
         imageSrc= CGImageCreateWithPNGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
     }else{
         imageSrc = CGImageCreateWithJPEGDataProvider(dataProvider, NULL, NO, kCGRenderingIntentDefault);
@@ -852,12 +853,24 @@
     int wDst = wSrc * scaleFactor;
     int hDst = hSrc * scaleFactor;
     
+    BOOL save8BitPNG = NO;
+    
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(imageSrc);
+    if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+    {
+        // Use generic color space
+        const CGFloat whitePoint[] = {0.95047, 1.0, 1.08883};
+        const CGFloat blackPoint[] = {0, 0, 0};
+        const CGFloat gamma[] = {1, 1, 1};
+        const CGFloat matrix[] = {0.449695, 0.244634, 0.0251829, 0.316251, 0.672034, 0.141184, 0.18452, 0.0833318, 0.922602 };
+        colorSpace = CGColorSpaceCreateCalibratedRGB(whitePoint, blackPoint, gamma, matrix);
+        save8BitPNG = YES;
+    }
     
     // Create new, scaled image
     CGContextRef newContext = CGBitmapContextCreate(NULL, wDst, hDst, 8, wDst*32, colorSpace, kCGImageAlphaPremultipliedLast);
     
-    //Enable anti-aliasing
+    // Enable anti-aliasing
     CGContextSetInterpolationQuality(newContext, kCGInterpolationHigh);
     CGContextSetShouldAntialias(newContext, TRUE);
     
@@ -870,7 +883,7 @@
     
     // Save the image
     CFURLRef url = (CFURLRef)[NSURL fileURLWithPath:dstFile];
-    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, isPng ? kUTTypePNG : kUTTypeJPEG, 1, NULL);
     CGImageDestinationAddImage(destination, imageDst, nil);
     
     if (!CGImageDestinationFinalize(destination)) {
@@ -882,6 +895,21 @@
     CGImageRelease(imageSrc);
     CFRelease(dataProvider);
     CFRelease(newContext);
+    
+    // Convert file to 8 bit if original uses indexed colors
+    if (save8BitPNG)
+    {
+        CFRelease(colorSpace);
+        
+        NSTask* pngTask = [[NSTask alloc] init];
+        [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngnq"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                @"-f", dstFile, dstFile, nil];
+        [pngTask setArguments:args];
+        [pngTask launch];
+        [pngTask waitUntilExit];
+        [pngTask release];
+    }
     
     // Update modification time to match original file
     NSDate* autoFileDate = [CCBFileUtil modificationDateForFile:autoFile];

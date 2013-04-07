@@ -131,6 +131,8 @@
 
 @property (nonatomic, readonly) NSDictionary* generatedSpriteSheets;
 
+@property (nonatomic,readonly) NSDictionary* breakpoints;
+
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;
 - (id) serialize;

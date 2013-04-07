@@ -6,7 +6,7 @@
 //
 //
 
-#define kCCBPlayerDbgPort 1337
+#define kCCBPlayerDbgPort 8337
 
 #import <Foundation/Foundation.h>
 
@@ -19,9 +19,16 @@
     
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
+    
+    BOOL connected;
 }
+
+@property (nonatomic,readonly) BOOL connected;
 
 - (id) initWithPlayerConnection:(PlayerConnection*)pc deviceIP:(NSString*) ip;
 - (void) connect;
+- (void) shutdown;
+- (void) sendMessage:(NSString*)msg;
+- (void) sendBreakpoints:(NSDictionary*)files;
 
 @end

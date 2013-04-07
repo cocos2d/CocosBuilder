@@ -85,7 +85,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 - (void) redirectStdErr
 {
-    return;
+    //return;
     
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
@@ -303,6 +303,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
 		self.playerStatus = kCCBPlayerStatusPlay;
 		[self runJSApp];
+        
+        [self sendRunning];
 	});
 
 }
@@ -555,6 +557,14 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     NSMutableDictionary* msg = [NSMutableDictionary dictionary];
     [msg setObject:@"filelist" forKey:@"cmd"];
     [msg setObject:dirFiles forKey:@"filelist"];
+    
+    [self sendMessage:msg];
+}
+
+- (void) sendRunning
+{
+    NSMutableDictionary* msg = [NSMutableDictionary dictionary];
+    [msg setObject:@"running" forKey:@"cmd"];
     
     [self sendMessage:msg];
 }

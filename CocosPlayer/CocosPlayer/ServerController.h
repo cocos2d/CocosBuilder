@@ -91,5 +91,6 @@ extern NSString *kCCBPlayerStatusStringScript;
 - (void) sendResultString:(NSString*) str;
 - (void) sendLog:(NSString*)log;
 - (void) sendFileList;
+- (void) sendRunning;
 
 @end

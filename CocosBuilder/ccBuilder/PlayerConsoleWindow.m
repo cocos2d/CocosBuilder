@@ -28,6 +28,8 @@
 #import "MGSFragaria.h"
 #import "SMLTextView.h"
 #import "CocosBuilderAppDelegate.h"
+#import "DebuggerTextField.h"
+#import "DebuggerConnection.h"
 
 @interface PlayerConsoleWindow ()
 
@@ -99,26 +101,6 @@
     playerConnection.selectedServer = item.representedObject;
 }
 
-- (void) setupFragaria
-{
-    fragaria = [[MGSFragaria alloc] init];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:MGSPrefsAutocompleteSuggestAutomatically];	
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:MGSPrefsLineWrapNewDocuments];
-    
-    [fragaria setObject:[NSNumber numberWithBool:YES] forKey:MGSFOIsSyntaxColoured];
-    [fragaria setObject:[NSNumber numberWithBool:YES] forKey:MGSFOShowLineNumberGutter];
-    
-    [fragaria setObject:self forKey:MGSFODelegate];
-    
-    // define our syntax definition
-    [fragaria setObject:@"JavaScript" forKey:MGSFOSyntaxDefinitionName];
-    [fragaria embedInView:jsView];
-    
-    // access the NSTextView
-    fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
-}
-
 - (void) updatePairingButton
 {
     NSString* pairing = [[NSUserDefaults standardUserDefaults] objectForKey:@"pairing"];
@@ -137,12 +119,14 @@
 {
     [super windowDidLoad];
     
-    [self setupFragaria];
+    //[self setupFragaria];
     
     [self setupDeviceMenu];
     [self updatePairingButton];
     
     [self writeToConsole:@"CocosPlayer JavaScript Console\n" bold:NO];
+    
+    [self.window setBackgroundColor:[NSColor whiteColor]];
     
     self.window.delegate = self;
 }
@@ -161,9 +145,21 @@
 
 - (IBAction)pressedSendJSCode:(id)sender
 {
-    NSString* script = [fragariaTextView string];
+    NSString* script = [textInput stringValue];
+    [textInput setStringValue:@""];
+    [textInput addToHistory:script];
     
     [playerConnection sendJavaScript:script];
+}
+
+- (IBAction)pressedContinue:(id)sender
+{
+    [playerConnection.dbgConnection sendMessage:@"continue"];
+}
+
+- (IBAction)pressedStep:(id)sender
+{
+    [playerConnection.dbgConnection sendMessage:@"step"];
 }
 
 - (IBAction)pressedPairing:(id)sender
