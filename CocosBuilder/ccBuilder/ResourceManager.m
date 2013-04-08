@@ -900,8 +900,6 @@
         [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
         NSMutableArray* args = [NSMutableArray arrayWithObjects:
                                 @"--force", @"--ext", @".png", dstFile, nil];
-        
-        NSLog(@"pngquant: %@", args);
         [pngTask setArguments:args];
         [pngTask launch];
         [pngTask waitUntilExit];
