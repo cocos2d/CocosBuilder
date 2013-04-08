@@ -67,6 +67,7 @@ enum {
 
 @class CCBDocument;
 @class ProjectSettings;
+@class HTTPServer;
 @class AssetsWindowController;
 @class PlugInManager;
 @class ResourceManager;
@@ -164,6 +165,7 @@ enum {
     
     // Project
     ProjectSettings* projectSettings;
+    HTTPServer* httpServer;
     
     // Project display
     IBOutlet NSOutlineView* outlineProject;
@@ -331,6 +333,7 @@ enum {
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings;
 - (IBAction)runProject:(id)sender;
 - (IBAction) menuPublishProjectAndRun:(id)sender;
+- (IBAction) menuPublishProjectAndRunInBrowser:(id)sender;
 
 // For warning messages
 - (void) modalDialogTitle: (NSString*)title message:(NSString*)msg;
