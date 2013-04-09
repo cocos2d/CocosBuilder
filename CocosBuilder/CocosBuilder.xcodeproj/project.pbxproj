@@ -150,6 +150,7 @@
 		835DAF0F1712C0F8003A2F7B /* GCDAsyncSocket.h in Sources */ = {isa = PBXBuildFile; fileRef = 835DADDC1712B0D7003A2F7B /* GCDAsyncSocket.h */; };
 		835DAF101712C0F8003A2F7B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DADDD1712B0D7003A2F7B /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = ""; }; };
 		835DAF121712C176003A2F7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835DAF111712C176003A2F7B /* Security.framework */; };
+		835DAF191713D1A8003A2F7B /* CCBHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DAF181713D1A7003A2F7B /* CCBHTTPServer.m */; };
 		A09AB6AF14E9935F009C8B91 /* aabb.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB69F14E9935F009C8B91 /* aabb.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A09AB6B014E9935F009C8B91 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6A014E9935F009C8B91 /* ChangeLog */; };
 		A09AB6B114E9935F009C8B91 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6A114E9935F009C8B91 /* CMakeLists.txt */; };
@@ -1051,6 +1052,8 @@
 		835DADEE1712B0D7003A2F7B /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		835DADEF1712B0D7003A2F7B /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		835DAF111712C176003A2F7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		835DAF171713D1A6003A2F7B /* CCBHTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBHTTPServer.h; sourceTree = "<group>"; };
+		835DAF181713D1A7003A2F7B /* CCBHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBHTTPServer.m; sourceTree = "<group>"; };
 		A09AB68F14E9935F009C8B91 /* aabb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aabb.h; sourceTree = "<group>"; };
 		A09AB69114E9935F009C8B91 /* mat4stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4stack.h; sourceTree = "<group>"; };
 		A09AB69214E9935F009C8B91 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
@@ -2379,10 +2382,10 @@
 				E3D59118150F50D1004180CA /* AUTHORS */,
 				E395DC7D1511FDF70075979E /* CHANGELOG */,
 				E3D59119150F50D1004180CA /* LICENSE_CocosBuilder.txt */,
+				7789ABC8133AA82000CEFCC7 /* CocosBuilder */,
 				E3D5911A150F50D1004180CA /* LICENSE_PSMTabBarControl.txt */,
 				E3D5911B150F50D1004180CA /* LICENSE_SCEvents.txt */,
 				E3D5911C150F50D1004180CA /* LICENSE_Sparkle.txt */,
-				7789ABC8133AA82000CEFCC7 /* CocosBuilder */,
 				7789ACEB133AB6A700CEFCC7 /* Resources */,
 				E3B7AED114E31A7800DFD402 /* PlugIns (Nodes) */,
 				E398C01D14FB813C0078E771 /* PlugIns (Exporters) */,
@@ -2474,6 +2477,7 @@
 				776041E21498F5A70078095D /* Util */,
 				776041EE1498FC320078095D /* GUI Util */,
 				7789ABC9133AA82000CEFCC7 /* Supporting Files */,
+				835DAF1D1713FC8E003A2F7B /* HTTP Server */,
 			);
 			name = CocosBuilder;
 			path = ccBuilder;
@@ -2711,6 +2715,15 @@
 				835DADEF1712B0D7003A2F7B /* README.txt */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		835DAF1D1713FC8E003A2F7B /* HTTP Server */ = {
+			isa = PBXGroup;
+			children = (
+				835DAF171713D1A6003A2F7B /* CCBHTTPServer.h */,
+				835DAF181713D1A7003A2F7B /* CCBHTTPServer.m */,
+			);
+			name = "HTTP Server";
 			sourceTree = "<group>";
 		};
 		A09AB68C14E9935F009C8B91 /* kazmath */ = {
@@ -5161,6 +5174,7 @@
 				E390C777170A294E003E9E92 /* DebuggerConnection.m in Sources */,
 				E390C77E170A2C9B003E9E92 /* AboutWindow.m in Sources */,
 				E334A4E4170CFDE3001604F7 /* CCBTextField.m in Sources */,
+				835DAF191713D1A8003A2F7B /* CCBHTTPServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

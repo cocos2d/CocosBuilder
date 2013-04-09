@@ -91,12 +91,7 @@
 #import "CCBSplitHorizontalView.h"
 #import "SpriteSheetSettingsWindow.h"
 #import "AboutWindow.h"
-#import "HTTPServer.h"
-#import "DDLog.h"
-#import "DDTTYLogger.h"
-
-// Log levels: off, error, warn, info, verbose
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#import "CCBHTTPServer.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1230,42 +1225,6 @@ static BOOL hideAllToNextSeparator;
     [[ResourceManager sharedManager] setActiveDirectories:[projectSettings absoluteResourcePaths]];
 }
 
-- (void) startHTTPServer
-{
-    // Configure our logging framework.
-	// To keep things simple and fast, we're just going to log to the Xcode console.
-	[DDLog addLogger:[DDTTYLogger sharedInstance]];
-	
-	// Initalize our http server
-	httpServer = [[HTTPServer alloc] init];
-	
-	// Tell the server to broadcast its presence via Bonjour.
-	// This allows browsers such as Safari to automatically discover our service.
-	[httpServer setType:@"_http._tcp."];
-	
-	// Normally there's no need to run our server on any specific port.
-	// Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.
-	// However, for easy testing you may want force a certain port so you can just hit the refresh button.
-    [httpServer setPort:54321];
-	
-	// Serve files from the standard Sites folder
-    NSString* docRoot = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
-	DDLogInfo(@"Setting document root: %@", docRoot);
-	
-	[httpServer setDocumentRoot:docRoot];
-	
-	NSError *error = nil;
-	if(![httpServer start:&error])
-	{
-		DDLogError(@"Error starting HTTP Server: %@", error);
-	}
-}
-
-- (void) stopHTTPServer
-{
-    [httpServer stop];
-}
-
 - (void) closeProject
 {
     while ([tabView numberOfTabViewItems] > 0)
@@ -1284,8 +1243,10 @@ static BOOL hideAllToNextSeparator;
         }
     }
     
+    // Stop local web server
+    [[CCBHTTPServer sharedHTTPServer] stop];
+    
     // Remove resource paths
-    [self stopHTTPServer];
     self.projectSettings = NULL;
     [resManager removeAllDirectories];
 }
@@ -1317,11 +1278,13 @@ static BOOL hideAllToNextSeparator;
     
     [self updateResourcePathsFromProjectSettings];
     
-    [self startHTTPServer];
-    
     BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
     
     if (!success) return NO;
+    
+    // Start local web server
+    NSString* docRoot = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+    [[CCBHTTPServer sharedHTTPServer] start:docRoot];
     
     // Open ccb file for project if there is only one
     NSArray* resPaths = project.absoluteResourcePaths;
@@ -2203,8 +2166,9 @@ static BOOL hideAllToNextSeparator;
 {
     [self publishAndRun:NO];
     
-    // Open a browser and point to local web server we started http://localhost:54321/index.html
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://localhost:54321/index.html"]];
+    // Open a browser and point to local web server we started http://localhost:{port}/index.html
+    NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
