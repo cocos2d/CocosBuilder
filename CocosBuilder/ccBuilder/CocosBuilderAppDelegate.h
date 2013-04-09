@@ -67,7 +67,7 @@ enum {
 
 @class CCBDocument;
 @class ProjectSettings;
-@class HTTPServer;
+@class CCBHTTPServer;
 @class AssetsWindowController;
 @class PlugInManager;
 @class ResourceManager;
@@ -165,7 +165,6 @@ enum {
     
     // Project
     ProjectSettings* projectSettings;
-    HTTPServer* httpServer;
     
     // Project display
     IBOutlet NSOutlineView* outlineProject;

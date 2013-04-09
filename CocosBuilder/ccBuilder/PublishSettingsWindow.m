@@ -24,6 +24,7 @@
 
 #import "PublishSettingsWindow.h"
 #import "ProjectSettings.h"
+#import "CCBHTTPServer.h"
 #import "NSString+RelativePath.h"
 
 @implementation PublishSettingsWindow
@@ -66,6 +67,9 @@
             }
             
             [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+            // Restart local web server
+            NSString* docRoot = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+            [[CCBHTTPServer sharedHTTPServer] restart:docRoot];
         }
     }];
 }
