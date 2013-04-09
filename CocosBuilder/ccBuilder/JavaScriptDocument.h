@@ -26,6 +26,7 @@
 
 @class MGSFragaria;
 @class SMLTextView;
+@class JavaScriptSyntaxChecker;
 
 @interface JavaScriptDocument : NSDocument
 {
@@ -34,6 +35,8 @@
     
     MGSFragaria* fragaria;
     SMLTextView* fragariaTextView;
+    
+    JavaScriptSyntaxChecker* syntaxChecker;
     
     NSString* docStr;
     BOOL docEdited;

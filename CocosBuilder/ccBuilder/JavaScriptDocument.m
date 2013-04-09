@@ -30,6 +30,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "ProjectSettings.h"
 #import "SMLLineNumbers.h"
+#import "JavaScriptSyntaxChecker.h"
 
 @implementation JavaScriptDocument
 
@@ -82,6 +83,8 @@
 
     NSString* absFileName = [[self fileURL] path];
     NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:absFileName];
+    
+    syntaxChecker = [[JavaScriptSyntaxChecker alloc] initWithFile:absFileName];
 
     SMLGutterTextView* gutterView = [[fragaria objectForKey:ro_MGSFOGutterScrollView] documentView];
     gutterView.fileName = fileName;
@@ -111,6 +114,8 @@
 {
     [self updateChangeCount:1];
     docEdited = YES;
+    
+    [syntaxChecker errors];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem

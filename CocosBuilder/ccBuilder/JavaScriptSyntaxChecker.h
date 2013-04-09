@@ -9,5 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface JavaScriptSyntaxChecker : NSObject
+{
+    NSString* file;
+}
+
+- (id) initWithFile:(NSString*)f;
+
+- (NSArray*) errors;
 
 @end
