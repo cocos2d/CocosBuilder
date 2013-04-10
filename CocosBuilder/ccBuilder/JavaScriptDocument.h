@@ -41,4 +41,6 @@
     NSString* docStr;
     BOOL docEdited;
 }
+
+- (void) updateErrors:(NSArray*) errors;
 @end

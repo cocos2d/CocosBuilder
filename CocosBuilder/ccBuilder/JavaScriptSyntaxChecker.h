@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class JavaScriptDocument;
+
 @interface JavaScriptSyntaxChecker : NSObject
 {
-    NSString* file;
+    NSTask* syntaxTask;
 }
 
-- (id) initWithFile:(NSString*)f;
+@property (nonatomic,assign) JavaScriptDocument* document;
 
-- (NSArray*) errors;
+- (void) checkText:(NSString*)text;
 
 @end

@@ -31,6 +31,7 @@
 #import "ProjectSettings.h"
 #import "SMLLineNumbers.h"
 #import "JavaScriptSyntaxChecker.h"
+#import "SMLSyntaxColouring.h"
 
 @implementation JavaScriptDocument
 
@@ -79,12 +80,16 @@
         [fragariaTextView setString:docStr];
         [docStr release];
         docStr = NULL;
+        
+        // Create a new syntax checker for this document
+        syntaxChecker = [[JavaScriptSyntaxChecker alloc] init];
+        syntaxChecker.document = self;
+        
+        [syntaxChecker checkText:docStr];
     }
 
     NSString* absFileName = [[self fileURL] path];
     NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:absFileName];
-    
-    syntaxChecker = [[JavaScriptSyntaxChecker alloc] initWithFile:absFileName];
 
     SMLGutterTextView* gutterView = [[fragaria objectForKey:ro_MGSFOGutterScrollView] documentView];
     gutterView.fileName = fileName;
@@ -109,13 +114,20 @@
     return YES;
 }
 
+- (void) updateErrors:(NSArray*) errors
+{
+    SMLSyntaxColouring* syntaxColouring = [fragaria.docSpec valueForKey:ro_MGSFOSyntaxColouring];
+    syntaxColouring.syntaxErrors = errors;
+    
+    [syntaxColouring pageRecolour];
+}
 
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:1];
     docEdited = YES;
     
-    [syntaxChecker errors];
+    [syntaxChecker checkText: [fragariaTextView string]];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
