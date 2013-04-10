@@ -29,5 +29,6 @@
 - (void) connect;
 - (void) shutdown;
 - (void) sendMessage:(NSString*)msg;
+- (void) sendBreakpoints:(NSDictionary*)files;
 
 @end

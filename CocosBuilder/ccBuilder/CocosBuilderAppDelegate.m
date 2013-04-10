@@ -1243,6 +1243,8 @@ static BOOL hideAllToNextSeparator;
         }
     }
     
+    [window setTitle:@"CocosBuilder"];
+    
     // Remove resource paths
     self.projectSettings = NULL;
     [resManager removeAllDirectories];
@@ -1278,6 +1280,9 @@ static BOOL hideAllToNextSeparator;
     BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
     
     if (!success) return NO;
+    
+    // Update the title of the main window
+    [window setTitle:[NSString stringWithFormat:@"CocosBuilder - %@", [fileName lastPathComponent]]];
     
     // Open ccb file for project if there is only one
     NSArray* resPaths = project.absoluteResourcePaths;

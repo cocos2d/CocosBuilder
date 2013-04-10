@@ -67,6 +67,7 @@
 - (void) sendStopCommand;
 - (void) sendJavaScript:(NSString*)script;
 
+- (void) debugConnectionStarted;
 - (void) debugConnectionLost;
 
 @end
