@@ -2171,9 +2171,24 @@ static BOOL hideAllToNextSeparator;
 {
     [self publishAndRun:NO];
     
-    // Open a browser and point to local web server we started http://localhost:{port}/index.html
     NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    NSArray* urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
+    
+    NSMenuItem* item = (NSMenuItem *)sender;
+    if([item.title isEqualToString:@"Safari"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.apple.Safari" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([item.title isEqualToString:@"Firefox"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"org.mozilla.Firefox" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([item.title isEqualToString:@"Chrome"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.google.Chrome" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else{
+        // Open a browser and point to local web server we started http://localhost:{port}/index.html
+        NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
