@@ -175,6 +175,8 @@ typedef struct _PVRTexHeader
     
     CGColorSpaceRef colorSpace = NULL;
     
+    BOOL save8BitPNG = NO;
+    
     for (NSString *filename in self.filenames)
     {
         // Load CGImage
@@ -187,6 +189,11 @@ typedef struct _PVRTexHeader
         
         NSRect trimRect = [self trimmedRectForImage:srcImage];
         colorSpace = CGImageGetColorSpace(srcImage);
+        if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+        {
+            colorSpace = CGColorSpaceCreateDeviceRGB();
+            save8BitPNG = YES;
+        }
         
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
         [imageInfo setObject:[NSNumber numberWithInt:w] forKey:@"width"];
@@ -359,6 +366,21 @@ typedef struct _PVRTexHeader
     
     if (!CGImageDestinationFinalize(destination)) {
         NSLog(@"Failed to write image to %@", pngFilename);
+    }
+    
+    // Convert file to 8 bit if original uses indexed colors
+    if (save8BitPNG)
+    {
+        CFRelease(colorSpace);
+        
+        NSTask* pngTask = [[NSTask alloc] init];
+        [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                @"--force", @"--ext", @".png", pngFilename, nil];
+        [pngTask setArguments:args];
+        [pngTask launch];
+        [pngTask waitUntilExit];
+        [pngTask release];
     }
     
     textureFileName = pngFilename;
