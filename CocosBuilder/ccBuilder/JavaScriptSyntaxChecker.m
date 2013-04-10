@@ -22,8 +22,6 @@
 
 - (void) taskEnded:(NSTask*) task
 {
-    NSLog(@"Task ended");
-    
     NSMutableArray* errors = [NSMutableArray array];
     
     if (task.terminationReason == NSTaskTerminationReasonExit)
@@ -73,8 +71,6 @@
 {
     if (syntaxTask && syntaxTask.isRunning)
     {
-        NSLog(@"terminating task");
-        
         // Terminate current task
         [syntaxTask terminate];
         syntaxTask = NULL;
@@ -89,11 +85,6 @@
     
     NSPipe* outPipe = [NSPipe pipe];
     [syntaxTask setStandardOutput:outPipe];
-    
-    /*NSMutableArray* args = [NSMutableArray arrayWithObjects:
-                            file,
-                            nil];
-    [pngTask setArguments:args];*/
     
     NSPipe* pipe = [NSPipe pipe];
     [[pipe fileHandleForWriting] writeData:[text dataUsingEncoding:NSUTF8StringEncoding]];
