@@ -41,17 +41,19 @@
             NSArray* comps = [line componentsSeparatedByString:@":"];
             
             // Check for valid format
-            if (comps.count < 3) continue;
+            if (comps.count < 5) continue;
             
             // Create an error
             SMLSyntaxError* err = [[[SMLSyntaxError alloc] init] autorelease];
             
             err.line = [[comps objectAtIndex:0] intValue];
             err.character = [[comps objectAtIndex:1] intValue];
-            err.description = [comps objectAtIndex:2];
+            err.code = [comps objectAtIndex:2];
+            err.length = [[comps objectAtIndex:3] intValue];
+            err.description = [comps objectAtIndex:4];
             
             // Handle the case that output description contains ":"
-            for (int i = 3; i < comps.count; i++)
+            for (int i = 5; i < comps.count; i++)
             {
                 err.description = [err.description stringByAppendingFormat:@":%@", [comps objectAtIndex:i]];
             }
