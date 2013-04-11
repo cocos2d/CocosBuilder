@@ -78,14 +78,15 @@
     if (docStr)
     {
         [fragariaTextView setString:docStr];
-        [docStr release];
-        docStr = NULL;
         
         // Create a new syntax checker for this document
         syntaxChecker = [[JavaScriptSyntaxChecker alloc] init];
         syntaxChecker.document = self;
         
         [syntaxChecker checkText:docStr];
+        
+        [docStr release];
+        docStr = NULL;
     }
 
     NSString* absFileName = [[self fileURL] path];
