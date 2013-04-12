@@ -9,6 +9,7 @@
 #import "JavaScriptSyntaxChecker.h"
 #import "JavaScriptDocument.h"
 #import "SMLSyntaxError.h"
+#import "JavaScriptVariableExtractor.h"
 
 @implementation JavaScriptSyntaxChecker
 
@@ -69,6 +70,8 @@
 
 - (void) checkText:(NSString*)text
 {
+    NSLog(@"checkText");
+    
     if (syntaxTask && syntaxTask.isRunning)
     {
         // Terminate current task
@@ -98,6 +101,11 @@
     syntaxTask.terminationHandler = ^(NSTask *task){
         [self performSelectorOnMainThread:@selector(taskEnded:) withObject:task waitUntilDone:YES];
     };
+    
+    JavaScriptVariableExtractor* extractor = [[[JavaScriptVariableExtractor alloc] init] autorelease];
+    [extractor parseScript:text];
+    
+    NSLog(@"output: %@ errors: %d", extractor.variableNames, extractor.hasErrors);
 }
 
 - (void) dealloc
