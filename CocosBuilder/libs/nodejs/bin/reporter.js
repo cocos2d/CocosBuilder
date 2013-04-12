@@ -20,7 +20,7 @@ module.exports = {
 			str += error.line + ':' +
 				error.character + ':' +
 				error.code + ':' +
-				error.evidence.length + ':' +
+                '0:' +
 				error.reason;
 
 			if (opts.verbose) {

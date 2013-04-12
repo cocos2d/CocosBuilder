@@ -91,7 +91,7 @@
 #import "CCBSplitHorizontalView.h"
 #import "SpriteSheetSettingsWindow.h"
 #import "AboutWindow.h"
-
+#import "CCBHTTPServer.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -1244,6 +1244,9 @@ static BOOL hideAllToNextSeparator;
     }
     
     [window setTitle:@"CocosBuilder"];
+
+    // Stop local web server
+    [[CCBHTTPServer sharedHTTPServer] stop];
     
     // Remove resource paths
     self.projectSettings = NULL;
@@ -1283,6 +1286,10 @@ static BOOL hideAllToNextSeparator;
     
     // Update the title of the main window
     [window setTitle:[NSString stringWithFormat:@"CocosBuilder - %@", [fileName lastPathComponent]]];
+
+    // Start local web server
+    NSString* docRoot = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+    [[CCBHTTPServer sharedHTTPServer] start:docRoot];
     
     // Open ccb file for project if there is only one
     NSArray* resPaths = project.absoluteResourcePaths;
@@ -2158,6 +2165,30 @@ static BOOL hideAllToNextSeparator;
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
     [self publishAndRun:YES];
+}
+
+- (IBAction)menuPublishProjectAndRunInBrowser:(id)sender
+{
+    [self publishAndRun:NO];
+    
+    NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+    NSArray* urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
+    
+    NSMenuItem* item = (NSMenuItem *)sender;
+    if([item.title isEqualToString:@"Safari"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.apple.Safari" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([item.title isEqualToString:@"Firefox"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"org.mozilla.Firefox" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([item.title isEqualToString:@"Chrome"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.google.Chrome" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else{
+        // Open a browser and point to local web server we started http://localhost:{port}/index.html
+        NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
