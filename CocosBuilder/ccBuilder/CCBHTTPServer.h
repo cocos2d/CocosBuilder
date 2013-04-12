@@ -43,4 +43,5 @@
 - (void) stop;
 - (void) restart:(NSString*)docRoot;
 - (UInt16) listeningPort;
+- (void) openBrowser:(id)sender;
 @end
