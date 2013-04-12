@@ -38,6 +38,11 @@
 @synthesize textureFileFormat;
 @synthesize dither;
 @synthesize compress;
+@synthesize textureFileFormatAndroid;
+@synthesize ditherAndroid;
+@synthesize use8bitPng;
+@synthesize use8bitPngAndroid;
+@synthesize use8bitPngHtml5;
 
 - (id)init
 {
@@ -47,6 +52,12 @@
     self.textureFileFormat = 0; // PNG
     self.dither = YES;
     self.compress = YES;
+    
+    self.textureFileFormatAndroid = 0;
+    self.ditherAndroid = YES;
+    self.use8bitPng = NO;
+    self.use8bitPngAndroid = NO;
+    self.use8bitPngHtml5 = NO;
     
     return self;
 }
@@ -60,6 +71,12 @@
     self.dither = [[dict objectForKey:@"dither"] boolValue];
     self.compress = [[dict objectForKey:@"compress"] boolValue];
     
+    self.textureFileFormatAndroid = [[dict objectForKey:@"textureFileFormatAndroid"] intValue];
+    self.ditherAndroid = [[dict objectForKey:@"ditherAndroid"] boolValue];
+    self.use8bitPng = [[dict objectForKey:@"use8bitPng"] boolValue];
+    self.use8bitPngAndroid = [[dict objectForKey:@"use8bitPngAndroid"] boolValue];
+    self.use8bitPngHtml5 = [[dict objectForKey:@"use8bitPngHtml5"] boolValue];
+
     return self;
 }
 
@@ -71,6 +88,12 @@
     [ser setObject:[NSNumber numberWithBool:self.dither] forKey:@"dither"];
     [ser setObject:[NSNumber numberWithBool:self.compress] forKey:@"compress"];
     
+    [ser setObject:[NSNumber numberWithInt:self.textureFileFormatAndroid] forKey:@"textureFileFormatAndroid"];
+    [ser setObject:[NSNumber numberWithBool:self.ditherAndroid] forKey:@"ditherAndroid"];
+    [ser setObject:[NSNumber numberWithBool:self.use8bitPng] forKey:@"use8bitPng"];
+    [ser setObject:[NSNumber numberWithBool:self.use8bitPngAndroid] forKey:@"use8bitPngAndroid"];
+    [ser setObject:[NSNumber numberWithBool:self.use8bitPngHtml5] forKey:@"use8bitPngHtml5"];
+
     return ser;
 }
 

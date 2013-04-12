@@ -34,10 +34,20 @@
     int textureFileFormat;
     BOOL dither;
     BOOL compress;
+    int textureFileFormatAndroid;
+    BOOL ditherAndroid;
+    BOOL use8bitPng;
+    BOOL use8bitPngAndroid;
+    BOOL use8bitPngHtml5;
 }
 @property (nonatomic,assign) int textureFileFormat;
 @property (nonatomic,assign) BOOL dither;
 @property (nonatomic,assign) BOOL compress;
+@property (nonatomic,assign) int textureFileFormatAndroid;
+@property (nonatomic,assign) BOOL ditherAndroid;
+@property (nonatomic,assign) BOOL use8bitPng;
+@property(nonatomic,assign) BOOL use8bitPngAndroid;
+@property(nonatomic,assign) BOOL use8bitPngHtml5;
 
 - (id)initWithSerialization:(id)dict;
 - (id)serialize;

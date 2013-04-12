@@ -49,7 +49,7 @@ typedef struct _PVRTexHeader
 @implementation Tupac {
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_, dither=dither_, compress=compress_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_, dither=dither_, compress=compress_, use8bitPng=use8bitPng_;
 
 + (Tupac*) tupac
 {
@@ -63,6 +63,7 @@ typedef struct _PVRTexHeader
         scale_ = 1.0;
         border_ = NO;
         imageFormat_ = kTupacImageFormatPNG;
+        use8bitPng_ = NO;
         self.outputFormat = TupacOutputFormatCocos2D;
         self.maxTextureSize = 2048;
         self.padding = 1;
@@ -175,6 +176,8 @@ typedef struct _PVRTexHeader
     
     CGColorSpaceRef colorSpace = NULL;
     
+    BOOL save8BitPNG = self.use8bitPng;
+    
     for (NSString *filename in self.filenames)
     {
         // Load CGImage
@@ -188,6 +191,11 @@ typedef struct _PVRTexHeader
         NSRect trimRect = [self trimmedRectForImage:srcImage];
         colorSpace = CGImageGetColorSpace(srcImage);
         
+        if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+        {
+            save8BitPNG = YES;
+        }
+        
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
         [imageInfo setObject:[NSNumber numberWithInt:w] forKey:@"width"];
         [imageInfo setObject:[NSNumber numberWithInt:h] forKey:@"height"];
@@ -199,6 +207,11 @@ typedef struct _PVRTexHeader
         
         // Relase objects (images released later)
         CGDataProviderRelease(dataProvider);
+    }
+
+    if(save8BitPNG)
+    {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
     }
     
     // Check that the output format is valid
@@ -359,6 +372,21 @@ typedef struct _PVRTexHeader
     
     if (!CGImageDestinationFinalize(destination)) {
         NSLog(@"Failed to write image to %@", pngFilename);
+    }
+    
+    // Convert file to 8 bit if original uses indexed colors
+    if (save8BitPNG)
+    {
+        CFRelease(colorSpace);
+        
+        NSTask* pngTask = [[NSTask alloc] init];
+        [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                @"--force", @"--ext", @".png", pngFilename, nil];
+        [pngTask setArguments:args];
+        [pngTask launch];
+        [pngTask waitUntilExit];
+        [pngTask release];
     }
     
     textureFileName = pngFilename;

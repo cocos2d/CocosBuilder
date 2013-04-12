@@ -15,6 +15,7 @@ enum {
     kTupacImageFormatPVR_RGB565,
     kTupacImageFormatPVRTC_4BPP,
     kTupacImageFormatPVRTC_2BPP,
+    kTupacImageFormatWEBP
 };
 
 @interface Tupac : NSObject 
@@ -30,6 +31,7 @@ enum {
 @property(nonatomic,assign) int padding;
 @property(nonatomic,assign) BOOL dither;
 @property(nonatomic,assign) BOOL compress;
+@property(nonatomic,assign) BOOL use8bitPng;
 
 + (Tupac*) tupac;
 
