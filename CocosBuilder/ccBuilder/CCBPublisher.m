@@ -555,9 +555,7 @@
             
             if (targetType == kCCBPublisherTargetTypeHTML5)
             {
-                // Only publish PNG files
-                packer.imageFormat = kTupacImageFormatPNG;
-                packer.use8bitPng = ssSettings.use8bitPngHtml5;
+                packer.imageFormat = ssSettings.textureFileFormatHTML5;
             }
             else
             {
@@ -565,7 +563,6 @@
                 packer.imageFormat = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.textureFileFormat : ssSettings.textureFileFormatAndroid;
                 packer.compress = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.compress : NO;
                 packer.dither = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.dither : ssSettings.ditherAndroid;
-                packer.use8bitPng = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.use8bitPng : ssSettings.use8bitPngAndroid;
             }
             
             // Update progress

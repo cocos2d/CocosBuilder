@@ -20,9 +20,7 @@
 @synthesize dither;
 @synthesize textureFileFormatAndroid;
 @synthesize ditherAndroid;
-@synthesize use8bitPng;
-@synthesize use8bitPngAndroid;
-@synthesize use8bitPngHtml5;
+@synthesize textureFileFormatHTML5;
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -40,7 +38,7 @@
 }
 
 - (IBAction)updateIOSSettings:(NSPopUpButton *)sender {
-    BOOL compressEnabled = (textureFileFormat > kTupacImageFormatPNG && textureFileFormat < kTupacImageFormatWEBP);
+    BOOL compressEnabled = (textureFileFormat >= kTupacImageFormatPVR_RGBA8888 && textureFileFormat <= kTupacImageFormatPVRTC_2BPP);
     [iosCompress setEnabled:compressEnabled];
     if(!compressEnabled){
         [iosCompress setState:NSOffState];

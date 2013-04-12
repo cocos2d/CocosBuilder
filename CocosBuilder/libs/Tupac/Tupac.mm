@@ -49,7 +49,7 @@ typedef struct _PVRTexHeader
 @implementation Tupac {
 }
 
-@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_, dither=dither_, compress=compress_, use8bitPng=use8bitPng_;
+@synthesize scale=scale_, border=border_, filenames=filenames_, outputName=outputName_, outputFormat=outputFormat_, imageFormat=imageFormat_, directoryPrefix=directoryPrefix_, maxTextureSize=maxTextureSize_, padding=padding_, dither=dither_, compress=compress_;
 
 + (Tupac*) tupac
 {
@@ -63,7 +63,6 @@ typedef struct _PVRTexHeader
         scale_ = 1.0;
         border_ = NO;
         imageFormat_ = kTupacImageFormatPNG;
-        use8bitPng_ = NO;
         self.outputFormat = TupacOutputFormatCocos2D;
         self.maxTextureSize = 2048;
         self.padding = 1;
@@ -176,7 +175,7 @@ typedef struct _PVRTexHeader
     
     CGColorSpaceRef colorSpace = NULL;
     
-    BOOL save8BitPNG = self.use8bitPng;
+    BOOL save8BitPNG = (self.imageFormat == kTupacImageFormatPNG8BIT);
     
     for (NSString *filename in self.filenames)
     {
@@ -358,8 +357,6 @@ typedef struct _PVRTexHeader
     [NSGraphicsContext restoreGraphicsState];
     
     NSString* textureFileName = NULL;
-
-    
     
     // Export PNG file
     
@@ -374,6 +371,8 @@ typedef struct _PVRTexHeader
         NSLog(@"Failed to write image to %@", pngFilename);
     }
     
+    textureFileName = pngFilename;
+
     // Convert file to 8 bit if original uses indexed colors
     if (save8BitPNG)
     {
@@ -388,10 +387,7 @@ typedef struct _PVRTexHeader
         [pngTask waitUntilExit];
         [pngTask release];
     }
-    
-    textureFileName = pngFilename;
-    
-    if (imageFormat_ != kTupacImageFormatPNG)
+    if (imageFormat_ > kTupacImageFormatPNG8BIT)
     {
         NSString *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
         

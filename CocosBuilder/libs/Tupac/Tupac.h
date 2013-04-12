@@ -10,6 +10,7 @@
 
 enum {
     kTupacImageFormatPNG,
+    kTupacImageFormatPNG8BIT,
     kTupacImageFormatPVR_RGBA8888,
     kTupacImageFormatPVR_RGBA4444,
     kTupacImageFormatPVR_RGB565,
@@ -31,7 +32,6 @@ enum {
 @property(nonatomic,assign) int padding;
 @property(nonatomic,assign) BOOL dither;
 @property(nonatomic,assign) BOOL compress;
-@property(nonatomic,assign) BOOL use8bitPng;
 
 + (Tupac*) tupac;
 

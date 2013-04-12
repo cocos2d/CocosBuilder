@@ -2983,9 +2983,7 @@ static BOOL hideAllToNextSeparator;
         wc.textureFileFormat = ssSettings.textureFileFormat;
         wc.ditherAndroid = ssSettings.ditherAndroid;
         wc.textureFileFormatAndroid = ssSettings.textureFileFormatAndroid;
-        wc.use8bitPng = ssSettings.use8bitPng;
-        wc.use8bitPngAndroid = ssSettings.use8bitPngAndroid;
-        wc.use8bitPngHtml5 = ssSettings.use8bitPngHtml5;
+        wc.textureFileFormatHTML5 = ssSettings.textureFileFormatHTML5;
 
         int success = [wc runModalSheetForWindow:window];
         
@@ -2996,9 +2994,7 @@ static BOOL hideAllToNextSeparator;
             ssSettings.textureFileFormat = wc.textureFileFormat;
             ssSettings.ditherAndroid = wc.ditherAndroid;
             ssSettings.textureFileFormatAndroid = wc.textureFileFormatAndroid;
-            ssSettings.use8bitPng = wc.use8bitPng;
-            ssSettings.use8bitPngAndroid = wc.use8bitPngAndroid;
-            ssSettings.use8bitPngHtml5 = wc.use8bitPngHtml5;
+            ssSettings.textureFileFormatHTML5 = wc.textureFileFormatHTML5;
             
             [projectSettings store];
         }
