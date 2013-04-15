@@ -96,6 +96,7 @@
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
+
 @implementation CocosBuilderAppDelegate
 
 @synthesize window;
@@ -296,6 +297,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
     [self updateJSControlledMenu];
+    [self updateDefaultBrowser];
     
     // Load plug-ins
     plugInManager = [PlugInManager sharedManager];
@@ -2091,7 +2093,7 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
-- (void) publishAndRun:(BOOL)run
+- (void) publishAndRun:(BOOL)run runInBrowser:(NSString *)browser
 {
     if (!projectSettings.publishEnabledAndroid
         && !projectSettings.publishEnablediPhone
@@ -2113,6 +2115,7 @@ static BOOL hideAllToNextSeparator;
     // Setup publisher, publisher is released in publisher:finishedWithWarnings:
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     publisher.runAfterPublishing = run;
+    publisher.browser = browser;
     
     // Open progress window and publish
     
@@ -2137,6 +2140,12 @@ static BOOL hideAllToNextSeparator;
     
     [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
     
+    if (![publisher.browser isEqual:@""])
+    {
+        [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
+    }
+
+    [self updateDefaultBrowser];
     if (publisher.runAfterPublishing)
     {
         [self runProject:self];
@@ -2170,36 +2179,18 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuPublishProject:(id)sender
 {
-    [self publishAndRun:NO];
+    [self publishAndRun:NO runInBrowser:@""];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    [self publishAndRun:YES];
+    [self publishAndRun:YES runInBrowser:@""];
 }
 
 - (IBAction)menuPublishProjectAndRunInBrowser:(id)sender
 {
-    [self publishAndRun:NO];
-    
-    NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
-    NSArray* urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
-    
     NSMenuItem* item = (NSMenuItem *)sender;
-    if([item.title isEqualToString:@"Safari"])
-    {
-        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.apple.Safari" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
-    }else if([item.title isEqualToString:@"Firefox"])
-    {
-        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"org.mozilla.Firefox" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
-    }else if([item.title isEqualToString:@"Chrome"])
-    {
-        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.google.Chrome" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
-    }else{
-        // Open a browser and point to local web server we started http://localhost:{port}/index.html
-        NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-    }
+    [self publishAndRun:NO runInBrowser:item.title];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
@@ -2514,6 +2505,31 @@ static BOOL hideAllToNextSeparator;
     {
         [menuItemJSControlled setState:NSOffState];
     }
+}
+
+- (void) updateDefaultBrowser
+{
+    [menuItemSafari setKeyEquivalent:@""];
+    [menuItemSafari setState:NSOffState];
+    [menuItemChrome setKeyEquivalent:@""];
+    [menuItemChrome setState:NSOffState];
+    [menuItemFirefox setKeyEquivalent:@""];
+    [menuItemFirefox setState:NSOffState];
+    
+    NSString* defaultBrowser = [[NSUserDefaults standardUserDefaults] valueForKey:@"defaultBrowser"];
+    NSMenuItem* defaultBrowserMenuItem;
+    if([defaultBrowser isEqual:@"Chrome"])
+    {
+        defaultBrowserMenuItem = menuItemChrome;
+    }else if([defaultBrowser isEqual:@"Firefox"])
+    {
+        defaultBrowserMenuItem = menuItemFirefox;
+    }else{
+        defaultBrowserMenuItem = menuItemSafari;
+    }
+    [defaultBrowserMenuItem setKeyEquivalentModifierMask: NSShiftKeyMask | NSCommandKeyMask];
+    [defaultBrowserMenuItem setKeyEquivalent:@"b"];
+    [defaultBrowserMenuItem setState:NSOnState];
 }
 
 - (IBAction) menuSetCanvasBorder:(id)sender

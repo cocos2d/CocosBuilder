@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11E53</string>
+		<string key="IBDocument.SystemVersion">11G63</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -421,8 +421,8 @@
 											<object class="NSMenuItem" id="248980882">
 												<reference key="NSMenu" ref="943930418"/>
 												<string key="NSTitle">Safari</string>
-												<string key="NSKeyEquiv">R</string>
-												<int key="NSKeyEquivModMask">1179648</int>
+												<string key="NSKeyEquiv">B</string>
+												<int key="NSKeyEquivModMask">1048576</int>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
@@ -2106,7 +2106,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3458,9 +3458,10 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1150, 700}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{800, 370}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -5154,11 +5155,35 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">menuPublishProjectAndRunInChromeBrowser:</string>
+						<string key="label">menuPublishProjectAndRunInBrowser:</string>
 						<reference key="source" ref="976324537"/>
 						<reference key="destination" ref="756819998"/>
 					</object>
-					<int key="connectionID">1885</int>
+					<int key="connectionID">1887</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuItemSafari</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="248980882"/>
+					</object>
+					<int key="connectionID">1896</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuItemChrome</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="756819998"/>
+					</object>
+					<int key="connectionID">1897</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menuItemFirefox</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="614259665"/>
+					</object>
+					<int key="connectionID">1898</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -5656,7 +5681,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="248980882"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="841596718">
 							<reference key="NSSource" ref="248980882"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5684,6 +5709,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1873</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isSafariExist</string>
+						<reference key="source" ref="248980882"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="248980882"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isSafariExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isSafariExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="841596718"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1901</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5744,7 +5803,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="756819998"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="246488257">
 							<reference key="NSSource" ref="756819998"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5772,6 +5831,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1879</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isChromeExist</string>
+						<reference key="source" ref="756819998"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="756819998"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isChromeExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isChromeExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="246488257"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1904</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5832,7 +5925,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="614259665"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="213586718">
 							<reference key="NSSource" ref="614259665"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5860,6 +5953,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1884</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isFirefoxExist</string>
+						<reference key="source" ref="614259665"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="614259665"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isFirefoxExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isFirefoxExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="213586718"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1907</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -9010,7 +9137,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1886</int>
+			<int key="maxID">1907</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -9100,7 +9227,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">UIView</string>
+					<string key="superclassName">NSOpenGLView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
@@ -9340,7 +9467,10 @@
 							<string>menuContextKeyframe</string>
 							<string>menuContextKeyframeInterpol</string>
 							<string>menuContextResManager</string>
+							<string>menuItemChrome</string>
+							<string>menuItemFirefox</string>
 							<string>menuItemJSControlled</string>
+							<string>menuItemSafari</string>
 							<string>menuItemStageCentered</string>
 							<string>menuResolution</string>
 							<string>menuTimeline</string>
@@ -9376,6 +9506,9 @@
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
+							<string>NSMenuItem</string>
+							<string>NSMenuItem</string>
+							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenu</string>
@@ -9415,7 +9548,10 @@
 							<string>menuContextKeyframe</string>
 							<string>menuContextKeyframeInterpol</string>
 							<string>menuContextResManager</string>
+							<string>menuItemChrome</string>
+							<string>menuItemFirefox</string>
 							<string>menuItemJSControlled</string>
+							<string>menuItemSafari</string>
 							<string>menuItemStageCentered</string>
 							<string>menuResolution</string>
 							<string>menuTimeline</string>
@@ -9491,7 +9627,19 @@
 								<string key="candidateClassName">NSMenu</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">menuItemChrome</string>
+								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">menuItemFirefox</string>
+								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">menuItemJSControlled</string>
+								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">menuItemSafari</string>
 								<string key="candidateClassName">NSMenuItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
