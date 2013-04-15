@@ -31,6 +31,7 @@
 #import "ProjectSettings.h"
 #import "SMLLineNumbers.h"
 #import "JavaScriptSyntaxChecker.h"
+#import "JavaScriptAutoCompleteHandler.h"
 #import "SMLSyntaxColouring.h"
 
 @implementation JavaScriptDocument
@@ -75,17 +76,21 @@
     // access the NSTextView
     fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
     
+    // Setup auto complete
+    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler autoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
+    
     if (docStr)
     {
         [fragariaTextView setString:docStr];
-        [docStr release];
-        docStr = NULL;
         
         // Create a new syntax checker for this document
         syntaxChecker = [[JavaScriptSyntaxChecker alloc] init];
         syntaxChecker.document = self;
         
         [syntaxChecker checkText:docStr];
+        
+        [docStr release];
+        docStr = NULL;
     }
 
     NSString* absFileName = [[self fileURL] path];

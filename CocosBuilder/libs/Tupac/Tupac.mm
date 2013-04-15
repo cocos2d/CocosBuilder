@@ -175,6 +175,8 @@ typedef struct _PVRTexHeader
     
     CGColorSpaceRef colorSpace = NULL;
     
+    BOOL save8BitPNG = (self.imageFormat == kTupacImageFormatPNG8BIT);
+    
     for (NSString *filename in self.filenames)
     {
         // Load CGImage
@@ -188,6 +190,11 @@ typedef struct _PVRTexHeader
         NSRect trimRect = [self trimmedRectForImage:srcImage];
         colorSpace = CGImageGetColorSpace(srcImage);
         
+        if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+        {
+            save8BitPNG = YES;
+        }
+        
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
         [imageInfo setObject:[NSNumber numberWithInt:w] forKey:@"width"];
         [imageInfo setObject:[NSNumber numberWithInt:h] forKey:@"height"];
@@ -199,6 +206,11 @@ typedef struct _PVRTexHeader
         
         // Relase objects (images released later)
         CGDataProviderRelease(dataProvider);
+    }
+
+    if(save8BitPNG)
+    {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
     }
     
     // Check that the output format is valid
@@ -345,8 +357,6 @@ typedef struct _PVRTexHeader
     [NSGraphicsContext restoreGraphicsState];
     
     NSString* textureFileName = NULL;
-
-    
     
     // Export PNG file
     
@@ -362,8 +372,22 @@ typedef struct _PVRTexHeader
     }
     
     textureFileName = pngFilename;
-    
-    if (imageFormat_ != kTupacImageFormatPNG)
+
+    // Convert file to 8 bit if original uses indexed colors
+    if (save8BitPNG)
+    {
+        CFRelease(colorSpace);
+        
+        NSTask* pngTask = [[NSTask alloc] init];
+        [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                @"--force", @"--ext", @".png", pngFilename, nil];
+        [pngTask setArguments:args];
+        [pngTask launch];
+        [pngTask waitUntilExit];
+        [pngTask release];
+    }
+    if (imageFormat_ > kTupacImageFormatPNG8BIT)
     {
         NSString *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
         

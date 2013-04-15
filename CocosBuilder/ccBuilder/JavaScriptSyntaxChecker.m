@@ -9,6 +9,7 @@
 #import "JavaScriptSyntaxChecker.h"
 #import "JavaScriptDocument.h"
 #import "SMLSyntaxError.h"
+#import "JavaScriptVariableExtractor.h"
 
 @implementation JavaScriptSyntaxChecker
 
@@ -22,8 +23,6 @@
 
 - (void) taskEnded:(NSTask*) task
 {
-    NSLog(@"Task ended");
-    
     NSMutableArray* errors = [NSMutableArray array];
     
     if (task.terminationReason == NSTaskTerminationReasonExit)
@@ -41,17 +40,19 @@
             NSArray* comps = [line componentsSeparatedByString:@":"];
             
             // Check for valid format
-            if (comps.count < 3) continue;
+            if (comps.count < 5) continue;
             
             // Create an error
             SMLSyntaxError* err = [[[SMLSyntaxError alloc] init] autorelease];
             
             err.line = [[comps objectAtIndex:0] intValue];
             err.character = [[comps objectAtIndex:1] intValue];
-            err.description = [comps objectAtIndex:2];
+            err.code = [comps objectAtIndex:2];
+            err.length = [[comps objectAtIndex:3] intValue];
+            err.description = [comps objectAtIndex:4];
             
             // Handle the case that output description contains ":"
-            for (int i = 3; i < comps.count; i++)
+            for (int i = 5; i < comps.count; i++)
             {
                 err.description = [err.description stringByAppendingFormat:@":%@", [comps objectAtIndex:i]];
             }
@@ -69,10 +70,10 @@
 
 - (void) checkText:(NSString*)text
 {
+    NSLog(@"checkText");
+    
     if (syntaxTask && syntaxTask.isRunning)
     {
-        NSLog(@"terminating task");
-        
         // Terminate current task
         [syntaxTask terminate];
         syntaxTask = NULL;
@@ -88,11 +89,6 @@
     NSPipe* outPipe = [NSPipe pipe];
     [syntaxTask setStandardOutput:outPipe];
     
-    /*NSMutableArray* args = [NSMutableArray arrayWithObjects:
-                            file,
-                            nil];
-    [pngTask setArguments:args];*/
-    
     NSPipe* pipe = [NSPipe pipe];
     [[pipe fileHandleForWriting] writeData:[text dataUsingEncoding:NSUTF8StringEncoding]];
     [[pipe fileHandleForWriting] closeFile];
@@ -105,6 +101,11 @@
     syntaxTask.terminationHandler = ^(NSTask *task){
         [self performSelectorOnMainThread:@selector(taskEnded:) withObject:task waitUntilDone:YES];
     };
+    
+    //JavaScriptVariableExtractor* extractor = [[[JavaScriptVariableExtractor alloc] init] autorelease];
+    //[extractor parseScript:text];
+    
+    //NSLog(@"output: %@ errors: %d", extractor.variableNames, extractor.hasErrors);
 }
 
 - (void) dealloc
