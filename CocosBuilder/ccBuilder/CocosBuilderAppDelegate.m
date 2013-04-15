@@ -95,6 +95,7 @@
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
+
 @implementation CocosBuilderAppDelegate
 
 @synthesize window;

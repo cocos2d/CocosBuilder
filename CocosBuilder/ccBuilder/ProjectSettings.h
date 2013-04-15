@@ -72,6 +72,10 @@
     int publishResolutionHTML5_height;
     int publishResolutionHTML5_scale;
     
+    BOOL isSafariExist;
+    BOOL isChromeExist;
+    BOOL isFirefoxExist;
+    
     BOOL flattenPaths;
     BOOL publishToZipFile;
     BOOL javascriptBased;
@@ -111,6 +115,10 @@
 @property (nonatomic,assign) int publishResolutionHTML5_width;
 @property (nonatomic,assign) int publishResolutionHTML5_height;
 @property (nonatomic,assign) int publishResolutionHTML5_scale;
+
+@property (nonatomic,assign) BOOL isSafariExist;
+@property (nonatomic,assign) BOOL isChromeExist;
+@property (nonatomic,assign) BOOL isFirefoxExist;
 
 @property (nonatomic, copy) NSString* javascriptMainCCB;
 @property (nonatomic, assign) BOOL flattenPaths;

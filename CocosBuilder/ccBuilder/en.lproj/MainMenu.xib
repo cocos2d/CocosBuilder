@@ -2106,7 +2106,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{800, 300}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3458,9 +3458,10 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1150, 700}</string>
+					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{800, 370}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -5680,7 +5681,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="248980882"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="841596718">
 							<reference key="NSSource" ref="248980882"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5708,6 +5709,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1873</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isSafariExist</string>
+						<reference key="source" ref="248980882"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="248980882"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isSafariExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isSafariExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="841596718"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1901</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5768,7 +5803,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="756819998"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="246488257">
 							<reference key="NSSource" ref="756819998"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5796,6 +5831,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1879</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isChromeExist</string>
+						<reference key="source" ref="756819998"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="756819998"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isChromeExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isChromeExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="246488257"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1904</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -5856,7 +5925,7 @@
 						<string key="label">enabled3: projectSettings.publishEnabledHTML5</string>
 						<reference key="source" ref="614259665"/>
 						<reference key="destination" ref="976324537"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="213586718">
 							<reference key="NSSource" ref="614259665"/>
 							<reference key="NSDestination" ref="976324537"/>
 							<string key="NSLabel">enabled3: projectSettings.publishEnabledHTML5</string>
@@ -5884,6 +5953,40 @@
 						</object>
 					</object>
 					<int key="connectionID">1884</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled4: projectSettings.isFirefoxExist</string>
+						<reference key="source" ref="614259665"/>
+						<reference key="destination" ref="976324537"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="614259665"/>
+							<reference key="NSDestination" ref="976324537"/>
+							<string key="NSLabel">enabled4: projectSettings.isFirefoxExist</string>
+							<string key="NSBinding">enabled4</string>
+							<string key="NSKeyPath">projectSettings.isFirefoxExist</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="213586718"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1907</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -9034,7 +9137,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1898</int>
+			<int key="maxID">1907</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -9137,123 +9240,37 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>copy:</string>
-							<string>cut:</string>
 							<string>debug:</string>
-							<string>delete:</string>
 							<string>menuAbout:</string>
-							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignKeyframeToMarker:</string>
-							<string>menuAlignObjects:</string>
-							<string>menuAlignToPixels:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
-							<string>menuCloseProject:</string>
-							<string>menuCreateKeyframesFromSelection:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
-							<string>menuEditResolutionSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
-							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
-							<string>menuOpenExternal:</string>
 							<string>menuOpenResourceManager:</string>
-							<string>menuProjectSettings:</string>
-							<string>menuPublishProject:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuPublishProjectAndRunInBrowser:</string>
-							<string>menuPublishSettings:</string>
 							<string>menuQuit:</string>
-							<string>menuResetView:</string>
-							<string>menuResolution:</string>
-							<string>menuReverseSelectedKeyframes:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
-							<string>menuSetEasingOption:</string>
 							<string>menuSetStateOriginCentered:</string>
-							<string>menuStretchSelectedKeyframes:</string>
-							<string>menuTimelineDuplicate:</string>
-							<string>menuTimelineDuration:</string>
-							<string>menuTimelineNew:</string>
 							<string>menuTimelineSettings:</string>
-							<string>menuUpdateCCBsInDirectory:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>newDocument:</string>
-							<string>openCocosPlayerConsole:</string>
-							<string>openDocument:</string>
-							<string>paste:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackJumpToStart:</string>
-							<string>playbackPlay:</string>
-							<string>playbackStepBack:</string>
-							<string>playbackStepForward:</string>
-							<string>playbackStop:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
-							<string>reportBug:</string>
 							<string>runProject:</string>
-							<string>saveDocument:</string>
-							<string>saveDocumentAs:</string>
-							<string>showAPIDocs:</string>
-							<string>showHelp:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -9288,94 +9305,39 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>copy:</string>
-							<string>cut:</string>
 							<string>debug:</string>
-							<string>delete:</string>
 							<string>menuAbout:</string>
-							<string>menuAddKeyframe:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuAlignKeyframeToMarker:</string>
-							<string>menuAlignObjects:</string>
-							<string>menuAlignToPixels:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
-							<string>menuCloseProject:</string>
-							<string>menuCreateKeyframesFromSelection:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
-							<string>menuEditResolutionSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
-							<string>menuJavaScriptControlled:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
-							<string>menuOpenExternal:</string>
 							<string>menuOpenResourceManager:</string>
-							<string>menuProjectSettings:</string>
-							<string>menuPublishProject:</string>
 							<string>menuPublishProjectAndRun:</string>
 							<string>menuPublishProjectAndRunInBrowser:</string>
-							<string>menuPublishSettings:</string>
 							<string>menuQuit:</string>
-							<string>menuResetView:</string>
-							<string>menuResolution:</string>
-							<string>menuReverseSelectedKeyframes:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
-							<string>menuSetEasingOption:</string>
 							<string>menuSetStateOriginCentered:</string>
-							<string>menuStretchSelectedKeyframes:</string>
-							<string>menuTimelineDuplicate:</string>
-							<string>menuTimelineDuration:</string>
-							<string>menuTimelineNew:</string>
 							<string>menuTimelineSettings:</string>
-							<string>menuUpdateCCBsInDirectory:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>newDocument:</string>
-							<string>openCocosPlayerConsole:</string>
-							<string>openDocument:</string>
-							<string>paste:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackJumpToStart:</string>
-							<string>playbackPlay:</string>
-							<string>playbackStepBack:</string>
-							<string>playbackStepForward:</string>
-							<string>playbackStop:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
-							<string>reportBug:</string>
 							<string>runProject:</string>
-							<string>saveDocument:</string>
-							<string>saveDocumentAs:</string>
-							<string>showAPIDocs:</string>
-							<string>showHelp:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">copy:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">cut:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">debug:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">delete:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9383,39 +9345,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuAddKeyframe:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuAddStickyNote:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuAlignKeyframeToMarker:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuAlignObjects:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuAlignToPixels:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuArrange:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuCleanCacheDirectories:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuCloseProject:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuCreateKeyframesFromSelection:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9431,15 +9365,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuEditResolutionSettings:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuEditSmartSpriteSheet:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuJavaScriptControlled:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9447,27 +9373,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuNewProject:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuNudgeObject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuOpenExternal:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuOpenResourceManager:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuProjectSettings:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuPublishProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9479,23 +9389,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuPublishSettings:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuQuit:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuResetView:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuResolution:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuReverseSelectedKeyframes:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9507,39 +9401,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuSetEasing:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuSetEasingOption:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuSetStateOriginCentered:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuStretchSelectedKeyframes:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuTimelineDuplicate:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuTimelineDuration:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuTimelineNew:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuTimelineSettings:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuUpdateCCBsInDirectory:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9551,22 +9417,6 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">newDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openCocosPlayerConsole:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">paste:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pasteAsChild:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -9575,31 +9425,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">playbackJumpToStart:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackPlay:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackStepBack:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackStepForward:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">playbackStop:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pressedPanelVisibility:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pressedPlaybackControl:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9615,35 +9441,11 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">reportBug:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">runProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">saveDocument:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">saveDocumentAs:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showAPIDocs:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showHelp:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">undo:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">visitCommunity:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>

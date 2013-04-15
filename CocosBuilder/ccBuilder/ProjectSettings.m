@@ -33,6 +33,8 @@
 #import "PlayerConnection.h"
 #import "PlayerDeviceInfo.h"
 
+#import <ApplicationServices/ApplicationServices.h>
+
 @implementation ProjectSettingsGeneratedSpriteSheet
 
 @synthesize textureFileFormat;
@@ -98,6 +100,9 @@
 @synthesize publishResolutionHTML5_width;
 @synthesize publishResolutionHTML5_height;
 @synthesize publishResolutionHTML5_scale;
+@synthesize isSafariExist;
+@synthesize isChromeExist;
+@synthesize isFirefoxExist;
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
 @synthesize javascriptBased;
@@ -161,6 +166,7 @@
         [availableExporters addObject: plugIn.extension];
     }
     
+    [self detectBrowserPresence];
     return self;
 }
 
@@ -237,6 +243,7 @@
     if (!mainCCB) mainCCB = @"";
     self.javascriptMainCCB = mainCCB;
     
+    [self detectBrowserPresence];
     return self;
 }
 
@@ -444,4 +451,28 @@
     return bps;
 }
 
+- (void) detectBrowserPresence
+{
+    isSafariExist = FALSE;
+    isChromeExist = FALSE;
+    isFirefoxExist = FALSE;
+    
+    OSStatus result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("com.apple.Safari"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isSafariExist = TRUE;
+    }
+    
+    result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("com.google.Chrome"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isChromeExist = TRUE;
+    }
+
+    result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("org.mozilla.firefox"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isFirefoxExist = TRUE;
+    }
+}
 @end
