@@ -102,19 +102,18 @@ static CCBHTTPServer *_sharedHTTPServer=nil;
     return httpServer.listeningPort;
 }
 
-- (void) openBrowser:(id)sender
+- (void) openBrowser:(NSString *)browser
 {
     NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
     NSArray* urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
     
-    NSMenuItem* item = (NSMenuItem *)sender;
-    if([item.title isEqualToString:@"Safari"])
+    if([browser isEqualToString:@"Safari"])
     {
         [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.apple.Safari" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
-    }else if([item.title isEqualToString:@"Firefox"])
+    }else if([browser isEqualToString:@"Firefox"])
     {
         [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"org.mozilla.Firefox" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
-    }else if([item.title isEqualToString:@"Chrome"])
+    }else if([browser isEqualToString:@"Chrome"])
     {
         [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.google.Chrome" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
     }else{
@@ -123,6 +122,6 @@ static CCBHTTPServer *_sharedHTTPServer=nil;
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:item.title forKey:@"defaultBrowser"];
+    [[NSUserDefaults standardUserDefaults] setObject:browser forKey:@"defaultBrowser"];
 }
 @end
