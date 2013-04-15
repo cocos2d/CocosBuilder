@@ -2138,12 +2138,13 @@ static BOOL hideAllToNextSeparator;
     // Update and show warnings window
     publishWarningsWindow.warnings = warnings;
     
+    [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    
     if (![publisher.browser isEqual:@""])
     {
-        [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+        [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
     }
-    
-    [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
+
     [self updateDefaultBrowser];
     if (publisher.runAfterPublishing)
     {
