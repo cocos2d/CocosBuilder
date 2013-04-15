@@ -34,6 +34,9 @@
 @interface CCBHTTPServer : NSObject
 {
     HTTPServer* httpServer;
+    IBOutlet NSMenuItem* menuItemSafari;
+    IBOutlet NSMenuItem* menuItemChrome;
+    IBOutlet NSMenuItem* menuItemFirefox;
 }
 
 @property (nonatomic, readonly) HTTPServer* httpServer;
@@ -43,5 +46,5 @@
 - (void) stop;
 - (void) restart:(NSString*)docRoot;
 - (UInt16) listeningPort;
-- (void) openBrowser:(id)sender;
+- (void) openBrowser:(NSString *)browser;
 @end

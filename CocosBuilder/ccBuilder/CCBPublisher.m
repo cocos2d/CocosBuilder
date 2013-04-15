@@ -43,6 +43,7 @@
 
 @synthesize publishFormat;
 @synthesize runAfterPublishing;
+@synthesize browser;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w
 {

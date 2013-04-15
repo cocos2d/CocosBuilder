@@ -158,6 +158,9 @@ enum {
     BOOL defaultCanvasSize;
     
     IBOutlet NSMenuItem* menuItemJSControlled;
+    IBOutlet NSMenuItem* menuItemSafari;
+    IBOutlet NSMenuItem* menuItemChrome;
+    IBOutlet NSMenuItem* menuItemFirefox;
     
     // Resource manager
     ResourceManager* resManager;

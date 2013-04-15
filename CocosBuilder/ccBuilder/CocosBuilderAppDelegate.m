@@ -285,6 +285,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [cs setStageBorder:0];
     [self updateCanvasBorderMenu];
     [self updateJSControlledMenu];
+    [self updateDefaultBrowser];
     
     // Load plug-ins
     plugInManager = [PlugInManager sharedManager];
@@ -2080,7 +2081,7 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
-- (void) publishAndRun:(BOOL)run
+- (void) publishAndRun:(BOOL)run runInBrowser:(NSString *)browser
 {
     if (!projectSettings.publishEnabledAndroid
         && !projectSettings.publishEnablediPhone
@@ -2102,6 +2103,7 @@ static BOOL hideAllToNextSeparator;
     // Setup publisher, publisher is released in publisher:finishedWithWarnings:
     CCBPublisher* publisher = [[CCBPublisher alloc] initWithProjectSettings:projectSettings warnings:warnings];
     publisher.runAfterPublishing = run;
+    publisher.browser = browser;
     
     // Open progress window and publish
     
@@ -2124,8 +2126,13 @@ static BOOL hideAllToNextSeparator;
     // Update and show warnings window
     publishWarningsWindow.warnings = warnings;
     
-    [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    if (![publisher.browser isEqual:@""])
+    {
+        [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
+    }
     
+    [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
+    [self updateDefaultBrowser];
     if (publisher.runAfterPublishing)
     {
         [self runProject:self];
@@ -2159,18 +2166,18 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuPublishProject:(id)sender
 {
-    [self publishAndRun:NO];
+    [self publishAndRun:NO runInBrowser:@""];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    [self publishAndRun:YES];
+    [self publishAndRun:YES runInBrowser:@""];
 }
 
 - (IBAction)menuPublishProjectAndRunInBrowser:(id)sender
 {
-    [self publishAndRun:NO];
-    [[CCBHTTPServer sharedHTTPServer] openBrowser:sender];
+    NSMenuItem* item = (NSMenuItem *)sender;
+    [self publishAndRun:NO runInBrowser:item.title];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
@@ -2485,6 +2492,31 @@ static BOOL hideAllToNextSeparator;
     {
         [menuItemJSControlled setState:NSOffState];
     }
+}
+
+- (void) updateDefaultBrowser
+{
+    [menuItemSafari setKeyEquivalent:@""];
+    [menuItemSafari setState:NSOffState];
+    [menuItemChrome setKeyEquivalent:@""];
+    [menuItemChrome setState:NSOffState];
+    [menuItemFirefox setKeyEquivalent:@""];
+    [menuItemFirefox setState:NSOffState];
+    
+    NSString* defaultBrowser = [[NSUserDefaults standardUserDefaults] valueForKey:@"defaultBrowser"];
+    NSMenuItem* defaultBrowserMenuItem;
+    if([defaultBrowser isEqual:@"Chrome"])
+    {
+        defaultBrowserMenuItem = menuItemChrome;
+    }else if([defaultBrowser isEqual:@"Firefox"])
+    {
+        defaultBrowserMenuItem = menuItemFirefox;
+    }else{
+        defaultBrowserMenuItem = menuItemSafari;
+    }
+    [defaultBrowserMenuItem setKeyEquivalentModifierMask: NSShiftKeyMask | NSCommandKeyMask];
+    [defaultBrowserMenuItem setKeyEquivalent:@"b"];
+    [defaultBrowserMenuItem setState:NSOnState];
 }
 
 - (IBAction) menuSetCanvasBorder:(id)sender
