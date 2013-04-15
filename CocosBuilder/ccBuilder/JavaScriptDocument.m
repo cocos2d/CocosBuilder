@@ -31,6 +31,7 @@
 #import "ProjectSettings.h"
 #import "SMLLineNumbers.h"
 #import "JavaScriptSyntaxChecker.h"
+#import "JavaScriptAutoCompleteHandler.h"
 #import "SMLSyntaxColouring.h"
 
 @implementation JavaScriptDocument
@@ -74,6 +75,9 @@
     
     // access the NSTextView
     fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
+    
+    // Setup auto complete
+    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler autoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
     
     if (docStr)
     {

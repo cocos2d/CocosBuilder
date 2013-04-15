@@ -38,6 +38,9 @@
 @synthesize textureFileFormat;
 @synthesize dither;
 @synthesize compress;
+@synthesize textureFileFormatAndroid;
+@synthesize ditherAndroid;
+@synthesize textureFileFormatHTML5;
 
 - (id)init
 {
@@ -47,6 +50,11 @@
     self.textureFileFormat = 0; // PNG
     self.dither = YES;
     self.compress = YES;
+    
+    self.textureFileFormatAndroid = 0;
+    self.ditherAndroid = YES;
+    
+    self.textureFileFormatHTML5 = 0;
     
     return self;
 }
@@ -60,6 +68,11 @@
     self.dither = [[dict objectForKey:@"dither"] boolValue];
     self.compress = [[dict objectForKey:@"compress"] boolValue];
     
+    self.textureFileFormatAndroid = [[dict objectForKey:@"textureFileFormatAndroid"] intValue];
+    self.ditherAndroid = [[dict objectForKey:@"ditherAndroid"] boolValue];
+    
+    self.textureFileFormatHTML5 = [[dict objectForKey:@"textureFileFormatHTML5"] intValue];
+
     return self;
 }
 
@@ -71,6 +84,11 @@
     [ser setObject:[NSNumber numberWithBool:self.dither] forKey:@"dither"];
     [ser setObject:[NSNumber numberWithBool:self.compress] forKey:@"compress"];
     
+    [ser setObject:[NSNumber numberWithInt:self.textureFileFormatAndroid] forKey:@"textureFileFormatAndroid"];
+    [ser setObject:[NSNumber numberWithBool:self.ditherAndroid] forKey:@"ditherAndroid"];
+    
+    [ser setObject:[NSNumber numberWithInt:self.textureFileFormatHTML5] forKey:@"textureFileFormatHTML5"];
+
     return ser;
 }
 

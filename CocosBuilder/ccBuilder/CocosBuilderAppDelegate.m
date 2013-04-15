@@ -92,6 +92,7 @@
 #import "SpriteSheetSettingsWindow.h"
 #import "AboutWindow.h"
 #import "CCBHTTPServer.h"
+#import "JavaScriptAutoCompleteHandler.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -242,6 +243,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
+- (void) setupAutoCompleteHandler
+{
+    JavaScriptAutoCompleteHandler* handler = [JavaScriptAutoCompleteHandler autoCompleteHandler];
+    
+    NSString* dir = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"autoCompleteDefinitions"];
+    
+    [handler loadGlobalFilesFromDirectory:dir];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -252,6 +261,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     loadedSelectedNodes = [[NSMutableArray alloc] init];
     
     sharedAppDelegate = self;
+    
+    [self setupAutoCompleteHandler];
     
     [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask: NSLogUncaughtExceptionMask | NSLogUncaughtSystemExceptionMask | NSLogUncaughtRuntimeErrorMask];
     
@@ -3012,7 +3023,10 @@ static BOOL hideAllToNextSeparator;
         wc.compress = ssSettings.compress;
         wc.dither = ssSettings.dither;
         wc.textureFileFormat = ssSettings.textureFileFormat;
-        
+        wc.ditherAndroid = ssSettings.ditherAndroid;
+        wc.textureFileFormatAndroid = ssSettings.textureFileFormatAndroid;
+        wc.textureFileFormatHTML5 = ssSettings.textureFileFormatHTML5;
+
         int success = [wc runModalSheetForWindow:window];
         
         if (success)
@@ -3020,6 +3034,9 @@ static BOOL hideAllToNextSeparator;
             ssSettings.compress = wc.compress;
             ssSettings.dither = wc.dither;
             ssSettings.textureFileFormat = wc.textureFileFormat;
+            ssSettings.ditherAndroid = wc.ditherAndroid;
+            ssSettings.textureFileFormatAndroid = wc.textureFileFormatAndroid;
+            ssSettings.textureFileFormatHTML5 = wc.textureFileFormatHTML5;
             
             [projectSettings store];
         }

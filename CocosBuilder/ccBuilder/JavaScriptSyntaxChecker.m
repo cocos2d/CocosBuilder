@@ -102,10 +102,10 @@
         [self performSelectorOnMainThread:@selector(taskEnded:) withObject:task waitUntilDone:YES];
     };
     
-    JavaScriptVariableExtractor* extractor = [[[JavaScriptVariableExtractor alloc] init] autorelease];
-    [extractor parseScript:text];
+    //JavaScriptVariableExtractor* extractor = [[[JavaScriptVariableExtractor alloc] init] autorelease];
+    //[extractor parseScript:text];
     
-    NSLog(@"output: %@ errors: %d", extractor.variableNames, extractor.hasErrors);
+    //NSLog(@"output: %@ errors: %d", extractor.variableNames, extractor.hasErrors);
 }
 
 - (void) dealloc

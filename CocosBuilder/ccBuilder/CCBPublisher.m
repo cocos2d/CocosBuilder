@@ -548,23 +548,21 @@
                 continue;
             }
             
+            ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
             
             if (targetType == kCCBPublisherTargetTypeHTML5)
             {
-                // Only publish PNG files
-                packer.imageFormat = kTupacImageFormatPNG;
+                packer.imageFormat = ssSettings.textureFileFormatHTML5;
             }
             else
             {
                 // Use settings
-                ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
-                
-                packer.imageFormat = ssSettings.textureFileFormat;
-                packer.compress = ssSettings.compress;
-                packer.dither = ssSettings.dither;
+                packer.imageFormat = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.textureFileFormat : ssSettings.textureFileFormatAndroid;
+                packer.compress = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.compress : NO;
+                packer.dither = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.dither : ssSettings.ditherAndroid;
             }
             
             // Update progress
