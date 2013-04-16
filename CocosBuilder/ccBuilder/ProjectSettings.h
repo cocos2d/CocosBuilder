@@ -37,6 +37,7 @@
     int textureFileFormatAndroid;
     BOOL ditherAndroid;
     int textureFileFormatHTML5;
+    BOOL ditherHTML5;
 }
 @property (nonatomic,assign) int textureFileFormat;
 @property (nonatomic,assign) BOOL dither;
@@ -44,6 +45,7 @@
 @property (nonatomic,assign) int textureFileFormatAndroid;
 @property (nonatomic,assign) BOOL ditherAndroid;
 @property (nonatomic,assign) int textureFileFormatHTML5;
+@property (nonatomic,assign) BOOL ditherHTML5;
 
 - (id)initWithSerialization:(id)dict;
 - (id)serialize;
