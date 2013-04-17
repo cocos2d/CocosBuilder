@@ -22,16 +22,34 @@
  * THE SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
+#import "NSWindow+CCBAccessoryView.h"
 
-@interface HelpWindow : NSWindowController <NSTableViewDelegate>
+@implementation NSWindow (NSWindow_CCBAccessoryView)
+
+-(void)addViewToTitleBar:(NSView*)viewToAdd atXPosition:(CGFloat)x offsetY:(CGFloat) offset
 {
-    IBOutlet NSTableView* tableView;
-    IBOutlet WebView* webView;
-    NSMutableArray* mdFiles;
+   viewToAdd.frame = NSMakeRect(x, [[self contentView] frame].size.height + offset, viewToAdd.frame.size.width, [self heightOfTitleBar]);
+   
+   NSUInteger mask = 0;
+   if( x > self.frame.size.width / 2.0 )
+   {
+      mask |= NSViewMinXMargin;
+   }
+   else
+   {
+      mask |= NSViewMaxXMargin;
+   }
+   [viewToAdd setAutoresizingMask:mask | NSViewMinYMargin];
+   
+   [[[self contentView] superview] addSubview:viewToAdd];
 }
 
-@property (nonatomic,readonly) NSMutableArray* mdFiles;
+-(CGFloat)heightOfTitleBar
+{
+   NSRect outerFrame = [[[self contentView] superview] frame];
+   NSRect innerFrame = [[self contentView] frame];
+   
+   return outerFrame.size.height - innerFrame.size.height;
+}
 
 @end

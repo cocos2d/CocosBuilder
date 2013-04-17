@@ -22,16 +22,13 @@
  * THE SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <WebKit/WebKit.h>
+// Based on code by Randall Brown https://github.com/blladnar/NSWindowButtons/tree/master/NSWindowButtons
 
-@interface HelpWindow : NSWindowController <NSTableViewDelegate>
-{
-    IBOutlet NSTableView* tableView;
-    IBOutlet WebView* webView;
-    NSMutableArray* mdFiles;
-}
+#import <AppKit/AppKit.h>
 
-@property (nonatomic,readonly) NSMutableArray* mdFiles;
+@interface NSWindow (NSWindow_CCBAccessoryView)
+
+-(void)addViewToTitleBar:(NSView*)viewToAdd atXPosition:(CGFloat)x offsetY:(CGFloat) offset;
+-(CGFloat)heightOfTitleBar;
 
 @end
