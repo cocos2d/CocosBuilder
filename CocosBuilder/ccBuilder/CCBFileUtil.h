@@ -29,4 +29,8 @@
 + (NSString*) toResolutionIndependentFile:(NSString*)file;
 + (NSDate*) modificationDateForFile:(NSString*)file;
 + (void) setModificationDate:(NSDate*)date forFile:(NSString*)file;
+
++ (void) addFilesWithExtension:(NSString*)ext inDirectory:(NSString*)dir toArray:(NSMutableArray*)array subPath:(NSString*)subPath;
++ (NSArray*) filesInResourcePathsWithExtension:(NSString*)ext;
+
 @end

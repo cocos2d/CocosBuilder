@@ -80,7 +80,7 @@
     fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
     
     // Setup auto complete
-    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler autoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
+    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
     
     if (docStr)
     {
@@ -96,8 +96,8 @@
         docStr = NULL;
     }
 
-    NSString* absFileName = [[self fileURL] path];
-    NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:absFileName];
+    self.absFileName = [[self fileURL] path];
+    NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:self.absFileName];
 
     SMLGutterTextView* gutterView = [[fragaria objectForKey:ro_MGSFOGutterScrollView] documentView];
     gutterView.fileName = fileName;
@@ -215,12 +215,42 @@
     [self updateWarningsMenu:errors];
 }
 
+- (void) updateAutoCompleteAsynch
+{
+    // Check if update is already being performed
+    if (updatingAutoComplete)
+    {
+        // Try again in a second
+        [self performSelector:@selector(updateAutoCompleteAsynch) withObject:NULL afterDelay:1.0];
+        return;
+    }
+    
+    updatingAutoComplete = YES;
+    
+    // Do the update in a background thread
+    [self performSelectorInBackground:@selector(performAutoCompleteCheck:) withObject:[[fragariaTextView string] copy]];
+    
+}
+
+- (void) performAutoCompleteCheck: (NSString*) script
+{
+    [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] loadLocalFile:self.absFileName script:script addWithErrors:NO];
+    [script release];
+    [self performSelectorOnMainThread:@selector(updateAutoCompleteDone) withObject:NULL waitUntilDone:NO];
+}
+
+- (void) updateAutoCompleteDone
+{
+    updatingAutoComplete = NO;
+}
+
 - (void)textDidChange:(NSNotification *)notification
 {
     [self updateChangeCount:1];
     docEdited = YES;
     
     [syntaxChecker checkText: [fragariaTextView string]];
+    [self updateAutoCompleteAsynch];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
@@ -246,6 +276,7 @@
 
 - (void) dealloc
 {
+    self.absFileName = NULL;
     [docStr release];
     docStr = NULL;
     [super dealloc];

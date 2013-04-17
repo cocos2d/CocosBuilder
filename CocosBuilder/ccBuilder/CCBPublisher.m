@@ -635,6 +635,7 @@
     return NO;
 }
 
+/*
 - (void) addFilesWithExtension:(NSString*)ext inDirectory:(NSString*)dir toArray:(NSMutableArray*)array subPath:(NSString*)subPath
 {
     NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:NULL];
@@ -674,7 +675,7 @@
     }
     
     return files;
-}
+}*/
 
 - (void) publishGeneratedFiles
 {
@@ -695,7 +696,7 @@
             && ![self fileExistInResourcePaths:@"main.js"])
         {
             // Find all jsFiles
-            NSArray* jsFiles = [self filesInResourcePathsWithExtension:@"js"];
+            NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
             NSString* mainFile = [outputDir stringByAppendingPathComponent:@"main.js"];
             
             // Generate file from template
@@ -721,7 +722,7 @@
         // Generate boot-html5.js file
         
         NSString* bootFile = [outputDir stringByAppendingPathComponent:@"boot-html5.js"];
-        NSArray* jsFiles = [self filesInResourcePathsWithExtension:@"js"];
+        NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
         
         tmpl = [CCBPublisherTemplate templateWithFile:@"boot-html5.txt"];
         [tmpl setStrings:jsFiles forMarker:@"REQUIRED_FILES" prefix:@"    '" suffix:@"',\n"];

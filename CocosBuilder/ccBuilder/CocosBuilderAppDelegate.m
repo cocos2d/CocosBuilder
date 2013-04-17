@@ -93,6 +93,7 @@
 #import "AboutWindow.h"
 #import "CCBHTTPServer.h"
 #import "JavaScriptAutoCompleteHandler.h"
+#import "CCBFileUtil.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -246,7 +247,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setupAutoCompleteHandler
 {
-    JavaScriptAutoCompleteHandler* handler = [JavaScriptAutoCompleteHandler autoCompleteHandler];
+    JavaScriptAutoCompleteHandler* handler = [JavaScriptAutoCompleteHandler sharedAutoCompleteHandler];
     
     NSString* dir = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"autoCompleteDefinitions"];
     
@@ -1256,6 +1257,8 @@ static BOOL hideAllToNextSeparator;
         }
     }
     
+    [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] removeLocalFiles];
+    
     [window setTitle:@"CocosBuilder"];
 
     // Stop local web server
@@ -1296,6 +1299,13 @@ static BOOL hideAllToNextSeparator;
     BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
     
     if (!success) return NO;
+    
+    // Load autocompletions for all JS files
+    NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
+    for (NSString* jsFile in jsFiles)
+    {
+        [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] loadLocalFile:[resManager toAbsolutePath:jsFile]];
+    }
     
     // Update the title of the main window
     [window setTitle:[NSString stringWithFormat:@"CocosBuilder - %@", [fileName lastPathComponent]]];
