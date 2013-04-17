@@ -81,6 +81,7 @@ namespace TEXTURE_PACKER {
     class TexturePacker
     {
     public:
+        virtual ~TexturePacker();
         virtual int   getTextureCount(void) = 0;
         virtual void  setTextureCount(int tcount) = 0; // number of textures to consider..
         virtual void  addTexture(int wid,int hit) = 0; // add textures 0 - n
@@ -98,7 +99,7 @@ namespace TEXTURE_PACKER {
     
     TexturePacker * createTexturePacker(void);
     void            releaseTexturePacker(TexturePacker *tp);
-    
+
 }
 
 #endif
