@@ -43,6 +43,7 @@
 @synthesize textureFileFormatAndroid;
 @synthesize ditherAndroid;
 @synthesize textureFileFormatHTML5;
+@synthesize ditherHTML5;
 
 - (id)init
 {
@@ -57,6 +58,7 @@
     self.ditherAndroid = YES;
     
     self.textureFileFormatHTML5 = 0;
+    self.ditherHTML5 = YES;
     
     return self;
 }
@@ -74,6 +76,7 @@
     self.ditherAndroid = [[dict objectForKey:@"ditherAndroid"] boolValue];
     
     self.textureFileFormatHTML5 = [[dict objectForKey:@"textureFileFormatHTML5"] intValue];
+    self.ditherHTML5 = [[dict objectForKey:@"ditherHTML5"] boolValue];
 
     return self;
 }
@@ -90,6 +93,7 @@
     [ser setObject:[NSNumber numberWithBool:self.ditherAndroid] forKey:@"ditherAndroid"];
     
     [ser setObject:[NSNumber numberWithInt:self.textureFileFormatHTML5] forKey:@"textureFileFormatHTML5"];
+    [ser setObject:[NSNumber numberWithBool:self.ditherHTML5] forKey:@"ditherHTML5"];
 
     return ser;
 }

@@ -3042,6 +3042,10 @@ static BOOL hideAllToNextSeparator;
         wc.ditherAndroid = ssSettings.ditherAndroid;
         wc.textureFileFormatAndroid = ssSettings.textureFileFormatAndroid;
         wc.textureFileFormatHTML5 = ssSettings.textureFileFormatHTML5;
+        wc.ditherHTML5 = ssSettings.ditherHTML5;
+        wc.iOSEnabled = projectSettings.publishEnablediPhone;
+        wc.androidEnabled = projectSettings.publishEnabledAndroid;
+        wc.HTML5Enabled = projectSettings.publishEnabledHTML5;
 
         int success = [wc runModalSheetForWindow:window];
         
@@ -3053,6 +3057,7 @@ static BOOL hideAllToNextSeparator;
             ssSettings.ditherAndroid = wc.ditherAndroid;
             ssSettings.textureFileFormatAndroid = wc.textureFileFormatAndroid;
             ssSettings.textureFileFormatHTML5 = wc.textureFileFormatHTML5;
+            ssSettings.ditherHTML5 = wc.ditherHTML5;
             
             [projectSettings store];
         }
