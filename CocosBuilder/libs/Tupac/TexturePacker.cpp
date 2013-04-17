@@ -648,6 +648,10 @@ namespace TEXTURE_PACKER
         return static_cast< TexturePacker *>(m);
     }
     
+    TexturePacker::~TexturePacker()
+    {
+    }
+    
     void            releaseTexturePacker(TexturePacker *tp)
     {
         MyTexturePacker *m = static_cast< MyTexturePacker *>(tp);
