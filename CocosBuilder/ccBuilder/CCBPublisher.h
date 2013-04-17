@@ -41,6 +41,7 @@ enum {
     NSArray* copyExtensions;
     NSString* publishFormat;
     BOOL runAfterPublishing;
+    NSString* browser;
     BOOL publishToSingleResolution;
     NSArray* publishForResolutions;
     NSMutableArray* generatedSpriteSheetDirs;
@@ -51,6 +52,7 @@ enum {
 
 @property (nonatomic,copy) NSString* publishFormat;
 @property (nonatomic,assign) BOOL runAfterPublishing;
+@property (nonatomic,copy) NSString* browser;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w;
 - (void) publish;

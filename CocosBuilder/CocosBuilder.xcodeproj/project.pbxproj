@@ -148,7 +148,7 @@
 		835DB0BA171562D6003A2F7B /* DDTTYLogger.h in Sources */ = {isa = PBXBuildFile; fileRef = 835DB039171561B7003A2F7B /* DDTTYLogger.h */; };
 		835DB0BB171562D6003A2F7B /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03A171561B7003A2F7B /* DDTTYLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		835DB0BC171562D6003A2F7B /* ContextFilterLogFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03C171561B7003A2F7B /* ContextFilterLogFormatter.h */; };
-		835DB0BD171562D6003A2F7B /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03D171561B7003A2F7B /* ContextFilterLogFormatter.m */; };
+		835DB0BD171562D6003A2F7B /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03D171561B7003A2F7B /* ContextFilterLogFormatter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		835DB0BE171562D6003A2F7B /* DispatchQueueLogFormatter.h in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03E171561B7003A2F7B /* DispatchQueueLogFormatter.h */; };
 		835DB0BF171562D6003A2F7B /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DB03F171561B7003A2F7B /* DispatchQueueLogFormatter.m */; };
 		835DB0C017156341003A2F7B /* CCBHTTPServer.h in Sources */ = {isa = PBXBuildFile; fileRef = 835DAF3F17156161003A2F7B /* CCBHTTPServer.h */; };
@@ -549,6 +549,8 @@
 		E3B9AF4B153C150D00489438 /* CCBTransparentWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B9AF4A153C150D00489438 /* CCBTransparentWindow.m */; };
 		E3B9AF4E153C48E300489438 /* CCBTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B9AF4D153C48E300489438 /* CCBTransparentView.m */; };
 		E3BF89D9156D36B7001A24CE /* CocosBuilderProjectIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */; };
+		E3C12B1B171DD386001EEDDB /* NSWindow+CCBAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C12B1A171DD386001EEDDB /* NSWindow+CCBAccessoryView.m */; };
+		E3C12B1F171E0DE7001EEDDB /* editor-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E3C12B1E171E0DE7001EEDDB /* editor-check.png */; };
 		E3C365EC14E9E4D1007CD5FF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E3C365F214E9E4D1007CD5FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F014E9E4D1007CD5FF /* InfoPlist.strings */; };
 		E3C365FA14E9E599007CD5FF /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3C365F914E9E599007CD5FF /* CCBPProperties.plist */; };
@@ -1728,6 +1730,9 @@
 		E3B9AF4C153C48E300489438 /* CCBTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBTransparentView.h; sourceTree = "<group>"; };
 		E3B9AF4D153C48E300489438 /* CCBTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBTransparentView.m; sourceTree = "<group>"; };
 		E3BF89D8156D36B6001A24CE /* CocosBuilderProjectIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CocosBuilderProjectIcon.icns; sourceTree = "<group>"; };
+		E3C12B19171DD386001EEDDB /* NSWindow+CCBAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+CCBAccessoryView.h"; sourceTree = "<group>"; };
+		E3C12B1A171DD386001EEDDB /* NSWindow+CCBAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+CCBAccessoryView.m"; sourceTree = "<group>"; };
+		E3C12B1E171E0DE7001EEDDB /* editor-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "editor-check.png"; sourceTree = "<group>"; };
 		E3C365EB14E9E4D1007CD5FF /* CCSprite.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSprite.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3C365EF14E9E4D1007CD5FF /* CCSprite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCSprite-Info.plist"; sourceTree = "<group>"; };
 		E3C365F114E9E4D1007CD5FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2275,6 +2280,8 @@
 				776041ED1498FBE70078095D /* Styled Components */,
 				77E7D049138F777A00E8EE67 /* CCBModalSheetController.h */,
 				77E7D04A138F777A00E8EE67 /* CCBModalSheetController.m */,
+				E3C12B19171DD386001EEDDB /* NSWindow+CCBAccessoryView.h */,
+				E3C12B1A171DD386001EEDDB /* NSWindow+CCBAccessoryView.m */,
 			);
 			name = "GUI Util";
 			sourceTree = "<group>";
@@ -2323,6 +2330,7 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				E3C12B1E171E0DE7001EEDDB /* editor-check.png */,
 				E38F79351715FD8D00E299E4 /* editor-warning.png */,
 				E334A4E5170D0020001604F7 /* debugger-bug.png */,
 				E334A4DC170CF475001604F7 /* seq-btn-end.png */,
@@ -4708,6 +4716,7 @@
 				E3D839E01713A70D004F6127 /* nodejs in Resources */,
 				E38F79361715FD8D00E299E4 /* editor-warning.png in Resources */,
 				E373BF1117189D2E00D71602 /* autoCompleteDefinitions in Resources */,
+				E3C12B1F171E0DE7001EEDDB /* editor-check.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5236,6 +5245,7 @@
 				E3D839E31713A75B004F6127 /* JavaScriptSyntaxChecker.m in Sources */,
 				E38654B0171771DA00A345B9 /* JavaScriptVariableExtractor.m in Sources */,
 				E373BF0D17188FC000D71602 /* JavaScriptAutoCompleteHandler.m in Sources */,
+				E3C12B1B171DD386001EEDDB /* NSWindow+CCBAccessoryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
