@@ -104,16 +104,16 @@
     
     [[fragaria objectForKey:ro_MGSFOLineNumbers] updateLineNumbersCheckWidth:NO recolour:NO];
     
+    /*
     // Setup buttons in window title bar
     warningButton = [[[NSPopUpButton alloc] initWithFrame:NSMakeRect(0, 0, 30, 16) pullsDown:YES] autorelease];
-    
+    */
     [warningButton setButtonType:NSMomentaryChangeButton];
     [warningButton setBezelStyle:NSRegularSquareBezelStyle];
     [warningButton.cell setBordered:NO];
-    [warningButton.cell setImagePosition:NSImageOnly];
-    [warningButton.cell setArrowPosition:NSPopUpNoArrow];
+    //[warningButton.cell setImagePosition:NSImageOnly];
+    //[warningButton.cell setArrowPosition:NSPopUpNoArrow];
     [warningButton.cell setUsesItemFromMenu:NO];
-    [warningButton setPreferredEdge:NSMaxYEdge];
     
     NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""];
     [item setImage:[NSImage imageNamed:@"editor-warning.png"]];
@@ -121,12 +121,6 @@
     [item setMixedStateImage:nil];
     [[warningButton cell] setMenuItem:item];
     [item release];
-    
-    
-    //[warningButton setTarget:self];
-    //[warningButton setAction:@selector(pressedWarningBtn:)];
-    
-    [docWindow addViewToTitleBar:warningButton atXPosition:docWindow.frame.size.width - 32 offsetY:1];
     
     [self updateWarningsMenu:[NSArray array]];
 }
@@ -150,10 +144,12 @@
         [item setAttributedTitle:title];
         
         [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-check.png"]];
+        [warningButton setTitle:@"No Errors"];
     }
     else
     {
         [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-warning"]];
+        [warningButton setTitle:[NSString stringWithFormat:@"%d Errors", (int) warnings.count]];
     }
     
     for (SMLSyntaxError* err in warnings)
@@ -203,11 +199,19 @@
 
 - (void) updateErrors:(NSArray*) errors
 {
+    // Update gutter view
+    NSScrollView* gutterScrollView = [fragaria.docSpec valueForKey:@"firstGutterScrollView"];
+    SMLGutterTextView* gutter = [gutterScrollView documentView];
+    gutter.syntaxErrors = errors;
+    [gutter updateSyntaxErrors];
+    
+    // Update syntax colors
     SMLSyntaxColouring* syntaxColouring = [fragaria.docSpec valueForKey:ro_MGSFOSyntaxColouring];
     syntaxColouring.syntaxErrors = errors;
     
     [syntaxColouring pageRecolour];
     
+    // Update warnings menu
     [self updateWarningsMenu:errors];
 }
 

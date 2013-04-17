@@ -37,7 +37,7 @@
     SMLTextView* fragariaTextView;
     
     JavaScriptSyntaxChecker* syntaxChecker;
-    NSPopUpButton* warningButton;
+    IBOutlet NSPopUpButton* warningButton;
     
     NSString* docStr;
     BOOL docEdited;
