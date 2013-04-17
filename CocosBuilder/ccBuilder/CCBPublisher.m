@@ -550,20 +550,28 @@
             }
             
             ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
+            
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
             
-            if (targetType == kCCBPublisherTargetTypeHTML5)
+            if (targetType == kCCBPublisherTargetTypeIPhone)
+            {
+                packer.imageFormat = ssSettings.textureFileFormat;
+                packer.compress = ssSettings.compress;
+                packer.dither = ssSettings.dither;
+            }
+            else if (targetType == kCCBPublisherTargetTypeAndroid)
+            {
+                packer.imageFormat = ssSettings.textureFileFormatAndroid;
+                packer.compress = NO;
+                packer.dither = ssSettings.ditherAndroid;
+            }
+            else if (targetType == kCCBPublisherTargetTypeHTML5)
             {
                 packer.imageFormat = ssSettings.textureFileFormatHTML5;
-            }
-            else
-            {
-                // Use settings
-                packer.imageFormat = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.textureFileFormat : ssSettings.textureFileFormatAndroid;
-                packer.compress = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.compress : NO;
-                packer.dither = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.dither : ssSettings.ditherAndroid;
+                packer.compress = NO;
+                packer.dither = ssSettings.ditherHTML5;
             }
             
             // Update progress
