@@ -174,6 +174,7 @@ typedef struct _PVRTexHeader
     NSMutableArray *imageInfos = [NSMutableArray arrayWithCapacity:self.filenames.count];
     
     CGColorSpaceRef colorSpace = NULL;
+    BOOL createdColorSpace = NO;
         
     for (NSString *filename in self.filenames)
     {
@@ -186,11 +187,16 @@ typedef struct _PVRTexHeader
         int h = (int)CGImageGetHeight(srcImage);
         
         NSRect trimRect = [self trimmedRectForImage:srcImage];
-        colorSpace = CGImageGetColorSpace(srcImage);
         
-        if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+        if (!colorSpace)
         {
-            colorSpace = CGColorSpaceCreateDeviceRGB();
+            colorSpace = CGImageGetColorSpace(srcImage);
+        
+            if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
+            {
+                colorSpace = CGColorSpaceCreateDeviceRGB();
+                createdColorSpace = YES;
+            }
         }
         
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
@@ -365,12 +371,15 @@ typedef struct _PVRTexHeader
     }
     
     textureFileName = pngFilename;
+    
+    if (createdColorSpace)
+    {
+        CFRelease(colorSpace);
+    }
 
     // Convert file to 8 bit if original uses indexed colors
     if (imageFormat_ == kTupacImageFormatPNG_8BIT)
     {
-        CFRelease(colorSpace);
-        
         NSTask* pngTask = [[NSTask alloc] init];
         [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
         NSMutableArray* args = [NSMutableArray arrayWithObjects:
