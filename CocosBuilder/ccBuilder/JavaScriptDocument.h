@@ -38,6 +38,7 @@
     
     JavaScriptSyntaxChecker* syntaxChecker;
     IBOutlet NSPopUpButton* warningButton;
+    IBOutlet NSPopUpButton* quickJumpButton;
     
     NSString* docStr;
     BOOL docEdited;

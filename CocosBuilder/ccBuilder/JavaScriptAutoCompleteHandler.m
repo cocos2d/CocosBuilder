@@ -29,6 +29,7 @@ id gJavaScriptAutoCompleteHandler = NULL;
     
     globalVariableNames = [[NSMutableSet alloc] init];
     localFiles = [[NSMutableDictionary alloc] init];
+    localFunctionNames = [[NSMutableDictionary alloc] init];
     
     return self;
 }
@@ -68,6 +69,7 @@ id gJavaScriptAutoCompleteHandler = NULL;
     if (addWithErrors || !extractor.hasErrors)
     {
         [localFiles setObject:extractor.variableNames forKey:file];
+        [localFunctionNames setObject:extractor.functionLocations forKey:file];
     }
 }
 
@@ -97,9 +99,16 @@ id gJavaScriptAutoCompleteHandler = NULL;
     return [[completions allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
+- (NSArray*) functionLocationsForFile:(NSString*)file
+{
+    return [localFunctionNames objectForKey:file];
+}
+
 - (void) dealloc
 {
     [globalVariableNames release];
+    [localFunctionNames release];
+    [localFiles release];
     
     [super dealloc];
 }
