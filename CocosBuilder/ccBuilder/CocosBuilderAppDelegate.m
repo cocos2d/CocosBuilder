@@ -2160,17 +2160,17 @@ static BOOL hideAllToNextSeparator;
     publisher.runAfterPublishing = run;
     publisher.browser = browser;
     
-    // Check if there are unsaved doc
+    // Check if there are unsaved documents
     if ([self hasDirtyDocument])
     {
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Publish project" defaultButton:@"Cancel" alternateButton:@"Publish without saving" otherButton:@"Save all and publish" informativeTextWithFormat:@"There are unsaved documents. Do you want to save first?"];
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Publish Project" defaultButton:@"Save All" alternateButton:@"Cancel" otherButton:@"Don't Save" informativeTextWithFormat:@"There are unsaved documents. Do you want to save before publishing?"];
         [alert setAlertStyle:NSWarningAlertStyle];
         NSInteger result = [alert runModal];
         switch (result) {
-            case NSAlertOtherReturn:
+            case NSAlertDefaultReturn:
                 [self saveAllDocuments:nil];
                 // Falling through to publish
-            case NSAlertAlternateReturn:
+            case NSAlertOtherReturn:
                 // Open progress window and publish
                 [publisher publish];
                 [self modalStatusWindowStartWithTitle:@"Publishing"];
@@ -2179,6 +2179,13 @@ static BOOL hideAllToNextSeparator;
             default:
                 break;
         }
+    }
+    else
+    {
+        // Open progress window and publish
+        [publisher publish];
+        [self modalStatusWindowStartWithTitle:@"Publishing"];
+        [self modalStatusWindowUpdateStatusText:@"Starting up..."];
     }
 }
 
