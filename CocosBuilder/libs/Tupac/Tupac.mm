@@ -174,9 +174,7 @@ typedef struct _PVRTexHeader
     NSMutableArray *imageInfos = [NSMutableArray arrayWithCapacity:self.filenames.count];
     
     CGColorSpaceRef colorSpace = NULL;
-    
-    BOOL save8BitPNG = (self.imageFormat == kTupacImageFormatPNG_8BIT);
-    
+        
     for (NSString *filename in self.filenames)
     {
         // Load CGImage
@@ -192,7 +190,7 @@ typedef struct _PVRTexHeader
         
         if (CGColorSpaceGetModel(colorSpace) == kCGColorSpaceModelIndexed)
         {
-            save8BitPNG = YES;
+            colorSpace = CGColorSpaceCreateDeviceRGB();
         }
         
         NSMutableDictionary* imageInfo = [NSMutableDictionary dictionary];
@@ -206,11 +204,6 @@ typedef struct _PVRTexHeader
         
         // Relase objects (images released later)
         CGDataProviderRelease(dataProvider);
-    }
-
-    if(save8BitPNG)
-    {
-        colorSpace = CGColorSpaceCreateDeviceRGB();
     }
     
     // Check that the output format is valid
@@ -374,7 +367,7 @@ typedef struct _PVRTexHeader
     textureFileName = pngFilename;
 
     // Convert file to 8 bit if original uses indexed colors
-    if (save8BitPNG)
+    if (imageFormat_ == kTupacImageFormatPNG_8BIT)
     {
         CFRelease(colorSpace);
         
@@ -388,7 +381,21 @@ typedef struct _PVRTexHeader
         [pngTask waitUntilExit];
         [pngTask release];
     }
-    if (imageFormat_ > kTupacImageFormatPNG_8BIT)
+    else if (imageFormat_ == kTupacImageFormatWEBP)
+    {
+        NSString* dstFile = [[pngFilename stringByDeletingPathExtension] stringByAppendingPathExtension:@"webp"];
+        NSTask* webPTask = [[NSTask alloc] init];
+        [webPTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"cwebp"]];
+        NSMutableArray* args = [NSMutableArray arrayWithObjects:
+                                @"-q", @"80", pngFilename, @"-o", dstFile, nil];
+        [webPTask setArguments:args];
+        [webPTask launch];
+        [webPTask waitUntilExit];
+        [webPTask release];
+        // Remove PNG file
+        [[NSFileManager defaultManager] removeItemAtPath:pngFilename error:NULL];
+    }
+    else if (imageFormat_ != kTupacImageFormatPNG)
     {
         NSString *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
         
