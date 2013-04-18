@@ -175,7 +175,7 @@ typedef struct _PVRTexHeader
     
     CGColorSpaceRef colorSpace = NULL;
     
-    BOOL save8BitPNG = (self.imageFormat == kTupacImageFormatPNG8BIT);
+    BOOL save8BitPNG = (self.imageFormat == kTupacImageFormatPNG_8BIT);
     
     for (NSString *filename in self.filenames)
     {
@@ -382,12 +382,13 @@ typedef struct _PVRTexHeader
         [pngTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"pngquant"]];
         NSMutableArray* args = [NSMutableArray arrayWithObjects:
                                 @"--force", @"--ext", @".png", pngFilename, nil];
+        if (self.dither) [args addObject:@"-dither"];
         [pngTask setArguments:args];
         [pngTask launch];
         [pngTask waitUntilExit];
         [pngTask release];
     }
-    if (imageFormat_ > kTupacImageFormatPNG8BIT)
+    if (imageFormat_ > kTupacImageFormatPNG_8BIT)
     {
         NSString *pvrFilename = [self.outputName stringByAppendingPathExtension:@"pvr"];
         

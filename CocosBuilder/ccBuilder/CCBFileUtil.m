@@ -27,6 +27,7 @@
 #import "CocosBuilderAppDelegate.h"
 #import "CCBDocument.h"
 #import "ResolutionSetting.h"
+#import "ProjectSettings.h"
 
 @implementation CCBFileUtil
 
@@ -64,6 +65,50 @@
         }
     }
     return file;
+}
+
++ (void) addFilesWithExtension:(NSString*)ext inDirectory:(NSString*)dir toArray:(NSMutableArray*)array subPath:(NSString*)subPath
+{
+    ProjectSettings* projectSettings = [CocosBuilderAppDelegate appDelegate].projectSettings;
+    
+    NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:NULL];
+    for (NSString* file in files)
+    {
+        if ([[file pathExtension] isEqualToString:ext])
+        {
+            if (projectSettings.flattenPaths || [subPath isEqualToString:@""])
+            {
+                [array addObject:file];
+            }
+            else
+            {
+                [array addObject:[subPath stringByAppendingPathComponent:file]];
+            }
+        }
+        BOOL isDirectory = NO;
+        [[NSFileManager defaultManager] fileExistsAtPath:[dir stringByAppendingPathComponent:file] isDirectory:&isDirectory];
+        if (isDirectory)
+        {
+            NSString* childDir = [dir stringByAppendingPathComponent:file];
+            NSString* childSubPath = [subPath stringByAppendingPathComponent:file];
+            if ([subPath isEqualToString:@""]) childSubPath = file;
+            
+            [self addFilesWithExtension:ext inDirectory:childDir toArray:array subPath:childSubPath];
+        }
+    }
+}
+
++ (NSArray*) filesInResourcePathsWithExtension:(NSString*)ext
+{
+    ProjectSettings* projectSettings = [CocosBuilderAppDelegate appDelegate].projectSettings;
+    NSMutableArray* files = [NSMutableArray array];
+    
+    for (NSString* dir in projectSettings.absoluteResourcePaths)
+    {
+        [self addFilesWithExtension:ext inDirectory:dir toArray:files subPath:@""];
+    }
+    
+    return files;
 }
 
 + (NSDate*) modificationDateForFile:(NSString*)file

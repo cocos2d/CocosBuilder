@@ -13,7 +13,7 @@ id gJavaScriptAutoCompleteHandler = NULL;
 
 @implementation JavaScriptAutoCompleteHandler
 
-+ (id) autoCompleteHandler
++ (id) sharedAutoCompleteHandler
 {
     if (!gJavaScriptAutoCompleteHandler)
     {
@@ -84,7 +84,17 @@ id gJavaScriptAutoCompleteHandler = NULL;
 
 - (NSArray*) completions
 {
-    return [[globalVariableNames allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSMutableSet* completions = [NSMutableSet set];
+    
+    [completions unionSet:globalVariableNames];
+    
+    for (NSString* key in localFiles)
+    {
+        NSSet* localVariableNames = [localFiles objectForKey:key];
+        [completions unionSet:localVariableNames];
+    }
+    
+    return [[completions allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 - (void) dealloc

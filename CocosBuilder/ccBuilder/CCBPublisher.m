@@ -43,6 +43,7 @@
 
 @synthesize publishFormat;
 @synthesize runAfterPublishing;
+@synthesize browser;
 
 - (id) initWithProjectSettings:(ProjectSettings*)settings warnings:(CCBWarnings*)w
 {
@@ -549,20 +550,28 @@
             }
             
             ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
+            
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
             
-            if (targetType == kCCBPublisherTargetTypeHTML5)
+            if (targetType == kCCBPublisherTargetTypeIPhone)
+            {
+                packer.imageFormat = ssSettings.textureFileFormat;
+                packer.compress = ssSettings.compress;
+                packer.dither = ssSettings.dither;
+            }
+            else if (targetType == kCCBPublisherTargetTypeAndroid)
+            {
+                packer.imageFormat = ssSettings.textureFileFormatAndroid;
+                packer.compress = NO;
+                packer.dither = ssSettings.ditherAndroid;
+            }
+            else if (targetType == kCCBPublisherTargetTypeHTML5)
             {
                 packer.imageFormat = ssSettings.textureFileFormatHTML5;
-            }
-            else
-            {
-                // Use settings
-                packer.imageFormat = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.textureFileFormat : ssSettings.textureFileFormatAndroid;
-                packer.compress = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.compress : NO;
-                packer.dither = (targetType == kCCBPublisherTargetTypeIPhone) ? ssSettings.dither : ssSettings.ditherAndroid;
+                packer.compress = NO;
+                packer.dither = ssSettings.ditherHTML5;
             }
             
             // Update progress
@@ -626,6 +635,7 @@
     return NO;
 }
 
+/*
 - (void) addFilesWithExtension:(NSString*)ext inDirectory:(NSString*)dir toArray:(NSMutableArray*)array subPath:(NSString*)subPath
 {
     NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:NULL];
@@ -665,7 +675,7 @@
     }
     
     return files;
-}
+}*/
 
 - (void) publishGeneratedFiles
 {
@@ -686,7 +696,7 @@
             && ![self fileExistInResourcePaths:@"main.js"])
         {
             // Find all jsFiles
-            NSArray* jsFiles = [self filesInResourcePathsWithExtension:@"js"];
+            NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
             NSString* mainFile = [outputDir stringByAppendingPathComponent:@"main.js"];
             
             // Generate file from template
@@ -712,7 +722,7 @@
         // Generate boot-html5.js file
         
         NSString* bootFile = [outputDir stringByAppendingPathComponent:@"boot-html5.js"];
-        NSArray* jsFiles = [self filesInResourcePathsWithExtension:@"js"];
+        NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
         
         tmpl = [CCBPublisherTemplate templateWithFile:@"boot-html5.txt"];
         [tmpl setStrings:jsFiles forMarker:@"REQUIRED_FILES" prefix:@"    '" suffix:@"',\n"];

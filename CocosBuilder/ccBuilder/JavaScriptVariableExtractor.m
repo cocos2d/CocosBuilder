@@ -8,9 +8,26 @@
 
 #import "JavaScriptVariableExtractor.h"
 
+@implementation JavaScriptFunctionLocation
+
+- (void) dealloc
+{
+    self.functionName = NULL;
+    self.className = NULL;
+    [super dealloc];
+}
+
+- (NSString*) description
+{
+    return [NSString stringWithFormat:@"Class: %@ Func: %@ Line: %d", self.className, self.functionName, self.line];
+}
+
+@end
+
 @implementation JavaScriptVariableExtractor
 
 @synthesize variableNames;
+@synthesize functionLocations;
 
 - (id) init
 {
@@ -18,6 +35,8 @@
     if (!self) return NULL;
     
     variableNames = [[NSMutableSet alloc] init];
+    variableNamesAtCurrentLine = [[NSMutableArray alloc] init];
+    functionLocations = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -30,6 +49,8 @@
 
 - (void) parseScript:(NSString*) script
 {
+    [variableNamesAtCurrentLine removeAllObjects];
+    
     NSCharacterSet* variableStartChars = [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"];
     NSCharacterSet* variableChars = [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"];
     NSCharacterSet* variableCharsInverted = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_/\"'"] invertedSet];
@@ -37,10 +58,55 @@
     NSScanner* scanner = [NSScanner scannerWithString:script];
     [scanner setCharactersToBeSkipped:NULL];
     
+    int lineNumber = 1;
+    
     while (![scanner isAtEnd])
     {
         // Consume white space
-        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
+        NSString* whiteSpace = NULL;
+        
+        [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&whiteSpace];
+        
+        if (whiteSpace)
+        {
+            for (int i = 0; i < whiteSpace.length; i++)
+            {
+                if ([whiteSpace characterAtIndex:i] == '\n')
+                {
+                    // Check for functions on this line
+                    if ([variableNamesAtCurrentLine containsObject:@"function"])
+                    {
+                        JavaScriptFunctionLocation* funcLoc = [[[JavaScriptFunctionLocation alloc] init] autorelease];
+                        funcLoc.line = lineNumber;
+                        
+                        for (NSString* var in variableNamesAtCurrentLine)
+                        {
+                            if ([var isEqualToString:@"function"]) continue;
+                            if ([var isEqualToString:@"prototype"]) continue;
+                            
+                            NSString* firstChar = [var substringToIndex:1];
+                            if ([[firstChar uppercaseString] isEqualToString:firstChar])
+                            {
+                                funcLoc.className = var;
+                            }
+                            else
+                            {
+                                funcLoc.functionName = var;
+                            }
+                        }
+                        
+                        if (!funcLoc.functionName)
+                        {
+                            funcLoc.functionName = funcLoc.className;
+                            funcLoc.className = NULL;
+                        }
+                    }
+                    
+                    [variableNamesAtCurrentLine removeAllObjects];
+                    lineNumber++;
+                }
+            }
+        }
         
         // Get two first characters at current position
         NSString* twoChars = [self substringFromString:script withCheckedRange:NSMakeRange(scanner.scanLocation, 2)];
@@ -124,6 +190,7 @@
             [scanner scanCharactersFromSet:variableChars intoString:&variableName];
             
             [variableNames addObject:variableName];
+            [variableNamesAtCurrentLine addObject:variableName];
         }
         
         // Scan up to next keword or comment
@@ -138,7 +205,9 @@
 
 - (void) dealloc
 {
+    [functionLocations release];
     [variableNames release];
+    [variableNamesAtCurrentLine release];
     [super dealloc];
 }
 

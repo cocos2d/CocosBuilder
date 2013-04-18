@@ -70,8 +70,6 @@
 
 - (void) checkText:(NSString*)text
 {
-    NSLog(@"checkText");
-    
     if (syntaxTask && syntaxTask.isRunning)
     {
         // Terminate current task

@@ -33,6 +33,9 @@
 #import "JavaScriptSyntaxChecker.h"
 #import "JavaScriptAutoCompleteHandler.h"
 #import "SMLSyntaxColouring.h"
+#import "NSWindow+CCBAccessoryView.h"
+#import "SMLSyntaxError.h"
+#import "MGSTextMenuController.h"
 
 @implementation JavaScriptDocument
 
@@ -77,7 +80,7 @@
     fragariaTextView = [fragaria objectForKey:ro_MGSFOTextView];
     
     // Setup auto complete
-    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler autoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
+    [fragaria.docSpec setValue:[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] forKey:MGSFOAutoCompleteDelegate];
     
     if (docStr)
     {
@@ -93,13 +96,88 @@
         docStr = NULL;
     }
 
-    NSString* absFileName = [[self fileURL] path];
-    NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:absFileName];
+    self.absFileName = [[self fileURL] path];
+    NSString* fileName = [ResourceManagerUtil relativePathFromAbsolutePath:self.absFileName];
 
     SMLGutterTextView* gutterView = [[fragaria objectForKey:ro_MGSFOGutterScrollView] documentView];
     gutterView.fileName = fileName;
     
     [[fragaria objectForKey:ro_MGSFOLineNumbers] updateLineNumbersCheckWidth:NO recolour:NO];
+    
+    /*
+    // Setup buttons in window title bar
+    warningButton = [[[NSPopUpButton alloc] initWithFrame:NSMakeRect(0, 0, 30, 16) pullsDown:YES] autorelease];
+    */
+    [warningButton setButtonType:NSMomentaryChangeButton];
+    [warningButton setBezelStyle:NSRegularSquareBezelStyle];
+    [warningButton.cell setBordered:NO];
+    //[warningButton.cell setImagePosition:NSImageOnly];
+    //[warningButton.cell setArrowPosition:NSPopUpNoArrow];
+    [warningButton.cell setUsesItemFromMenu:NO];
+    
+    NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""];
+    [item setImage:[NSImage imageNamed:@"editor-warning.png"]];
+    [item setOnStateImage:nil];
+    [item setMixedStateImage:nil];
+    [[warningButton cell] setMenuItem:item];
+    [item release];
+    
+    [self updateWarningsMenu:[NSArray array]];
+}
+
+- (void) updateWarningsMenu:(NSArray*) warnings
+{
+    NSMenu* menu = [[[NSMenu alloc] initWithTitle:@"Warnings"] autorelease];
+    
+    NSMenuItem* dummy = [[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease];
+    [dummy setEnabled:NO];
+    [menu addItem:dummy];
+    
+    if ([warnings count] == 0)
+    {
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:@"No Errors in File" action:NULL keyEquivalent:@""] autorelease];
+        [item setEnabled:NO];
+        [menu addItem:item];
+        
+        NSMutableAttributedString* title = [[[NSMutableAttributedString alloc] initWithString:@"No Errors in File"] autorelease];
+        [title addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Menlo" size:10] range:NSMakeRange(0, title.string.length)];
+        [item setAttributedTitle:title];
+        
+        [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-check.png"]];
+        [warningButton setTitle:@"No Errors"];
+    }
+    else
+    {
+        [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-warning"]];
+        [warningButton setTitle:[NSString stringWithFormat:@"%d Errors", (int) warnings.count]];
+    }
+    
+    for (SMLSyntaxError* err in warnings)
+    {
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:err.description action:NULL keyEquivalent:@""] autorelease];
+        [menu addItem:item];
+        
+        NSMutableAttributedString* title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"% 4d:  %@", err.line, err.description]];
+        NSRange colonRange = [title.string rangeOfString:@":"];
+        [title addAttribute:NSForegroundColorAttributeName value:[NSColor grayColor] range:NSMakeRange(0, colonRange.location + 1)];
+        [title addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Menlo" size:10] range:NSMakeRange(0, title.string.length)];
+        [item setAttributedTitle:title];
+        
+        item.tag = err.line;
+        
+        [item setTarget:self];
+        [item setAction:@selector(pressedWarningBtn:)];
+    }
+    
+    [menu setAutoenablesItems:NO];
+    [warningButton setMenu:menu];
+    
+    [warningButton setNeedsDisplay];
+}
+
+- (void) pressedWarningBtn:(id)sender
+{
+    [[MGSTextMenuController sharedInstance] performGoToLine:(int)[sender tag]];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -121,10 +199,49 @@
 
 - (void) updateErrors:(NSArray*) errors
 {
+    // Update gutter view
+    NSScrollView* gutterScrollView = [fragaria.docSpec valueForKey:@"firstGutterScrollView"];
+    SMLGutterTextView* gutter = [gutterScrollView documentView];
+    gutter.syntaxErrors = errors;
+    [gutter updateSyntaxErrors];
+    
+    // Update syntax colors
     SMLSyntaxColouring* syntaxColouring = [fragaria.docSpec valueForKey:ro_MGSFOSyntaxColouring];
     syntaxColouring.syntaxErrors = errors;
     
     [syntaxColouring pageRecolour];
+    
+    // Update warnings menu
+    [self updateWarningsMenu:errors];
+}
+
+- (void) updateAutoCompleteAsynch
+{
+    // Check if update is already being performed
+    if (updatingAutoComplete)
+    {
+        // Try again in a second
+        [self performSelector:@selector(updateAutoCompleteAsynch) withObject:NULL afterDelay:1.0];
+        return;
+    }
+    
+    updatingAutoComplete = YES;
+    
+    // Do the update in a background thread
+    [self performSelectorInBackground:@selector(performAutoCompleteCheck:) withObject:[[fragariaTextView string] copy]];
+    
+}
+
+- (void) performAutoCompleteCheck: (NSString*) script
+{
+    [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] loadLocalFile:self.absFileName script:script addWithErrors:NO];
+    [script release];
+    [self performSelectorOnMainThread:@selector(updateAutoCompleteDone) withObject:NULL waitUntilDone:NO];
+}
+
+- (void) updateAutoCompleteDone
+{
+    updatingAutoComplete = NO;
 }
 
 - (void)textDidChange:(NSNotification *)notification
@@ -133,6 +250,7 @@
     docEdited = YES;
     
     [syntaxChecker checkText: [fragariaTextView string]];
+    [self updateAutoCompleteAsynch];
 }
 
 - (BOOL) validateMenuItem:(NSMenuItem *)menuItem
@@ -158,6 +276,7 @@
 
 - (void) dealloc
 {
+    self.absFileName = NULL;
     [docStr release];
     docStr = NULL;
     [super dealloc];

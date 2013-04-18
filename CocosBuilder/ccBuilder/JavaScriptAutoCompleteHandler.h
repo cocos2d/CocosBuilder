@@ -15,7 +15,7 @@
     NSMutableDictionary* localFiles;
 }
 
-+ (id) autoCompleteHandler;
++ (id) sharedAutoCompleteHandler;
 
 - (void) loadGlobalFile:(NSString*) file;
 - (void) loadGlobalFilesFromDirectory:(NSString*) dir;

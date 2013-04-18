@@ -37,10 +37,15 @@
     SMLTextView* fragariaTextView;
     
     JavaScriptSyntaxChecker* syntaxChecker;
+    IBOutlet NSPopUpButton* warningButton;
     
     NSString* docStr;
     BOOL docEdited;
+    
+    BOOL updatingAutoComplete;
 }
+
+@property (atomic, copy) NSString* absFileName;
 
 - (void) updateErrors:(NSArray*) errors;
 @end

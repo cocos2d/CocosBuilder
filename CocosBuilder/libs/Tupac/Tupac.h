@@ -10,7 +10,7 @@
 
 enum {
     kTupacImageFormatPNG,
-    kTupacImageFormatPNG8BIT,
+    kTupacImageFormatPNG_8BIT,
     kTupacImageFormatPVR_RGBA8888,
     kTupacImageFormatPVR_RGBA4444,
     kTupacImageFormatPVR_RGB565,

@@ -33,6 +33,8 @@
 #import "PlayerConnection.h"
 #import "PlayerDeviceInfo.h"
 
+#import <ApplicationServices/ApplicationServices.h>
+
 @implementation ProjectSettingsGeneratedSpriteSheet
 
 @synthesize textureFileFormat;
@@ -41,6 +43,7 @@
 @synthesize textureFileFormatAndroid;
 @synthesize ditherAndroid;
 @synthesize textureFileFormatHTML5;
+@synthesize ditherHTML5;
 
 - (id)init
 {
@@ -55,6 +58,7 @@
     self.ditherAndroid = YES;
     
     self.textureFileFormatHTML5 = 0;
+    self.ditherHTML5 = YES;
     
     return self;
 }
@@ -72,6 +76,7 @@
     self.ditherAndroid = [[dict objectForKey:@"ditherAndroid"] boolValue];
     
     self.textureFileFormatHTML5 = [[dict objectForKey:@"textureFileFormatHTML5"] intValue];
+    self.ditherHTML5 = [[dict objectForKey:@"ditherHTML5"] boolValue];
 
     return self;
 }
@@ -88,6 +93,7 @@
     [ser setObject:[NSNumber numberWithBool:self.ditherAndroid] forKey:@"ditherAndroid"];
     
     [ser setObject:[NSNumber numberWithInt:self.textureFileFormatHTML5] forKey:@"textureFileFormatHTML5"];
+    [ser setObject:[NSNumber numberWithBool:self.ditherHTML5] forKey:@"ditherHTML5"];
 
     return ser;
 }
@@ -116,6 +122,9 @@
 @synthesize publishResolutionHTML5_width;
 @synthesize publishResolutionHTML5_height;
 @synthesize publishResolutionHTML5_scale;
+@synthesize isSafariExist;
+@synthesize isChromeExist;
+@synthesize isFirefoxExist;
 @synthesize flattenPaths;
 @synthesize publishToZipFile;
 @synthesize javascriptBased;
@@ -179,6 +188,7 @@
         [availableExporters addObject: plugIn.extension];
     }
     
+    [self detectBrowserPresence];
     return self;
 }
 
@@ -255,6 +265,7 @@
     if (!mainCCB) mainCCB = @"";
     self.javascriptMainCCB = mainCCB;
     
+    [self detectBrowserPresence];
     return self;
 }
 
@@ -462,4 +473,28 @@
     return bps;
 }
 
+- (void) detectBrowserPresence
+{
+    isSafariExist = FALSE;
+    isChromeExist = FALSE;
+    isFirefoxExist = FALSE;
+    
+    OSStatus result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("com.apple.Safari"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isSafariExist = TRUE;
+    }
+    
+    result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("com.google.Chrome"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isChromeExist = TRUE;
+    }
+
+    result = LSFindApplicationForInfo (kLSUnknownCreator, CFSTR("org.mozilla.firefox"), NULL, NULL, NULL);
+    if (result == noErr)
+    {
+        isFirefoxExist = TRUE;
+    }
+}
 @end

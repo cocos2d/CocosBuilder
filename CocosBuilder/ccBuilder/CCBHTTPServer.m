@@ -102,4 +102,26 @@ static CCBHTTPServer *_sharedHTTPServer=nil;
     return httpServer.listeningPort;
 }
 
+- (void) openBrowser:(NSString *)browser
+{
+    NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+    NSArray* urls = [NSArray arrayWithObject:[NSURL URLWithString:url]];
+    
+    if([browser isEqualToString:@"Safari"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.apple.Safari" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([browser isEqualToString:@"Firefox"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"org.mozilla.Firefox" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else if([browser isEqualToString:@"Chrome"])
+    {
+        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier:@"com.google.Chrome" options:NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:nil launchIdentifiers:nil];
+    }else{
+        // Open a browser and point to local web server we started http://localhost:{port}/index.html
+        NSString* url = [NSString stringWithFormat:@"http://localhost:%d/index.html", [[CCBHTTPServer sharedHTTPServer] listeningPort]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:browser forKey:@"defaultBrowser"];
+}
 @end
