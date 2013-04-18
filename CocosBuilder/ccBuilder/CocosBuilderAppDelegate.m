@@ -879,6 +879,10 @@ static BOOL hideAllToNextSeparator;
         CCBDocument* doc = [(NSTabViewItem*)[docs objectAtIndex:i] identifier];
         if (doc.isDirty) return YES;
     }
+    if ([[NSDocumentController sharedDocumentController] hasEditedDocuments])
+    {
+        return YES;
+    }
     return NO;
 }
 
@@ -2105,6 +2109,19 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) saveAllDocuments:(id)sender
 {
+    // Save all JS files
+    //[[NSDocumentController sharedDocumentController] saveAllDocuments:sender]; //This API have no effects
+    NSArray* JSDocs = [[NSDocumentController sharedDocumentController] documents];
+    for (int i = 0; i < [JSDocs count]; i++)
+    {
+        NSDocument* doc = [JSDocs objectAtIndex:i];
+        if (doc.isDocumentEdited)
+        {
+            [doc saveDocument:sender];
+        }
+    }
+    
+    // Save all CCB files
     CCBDocument* oldCurDoc = currentDocument;
     NSArray* docs = [tabView tabViewItems];
     for (int i = 0; i < [docs count]; i++)
