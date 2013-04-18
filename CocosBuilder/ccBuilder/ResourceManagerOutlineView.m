@@ -33,8 +33,8 @@
     NSPoint pt = [self convertPoint:[evt locationInWindow] fromView:nil];
     int row=[self rowAtPoint:pt];
     
-    RMResource* clickedResource = [self itemAtRow:row];
-    
+    id clickedItem = [self itemAtRow:row];
+
     NSMenu* menu = [CocosBuilderAppDelegate appDelegate].menuContextResManager;
     menu.autoenablesItems = NO;
     
@@ -43,56 +43,65 @@
     {
         if (item.action == @selector(menuCreateSmartSpriteSheet:))
         {
-            if (clickedResource.type == kCCBResTypeDirectory)
-            {
-                RMDirectory* dir = clickedResource.data;
-                
-                if (dir.isDynamicSpriteSheet)
+            if ([clickedItem isKindOfClass:[RMResource class]]) {
+                RMResource* clickedResource = clickedItem;
+                if (clickedResource.type == kCCBResTypeDirectory)
                 {
-                    item.title = @"Remove Smart Sprite Sheet";
+                    RMDirectory* dir = clickedResource.data;
+
+                    if (dir.isDynamicSpriteSheet)
+                    {
+                        item.title = @"Remove Smart Sprite Sheet";
+                    }
+                    else
+                    {
+                        item.title = @"Make Smart Sprite Sheet";
+                    }
+
+                    [item setEnabled:YES];
+                    item.tag = row;
                 }
                 else
                 {
-                    item.title = @"Make Smart Sprite Sheet";
+                    [item setEnabled:NO];
                 }
-                
-                [item setEnabled:YES];
-                 item.tag = row;
-            }
-            else
-            {
-                [item setEnabled:NO];
             }
         }
         else if (item.action == @selector(menuEditSmartSpriteSheet:))
         {
-            [item setEnabled:NO];
-            if (clickedResource.type == kCCBResTypeDirectory)
-            {
-                RMDirectory* dir = clickedResource.data;
-                if (dir.isDynamicSpriteSheet)
+            if ([clickedItem isKindOfClass:[RMResource class]]) {
+                RMResource* clickedResource = clickedItem;
+                [item setEnabled:NO];
+                if (clickedResource.type == kCCBResTypeDirectory)
                 {
-                    [item setEnabled:YES];
-                    item.tag = row;
+                    RMDirectory* dir = clickedResource.data;
+                    if (dir.isDynamicSpriteSheet)
+                    {
+                        [item setEnabled:YES];
+                        item.tag = row;
+                    }
                 }
             }
         }
         else if (item.action == @selector(menuOpenExternal:))
         {
             item.title = @"Open With External Editor";
-            
-            if (clickedResource.type == kCCBResTypeCCBFile)
-            {
-                [item setEnabled:NO];
-            }
-            else if (clickedResource.type == kCCBResTypeDirectory)
-            {
-                [item setEnabled:YES];
-                item.title = @"Open Folder in Finder";
-            }
-            else
-            {
-                [item setEnabled:YES];
+
+            if ([clickedItem isKindOfClass:[RMResource class]]) {
+                RMResource* clickedResource = clickedItem;
+                if (clickedResource.type == kCCBResTypeCCBFile)
+                {
+                    [item setEnabled:NO];
+                }
+                else if (clickedResource.type == kCCBResTypeDirectory)
+                {
+                    [item setEnabled:YES];
+                    item.title = @"Open Folder in Finder";
+                }
+                else
+                {
+                    [item setEnabled:YES];
+                }
             }
             item.tag = row;
         }
