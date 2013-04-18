@@ -2016,18 +2016,22 @@ static BOOL hideAllToNextSeparator;
     [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
-            [[[CCDirector sharedDirector] view] lockOpenGLContext];
-            
-            // Save file to new path
-            [self saveFile:[[saveDlg URL] path]];
-            
-            // Close document
-            [tabView removeTabViewItem:[self tabViewItemFromDoc:currentDocument]];
-            
-            // Open newly created document
-            [self openFile:[[saveDlg URL] path]];
-            
-            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+            NSString *filename = [[saveDlg URL] path];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
+                           dispatch_get_current_queue(), ^{
+                [[[CCDirector sharedDirector] view] lockOpenGLContext];
+                
+                // Save file to new path
+                [self saveFile:filename];
+                
+                // Close document
+                [tabView removeTabViewItem:[self tabViewItemFromDoc:currentDocument]];
+                
+                // Open newly created document
+                [self openFile:filename];
+                
+                [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+            });
         }
         [limter release];
     }];
@@ -2130,29 +2134,32 @@ static BOOL hideAllToNextSeparator;
     [openDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
         if (result == NSOKButton)
         {
-            [[[CCDirector sharedDirector] view] lockOpenGLContext];
-            
             NSArray* files = [openDlg URLs];
             
-            for (int i = 0; i < [files count]; i++)
-            {
-                NSString* dirName = [[files objectAtIndex:i] path];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
+                           dispatch_get_current_queue(), ^{
+                [[[CCDirector sharedDirector] view] lockOpenGLContext];
                 
-                NSArray* arr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirName error:NULL];
-                for(NSString* file in arr)
+                for (int i = 0; i < [files count]; i++)
                 {
-                    if ([file hasSuffix:@".ccb"])
+                    NSString* dirName = [[files objectAtIndex:i] path];
+                    
+                    NSArray* arr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:dirName error:NULL];
+                    for(NSString* file in arr)
                     {
-                        NSString* absPath = [dirName stringByAppendingPathComponent:file];
-                        [self openFile:absPath];
-                        [self saveFile:absPath];
-                        //[self publishDocument:NULL];
-                        [self performClose:sender];
+                        if ([file hasSuffix:@".ccb"])
+                        {
+                            NSString* absPath = [dirName stringByAppendingPathComponent:file];
+                            [self openFile:absPath];
+                            [self saveFile:absPath];
+                            //[self publishDocument:NULL];
+                            [self performClose:sender];
+                        }
                     }
                 }
-            }
-            
-            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+                
+                [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+            });
         }
     }];
 }
@@ -2184,12 +2191,14 @@ static BOOL hideAllToNextSeparator;
         if (result == NSOKButton)
         {
             NSArray* files = [openDlg URLs];
-            
-            for (int i = 0; i < [files count]; i++)
-            {
-                NSString* fileName = [[files objectAtIndex:i] path];
-                [self openProject:fileName];
-            }
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
+                           dispatch_get_current_queue(), ^{
+                for (int i = 0; i < [files count]; i++)
+                {
+                    NSString* fileName = [[files objectAtIndex:i] path];
+                    [self openProject:fileName];
+                }
+            });
         }
     }];
 }
@@ -2210,14 +2219,18 @@ static BOOL hideAllToNextSeparator;
         if (result == NSOKButton)
         {
             NSString* fileName = [[saveDlg URL] path];
-            if ([self createProject: fileName])
-            {
-                [self openProject:fileName];
-            }
-            else
-            {
-                [self modalDialogTitle:@"Failed to Create Project" message:@"Failed to create the project, make sure you are saving it to a writable directory."];
-            }
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
+                           dispatch_get_current_queue(), ^{
+                if ([self createProject: fileName])
+                {
+                    [self openProject:fileName];
+                }
+                else
+                {
+                    [self modalDialogTitle:@"Failed to Create Project" message:@"Failed to create the project, make sure you are saving it to a writable directory."];
+                }
+            });
         }
     }];
 }
@@ -2243,7 +2256,12 @@ static BOOL hideAllToNextSeparator;
         [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result){
             if (result == NSOKButton)
             {
-                [self newFile:[[saveDlg URL] path] type:wc.rootObjectType resolutions:wc.availableResolutions];
+                NSString *type = wc.rootObjectType;
+                NSMutableArray *resolutions = wc.availableResolutions;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0),
+                               dispatch_get_current_queue(), ^{
+                    [self newFile:[[saveDlg URL] path] type:type resolutions:resolutions];
+                });
             }
             [wc release];
             [limiter release];
