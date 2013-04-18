@@ -2103,6 +2103,22 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
+- (IBAction) saveAllDocuments:(id)sender
+{
+    CCBDocument* oldCurDoc = currentDocument;
+    NSArray* docs = [tabView tabViewItems];
+    for (int i = 0; i < [docs count]; i++)
+    {
+        CCBDocument* doc = [(NSTabViewItem*)[docs objectAtIndex:i] identifier];
+         if (doc.isDirty)
+         {
+             [self switchToDocument:doc forceReload:NO];
+             [self saveDocument:sender];
+         }
+    }
+    [self switchToDocument:oldCurDoc forceReload:NO];
+}
+
 - (void) publishAndRun:(BOOL)run runInBrowser:(NSString *)browser
 {
     if (!projectSettings.publishEnabledAndroid
@@ -2127,12 +2143,26 @@ static BOOL hideAllToNextSeparator;
     publisher.runAfterPublishing = run;
     publisher.browser = browser;
     
-    // Open progress window and publish
-    
-    [publisher publish];
-    
-    [self modalStatusWindowStartWithTitle:@"Publishing"];
-    [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+    // Check if there are unsaved doc
+    if ([self hasDirtyDocument])
+    {
+        NSAlert* alert = [NSAlert alertWithMessageText:@"Publish project" defaultButton:@"Cancel" alternateButton:@"Publish without saving" otherButton:@"Save all and publish" informativeTextWithFormat:@"There are unsaved documents. Do you want to save first?"];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        NSInteger result = [alert runModal];
+        switch (result) {
+            case NSAlertOtherReturn:
+                [self saveAllDocuments:nil];
+                // Falling through to publish
+            case NSAlertAlternateReturn:
+                // Open progress window and publish
+                [publisher publish];
+                [self modalStatusWindowStartWithTitle:@"Publishing"];
+                [self modalStatusWindowUpdateStatusText:@"Starting up..."];
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 - (void) publisher:(CCBPublisher*)publisher finishedWithWarnings:(CCBWarnings*)warnings
@@ -3135,6 +3165,7 @@ static BOOL hideAllToNextSeparator;
 {
     if (menuItem.action == @selector(saveDocument:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(saveDocumentAs:)) return hasOpenedDocument;
+    else if (menuItem.action == @selector(saveAllDocuments:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(performClose:)) return hasOpenedDocument;
     else if (menuItem.action == @selector(menuCreateKeyframesFromSelection:))
     {
