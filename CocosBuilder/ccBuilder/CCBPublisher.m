@@ -583,7 +583,7 @@
             [packer createTextureAtlasFromDirectoryPaths:srcDirs];
             
             // Set correct modification date
-            [CCBFileUtil setModificationDate:srcSpriteSheetDate forFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
+            [CCBFileUtil setModificationDate:[NSDate date] forFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
         }
         
         [publishedResources addObject:[subPath stringByAppendingPathExtension:@"plist"]];
