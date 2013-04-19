@@ -13,6 +13,7 @@
 {
     NSMutableSet* globalVariableNames;
     NSMutableDictionary* localFiles;
+    NSMutableDictionary* localFunctionNames;
 }
 
 + (id) sharedAutoCompleteHandler;
@@ -24,5 +25,7 @@
 - (void) loadLocalFile:(NSString*) file;
 
 - (void) removeLocalFiles;
+
+- (NSArray*) functionLocationsForFile:(NSString*)file;
 
 @end

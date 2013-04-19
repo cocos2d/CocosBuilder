@@ -22,6 +22,7 @@
     NSMutableArray* variableNamesAtCurrentLine;
     NSMutableArray* functionLocations;
     
+    int lineNumber;
     BOOL openString;
 }
 

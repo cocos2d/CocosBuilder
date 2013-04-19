@@ -36,6 +36,7 @@
 #import "NSWindow+CCBAccessoryView.h"
 #import "SMLSyntaxError.h"
 #import "MGSTextMenuController.h"
+#import "JavaScriptVariableExtractor.h"
 
 @implementation JavaScriptDocument
 
@@ -70,7 +71,7 @@
     [fragaria setObject:self forKey:MGSFODelegate];
     [fragaria setObject:[CocosBuilderAppDelegate appDelegate].projectSettings forKey:MGSFOBreakpointDelegate];
     
-    NSLog(@"breakpoint delegate: %@ ps: %@", [fragaria objectForKey:MGSFOBreakpointDelegate], [CocosBuilderAppDelegate appDelegate].projectSettings);
+    //NSLog(@"breakpoint delegate: %@ ps: %@", [fragaria objectForKey:MGSFOBreakpointDelegate], [CocosBuilderAppDelegate appDelegate].projectSettings);
     
     // define our syntax definition
     [fragaria setObject:@"JavaScript" forKey:MGSFOSyntaxDefinitionName];
@@ -104,15 +105,10 @@
     
     [[fragaria objectForKey:ro_MGSFOLineNumbers] updateLineNumbersCheckWidth:NO recolour:NO];
     
-    /*
-    // Setup buttons in window title bar
-    warningButton = [[[NSPopUpButton alloc] initWithFrame:NSMakeRect(0, 0, 30, 16) pullsDown:YES] autorelease];
-    */
+    // Setup warning button
     [warningButton setButtonType:NSMomentaryChangeButton];
     [warningButton setBezelStyle:NSRegularSquareBezelStyle];
     [warningButton.cell setBordered:NO];
-    //[warningButton.cell setImagePosition:NSImageOnly];
-    //[warningButton.cell setArrowPosition:NSPopUpNoArrow];
     [warningButton.cell setUsesItemFromMenu:NO];
     
     NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""];
@@ -123,6 +119,22 @@
     [item release];
     
     [self updateWarningsMenu:[NSArray array]];
+    
+    // Setup quick jump button
+    [quickJumpButton setButtonType:NSMomentaryChangeButton];
+    [quickJumpButton setBezelStyle:NSRegularSquareBezelStyle];
+    [quickJumpButton.cell setBordered:NO];
+    [quickJumpButton.cell setUsesItemFromMenu:NO];
+    
+    item = [[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""];
+    [item setImage:[NSImage imageNamed:@"editor-jump.png"]];
+    [item setOnStateImage:nil];
+    [item setMixedStateImage:nil];
+    [[quickJumpButton cell] setMenuItem:item];
+    [item release];
+    quickJumpButton.title = @"Quick Jump";
+    
+    [self updateQuickJumpMenu];
 }
 
 - (void) updateWarningsMenu:(NSArray*) warnings
@@ -215,6 +227,86 @@
     [self updateWarningsMenu:errors];
 }
 
+- (void) updateQuickJumpMenu
+{
+    NSArray* functionLocations = [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] functionLocationsForFile:self.absFileName];
+    
+    NSMenu* menu = [[[NSMenu alloc] initWithTitle:@"Warnings"] autorelease];
+    
+    NSMenuItem* dummy = [[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease];
+    [dummy setEnabled:NO];
+    [menu addItem:dummy];
+    
+    NSColor* classColor = [NSColor colorWithCalibratedRed:0.15f green:0.28f blue:0.29f alpha:1.0f];
+    
+    if ([functionLocations count] == 0)
+    {
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:@"No Errors in File" action:NULL keyEquivalent:@""] autorelease];
+        [item setEnabled:NO];
+        [menu addItem:item];
+        
+        NSMutableAttributedString* title = [[[NSMutableAttributedString alloc] initWithString:@"No Functions Found"] autorelease];
+        [title addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Menlo" size:10] range:NSMakeRange(0, title.string.length)];
+        [item setAttributedTitle:title];
+    }
+    
+    for (JavaScriptFunctionLocation* funcLoc in functionLocations)
+    {
+        NSString* functionName = funcLoc.functionName;
+        if (!functionName) functionName = @"<Anonymous>";
+        
+        NSString* className = NULL;
+        if (funcLoc.className)
+        {
+            className = [NSString stringWithFormat:@"%@.", funcLoc.className];
+        }
+        else
+        {
+            className = @"";
+        }
+        
+        NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:functionName action:NULL keyEquivalent:@""] autorelease];
+        [menu addItem:item];
+        
+        NSMutableAttributedString* title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"% 4d:  %@%@", funcLoc.line, className, functionName]];
+        
+        // Color line numbers
+        NSRange colonRange = [title.string rangeOfString:@":"];
+        [title addAttribute:NSForegroundColorAttributeName value:[NSColor grayColor] range:NSMakeRange(0, colonRange.location + 1)];
+        
+        // Color classes
+        NSRange dotRange = [title.string rangeOfString:@"."];
+        if (dotRange.location != NSNotFound)
+        {
+            [title addAttribute:NSForegroundColorAttributeName value:classColor range:NSMakeRange(colonRange.location + 1, dotRange.location - colonRange.location -1)];
+        }
+        else
+        {
+            if (![functionName isEqualToString:@"<Anonymous>"])
+            {
+                NSString* firstChar = [functionName substringToIndex:1];
+                if ([[firstChar uppercaseString] isEqualToString:firstChar])
+                {
+                    // This is a class
+                    [title addAttribute:NSForegroundColorAttributeName value:classColor range:NSMakeRange(colonRange.location + 1, title.string.length - (colonRange.location + 1))];
+                }
+            }
+        }
+        
+        // Set font
+        [title addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Menlo" size:10] range:NSMakeRange(0, title.string.length)];
+        [item setAttributedTitle:title];
+        
+        item.tag = funcLoc.line;
+        
+        [item setTarget:self];
+        [item setAction:@selector(pressedWarningBtn:)];
+    }
+    
+    [menu setAutoenablesItems:NO];
+    [quickJumpButton setMenu:menu];
+}
+
 - (void) updateAutoCompleteAsynch
 {
     // Check if update is already being performed
@@ -242,6 +334,9 @@
 - (void) updateAutoCompleteDone
 {
     updatingAutoComplete = NO;
+    
+    // Update quick jump menu
+    [self updateQuickJumpMenu];
 }
 
 - (void)textDidChange:(NSNotification *)notification

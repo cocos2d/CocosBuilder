@@ -47,6 +47,68 @@
     return [str substringWithRange:range];
 }
 
+- (void) checkLineBreaks: (NSString*) string
+{
+    if (!string) return;
+    
+    for (int i = 0; i < [string length]; i++)
+    {
+        if ([string characterAtIndex:i] == '\n')
+        {
+            // Check for functions on this line
+            if ([variableNamesAtCurrentLine containsObject:@"function"])
+            {
+                JavaScriptFunctionLocation* funcLoc = [[[JavaScriptFunctionLocation alloc] init] autorelease];
+                funcLoc.line = lineNumber;
+                
+                int funcNameIdx = [variableNamesAtCurrentLine indexOfObject:@"function"];
+                int currentIdx = 0;
+                
+                for (NSString* var in variableNamesAtCurrentLine)
+                {
+                    if ([var isEqualToString:@"function"]) continue;
+                    if ([var isEqualToString:@"prototype"]) continue;
+                    if ([var isEqualToString:@"var"]) continue;
+                    
+                    NSString* firstChar = [var substringToIndex:1];
+                    if ([[firstChar uppercaseString] isEqualToString:firstChar])
+                    {
+                        funcLoc.className = var;
+                    }
+                    else
+                    {
+                        if (funcLoc.functionName)
+                        {
+                            // Already assigned, check if this is better
+                            if (currentIdx == funcNameIdx -1)
+                            {
+                                funcLoc.functionName = var;
+                            }
+                        }
+                        else
+                        {
+                            funcLoc.functionName = var;
+                        }
+                    }
+                    
+                    currentIdx += 1;
+                }
+                
+                if (!funcLoc.functionName)
+                {
+                    funcLoc.functionName = funcLoc.className;
+                    funcLoc.className = NULL;
+                }
+                
+                [functionLocations addObject:funcLoc];
+            }
+            
+            [variableNamesAtCurrentLine removeAllObjects];
+            lineNumber++;
+        }
+    }
+}
+
 - (void) parseScript:(NSString*) script
 {
     [variableNamesAtCurrentLine removeAllObjects];
@@ -58,7 +120,7 @@
     NSScanner* scanner = [NSScanner scannerWithString:script];
     [scanner setCharactersToBeSkipped:NULL];
     
-    int lineNumber = 1;
+    lineNumber = 1;
     
     while (![scanner isAtEnd])
     {
@@ -67,46 +129,7 @@
         
         [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&whiteSpace];
         
-        if (whiteSpace)
-        {
-            for (int i = 0; i < whiteSpace.length; i++)
-            {
-                if ([whiteSpace characterAtIndex:i] == '\n')
-                {
-                    // Check for functions on this line
-                    if ([variableNamesAtCurrentLine containsObject:@"function"])
-                    {
-                        JavaScriptFunctionLocation* funcLoc = [[[JavaScriptFunctionLocation alloc] init] autorelease];
-                        funcLoc.line = lineNumber;
-                        
-                        for (NSString* var in variableNamesAtCurrentLine)
-                        {
-                            if ([var isEqualToString:@"function"]) continue;
-                            if ([var isEqualToString:@"prototype"]) continue;
-                            
-                            NSString* firstChar = [var substringToIndex:1];
-                            if ([[firstChar uppercaseString] isEqualToString:firstChar])
-                            {
-                                funcLoc.className = var;
-                            }
-                            else
-                            {
-                                funcLoc.functionName = var;
-                            }
-                        }
-                        
-                        if (!funcLoc.functionName)
-                        {
-                            funcLoc.functionName = funcLoc.className;
-                            funcLoc.className = NULL;
-                        }
-                    }
-                    
-                    [variableNamesAtCurrentLine removeAllObjects];
-                    lineNumber++;
-                }
-            }
-        }
+        [self checkLineBreaks:whiteSpace];
         
         // Get two first characters at current position
         NSString* twoChars = [self substringFromString:script withCheckedRange:NSMakeRange(scanner.scanLocation, 2)];
@@ -123,8 +146,12 @@
         // Check for /* comments
         if ([twoChars isEqualToString:@"/*"])
         {
-            [scanner scanUpToString:@"*/" intoString:NULL];
+            NSString* comment = NULL;
+            
+            [scanner scanUpToString:@"*/" intoString:&comment];
             scanner.scanLocation += 2;
+            
+            [self checkLineBreaks:comment];
             
             continue;
         }
@@ -194,8 +221,12 @@
         }
         
         // Scan up to next keword or comment
-        [scanner scanCharactersFromSet:variableCharsInverted intoString:NULL];
+        NSString* junk = NULL;
+        [scanner scanCharactersFromSet:variableCharsInverted intoString:&junk];
+        [self checkLineBreaks:junk];
     }
+    
+    [self checkLineBreaks:@"\n"];
 }
 
 - (BOOL) hasErrors
