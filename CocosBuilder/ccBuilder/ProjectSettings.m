@@ -37,6 +37,7 @@
 
 @implementation ProjectSettingsGeneratedSpriteSheet
 
+@synthesize isDirty;
 @synthesize textureFileFormat;
 @synthesize dither;
 @synthesize compress;
@@ -49,6 +50,8 @@
 {
     self = [super init];
     if (!self) return NULL;
+    
+    self.isDirty = NO;
     
     self.textureFileFormat = 0; // PNG
     self.dither = YES;
@@ -68,6 +71,8 @@
     self = [super init];
     if (!self) return NULL;
     
+    self.isDirty = [[dict objectForKey:@"isDirty"] boolValue];
+
     self.textureFileFormat = [[dict objectForKey:@"textureFileFormat"] intValue];
     self.dither = [[dict objectForKey:@"dither"] boolValue];
     self.compress = [[dict objectForKey:@"compress"] boolValue];
@@ -85,6 +90,8 @@
 {
     NSMutableDictionary* ser = [NSMutableDictionary dictionary];
     
+    [ser setObject:[NSNumber numberWithBool:self.isDirty] forKey:@"isDirty"];
+
     [ser setObject:[NSNumber numberWithInt:self.textureFileFormat] forKey:@"textureFileFormat"];
     [ser setObject:[NSNumber numberWithBool:self.dither] forKey:@"dither"];
     [ser setObject:[NSNumber numberWithBool:self.compress] forKey:@"compress"];
