@@ -392,7 +392,7 @@ typedef struct _PVRTexHeader
     }
     else if (imageFormat_ == kTupacImageFormatWEBP)
     {
-        NSString* dstFile = [[pngFilename stringByDeletingPathExtension] stringByAppendingPathExtension:@"webp"];
+        NSString* dstFile = [self.outputName stringByAppendingPathExtension:@"webp"];
         NSTask* webPTask = [[NSTask alloc] init];
         [webPTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"cwebp"]];
         NSMutableArray* args = [NSMutableArray arrayWithObjects:

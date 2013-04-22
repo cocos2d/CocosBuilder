@@ -529,7 +529,8 @@
         // Sprite files should have been saved to the temp cache directory, now actually generate the sprite sheets
         NSString* spriteSheetDir = [outDir stringByDeletingLastPathComponent];
         NSString* spriteSheetName = [outDir lastPathComponent];
-        
+        ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
+
         // Check if sprite sheet needs to be re-published
         for (NSString* res in publishForResolutions)
         {
@@ -544,13 +545,11 @@
             
             // Skip publish if sprite sheet exists and is up to date
             NSDate* dstDate = [CCBFileUtil modificationDateForFile:[spriteSheetFile stringByAppendingPathExtension:@"plist"]];
-            if (dstDate && [dstDate isEqualToDate:srcSpriteSheetDate])
+            if (dstDate && [dstDate isEqualToDate:srcSpriteSheetDate] && !ssSettings.isDirty)
             {
                 continue;
             }
-            
-            ProjectSettingsGeneratedSpriteSheet* ssSettings = [projectSettings smartSpriteSheetForSubPath:subPath];
-            
+                        
             Tupac* packer = [Tupac tupac];
             packer.outputName = spriteSheetFile;
             packer.outputFormat = TupacOutputFormatCocos2D;
@@ -588,6 +587,11 @@
         
         [publishedResources addObject:[subPath stringByAppendingPathExtension:@"plist"]];
         [publishedResources addObject:[subPath stringByAppendingPathExtension:@"png"]];
+        
+        if (ssSettings.isDirty) {
+            ssSettings.isDirty = NO;
+            [projectSettings store];
+        }
     }
     
     return YES;

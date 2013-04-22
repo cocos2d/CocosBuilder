@@ -3133,15 +3133,24 @@ static BOOL hideAllToNextSeparator;
         
         if (success)
         {
-            ssSettings.compress = wc.compress;
-            ssSettings.dither = wc.dither;
-            ssSettings.textureFileFormat = wc.textureFileFormat;
-            ssSettings.ditherAndroid = wc.ditherAndroid;
-            ssSettings.textureFileFormatAndroid = wc.textureFileFormatAndroid;
-            ssSettings.textureFileFormatHTML5 = wc.textureFileFormatHTML5;
-            ssSettings.ditherHTML5 = wc.ditherHTML5;
-            
-            [projectSettings store];
+            BOOL settingDirty  = (ssSettings.compress != wc.compress)||
+                                 (ssSettings.dither != wc.dither)||
+                                 (ssSettings.textureFileFormat != wc.textureFileFormat)||
+                                 (ssSettings.ditherAndroid != wc.ditherAndroid)||
+                                 (ssSettings.textureFileFormatAndroid != wc.textureFileFormatAndroid)||
+                                 (ssSettings.textureFileFormatHTML5 != wc.textureFileFormatHTML5)||
+                                 (ssSettings.ditherHTML5 != wc.ditherHTML5);
+            if(settingDirty){
+                ssSettings.isDirty = YES;
+                ssSettings.compress = wc.compress;
+                ssSettings.dither = wc.dither;
+                ssSettings.textureFileFormat = wc.textureFileFormat;
+                ssSettings.ditherAndroid = wc.ditherAndroid;
+                ssSettings.textureFileFormatAndroid = wc.textureFileFormatAndroid;
+                ssSettings.textureFileFormatHTML5 = wc.textureFileFormatHTML5;
+                ssSettings.ditherHTML5 = wc.ditherHTML5;
+                [projectSettings store];
+            }
         }
     }
 }

@@ -31,6 +31,7 @@
 
 @interface ProjectSettingsGeneratedSpriteSheet : NSObject
 {
+    BOOL isDirty;
     int textureFileFormat;
     BOOL dither;
     BOOL compress;
@@ -39,6 +40,7 @@
     int textureFileFormatHTML5;
     BOOL ditherHTML5;
 }
+@property (nonatomic,assign) BOOL isDirty;
 @property (nonatomic,assign) int textureFileFormat;
 @property (nonatomic,assign) BOOL dither;
 @property (nonatomic,assign) BOOL compress;
