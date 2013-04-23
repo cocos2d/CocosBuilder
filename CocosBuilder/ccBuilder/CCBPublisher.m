@@ -828,12 +828,8 @@
         if (![self publishDirectory:dir subPath:NULL]) return NO;
     }
     
-    //NSLog(@"publishedResources: %@", publishedResources);
-    
     // Publish generated files
     [self publishGeneratedFiles];
-    
-    //NSLog(@"Renamed files: %@", renamedFiles);
     
     // Yiee Haa!
     return YES;
@@ -873,8 +869,6 @@
     CCBDirectoryComparer* dc = [[[CCBDirectoryComparer alloc] init] autorelease];
     [dc loadDirectory:outputDir];
     NSArray* fileList = [dc diffWithFiles:diffFiles];
-    
-    NSLog(@"fileList: %@", fileList);
     
     // Zip it up!
     NSTask* zipTask = [[NSTask alloc] init];
