@@ -566,8 +566,6 @@ typedef struct _PVRTexHeader
         }
     }
     
-    NSLog(@"Tupac filenames: %@", absoluteFilepaths);
-    
     // Generate the sprite sheet
     self.filenames = absoluteFilepaths;
     [self createTextureAtlas];
