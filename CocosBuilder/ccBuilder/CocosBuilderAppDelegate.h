@@ -274,6 +274,8 @@ enum {
 - (void) closeLastDocument;
 - (void) openFile:(NSString*) fileName;
 - (void) openJSFile:(NSString*) fileName;
+- (void) openJSFile:(NSString*) fileName highlightLine:(int)line;
+- (void) resetJSFilesLineHighlight;
 
 // Menu options
 - (void) dropAddSpriteNamed:(NSString*)spriteFile inSpriteSheet:(NSString*)spriteSheetFile at:(CGPoint)pt parent:(CCNode*)parent;

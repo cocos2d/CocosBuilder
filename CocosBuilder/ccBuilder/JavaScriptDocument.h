@@ -49,4 +49,5 @@
 @property (atomic, copy) NSString* absFileName;
 
 - (void) updateErrors:(NSArray*) errors;
+- (void) setHighlightedLine:(int)line;
 @end

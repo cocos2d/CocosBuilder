@@ -1556,6 +1556,11 @@ static BOOL hideAllToNextSeparator;
 
 - (void) openJSFile:(NSString*) fileName
 {
+    [self openJSFile:fileName highlightLine:0];
+}
+
+- (void) openJSFile:(NSString*) fileName highlightLine:(int)line
+{
     NSURL* docURL = [[[NSURL alloc] initFileURLWithPath:fileName] autorelease];
     
     JavaScriptDocument* jsDoc = [[NSDocumentController sharedDocumentController] documentForURL:docURL];
@@ -1568,6 +1573,12 @@ static BOOL hideAllToNextSeparator;
     }
     
     [jsDoc showWindows];
+    [jsDoc setHighlightedLine:line];
+}
+
+- (void) resetJSFilesLineHighlight
+{
+    
 }
 
 #pragma mark Undo

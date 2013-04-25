@@ -227,6 +227,15 @@
     [self updateWarningsMenu:errors];
 }
 
+- (void) setHighlightedLine:(int)line
+{
+    // Update gutter view
+    NSScrollView* gutterScrollView = [fragaria.docSpec valueForKey:@"firstGutterScrollView"];
+    SMLGutterTextView* gutter = [gutterScrollView documentView];
+    
+    [gutter setHighlightedLine:line];
+}
+
 - (void) updateQuickJumpMenu
 {
     NSArray* functionLocations = [[JavaScriptAutoCompleteHandler sharedAutoCompleteHandler] functionLocationsForFile:self.absFileName];

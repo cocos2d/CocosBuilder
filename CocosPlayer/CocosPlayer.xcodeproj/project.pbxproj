@@ -23,6 +23,7 @@
 		E3893CF61666BF8100299482 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = E3893CEE1666BF8100299482 /* unzip.c */; };
 		E3893CF71666BF8100299482 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = E3893CF01666BF8100299482 /* zip.c */; };
 		E3893CF81666BF8100299482 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = E3893CF31666BF8100299482 /* SSZipArchive.m */; };
+		E3CB310817286C4C00A9B73F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3CB310717286C4C00A9B73F /* CoreText.framework */; };
 		E3F6A04D16499A7600550B13 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A04C16499A7600550B13 /* QuartzCore.framework */; };
 		E3F6A04F16499A7600550B13 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A04E16499A7600550B13 /* OpenGLES.framework */; };
 		E3F6A05116499A7600550B13 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3F6A05016499A7600550B13 /* OpenAL.framework */; };
@@ -175,6 +176,7 @@
 		E3893CF11666BF8100299482 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		E3893CF21666BF8100299482 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = ../../CocosBuilder/libs/ssziparchive/SSZipArchive.h; sourceTree = "<group>"; };
 		E3893CF31666BF8100299482 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = ../../CocosBuilder/libs/ssziparchive/SSZipArchive.m; sourceTree = "<group>"; };
+		E3CB310717286C4C00A9B73F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		E3F6A04816499A7600550B13 /* CocosPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocosPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F6A04C16499A7600550B13 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3F6A04E16499A7600550B13 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -234,6 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3CB310817286C4C00A9B73F /* CoreText.framework in Frameworks */,
 				E35D795116827BC400A53BEF /* libsqlite3.dylib in Frameworks */,
 				E3F6A04D16499A7600550B13 /* QuartzCore.framework in Frameworks */,
 				E3F6A04F16499A7600550B13 /* OpenGLES.framework in Frameworks */,
@@ -328,6 +331,7 @@
 		E3F6A03D16499A7600550B13 = {
 			isa = PBXGroup;
 			children = (
+				E3CB310717286C4C00A9B73F /* CoreText.framework */,
 				E35D795016827BC400A53BEF /* libsqlite3.dylib */,
 				E3F6A05E16499A7600550B13 /* CocosPlayer */,
 				E3F6A04B16499A7600550B13 /* Frameworks */,
