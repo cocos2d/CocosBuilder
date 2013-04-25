@@ -6,7 +6,7 @@
 //
 //
 
-#define kCCBPlayerDbgPort 8337
+#define kCCBPlayerDbgPort 5086
 
 #import <Foundation/Foundation.h>
 
