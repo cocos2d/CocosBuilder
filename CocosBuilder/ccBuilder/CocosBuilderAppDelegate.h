@@ -55,6 +55,15 @@ enum {
 enum {
     kCCBAlignHorizontalCenter,
     kCCBAlignVerticalCenter,
+    kCCBAlignLeft,
+    kCCBAlignRight,
+    kCCBAlignTop,
+    kCCBAlignBottom,
+    kCCBAlignAcross,
+    kCCBAlignDown,
+    kCCBAlignSameWidth,
+    kCCBAlignSameHeight,
+    kCCBAlignSameSize,
 };
 
 enum {
