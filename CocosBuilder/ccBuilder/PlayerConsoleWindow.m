@@ -154,12 +154,12 @@
 
 - (IBAction)pressedContinue:(id)sender
 {
-    [playerConnection.dbgConnection sendMessage:@"continue"];
+    [playerConnection.dbgConnection sendContinue];
 }
 
 - (IBAction)pressedStep:(id)sender
 {
-    [playerConnection.dbgConnection sendMessage:@"step"];
+    [playerConnection.dbgConnection sendStep];
 }
 
 - (IBAction)pressedPairing:(id)sender

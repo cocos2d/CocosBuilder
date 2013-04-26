@@ -234,6 +234,11 @@
     SMLGutterTextView* gutter = [gutterScrollView documentView];
     
     [gutter setHighlightedLine:line];
+    
+    if (line > 0)
+    {
+        [[MGSTextMenuController sharedInstance] performGoToLine:line];
+    }
 }
 
 - (void) updateQuickJumpMenu

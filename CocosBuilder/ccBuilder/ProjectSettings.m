@@ -470,6 +470,9 @@
     {
         [bps addObject:num];
     }
+    
+    // Send new list of bps to player
+    [[PlayerConnection sharedPlayerConnection] debugSendBreakpoints:breakpoints];
 }
 
 - (NSSet*) breakpointsForFile:(NSString*)file

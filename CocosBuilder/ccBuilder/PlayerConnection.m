@@ -60,6 +60,11 @@ static PlayerConnection* sharedPlayerConnection;
     [self.dbgConnection connect];
 }
 
+- (void) debugSendBreakpoints:(NSDictionary*) breakpoints
+{
+    [dbgConnection sendBreakpoints:breakpoints];
+}
+
 - (void) debugConnectionStarted
 {
     // Send list of breakpoints

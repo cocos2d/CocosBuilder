@@ -1578,7 +1578,12 @@ static BOOL hideAllToNextSeparator;
 
 - (void) resetJSFilesLineHighlight
 {
-    
+    NSArray* jsDocs = [[NSDocumentController sharedDocumentController] documents];
+    for (int i = 0; i < [jsDocs count]; i++)
+    {
+        JavaScriptDocument* doc = [jsDocs objectAtIndex:i];
+        [doc setHighlightedLine:0];
+    }
 }
 
 #pragma mark Undo

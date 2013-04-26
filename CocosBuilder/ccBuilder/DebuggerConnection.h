@@ -7,6 +7,7 @@
 //
 
 #define kCCBPlayerDbgPort 5086
+#define kCCBInputBufferSize 10240
 
 #import <Foundation/Foundation.h>
 
@@ -21,6 +22,9 @@
     NSOutputStream *outputStream;
     
     BOOL connected;
+    
+    uint8_t* inputBuffer;
+    NSMutableData* inputData;
 }
 
 @property (nonatomic,readonly) BOOL connected;
@@ -30,5 +34,7 @@
 - (void) shutdown;
 - (void) sendMessage:(NSString*)msg;
 - (void) sendBreakpoints:(NSDictionary*)files;
+- (void) sendContinue;
+- (void) sendStep;
 
 @end

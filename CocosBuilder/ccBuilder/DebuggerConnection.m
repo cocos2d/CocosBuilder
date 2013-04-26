@@ -8,6 +8,8 @@
 
 #import "DebuggerConnection.h"
 #import "PlayerConnection.h"
+#import "CocosBuilderAppDelegate.h"
+#import "ResourceManager.h"
 
 @implementation DebuggerConnection
 
@@ -18,7 +20,8 @@
     self = [super init];
     if (!self) return NULL;
     
-    NSLog(@"NSHost addresses: %@", [[NSHost currentHost] addresses]);
+    inputBuffer = malloc(kCCBInputBufferSize);
+    inputData = [[NSMutableData data] retain];
     
     if ([[[NSHost currentHost] addresses] containsObject:ip])
     {
@@ -56,7 +59,10 @@
 
 - (void) dealloc
 {
+    free(inputBuffer);
+    
     [inputStream release];
+    [inputData release];
     [outputStream release];
     [deviceIP release];
     [super dealloc];
@@ -72,6 +78,73 @@
         
         [delegate debugConnectionLost];
     }
+}
+
+- (void) handleMessage:(NSDictionary*) message
+{
+    CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
+    
+    NSString* why = [message objectForKey:@"why"];
+    NSDictionary* data = [message objectForKey:@"data"];
+    
+    if ([why isEqualToString:@"onBreakpoint"])
+    {
+        NSString* fileName = [[data objectForKey:@"jsfilename"] lastPathComponent];
+        int lineNumber = [[data objectForKey:@"linenumber"] intValue];
+        
+        [ad openJSFile:[ad.resManager toAbsolutePath:fileName] highlightLine:lineNumber];
+    }
+}
+
+- (void) handleWriteToInputData
+{
+    // Scan for end of transmission message
+    uint8_t* bytes = (uint8_t*)[inputData bytes];
+    
+    NSInteger lineBreakLocation = -1;
+    for (NSInteger i = 0; i < [inputData length]; i++)
+    {
+        if (bytes[i] == 23)
+        {
+            lineBreakLocation = i;
+            break;
+        }
+    }
+    
+    if (lineBreakLocation == -1)
+    {
+        // Didn't get a full message
+        NSLog(@"NOT FULL JSON: %@ lastChar:%d", [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding], bytes[[inputData length]-1]);
+        return;
+    }
+    
+    if (lineBreakLocation == 0)
+    {
+        // Got an empty message, skip
+        NSLog(@"Got an empty message");
+        
+        [inputData replaceBytesInRange:NSMakeRange(0, 1) withBytes:NULL length:0];
+        return;
+    }
+    
+    // Read message
+    NSData* message = [inputData subdataWithRange:NSMakeRange(0, lineBreakLocation-1)];
+    id response = [NSJSONSerialization JSONObjectWithData:message options:0 error:NULL];
+    
+    [self handleMessage:response];
+    
+    NSLog(@"DEBUGGER: %@", response);
+    
+    if (!response)
+    {
+        NSLog(@"FAILED JSON: %@", [[NSString alloc] initWithData:message encoding:NSUTF8StringEncoding]);
+    }
+    
+    // Consume message
+    [inputData replaceBytesInRange:NSMakeRange(0, lineBreakLocation) withBytes:NULL length:0];
+    
+    // Check for any additional messages
+    [self handleWriteToInputData];
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)evt
@@ -99,6 +172,16 @@
         }
     }
     
+    if (stream == inputStream && (evt & NSStreamEventHasBytesAvailable))
+    {
+        NSInteger numBytesRead = [inputStream read:inputBuffer maxLength:kCCBInputBufferSize];
+        if (numBytesRead > 0)
+        {
+            [inputData appendBytes:inputBuffer length:numBytesRead];
+            [self handleWriteToInputData];
+        }
+    }
+    
     if (evt & NSStreamEventErrorOccurred)
     {
         NSLog(@"Error: %@", [stream streamError]);
@@ -112,6 +195,11 @@
 
 - (void) shutdown
 {
+    [[CocosBuilderAppDelegate appDelegate] resetJSFilesLineHighlight];
+    
+    [self sendMessage:@"clear"];
+    [self sendMessage:@"continue"];
+    
     [inputStream close];
     [outputStream close];
     
@@ -128,6 +216,8 @@
     
     NSLog(@"sendMessage: %@", str);
     
+    str = [str stringByAppendingString:@"\n"];
+    
     //if ([outputStream hasSpaceAvailable])
     //{
         const uint8_t * rawstring =
@@ -139,6 +229,7 @@
 - (void) sendBreakpoints:(NSDictionary*)files
 {
     // TODO: Clear breakpoints
+    [self sendMessage:@"clear"];
     
     // Send new set of breakpoints
     for (NSString* file in files)
@@ -152,6 +243,18 @@
             [self sendMessage:cmd];
         }
     }
+}
+
+- (void) sendContinue
+{
+    [[CocosBuilderAppDelegate appDelegate] resetJSFilesLineHighlight];
+    [self sendMessage:@"continue"];
+}
+
+- (void) sendStep
+{
+    [[CocosBuilderAppDelegate appDelegate] resetJSFilesLineHighlight];
+    [self sendMessage:@"step"];
 }
 
 @end
