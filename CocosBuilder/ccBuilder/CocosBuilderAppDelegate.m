@@ -2899,12 +2899,22 @@ static BOOL hideAllToNextSeparator;
     
     x = xMin;
     
+    NSArray* sortedNodes = [self.selectedNodes sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CCNode* lhs = obj1;
+        CCNode* rhs = obj2;
+        if (lhs.position.x < rhs.position.x)
+            return NSOrderedAscending;
+        if (lhs.position.x > rhs.position.x)
+            return NSOrderedDescending;
+        return NSOrderedSame;
+    }];
+    
     for (int i = 0; i < self.selectedNodes.count; ++i)
     {
-        CCNode* node = [self.selectedNodes objectAtIndex:i];
-    
+        CCNode* node = [sortedNodes objectAtIndex:i];
+        
         CGPoint newAbsPosition = node.position;
- 
+        
         cxNode = node.contentSize.width * node.scaleX;
         
         newAbsPosition.x = x + cxNode * node.anchorPoint.x;
@@ -2956,9 +2966,19 @@ static BOOL hideAllToNextSeparator;
     
     y = yMin;
     
+    NSArray* sortedNodes = [self.selectedNodes sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CCNode* lhs = obj1;
+        CCNode* rhs = obj2;
+        if (lhs.position.y < rhs.position.y)
+            return NSOrderedAscending;
+        if (lhs.position.y > rhs.position.y)
+            return NSOrderedDescending;
+        return NSOrderedSame;
+    }];
+
     for (int i = 0; i < self.selectedNodes.count; ++i)
     {
-        CCNode* node = [self.selectedNodes objectAtIndex:i];
+        CCNode* node = [sortedNodes objectAtIndex:i];
         
         CGPoint newAbsPosition = node.position;
         
