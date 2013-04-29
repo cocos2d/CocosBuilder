@@ -34,7 +34,7 @@
 
 - (void) playerConnection: (PlayerConnection*)playerConn updatedPlayerList:(NSDictionary*)playerList;
 - (void) playerConnection:(PlayerConnection *)playerConn receivedResult:(NSString*)result;
-
+- (void) playerConnection:(PlayerConnection *)playerConn receivedDebuggerResult:(NSString *)result;
 @end
 
 @interface PlayerConnection : NSObject<ThoMoClientDelegateProtocol>

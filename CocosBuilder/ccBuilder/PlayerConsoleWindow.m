@@ -198,6 +198,11 @@
     [self writeToConsole:result bold:YES];
 }
 
+- (void) playerConnection:(PlayerConnection *)playerConn receivedDebuggerResult:(NSString *)result
+{
+    [self writeToConsole:result bold:NO];
+}
+
 #pragma mark Output console
 
 - (BOOL) isScrolledToBottom

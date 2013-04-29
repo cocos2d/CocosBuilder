@@ -94,6 +94,16 @@
         
         [ad openJSFile:[ad.resManager toAbsolutePath:fileName] highlightLine:lineNumber];
     }
+    else if ([why isEqualToString:@"commandresponse"])
+    {
+        NSString* commandName = [data objectForKey:@"commandname"];
+        
+        if ([commandName isEqualToString:@"eval"])
+        {
+            NSString* stringResult = [data objectForKey:@"stringResult"];
+            [delegate.delegate playerConnection:delegate receivedDebuggerResult:stringResult];
+        }
+    }
 }
 
 - (void) handleWriteToInputData
@@ -218,12 +228,8 @@
     
     str = [str stringByAppendingString:@"\n"];
     
-    //if ([outputStream hasSpaceAvailable])
-    //{
-        const uint8_t * rawstring =
-        (const uint8_t *)[str UTF8String];
-        [outputStream write:rawstring maxLength:strlen((const char*)rawstring)];
-    //}
+    const uint8_t * rawstring = (const uint8_t *)[str UTF8String];
+    [outputStream write:rawstring maxLength:strlen((const char*)rawstring)];
 }
 
 - (void) sendBreakpoints:(NSDictionary*)files

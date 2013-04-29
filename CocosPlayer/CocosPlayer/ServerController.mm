@@ -83,7 +83,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 
 #pragma mark Redirection of std out
 
-- (void) redirectStdErr
+- (void) redirectStdOut
 {
     //return;
     
@@ -92,7 +92,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
     
     [pipeReadHandle readInBackgroundAndNotify];
     
-    int err = dup2([[pipe fileHandleForWriting] fileDescriptor], STDERR_FILENO);
+    int err = dup2([[pipe fileHandleForWriting] fileDescriptor], STDOUT_FILENO);
     if (!err) NSLog(@"ConsoleWindow: Failed to redirect stderr");
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readData:) name:NSFileHandleReadCompletionNotification object:pipeReadHandle];
@@ -116,7 +116,7 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
         [server start];
         
         // Redirect std out
-        [self redirectStdErr];
+        [self redirectStdOut];
     }
 }
 
