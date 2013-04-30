@@ -29,6 +29,7 @@ enum {
     kCCBMemberVarAssignmentTypeNone = 0,
     kCCBMemberVarAssignmentTypeDocumentRoot = 1,
     kCCBMemberVarAssignmentTypeOwner = 2,
+    kCCBMemberVarAssignmentTypeNearestParentAssigner = 3
 };
 
 // CCBReader
