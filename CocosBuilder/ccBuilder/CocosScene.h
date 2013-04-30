@@ -51,6 +51,7 @@ enum {
     kCCBTransformHandleScale,
     kCCBTransformHandleRotate,
     kCCBTransformHandleAnchorPoint,
+    kCCBTransformHandleSize
 };
 
 enum {
@@ -82,6 +83,8 @@ enum {
     float transformStartRotation;
     float transformStartScaleX;
     float transformStartScaleY;
+    float transformStartContentSizeWidth;
+    float transformStartContentSizeHeight;
     CCNode* transformScalingNode;
     //CGPoint transformStartPosition;
     int currentMouseTransform;
