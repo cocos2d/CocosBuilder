@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCNode</string>
+	<key>canHaveChildren</key>
+	<false/>
+	<key>className</key>
+	<string>CCEditBox</string>
+	<key>editorClassName</key>
+	<string>CCEditBox</string>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>displayName</key>
+			<string>CCEditBox</string>
+			<key>name</key>
+			<string>CCEditBox</string>
+			<key>type</key>
+			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
+				<string>ccbResources/ccbDefaultImages.plist</string>
+				<string>ccbButtonDisabled.png</string>
+			</array>
+			<key>displayName</key>
+			<string>background sprite frame</string>
+			<key>type</key>
+			<string>SpriteFrame</string>
+			<key>name</key>
+			<string>backgroundSpriteFrame</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Max Length</string>
+			<key>type</key>
+			<string>Integer</string>
+			<key>name</key>
+			<string>nMaxLength</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Content Text Color</string>
+			<key>type</key>
+			<string>Color3</string>
+			<key>name</key>
+			<string>colText</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>PlaceHolder Text Color</string>
+			<key>type</key>
+			<string>Color3</string>
+			<key>name</key>
+			<string>colPlaceHolder</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>PlaceHolder Text</string>
+			<key>type</key>
+			<string>String</string>
+			<key>name</key>
+			<string>strPlaceHolder</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Keyboard Return Type</string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>name</key>
+			<string>keyboardReturnType</string>
+			<key>extra</key>
+			<string>Default|0|Down|1|Send|2|Search|3|Go|4</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Keyboard InputMode</string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>name</key>
+			<string>inputMode</string>
+			<key>extra</key>
+			<string>Any|0|EmailAddr|1|Numeric|2|PhoneNumber|3|Url|4|Decimal|5|SingleLine|6</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Is Password</string>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>bIsPassword</string>
+		</dict>
+	</array>
+</dict>
+</plist>

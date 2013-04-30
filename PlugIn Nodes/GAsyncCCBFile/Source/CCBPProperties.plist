@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCNode</string>
+	<key>canHaveChildren</key>
+	<string>NO</string>
+	<key>className</key>
+	<string>GAsyncCCBFile</string>
+	<key>editorClassName</key>
+	<string>GAsyncCCBFile</string>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>ignoreAnchorPointForPosition</string>
+			<key>displayName</key>
+			<string>Ignore anchor point</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>defaultSerialization</key>
+			<array>
+				<integer>0</integer>
+				<integer>0</integer>
+			</array>
+			<key>type</key>
+			<string>Point</string>
+			<key>name</key>
+			<string>anchorPoint</string>
+			<key>displayName</key>
+			<string>Anchor point</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>GAsyncCCBFile</string>
+			<key>displayName</key>
+			<string>GAsyncCCBFile</string>
+			<key>type</key>
+			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>default</key>
+			<string>elementKey</string>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>displayName</key>
+			<string>Element Key</string>
+			<key>type</key>
+			<string>String</string>
+			<key>name</key>
+			<string>elementKey</string>
+		</dict>
+		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>anchorPoint</string>
+				<string>contentSize</string>
+			</array>
+			<key>displayName</key>
+			<string>CCB File</string>
+			<key>type</key>
+			<string>CCBFile</string>
+			<key>name</key>
+			<string>ccbFile</string>
+		</dict>
+	</array>
+</dict>
+</plist>

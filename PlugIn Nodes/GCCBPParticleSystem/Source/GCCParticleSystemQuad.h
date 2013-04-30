@@ -22,35 +22,12 @@
  * THE SOFTWARE.
  */
 
-#import "CCRotatingSprite.h"
+#import "cocos2d.h"
 
-@implementation CCRotatingSprite
-
-@synthesize secondsPerRotation;
-@synthesize property1;
-@synthesize property2;
-@synthesize property3;
-
-- (id) init
+@interface GCCParticleSystemQuad : CCParticleSystemQuad
 {
-    self = [super init];
-    if (!self) return NULL;
-    
-    self.secondsPerRotation = 2;
-    
-    return self;
+    BOOL start;
 }
-
-- (void) setSecondsPerRotation:(float)spr
-{
-    secondsPerRotation = spr;
-    
-    // Stop rotating
-    [self stopAllActions];
-    
-    // Rotate with the new speed
-    [self runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:spr angle:360]]];
-}
-
-
+@property(readwrite,nonatomic,assign,setter = setStart:)BOOL start;
+-(void) setStart:(BOOL)isStart;
 @end

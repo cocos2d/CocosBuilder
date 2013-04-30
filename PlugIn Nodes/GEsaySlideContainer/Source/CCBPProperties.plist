@@ -3,20 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>inheritsFrom</key>
-	<string>CCSprite</string>
+	<string>CCLayer</string>
 	<key>canHaveChildren</key>
 	<string>YES</string>
 	<key>className</key>
-	<string>CCRotatingSprite</string>
+	<string>GEasySlideContainer</string>
 	<key>editorClassName</key>
-	<string>CCRotatingSprite</string>
+	<string>GEasySlideContainer</string>
 	<key>properties</key>
 	<array>
 		<dict>
 			<key>name</key>
-			<string>CCRotatingSprite</string>
+			<string>GEasySlideContainer</string>
 			<key>displayName</key>
-			<string>CCRotatingSprite</string>
+			<string>GEasySlideContainer</string>
 			<key>type</key>
 			<string>Separator</string>
 			<key>dontSetInEditor</key>
@@ -24,75 +24,55 @@
 		</dict>
 		<dict>
 			<key>displayName</key>
-			<string>Property1</string>
+			<string>Direction</string>
 			<key>type</key>
-			<string>Float</string>
+			<string>IntegerLabeled</string>
 			<key>name</key>
-			<string>property1</string>
-		</dict>
-		<dict>
-			<key>displayName</key>
-			<string>Property2</string>
-			<key>type</key>
-			<string>Float</string>
-			<key>name</key>
-			<string>property2</string>
-		</dict>
-		<dict>
-			<key>default</key>
-			<real>1</real>
-			<key>displayName</key>
-			<string>Sec/rotation</string>
-			<key>type</key>
-			<string>Float</string>
-			<key>name</key>
-			<string>secondsPerRotation</string>
-		</dict>
-		<dict>
-			<key>displayName</key>
-			<string>Property3</string>
-			<key>type</key>
-			<string>Float</string>
-			<key>name</key>
-			<string>property3</string>
+			<string>direction</string>
+			<key>extra</key>
+			<string>Horizontal|0|Vertical|1</string>
 		</dict>
 	</array>
 	<key>propertiesOverridden</key>
 	<array>
 		<dict>
+			<key>default</key>
+			<array>
+				<integer>100</integer>
+				<integer>100</integer>
+			</array>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>TouchRect Size</string>
+		</dict>
+		<dict>
 			<key>readOnly</key>
 			<true/>
 			<key>type</key>
-			<string>ScaleLock</string>
+			<string>Float</string>
 			<key>name</key>
 			<string>scale</string>
 			<key>displayName</key>
 			<string>Scale</string>
 		</dict>
 		<dict>
-			<key>animatable</key>
-			<true/>
-			<key>default</key>
-			<array>
-				<integer>200</integer>
-				<integer>200</integer>
-			</array>
 			<key>readOnly</key>
 			<true/>
 			<key>type</key>
-			<string>Size</string>
+			<string>Point</string>
 			<key>name</key>
-			<string>contentSize</string>
+			<string>anchorPoint</string>
 			<key>displayName</key>
-			<string>Content size</string>
+			<string>Anchor point</string>
 		</dict>
 		<dict>
-			<key>default</key>
-			<integer>20</integer>
-			<key>defaultSerialization</key>
-			<integer>0</integer>
 			<key>readOnly</key>
 			<true/>
+			<key>defaultSerialization</key>
+			<integer>0</integer>
 			<key>animatable</key>
 			<true/>
 			<key>type</key>
@@ -101,6 +81,16 @@
 			<string>rotation</string>
 			<key>displayName</key>
 			<string>Rotation</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>ignoreAnchorPointForPosition</string>
+			<key>displayName</key>
+			<string>Ignore anchor point</string>
 		</dict>
 	</array>
 </dict>

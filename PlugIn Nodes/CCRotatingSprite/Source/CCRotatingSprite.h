@@ -27,8 +27,13 @@
 @interface CCRotatingSprite : CCSprite
 {
     float secondsPerRotation;
+    float property1;
+    float property2;
+    float property3;
 }
 
 @property (nonatomic,assign) float secondsPerRotation;
-
+@property (nonatomic,assign) float property1;
+@property (nonatomic,assign) float property2;
+@property (nonatomic,assign) float property3;
 @end
