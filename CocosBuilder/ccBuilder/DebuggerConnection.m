@@ -80,8 +80,6 @@
 
 - (void) handleMessage:(NSDictionary*) message
 {
-    NSLog(@"handleMessage: %@", message);
-    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     NSString* why = [message objectForKey:@"why"];
@@ -101,15 +99,22 @@
         if ([commandName isEqualToString:@"eval"])
         {
             NSString* stringResult = [data objectForKey:@"stringResult"];
-            [delegate.delegate playerConnection:delegate receivedDebuggerResult:stringResult];
+            if (stringResult && stringResult.length > 0)
+            {
+                // Add a trailing newline if there is no in the string
+                if ([stringResult characterAtIndex:stringResult.length-1] != '\n')
+                {
+                    stringResult = [stringResult stringByAppendingString:@"\n"];
+                }
+            
+                [delegate.delegate playerConnection:delegate receivedDebuggerResult:stringResult];
+            }
         }
     }
 }
 
 - (void) handleWriteToInputData
 {
-    NSLog(@"handleWriteToInputData len: %d", (int)[inputData length]);
-    
     // Scan for end of transmission message
     uint8_t* bytes = (uint8_t*)[inputData bytes];
     
@@ -222,11 +227,9 @@
 
 - (void) sendMessage:(NSString*)str
 {
-    NSLog(@"sendMessage: %@", str);
-    
     if (!connected) return;
     
-    str = [str stringByAppendingString:@"\n\n"];
+    str = [str stringByAppendingString:@"\n"];
     
     const uint8_t * rawstring = (const uint8_t *)[str UTF8String];
     [outputStream write:rawstring maxLength:strlen((const char*)rawstring)];
