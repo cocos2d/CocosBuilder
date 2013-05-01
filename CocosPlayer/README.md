@@ -1,0 +1,8 @@
+# CocosPlayer
+CocosPlayer is CocosBuilder's companion app to quickly test cocos2d-js projects in iOS Simulator or directly on your device. To install CocosPlayer you will need to build it from source code. Simply open the CocosPlayer.xcodeproj, make sure that the CocosPlayer build target is selected and run it either in Simulator or on your device. If you are using more than one CocosPlayer on the same local network, you will need to set the pairing code both in CocosPlayer and inside CocosBuilder (Window -> CocosPlayer Console -> Pairing).
+
+## Enable the Debugger
+The latest version of CocosPlayer and CocosBuilder support debugging of JavaScript code. To enable the debugger you need to set JSB_ENABLE_DEBUGGER to 1 in the jsb_config.h file of the CocosPlayer project. If you have downloaded the source code as a zip file, this setting is already done, but if you got the code from GitHub you will need to do it manually.
+
+## Trouble Connecting?
+CocosPlayer should connect automatically to CocosBuilder if they are on the same network and if both applications have the same pairing code set. Some networks prevent rendevouz/zero config to work, if this is the case CocosPlayer running on a device will not be able to connect to CocosBuilder. One solution to this problem is to share your internet connection from your Mac to the device (this will only work if you are connected through Ethernet). You find your the options for sharing your network in System Preferences -> Sharing.
