@@ -1554,6 +1554,15 @@
 												<reference key="NSMixedImage" ref="502551668"/>
 												<int key="NSTag">6</int>
 											</object>
+											<object class="NSMenuItem" id="721289949">
+												<reference key="NSMenu" ref="138624856"/>
+												<string key="NSTitle">KeyframeMark</string>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="35465992"/>
+												<reference key="NSMixedImage" ref="502551668"/>
+												<int key="NSTag">7</int>
+											</object>
 											<object class="NSMenuItem" id="952058366">
 												<reference key="NSMenu" ref="138624856"/>
 												<string key="NSTitle">Start</string>
@@ -1561,7 +1570,7 @@
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
-												<int key="NSTag">7</int>
+												<int key="NSTag">8</int>
 											</object>
 										</object>
 									</object>
@@ -5276,6 +5285,22 @@
 					<int key="connectionID">1910</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuAddKeyframe:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="721289949"/>
+					</object>
+					<int key="connectionID">1917</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">menuAddKeyframe:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="952058366"/>
+					</object>
+					<int key="connectionID">1919</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">appDelegate</string>
 						<reference key="source" ref="1039955690"/>
@@ -8037,6 +8062,7 @@
 							<reference ref="279348460"/>
 							<reference ref="768710575"/>
 							<reference ref="195449125"/>
+							<reference ref="721289949"/>
 							<reference ref="952058366"/>
 						</object>
 						<reference key="parent" ref="243658724"/>
@@ -8490,7 +8516,12 @@
 						<reference key="parent" ref="789758025"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1914</int>
+						<int key="objectID">1916</int>
+						<reference key="object" ref="721289949"/>
+						<reference key="parent" ref="138624856"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1918</int>
 						<reference key="object" ref="952058366"/>
 						<reference key="parent" ref="138624856"/>
 					</object>
@@ -8782,7 +8813,8 @@
 					<string>1908.IBPluginDependency</string>
 					<string>1911.IBPluginDependency</string>
 					<string>1912.IBPluginDependency</string>
-					<string>1914.IBPluginDependency</string>
+					<string>1916.IBPluginDependency</string>
+					<string>1918.IBPluginDependency</string>
 					<string>195.IBPluginDependency</string>
 					<string>196.IBPluginDependency</string>
 					<string>197.IBPluginDependency</string>
@@ -9196,6 +9228,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -9259,7 +9292,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1914</int>
+			<int key="maxID">1919</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
