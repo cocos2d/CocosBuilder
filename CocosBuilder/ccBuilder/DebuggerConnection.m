@@ -38,8 +38,6 @@
 
 - (void) connect
 {
-    NSLog(@"connect deviceIP: %@ port: %d", deviceIP, kCCBPlayerDbgPort);
-    
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     CFStreamCreatePairWithSocketToHost(NULL, /*(CFStringRef)deviceIP*/(CFStringRef)deviceIP, kCCBPlayerDbgPort, &readStream, &writeStream);
@@ -82,12 +80,14 @@
 
 - (void) handleMessage:(NSDictionary*) message
 {
+    NSLog(@"handleMessage: %@", message);
+    
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
     
     NSString* why = [message objectForKey:@"why"];
     NSDictionary* data = [message objectForKey:@"data"];
     
-    if ([why isEqualToString:@"onBreakpoint"])
+    if ([why isEqualToString:@"onBreakpoint"] || [why isEqualToString:@"onStep"])
     {
         NSString* fileName = [[data objectForKey:@"jsfilename"] lastPathComponent];
         int lineNumber = [[data objectForKey:@"linenumber"] intValue];
@@ -108,6 +108,8 @@
 
 - (void) handleWriteToInputData
 {
+    NSLog(@"handleWriteToInputData len: %d", (int)[inputData length]);
+    
     // Scan for end of transmission message
     uint8_t* bytes = (uint8_t*)[inputData bytes];
     
@@ -124,16 +126,14 @@
     if (lineBreakLocation == -1)
     {
         // Didn't get a full message
-        NSLog(@"NOT FULL JSON: %@ lastChar:%d", [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding], bytes[[inputData length]-1]);
         return;
     }
     
     if (lineBreakLocation == 0)
     {
-        // Got an empty message, skip
-        NSLog(@"Got an empty message");
-        
+        // Got an empty message, skip and try again
         [inputData replaceBytesInRange:NSMakeRange(0, 1) withBytes:NULL length:0];
+        [self handleWriteToInputData];
         return;
     }
     
@@ -141,14 +141,12 @@
     NSData* message = [inputData subdataWithRange:NSMakeRange(0, lineBreakLocation-1)];
     id response = [NSJSONSerialization JSONObjectWithData:message options:0 error:NULL];
     
-    [self handleMessage:response];
-    
-    NSLog(@"DEBUGGER: %@", response);
-    
     if (!response)
     {
-        NSLog(@"FAILED JSON: %@", [[NSString alloc] initWithData:message encoding:NSUTF8StringEncoding]);
+        NSLog(@"Failed to parse message len: %d msg: %@", (int)lineBreakLocation, [[[NSString alloc] initWithData:message encoding:NSUTF8StringEncoding] autorelease]);
     }
+    
+    [self handleMessage:response];
     
     // Consume message
     [inputData replaceBytesInRange:NSMakeRange(0, lineBreakLocation) withBytes:NULL length:0];
@@ -168,16 +166,19 @@
     if (evt & NSStreamEventEndEncountered) descr = [descr stringByAppendingString:@"EndEncountered "];
     if (evt & NSStreamEventErrorOccurred) descr = [descr stringByAppendingString:@"ErrorOccurred "];
     
-    NSLog(@"stream: %@ handleEvent: %@(%d)", stream, descr, (int)evt);
-    
     if (stream == outputStream &&  (evt & NSStreamEventHasSpaceAvailable))
     {
         if (!connected)
         {
+            // Set connected property
             [self willChangeValueForKey:@"connected"];
             connected = YES;
             [self didChangeValueForKey:@"connected"];
-        
+            
+            // Switch to JSON for debugger output
+            [self sendMessage:@"uiresponse json"];
+            
+            // Notify delegate that debug session started
             [delegate debugConnectionStarted];
         }
     }
@@ -194,7 +195,6 @@
     
     if (evt & NSStreamEventErrorOccurred)
     {
-        NSLog(@"Error: %@", [stream streamError]);
         [self handleLostConnection];
     }
     else if (evt & NSStreamEventEndEncountered)
@@ -222,11 +222,11 @@
 
 - (void) sendMessage:(NSString*)str
 {
-    if (!connected) return;
-    
     NSLog(@"sendMessage: %@", str);
     
-    str = [str stringByAppendingString:@"\n"];
+    if (!connected) return;
+    
+    str = [str stringByAppendingString:@"\n\n"];
     
     const uint8_t * rawstring = (const uint8_t *)[str UTF8String];
     [outputStream write:rawstring maxLength:strlen((const char*)rawstring)];
@@ -234,7 +234,6 @@
 
 - (void) sendBreakpoints:(NSDictionary*)files
 {
-    // TODO: Clear breakpoints
     [self sendMessage:@"clear"];
     
     // Send new set of breakpoints

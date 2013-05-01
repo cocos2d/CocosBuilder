@@ -44,6 +44,7 @@
 @property (nonatomic,readonly) PlayerConnection* playerConnection;
 
 - (void) writeToConsole:(NSString*) str bold:(BOOL)bold;
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold color:(NSColor*) color;
 - (void) cleanConsole;
 
 - (IBAction)pressedPlay:(id)sender;

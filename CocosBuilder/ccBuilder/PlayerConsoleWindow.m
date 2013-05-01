@@ -146,10 +146,15 @@
 - (IBAction)pressedSendJSCode:(id)sender
 {
     NSString* script = [textInput stringValue];
+    
+    if (!script || [script isEqualToString:@""]) return;
+    
     [textInput setStringValue:@""];
     [textInput addToHistory:script];
     
-    [playerConnection sendJavaScript:script];
+    [self writeToConsole:[script stringByAppendingString:@"\n"] bold:NO color: [NSColor grayColor]];
+    
+    [playerConnection sendJavaScript:[@"eval " stringByAppendingString: script]];
 }
 
 - (IBAction)pressedContinue:(id)sender
@@ -229,6 +234,11 @@
 
 - (void) writeToConsole:(NSString*) str bold:(BOOL)bold
 {
+    [self writeToConsole:str bold:bold color:[NSColor blackColor]];
+}
+
+- (void) writeToConsole:(NSString*) str bold:(BOOL)bold color:(NSColor*) color
+{
     // Check if we are scrolled to the bottom
     BOOL scrollToEnd = [self isScrolledToBottom];
     
@@ -239,6 +249,7 @@
     
     NSMutableDictionary *attribs = [NSMutableDictionary dictionary];
     [attribs setObject:font forKey:NSFontAttributeName];
+    [attribs setObject:color forKey:NSForegroundColorAttributeName];
     
     NSAttributedString *stringToAppend = [[NSAttributedString alloc] initWithString:str attributes:attribs];
     [[textView textStorage] appendAttributedString:stringToAppend];
