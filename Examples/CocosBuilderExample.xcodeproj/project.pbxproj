@@ -223,6 +223,7 @@
 		E3B19FE215E66742000B023E /* particle-snow.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B19FC015E66742000B023E /* particle-snow.png */; };
 		E3B19FE315E66742000B023E /* particle-stars.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B19FC115E66742000B023E /* particle-stars.png */; };
 		E3B19FE415E66742000B023E /* scale-9-demo.png in Resources */ = {isa = PBXBuildFile; fileRef = E3B19FC215E66742000B023E /* scale-9-demo.png */; };
+		E3BCF3871731E24B0011413C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3BCF3861731E24B0011413C /* CoreText.framework */; };
 		E3D153DF16F815A8003BB796 /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D153D216F815A8003BB796 /* CDAudioManager.m */; };
 		E3D153E016F815A8003BB796 /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D153D516F815A8003BB796 /* CDOpenALSupport.m */; };
 		E3D153E116F815A8003BB796 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D153D716F815A8003BB796 /* CDXMacOSXSupport.m */; };
@@ -616,6 +617,7 @@
 		E3B19FC015E66742000B023E /* particle-snow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-snow.png"; path = "Resources/particle-snow.png"; sourceTree = "<group>"; };
 		E3B19FC115E66742000B023E /* particle-stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "particle-stars.png"; path = "Resources/particle-stars.png"; sourceTree = "<group>"; };
 		E3B19FC215E66742000B023E /* scale-9-demo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "scale-9-demo.png"; path = "Resources/scale-9-demo.png"; sourceTree = "<group>"; };
+		E3BCF3861731E24B0011413C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		E3D153D116F815A8003BB796 /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
 		E3D153D216F815A8003BB796 /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
 		E3D153D316F815A8003BB796 /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
@@ -637,6 +639,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3BCF3871731E24B0011413C /* CoreText.framework in Frameworks */,
 				E32BBCEC1561638300C58395 /* libz.dylib in Frameworks */,
 				E37596A814FD224800CD9F5F /* QuartzCore.framework in Frameworks */,
 				E37596AA14FD224800CD9F5F /* OpenGLES.framework in Frameworks */,
@@ -1059,6 +1062,7 @@
 		E37596A614FD224800CD9F5F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E3BCF3861731E24B0011413C /* CoreText.framework */,
 				E37596A714FD224800CD9F5F /* QuartzCore.framework */,
 				E37596A914FD224800CD9F5F /* OpenGLES.framework */,
 				E37596AB14FD224800CD9F5F /* OpenAL.framework */,
