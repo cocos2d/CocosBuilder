@@ -113,7 +113,7 @@
 {
     if ([rot isEqualToString:@"CCNode"]) return YES;
     else if ([rot isEqualToString:@"CCLayer"]) return YES;
-    else return NO;
+    else return YES;
 }
 
 - (void) setRootObjectType:(NSString *)rot
