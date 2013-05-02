@@ -48,9 +48,13 @@
 // iOS resolutions
 + (ResolutionSetting*) settingIPhone;
 + (ResolutionSetting*) settingIPhoneLandscape;
++ (ResolutionSetting*) settingIPhoneLandscapeRetina;
 + (ResolutionSetting*) settingIPhonePortrait;
++ (ResolutionSetting*) settingIPhonePortraitRetina;
 + (ResolutionSetting*) settingIPhone5Landscape;
++ (ResolutionSetting*) settingIPhone5LandscapeRetina;
 + (ResolutionSetting*) settingIPhone5Portrait;
++ (ResolutionSetting*) settingIPhone5PortraitRetina;
 + (ResolutionSetting*) settingIPad;
 + (ResolutionSetting*) settingIPadLandscape;
 + (ResolutionSetting*) settingIPadPortrait;
