@@ -2166,7 +2166,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    if (run && ![[PlayerConnection sharedPlayerConnection] connected])
+    if (run && !browser && ![[PlayerConnection sharedPlayerConnection] connected])
     {
         [self modalDialogTitle:@"No Player Connected" message:@"There is no CocosPlayer connected to CocosBuilder. Make sure that a player is running and that it has the same pairing number as CocosBuilder."];
         return;
@@ -2224,13 +2224,15 @@ static BOOL hideAllToNextSeparator;
     
     [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
     
-    if (![publisher.browser isEqual:@""])
+    // Run in Browser
+    if (publisher.runAfterPublishing && publisher.browser)
     {
         [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
+        [self updateDefaultBrowser];
     }
-
-    [self updateDefaultBrowser];
-    if (publisher.runAfterPublishing)
+    
+    // Run in CocosPlayer
+    if (publisher.runAfterPublishing && !publisher.browser)
     {
         [self runProject:self];
     }
@@ -2263,18 +2265,18 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuPublishProject:(id)sender
 {
-    [self publishAndRun:NO runInBrowser:@""];
+    [self publishAndRun:NO runInBrowser:NULL];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    [self publishAndRun:YES runInBrowser:@""];
+    [self publishAndRun:YES runInBrowser:NULL];
 }
 
 - (IBAction)menuPublishProjectAndRunInBrowser:(id)sender
 {
     NSMenuItem* item = (NSMenuItem *)sender;
-    [self publishAndRun:NO runInBrowser:item.title];
+    [self publishAndRun:YES runInBrowser:item.title];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
