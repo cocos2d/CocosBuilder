@@ -450,6 +450,13 @@
     return duplicate;
 }
 
+- (id) copyWithZone:(NSZone*)zone
+{
+    id serialization = [self serialization];
+    SequencerNodeProperty* copy = [[SequencerNodeProperty alloc] initWithSerialization:serialization];
+    return copy;
+}
+
 /*
 - (void) updateNode:(CCNode*)node toTime:(float)time
 {

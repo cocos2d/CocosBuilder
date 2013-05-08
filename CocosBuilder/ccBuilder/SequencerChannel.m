@@ -84,6 +84,16 @@
     return kfs;
 }
 
+- (id) copyWithZone:(NSZone*)zone
+{
+    SequencerChannel* copy = [[[self class] alloc] init];
+    
+    copy.displayName = self.displayName;
+    copy.seqNodeProp = [[self.seqNodeProp copy] autorelease];
+    
+    return copy;
+}
+
 - (void) dealloc
 {
     self.displayName = NULL;

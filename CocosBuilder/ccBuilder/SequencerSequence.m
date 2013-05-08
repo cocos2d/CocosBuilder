@@ -293,6 +293,12 @@
     copy.chainedSequenceId = chainedSequenceId;
     copy.autoPlay = autoPlay;
     
+    [copy->callbackChannel release];
+    [copy->soundChannel release];
+    
+    copy->callbackChannel = [callbackChannel copy];
+    copy->soundChannel = [soundChannel copy];
+    
     return copy;
 }
 
