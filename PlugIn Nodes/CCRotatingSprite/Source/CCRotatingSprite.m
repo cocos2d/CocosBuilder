@@ -27,6 +27,9 @@
 @implementation CCRotatingSprite
 
 @synthesize secondsPerRotation;
+@synthesize property1;
+@synthesize property2;
+@synthesize property3;
 
 - (id) init
 {
@@ -48,5 +51,6 @@
     // Rotate with the new speed
     [self runAction:[CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:spr angle:360]]];
 }
+
 
 @end

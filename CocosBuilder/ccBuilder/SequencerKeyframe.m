@@ -114,6 +114,10 @@
     {
         return kCCBKeyframeTypeFloatXY;
     }
+    else if ([type isEqualToString:@"String"])
+    {
+        return kCCBKeyframeTypeString;
+    }
     else
     {
         return kCCBKeyframeTypeUndefined;

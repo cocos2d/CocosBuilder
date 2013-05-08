@@ -13,18 +13,94 @@
 	<key>properties</key>
 	<array>
 		<dict>
+			<key>name</key>
+			<string>CCRotatingSprite</string>
 			<key>displayName</key>
 			<string>CCRotatingSprite</string>
 			<key>type</key>
 			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
 		</dict>
 		<dict>
+			<key>displayName</key>
+			<string>Property1</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>property1</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Property2</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>property2</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<real>1</real>
 			<key>displayName</key>
 			<string>Sec/rotation</string>
 			<key>type</key>
 			<string>Float</string>
 			<key>name</key>
 			<string>secondsPerRotation</string>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Property3</string>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>property3</string>
+		</dict>
+	</array>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>ScaleLock</string>
+			<key>name</key>
+			<string>scale</string>
+			<key>displayName</key>
+			<string>Scale</string>
+		</dict>
+		<dict>
+			<key>animatable</key>
+			<true/>
+			<key>default</key>
+			<array>
+				<integer>200</integer>
+				<integer>200</integer>
+			</array>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>20</integer>
+			<key>defaultSerialization</key>
+			<integer>0</integer>
+			<key>readOnly</key>
+			<true/>
+			<key>animatable</key>
+			<true/>
+			<key>type</key>
+			<string>Degrees</string>
+			<key>name</key>
+			<string>rotation</string>
+			<key>displayName</key>
+			<string>Rotation</string>
 		</dict>
 	</array>
 </dict>

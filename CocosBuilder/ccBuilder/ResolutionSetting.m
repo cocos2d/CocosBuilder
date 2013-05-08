@@ -130,6 +130,16 @@
     return setting;
 }
 
++ (ResolutionSetting*) settingIPhoneLandscapeRetina
+{
+    ResolutionSetting* setting = [ResolutionSetting settingIPhoneLandscape];
+    setting.name = @"iPhone Landscape Retina";
+    setting.width *= 2;
+    setting.height *= 2;
+    
+    return setting;
+}
+
 + (ResolutionSetting*) settingIPhonePortrait
 {
     ResolutionSetting* setting = [self settingIPhone];
@@ -140,6 +150,17 @@
     
     return setting;
 }
+
++ (ResolutionSetting*) settingIPhonePortraitRetina
+{
+    ResolutionSetting* setting = [ResolutionSetting settingIPhonePortrait];
+    setting.name = @"iPhone Portrait Retina";
+    setting.width *= 2;
+    setting.height *= 2;
+    
+    return setting;
+}
+
 
 + (ResolutionSetting*) settingIPhone5Landscape
 {
@@ -152,6 +173,16 @@
     return setting;
 }
 
++ (ResolutionSetting*) settingIPhone5LandscapeRetina
+{
+    ResolutionSetting* setting = [ResolutionSetting settingIPhone5Landscape];
+    setting.name = @"iPhone 5 Landscape Retina";
+    setting.width *= 2;
+    setting.height *= 2;
+    
+    return setting;
+}
+
 + (ResolutionSetting*) settingIPhone5Portrait
 {
     ResolutionSetting* setting = [self settingIPhone];
@@ -159,6 +190,16 @@
     setting.name = @"iPhone 5 Portrait";
     setting.width = 320;
     setting.height = 568;
+    
+    return setting;
+}
+
++ (ResolutionSetting*) settingIPhone5PortraitRetina
+{
+    ResolutionSetting* setting = [ResolutionSetting settingIPhone5Portrait];
+    setting.name = @"iPhone 5 Portrait Retina";
+    setting.width *= 2;
+    setting.height *= 2;
     
     return setting;
 }

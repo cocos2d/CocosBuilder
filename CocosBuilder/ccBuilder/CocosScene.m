@@ -663,6 +663,15 @@ static CocosScene* sharedCocosScene;
             transformStartRotation = transformScalingNode.rotation;
             return YES;
         }
+        else if ([event modifierFlags] & NSControlKeyMask)
+        {
+            // Start contentSize transform (instead of scale)
+            currentMouseTransform = kCCBTransformHandleSize;
+            transformStartRotation = transformScalingNode.rotation;
+            transformStartContentSizeWidth  = [PositionPropertySetter sizeForNode:transformScalingNode prop:@"contentSize"].width;
+            transformStartContentSizeHeight = [PositionPropertySetter sizeForNode:transformScalingNode prop:@"contentSize"].height;
+            return YES;
+        }
         else
         {
             // Start scale transform
@@ -898,6 +907,38 @@ static CocosScene* sharedCocosScene;
         [PositionPropertySetter setScaledX:xScaleNew Y:yScaleNew type:type forNode:transformScalingNode prop:@"scale"];
         
         [appDelegate refreshProperty:@"scale"];
+    }
+    else if (currentMouseTransform == kCCBTransformHandleSize)
+    {
+        CGPoint nodePos = [transformScalingNode.parent convertToWorldSpace:transformScalingNode.position];
+        
+        CGPoint deltaStart = ccpSub(nodePos, mouseDownPos);
+        CGPoint deltaNew = ccpSub(nodePos, pos);
+        
+        // Rotate deltas
+        CGPoint anglePos0 = [transformScalingNode convertToWorldSpace:ccp(0,0)];
+        CGPoint anglePos1 = [transformScalingNode convertToWorldSpace:ccp(1,0)];
+        CGPoint angleVector = ccpSub(anglePos1, anglePos0);
+        
+        float angle = atan2f(angleVector.y, angleVector.x);
+        
+        deltaStart = ccpRotateByAngle(deltaStart, CGPointZero, -angle);
+        deltaNew = ccpRotateByAngle(deltaNew, CGPointZero, -angle);
+        
+        // Calculate new size
+        float xContentSizeNew;
+        float yContentSizeNew;
+        
+        if (fabs(deltaStart.x) > 4) xContentSizeNew = (deltaNew.x  * transformStartContentSizeWidth )/deltaStart.x;
+        else xContentSizeNew = transformStartScaleX;
+        if (fabs(deltaStart.y) > 4) yContentSizeNew = (deltaNew.y  * transformStartContentSizeHeight)/deltaStart.y;
+        else yContentSizeNew = transformStartScaleY;
+        
+        // Set new contentSize
+        [appDelegate saveUndoStateWillChangeProperty:@"contentSize"];
+        
+        [PositionPropertySetter setSize:CGSizeMake(xContentSizeNew, yContentSizeNew) forNode:transformScalingNode prop:@"contentSize"];
+        [appDelegate refreshProperty:@"contentSize"];
     }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {

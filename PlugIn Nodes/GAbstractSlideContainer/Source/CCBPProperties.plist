@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>GAbstractSlideLayer</string>
+	<key>canHaveChildren</key>
+	<string>YES</string>
+	<key>className</key>
+	<string>GAbstractSlideContainer</string>
+	<key>editorClassName</key>
+	<string>GAbstractSlideContainer</string>
+	<key>properties</key>
+	<array/>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>displayName</key>
+			<string>Direction</string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>name</key>
+			<string>direction</string>
+			<key>extra</key>
+			<string>Horizontal|0|Vertical|1</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>displayName</key>
+			<string>SlideBoundOrigin</string>
+			<key>type</key>
+			<string>Position</string>
+			<key>name</key>
+			<string>slideBoundOrigin</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>slideBoundSize</string>
+			<key>displayName</key>
+			<string>SlideBoundSize</string>
+		</dict>
+	</array>
+</dict>
+</plist>

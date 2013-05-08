@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCNode</string>
+	<key>canHaveChildren</key>
+	<string>YES</string>
+	<key>className</key>
+	<string>CCLabelAtlas</string>
+	<key>editorClassName</key>
+	<string>GCCLabelAtlas</string>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>CCLabelAtlas</string>
+			<key>displayName</key>
+			<string>CCLabelAtlas</string>
+			<key>type</key>
+			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>animatable</key>
+			<true/>
+			<key>default</key>
+			<array>
+				<string></string>
+				<string></string>
+			</array>
+			<key>affectsProperties</key>
+			<array>
+				<string>blendFunc</string>
+				<string>contentSize</string>
+			</array>
+			<key>displayName</key>
+			<string>Font Atlas</string>
+			<key>type</key>
+			<string>SpriteFrame</string>
+			<key>name</key>
+			<string>fontAtlas</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>20</integer>
+			<key>displayName</key>
+			<string>Item Width</string>
+			<key>type</key>
+			<string>Integer</string>
+			<key>name</key>
+			<string>itemWidth</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>20</integer>
+			<key>displayName</key>
+			<string>Item Height</string>
+			<key>type</key>
+			<string>Integer</string>
+			<key>name</key>
+			<string>itemHeight</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<integer>20</integer>
+			<key>displayName</key>
+			<string>Start Char</string>
+			<key>type</key>
+			<string>Integer</string>
+			<key>name</key>
+			<string>startChar</string>
+		</dict>
+		<dict>
+			<key>affectsProperties</key>
+			<array>
+				<string>contentSize</string>
+			</array>
+			<key>default</key>
+			<string>Sample Text</string>
+			<key>displayName</key>
+			<string>Label text</string>
+			<key>type</key>
+			<string>Text</string>
+			<key>name</key>
+			<string>string</string>
+		</dict>
+	</array>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>animatable</key>
+			<true/>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>Content size</string>
+		</dict>
+	</array>
+</dict>
+</plist>

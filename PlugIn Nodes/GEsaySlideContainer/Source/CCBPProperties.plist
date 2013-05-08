@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCLayer</string>
+	<key>canHaveChildren</key>
+	<string>YES</string>
+	<key>className</key>
+	<string>GEasySlideContainer</string>
+	<key>editorClassName</key>
+	<string>GEasySlideContainer</string>
+	<key>properties</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>GEasySlideContainer</string>
+			<key>displayName</key>
+			<string>GEasySlideContainer</string>
+			<key>type</key>
+			<string>Separator</string>
+			<key>dontSetInEditor</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>displayName</key>
+			<string>Direction</string>
+			<key>type</key>
+			<string>IntegerLabeled</string>
+			<key>name</key>
+			<string>direction</string>
+			<key>extra</key>
+			<string>Horizontal|0|Vertical|1</string>
+		</dict>
+	</array>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>100</integer>
+				<integer>100</integer>
+			</array>
+			<key>type</key>
+			<string>Size</string>
+			<key>name</key>
+			<string>contentSize</string>
+			<key>displayName</key>
+			<string>TouchRect Size</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Float</string>
+			<key>name</key>
+			<string>scale</string>
+			<key>displayName</key>
+			<string>Scale</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Point</string>
+			<key>name</key>
+			<string>anchorPoint</string>
+			<key>displayName</key>
+			<string>Anchor point</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>defaultSerialization</key>
+			<integer>0</integer>
+			<key>animatable</key>
+			<true/>
+			<key>type</key>
+			<string>Degrees</string>
+			<key>name</key>
+			<string>rotation</string>
+			<key>displayName</key>
+			<string>Rotation</string>
+		</dict>
+		<dict>
+			<key>readOnly</key>
+			<true/>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>ignoreAnchorPointForPosition</string>
+			<key>displayName</key>
+			<string>Ignore anchor point</string>
+		</dict>
+	</array>
+</dict>
+</plist>
