@@ -815,6 +815,14 @@
     publishedResources = [NSMutableSet set];
     renamedFiles = [NSMutableDictionary dictionary];
     
+    //Remove old dir if we need to re-publish due to version mismatch
+    if (projectSettings.needRepublish)
+    {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        [fm removeItemAtPath:dir error:NULL];
+        projectSettings.needRepublish = NO;
+    }
+    
     // Setup paths for automatically generated sprite sheets
     generatedSpriteSheetDirs = [NSMutableArray array];
     for (NSString* dir in projectSettings.generatedSpriteSheets)
