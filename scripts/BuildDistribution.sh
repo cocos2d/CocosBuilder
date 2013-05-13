@@ -5,6 +5,7 @@ CCB_VERSION=$1
 # Remove build directory
 cd ..
 rm -Rf build/
+rm -Rf CocosBuilder/build/
 
 # Update version for about box
 echo "Version: $1" > version/Version.txt
