@@ -277,20 +277,27 @@
     self.javascriptMainCCB = mainCCB;
     
     [self detectBrowserPresence];
-    NSString* old = [dict objectForKey:@"versionStr"];
-    NSString* new = [self getVersion];
-    if(![new isEqual:old])
+    
+    // Check if we are running a new version of CocosBuilder
+    // in which case the project needs to be republished
+    NSString* oldVersionHash = [dict objectForKey:@"versionStr"];
+    NSString* newVersionHash = [self getVersion];
+    if (newVersionHash && ![newVersionHash isEqual:oldVersionHash])
     {
        self.versionStr = [self getVersion];
        self.needRepublish = YES;
-    }else{
+    }
+    else
+    {
        self.needRepublish = NO;
     }
+    
     return self;
 }
 
 - (void) dealloc
 {
+    self.versionStr = NULL;
     self.resourcePaths = NULL;
     self.projectPath = NULL;
     self.publishDirectory = NULL;
@@ -363,7 +370,11 @@
     }
     [dict setObject:generatedSpriteSheetsDict forKey:@"generatedSpriteSheets"];
     
-    [dict setObject:versionStr forKey:@"versionStr"];
+    if (versionStr)
+    {
+        [dict setObject:versionStr forKey:@"versionStr"];
+    }
+    
     [dict setObject:[NSNumber numberWithBool:needRepublish] forKey:@"needRepublish"];
     return dict;
 }

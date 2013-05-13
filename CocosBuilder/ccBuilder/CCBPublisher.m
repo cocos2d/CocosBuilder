@@ -816,13 +816,6 @@
     publishedResources = [NSMutableSet set];
     renamedFiles = [NSMutableDictionary dictionary];
     
-    //Remove old dir if we need to re-publish due to version mismatch
-    if (projectSettings.needRepublish)
-    {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        [fm removeItemAtPath:dir error:NULL];
-    }
-    
     // Setup paths for automatically generated sprite sheets
     generatedSpriteSheetDirs = [NSMutableArray array];
     for (NSString* dir in projectSettings.generatedSpriteSheets)
@@ -900,6 +893,22 @@
 
 - (BOOL) publish_
 {
+    // Remove all old publish directories if user has cleaned the cache
+    if (projectSettings.needRepublish)
+    {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString* publishDir;
+        
+        publishDir = [projectSettings.publishDirectory absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+        [fm removeItemAtPath:publishDir error:NULL];
+        
+        publishDir = [projectSettings.publishDirectoryAndroid absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+        [fm removeItemAtPath:publishDir error:NULL];
+        
+        publishDir = [projectSettings.publishDirectoryHTML5 absolutePathFromBaseDirPath:[projectSettings.projectPath stringByDeletingLastPathComponent]];
+        [fm removeItemAtPath:publishDir error:NULL];
+    }
+    
     if (!runAfterPublishing)
     {
         // Normal publishing
