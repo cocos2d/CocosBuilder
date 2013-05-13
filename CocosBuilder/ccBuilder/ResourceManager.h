@@ -39,6 +39,7 @@ enum
     kCCBResTypeTTF,
     kCCBResTypeCCBFile,
     kCCBResTypeJS,
+    kCCBResTypeJSON,
     kCCBResTypeAudio,
     kCCBResTypeGeneratedSpriteSheetDef,
 };
