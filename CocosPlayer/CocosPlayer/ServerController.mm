@@ -87,6 +87,8 @@ NSString *kCCBPlayerStatusStringScript = @"Action: Executing script";
 {
     //return;
     
+    setvbuf(stdout, NULL, _IOLBF, 4069);
+    
     NSPipe* pipe = [NSPipe pipe];
     pipeReadHandle = [pipe fileHandleForReading];
     
