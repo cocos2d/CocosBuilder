@@ -146,6 +146,8 @@
 @synthesize resourceAutoScaleFactor;
 @synthesize generatedSpriteSheets;
 @synthesize breakpoints;
+@synthesize versionStr;
+@synthesize needRepublish;
 
 - (id) init
 {
@@ -196,6 +198,8 @@
     }
     
     [self detectBrowserPresence];
+    self.versionStr = [self getVersion];
+    self.needRepublish = NO;
     return self;
 }
 
@@ -273,6 +277,15 @@
     self.javascriptMainCCB = mainCCB;
     
     [self detectBrowserPresence];
+    NSString* old = [dict objectForKey:@"versionStr"];
+    NSString* new = [self getVersion];
+    if(![new isEqual:old])
+    {
+       self.versionStr = [self getVersion];
+       self.needRepublish = YES;
+    }else{
+       self.needRepublish = NO;
+    }
     return self;
 }
 
@@ -350,6 +363,8 @@
     }
     [dict setObject:generatedSpriteSheetsDict forKey:@"generatedSpriteSheets"];
     
+    [dict setObject:versionStr forKey:@"versionStr"];
+    [dict setObject:[NSNumber numberWithBool:needRepublish] forKey:@"needRepublish"];
     return dict;
 }
 
@@ -506,5 +521,13 @@
     {
         isFirefoxExist = TRUE;
     }
+}
+
+- (NSString* ) getVersion
+{
+    NSString* versionPath = [[NSBundle mainBundle] pathForResource:@"Version" ofType:@"txt" inDirectory:@"version"];
+    
+    NSString* version = [NSString stringWithContentsOfFile:versionPath encoding:NSUTF8StringEncoding error:NULL];
+    return version;
 }
 @end

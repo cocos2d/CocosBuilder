@@ -98,6 +98,9 @@
     BOOL deviceOrientationLandscapeLeft;
     BOOL deviceOrientationLandscapeRight;
     int resourceAutoScaleFactor;
+    
+    NSString* versionStr;
+    BOOL needRepublish;
 }
 
 @property (nonatomic, copy) NSString* projectPath;
@@ -150,6 +153,8 @@
 @property (nonatomic, readonly) NSDictionary* generatedSpriteSheets;
 
 @property (nonatomic,readonly) NSDictionary* breakpoints;
+@property (nonatomic, copy) NSString* versionStr;
+@property (nonatomic, assign) BOOL needRepublish;
 
 - (id) initWithSerialization:(id)dict;
 - (BOOL) store;
