@@ -2,6 +2,7 @@ var CCBMainScene = cc.Scene.extend({
     ctor:function () {
         this._super();
 
+        cc.BuilderReader.setResolutionScale(<#RESOLUTION_SCALE#>);
         var node = cc.BuilderReader.load("<#MAIN_SCENE#>.ccbi");
 
         this.addChild(node);

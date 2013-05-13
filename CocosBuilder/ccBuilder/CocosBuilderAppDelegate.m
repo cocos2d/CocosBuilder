@@ -2166,7 +2166,7 @@ static BOOL hideAllToNextSeparator;
         return;
     }
     
-    if (run && ![[PlayerConnection sharedPlayerConnection] connected])
+    if (run && !browser && ![[PlayerConnection sharedPlayerConnection] connected])
     {
         [self modalDialogTitle:@"No Player Connected" message:@"There is no CocosPlayer connected to CocosBuilder. Make sure that a player is running and that it has the same pairing number as CocosBuilder."];
         return;
@@ -2224,13 +2224,15 @@ static BOOL hideAllToNextSeparator;
     
     [[publishWarningsWindow window] setIsVisible:(warnings.warnings.count > 0)];
     
-    if (![publisher.browser isEqual:@""])
+    // Run in Browser
+    if (publisher.runAfterPublishing && publisher.browser)
     {
         [[CCBHTTPServer sharedHTTPServer] openBrowser:publisher.browser];
+        [self updateDefaultBrowser];
     }
-
-    [self updateDefaultBrowser];
-    if (publisher.runAfterPublishing)
+    
+    // Run in CocosPlayer
+    if (publisher.runAfterPublishing && !publisher.browser)
     {
         [self runProject:self];
     }
@@ -2263,18 +2265,18 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuPublishProject:(id)sender
 {
-    [self publishAndRun:NO runInBrowser:@""];
+    [self publishAndRun:NO runInBrowser:NULL];
 }
 
 - (IBAction) menuPublishProjectAndRun:(id)sender
 {
-    [self publishAndRun:YES runInBrowser:@""];
+    [self publishAndRun:YES runInBrowser:NULL];
 }
 
 - (IBAction)menuPublishProjectAndRunInBrowser:(id)sender
 {
     NSMenuItem* item = (NSMenuItem *)sender;
-    [self publishAndRun:NO runInBrowser:item.title];
+    [self publishAndRun:YES runInBrowser:item.title];
 }
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
@@ -2933,17 +2935,11 @@ static BOOL hideAllToNextSeparator;
     [self refreshProperty:@"position"];
 }
 
-- (IBAction) menuAlignObjects:(id)sender
+- (void) menuAlignObjectsCenter:(id)sender alignmentType:(int)alignmentType
 {
-    if (!currentDocument) return;
-    if (self.selectedNodes.count <= 1) return;
-    
-    [self saveUndoStateWillChangeProperty:@"*align"];
-    
-    int alignmentType = [sender tag];
-    
     // Find position
     float alignmentValue = 0;
+    
     for (CCNode* node in self.selectedNodes)
     {
         if (alignmentType == kCCBAlignHorizontalCenter)
@@ -2976,6 +2972,275 @@ static BOOL hideAllToNextSeparator;
         [PositionPropertySetter addPositionKeyframeForNode:node];
     }
 }
+
+- (void) menuAlignObjectsEdge:(id)sender alignmentType:(int)alignmentType
+{
+    CGFloat x;
+    CGFloat y;
+    
+    int nAnchor = self.selectedNodes.count - 1;
+    CCNode* nodeAnchor = [self.selectedNodes objectAtIndex:nAnchor];
+    
+    for (int i = 0; i < self.selectedNodes.count - 1; ++i)
+    {
+        CCNode* node = [self.selectedNodes objectAtIndex:i];
+        
+        CGPoint newAbsPosition = node.position;
+        
+        switch (alignmentType)
+        {
+            case kCCBAlignLeft:
+                x = nodeAnchor.position.x
+                - nodeAnchor.contentSize.width * nodeAnchor.scaleX * nodeAnchor.anchorPoint.x;
+                
+                newAbsPosition.x = x
+                + node.contentSize.width * node.scaleX * node.anchorPoint.x;
+                break;
+            case kCCBAlignRight:
+                x = nodeAnchor.position.x
+                + nodeAnchor.contentSize.width * nodeAnchor.scaleX * nodeAnchor.anchorPoint.x;
+                
+                newAbsPosition.x = x
+                - node.contentSize.width * node.scaleX * node.anchorPoint.x;
+                break;
+            case kCCBAlignTop:
+                y = nodeAnchor.position.y
+                + nodeAnchor.contentSize.height * nodeAnchor.scaleY * nodeAnchor.anchorPoint.y;
+                
+                newAbsPosition.y = y
+                - node.contentSize.height * node.scaleY * node.anchorPoint.y;
+                break;
+            case kCCBAlignBottom:
+                y = nodeAnchor.position.y
+                - nodeAnchor.contentSize.height * nodeAnchor.scaleY * nodeAnchor.anchorPoint.y;
+                
+                newAbsPosition.y = y
+                + node.contentSize.height * node.scaleY * node.anchorPoint.y;
+                break;
+        }
+        
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"position"];
+        NSPoint newRelPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPosition) type:posType parentSize:node.parent.contentSize];
+        [PositionPropertySetter setPosition:newRelPos forNode:node prop:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
+    }
+ }
+
+- (void) menuAlignObjectsAcross:(id)sender alignmentType:(int)alignmentType
+{
+    CGFloat x;
+    CGFloat cxNode;
+    CGFloat xMin;
+    CGFloat xMax;
+    CGFloat cxTotal;
+    CGFloat cxInterval;
+    
+    if (self.selectedNodes.count < 3)
+        return;
+    
+    cxTotal = 0.0f;
+    xMin = FLT_MAX;
+    xMax = FLT_MIN;
+    
+    for (int i = 0; i < self.selectedNodes.count; ++i)
+    {
+        CCNode* node = [self.selectedNodes objectAtIndex:i];
+        
+        cxNode = node.contentSize.width * node.scaleX;
+        
+        x = node.position.x - cxNode * node.anchorPoint.x;
+        
+        if (xMin > x)
+            xMin = x;
+        
+        if (xMax < x + cxNode)
+            xMax = x + cxNode;
+        
+        cxTotal += cxNode;
+    }
+    
+    cxInterval = (xMax - xMin - cxTotal) / (self.selectedNodes.count - 1);
+    
+    x = xMin;
+    
+    NSArray* sortedNodes = [self.selectedNodes sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CCNode* lhs = obj1;
+        CCNode* rhs = obj2;
+        if (lhs.position.x < rhs.position.x)
+            return NSOrderedAscending;
+        if (lhs.position.x > rhs.position.x)
+            return NSOrderedDescending;
+        return NSOrderedSame;
+    }];
+    
+    for (int i = 0; i < self.selectedNodes.count; ++i)
+    {
+        CCNode* node = [sortedNodes objectAtIndex:i];
+        
+        CGPoint newAbsPosition = node.position;
+        
+        cxNode = node.contentSize.width * node.scaleX;
+        
+        newAbsPosition.x = x + cxNode * node.anchorPoint.x;
+        
+        x = x + cxNode + cxInterval;
+        
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"position"];
+        NSPoint newRelPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPosition) type:posType parentSize:node.parent.contentSize];
+        [PositionPropertySetter setPosition:newRelPos forNode:node prop:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
+    }
+}
+
+
+- (void) menuAlignObjectsDown:(id)sender alignmentType:(int)alignmentType
+{
+    CGFloat y;
+    CGFloat cyNode;
+    CGFloat yMin;
+    CGFloat yMax;
+    CGFloat cyTotal;
+    CGFloat cyInterval;
+    
+    if (self.selectedNodes.count < 3)
+        return;
+    
+    cyTotal = 0.0f;
+    yMin = FLT_MAX;
+    yMax = FLT_MIN;
+    
+    for (int i = 0; i < self.selectedNodes.count; ++i)
+    {
+        CCNode* node = [self.selectedNodes objectAtIndex:i];
+        
+        cyNode = node.contentSize.height * node.scaleY;
+        
+        y = node.position.y - cyNode * node.anchorPoint.y;
+        
+        if (yMin > y)
+            yMin = y;
+        
+        if (yMax < y + cyNode)
+            yMax = y + cyNode;
+        
+        cyTotal += cyNode;
+    }
+    
+    cyInterval = (yMax - yMin - cyTotal) / (self.selectedNodes.count - 1);
+    
+    y = yMin;
+    
+    NSArray* sortedNodes = [self.selectedNodes sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CCNode* lhs = obj1;
+        CCNode* rhs = obj2;
+        if (lhs.position.y < rhs.position.y)
+            return NSOrderedAscending;
+        if (lhs.position.y > rhs.position.y)
+            return NSOrderedDescending;
+        return NSOrderedSame;
+    }];
+
+    for (int i = 0; i < self.selectedNodes.count; ++i)
+    {
+        CCNode* node = [sortedNodes objectAtIndex:i];
+        
+        CGPoint newAbsPosition = node.position;
+        
+        cyNode = node.contentSize.height * node.scaleY;
+        
+        newAbsPosition.y = y + cyNode * node.anchorPoint.y;
+        
+        y = y + cyNode + cyInterval;
+        
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"position"];
+        NSPoint newRelPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPosition) type:posType parentSize:node.parent.contentSize];
+        [PositionPropertySetter setPosition:newRelPos forNode:node prop:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
+    }
+}
+
+- (void) menuAlignObjectsSize:(id)sender alignmentType:(int)alignmentType
+{
+    CGFloat x;
+    CGFloat y;
+    
+    int nAnchor = self.selectedNodes.count - 1;
+    CCNode* nodeAnchor = [self.selectedNodes objectAtIndex:nAnchor];
+ 
+    for (int i = 0; i < self.selectedNodes.count - 1; ++i)
+    {
+        CCNode* node = [self.selectedNodes objectAtIndex:i];
+        
+        switch (alignmentType)
+        {
+            case kCCBAlignSameWidth:
+                x = nodeAnchor.contentSize.width * nodeAnchor.scaleX;
+                if (abs(x) >= 0.0001f)
+                    x /= node.contentSize.width;
+                y = node.scaleY;
+                break;
+            case kCCBAlignSameHeight:
+                x = node.scaleX;
+                y = nodeAnchor.contentSize.height * nodeAnchor.scaleY;
+                if (abs(y) >= 0.0001f)
+                    y /= node.contentSize.height;
+                break;
+            case kCCBAlignSameSize:
+                x = nodeAnchor.contentSize.width * nodeAnchor.scaleX;
+                if (abs(x) >= 0.0001f)
+                    x /= node.contentSize.width;
+                y = nodeAnchor.contentSize.height * nodeAnchor.scaleY;
+                if (abs(y) >= 0.0001f)
+                    y /= node.contentSize.height;
+                break;
+        }
+
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"scale"];
+        
+        [PositionPropertySetter setScaledX:x Y:y type:posType forNode:node prop:@"scale"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
+    }
+}
+
+
+- (IBAction) menuAlignObjects:(id)sender
+{
+    if (!currentDocument)
+        return;
+    
+    if (self.selectedNodes.count <= 1)
+        return;
+    
+    [self saveUndoStateWillChangeProperty:@"*align"];
+    
+    int alignmentType = [sender tag];
+    
+    switch (alignmentType)
+    {
+        case kCCBAlignHorizontalCenter:
+        case kCCBAlignVerticalCenter:
+            [self menuAlignObjectsCenter:sender alignmentType:alignmentType];
+            break;
+        case kCCBAlignLeft:
+        case kCCBAlignRight:
+        case kCCBAlignTop:
+        case kCCBAlignBottom:
+            [self menuAlignObjectsEdge:sender alignmentType:alignmentType];
+            break;
+        case kCCBAlignAcross:
+            [self menuAlignObjectsAcross:sender alignmentType:alignmentType];
+            break;
+        case kCCBAlignDown:
+            [self menuAlignObjectsDown:sender alignmentType:alignmentType];
+            break;
+        case kCCBAlignSameSize:
+        case kCCBAlignSameWidth:
+        case kCCBAlignSameHeight:
+            [self menuAlignObjectsSize:sender alignmentType:alignmentType];
+            break;
+    }
+}
+
 
 - (IBAction)menuArrange:(id)sender
 {

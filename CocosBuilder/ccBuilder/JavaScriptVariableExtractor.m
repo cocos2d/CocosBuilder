@@ -149,7 +149,11 @@
             NSString* comment = NULL;
             
             [scanner scanUpToString:@"*/" intoString:&comment];
-            scanner.scanLocation += 2;
+            
+            if (scanner.string.length > scanner.scanLocation + 2)
+            {
+                scanner.scanLocation += 2;
+            }
             
             [self checkLineBreaks:comment];
             
