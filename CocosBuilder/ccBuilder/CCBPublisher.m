@@ -821,7 +821,6 @@
     {
         NSFileManager *fm = [NSFileManager defaultManager];
         [fm removeItemAtPath:dir error:NULL];
-        projectSettings.needRepublish = NO;
     }
     
     // Setup paths for automatically generated sprite sheets
@@ -1096,6 +1095,12 @@
         }
     }
     
+    // Once published, set needRepublish back to NO
+    if (projectSettings.needRepublish)
+    {
+        projectSettings.needRepublish = NO;
+        [projectSettings store];
+    }
     return YES;
 }
 

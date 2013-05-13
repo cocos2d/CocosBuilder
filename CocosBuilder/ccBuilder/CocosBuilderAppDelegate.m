@@ -2281,6 +2281,8 @@ static BOOL hideAllToNextSeparator;
 
 - (IBAction) menuCleanCacheDirectories:(id)sender
 {
+    projectSettings.needRepublish = YES;
+    [projectSettings store];
     [CCBPublisher cleanAllCacheDirectories];
 }
 
