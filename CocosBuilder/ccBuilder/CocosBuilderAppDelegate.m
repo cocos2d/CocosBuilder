@@ -1295,7 +1295,7 @@ static BOOL hideAllToNextSeparator;
         return NO;
     }
     project.projectPath = fileName;
-    
+    [project store];
     self.projectSettings = project;
     
     [self updateResourcePathsFromProjectSettings];

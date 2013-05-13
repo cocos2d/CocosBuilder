@@ -286,7 +286,6 @@
     }else{
        self.needRepublish = NO;
     }
-    [self store];
     return self;
 }
 
@@ -365,7 +364,7 @@
     [dict setObject:generatedSpriteSheetsDict forKey:@"generatedSpriteSheets"];
     
     [dict setObject:versionStr forKey:@"versionStr"];
-    [dict setObject:[NSNumber numberWithBool:needRepublish] forKey:@"needsRepublis"];
+    [dict setObject:[NSNumber numberWithBool:needRepublish] forKey:@"needRepublish"];
     return dict;
 }
 
