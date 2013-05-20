@@ -394,6 +394,10 @@
         {
             [[CocosBuilderAppDelegate appDelegate] openJSFile:res.filePath];
         }
+        else if (res.type == kCCBResTypeImage)
+        {
+            [[CocosBuilderAppDelegate appDelegate] openImageFile:res.filePath];
+        }
     }
     
 }

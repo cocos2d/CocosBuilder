@@ -282,6 +282,7 @@ enum {
 - (void) switchToDocument:(CCBDocument*) document;
 - (void) closeLastDocument;
 - (void) openFile:(NSString*) fileName;
+- (void) openImageFile:(NSString*) fileName;
 - (void) openJSFile:(NSString*) fileName;
 - (void) openJSFile:(NSString*) fileName highlightLine:(int)line;
 - (void) resetJSFilesLineHighlight;
