@@ -1428,6 +1428,14 @@ static BOOL hideAllToNextSeparator;
     }
 }
 
+- (void) newJSFile:(NSString*) fileName
+{
+    NSData* jsData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+    [jsData writeToFile:fileName atomically:YES];
+    
+    [self openJSFile:fileName];
+}
+
 - (void) newFile:(NSString*) fileName type:(NSString*)type resolutions: (NSMutableArray*) resolutions;
 {
     BOOL origin = NO;
@@ -2415,6 +2423,24 @@ static BOOL hideAllToNextSeparator;
                 }
             });
         }
+    }];
+}
+
+- (IBAction) newJSDocument:(id)sender
+{
+    NSLog(@"New JS Doc");
+    
+    NSSavePanel* saveDlg = [NSSavePanel savePanel];
+    [saveDlg setAllowedFileTypes:[NSArray arrayWithObject:@"js"]];
+    
+    SavePanelLimiter* limiter = [[SavePanelLimiter alloc] initWithPanel:saveDlg resManager:resManager];
+    
+    [saveDlg beginSheetModalForWindow:window completionHandler:^(NSInteger result) {
+        if (result == NSOKButton)
+        {
+            [self newJSFile:[[saveDlg URL] path]];
+        }
+        [limiter release];
     }];
 }
 
