@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		185D183B17535644009828B4 /* ResourceManagerPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185D1834175348D2009828B4 /* ResourceManagerPanel.xib */; };
 		581130601639C52500A86D70 /* seq-startmarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5811305F1639C52000A86D70 /* seq-startmarker.png */; };
 		581BCFE8162DADE7007DE600 /* CCBSplitHorizontalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 581BCFE7162DADE7007DE600 /* CCBSplitHorizontalView.m */; };
 		58FA2034162D73F3006B8856 /* TB_bottomPanel.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FA2031162D73F3006B8856 /* TB_bottomPanel.png */; };
@@ -535,7 +536,6 @@
 		E3C5C1A41504D17E000CF6F3 /* ResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1A31504D17E000CF6F3 /* ResourceManager.m */; };
 		E3C5C1AC1504D30C000CF6F3 /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1A81504D30C000CF6F3 /* SCEvent.m */; };
 		E3C5C1AD1504D30C000CF6F3 /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1AB1504D30C000CF6F3 /* SCEvents.m */; };
-		E3C5C1AF150610D8000CF6F3 /* ResourceManagerPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3C5C1AE150610D8000CF6F3 /* ResourceManagerPanel.xib */; };
 		E3C5C1B215061883000CF6F3 /* ResourceManagerPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */; };
 		E3C5C1B515075CDD000CF6F3 /* ResourceManagerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */; };
 		E3C5C1C91508F35E000CF6F3 /* CCBAnimationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C5C1C81508F35E000CF6F3 /* CCBAnimationParser.m */; };
@@ -859,6 +859,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		185D1833175348D2009828B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/ResourceManagerPanel.xib; sourceTree = "<group>"; };
+		185D183A17535634009828B4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ResourceManagerPanel.xib"; sourceTree = "<group>"; };
 		5811305E1639BF1200A86D70 /* SequencerTimelineDrawDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerTimelineDrawDelegate.h; sourceTree = "<group>"; };
 		5811305F1639C52000A86D70 /* seq-startmarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-startmarker.png"; sourceTree = "<group>"; };
 		581BCFE6162DADE7007DE600 /* CCBSplitHorizontalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSplitHorizontalView.h; sourceTree = "<group>"; };
@@ -1728,7 +1730,6 @@
 		E3C5C1A91504D30C000CF6F3 /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
 		E3C5C1AA1504D30C000CF6F3 /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
 		E3C5C1AB1504D30C000CF6F3 /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
-		E3C5C1AE150610D8000CF6F3 /* ResourceManagerPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResourceManagerPanel.xib; sourceTree = "<group>"; };
 		E3C5C1B015061882000CF6F3 /* ResourceManagerPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerPanel.h; sourceTree = "<group>"; };
 		E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceManagerPanel.m; sourceTree = "<group>"; };
 		E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerUtil.h; sourceTree = "<group>"; };
@@ -1898,8 +1899,8 @@
 		E3FEA8BD14E498B700119FBE /* InspectorDegrees.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorDegrees.m; sourceTree = "<group>"; };
 		E3FEA8BF14E49D8300119FBE /* InspectorInteger.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorInteger.xib; sourceTree = "<group>"; };
 		EB1B099A174D18EE00A9A972 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.xib"; sourceTree = "<group>"; };
-		EB89D483175107D30069F1A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/NewDocWindow.xib; sourceTree = "<group>"; };
-		EB89D487175107D70069F1A0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/NewDocWindow.xib"; sourceTree = "<group>"; };
+		EB89D483175107D30069F1A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NewDocWindow.xib; sourceTree = "<group>"; };
+		EB89D487175107D70069F1A0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/NewDocWindow.xib"; sourceTree = "<group>"; };
 		FA98CFC1154E7D1C006E58C5 /* ccbpublish */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ccbpublish; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA98CFC3154E7D1C006E58C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FA98CFC6154E7D1C006E58C5 /* ccbpublish.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ccbpublish.m; sourceTree = "<group>"; };
@@ -3884,7 +3885,7 @@
 				E3C5C1A31504D17E000CF6F3 /* ResourceManager.m */,
 				E3C5C1B315075CDD000CF6F3 /* ResourceManagerUtil.h */,
 				E3C5C1B415075CDD000CF6F3 /* ResourceManagerUtil.m */,
-				E3C5C1AE150610D8000CF6F3 /* ResourceManagerPanel.xib */,
+				185D1834175348D2009828B4 /* ResourceManagerPanel.xib */,
 				E3C5C1B015061882000CF6F3 /* ResourceManagerPanel.h */,
 				E3C5C1B115061882000CF6F3 /* ResourceManagerPanel.m */,
 				E3462865155BF6C50043EAB1 /* ResourceManagerOutlineHandler.h */,
@@ -4566,7 +4567,6 @@
 				E325F64F14F5622200D29BCF /* InspectorSeparatorSub.xib in Resources */,
 				E385A42014F69FF300DFB12D /* InspectorBlock.xib in Resources */,
 				E398C04014FBC9D00078E771 /* PublishTypeAccessoryView.xib in Resources */,
-				E3C5C1AF150610D8000CF6F3 /* ResourceManagerPanel.xib in Resources */,
 				E3C5C1CB15090259000CF6F3 /* InspectorAnimation.xib in Resources */,
 				E385080B150AB232007E162A /* segmctrl-bg.png in Resources */,
 				E3D59133150F85D8004180CA /* InspectorCCBFile.xib in Resources */,
@@ -4713,6 +4713,7 @@
 				E3C12B1F171E0DE7001EEDDB /* editor-check.png in Resources */,
 				E388FD19171F03C7002548ED /* editor-border.png in Resources */,
 				E3748303171F83A300486659 /* editor-jump.png in Resources */,
+				185D183B17535644009828B4 /* ResourceManagerPanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5439,6 +5440,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		185D1834175348D2009828B4 /* ResourceManagerPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				185D1833175348D2009828B4 /* en */,
+				185D183A17535634009828B4 /* zh-Hans */,
+			);
+			name = ResourceManagerPanel.xib;
+			sourceTree = "<group>";
+		};
 		7789ABCB133AA82000CEFCC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
