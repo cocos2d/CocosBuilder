@@ -2554,7 +2554,7 @@ static BOOL hideAllToNextSeparator;
     NSString* customClass = [self.selectedNode extraPropForKey:@"customClass"];
     if (!customClass || [customClass isEqualToString:@""])
     {
-        [self modalDialogTitle:@"Custom Class Needed" message:@"To add custom properties to a node you need to use a custom class."];
+        [self modalDialogTitle:NSLocalizedStringFromTable(@"CustomClassNeeded", @"Localization", @"Custom Class Needed") message:NSLocalizedStringFromTable(@"To add custom properties to a node you need to use a custom class.", @"Localization", @"To add custom properties to a node you need to use a custom class.")];
         return;
     }
     
