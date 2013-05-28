@@ -86,7 +86,7 @@
     else
     {
         // No available devices
-        NSMenuItem* disabledItem = [[[NSMenuItem alloc] initWithTitle:@"No Player Connected" action:NULL keyEquivalent:@""] autorelease];
+        NSMenuItem* disabledItem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(@"No Player Connected", @"Localization", @"No Player Connected")  action:NULL keyEquivalent:@""] autorelease];
         [disabledItem setEnabled:NO];
         [deviceMenu addItem:disabledItem];
         
@@ -123,8 +123,7 @@
     
     [self setupDeviceMenu];
     [self updatePairingButton];
-    
-    [self writeToConsole:@"CocosPlayer JavaScript Console\n" bold:NO];
+    [self writeToConsole:NSLocalizedStringFromTable(@"CocosPlayerJavaScriptConsole", @"Localization", @"CocosPlayer JavaScript Console\n") bold:NO];
     
     [self.window setBackgroundColor:[NSColor whiteColor]];
     

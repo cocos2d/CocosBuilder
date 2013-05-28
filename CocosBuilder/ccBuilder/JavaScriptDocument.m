@@ -132,7 +132,7 @@
     [item setMixedStateImage:nil];
     [[quickJumpButton cell] setMenuItem:item];
     [item release];
-    quickJumpButton.title = @"Quick Jump";
+    quickJumpButton.title = NSLocalizedStringFromTable(@"Quick Jump", @"Localization", @"Quick Jump") ;
     
     [self updateQuickJumpMenu];
 }
@@ -156,12 +156,13 @@
         [item setAttributedTitle:title];
         
         [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-check.png"]];
-        [warningButton setTitle:@"No Errors"];
+        [warningButton setTitle:NSLocalizedStringFromTable(@"No Errors", @"Localization", @"No Errors") ];
     }
     else
     {
         [[[warningButton cell] menuItem] setImage:[NSImage imageNamed:@"editor-warning"]];
-        [warningButton setTitle:[NSString stringWithFormat:@"%d Errors", (int) warnings.count]];
+        NSString *str=[NSString stringWithFormat:@"%d %@",(int) warnings.count,NSLocalizedStringFromTable(@"Errors", @"Localization", @"Errors")];
+        [warningButton setTitle:str];
     }
     
     for (SMLSyntaxError* err in warnings)
