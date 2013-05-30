@@ -43,7 +43,7 @@
     bg.position = ccp(0,0);
     [self addChild:bg z:0];
     
-    lbl = [CCLabelTTF labelWithString:@"Double click to edit" fontName:@"MarkerFelt-Thin" fontSize:14];
+    lbl = [CCLabelTTF labelWithString:NSLocalizedStringFromTable(@"Double click to edit", @"Localization", @"Double click to edit") fontName:@"MarkerFelt-Thin" fontSize:14];
     lbl.anchorPoint = ccp(0,0);
     lbl.position = ccp(kCCBNoteLblInsetH, kCCBNoteLblInsetBot);
     lbl.verticalAlignment = kCCVerticalTextAlignmentTop;
@@ -99,7 +99,7 @@
     
     if (!noteText)
     {
-        [lbl setString:@"Double click to edit"];
+        [lbl setString:NSLocalizedStringFromTable(@"Double click to edit", @"Localization", @"Double click to edit")];
     }
     else
     {
