@@ -129,6 +129,7 @@
 		835DB0C6171563A8003A2F7B /* About.txt in Resources */ = {isa = PBXBuildFile; fileRef = 835DB0C3171563A8003A2F7B /* About.txt */; };
 		835DB0C9171563E1003A2F7B /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 835DB0C5171563A8003A2F7B /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		835DB0CB17156421003A2F7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 835DB0CA17156421003A2F7B /* Security.framework */; };
+		873963CB17573E3700A679E4 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 873963CD17573E3700A679E4 /* ResolutionSettingsWindow.xib */; };
 		A09AB6AF14E9935F009C8B91 /* aabb.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB69F14E9935F009C8B91 /* aabb.c */; };
 		A09AB6B014E9935F009C8B91 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6A014E9935F009C8B91 /* ChangeLog */; };
 		A09AB6B114E9935F009C8B91 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6A114E9935F009C8B91 /* CMakeLists.txt */; };
@@ -623,7 +624,6 @@
 		E3E8D64616B3129E00742107 /* oggenc in Resources */ = {isa = PBXBuildFile; fileRef = E3E8D64416B3129700742107 /* oggenc */; };
 		E3EDBC101546D23000EEF1F3 /* ResolutionSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */; };
 		E3EDBC1415483E3200EEF1F3 /* ResolutionSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */; };
-		E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */; };
 		E3EDBC251549971000EEF1F3 /* CCBFileUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E3EDBC241549971000EEF1F3 /* CCBFileUtil.m */; };
 		E3F2C21314FC157E007B660D /* CCBXCocos2diPhoneWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F2C21214FC157E007B660D /* CCBXCocos2diPhoneWriter.m */; };
 		E3F3F83F153C72A3005443EE /* NotesLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F3F83E153C72A3005443EE /* NotesLayer.m */; };
@@ -1050,6 +1050,8 @@
 		835DB0C4171563A8003A2F7B /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
 		835DB0C5171563A8003A2F7B /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
 		835DB0CA17156421003A2F7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		873963CC17573E3700A679E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/ResolutionSettingsWindow.xib; sourceTree = "<group>"; };
+		873963D017573E3900A679E4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/ResolutionSettingsWindow.xib"; sourceTree = "<group>"; };
 		A09AB68F14E9935F009C8B91 /* aabb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aabb.h; sourceTree = "<group>"; };
 		A09AB69114E9935F009C8B91 /* mat4stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4stack.h; sourceTree = "<group>"; };
 		A09AB69214E9935F009C8B91 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
@@ -1084,8 +1086,8 @@
 		A41AEFD817549900004BFC6B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/CustomPropSettingsWindow.xib"; sourceTree = "<group>"; };
 		A4249EC417549D090090A86A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/JavaScriptDocument.xib; sourceTree = "<group>"; };
 		A4249EC817549D0D0090A86A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/JavaScriptDocument.xib"; sourceTree = "<group>"; };
-		A44AA3141755FC6D00B4694C /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/SpriteSheetSettingsWindow.xib; sourceTree = "<group>"; };
-		A44AA3181755FC7100B4694C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/SpriteSheetSettingsWindow.xib"; sourceTree = "<group>"; };
+		A44AA3141755FC6D00B4694C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SpriteSheetSettingsWindow.xib; sourceTree = "<group>"; };
+		A44AA3181755FC7100B4694C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SpriteSheetSettingsWindow.xib"; sourceTree = "<group>"; };
 		A45B90D51754825E00826B2D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/APIDocsWindow.xib; sourceTree = "<group>"; };
 		A45B90D91754826300826B2D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/APIDocsWindow.xib"; sourceTree = "<group>"; };
 		A464308617548B3A00A355B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localization.strings; sourceTree = "<group>"; };
@@ -1863,7 +1865,6 @@
 		E3EDBC0F1546D23000EEF1F3 /* ResolutionSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSetting.m; sourceTree = "<group>"; };
 		E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionSettingsWindow.h; sourceTree = "<group>"; };
 		E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionSettingsWindow.m; sourceTree = "<group>"; };
-		E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResolutionSettingsWindow.xib; sourceTree = "<group>"; };
 		E3EDBC231549971000EEF1F3 /* CCBFileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBFileUtil.h; sourceTree = "<group>"; };
 		E3EDBC241549971000EEF1F3 /* CCBFileUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBFileUtil.m; sourceTree = "<group>"; };
 		E3F2C21114FC157E007B660D /* CCBXCocos2diPhoneWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBXCocos2diPhoneWriter.h; sourceTree = "<group>"; };
@@ -2229,7 +2230,7 @@
 				77D33EAC138EFBD800012A88 /* StageSizeWindow.xib */,
 				77E7D04D138F78F600E8EE67 /* StageSizeWindow.h */,
 				77E7D04E138F78F600E8EE67 /* StageSizeWindow.m */,
-				E3EDBC1515483EE000EEF1F3 /* ResolutionSettingsWindow.xib */,
+				873963CD17573E3700A679E4 /* ResolutionSettingsWindow.xib */,
 				E3EDBC1215483E3200EEF1F3 /* ResolutionSettingsWindow.h */,
 				E3EDBC1315483E3200EEF1F3 /* ResolutionSettingsWindow.m */,
 				E398C03F14FBC9CF0078E771 /* PublishTypeAccessoryView.xib */,
@@ -4607,7 +4608,7 @@
 				E35A2D971540198900F78B72 /* size-0.png in Resources */,
 				E35A2D981540198900F78B72 /* size-1.png in Resources */,
 				E35A2D991540198900F78B72 /* size-2.png in Resources */,
-				E3EDBC1615483EE000EEF1F3 /* ResolutionSettingsWindow.xib in Resources */,
+				873963CB17573E3700A679E4 /* ResolutionSettingsWindow.xib in Resources */,
 				E370BA0C1549B2460048ED73 /* scale-0.png in Resources */,
 				E370BA0D1549B2460048ED73 /* scale-1.png in Resources */,
 				E3DC1B8C154F18660087724C /* size-3.png in Resources */,
@@ -5487,6 +5488,15 @@
 				EB1B099A174D18EE00A9A972 /* zh-Hans */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		873963CD17573E3700A679E4 /* ResolutionSettingsWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				873963CC17573E3700A679E4 /* en */,
+				873963D017573E3900A679E4 /* zh-Hans */,
+			);
+			name = ResolutionSettingsWindow.xib;
 			sourceTree = "<group>";
 		};
 		A41AEFD5175498F0004BFC6B /* CustomPropSettingsWindow.xib */ = {
