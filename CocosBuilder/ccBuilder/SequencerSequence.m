@@ -60,7 +60,7 @@
     timelineOffset = 0;
     timelineResolution = 30;
     timelineLength = 10;
-    self.name = @"Untitled Timeline";
+    self.name = NSLocalizedStringFromTable(@"Untitled Timeline", @"Localization", @"Untitled Timeline");
     sequenceId = -1;
     chainedSequenceId = -1;
     timelinePosition = 0;

@@ -419,10 +419,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (BOOL)tabView:(NSTabView *)aTabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
     CCBDocument* doc = [tabViewItem identifier];
+
     
     if (doc.isDirty)
     {
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Do you want to save the changes you made in the document “Untitled”?" defaultButton:@"Save" alternateButton:@"Cancel" otherButton:@"Don’t Save" informativeTextWithFormat:@"Your changes will be lost if you don’t save them."];
+        NSAlert* alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"Do you want to save the changes you made in the document Untitled", @"Localization", @"Do you want to save the changes you made in the document “Untitled”?") defaultButton:NSLocalizedStringFromTable(@"Save", @"Localization", @"Save") alternateButton:NSLocalizedStringFromTable(@"Cancel", @"Localization", @"Cancel") otherButton:NSLocalizedStringFromTable(@"Don’t Save", @"Localization", @"Don’t Save") informativeTextWithFormat:NSLocalizedStringFromTable(@"Your changes will be lost if you don’t save them.", @"Localization", @"Your changes will be lost if you don’t save them.")];
         NSInteger result = [alert runModal];
         
         if (result == NSAlertDefaultReturn)
@@ -1048,7 +1049,7 @@ static BOOL hideAllToNextSeparator;
         NSMutableArray* sequences = [NSMutableArray array];
     
         SequencerSequence* seq = [[SequencerSequence alloc] init];
-        seq.name = @"Default Timeline";
+        seq.name = NSLocalizedStringFromTable(@"Default Timeline", @"Localization", @"Default Timeline");
         seq.sequenceId = 0;
         seq.autoPlay = YES;
         [sequences addObject:seq];
@@ -1476,7 +1477,7 @@ static BOOL hideAllToNextSeparator;
     NSMutableArray* sequences = [NSMutableArray array];
     
     SequencerSequence* seq = [[[SequencerSequence alloc] init] autorelease];
-    seq.name = @"Default Timeline";
+    seq.name = NSLocalizedStringFromTable(@"Default Timeline", @"Localization", @"Default Timeline");
     seq.sequenceId = 0;
     seq.autoPlay = YES;
     [sequences addObject:seq];
@@ -2857,7 +2858,7 @@ static BOOL hideAllToNextSeparator;
     
     // Create new sequence and assign unique id
     SequencerSequence* newSeq = [[[SequencerSequence alloc] init] autorelease];
-    newSeq.name = @"Untitled Timeline";
+    newSeq.name = NSLocalizedStringFromTable(@"Untitled Timeline", @"Localization", @"Untitled Timeline") ;
     newSeq.sequenceId = [self uniqueSequenceIdFromSequences:currentDocument.sequences];
     
     // Add it to list

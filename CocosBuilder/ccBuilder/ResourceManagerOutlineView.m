@@ -51,11 +51,11 @@
 
                     if (dir.isDynamicSpriteSheet)
                     {
-                        item.title = @"Remove Smart Sprite Sheet";
+                        item.title = NSLocalizedStringFromTable(@"Remove Smart Sprite Sheet", @"Localization", @"Remove Smart Sprite Sheet");
                     }
                     else
                     {
-                        item.title = @"Make Smart Sprite Sheet";
+                        item.title = NSLocalizedStringFromTable(@"Make Smart Sprite Sheet", @"Localization", @"Make Smart Sprite Sheet");
                     }
 
                     [item setEnabled:YES];
@@ -85,7 +85,7 @@
         }
         else if (item.action == @selector(menuOpenExternal:))
         {
-            item.title = @"Open With External Editor";
+            item.title = NSLocalizedStringFromTable(@"Open With External Editor", @"Localization", @"Open With External Editor");
 
             if ([clickedItem isKindOfClass:[RMResource class]]) {
                 RMResource* clickedResource = clickedItem;
@@ -96,7 +96,7 @@
                 else if (clickedResource.type == kCCBResTypeDirectory)
                 {
                     [item setEnabled:YES];
-                    item.title = @"Open Folder in Finder";
+                    item.title = NSLocalizedStringFromTable(@"Open Folder in Finder", @"Localization", @"Open Folder in Finder");
                 }
                 else
                 {
