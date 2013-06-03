@@ -41,8 +41,8 @@
     // User added plug-ins
     if ([itemIdentifier isEqualToString:@"PlugIns"])
     {
-        toolbarItem.label = @"PlugIns";
-        toolbarItem.paletteLabel = @"PlugIns";
+        toolbarItem.label = NSLocalizedStringFromTable(@"PlugIns", @"Localization", @"PlugIns");
+        toolbarItem.paletteLabel = NSLocalizedStringFromTable(@"PlugIns", @"Localization", @"PlugIns");
         
         NSSegmentedControl* segmControl = [[[NSSegmentedControl alloc] initWithFrame:NSMakeRect(0, 0, 80, 32)] autorelease];
         NSSegmentedCell* segmCell = [segmControl cell];
@@ -52,7 +52,7 @@
         [segmControl setWidth:44 forSegment:0];
         
         [segmControl setImage:[NSImage imageNamed:@"TB_plugins.png"] forSegment:0];
-        [segmCell setToolTip:@"User PlugIns" forSegment:0];
+        [segmCell setToolTip:NSLocalizedStringFromTable(@"User PlugIns", @"Localization", @"User PlugIns") forSegment:0];
         
         segmControl.segmentStyle = NSSegmentStyleTexturedRounded;
         [segmControl sizeToFit];
@@ -60,7 +60,7 @@
         
         
         // Add menu with plugIns
-        NSMenu* menu = [[[NSMenu alloc] initWithTitle:@"User PlugIns"] autorelease];
+        NSMenu* menu = [[[NSMenu alloc] initWithTitle:NSLocalizedStringFromTable(@"User PlugIns", @"Localization", @"User PlugIns")] autorelease];
         
         if (userPlugIns.count > 0)
         {
@@ -74,7 +74,7 @@
         }
         else
         {
-            NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:@"No User PlugIns Installed" action:NULL keyEquivalent:@""] autorelease];
+            NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedStringFromTable(@"No User PlugIns Installed", @"Localization", @"No User PlugIns Installed") action:NULL keyEquivalent:@""] autorelease];
             [item setEnabled:NO];
             
             [menu addItem:item];
