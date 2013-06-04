@@ -43,9 +43,17 @@
     NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:docDirPath error:NULL];
     
     mdFiles = [[NSMutableArray alloc] init];
+    NSString *str=@".md";
+     NSUserDefaults *defaults = [ NSUserDefaults standardUserDefaults ];
+    // 取得  所有语言
+    NSArray *languages = [defaults objectForKey :@"AppleLanguages"];
+    //根据中文进行文件后缀的筛选。
+    if ([[languages objectAtIndex:0] isEqualToString:@"zh-Hans"]) {
+        str=@".ch";
+    }
     for (NSString* file in files)
     {
-        if ([file hasSuffix:@".md"])
+        if ([file hasSuffix:str])
         {
             HelpPage* hp = [[[HelpPage alloc] init] autorelease];
             hp.fileName = file;
