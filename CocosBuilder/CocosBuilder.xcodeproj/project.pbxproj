@@ -184,6 +184,8 @@
 		A42B82031757530F00F38E1B /* InspectorFontTTF.xib in Resources */ = {isa = PBXBuildFile; fileRef = A42B82051757530F00F38E1B /* InspectorFontTTF.xib */; };
 		A42B82071757533000F38E1B /* InspectorString.xib in Resources */ = {isa = PBXBuildFile; fileRef = A42B82091757533000F38E1B /* InspectorString.xib */; };
 		A44AA3131755FC6D00B4694C /* SpriteSheetSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A44AA3151755FC6D00B4694C /* SpriteSheetSettingsWindow.xib */; };
+		A45227611760918300916A96 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = A45227631760918300916A96 /* CCBPProperties.plist */; };
+		A4522767176091F100916A96 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = A4522769176091F100916A96 /* CCBPProperties.plist */; };
 		A45B90D41754825E00826B2D /* APIDocsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A45B90D61754825E00826B2D /* APIDocsWindow.xib */; };
 		A464308517548B3A00A355B1 /* Localization.strings in Resources */ = {isa = PBXBuildFile; fileRef = A464308717548B3A00A355B1 /* Localization.strings */; };
 		A46820161755CEA100C2E4F1 /* SequencerSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A46820181755CEA100C2E4F1 /* SequencerSettingsWindow.xib */; };
@@ -316,13 +318,11 @@
 		E35DBBCD14F2AA360070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBBD314F2AA360070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBD114F2AA360070A6E4 /* InfoPlist.strings */; };
 		E35DBBDA14F2AA7C0070A6E4 /* CCLabelBMFont.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBBCC14F2AA350070A6E4 /* CCLabelBMFont.ccbPlugNode */; };
-		E35DBBDC14F2AB740070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBDB14F2AB740070A6E4 /* CCBPProperties.plist */; };
 		E35DBBDF14F3D1B60070A6E4 /* FontListTTF.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBDE14F3D1B60070A6E4 /* FontListTTF.plist */; };
 		E35DBBE414F3DD0B0070A6E4 /* InspectorFontTTF.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBBE314F3DD0A0070A6E4 /* InspectorFontTTF.m */; };
 		E35DBBEA14F3E2390070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBBF014F3E2390070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBEE14F3E2390070A6E4 /* InfoPlist.strings */; };
 		E35DBBF714F3E2750070A6E4 /* CCLabelTTF.ccbPlugNode in Copy PlugIns */ = {isa = PBXBuildFile; fileRef = E35DBBE914F3E2390070A6E4 /* CCLabelTTF.ccbPlugNode */; };
-		E35DBBF914F3E29E0070A6E4 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = E35DBBF814F3E29E0070A6E4 /* CCBPProperties.plist */; };
 		E35DBBFE14F3EE410070A6E4 /* InspectorFloat.m in Sources */ = {isa = PBXBuildFile; fileRef = E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */; };
 		E35DBC0A14F4D72B0070A6E4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
 		E35DBC1014F4D72B0070A6E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E35DBC0E14F4D72B0070A6E4 /* InfoPlist.strings */; };
@@ -1079,20 +1079,20 @@
 		A09AB6AD14E9935F009C8B91 /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3.c; sourceTree = "<group>"; };
 		A09AB6AE14E9935F009C8B91 /* vec4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec4.c; sourceTree = "<group>"; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
-		A41437051760893700845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/StageSizeWindow.xib; sourceTree = "<group>"; };
-		A41437091760893B00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/StageSizeWindow.xib"; sourceTree = "<group>"; };
-		A414370B176089FA00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/ResolutionSettingsWindow.xib; sourceTree = "<group>"; };
-		A414370D176089FE00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/ResolutionSettingsWindow.xib"; sourceTree = "<group>"; };
-		A414370F17608A4400845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/PublishTypeAccessoryView.xib; sourceTree = "<group>"; };
-		A414371117608A4800845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/PublishTypeAccessoryView.xib"; sourceTree = "<group>"; };
-		A414371317608CD900845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/WarningsWindow.xib; sourceTree = "<group>"; };
-		A414371517608CDD00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/WarningsWindow.xib"; sourceTree = "<group>"; };
-		A414371717608CEF00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/TaskStatusWindow.xib; sourceTree = "<group>"; };
-		A414371917608CF300845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/TaskStatusWindow.xib"; sourceTree = "<group>"; };
-		A414371B17608D1D00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/ProjectSettingsWindow.xib; sourceTree = "<group>"; };
-		A414371D17608D2200845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/ProjectSettingsWindow.xib"; sourceTree = "<group>"; };
-		A414371F17608DAD00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/PublishSettingsWindow.xib; sourceTree = "<group>"; };
-		A414372117608DC800845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/PublishSettingsWindow.xib"; sourceTree = "<group>"; };
+		A41437051760893700845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StageSizeWindow.xib; sourceTree = "<group>"; };
+		A41437091760893B00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/StageSizeWindow.xib"; sourceTree = "<group>"; };
+		A414370B176089FA00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ResolutionSettingsWindow.xib; sourceTree = "<group>"; };
+		A414370D176089FE00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ResolutionSettingsWindow.xib"; sourceTree = "<group>"; };
+		A414370F17608A4400845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PublishTypeAccessoryView.xib; sourceTree = "<group>"; };
+		A414371117608A4800845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/PublishTypeAccessoryView.xib"; sourceTree = "<group>"; };
+		A414371317608CD900845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WarningsWindow.xib; sourceTree = "<group>"; };
+		A414371517608CDD00845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/WarningsWindow.xib"; sourceTree = "<group>"; };
+		A414371717608CEF00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TaskStatusWindow.xib; sourceTree = "<group>"; };
+		A414371917608CF300845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/TaskStatusWindow.xib"; sourceTree = "<group>"; };
+		A414371B17608D1D00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ProjectSettingsWindow.xib; sourceTree = "<group>"; };
+		A414371D17608D2200845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ProjectSettingsWindow.xib"; sourceTree = "<group>"; };
+		A414371F17608DAD00845033 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PublishSettingsWindow.xib; sourceTree = "<group>"; };
+		A414372117608DC800845033 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/PublishSettingsWindow.xib"; sourceTree = "<group>"; };
 		A41AEFD4175498F0004BFC6B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CustomPropSettingsWindow.xib; sourceTree = "<group>"; };
 		A41AEFD817549900004BFC6B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/CustomPropSettingsWindow.xib"; sourceTree = "<group>"; };
 		A4249EC417549D090090A86A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/JavaScriptDocument.xib; sourceTree = "<group>"; };
@@ -1159,6 +1159,10 @@
 		A42B820A1757535800F38E1B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorString.xib"; sourceTree = "<group>"; };
 		A44AA3141755FC6D00B4694C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SpriteSheetSettingsWindow.xib; sourceTree = "<group>"; };
 		A44AA3181755FC7100B4694C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SpriteSheetSettingsWindow.xib"; sourceTree = "<group>"; };
+		A45227621760918300916A96 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
+		A45227661760918600916A96 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/CCBPProperties.plist"; sourceTree = "<group>"; };
+		A4522768176091F100916A96 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
+		A452276A176091F300916A96 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/CCBPProperties.plist"; sourceTree = "<group>"; };
 		A45B90D51754825E00826B2D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/APIDocsWindow.xib; sourceTree = "<group>"; };
 		A45B90D91754826300826B2D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/APIDocsWindow.xib"; sourceTree = "<group>"; };
 		A464308617548B3A00A355B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localization.strings; sourceTree = "<group>"; };
@@ -1368,7 +1372,6 @@
 		E35DBBD014F2AA360070A6E4 /* CCLabelBMFont-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLabelBMFont-Info.plist"; sourceTree = "<group>"; };
 		E35DBBD214F2AA360070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E35DBBD414F2AA360070A6E4 /* CCLabelBMFont-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCLabelBMFont-Prefix.pch"; sourceTree = "<group>"; };
-		E35DBBDB14F2AB740070A6E4 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E35DBBDE14F3D1B60070A6E4 /* FontListTTF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FontListTTF.plist; sourceTree = "<group>"; };
 		E35DBBE214F3DD0A0070A6E4 /* InspectorFontTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFontTTF.h; sourceTree = "<group>"; };
 		E35DBBE314F3DD0A0070A6E4 /* InspectorFontTTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFontTTF.m; sourceTree = "<group>"; };
@@ -1376,7 +1379,6 @@
 		E35DBBED14F3E2390070A6E4 /* CCLabelTTF-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCLabelTTF-Info.plist"; sourceTree = "<group>"; };
 		E35DBBEF14F3E2390070A6E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E35DBBF114F3E2390070A6E4 /* CCLabelTTF-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCLabelTTF-Prefix.pch"; sourceTree = "<group>"; };
-		E35DBBF814F3E29E0070A6E4 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
 		E35DBBFC14F3EE400070A6E4 /* InspectorFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorFloat.h; sourceTree = "<group>"; };
 		E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorFloat.m; sourceTree = "<group>"; };
 		E35DBC0914F4D72B0070A6E4 /* CCParticleSystem.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCParticleSystem.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3291,7 +3293,7 @@
 				E35DBBD014F2AA360070A6E4 /* CCLabelBMFont-Info.plist */,
 				E35DBBD114F2AA360070A6E4 /* InfoPlist.strings */,
 				E35DBBD414F2AA360070A6E4 /* CCLabelBMFont-Prefix.pch */,
-				E35DBBDB14F2AB740070A6E4 /* CCBPProperties.plist */,
+				A4522769176091F100916A96 /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3324,7 +3326,7 @@
 				E35DBBED14F3E2390070A6E4 /* CCLabelTTF-Info.plist */,
 				E35DBBEE14F3E2390070A6E4 /* InfoPlist.strings */,
 				E35DBBF114F3E2390070A6E4 /* CCLabelTTF-Prefix.pch */,
-				E35DBBF814F3E29E0070A6E4 /* CCBPProperties.plist */,
+				A45227631760918300916A96 /* CCBPProperties.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -4837,7 +4839,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E35DBBD314F2AA360070A6E4 /* InfoPlist.strings in Resources */,
-				E35DBBDC14F2AB740070A6E4 /* CCBPProperties.plist in Resources */,
+				A4522767176091F100916A96 /* CCBPProperties.plist in Resources */,
 				E3B7BCB015E4170400CF95EF /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4847,7 +4849,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E35DBBF014F3E2390070A6E4 /* InfoPlist.strings in Resources */,
-				E35DBBF914F3E29E0070A6E4 /* CCBPProperties.plist in Resources */,
+				A45227611760918300916A96 /* CCBPProperties.plist in Resources */,
 				E3B7BCB215E4171700CF95EF /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5887,6 +5889,24 @@
 				A44AA3181755FC7100B4694C /* zh-Hans */,
 			);
 			name = SpriteSheetSettingsWindow.xib;
+			sourceTree = "<group>";
+		};
+		A45227631760918300916A96 /* CCBPProperties.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A45227621760918300916A96 /* en */,
+				A45227661760918600916A96 /* zh-Hans */,
+			);
+			name = CCBPProperties.plist;
+			sourceTree = "<group>";
+		};
+		A4522769176091F100916A96 /* CCBPProperties.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A4522768176091F100916A96 /* en */,
+				A452276A176091F300916A96 /* zh-Hans */,
+			);
+			name = CCBPProperties.plist;
 			sourceTree = "<group>";
 		};
 		A45B90D61754825E00826B2D /* APIDocsWindow.xib */ = {
