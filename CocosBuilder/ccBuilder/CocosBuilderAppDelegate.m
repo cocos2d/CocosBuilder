@@ -94,6 +94,7 @@
 #import "CCBHTTPServer.h"
 #import "JavaScriptAutoCompleteHandler.h"
 #import "CCBFileUtil.h"
+#import "ResourceManagerPreviewView.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -224,8 +225,27 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     //resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
     //[resManagerPanel.window setIsVisible:NO];
     
+    // Setup preview
+    previewViewOwner = [[ResourceManagerPreviewView alloc] init];
+    
+    NSArray* topLevelObjs = NULL;
+    [[NSBundle mainBundle] loadNibNamed:@"ResourceManagerPreviewView" owner:previewViewOwner topLevelObjects:&topLevelObjs];
+    
+    for (id obj in topLevelObjs)
+    {
+        if ([obj isKindOfClass:[NSView class]])
+        {
+            previewView = obj;
+            break;
+        }
+    }
+    
+    [previewViewContainer addSubview:previewView];
+    
     // Setup project display
-    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
+    projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone preview:previewViewOwner];
+    
+    resourceManagerSplitView.delegate = previewViewOwner;
 }
 
 - (void) setupGUIWindow

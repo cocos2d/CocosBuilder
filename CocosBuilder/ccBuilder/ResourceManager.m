@@ -121,7 +121,16 @@
 {
     if (type == kCCBResTypeImage)
     {
-        NSImage* img = [[[NSImage alloc] initWithContentsOfFile:filePath] autorelease];
+        NSString* fileName = [filePath lastPathComponent];
+        NSString* dirPath = [filePath stringByDeletingLastPathComponent];
+        
+        NSString* autoPath = [[dirPath stringByAppendingPathComponent:@"resources-auto"] stringByAppendingPathComponent:fileName];
+        
+        NSImage* img = [[[NSImage alloc] initWithContentsOfFile:autoPath] autorelease];
+        if (!img)
+        {
+            img = [[[NSImage alloc] initWithContentsOfFile:filePath] autorelease];
+        }
         return img;
     }
     

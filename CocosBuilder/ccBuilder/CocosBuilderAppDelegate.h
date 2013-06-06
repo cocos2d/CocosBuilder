@@ -99,6 +99,7 @@ enum {
 @class PlayerConnection;
 @class CCBSplitHorizontalView;
 @class AboutWindow;
+@class ResourceManagerPreviewView;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 {
@@ -173,6 +174,11 @@ enum {
     
     // Resource manager
     ResourceManager* resManager;
+    IBOutlet NSView* previewViewContainer;
+    NSView* previewView;
+    ResourceManagerPreviewView* previewViewOwner;
+    IBOutlet NSSplitView* resourceManagerSplitView;
+    
     //ResourceManagerPanel* resManagerPanel;
     
     // Project
