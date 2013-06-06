@@ -3,7 +3,7 @@
 
 **可以随时回到本指南*帮助*菜单选择* CocosBuilder文件*。**
 
-[图片]（1-1.PNG？原料=真）
+![image](1-1.png?raw=true)
 
 ＃CocosPlayer的cocos2d为JavaScript
 最简单的方法是使用CocosBuilder一起为JavaScript Cocos2D中。下载CocosBuilder的源代码，其中包括的CocosPlayer项目。运行CocosPlayer无论您的设备或模拟器。 CocosBuilder会自动配对CocosPlayer，如果它们运行在同一个wifi网络。如果在同一网络上的多台计算机正在运行CocosBuilder，使用代码配对设备CocosBuilder。
