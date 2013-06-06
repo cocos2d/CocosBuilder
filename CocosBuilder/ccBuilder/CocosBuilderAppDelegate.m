@@ -3666,7 +3666,7 @@ static BOOL hideAllToNextSeparator;
 {
     if ([self hasDirtyDocument])
     {
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Quit CocosBuilder" defaultButton:@"Cancel" alternateButton:@"Quit" otherButton:NULL informativeTextWithFormat:@"There are unsaved documents. If you quit now you will lose any changes you have made."];
+        NSAlert* alert = [NSAlert alertWithMessageText:NSLocalizedStringFromTable(@"Quit CocosBuilder", @"Localization", @"Quit CocosBuilder") defaultButton:NSLocalizedStringFromTable(@"Cancel", @"Localization", @"Cancel") alternateButton:NSLocalizedStringFromTable(@"Quit", @"Localization", @"Quit") otherButton:NULL informativeTextWithFormat:NSLocalizedStringFromTable(@"There are unsaved documents. If you quit now you will lose any changes you have made.", @"Localization", @"There are unsaved documents. If you quit now you will lose any changes you have made.")];
         [alert setAlertStyle:NSWarningAlertStyle];
         NSInteger result = [alert runModal];
         if (result == NSAlertDefaultReturn) return NO;

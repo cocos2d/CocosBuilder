@@ -80,7 +80,7 @@
 											<string key="NSFrameSize">{481, 117}</string>
 											<reference key="NSSuperview" ref="54663986"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="168933397"/>
+											<reference key="NSNextKeyView" ref="1040290662"/>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -90,7 +90,7 @@
 												<string key="NSFrameSize">{481, 17}</string>
 												<reference key="NSSuperview" ref="606077678"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="54663986"/>
+												<reference key="NSNextKeyView" ref="70161299"/>
 												<reference key="NSTableView" ref="1055880990"/>
 											</object>
 											<object class="_NSCornerView" key="NSCornerView" id="70161299">
@@ -110,7 +110,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Resolution name</string>
+														<string key="NSContents">分辨率名称</string>
 														<object class="NSFont" key="NSSupport" id="26">
 															<string key="NSName">LucidaGrande</string>
 															<double key="NSSize">11</double>
@@ -164,7 +164,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Width</string>
+														<string key="NSContents">宽</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor">
 															<int key="NSColorSpace">3</int>
@@ -306,7 +306,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Height</string>
+														<string key="NSContents">高</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor">
 															<int key="NSColorSpace">3</int>
@@ -442,7 +442,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Resource extension</string>
+														<string key="NSContents">扩展资源</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor">
 															<int key="NSColorSpace">3</int>
@@ -576,7 +576,7 @@
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Scale</string>
+														<string key="NSContents">缩放</string>
 														<reference key="NSSupport" ref="26"/>
 														<object class="NSColor" key="NSBackgroundColor">
 															<int key="NSColorSpace">3</int>
@@ -744,7 +744,7 @@
 							<string key="NSFrame">{{20, 60}, {498, 135}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="54663986"/>
+							<reference key="NSNextKeyView" ref="168933397"/>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="1040290662"/>
 							<reference key="NSHScroller" ref="168933397"/>
@@ -820,12 +820,17 @@
 							<string key="NSFrame">{{442, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="516837167">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">OK</string>
-								<reference key="NSSupport" ref="499476561"/>
+								<string key="NSContents">确定</string>
+								<object class="NSFont" key="NSSupport" id="820061573">
+									<string key="NSName">STHeitiSC-Light</string>
+									<double key="NSSize">13</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<reference key="NSControlView" ref="236728949"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">129</int>
@@ -839,7 +844,7 @@
 						<object class="NSButton" id="100239479">
 							<reference key="NSNextResponder" ref="1006"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{360, 12}, {82, 32}}</string>
+							<string key="NSFrame">{{368, 12}, {66, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="236728949"/>
@@ -847,8 +852,8 @@
 							<object class="NSButtonCell" key="NSCell" id="693408496">
 								<int key="NSCellFlags">67108864</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Cancel</string>
-								<reference key="NSSupport" ref="499476561"/>
+								<string key="NSContents">取消</string>
+								<reference key="NSSupport" ref="820061573"/>
 								<reference key="NSControlView" ref="100239479"/>
 								<int key="NSButtonFlags">-2038284288</int>
 								<int key="NSButtonFlags2">129</int>
@@ -883,7 +888,7 @@
 								<object class="NSMenuItem" key="NSMenuItem" id="287181534">
 									<reference key="NSMenu" ref="246373515"/>
 									<bool key="NSIsHidden">YES</bool>
-									<string key="NSTitle">Add Predefined Resolution</string>
+									<string key="NSTitle">添加预定义的分辨率</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -902,6 +907,7 @@
 									</object>
 									<reference key="NSMenuFont" ref="499476561"/>
 								</object>
+								<int key="NSSelectedIndex">-1</int>
 								<bool key="NSPullDown">YES</bool>
 								<int key="NSPreferredEdge">1</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
@@ -916,7 +922,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="926658242"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
