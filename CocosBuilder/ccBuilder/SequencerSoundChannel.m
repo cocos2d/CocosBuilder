@@ -17,7 +17,7 @@
     self = [super init];
     if (!self) return NULL;
     
-    self.displayName = @"Sound effects";
+    self.displayName = NSLocalizedStringFromTable(@"Sound effects", @"Localization", @"Sound effects");//@"Sound effects";
     
     return self;
 }
