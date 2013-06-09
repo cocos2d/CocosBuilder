@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>inheritsFrom</key>
+	<string>CCLayer</string>
+	<key>canHaveChildren</key>
+	<true/>
+	<key>className</key>
+	<string>CCMenu</string>
+	<key>editorClassName</key>
+	<string>CCBPMenu</string>
+	<key>requireChildClass</key>
+	<array>
+		<string>CCMenuItemImage</string>
+	</array>
+	<key>properties</key>
+	<array/>
+	<key>spriteFrameDrop</key>
+	<dict>
+		<key>className</key>
+		<string>CCSprite</string>
+		<key>property</key>
+		<string>displayFrame</string>
+	</dict>
+	<key>propertiesOverridden</key>
+	<array>
+		<dict>
+			<key>default</key>
+			<true/>
+			<key>dontSetInEditor</key>
+			<true/>
+			<key>platform</key>
+			<string>iOS</string>
+			<key>displayName</key>
+			<string>开启触摸</string>
+			<key>type</key>
+			<string>Check</string>
+			<key>name</key>
+			<string>touchEnabled</string>
+		</dict>
+		<dict>
+			<key>default</key>
+			<array>
+				<integer>0</integer>
+				<integer>0</integer>
+			</array>
+			<key>displayName</key>
+			<string>位置</string>
+			<key>type</key>
+			<string>Position</string>
+			<key>name</key>
+			<string>position</string>
+		</dict>
+	</array>
+</dict>
+</plist>
