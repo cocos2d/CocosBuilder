@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0A9D1B61176468F40078015C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D1B60176468F40078015C /* WebKit.framework */; };
+		0A9D1B72176481F40078015C /* InspectorSeparator.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */; };
+		0A9D1B73176484890078015C /* InspectorCodeConnections.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A9D1B681764815B0078015C /* InspectorCodeConnections.xib */; };
+		0A9D1B74176484930078015C /* InspectorCodeConnectionsJS.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A9D1B6E176481E60078015C /* InspectorCodeConnectionsJS.xib */; };
 		185D183B17535644009828B4 /* ResourceManagerPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185D1834175348D2009828B4 /* ResourceManagerPanel.xib */; };
 		3C2A3AB61764662300B8943A /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C2A3AB81764662300B8943A /* CCBPProperties.plist */; };
 		3C2E0A5F176443AB006616DC /* SequencerKeyframeEasingWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E0A61176443AB006616DC /* SequencerKeyframeEasingWindow.xib */; };
@@ -860,10 +863,14 @@
 
 /* Begin PBXFileReference section */
 		0A9D1B60176468F40078015C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		0A9D1B691764815B0078015C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorCodeConnections.xib; sourceTree = "<group>"; };
+		0A9D1B6D176481720078015C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorCodeConnections.xib"; sourceTree = "<group>"; };
+		0A9D1B6F176481E60078015C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorCodeConnectionsJS.xib; sourceTree = "<group>"; };
+		0A9D1B71176481F40078015C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorCodeConnectionsJS.xib"; sourceTree = "<group>"; };
 		185D1833175348D2009828B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ResourceManagerPanel.xib; sourceTree = "<group>"; };
 		185D183A17535634009828B4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ResourceManagerPanel.xib"; sourceTree = "<group>"; };
-		3C2A3AB71764662300B8943A /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
-		3C2A3ABB1764662600B8943A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/CCBPProperties.plist"; sourceTree = "<group>"; };
+		3C2A3AB71764662300B8943A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
+		3C2A3ABB1764662600B8943A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/CCBPProperties.plist"; sourceTree = "<group>"; };
 		3C2E0A60176443AB006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SequencerKeyframeEasingWindow.xib; sourceTree = "<group>"; };
 		3C2E0A62176443B4006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SequencerKeyframeEasingWindow.xib"; sourceTree = "<group>"; };
 		3C2E0A64176443E4006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SequencerStretchWindow.xib; sourceTree = "<group>"; };
@@ -872,7 +879,6 @@
 		3C2E0A6A1764447D006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SequencerPopoverBlock.xib"; sourceTree = "<group>"; };
 		3C2E0A6C176444D6006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SequencerPopoverSound.xib; sourceTree = "<group>"; };
 		3C2E0A6E176444DA006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SequencerPopoverSound.xib"; sourceTree = "<group>"; };
-		3C2E0A70176445A0006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorCodeConnections.xib; sourceTree = "<group>"; };
 		3C2E0A74176446AF006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorColor3.xib; sourceTree = "<group>"; };
 		3C2E0A76176446BA006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorColor3.xib"; sourceTree = "<group>"; };
 		3C2E0A78176446C9006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorColor4FVar.xib; sourceTree = "<group>"; };
@@ -887,7 +893,6 @@
 		3C2E0A8A176447AD006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorCCBFile.xib"; sourceTree = "<group>"; };
 		3C2E0A8C176447C7006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/InspectorText.xib; sourceTree = "<group>"; };
 		3C2E0A8E176447CC006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorText.xib"; sourceTree = "<group>"; };
-		3C2E0A8F176453CA006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InspectorCodeConnections.xib"; sourceTree = "<group>"; };
 		3C2E0A921764647D006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
 		3C2E0A9617646483006616DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/CCBPProperties.plist"; sourceTree = "<group>"; };
 		3C2E0A98176464FD006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/CCBPProperties.plist; sourceTree = "<group>"; };
@@ -3790,54 +3795,56 @@
 				A42B81C117574BD800F38E1B /* InspectorCustomEdit.xib */,
 				E32D8CC614EC25D800F4BD5E /* InspectorCodeConnections.h */,
 				E32D8CC714EC25D800F4BD5E /* InspectorCodeConnections.m */,
+				0A9D1B681764815B0078015C /* InspectorCodeConnections.xib */,
 				E3C9CCB9161D0BBF008A3784 /* InspectorCodeConnectionsJS.h */,
 				E3C9CCBA161D0BBF008A3784 /* InspectorCodeConnectionsJS.m */,
-				E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */,
+				0A9D1B6E176481E60078015C /* InspectorCodeConnectionsJS.xib */,
 				E3B4223514E5E6AC004547D6 /* InspectorSeparator.h */,
 				E3B4223614E5E6AC004547D6 /* InspectorSeparator.m */,
-				E325F64E14F5622200D29BCF /* InspectorSeparatorSub.xib */,
+				E3B4223314E5E68A004547D6 /* InspectorSeparator.xib */,
 				E325F65014F5669600D29BCF /* InspectorSeparatorSub.h */,
 				E325F65114F5669600D29BCF /* InspectorSeparatorSub.m */,
-				A42B81C517574C1B00F38E1B /* InspectorPosition.xib */,
+				E325F64E14F5622200D29BCF /* InspectorSeparatorSub.xib */,
 				E3DA6FF316CB293000B12FFB /* InspectorPopoverPosition.xib */,
 				E3B7AEEA14E342E200DFD402 /* InspectorPosition.h */,
 				E3B7AEEB14E342E200DFD402 /* InspectorPosition.m */,
-				A42B81C917574C3E00F38E1B /* InspectorSize.xib */,
+				A42B81C517574C1B00F38E1B /* InspectorPosition.xib */,
 				E3FEA8A814E45F1000119FBE /* InspectorSize.h */,
 				E3FEA8A914E45F1000119FBE /* InspectorSize.m */,
-				A42B81CD17574C6100F38E1B /* InspectorPoint.xib */,
+				A42B81C917574C3E00F38E1B /* InspectorSize.xib */,
 				E3FEA8AD14E47C7500119FBE /* InspectorPoint.h */,
 				E3FEA8AE14E47C7500119FBE /* InspectorPoint.m */,
-				A42B81D117574C7A00F38E1B /* InspectorPointLock.xib */,
+				A42B81CD17574C6100F38E1B /* InspectorPoint.xib */,
 				E3FEA8B214E4874C00119FBE /* InspectorPointLock.h */,
 				E3FEA8B314E4874C00119FBE /* InspectorPointLock.m */,
-				A42B81D517574C9100F38E1B /* InspectorScaleLock.xib */,
+				A42B81D117574C7A00F38E1B /* InspectorPointLock.xib */,
 				E3DA6FF516CB2AC000B12FFB /* InspectorPopoverScaleLock.xib */,
 				E3FEA8B714E492D900119FBE /* InspectorScaleLock.h */,
 				E3FEA8B814E492D900119FBE /* InspectorScaleLock.m */,
-				A42B81D917574CB000F38E1B /* InspectorDegrees.xib */,
+				A42B81D517574C9100F38E1B /* InspectorScaleLock.xib */,
 				A42B81DD17574CE300F38E1B /* InspectorPopoverDegrees.xib */,
 				E3FEA8BC14E498B600119FBE /* InspectorDegrees.h */,
 				E3FEA8BD14E498B700119FBE /* InspectorDegrees.m */,
-				A42B81E117574CFA00F38E1B /* InspectorInteger.xib */,
+				A42B81D917574CB000F38E1B /* InspectorDegrees.xib */,
 				E3B4220F14E49DEB004547D6 /* InspectorInteger.h */,
 				E3B4221014E49DEB004547D6 /* InspectorInteger.m */,
-				A42B81E517574D2100F38E1B /* InspectorFloat.xib */,
+				A42B81E117574CFA00F38E1B /* InspectorInteger.xib */,
 				E35DBBFC14F3EE400070A6E4 /* InspectorFloat.h */,
 				E35DBBFD14F3EE400070A6E4 /* InspectorFloat.m */,
+				A42B81E517574D2100F38E1B /* InspectorFloat.xib */,
 				E3B5EE8616D6E0A900C07990 /* InspectorFloatXY.h */,
 				E3B5EE8716D6E0A900C07990 /* InspectorFloatXY.m */,
 				A42B81E917574D3900F38E1B /* InspectorFloatXY.xib */,
-				A42B81ED17574DEB00F38E1B /* InspectorFloatScale.xib */,
 				E318CB3816D83F3B00348E0D /* InspectorPopoverFloatXY.xib */,
 				E33406991551725F000FBD0B /* InspectorFloatScale.h */,
 				E334069A1551725F000FBD0B /* InspectorFloatScale.m */,
-				A42B81F1175751BA00F38E1B /* InspectorFloatVar.xib */,
+				A42B81ED17574DEB00F38E1B /* InspectorFloatScale.xib */,
 				E325F64614F5336E00D29BCF /* InspectorFloatVar.h */,
 				E325F64714F5336E00D29BCF /* InspectorFloatVar.m */,
-				A42B81F5175751EA00F38E1B /* InspectorCheck.xib */,
+				A42B81F1175751BA00F38E1B /* InspectorFloatVar.xib */,
 				E3B4221414E4A380004547D6 /* InspectorCheck.h */,
 				E3B4221514E4A381004547D6 /* InspectorCheck.m */,
+				A42B81F5175751EA00F38E1B /* InspectorCheck.xib */,
 				E3B4221714E4BE6B004547D6 /* InspectorSpriteFrame.xib */,
 				E3DA6FF916CB2B8700B12FFB /* InspectorPopoverSpriteFrame.xib */,
 				E3B4221914E4BE87004547D6 /* InspectorSpriteFrame.h */,
@@ -3848,20 +3855,20 @@
 				E3C5C1CA15090259000CF6F3 /* InspectorAnimation.xib */,
 				E3C5C1CC150902B3000CF6F3 /* InspectorAnimation.h */,
 				E3C5C1CD150902B3000CF6F3 /* InspectorAnimation.m */,
-				A42B81F91757529000F38E1B /* InspectorByte.xib */,
 				A42B81FD175752B400F38E1B /* InspectorPopoverByte.xib */,
 				E3B4221E14E58C75004547D6 /* InspectorByte.h */,
 				E3B4221F14E58C75004547D6 /* InspectorByte.m */,
-				3C2E0A75176446AF006616DC /* InspectorColor3.xib */,
+				A42B81F91757529000F38E1B /* InspectorByte.xib */,
 				E3DA6FFD16CB2C3C00B12FFB /* InspectorPopoverColor3.xib */,
 				E3B4222314E59034004547D6 /* InspectorColor3.h */,
 				E3B4222414E59035004547D6 /* InspectorColor3.m */,
-				3C2E0A79176446C9006616DC /* InspectorColor4FVar.xib */,
+				3C2E0A75176446AF006616DC /* InspectorColor3.xib */,
 				E325F64B14F53FF000D29BCF /* InspectorColor4FVar.h */,
 				E325F64C14F53FF000D29BCF /* InspectorColor4FVar.m */,
-				3C2E0A7D176446DD006616DC /* InspectorFlip.xib */,
+				3C2E0A79176446C9006616DC /* InspectorColor4FVar.xib */,
 				E3B4222814E59F5C004547D6 /* InspectorFlip.h */,
 				E3B4222914E59F5C004547D6 /* InspectorFlip.m */,
+				3C2E0A7D176446DD006616DC /* InspectorFlip.xib */,
 				3C2E0A8117644726006616DC /* InspectorBlendmode.xib */,
 				E3B4222D14E5A848004547D6 /* InspectorBlendmode.h */,
 				E3B4222E14E5A849004547D6 /* InspectorBlendmode.m */,
@@ -4781,6 +4788,8 @@
 				E388FD19171F03C7002548ED /* editor-border.png in Resources */,
 				E3748303171F83A300486659 /* editor-jump.png in Resources */,
 				185D183B17535644009828B4 /* ResourceManagerPanel.xib in Resources */,
+				0A9D1B73176484890078015C /* InspectorCodeConnections.xib in Resources */,
+				0A9D1B74176484930078015C /* InspectorCodeConnectionsJS.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4885,6 +4894,7 @@
 				835DB08B171561B8003A2F7B /* README.txt in Resources */,
 				835DB0C6171563A8003A2F7B /* About.txt in Resources */,
 				A77EF590171FD30E00451DA4 /* cwebp in Resources */,
+				0A9D1B72176481F40078015C /* InspectorSeparator.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5507,6 +5517,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0A9D1B681764815B0078015C /* InspectorCodeConnections.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A9D1B691764815B0078015C /* en */,
+				0A9D1B6D176481720078015C /* zh-Hans */,
+			);
+			name = InspectorCodeConnections.xib;
+			sourceTree = "<group>";
+		};
+		0A9D1B6E176481E60078015C /* InspectorCodeConnectionsJS.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A9D1B6F176481E60078015C /* en */,
+				0A9D1B71176481F40078015C /* zh-Hans */,
+			);
+			name = InspectorCodeConnectionsJS.xib;
+			sourceTree = "<group>";
+		};
 		185D1834175348D2009828B4 /* ResourceManagerPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -5559,15 +5587,6 @@
 				3C2E0A6E176444DA006616DC /* zh-Hans */,
 			);
 			name = SequencerPopoverSound.xib;
-			sourceTree = "<group>";
-		};
-		3C2E0A71176445A0006616DC /* InspectorCodeConnections.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3C2E0A70176445A0006616DC /* en */,
-				3C2E0A8F176453CA006616DC /* zh-Hans */,
-			);
-			name = InspectorCodeConnections.xib;
 			sourceTree = "<group>";
 		};
 		3C2E0A75176446AF006616DC /* InspectorColor3.xib */ = {
