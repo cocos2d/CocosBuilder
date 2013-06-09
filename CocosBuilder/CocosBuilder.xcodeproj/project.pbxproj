@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A9D1B61176468F40078015C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9D1B60176468F40078015C /* WebKit.framework */; };
 		185D183B17535644009828B4 /* ResourceManagerPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185D1834175348D2009828B4 /* ResourceManagerPanel.xib */; };
 		3C2E0A5F176443AB006616DC /* SequencerKeyframeEasingWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E0A61176443AB006616DC /* SequencerKeyframeEasingWindow.xib */; };
 		3C2E0A63176443E4006616DC /* SequencerStretchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2E0A65176443E4006616DC /* SequencerStretchWindow.xib */; };
@@ -858,6 +859,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A9D1B60176468F40078015C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		185D1833175348D2009828B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ResourceManagerPanel.xib; sourceTree = "<group>"; };
 		185D183A17535634009828B4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ResourceManagerPanel.xib"; sourceTree = "<group>"; };
 		3C2E0A60176443AB006616DC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SequencerKeyframeEasingWindow.xib; sourceTree = "<group>"; };
@@ -945,7 +947,6 @@
 		7789ABC2133AA82000CEFCC7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7789ABC5133AA82000CEFCC7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		7789ABC6133AA82000CEFCC7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7789ABC7133AA82000CEFCC7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7789ABCC133AA82000CEFCC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7789ABCE133AA82000CEFCC7 /* CocosBuilder-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CocosBuilder-Prefix.pch"; sourceTree = "<group>"; };
 		7789ABCF133AA82000CEFCC7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1974,6 +1975,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9D1B61176468F40078015C /* WebKit.framework in Frameworks */,
 				835DB0CB17156421003A2F7B /* Security.framework in Frameworks */,
 				E3A4747C16D43BF300DB0D61 /* AVFoundation.framework in Frameworks */,
 				E3A4747A16D43BEA00DB0D61 /* OpenAL.framework in Frameworks */,
@@ -2458,11 +2460,6 @@
 		7789ABB3133AA82000CEFCC7 = {
 			isa = PBXGroup;
 			children = (
-				835DB0CA17156421003A2F7B /* Security.framework */,
-				E3A4747B16D43BF300DB0D61 /* AVFoundation.framework */,
-				E3A4747916D43BEA00DB0D61 /* OpenAL.framework */,
-				E3A4747716D43B5800DB0D61 /* AudioToolbox.framework */,
-				E3A4747516D43B4300DB0D61 /* CoreAudio.framework */,
 				E3D08A321524581100E55891 /* README.md */,
 				E3D59118150F50D1004180CA /* AUTHORS */,
 				E395DC7D1511FDF70075979E /* CHANGELOG */,
@@ -2509,6 +2506,12 @@
 		7789ABC1133AA82000CEFCC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A9D1B60176468F40078015C /* WebKit.framework */,
+				835DB0CA17156421003A2F7B /* Security.framework */,
+				E3A4747B16D43BF300DB0D61 /* AVFoundation.framework */,
+				E3A4747916D43BEA00DB0D61 /* OpenAL.framework */,
+				E3A4747716D43B5800DB0D61 /* AudioToolbox.framework */,
+				E3A4747516D43B4300DB0D61 /* CoreAudio.framework */,
 				E3B19F6A15E62ADA000B023E /* Carbon.framework */,
 				E3E0878C15669F48008F1FDB /* JavaScriptCore.framework */,
 				FA98CFDA154E8D16006E58C5 /* CoreServices.framework */,
@@ -2533,7 +2536,6 @@
 				7789ABE7133AB10500CEFCC7 /* ApplicationServices.framework */,
 				7789ABC5133AA82000CEFCC7 /* AppKit.framework */,
 				7789ABC6133AA82000CEFCC7 /* CoreData.framework */,
-				7789ABC7133AA82000CEFCC7 /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
