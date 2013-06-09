@@ -4,14 +4,21 @@
 <dict>
 	<key>inheritsFrom</key>
 	<string>CCNode</string>
-	<key>requireParentClass</key>
-	<string>CCMenu</string>
 	<key>canHaveChildren</key>
-	<false/>
+	<true/>
+	<key>canBeRootNode</key>
+	<true/>
 	<key>className</key>
-	<string>CCMenuItemImage</string>
+	<string>CCSprite</string>
+	<key>spriteFrameDrop</key>
+	<dict>
+		<key>className</key>
+		<string>CCSprite</string>
+		<key>property</key>
+		<string>displayFrame</string>
+	</dict>
 	<key>editorClassName</key>
-	<string>CCMenuItemImage</string>
+	<string>CCSprite</string>
 	<key>propertiesOverridden</key>
 	<array>
 		<dict>
@@ -29,41 +36,17 @@
 	<array>
 		<dict>
 			<key>displayName</key>
-			<string>CCMenuItem</string>
+			<string>CCSprite</string>
 			<key>name</key>
-			<string>CCMenuItem</string>
+			<string>CCSprite</string>
 			<key>type</key>
 			<string>Separator</string>
 			<key>dontSetInEditor</key>
 			<true/>
 		</dict>
 		<dict>
-			<key>displayName</key>
-			<string>选择</string>
-			<key>type</key>
-			<string>Block</string>
-			<key>name</key>
-			<string>block</string>
-		</dict>
-		<dict>
-			<key>type</key>
-			<string>Check</string>
-			<key>name</key>
-			<string>isEnabled</string>
-			<key>displayName</key>
-			<string>是否启用</string>
-		</dict>
-		<dict>
-			<key>displayName</key>
-			<string>CCMenuItemImage</string>
-			<key>name</key>
-			<string>CCMenuItemImage</string>
-			<key>type</key>
-			<string>Separator</string>
-			<key>dontSetInEditor</key>
+			<key>animatable</key>
 			<true/>
-		</dict>
-		<dict>
 			<key>default</key>
 			<array>
 				<string></string>
@@ -71,48 +54,69 @@
 			</array>
 			<key>affectsProperties</key>
 			<array>
+				<string>blendFunc</string>
 				<string>contentSize</string>
 			</array>
 			<key>displayName</key>
-			<string>正常</string>
+			<string>精灵帧</string>
 			<key>type</key>
 			<string>SpriteFrame</string>
 			<key>name</key>
-			<string>normalSpriteFrame</string>
+			<string>displayFrame</string>
 		</dict>
 		<dict>
-			<key>default</key>
-			<array>
-				<string></string>
-				<string></string>
-			</array>
-			<key>affectsProperties</key>
-			<array>
-				<string>contentSize</string>
-			</array>
+			<key>defaultSerialization</key>
+			<integer>255</integer>
+			<key>animatable</key>
+			<true/>
 			<key>displayName</key>
-			<string>选择</string>
+			<string>透明</string>
 			<key>type</key>
-			<string>SpriteFrame</string>
+			<string>Byte</string>
 			<key>name</key>
-			<string>selectedSpriteFrame</string>
+			<string>opacity</string>
 		</dict>
 		<dict>
-			<key>default</key>
+			<key>defaultSerialization</key>
 			<array>
-				<string></string>
-				<string></string>
+				<integer>255</integer>
+				<integer>255</integer>
+				<integer>255</integer>
 			</array>
-			<key>affectsProperties</key>
+			<key>animatable</key>
+			<true/>
+			<key>displayName</key>
+			<string>颜色</string>
+			<key>type</key>
+			<string>Color3</string>
+			<key>name</key>
+			<string>color</string>
+		</dict>
+		<dict>
+			<key>defaultSerialization</key>
 			<array>
-				<string>contentSize</string>
+				<false/>
+				<false/>
 			</array>
 			<key>displayName</key>
-			<string>关闭</string>
+			<string></string>
 			<key>type</key>
-			<string>SpriteFrame</string>
+			<string>Flip</string>
 			<key>name</key>
-			<string>disabledSpriteFrame</string>
+			<string>flip</string>
+		</dict>
+		<dict>
+			<key>defaultSerialization</key>
+			<array>
+				<integer>1</integer>
+				<integer>771</integer>
+			</array>
+			<key>displayName</key>
+			<string></string>
+			<key>type</key>
+			<string>Blendmode</string>
+			<key>name</key>
+			<string>blendFunc</string>
 		</dict>
 	</array>
 </dict>
