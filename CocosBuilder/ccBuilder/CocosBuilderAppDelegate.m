@@ -1966,8 +1966,6 @@ static BOOL hideAllToNextSeparator;
         // Adjust times and add keyframes
         SequencerSequence* seq = sequenceHandler.currentSequence;
         
-        NSLog(@"keyframes: %@", keyframes);
-        
         for (SequencerKeyframe* keyframe in keyframes)
         {
             // Adjust time
