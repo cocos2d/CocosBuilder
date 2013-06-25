@@ -865,6 +865,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		49861DD7177A1B1000EEA3B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		49861DD9177A1B3600EEA3B7 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		5811305E1639BF1200A86D70 /* SequencerTimelineDrawDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequencerTimelineDrawDelegate.h; sourceTree = "<group>"; };
 		5811305F1639C52000A86D70 /* seq-startmarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "seq-startmarker.png"; sourceTree = "<group>"; };
 		581BCFE6162DADE7007DE600 /* CCBSplitHorizontalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBSplitHorizontalView.h; sourceTree = "<group>"; };
@@ -936,7 +938,6 @@
 		7789ABD2133AA82000CEFCC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		7789ABD4133AA82000CEFCC7 /* CocosBuilderAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocosBuilderAppDelegate.h; sourceTree = "<group>"; };
 		7789ABD5133AA82000CEFCC7 /* CocosBuilderAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CocosBuilderAppDelegate.m; sourceTree = "<group>"; };
-		7789ABD8133AA82000CEFCC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		7789ABE7133AB10500CEFCC7 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		7789ABE9133AB10E00CEFCC7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		7789ABEB133AB12000CEFCC7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -4442,6 +4443,8 @@
 			knownRegions = (
 				en,
 				English,
+				Base,
+				ja,
 			);
 			mainGroup = 7789ABB3133AA82000CEFCC7;
 			productRefGroup = 7789ABBF133AA82000CEFCC7 /* Products */;
@@ -5483,7 +5486,8 @@
 		7789ABD7133AA82000CEFCC7 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7789ABD8133AA82000CEFCC7 /* en */,
+				49861DD7177A1B1000EEA3B7 /* Base */,
+				49861DD9177A1B3600EEA3B7 /* ja */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
