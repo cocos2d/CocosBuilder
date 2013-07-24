@@ -25,12 +25,13 @@
 #import <Foundation/Foundation.h>
 
 @class ResourceManager;
+@class ResourceManagerPreviewView;
 
 @interface ResourceManagerOutlineHandler : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
     ResourceManager* resManager;
     NSOutlineView* resourceList;
-    IBOutlet NSImageView* imagePreview;
+    IBOutlet ResourceManagerPreviewView* imagePreview;
     IBOutlet NSTextField* lblNoPreview;
     int resType;
 }
@@ -39,7 +40,7 @@
 
 - (id) initWithOutlineView:(NSOutlineView *)outlineView resType:(int)rt;
 
-- (id) initWithOutlineView:(NSOutlineView*)outlineView resType:(int)rt imagePreview:(NSImageView*)preview lblNoPreview:(NSTextField*)lbl;
+- (id) initWithOutlineView:(NSOutlineView*)outlineView resType:(int)rt preview:(ResourceManagerPreviewView*)preview;
 
 - (void) reload;
 

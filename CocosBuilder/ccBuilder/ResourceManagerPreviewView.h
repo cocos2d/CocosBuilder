@@ -24,17 +24,24 @@
 
 #import <Foundation/Foundation.h>
 
-@class SequencerKeyframe;
+@class CCBImageView;
+@class CocosBuilderAppDelegate;
 
-@interface SequencerPopoverBlock : NSObject
+@interface ResourceManagerPreviewView : NSObject <NSSplitViewDelegate>
 {
-    IBOutlet NSView* view;
+    IBOutlet CCBImageView* previewMain;
+    IBOutlet CCBImageView* previewPhone;
+    IBOutlet CCBImageView* previewPhonehd;
+    IBOutlet CCBImageView* previewTablet;
+    IBOutlet CCBImageView* previewTablethd;
 }
+@property (nonatomic,readonly) IBOutlet CCBImageView* previewMain;
+@property (nonatomic,readonly) IBOutlet CCBImageView* previewPhone;
+@property (nonatomic,readonly) IBOutlet CCBImageView* previewPhonehd;
+@property (nonatomic,readonly) IBOutlet CCBImageView* previewTablet;
+@property (nonatomic,readonly) IBOutlet CCBImageView* previewTablethd;
+@property (nonatomic,readonly) CocosBuilderAppDelegate* appDelegate;
 
-@property (nonatomic,readonly) IBOutlet NSView* view;
-
-@property (nonatomic,assign) SequencerKeyframe* keyframe;
-@property (nonatomic,assign) NSString* selector;
-@property (nonatomic,assign) int target;
+- (void) setPreviewFile:(NSString*) file;
 
 @end

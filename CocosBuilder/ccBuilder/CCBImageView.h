@@ -22,19 +22,13 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@class SequencerKeyframe;
-
-@interface SequencerPopoverBlock : NSObject
+@interface CCBImageView : NSImageView
 {
-    IBOutlet NSView* view;
+    NSString* imagePath;
 }
 
-@property (nonatomic,readonly) IBOutlet NSView* view;
-
-@property (nonatomic,assign) SequencerKeyframe* keyframe;
-@property (nonatomic,assign) NSString* selector;
-@property (nonatomic,assign) int target;
+@property (nonatomic,readonly) NSString* imagePath;
 
 @end

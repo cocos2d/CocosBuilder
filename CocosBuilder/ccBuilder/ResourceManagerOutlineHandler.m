@@ -28,6 +28,7 @@
 #import "ResourceManagerUtil.h"
 #import "CocosBuilderAppDelegate.h"
 #import "CCBGlobals.h"
+#import "ResourceManagerPreviewView.h"
 
 @implementation ResourceManagerOutlineHandler
 
@@ -40,10 +41,10 @@
 
 - (id) initWithOutlineView:(NSOutlineView *)outlineView resType:(int)rt
 {
-    return [self initWithOutlineView:outlineView resType:rt imagePreview:NULL lblNoPreview:NULL];
+    return [self initWithOutlineView:outlineView resType:rt preview:NULL];
 }
 
-- (id) initWithOutlineView:(NSOutlineView*)outlineView resType:(int)rt imagePreview:(NSImageView*)preview lblNoPreview:(NSTextField*)lbl
+- (id) initWithOutlineView:(NSOutlineView*)outlineView resType:(int)rt preview:(ResourceManagerPreviewView*)p
 {
     self = [super init];
     if (!self) return NULL;
@@ -52,8 +53,8 @@
     [resManager addResourceObserver:self];
     
     resourceList = [outlineView retain];
-    imagePreview = [preview retain];
-    lblNoPreview = [lbl retain];
+    imagePreview = [p retain];
+    //lblNoPreview = [lbl retain];
     resType = rt;
     
     ImageAndTextCell* imageTextCell = [[[ImageAndTextCell alloc] init] autorelease];
@@ -360,19 +361,7 @@
 - (void) outlineViewSelectionDidChange:(NSNotification *)notification
 {
     id selection = [resourceList itemAtRow:[resourceList selectedRow]];
-    
-    NSImage* preview = NULL;
-    if ([selection respondsToSelector:@selector(preview)])
-    {
-        preview = [selection preview];
-    }
-    
-    [imagePreview setImage:preview];
-    
-    
-    
-    if (preview) [lblNoPreview setHidden:YES];
-    else [lblNoPreview setHidden:NO];
+    [imagePreview setPreviewFile:selection];
     
 #warning Hackish solution to make multiple selections look good
     NSLog(@"needsDisplay!");

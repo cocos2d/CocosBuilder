@@ -22,19 +22,39 @@
  * THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "CCBImageView.h"
 
-@class SequencerKeyframe;
+@implementation CCBImageView
 
-@interface SequencerPopoverBlock : NSObject
+@synthesize imagePath;
+
+/*
+- (void)setImage:(NSImage *)image
 {
-    IBOutlet NSView* view;
+    [image setName:[[imagePath lastPathComponent] stringByDeletingPathExtension]];
+    [super setImage:image];
 }
+*/
 
-@property (nonatomic,readonly) IBOutlet NSView* view;
-
-@property (nonatomic,assign) SequencerKeyframe* keyframe;
-@property (nonatomic,assign) NSString* selector;
-@property (nonatomic,assign) int target;
+- (BOOL)performDragOperation:(id )sender
+{
+    BOOL dragSucceeded = [super performDragOperation:sender];
+    if (dragSucceeded) {
+        NSString *filenamesXML = [[sender draggingPasteboard] stringForType:NSFilenamesPboardType];
+        if (filenamesXML) {
+            NSArray *filenames = [NSPropertyListSerialization
+                                  propertyListFromData:[filenamesXML dataUsingEncoding:NSUTF8StringEncoding]
+                                  mutabilityOption:NSPropertyListImmutable
+                                  format:nil
+                                  errorDescription:nil];
+            if ([filenames count] >= 1) {
+                imagePath = [filenames objectAtIndex:0];
+            } else {
+                imagePath = nil;
+            }
+        }
+    }
+    return dragSucceeded;
+}
 
 @end
