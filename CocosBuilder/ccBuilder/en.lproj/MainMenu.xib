@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -2439,7 +2439,7 @@
 								</object>
 								<object class="NSSplitView" id="61505606">
 									<reference key="NSNextResponder" ref="109787956"/>
-									<int key="NSvFlags">268</int>
+									<int key="NSvFlags">274</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSCustomView" id="74504784">
@@ -2476,7 +2476,7 @@
 																	<string key="NSFrameSize">{250, 408}</string>
 																	<reference key="NSSuperview" ref="88756307"/>
 																	<reference key="NSWindow"/>
-																	<reference key="NSNextKeyView" ref="1032953836"/>
+																	<reference key="NSNextKeyView" ref="987023980"/>
 																	<bool key="NSEnabled">YES</bool>
 																	<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 																	<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -2604,7 +2604,7 @@
 													<string key="NSFrameSize">{250, 408}</string>
 													<reference key="NSSuperview" ref="552508876"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="987023980"/>
+													<reference key="NSNextKeyView" ref="88756307"/>
 													<int key="NSsFlags">133648</int>
 													<reference key="NSVScroller" ref="1032953836"/>
 													<reference key="NSHScroller" ref="987023980"/>
@@ -3810,7 +3810,7 @@
 													<string key="NSFrameSize">{233, 550}</string>
 													<reference key="NSSuperview" ref="650525934"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="677469954"/>
+													<reference key="NSNextKeyView" ref="885143300"/>
 												</object>
 											</object>
 											<string key="NSFrame">{{1, 1}, {298, 678}}</string>
@@ -3827,7 +3827,6 @@
 											<string key="NSFrame">{{284, 1}, {15, 678}}</string>
 											<reference key="NSSuperview" ref="949082143"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<reference key="NSTarget" ref="949082143"/>
 											<string key="NSAction">_doScroller:</string>
@@ -3850,7 +3849,7 @@
 									<string key="NSFrameSize">{300, 680}</string>
 									<reference key="NSSuperview" ref="826880190"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="885143300"/>
+									<reference key="NSNextKeyView" ref="650525934"/>
 									<int key="NSsFlags">133650</int>
 									<reference key="NSVScroller" ref="677469954"/>
 									<reference key="NSHScroller" ref="885143300"/>
@@ -3882,7 +3881,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="1038619197"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{800, 370}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -10055,7 +10054,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCGLView</string>
-					<string key="superclassName">NSOpenGLView</string>
+					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CCGLView.h</string>
@@ -10071,14 +10070,12 @@
 							<string>debug:</string>
 							<string>menuAbout:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
 							<string>menuPublishProjectAndRun:</string>
@@ -10086,33 +10083,21 @@
 							<string>menuQuit:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>openCocosPlayerConsole:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackStepBack:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
 							<string>runProject:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -10150,14 +10135,12 @@
 							<string>debug:</string>
 							<string>menuAbout:</string>
 							<string>menuAddStickyNote:</string>
-							<string>menuArrange:</string>
 							<string>menuCleanCacheDirectories:</string>
 							<string>menuCreateSmartSpriteSheet:</string>
 							<string>menuDeselect:</string>
 							<string>menuEditCustomPropSettings:</string>
 							<string>menuEditSmartSpriteSheet:</string>
 							<string>menuMoveObject:</string>
-							<string>menuNewProject:</string>
 							<string>menuNudgeObject:</string>
 							<string>menuOpenResourceManager:</string>
 							<string>menuPublishProjectAndRun:</string>
@@ -10165,23 +10148,18 @@
 							<string>menuQuit:</string>
 							<string>menuSelectBehind:</string>
 							<string>menuSetCanvasBorder:</string>
-							<string>menuSetEasing:</string>
 							<string>menuSetStateOriginCentered:</string>
 							<string>menuTimelineSettings:</string>
 							<string>menuZoomIn:</string>
 							<string>menuZoomOut:</string>
-							<string>openCocosPlayerConsole:</string>
 							<string>pasteAsChild:</string>
 							<string>performClose:</string>
-							<string>playbackStepBack:</string>
 							<string>pressedPanelVisibility:</string>
-							<string>pressedPlaybackControl:</string>
 							<string>pressedToolSelection:</string>
 							<string>pressedZoom:</string>
 							<string>redo:</string>
 							<string>runProject:</string>
 							<string>undo:</string>
-							<string>visitCommunity:</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -10195,10 +10173,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuAddStickyNote:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuArrange:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -10223,10 +10197,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">menuMoveObject:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">menuNewProject:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -10258,10 +10228,6 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">menuSetEasing:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">menuSetStateOriginCentered:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -10278,10 +10244,6 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">openCocosPlayerConsole:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pasteAsChild:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -10290,15 +10252,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">playbackStepBack:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">pressedPanelVisibility:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">pressedPlaybackControl:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -10319,10 +10273,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">undo:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">visitCommunity:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
