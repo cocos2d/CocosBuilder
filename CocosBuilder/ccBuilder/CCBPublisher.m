@@ -57,7 +57,7 @@
     warnings = [w retain];
     
     // Setup extensions to copy
-    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", @"json", @"wav",@"mp3",@"m4a",@"caf", nil];
+    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", @"json", @"wav",@"mp3",@"m4a",@"caf",@"atlas", nil];
     
     // Set format to use for exports
     self.publishFormat = projectSettings.exporter;
@@ -405,7 +405,7 @@
             else childPath = fileName;
             
             // Skip resource independent directories
-            if ([resIndependentDirs containsObject:fileName]) continue;
+            if ([resIndependentDirs containsObject:fileName] && [childPath rangeOfString:@"spine"].location == NSNotFound) continue;
             
             // Skip generated sprite sheets
             if (isGeneratedSpriteSheet) continue;
