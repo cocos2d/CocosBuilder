@@ -324,6 +324,19 @@
     return YES;
 }
 
+- (BOOL)shouldPublishDir:(NSString *)dir
+{    
+    for (NSDictionary *dictionary in projectSettings.additionalPublishPaths) {
+        NSString *dirName = [dictionary objectForKey:@"path"];
+        NSString *additionalPublishPath = [NSString stringWithFormat:@"%@/%@",[projectSettings.projectPath stringByDeletingLastPathComponent],dirName];
+        
+        if ([additionalPublishPath isEqualToString:dir])
+            return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
@@ -404,8 +417,12 @@
             if (subPath) childPath = [NSString stringWithFormat:@"%@/%@", subPath, fileName];
             else childPath = fileName;
             
+            NSLog(@"RES INDEPENDENT DIR: %@",fileName);
+            
             // Skip resource independent directories
-            if ([resIndependentDirs containsObject:fileName] && [childPath rangeOfString:@"spine"].location == NSNotFound) continue;
+            if ([resIndependentDirs containsObject:fileName] && ![self shouldPublishDir:dir]) continue;
+            
+            NSLog(@"WILL PUBLISH DIR: %@",childPath);
             
             // Skip generated sprite sheets
             if (isGeneratedSpriteSheet) continue;
@@ -482,7 +499,7 @@
                     // Copy file (and possibly convert)
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet outDir:outDir srcDate: srcSpriteSheetDate]) return NO;
                     
-                    if (publishForResolutions)
+                    if (publishForResolutions && [filePath rangeOfString:@"resources-"].location == NSNotFound)
                     {
                         for (NSString* res in publishForResolutions)
                         {

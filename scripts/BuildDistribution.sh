@@ -26,6 +26,10 @@ mkdir "build/CocosBuilder-$CCB_VERSION-CCBReader"
 cp -RL "Examples/CocosBuilderExample/libs/CCBReader" "build/CocosBuilder-$CCB_VERSION-CCBReader/"
 
 cd build/
-zip -r "CocosBuilder-$CCB_VERSION.zip" CocosBuilder.app
+
+COCOS_BUILDER="CocosBuilder-Ovenbits.app"
+mv CocosBuilder.app $COCOS_BUILDER
+
+zip -r "CocosBuilder-$CCB_VERSION.zip" $COCOS_BUILDER
 # zip -r "CocosBuilder-$CCB_VERSION-examples.zip" "CocosBuilder-$CCB_VERSION-examples"
 zip -r "CocosBuilder-$CCB_VERSION-CCBReader.zip" "CocosBuilder-$CCB_VERSION-CCBReader"

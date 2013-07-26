@@ -31,6 +31,7 @@
 {
     ProjectSettings* projectSettings;
     IBOutlet NSArrayController* resDirArrayController;
+    IBOutlet NSArrayController* additionalPublishDirArrayController;
 }
 
 @property (nonatomic,retain) ProjectSettings* projectSettings;

@@ -74,4 +74,42 @@
     }];
 }
 
+- (IBAction)addResourceDirectory:(id)sender
+{
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    [openDlg setCanChooseFiles:NO];
+    [openDlg setCanChooseDirectories:YES];
+    
+    [openDlg beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+        if (result == NSOKButton)
+        {
+            [[[CCDirector sharedDirector] view] lockOpenGLContext];
+            
+            NSArray* files = [openDlg URLs];
+            
+            for (int i = 0; i < [files count]; i++)
+            {
+                NSString* dirName = [[files objectAtIndex:i] path];
+                NSString* projectDir = [projectSettings.projectPath stringByDeletingLastPathComponent];
+                NSString* relDirName = [dirName relativePathFromBaseDirPath:projectDir];
+                
+                // Check for duplicate
+                BOOL isDuplicate = NO;
+                for (NSDictionary* row in projectSettings.additionalPublishPaths)
+                {
+                    NSString* path = [row objectForKey:@"path"];
+                    if ([path isEqualToString:relDirName]) isDuplicate = YES;
+                }
+                
+                if (!isDuplicate)
+                {
+                    [additionalPublishDirArrayController addObject:[NSMutableDictionary dictionaryWithObject:relDirName forKey:@"path"]];
+                }
+            }
+            
+            [[[CCDirector sharedDirector] view] unlockOpenGLContext];
+        }
+    }];
+}
+
 @end

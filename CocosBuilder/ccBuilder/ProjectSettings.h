@@ -57,6 +57,7 @@
 {
     NSString* projectPath;
     NSMutableArray* resourcePaths;
+    NSMutableArray* additionalPublishPaths;
     NSMutableDictionary* generatedSpriteSheets;
     NSMutableDictionary* breakpoints;
     
@@ -106,6 +107,7 @@
 @property (nonatomic, copy) NSString* projectPath;
 @property (nonatomic, readonly) NSString* projectPathHashed;
 @property (nonatomic, retain) NSMutableArray* resourcePaths;
+@property (nonatomic, retain) NSMutableArray* additionalPublishPaths;
 
 @property (nonatomic,assign) BOOL publishEnablediPhone;
 @property (nonatomic,assign) BOOL publishEnabledAndroid;
