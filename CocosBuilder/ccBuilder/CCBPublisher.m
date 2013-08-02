@@ -417,12 +417,8 @@
             if (subPath) childPath = [NSString stringWithFormat:@"%@/%@", subPath, fileName];
             else childPath = fileName;
             
-            NSLog(@"RES INDEPENDENT DIR: %@",fileName);
-            
             // Skip resource independent directories
             if ([resIndependentDirs containsObject:fileName] && ![self shouldPublishDir:dir]) continue;
-            
-            NSLog(@"WILL PUBLISH DIR: %@",childPath);
             
             // Skip generated sprite sheets
             if (isGeneratedSpriteSheet) continue;
