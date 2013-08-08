@@ -111,6 +111,7 @@
 
 @synthesize projectPath;
 @synthesize resourcePaths;
+@synthesize additionalPublishPaths;
 @synthesize publishDirectory;
 @synthesize publishDirectoryAndroid;
 @synthesize publishDirectoryHTML5;
@@ -156,6 +157,7 @@
     
     resourcePaths = [[NSMutableArray alloc] init];
     [resourcePaths addObject:[NSMutableDictionary dictionaryWithObject:@"Resources" forKey:@"path"]];
+    additionalPublishPaths = [[NSMutableArray alloc] init];
     self.publishDirectory = @"Published-iOS";
     self.publishDirectoryAndroid = @"Published-Android";
     self.publishDirectoryHTML5 = @"Published-HTML5";
@@ -217,6 +219,10 @@
     
     // Read settings
     self.resourcePaths = [dict objectForKey:@"resourcePaths"];
+    if ([dict objectForKey:@"additionalPublishPaths"])
+        self.additionalPublishPaths = [dict objectForKey:@"additionalPublishPaths"];
+    else
+        self.additionalPublishPaths = [[NSMutableArray alloc] init];
     self.publishDirectory = [dict objectForKey:@"publishDirectory"];
     self.publishDirectoryAndroid = [dict objectForKey:@"publishDirectoryAndroid"];
     self.publishDirectoryHTML5 = [dict objectForKey:@"publishDirectoryHTML5"];
@@ -299,6 +305,7 @@
 {
     self.versionStr = NULL;
     self.resourcePaths = NULL;
+    self.additionalPublishPaths = NULL;
     self.projectPath = NULL;
     self.publishDirectory = NULL;
     self.exporter = NULL;
@@ -321,6 +328,8 @@
     [dict setObject:@"CocosBuilderProject" forKey:@"fileType"];
     [dict setObject:[NSNumber numberWithInt:kCCBProjectSettingsVersion] forKey:@"fileVersion"];
     [dict setObject:resourcePaths forKey:@"resourcePaths"];
+    
+    [dict setObject:additionalPublishPaths forKey:@"additionalPublishPaths"];
     
     [dict setObject:publishDirectory forKey:@"publishDirectory"];
     [dict setObject:publishDirectoryAndroid forKey:@"publishDirectoryAndroid"];

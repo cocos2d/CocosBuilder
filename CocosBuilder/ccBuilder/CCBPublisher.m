@@ -57,7 +57,7 @@
     warnings = [w retain];
     
     // Setup extensions to copy
-    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", @"json", @"wav",@"mp3",@"m4a",@"caf", nil];
+    copyExtensions = [[NSArray alloc] initWithObjects:@"jpg",@"png", @"pvr", @"ccz", @"plist", @"fnt", @"ttf",@"js", @"json", @"wav",@"mp3",@"m4a",@"caf",@"atlas", nil];
     
     // Set format to use for exports
     self.publishFormat = projectSettings.exporter;
@@ -324,6 +324,19 @@
     return YES;
 }
 
+- (BOOL)shouldPublishDir:(NSString *)dir
+{    
+    for (NSDictionary *dictionary in projectSettings.additionalPublishPaths) {
+        NSString *dirName = [dictionary objectForKey:@"path"];
+        NSString *additionalPublishPath = [NSString stringWithFormat:@"%@/%@",[projectSettings.projectPath stringByDeletingLastPathComponent],dirName];
+        
+        if ([additionalPublishPath isEqualToString:dir])
+            return YES;
+    }
+    
+    return NO;
+}
+
 - (BOOL) publishDirectory:(NSString*) dir subPath:(NSString*) subPath
 {
     CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
@@ -405,7 +418,7 @@
             else childPath = fileName;
             
             // Skip resource independent directories
-            if ([resIndependentDirs containsObject:fileName]) continue;
+            if ([resIndependentDirs containsObject:fileName] && ![self shouldPublishDir:dir]) continue;
             
             // Skip generated sprite sheets
             if (isGeneratedSpriteSheet) continue;
@@ -482,7 +495,7 @@
                     // Copy file (and possibly convert)
                     if (![self copyFileIfChanged:filePath to:dstFile forResolution:NULL isSpriteSheet:isGeneratedSpriteSheet outDir:outDir srcDate: srcSpriteSheetDate]) return NO;
                     
-                    if (publishForResolutions)
+                    if (publishForResolutions && [filePath rangeOfString:@"resources-"].location == NSNotFound)
                     {
                         for (NSString* res in publishForResolutions)
                         {

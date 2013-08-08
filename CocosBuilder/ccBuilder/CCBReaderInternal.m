@@ -304,6 +304,12 @@ NSDictionary* renamedProperties = NULL;
         [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:name withFile:ccbFile parentSize:parentSize];
         [extraProps setObject:ccbFile forKey:name];
     }
+    else if ([type isEqualToString:@"UserStringData"])
+    {
+        NSString *userStringData = serializedValue;
+        if (!userStringData || ![userStringData isKindOfClass:[NSString class]]) userStringData = @"";
+        [extraProps setObject:userStringData forKey:name];
+    }
     else
     {
         NSLog(@"WARNING Unrecognized property type: %@", type);

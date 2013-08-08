@@ -65,6 +65,7 @@
     [propTypes addObject:@"BlockCCControl"];
     [propTypes addObject:@"FloatScale"];
     [propTypes addObject:@"FloatXY"];
+    [propTypes addObject:@"UserStringData"];
 }
 
 - (id) init
@@ -446,6 +447,10 @@
         [self writeInt:a withSign:NO];
         [self writeInt:b withSign:NO];
     }
+    else if ([type isEqualToString:@"UserStringData"])
+    {
+        [self writeCachedString:prop isPath: NO];
+    }
 }
 
 - (void) cacheStringsForNode:(NSDictionary*) node
@@ -585,6 +590,10 @@
         else if ([type isEqualToString:@"Text"]
                  || [type isEqualToString:@"FontTTF"]
                  || [type isEqualToString:@"String"])
+        {
+            [self addToStringCache:value isPath:NO];
+        }
+        else if ([type isEqualToString:@"UserStringData"])
         {
             [self addToStringCache:value isPath:NO];
         }

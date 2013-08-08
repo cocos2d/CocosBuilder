@@ -540,15 +540,12 @@
             // Update generated sprite sheets
             if (res.type == kCCBResTypeDirectory)
             {
-                NSLog(@"CHECK DIR %@", res.filePath);
-                
                 RMDirectory* dir = res.data;
                 BOOL oldValue = dir.isDynamicSpriteSheet;
                 //[dir updateIsDynamicSpriteSheet];
                 if (oldValue != dir.isDynamicSpriteSheet)
                 {
                     resourcesChanged = YES;
-                    NSLog(@"RESOURCES CHANGED!");
                 }
             }
             

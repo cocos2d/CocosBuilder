@@ -22,18 +22,32 @@
  * THE SOFTWARE.
  */
 
-#import "CCBModalSheetController.h"
-#import "cocos2d.h"
+#import "InspectorUserStringData.h"
+#import "CCNode+NodeInfo.h"
 
-@class ProjectSettings;
+@implementation InspectorUserStringData
 
-@interface PublishSettingsWindow : CCBModalSheetController
+- (void) setText:(NSAttributedString *)text
 {
-    ProjectSettings* projectSettings;
-    IBOutlet NSArrayController* resDirArrayController;
-    IBOutlet NSArrayController* additionalPublishDirArrayController;
+    NSString* str = [text string];
+    if (!str) str = @"";
+    
+    [selection setExtraProp:str forKey:@"userStringData"];
 }
 
-@property (nonatomic,retain) ProjectSettings* projectSettings;
+- (NSAttributedString*) text
+{
+    NSAttributedString* text = [[[NSAttributedString alloc] initWithString:[selection extraPropForKey:@"userStringData"]] autorelease];
+    return text;
+}
+
+- (void)controlTextDidChange:(NSNotification *)note
+{
+    NSTextField * changedField = [note object];
+    NSString* text = [changedField stringValue];
+    if (!text) text = @"";
+    
+    [selection setExtraProp:text forKey:@"userStringData"];
+}
 
 @end

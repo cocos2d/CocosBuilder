@@ -22,18 +22,10 @@
  * THE SOFTWARE.
  */
 
-#import "CCBModalSheetController.h"
-#import "cocos2d.h"
+#import "InspectorValue.h"
 
-@class ProjectSettings;
+@interface InspectorUserStringData : InspectorValue<NSTextFieldDelegate>
 
-@interface PublishSettingsWindow : CCBModalSheetController
-{
-    ProjectSettings* projectSettings;
-    IBOutlet NSArrayController* resDirArrayController;
-    IBOutlet NSArrayController* additionalPublishDirArrayController;
-}
-
-@property (nonatomic,retain) ProjectSettings* projectSettings;
+@property (nonatomic,assign) NSString* text;
 
 @end
