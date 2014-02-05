@@ -976,7 +976,7 @@ static BOOL hideAllToNextSeparator;
     CocosScene* cs = [CocosScene cocosScene];
     
     if (![self hasOpenedDocument]) return;
-    currentDocument.docData = [self docDataFromCurrentNodeGraph];
+//    currentDocument.docData = [self docDataFromCurrentNodeGraph];
     currentDocument.stageZoom = [cs stageZoom];
     currentDocument.stageScrollOffset = [cs scrollOffset];
 }
@@ -1377,7 +1377,9 @@ static BOOL hideAllToNextSeparator;
     CCBDocument* openDoc = [self findDocumentFromFile:fileName];
     if (openDoc)
     {
-        [tabView selectTabViewItem:[self tabViewItemFromDoc:openDoc]];
+        NSTabViewItem* item = [self tabViewItemFromDoc:openDoc];
+        [self switchToDocument:openDoc forceReload:YES];
+        [tabView selectTabViewItem:item];
         return;
     }
     
@@ -1580,6 +1582,43 @@ static BOOL hideAllToNextSeparator;
 	{
 		[self openFiles:filenames];
 	}
+}
+
+- (void) openImageFile:(NSString*) fileName
+{
+    [[[CCDirector sharedDirector] view] lockOpenGLContext];
+
+    [loadedSelectedNodes removeAllObjects];
+    [[CocosScene cocosScene] setStageSize:CGSizeMake(800, 640) centeredOrigin:YES];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fileName])
+    {
+        NSRange slash = [fileName rangeOfString:@"/" options:NSBackwardsSearch];
+        
+        if (slash.location != NSNotFound)
+        {
+            fileName = [fileName stringByReplacingCharactersInRange:slash withString: @"/resources-auto/"];
+        }
+    }
+    CCSprite* sp = [CCSprite spriteWithFile:fileName];
+    
+    [[CocosScene cocosScene] replaceRootNodeWith:sp];
+    
+    // Setup a default timeline
+    NSMutableArray* sequences = [NSMutableArray array];
+    
+    SequencerSequence* seq = [[SequencerSequence alloc] init];
+    seq.name = @"Default Timeline";
+    seq.sequenceId = 0;
+    seq.autoPlay = YES;
+    [sequences addObject:seq];
+    [seq release];
+    
+    currentDocument.sequences = sequences;
+    sequenceHandler.currentSequence = seq;
+    [sequenceHandler updateOutlineViewSelection];
+    
+	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
 - (void) openJSFile:(NSString*) fileName
