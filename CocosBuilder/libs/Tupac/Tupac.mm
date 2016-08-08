@@ -256,7 +256,7 @@ typedef struct _PVRTexHeader
     std::vector<TPRect> outRects;
     
     BOOL makeSquare = NO;
-    if (self.imageFormat == kTupacImageFormatPVRTC_2BPP || kTupacImageFormatPVRTC_4BPP)
+    if (self.imageFormat == kTupacImageFormatPVRTC_2BPP || self.imageFormat == kTupacImageFormatPVRTC_4BPP)
     {
         makeSquare = YES;
         outH = outW;
