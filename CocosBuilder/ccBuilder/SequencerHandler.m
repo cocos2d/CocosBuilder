@@ -457,7 +457,16 @@ static SequencerHandler* sharedSequencerHandler;
         NSMutableDictionary* clipDict = [NSKeyedUnarchiver unarchiveObjectWithData:clipData];
         
         CCNode* clipNode= [CCBReaderInternal nodeGraphFromDictionary:clipDict parentSize:CGSizeZero];
-        if (![appDelegate addCCObject:clipNode toParent:item atIndex:index]) return NO;
+        if (![appDelegate addCCObject:clipNode toParent:item atIndex:index])
+	{
+		NSString* title = @"Failed to Add Object";
+		NSString* msg = appDelegate.errorDescription;
+			
+		NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:@"OK" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"%@",msg];
+		[alert runModal];
+		
+		return NO;
+	}
         
         // Remove old node
         CCNode* draggedNode = (CCNode*)[[clipDict objectForKey:@"srcNode"] longLongValue];
